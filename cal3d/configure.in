@@ -54,6 +54,16 @@ if test "$DB2HTML" = false; then
   AC_MSG_WARN([cannot find db2html, unable to generate Cal3D User's Guide!])
 fi
 
+AC_ARG_ENABLE(short_indeces,
+[  --enable-short_indeces          enable short indeces [default=no]]
+)
+
+if test "$enable_short_indeces" = "yes"; then
+    CXXFLAGS="$CXXFLAGS -DCAL_16BIT_INDICES"
+    AC_MSG_RESULT( [Using short indeces...] )
+fi
+
+
 dnl ************************************************************************
 
 CAL3D_CHECK_BUILD
