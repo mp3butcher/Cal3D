@@ -12,10 +12,16 @@
 #define CAL_PLATFORM_H
 
 //****************************************************************************//
-// Defines Win32                                                              //
+// Defines Win32 and MingW32                                                  //
 //****************************************************************************//
 
 #ifdef _WIN32
+
+#ifdef __MINGW32__
+
+#define CAL3D_API
+
+#else
 
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4786)
@@ -24,6 +30,8 @@
 #define CAL3D_API __declspec(dllexport)
 #else
 #define CAL3D_API __declspec(dllimport)
+#endif
+
 #endif
 
 #endif

@@ -8,7 +8,7 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
 
   - Added a pure C wrapper to Cal3D. This should allow non C++ applications to
-    link with it now. (Thanks to Tomek Grudziski!)
+    link with it now. (Thanks to Tomek Grudzinski!)
   - Changed the error codes in CalError and the type and state codes in
     CalAnimation to an enum structure.
   - Changed the interpolation calculations in CalCoretrack::getState() so that
