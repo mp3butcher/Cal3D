@@ -65,7 +65,7 @@ namespace Cal
 #endif
 
   // library version
-  const int LIBRARY_VERSION = 899;
+  const int LIBRARY_VERSION = 900;
 
   // file versions
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
