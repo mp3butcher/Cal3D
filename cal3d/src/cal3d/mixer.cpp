@@ -476,8 +476,16 @@ void CalMixer::updateSkeleton()
     // Blend the pose into the current bone states
     for (unsigned index = 0; index < pose.size(); ++index)
     {
+      int track_number = pCoreAnimation->getTrackAssignment(index);
+
+      // Skip this bone if the bone does not have a track assigned in the animation
+      if (track_number == -1)
+      {
+        continue;
+      }
+
       CalBone* pBone = vectorBone[index];
-      pBone->blendState((*iteratorAnimationCycle)->getWeight(), pose[index].getTranslation(), pose[index].getRotation());
+      pBone->blendState((*iteratorAnimationCycle)->getWeight(), pose[track_number].getTranslation(), pose[track_number].getRotation());
     }
   }
 
