@@ -89,7 +89,7 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
 
     // copy the data from the core submesh as default values
     int vertexId;
-    for(vertexId = 0; vertexId < m_pCoreSubmesh->getVertexCount(); vertexId++)
+    for(vertexId = 0; vertexId < m_pCoreSubmesh->getVertexCount(); ++vertexId)
     {
       // copy the vertex data
       m_vectorVertex[vertexId] = vectorVertex[vertexId].position;
@@ -310,10 +310,10 @@ void CalSubmesh::setLodLevel(float lodLevel)
 
   // fill the face vector with the collapsed vertex ids
   int faceId;
-  for(faceId = 0; faceId < m_faceCount; faceId++)
+  for(faceId = 0; faceId < m_faceCount; ++faceId)
   {
     int vertexId;
-    for(vertexId = 0; vertexId < 3; vertexId++)
+    for(vertexId = 0; vertexId < 3; ++vertexId)
     {
       // get the vertex id
       CalIndex collapsedVertexId;

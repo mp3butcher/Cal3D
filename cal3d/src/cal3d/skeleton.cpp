@@ -115,7 +115,7 @@ bool CalSkeleton::create(CalCoreSkeleton *pCoreSkeleton)
 
   // clone every core bone
   int boneId;
-  for(boneId = 0; boneId < boneCount; boneId++)
+  for(boneId = 0; boneId < boneCount; ++boneId)
   {
     CalBone *pBone;
     pBone = new CalBone();

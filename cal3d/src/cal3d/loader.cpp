@@ -148,7 +148,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 
   // load all core bones
   int trackId;
-  for(trackId = 0; trackId < trackCount; trackId++)
+  for(trackId = 0; trackId < trackCount; ++trackId)
   {
     // load the core track
     CalCoreTrack *pCoreTrack;
@@ -465,7 +465,7 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
 
   // load all maps
   int mapId;
-  for(mapId = 0; mapId < mapCount; mapId++)
+  for(mapId = 0; mapId < mapCount; ++mapId)
   {
     CalCoreMaterial::Map map;
 
@@ -564,7 +564,7 @@ CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
 
   // load all core submeshes
   int submeshId;
-  for(submeshId = 0; submeshId < submeshCount; submeshId++)
+  for(submeshId = 0; submeshId < submeshCount; ++submeshId)
   {
     // load the core submesh
     CalCoreSubmesh *pCoreSubmesh;
@@ -657,7 +657,7 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
 
   // load all core bones
   int boneId;
-  for(boneId = 0; boneId < boneCount; boneId++)
+  for(boneId = 0; boneId < boneCount; ++boneId)
   {
     // load the core bone
     CalCoreBone *pCoreBone;
@@ -767,7 +767,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
   // load all vertices and their influences
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     CalCoreSubmesh::Vertex vertex;
 
@@ -792,7 +792,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
     // load all texture coordinates of the vertex
     int textureCoordinateId;
-    for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; textureCoordinateId++)
+    for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
     {
       CalCoreSubmesh::TextureCoordinate textureCoordinate;
 
@@ -829,7 +829,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
     // load all influences of the vertex
     int influenceId;
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // load data of the influence
       CalPlatform::readInteger(file, vertex.vectorInfluence[influenceId].boneId),
@@ -872,7 +872,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
   // load all springs
   int springId;
-  for(springId = 0; springId < springCount; springId++)
+  for(springId = 0; springId < springCount; ++springId)
   {
     CalCoreSubmesh::Spring spring;
 
@@ -897,7 +897,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
   // load all faces
   int faceId;
-  for(faceId = 0; faceId < faceCount; faceId++)
+  for(faceId = 0; faceId < faceCount; ++faceId)
   {
     CalCoreSubmesh::Face face;
 
@@ -996,7 +996,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
 
   // load all core keyframes
   int keyframeId;
-  for(keyframeId = 0; keyframeId < keyframeCount; keyframeId++)
+  for(keyframeId = 0; keyframeId < keyframeCount; ++keyframeId)
   {
     // load the core keyframe
     CalCoreKeyframe *pCoreKeyframe;
@@ -1433,7 +1433,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 
   // load all core bones
   int trackId;
-  for(trackId = 0; trackId < trackCount; trackId++)
+  for(trackId = 0; trackId < trackCount; ++trackId)
   {
 	  if(!track || stricmp(track->Value(),"TRACK")!=0)
 	  {
@@ -1485,7 +1485,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 
 	  // load all core keyframes
 	  int keyframeId;
-	  for(keyframeId = 0; keyframeId < keyframeCount; keyframeId++)
+	  for(keyframeId = 0; keyframeId < keyframeCount; ++keyframeId)
 	  {
 		  // load the core keyframe
 		  if(!keyframe|| stricmp(keyframe->Value(),"KEYFRAME")!=0)
@@ -1696,7 +1696,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
   // load all core submeshes
   int submeshId;
-  for(submeshId = 0; submeshId < submeshCount; submeshId++)
+  for(submeshId = 0; submeshId < submeshCount; ++submeshId)
   {
 	  if(!submesh || stricmp(submesh->Value(),"SUBMESH")!=0)
 	  {
@@ -1761,7 +1761,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	  
 	  // load all vertices and their influences
 	  int vertexId;
-	  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+	  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
 	  {
 		  if(!vertex || stricmp(vertex->Value(),"VERTEX")!=0)
 		  {
@@ -1924,7 +1924,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 		  // load all texture coordinates of the vertex
 		  int textureCoordinateId;
-		  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; textureCoordinateId++)
+		  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
 		  {
 			  CalCoreSubmesh::TextureCoordinate textureCoordinate;
 			  // load data of the influence
@@ -1988,7 +1988,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		  
 		  // load all influences of the vertex
 		  int influenceId;
-		  for(influenceId = 0; influenceId < influenceCount; influenceId++)
+		  for(influenceId = 0; influenceId < influenceCount; ++influenceId)
 		  {
 			  if(!influence ||stricmp(influence->Value(),"INFLUENCE")!=0)
 			  {
@@ -2085,7 +2085,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 	 // load all springs
 	 int springId;
-	 for(springId = 0; springId < springCount; springId++)
+	 for(springId = 0; springId < springCount; ++springId)
 	 {
 		  CalCoreSubmesh::Spring Spring;
 		  if(!spring ||stricmp(spring->Value(),"SPRING")!=0)
@@ -2112,7 +2112,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 	 // load all faces
 	 int faceId;
-	 for(faceId = 0; faceId < faceCount; faceId++)
+	 for(faceId = 0; faceId < faceCount; ++faceId)
 	 {
 		  CalCoreSubmesh::Face Face;
 
@@ -2414,7 +2414,7 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
 
 
 
-  for(unsigned int mapId=0;mapId<MatFileName.size();mapId++)
+  for (unsigned int mapId=0; mapId < MatFileName.size(); ++mapId)
   {
 	  CalCoreMaterial::Map Map;
 	  // initialize the user data

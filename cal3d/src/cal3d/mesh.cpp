@@ -82,7 +82,7 @@ bool CalMesh::create(CalCoreMesh *pCoreMesh)
 
   // clone every core submesh
   int submeshId;
-  for(submeshId = 0; submeshId < submeshCount; submeshId++)
+  for(submeshId = 0; submeshId < submeshCount; ++submeshId)
   {
     CalSubmesh *pSubmesh;
     pSubmesh = new CalSubmesh();
@@ -204,7 +204,7 @@ void CalMesh::setLodLevel(float lodLevel)
 {
   // change lod level of every submesh
   int submeshId;
-  for(submeshId = 0; submeshId < (int)m_vectorSubmesh.size(); submeshId++)
+  for(submeshId = 0; submeshId < (int)m_vectorSubmesh.size(); ++submeshId)
   {
     // set the lod level in the submesh
     m_vectorSubmesh[submeshId]->setLodLevel(lodLevel);
@@ -223,7 +223,7 @@ void CalMesh::setMaterialSet(int setId)
 {
   // change material of every submesh
   int submeshId;
-  for(submeshId = 0; submeshId < (int)m_vectorSubmesh.size(); submeshId++)
+  for(submeshId = 0; submeshId < (int)m_vectorSubmesh.size(); ++submeshId)
   {
     // get the core material thread id of the submesh
     int coreMaterialThreadId;

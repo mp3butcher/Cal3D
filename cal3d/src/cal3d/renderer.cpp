@@ -531,7 +531,7 @@ int CalRenderer::getVerticesAndNormals(float *pVertexBuffer)
     vertexCount = m_pSelectedSubmesh->getVertexCount();
 
     // copy the internal vertex data to the provided vertex buffer
-	for(int i=0;i<vertexCount;i++)
+	for(int i=0; i < vertexCount; ++i)
 	{
 		memcpy(&pVertexBuffer[0], &vectorVertex[i], sizeof(CalVector));		
 		memcpy(&pVertexBuffer[3], &vectorNormal[i], sizeof(CalVector));
@@ -590,7 +590,7 @@ int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexC
 	
 	if(TextureCoordinateCount==0)
 	{
-		for(int vertexId=0;vertexId<vertexCount;vertexId++)
+		for(int vertexId=0; vertexId < vertexCount; ++vertexId)
 		{
 			memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));
 			memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
@@ -601,7 +601,7 @@ int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexC
 	{
 		if(NumTexCoords==1)
 		{
-			for(int vertexId=0;vertexId<vertexCount;vertexId++)
+			for(int vertexId=0; vertexId < vertexCount; ++vertexId)
 			{
 				memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));
 				memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
@@ -611,12 +611,12 @@ int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexC
 		}
 	    else
 		{
-			for(int vertexId=0;vertexId<vertexCount;vertexId++)
+			for(int vertexId=0; vertexId < vertexCount; ++vertexId)
 			{
 				memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));			
 				memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
 			    pVertexBuffer+=6;
-				for(int mapId=0;mapId<NumTexCoords;mapId++)
+				for(int mapId=0; mapId < NumTexCoords; ++mapId)
 				{
 					memcpy(&pVertexBuffer[0], &vectorvectorTextureCoordinate[mapId][vertexId], sizeof(CalCoreSubmesh::TextureCoordinate));
 					pVertexBuffer+=2;

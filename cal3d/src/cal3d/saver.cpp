@@ -350,7 +350,7 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
   // write all maps
   int mapId;
-  for(mapId = 0; mapId < (int)vectorMap.size(); mapId++)
+  for(mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
   {
     CalCoreMaterial::Map& map = vectorMap[mapId];
 
@@ -423,7 +423,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
   // write all core submeshes
   int submeshId;
-  for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); submeshId++)
+  for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
   {
     // write the core submesh
     if(!saveCoreSubmesh(file, strFilename, vectorCoreSubmesh[submeshId]))
@@ -492,7 +492,7 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
 
   // write all core bones
   int boneId;
-  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); boneId++)
+  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
   {
     // write the core bone
     if(!saveCoreBones(file, strFilename, pCoreSkeleton->getCoreBone(boneId)))
@@ -564,7 +564,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all vertices
   int vertexId;
-  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
   {
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
 
@@ -580,7 +580,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
     // write all texture coordinates of this vertex
     int textureCoordinateId;
-    for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); textureCoordinateId++)
+    for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
     {
       CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
@@ -605,7 +605,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
      // write all influences of this vertex
     int influenceId;
-    for(influenceId = 0; influenceId < (int)vertex.vectorInfluence.size(); influenceId++)
+    for(influenceId = 0; influenceId < (int)vertex.vectorInfluence.size(); ++influenceId)
     {
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
 
@@ -641,7 +641,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all springs
   int springId;
-  for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); springId++)
+  for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
   {
     CalCoreSubmesh::Spring& spring = vectorSpring[springId];
 
@@ -661,7 +661,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all faces
   int faceId;
-  for(faceId = 0; faceId < (int)vectorFace.size(); faceId++)
+  for(faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
   {
     CalCoreSubmesh::Face& face = vectorFace[faceId];
 
@@ -768,7 +768,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 
 
   int boneId;
-  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); boneId++)
+  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
   {
 	  CalCoreBone* pCoreBone=pCoreSkeleton->getCoreBone(boneId);
 
@@ -1016,7 +1016,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 	// write all core submeshes
 	int submeshId;
-	for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); submeshId++)
+	for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
 	{
 		CalCoreSubmesh *pCoreSubmesh=vectorCoreSubmesh[submeshId];
 
@@ -1042,7 +1042,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 		// write all vertices
 		int vertexId;
-		for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+		for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
 		{
 			CalCoreSubmesh::Vertex& Vertex = vectorVertex[vertexId];
 
@@ -1095,7 +1095,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 			// write all texture coordinates of this vertex
 			int textureCoordinateId;
-			for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); textureCoordinateId++)
+			for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
 			{
 				CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
@@ -1114,7 +1114,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 			// write all influences of this vertex
 			int influenceId;
-			for(influenceId = 0; influenceId < (int)Vertex.vectorInfluence.size(); influenceId++)
+			for(influenceId = 0; influenceId < (int)Vertex.vectorInfluence.size(); ++influenceId)
 			{
 				CalCoreSubmesh::Influence& Influence = Vertex.vectorInfluence[influenceId];
 
@@ -1151,7 +1151,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 		// write all springs
         int springId;
-        for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); springId++)
+        for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
 		{
             CalCoreSubmesh::Spring& Spring = vectorSpring[springId];
 			
@@ -1176,7 +1176,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 		// write all faces
 		int faceId;
-		for(faceId = 0; faceId < (int)vectorFace.size(); faceId++)
+		for(faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
 		{
 			CalCoreSubmesh::Face& Face = vectorFace[faceId];
 
@@ -1303,7 +1303,7 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
   
   int mapId;
-  for(mapId = 0; mapId < (int)vectorMap.size(); mapId++)
+  for(mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
   {
 	  TiXmlElement map("MAP");
 	  TiXmlText mapdata(vectorMap[mapId].strFilename);

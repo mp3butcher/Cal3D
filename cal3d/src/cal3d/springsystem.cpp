@@ -70,7 +70,7 @@ void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
 
   // loop through all the vertices
   int vertexId;
-  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
   {
     // get the physical property of the vertex
     CalSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
@@ -111,7 +111,7 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 
   // loop through all the vertices
   int vertexId;
-  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
   {
     // get the vertex
     CalVector& vertex = vectorVertex[vertexId];
@@ -153,7 +153,7 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
   // iterate a few times to relax the constraints
   int iterationCount;
 #define ITERATION_COUNT 2
-  for(iterationCount = 0; iterationCount < ITERATION_COUNT; iterationCount++)
+  for(iterationCount = 0; iterationCount < ITERATION_COUNT; ++iterationCount)
   {
     // loop through all the springs
     std::vector<CalCoreSubmesh::Spring>::iterator iteratorSpring;
@@ -205,7 +205,7 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
   float sphereRadius = Sphere.radius;
 
   // loop through all the vertices
-  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
   {
     // get the vertex
     CalVector& vertex = vectorVertex[vertexId];

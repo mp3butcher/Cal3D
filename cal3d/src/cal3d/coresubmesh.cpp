@@ -244,7 +244,7 @@ bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int fa
   m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
 
   int textureCoordinateId;
-  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; textureCoordinateId++)
+  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
   {
     m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
     m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);

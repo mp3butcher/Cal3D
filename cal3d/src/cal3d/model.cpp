@@ -85,7 +85,7 @@ bool CalModel::attachMesh(int coreMeshId)
 
   // check if the mesh is already attached
   int meshId;
-  for(meshId = 0; meshId < (int)m_vectorMesh.size(); meshId++)
+  for(meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
   {
     // check if we found the matching mesh
     if(m_vectorMesh[meshId]->getCoreMesh() == pCoreMesh)
@@ -290,7 +290,7 @@ void CalModel::destroy()
 {
   // destroy all active meshes
   int meshId;
-  for(meshId = 0; meshId < (int)m_vectorMesh.size(); meshId++)
+  for(meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
   {
     m_vectorMesh[meshId]->destroy();
     delete m_vectorMesh[meshId];
@@ -433,7 +433,7 @@ CalMesh *CalModel::getMesh(int coreMeshId)
 
   // search the mesh
   int meshId;
-  for(meshId = 0; meshId < (int)m_vectorMesh.size(); meshId++)
+  for(meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
   {
     // check if we found the matching mesh
     if(m_vectorMesh[meshId]->getCoreMesh() == pCoreMesh)

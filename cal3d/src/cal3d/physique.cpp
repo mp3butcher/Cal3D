@@ -79,7 +79,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 
   // calculate all submesh vertices
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     // get the vertex
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
@@ -93,7 +93,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // get the influence
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
@@ -168,7 +168,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
 
   // calculate normal for all submesh vertices
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     // get the vertex
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
@@ -182,7 +182,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // get the influence
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
@@ -255,7 +255,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
   // calculate all submesh vertices
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     // get the vertex
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
@@ -275,7 +275,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // get the influence
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
@@ -399,7 +399,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 
   // calculate all submesh vertices
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     // get the vertex
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
@@ -419,7 +419,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // get the influence
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
@@ -492,7 +492,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 	}
 	else
 	{
-		for(int mapId=0;mapId<NumTexCoords;mapId++)
+		for(int mapId=0; mapId < NumTexCoords; ++mapId)
 		{
 			pVertexBuffer[0] = vectorvectorTextureCoordinate[mapId][vertexId].u;
 			pVertexBuffer[1] = vectorvectorTextureCoordinate[mapId][vertexId].v;			
