@@ -96,13 +96,48 @@
  *  Milkshape 3D - http://www.swissquake.ch/chumbalum-soft
  *
  *
- *  <b>How do I export from 3D Studio MAX to Cal3D?</b>
+ *  <b>How do I export a character from 3D Studio MAX to Cal3D?</b>
+ *
+ *  1. First, export the skeleton.
+ *
+ *  The remaining steps can be performed in any order:
+ *
+ *  2. Export the mesh or meshes.
+ *
+ *  3. Export the materials.
+ * 
+ *  4. Export the animations.
+ *
+ *
+ *  <b>How do I export a skeleton?</b>
+ *
+ *  
+ *
+ *  <b>How do I export meshes?</b>
+ *
+ *
+ *  <b>How do I export materials?</b>
+ *
+ *  There are some tricks to this. The main thing is that the materials have to
+ *  be named properly. Each material name that the character uses needs to end
+ *  with a number enclosed in brackets, starting with 0 and going up.
+ *
+ *  For instance, if a character has materials for skin, shirt, face, and hat,
+ *  them the materials should be named like this:
+ *
+ *  skin [0]
+ *  shirt [1]
+ *  face [2]
+ *  hat [3]
+ *
+ *
+ *  <b>How do I export animations?</b>
  *
  *
  *  <b>Why does the exporter crash?</b>
  *
  *
- *  <b>Is there an exporter for Maya?</b>
+ *  <b>Is there an exporter for Maya or Blender?</b>
  *
  *
  *  <b>Is there an exporter for Blender?</b>
@@ -123,9 +158,23 @@
  *  Cal3D characters exported from a modeling package such as 3DSMax or 
  *  Milkshape will be in the same coordinate system as the package. For 
  *  instance, a model exported from MAX and loaded for use in an OpenGL
- *  application will require a -90-degree rotation about the X-axis to be
+ *  application will require a -90 degree rotation about the X-axis to be
  *  converted to the OpenGL coordinate system.
  *
+ *  It should also be noted that Cal3D's math classes assume a left-handed
+ *  rotation system. Right-handed systems are much more common, so this is not
+ *  a minor detail. Think of it like this: take your right hand and point your 
+ *  thumb straight up while curling your fingers a bit - kind of like you're 
+ *  holding a coffee mug.
+ *
+ *  Your thumb is the vector axis of rotation. If you have a positive-value
+ *  rotation, you will be rotating counter-clockwise about your thumb's axis.
+ *  If you have a negative-value rotation, you'll be rotating clockwise.
+ *  
+ *  Now do the same thing, but with your left hand. Note that your fingers now
+ *  curl around clockwise. So with positive rotation values in a left-handed
+ *  system, you get a clockwise rotation. This is the opposite of the right-
+ *  handed system.
  *
  *  <b>Why are there classes and core classes?</b>
  *
