@@ -439,11 +439,9 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 {
 
          std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
-         int vertexId;
-         for(vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
+         for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
          {
-            int influenceId;
-            for(influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
+            for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
 	    {
       	       if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId)
 	       {

@@ -283,8 +283,7 @@ void CalSkeleton::getBoneBoundingBox(float *min, float *max)
 
 void CalSkeleton::calculateBoundingBox()
 {
-   int boneId;
-   for(boneId=0;boneId<m_vectorBone.size();++boneId)
+   for(size_t boneId=0;boneId<m_vectorBone.size();++boneId)
    {
       m_vectorBone[boneId]->calculateBoundingBox();
    }

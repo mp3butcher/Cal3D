@@ -407,8 +407,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   }
 
   // load a new core animation
-  CalLoader loader;
-  CalCoreAnimation *pCoreAnimation = loader.loadCoreAnimation(strFilename);
+  CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
   if(pCoreAnimation == 0) return -1;
 
   // add core animation to this core model
@@ -445,8 +444,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
   }
 
   // load a new core material
-  CalLoader loader;
-  CalCoreMaterial *pCoreMaterial = loader.loadCoreMaterial(strFilename);
+  CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
   if(pCoreMaterial == 0) return -1;
 
   // add core material to this core model
@@ -482,9 +480,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
   }
 
   // load a new core mesh
-  CalLoader loader;
-  CalCoreMesh *pCoreMesh;
-  pCoreMesh = loader.loadCoreMesh(strFilename);
+  CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
   if(pCoreMesh == 0) return -1;
 
   // add core mesh to this core model
@@ -522,8 +518,7 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   }
 
   // load a new core skeleton
-  CalLoader loader;
-  m_pCoreSkeleton = loader.loadCoreSkeleton(strFilename);
+  m_pCoreSkeleton = CalLoader::loadCoreSkeleton(strFilename);
   if(m_pCoreSkeleton == 0) return false;
 
   return true;
@@ -552,8 +547,7 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
   }
 
   // save the core animation
-  CalSaver saver;
-  if(!saver.saveCoreAnimation(strFilename, m_vectorCoreAnimation[coreAnimationId]))
+  if(!CalSaver::saveCoreAnimation(strFilename, m_vectorCoreAnimation[coreAnimationId]))
   {
     return false;
   }
@@ -584,8 +578,7 @@ bool CalCoreModel::saveCoreMaterial(const std::string& strFilename, int coreMate
   }
 
   // save the core animation
-  CalSaver saver;
-  if(!saver.saveCoreMaterial(strFilename, m_vectorCoreMaterial[coreMaterialId]))
+  if(!CalSaver::saveCoreMaterial(strFilename, m_vectorCoreMaterial[coreMaterialId]))
   {
     return false;
   }
@@ -616,8 +609,7 @@ bool CalCoreModel::saveCoreMesh(const std::string& strFilename, int coreMeshId)
   }
 
   // save the core animation
-  CalSaver saver;
-  if(!saver.saveCoreMesh(strFilename, m_vectorCoreMesh[coreMeshId]))
+  if(!CalSaver::saveCoreMesh(strFilename, m_vectorCoreMesh[coreMeshId]))
   {
     return false;
   }
@@ -647,8 +639,7 @@ bool CalCoreModel::saveCoreSkeleton(const std::string& strFilename)
   }
 
   // save the core skeleton
-  CalSaver saver;
-  if(!saver.saveCoreSkeleton(strFilename, m_pCoreSkeleton))
+  if(!CalSaver::saveCoreSkeleton(strFilename, m_pCoreSkeleton))
   {
     return false;
   }
