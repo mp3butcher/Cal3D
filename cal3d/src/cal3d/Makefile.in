@@ -105,6 +105,9 @@ install_sh = @install_sh@
 
 INCLUDES = $(all_includes)
 
+all_libraries = @all_libraries@
+LDFLAGS = @LDFLAGS@
+
 EXTRA_DIST = cal3d.rc
 
 SOMAJOR = 0
@@ -137,7 +140,6 @@ libcal3d_la_OBJECTS = $(am_libcal3d_la_OBJECTS)
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -185,7 +187,7 @@ all: all-am
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/cal3d/Makefile
+	  $(AUTOMAKE) --gnu  src/cal3d/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 libLTLIBRARIES_INSTALL = $(INSTALL)

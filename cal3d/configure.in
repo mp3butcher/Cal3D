@@ -18,6 +18,19 @@ AC_CANONICAL_SYSTEM
 
 AM_INIT_AUTOMAKE(cal3d,0.9devel)
 
+AC_ARG_WITH(cxx,[  --with-cxx=CXX          force the use of a particular C++ compiler ],
+[
+  AC_MSG_NOTICE(Forcing the use of C++ compiler: $withval)
+  CXX="$withval"
+],)
+
+AC_ARG_WITH(cc,[  --with-cc=CC            force the use of a particular C compiler ],
+[
+  AC_MSG_NOTICE(Forcing the use of C compiler: $withval)
+  CC="$withval"
+],)
+
+
 dnl ************************************************************************
 
 CAL3D_CHECK_USER_CXX_FLAGS

@@ -74,6 +74,10 @@ AC_DEFUN(CAL3D_CHECK_BUILD,
       CXXFLAGS="$CXXFLAGS -fno-check-new"
     ])
 
+    if test "x$CXX" = "xCC"; then
+      CXXFLAGS="$CXXFLAGS -LANG:std -n32 -mips3" 
+    fi
+
   fi
 
 

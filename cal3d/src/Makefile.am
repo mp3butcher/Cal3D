@@ -12,11 +12,11 @@
 
 INCLUDES = $(all_includes)
 
-bin_PROGRAMS = cal3d_dummy_app
+# bin_PROGRAMS = cal3d_dummy_app
 
-cal3d_dummy_app_SOURCES = main.cpp
-cal3d_dummy_app_LDADD = ./cal3d/libcal3d.la
-cal3d_dummy_app_LDFLAGS = $(all_libraries) $(LDFLAGS)
+# cal3d_dummy_app_SOURCES = main.cpp
+# cal3d_dummy_app_LDADD = ./cal3d/libcal3d.la
+# cal3d_dummy_app_LDFLAGS = $(all_libraries) $(LDFLAGS)
 
 SUBDIRS = cal3d
 

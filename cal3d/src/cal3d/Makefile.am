@@ -12,6 +12,9 @@
 
 INCLUDES = $(all_includes)
 
+all_libraries = @all_libraries@
+LDFLAGS = @LDFLAGS@
+
 EXTRA_DIST = cal3d.rc
 
 SOMAJOR = 0
