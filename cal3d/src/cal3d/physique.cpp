@@ -127,24 +127,33 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 
     // blend together all vertex influences
     size_t influenceCount=vertex.vectorInfluence.size();
-    for(size_t influenceId = 0; influenceId < influenceCount; ++influenceId)
-    {
-      // get the influence
-      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
-
-      // get the bone of the influence vertex
-      CalBone *pBone;
-      pBone = vectorBone[influence.boneId];
-
-      // transform vertex with current state of the bone
-      CalVector v(position);
-      v *= pBone->getTransformMatrix();
-      v += pBone->getTranslationBoneSpace();
-
-      x += influence.weight * v.x;
-      y += influence.weight * v.y;
-      z += influence.weight * v.z;
-    }
+    if(influenceCount == 0) 
+	{
+      x = position.x;
+      y = position.y;
+      z = position.z;
+    } 
+	else 
+	{
+		for(size_t influenceId = 0; influenceId < influenceCount; ++influenceId)
+		{
+			// get the influence
+			CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+			
+			// get the bone of the influence vertex
+			CalBone *pBone;
+			pBone = vectorBone[influence.boneId];
+			
+			// transform vertex with current state of the bone
+			CalVector v(position);
+			v *= pBone->getTransformMatrix();
+			v += pBone->getTranslationBoneSpace();
+			
+			x += influence.weight * v.x;
+			y += influence.weight * v.y;
+			z += influence.weight * v.z;
+		}
+	}
 
     // save vertex position
     if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
@@ -245,25 +254,33 @@ CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
   // blend together all vertex influences
   int influenceId;
   int influenceCount=(int)vertex.vectorInfluence.size();
-  for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+  if(influenceCount == 0) 
   {
-    // get the influence
-    CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
-
-    // get the bone of the influence vertex
-    CalBone *pBone;
-    pBone = vectorBone[influence.boneId];
-
-    // transform vertex with current state of the bone
-    CalVector v(position);
-    v *= pBone->getTransformMatrix();
-    v += pBone->getTranslationBoneSpace();
-
-    x += influence.weight * v.x;
-    y += influence.weight * v.y;
-    z += influence.weight * v.z;
+    x = position.x;
+    y = position.y;
+    z = position.z;
+  } 
+  else 
+  {
+	  for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+	  {
+		  // get the influence
+		  CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+		  
+		  // get the bone of the influence vertex
+		  CalBone *pBone;
+		  pBone = vectorBone[influence.boneId];
+		  
+		  // transform vertex with current state of the bone
+		  CalVector v(position);
+		  v *= pBone->getTransformMatrix();
+		  v += pBone->getTranslationBoneSpace();
+		  
+		  x += influence.weight * v.x;
+		  y += influence.weight * v.y;
+		  z += influence.weight * v.z;
+	  }
   }
-  
   /*
   // save vertex position
   if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
@@ -461,23 +478,32 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
-    {
-      // get the influence
-      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
-
-      // get the bone of the influence vertex
-      CalBone *pBone;
-      pBone = vectorBone[influence.boneId];
-
-      // transform normal with current state of the bone
-      CalVector v(normal);
-      v *= pBone->getTransformMatrix(); 
-
-      nx += influence.weight * v.x;
-      ny += influence.weight * v.y;
-      nz += influence.weight * v.z;
-    }
+    if(influenceCount == 0) 
+	{
+      nx = normal.x;
+      ny = normal.y;
+      nz = normal.z;
+    } 
+	else 
+	{
+		for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+		{
+			// get the influence
+			CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+			
+			// get the bone of the influence vertex
+			CalBone *pBone;
+			pBone = vectorBone[influence.boneId];
+			
+			// transform normal with current state of the bone
+			CalVector v(normal);
+			v *= pBone->getTransformMatrix(); 
+			
+			nx += influence.weight * v.x;
+			ny += influence.weight * v.y;
+			nz += influence.weight * v.z;
+		}
+	}
 
     // re-normalize normal if necessary
     if (m_Normalize)
@@ -599,32 +625,44 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
-    {
-      // get the influence
-      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
-
-      // get the bone of the influence vertex
-      CalBone *pBone;
-      pBone = vectorBone[influence.boneId];
-
-      // transform vertex with current state of the bone
-      CalVector v(position);
-      v *= pBone->getTransformMatrix();
-      v += pBone->getTranslationBoneSpace();
-
-      x += influence.weight * v.x;
-      y += influence.weight * v.y;
-      z += influence.weight * v.z;
-
-	  // transform normal with current state of the bone
-      CalVector n(normal);
-      n *= pBone->getTransformMatrix();
-
-      nx += influence.weight * n.x;
-      ny += influence.weight * n.y;
-      nz += influence.weight * n.z;
-    }
+    if(influenceCount == 0) 
+	{
+      x = position.x;
+      y = position.y;
+      z = position.z;
+      nx = normal.x;
+      ny = normal.y;
+      nz = normal.z;
+    } 
+	else 
+	{
+		for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+		{
+			// get the influence
+			CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+			
+			// get the bone of the influence vertex
+			CalBone *pBone;
+			pBone = vectorBone[influence.boneId];
+			
+			// transform vertex with current state of the bone
+			CalVector v(position);
+			v *= pBone->getTransformMatrix();
+			v += pBone->getTranslationBoneSpace();
+			
+			x += influence.weight * v.x;
+			y += influence.weight * v.y;
+			z += influence.weight * v.z;
+			
+			// transform normal with current state of the bone
+			CalVector n(normal);
+			n *= pBone->getTransformMatrix();
+			
+			nx += influence.weight * n.x;
+			ny += influence.weight * n.y;
+			nz += influence.weight * n.z;
+		}
+	}
 
     // save vertex position
     if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
@@ -788,32 +826,44 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
-    {
-      // get the influence
-      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
-
-      // get the bone of the influence vertex
-      CalBone *pBone;
-      pBone = vectorBone[influence.boneId];
-
-      // transform vertex with current state of the bone
-      CalVector v(position);
-      v *= pBone->getTransformMatrix();
-      v += pBone->getTranslationBoneSpace();
-
-      x += influence.weight * v.x;
-      y += influence.weight * v.y;
-      z += influence.weight * v.z;
-
-	  // transform normal with current state of the bone
-      CalVector n(normal);	  
-      n *= pBone->getTransformMatrix();
-
-      nx += influence.weight * n.x;
-      ny += influence.weight * n.y;
-      nz += influence.weight * n.z;
-    }
+	if(influenceCount == 0) 
+	{
+      x = position.x;
+      y = position.y;
+      z = position.z;
+      nx = normal.x;
+      ny = normal.y;
+      nz = normal.z;
+    } 
+	else 
+	{
+		for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+		{
+			// get the influence
+			CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+			
+			// get the bone of the influence vertex
+			CalBone *pBone;
+			pBone = vectorBone[influence.boneId];
+			
+			// transform vertex with current state of the bone
+			CalVector v(position);
+			v *= pBone->getTransformMatrix();
+			v += pBone->getTranslationBoneSpace();
+			
+			x += influence.weight * v.x;
+			y += influence.weight * v.y;
+			z += influence.weight * v.z;
+			
+			// transform normal with current state of the bone
+			CalVector n(normal);	  
+			n *= pBone->getTransformMatrix();
+			
+			nx += influence.weight * n.x;
+			ny += influence.weight * n.y;
+			nz += influence.weight * n.z;
+		}
+	}
 
     // save vertex position
     if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
