@@ -10,7 +10,7 @@
 #
 # ************************************************************************
 
-INCLUDES = $(all_includes)
+INCLUDES = $(all_includes) -I$(top_srcdir)/src
 
 all_libraries = @all_libraries@
 LDFLAGS = @LDFLAGS@
