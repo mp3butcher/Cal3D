@@ -38,7 +38,7 @@ CalSpringSystem::CalSpringSystem()
 
 	// We add this force to simulate some movement
 
-	m_vForce = CalVector(0.0f, 1.5f, 5.0f);
+	m_vForce = CalVector(0.0f, 0.5f, 0.0f);
 }
 
  /*****************************************************************************/
