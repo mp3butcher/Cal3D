@@ -401,7 +401,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   }
 
   // load a new core animation
-  CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+  CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename, m_pCoreSkeleton.get());
   if(!pCoreAnimation) return -1;
   
 
@@ -446,7 +446,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
       CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
       return -1;
     }
-    CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+    CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename, m_pCoreSkeleton.get());
     if(!pCoreAnimation) return -1;
     pCoreAnimation->setName(strAnimationName);
     m_vectorCoreAnimation[id] = pCoreAnimation;
