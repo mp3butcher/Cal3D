@@ -167,6 +167,10 @@ SOURCE=.\src\cal3d\loader.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\matrix.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\mesh.cpp
 # End Source File
 # Begin Source File
@@ -292,6 +296,10 @@ SOURCE=.\src\cal3d\global.h
 # Begin Source File
 
 SOURCE=.\src\cal3d\loader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\matrix.h
 # End Source File
 # Begin Source File
 
