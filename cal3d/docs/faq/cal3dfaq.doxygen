@@ -298,8 +298,12 @@
  *  <b>Is there an exporter for Maya or Blender?</b>
  *
  *  <ul>
- *  There have been rumors of people working on Cal3D exporters for both Maya
- *  and Blender, but they have not been released yet.
+ *  Jiba at <a href="http://oomadness.tuxfamlily.org">OOMadness</a> has released
+ *  a GPL'd Python script that allows Blender users to export Cal3D objects. Find
+ *  it here: http://oomadness.tuxfamily.org/en/blender2cal3d/index.html
+ *
+ *  There have been rumors of people working on a Cal3D exporter for Maya, but 
+ *  it has not been released yet.
  *  </ul>
  *
  *
