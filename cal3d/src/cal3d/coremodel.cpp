@@ -409,13 +409,11 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
 
   // load a new core animation
   CalLoader loader;
-  CalCoreAnimation *pCoreAnimation;
-  pCoreAnimation = loader.loadCoreAnimation(strFilename);
+  CalCoreAnimation *pCoreAnimation = loader.loadCoreAnimation(strFilename);
   if(pCoreAnimation == 0) return -1;
 
   // add core animation to this core model
-  int animationId;
-  animationId = addCoreAnimation(pCoreAnimation);
+  int animationId = addCoreAnimation(pCoreAnimation);
   if(animationId == -1)
   {
     delete pCoreAnimation;
@@ -449,13 +447,11 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
 
   // load a new core material
   CalLoader loader;
-  CalCoreMaterial *pCoreMaterial;
-  pCoreMaterial = loader.loadCoreMaterial(strFilename);
+  CalCoreMaterial *pCoreMaterial = loader.loadCoreMaterial(strFilename);
   if(pCoreMaterial == 0) return -1;
 
   // add core material to this core model
-  int materialId;
-  materialId = addCoreMaterial(pCoreMaterial);
+  int materialId = addCoreMaterial(pCoreMaterial);
   if(materialId == -1)
   {
     delete pCoreMaterial;

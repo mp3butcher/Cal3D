@@ -41,29 +41,24 @@ class CalCoreMaterial;
 
 class CAL3D_API CalLoader
 {
-// constructors/destructor
-public:
-  CalLoader();
-  virtual ~CalLoader();
-
 // member functions
 public:
-  CalCoreAnimation *loadCoreAnimation(const std::string& strFilename);
-  CalCoreMaterial *loadCoreMaterial(const std::string& strFilename);
-  CalCoreMesh *loadCoreMesh(const std::string& strFilename);
-  CalCoreSkeleton *loadCoreSkeleton(const std::string& strFilename);
+  static CalCoreAnimation *loadCoreAnimation(const std::string& strFilename);
+  static CalCoreMaterial *loadCoreMaterial(const std::string& strFilename);
+  static CalCoreMesh *loadCoreMesh(const std::string& strFilename);
+  static CalCoreSkeleton *loadCoreSkeleton(const std::string& strFilename);
 
-protected:
-  CalCoreBone *loadCoreBones(std::ifstream& file, const std::string& strFilename);
-  CalCoreKeyframe *loadCoreKeyframe(std::ifstream& file, const std::string& strFilename);
-  CalCoreSubmesh *loadCoreSubmesh(std::ifstream& file, const std::string& strFilename);
-  CalCoreTrack *loadCoreTrack(std::ifstream& file, const std::string& strFilename);
+private:
+  static CalCoreBone *loadCoreBones(std::ifstream& file, const std::string& strFilename);
+  static CalCoreKeyframe *loadCoreKeyframe(std::ifstream& file, const std::string& strFilename);
+  static CalCoreSubmesh *loadCoreSubmesh(std::ifstream& file, const std::string& strFilename);
+  static CalCoreTrack *loadCoreTrack(std::ifstream& file, const std::string& strFilename);
 
 #ifdef CAL_USE_XML  
-  CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
-  CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
-  CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
-  CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
+  static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
+  static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
+  static CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
+  static CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
 #endif
 
 };

@@ -36,26 +36,6 @@
 #endif
 
  /*****************************************************************************/
-/** Constructs the loader instance.
-  *
-  * This function is the default constructor of the loader instance.
-  *****************************************************************************/
-
-CalLoader::CalLoader()
-{
-}
-
- /*****************************************************************************/
-/** Destructs the loader instance.
-  *
-  * This function is the destructor of the loader instance.
-  *****************************************************************************/
-
-CalLoader::~CalLoader()
-{
-}
-
- /*****************************************************************************/
 /** Loads a core animation instance.
   *
   * This function loads a core animation instance from a file.
@@ -640,8 +620,7 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
   }
 
   // allocate a new core skeleton instance
-  CalCoreSkeleton *pCoreSkeleton;
-  pCoreSkeleton = new CalCoreSkeleton();
+  CalCoreSkeleton *pCoreSkeleton = new CalCoreSkeleton();
   if(pCoreSkeleton == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -656,12 +635,10 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
   }
 
   // load all core bones
-  int boneId;
-  for(boneId = 0; boneId < boneCount; ++boneId)
+  for(int boneId = 0; boneId < boneCount; ++boneId)
   {
     // load the core bone
-    CalCoreBone *pCoreBone;
-    pCoreBone = loadCoreBones(file, strFilename);
+    CalCoreBone *pCoreBone = loadCoreBones(file, strFilename);
     if(pCoreBone == 0)
     {
       pCoreSkeleton->destroy();
