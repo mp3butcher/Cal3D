@@ -29,6 +29,16 @@
 #include "maxscrpt\definsfn.h"
 
 //----------------------------------------------------------------------------//
+// Debug                                                                      //
+//----------------------------------------------------------------------------//
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+//----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 
@@ -74,6 +84,7 @@ const TCHAR *CMaxSkeletonExportDesc::ClassName()
 
 void *CMaxSkeletonExportDesc::Create(BOOL loading)
 {
+  def_name(axisGL);
 	return new CMaxSkeletonExport();
 }
 
@@ -84,7 +95,6 @@ HINSTANCE CMaxSkeletonExportDesc::HInstance()
 
 const TCHAR *CMaxSkeletonExportDesc::InternalName()
 {
-  def_name(axisGL);
 	return _T("Cal3D_Skeleton_Export");
 } 
 
@@ -107,6 +117,7 @@ char * CMaxSkeletonExportDesc::GetRsrcString(long n)
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 //Create a C++ function to be called by Maxscript to start the skeleton exporter automatically
+
 def_visible_primitive( ExportCalSkel,	"ExportCalSkel" );
 Value* ExportCalSkel_cf(Value** arg_list, int count)
 {	
@@ -115,8 +126,12 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	char*		fullpathfilename;
 	int			ArraySize		;
 	bool		bShowUI			;
+  bool bUseAxisGL=false; 
 
-	check_arg_count(ExportCalSkel, 3, count);
+  // Cedric Pinson, now we can export in gl coordinates
+	check_arg_count_with_keys(ExportCalSkel, 3, count);
+	Value* transform= key_arg_or_default(transform, &false_value);
+	type_check(transform, Boolean, "[The axisGL argument of ExportCalSkel should be a boolean that is true if you want to export in openGL axis]");
 
 	type_check(arg_list[0], String, "[The first argument of ExportCalSkel should be a string that is a full path name of the file to export]");
 	type_check(arg_list[1], Array , "[The 2nd argument of ExportCalSkel should be an array of nodes]");
@@ -125,13 +140,8 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	try
 	{
 		fullpathfilename	= arg_list[0]->to_string();
+    bUseAxisGL       = (bool)transform->to_bool();
 
-  bool bUseAxisGL=false; 
-
-  // Cedric Pinson, now we can export in gl coordinates
-	check_arg_count_with_keys(ExportCalSkel, 3, count);
-	Value* transform= key_arg_or_default(transform, &false_value);
-	type_check(transform, Boolean, "[The axisGL argument of ExportCalSkel should be a boolean that is true if you want to export in openGL axis]");
 		//Get Array
 		Array* BonesArray	= static_cast<Array*>(arg_list[1]);
 		ArraySize			= BonesArray->size;	
@@ -141,7 +151,6 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 		if (! strcmp(fullpathfilename,"")) return new Integer (1);
 		if (! ArraySize)		return new Integer (2);
  
-    bUseAxisGL       = (bool)transform->to_bool();
 		for (i=0;i<ArraySize;i++)
 		{
 			if (BonesArray->data[i]->is_kind_of(class_tag(MAXNode)) )
@@ -153,20 +162,23 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 			}
 		}
 
-		//Call the exporter from Maxscript
-		if (CMaxSkeletonExport::ExportSkeletonFromMaxscriptCall(fullpathfilename,tabnode, bShowUI) )
-			return new Integer (0);
+    theExporter.SetAxisGL(bUseAxisGL);
 
+
+		//Call the exporter from Maxscript
+    if (CMaxSkeletonExport::ExportSkeletonFromMaxscriptCall(fullpathfilename,tabnode, bShowUI) ) {
+      // reset axis gl
+      theExporter.SetAxisGL(false);
+			return new Integer (0);
+    }
+    theExporter.SetAxisGL(false);
 		return new Integer (-1);
 	}
 	catch(...)
 	{	
-		//MessageBox(NULL,"Exception catched in ExportCalSkel C++ function","Error",MB_OK);
-		return new Integer (-2);
-    theExporter.SetAxisGL(bUseAxisGL);
-
-
-	}
-}
     theExporter.SetAxisGL(false);
 
+		//MessageBox(NULL,"Exception catched in ExportCalSkel C++ function","Error",MB_OK);
+		return new Integer (-2);
+	}
+}

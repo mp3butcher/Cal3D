@@ -36,6 +36,8 @@ protected:
 	CBaseInterface *m_pInterface;
 	std::string m_strLastError;
 
+  bool m_useAxisGL;
+
 // constructors/destructor
 public:
 	CExporter();
@@ -57,6 +59,9 @@ public:
 	bool ExportMaterialFromMaxscriptCall	(const std::string& strFilename);
 	bool ExportMeshFromMaxscriptCall		(const std::string& strFilename, void* MeshExportParams);
 	bool ExportSkeletonFromMaxscriptCall	(const std::string& strFilename, bool bShowUI);
+
+  void SetAxisGL(bool _useAxisGL) { m_useAxisGL=_useAxisGL;}
+  bool GetAxisGL() { return m_useAxisGL;}
 };
 
 extern CExporter theExporter;

@@ -28,6 +28,16 @@
 #include "exporter.h"
 
 //----------------------------------------------------------------------------//
+// Debug                                                                      //
+//----------------------------------------------------------------------------//
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+//----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 
@@ -117,11 +127,15 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 	int		bUseLODCreation				;
 	int		bUseSpringsystem			;
 	INode*	MeshNode					;
+  bool bUseAxisGL=false;
 
-	check_arg_count(ExportCalMesh, 7, count);
- 	Value* transform= key_arg_or_default(transform, &false_value);
- 	type_check(transform, Boolean, "[The axisGL argument of ExportCalMesh should be a boolean that is true if you want to export in openGL axis]");
-	type_check(arg_list[0], String		, "[The first argument of ExportCalMesh should be a string that is a full path name of the file to export]");
+
+  // Cedric Pinson, now we can export in gl coordinates
+	check_arg_count_with_keys(ExportCalMesh, 7, count);
+	Value* transform= key_arg_or_default(transform, &false_value);
+	type_check(transform, Boolean, "[The axisGL argument of ExportCalMesh should be a boolean that is true if you want to export in openGL axis]");
+
+  type_check(arg_list[0], String		, "[The first argument of ExportCalMesh should be a string that is a full path name of the file to export]");
 	type_check(arg_list[1], String		, "[The 2nd argument of ExportCalMesh should be a string that is the fullpath name of the skeleton file]");
 	type_check(arg_list[2], MAXNode		, "[The 3rd argument of ExportCalMesh should be an mesh node that is the mesh to be exported]");
 	type_check(arg_list[3], Integer		, "[The 3rd argument of ExportCalMesh should be an integer that is the maximum number of bones per vertex]");
@@ -129,7 +143,6 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 	type_check(arg_list[5], Boolean		, "[The 5th argument of ExportCalMesh should be a boolean that is true if you want LOD creation]");
 	type_check(arg_list[6], Boolean		, "[The 6th argument of ExportCalMesh should be a boolean that is true if you want to use spring system]");
 	
-  bool bUseAxisGL=false;
 	try
 	{
 		Filefullpathfilename		= arg_list[0]->to_string();
@@ -139,6 +152,8 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		WeightThreshold				= arg_list[4]->to_float();
 		bUseLODCreation				= arg_list[5]->to_bool();
 		bUseSpringsystem			= arg_list[6]->to_bool();
+    bUseAxisGL       = (bool)transform->to_bool();
+
 
 		if (! strcmp(Filefullpathfilename,"")) return new Integer(1);
 		if (! strcmp(Skeletonfullpathfilename,"")) return new Integer(2);
@@ -148,8 +163,6 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		_stream = fopen(Skeletonfullpathfilename,"r");
 		if (! _stream)return new Integer(3); //Error code number 3
 		fclose(_stream);
-
-    bUseAxisGL       = (bool)transform->to_bool();
 
 		if ((MaxNumOfBones <= 0))return new Integer (4);
 

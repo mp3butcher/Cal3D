@@ -157,6 +157,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
 	m_pMesh = theExporter.GetInterface()->GetMesh(m_pNode);
 	if(m_pMesh == 0) return false;
 
+
 	// get the number of materials of the mesh
 	int materialCount;
 	materialCount = m_pMesh->GetMaterialCount();

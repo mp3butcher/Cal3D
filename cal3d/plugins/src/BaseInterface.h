@@ -53,7 +53,6 @@ public:
 	virtual void SetProgressInfo(int percentage) = 0;
 	virtual void StartProgressInfo(const std::string& strText) = 0;
 	virtual void StopProgressInfo() = 0;
-
 };
 
 #endif

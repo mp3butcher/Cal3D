@@ -51,6 +51,7 @@ CExporter theExporter;
 CExporter::CExporter()
 {
 	m_pInterface = 0;
+  m_useAxisGL=false;
 }
 
 //----------------------------------------------------------------------------//

@@ -26,6 +26,16 @@
 #include "exporter.h"
 
 //----------------------------------------------------------------------------//
+// Debug                                                                      //
+//----------------------------------------------------------------------------//
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+ 
+//----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 
@@ -36,7 +46,7 @@ CMaxAnimationExportDesc::CMaxAnimationExportDesc()
 //----------------------------------------------------------------------------//
 // Destructor                                                                 //
 //----------------------------------------------------------------------------//
- 
+
 CMaxAnimationExportDesc::~CMaxAnimationExportDesc()
 {
 }
@@ -116,8 +126,13 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 	int		EndFrame					;
 	int		FrameOffset					;
 	int		FrameRate					;
+  bool   bUseAxisGL=false;
 
-	check_arg_count(ExportCalAnim, 7, count);
+  // Cedric Pinson, now we can export in gl coordinates
+	check_arg_count_with_keys(ExportCalAnim, 7, count);
+	Value* transform= key_arg_or_default(transform, &false_value);
+	type_check(transform, Boolean, "[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]");
+
 	type_check(arg_list[0], String	, "[The first argument of ExportCalAnim should be a string that is a full path name of the file to export]");
 	type_check(arg_list[1], String	, "[The 2nd argument of ExportCalAnim should be a string that is the fullpath name of the skeleton file]");
 	type_check(arg_list[2], Array	, "[The 3rd argument of ExportCalAnim should be an array of nodes to get anim from]");
