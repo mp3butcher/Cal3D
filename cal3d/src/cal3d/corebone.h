@@ -89,6 +89,7 @@ public:
   void calculateBoundingBox(CalCoreModel * pCoreModel);
   CalBoundingBox & getBoundingBox();
   void getBoundingData(int planeId,CalVector & position); 
+  void scale(float factor);
   
 };
 

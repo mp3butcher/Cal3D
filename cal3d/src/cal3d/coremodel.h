@@ -89,6 +89,7 @@ public:
   void addAnimHelper(const std::string& strAnimName, int animId);
   int getBoneId(const std::string& strBoneName);
   int getAnimId(const std::string& strAnimName);
+  void scale(float factor);
 
 };
 

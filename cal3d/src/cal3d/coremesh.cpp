@@ -217,4 +217,23 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
   return subMorphTargetID;
 }
 
+ /*****************************************************************************/
+/** Scale the Mesh.
+  *
+  * This function rescale all the data that are in the core mesh instance.
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreMesh::scale(float factor)
+{
+	std::vector<CalCoreSubmesh *>::iterator iteratorCoreSubmesh;
+	for(iteratorCoreSubmesh = m_vectorCoreSubmesh.begin(); iteratorCoreSubmesh != m_vectorCoreSubmesh.end(); ++iteratorCoreSubmesh)
+	{
+		(*iteratorCoreSubmesh)->scale(factor);    
+	}
+}
+
 //****************************************************************************//

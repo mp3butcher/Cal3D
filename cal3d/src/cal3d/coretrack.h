@@ -63,6 +63,8 @@ public:
 
   bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
 
+  void scale(float factor);
+
 private:
   std::vector<CalCoreKeyframe*>::iterator getUpperBound(float time);
 };

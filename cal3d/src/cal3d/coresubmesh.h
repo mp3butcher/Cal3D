@@ -134,6 +134,7 @@ public:
   CalCoreSubMorphTarget *getCoreSubMorphTarget(int id);
   int getCoreSubMorphTargetCount();
   std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
+  void scale(float factor);
 protected:
   void UpdateTangentVector(int v0, int v1, int v2, int channel);
 };

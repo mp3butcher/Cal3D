@@ -868,4 +868,33 @@ int CalCoreModel::getAnimId(const std::string& strAnimName)
    
   return m_animationHelper[strAnimName];
 }
+
+ /*****************************************************************************/
+/** Scale the core model.
+  *
+  * This function rescale all data that are in the core model instance
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreModel::scale(float factor)
+{
+	m_pCoreSkeleton->scale(factor);
+
+	int animationId;
+	for(animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
+	{
+		m_vectorCoreAnimation[animationId]->scale(factor);
+	}
+
+	int meshId;
+	for(meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
+	{
+		m_vectorCoreMesh[meshId]->scale(factor);
+	}
+
+}
+
 //****************************************************************************//

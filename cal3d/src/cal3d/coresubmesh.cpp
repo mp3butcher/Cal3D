@@ -657,4 +657,64 @@ std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarge
   return m_vectorCoreSubMorphTarget;
 }
 
+ /*****************************************************************************/
+/** Scale the Submesh.
+  *
+  * This function rescale all the data that are in the core submesh instance.
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreSubmesh::scale(float factor)
+{
+	// rescale all vertices
+
+	int vertexId;
+	for(vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
+	{
+		m_vectorVertex[vertexId].position*=factor;		
+	}
+
+	if(m_vectorSpring.size()>0)
+	{
+
+		// There is a problem when we resize and that there is
+		// a spring system, I was unable to solve this
+		// problem, so I disable the spring system
+		// if the scale are too big
+
+		if( fabs(factor - 1.0f) > 0.10)
+		{
+			m_vectorSpring.clear();
+			m_vectorPhysicalProperty.clear();
+		}
+
+
+/*		
+		for(vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
+		{
+			//m_vectorPhysicalProperty[vertexId].weight *= factor;
+			m_vectorPhysicalProperty[vertexId].weight *= factor*factor;
+			//m_vectorPhysicalProperty[vertexId].weight *= 0.5f;
+		}
+
+
+		int springId;
+		for(springId = 0; springId < m_vectorVertex.size() ; springId++)
+		{
+			//m_vectorSpring[springId].idleLength*=factor;
+			CalVector distance = m_vectorVertex[m_vectorSpring[springId].vertexId[1]].position - m_vectorVertex[m_vectorSpring[springId].vertexId[0]].position;
+			
+			m_vectorSpring[springId].idleLength = distance.length();		
+		}
+
+   */
+	}
+
+	
+
+}
+
 //****************************************************************************//

@@ -52,6 +52,7 @@ public:
   float getDuration();
   std::list<CalCoreTrack *>& getListCoreTrack();
   void setDuration(float duration);
+  void scale(float factor);
 };
 
 #endif

@@ -58,6 +58,7 @@ public:
   std::list<int>& getListRootCoreBoneId();
   std::vector<CalCoreBone *>& getVectorCoreBone();
   void calculateBoundingBox(CalCoreModel * pCoreModel);
+  void scale(float factor);
   
 };
 

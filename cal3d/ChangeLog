@@ -8,9 +8,13 @@ o-----------------------------------------------------------------------------o
   
   - Add functions to control force of the spring system
   - CalHardwareModel : a object to store and to compute information
-    needed to do hardware vertex skinning
+    needed to do hardware vertex skinning.
   - Add a time factor to allow reverse time of sync animation.
   - Most of the math functions are now inline.  
+  - Add an option to stop a action animation at the end.
+  - Add functions to rescale a core model, 
+    but this can be done only before creating the CalModel.
+  - Fix in the XML loader
 
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 

@@ -110,7 +110,7 @@ void CalCoreAnimation::destroy()
 
 CalCoreTrack *CalCoreAnimation::getCoreTrack(int coreBoneId)
 {
-  // loop through all core bones
+  // loop through all core track
   std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
   for(iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
   {
@@ -165,5 +165,26 @@ void CalCoreAnimation::setDuration(float duration)
 {
   m_duration = duration;
 }
+
+ /*****************************************************************************/
+/** Scale the core animation.
+  *
+  * This function rescale all the skeleton data that are in the core animation instance
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::scale(float factor)
+{
+  // loop through all core track
+  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+  for(iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
+  {
+	  (*iteratorCoreTrack)->scale(factor);
+  }
+}
+
+
 
 //****************************************************************************//

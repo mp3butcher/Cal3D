@@ -238,4 +238,26 @@ CalCoreKeyframe* CalCoreTrack::getCoreKeyframe(int idx)
   return m_keyframes[idx];
 }
 
+ /*****************************************************************************/
+/** Scale the core track.
+  *
+  * This function rescale all the data that are in the core track instance.
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreTrack::scale(float factor)
+{
+	int keyframeId;
+	for(keyframeId = 0; keyframeId < m_keyframes.size(); keyframeId++)
+	{
+		CalVector translation = m_keyframes[keyframeId]->getTranslation();
+		translation*=factor;
+		m_keyframes[keyframeId]->setTranslation(translation);
+	}
+
+}
+
 //****************************************************************************//

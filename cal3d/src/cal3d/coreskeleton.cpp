@@ -273,5 +273,24 @@ void CalCoreSkeleton::calculateBoundingBox(CalCoreModel * pCoreModel)
 
 }
 
+ /*****************************************************************************/
+/** Scale the core skeleton.
+  *
+  * This function rescale all the data that are in the core skeleton instance.
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreSkeleton::scale(float factor)
+{
+  std::list<int>::iterator iteratorRootCoreBoneId;
+  for(iteratorRootCoreBoneId = m_listRootCoreBoneId.begin(); iteratorRootCoreBoneId != m_listRootCoreBoneId.end(); ++iteratorRootCoreBoneId)
+  {
+    m_vectorCoreBone[*iteratorRootCoreBoneId]->scale(factor);
+  }
+
+}
 
 //****************************************************************************//

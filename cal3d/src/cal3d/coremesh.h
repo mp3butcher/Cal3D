@@ -51,6 +51,7 @@ public:
   int getCoreSubmeshCount();
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   int addAsMorphTarget(CalCoreMesh *pCoreMesh);
+  void scale(float factor);
 };
 
 #endif

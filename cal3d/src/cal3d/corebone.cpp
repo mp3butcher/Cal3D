@@ -480,6 +480,31 @@ void CalCoreBone::getBoundingData(int planeId,CalVector & position)
    position = m_boundingPosition[planeId];
 }
 
+ /*****************************************************************************/
+/** Scale the core bone.
+  *
+  * This function rescale all the data that are in the core bone instance and
+  * in his childs.
+  *
+  * @param factor A float with the scale factor
+  *
+  *****************************************************************************/
+
+
+void CalCoreBone::scale(float factor)
+{
+	m_translation*=factor;
+	m_translationAbsolute*=factor;
+	m_translationBoneSpace*=factor;
+	
+	// calculate all child bones
+	std::list<int>::iterator iteratorChildId;
+	for(iteratorChildId = m_listChildId.begin(); iteratorChildId != m_listChildId.end(); ++iteratorChildId)
+	{
+		m_pCoreSkeleton->getCoreBone(*iteratorChildId)->scale(factor);
+	}
+}
 
 
 //****************************************************************************//
+
