@@ -52,9 +52,10 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ../src/
+INPUT                  = ../src ./faq
 FILE_PATTERNS          = *.h \
-                         *.cpp
+                         *.cpp \
+                         *.doxygen
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_PATTERNS       = 
