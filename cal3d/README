@@ -101,6 +101,7 @@ o-----------------------------------------------------------------------------o
   - flexible material handling
   - support for multiple texture mapping channels
   - progressive meshes for LOD (level-of-detail)
+  - experimental spring-system module for cloth and hair animation
   - unified exporter plugin framework (3d Studio Max, others following)
   - highly portable and modular design (only depends on C++ and STL)
   - simple and clean API
