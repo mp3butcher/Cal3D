@@ -89,8 +89,7 @@ bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilena
 	}
 
 	// build the selected ids of the bone candidates
-	int selectedCount;
-	selectedCount = skeletonCandidate.BuildSelectedId();
+	int selectedCount = skeletonCandidate.BuildSelectedId();
 	if(selectedCount == 0)
 	{
 		theExporter.SetLastError("No bones selected to export.", __FILE__, __LINE__);
@@ -98,7 +97,7 @@ bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilena
 	}
 
 	// create the core skeleton instance
-	CalCoreSkeleton coreSkeleton;
+	CalCoreSkeletonPtr coreSkeleton = new CalCoreSkeleton;
 
         // get bone candidate vector
 	std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
@@ -151,18 +150,18 @@ bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilena
 			pCoreBone->setRotationBoneSpace(rotationBoneSpace);
 
 			// set the core skeleton of the core bone instance
-			pCoreBone->setCoreSkeleton(&coreSkeleton);
+			pCoreBone->setCoreSkeleton(coreSkeleton.get());
 
 			// add the core bone to the core skeleton instance
 			int boneId;
-			boneId = coreSkeleton.addCoreBone(pCoreBone);
+			boneId = coreSkeleton->addCoreBone(pCoreBone);
 
 			// adjust child list of parent bone
 			if(parentId != -1)
 			{
 				// get parent core bone
 				CalCoreBone *pParentCoreBone;
-				pParentCoreBone = coreSkeleton.getCoreBone(parentId);
+				pParentCoreBone = coreSkeleton->getCoreBone(parentId);
 				if(pParentCoreBone == 0)
 				{
 					theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
@@ -181,7 +180,7 @@ bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilena
 	StopProgressInfo();
 
 	// save core skeleton to the file
-	if(!CalSaver::saveCoreSkeleton(strFilename, &coreSkeleton))
+	if(!CalSaver::saveCoreSkeleton(strFilename, coreSkeleton.get()))
 	{
 		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;

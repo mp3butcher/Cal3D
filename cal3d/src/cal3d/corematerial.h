@@ -13,9 +13,11 @@
 
 
 #include "cal3d/global.h"
+#include "cal3d/refcounted.h"
+#include "cal3d/refptr.h"
 
 
-class CAL3D_API CalCoreMaterial
+class CAL3D_API CalCoreMaterial : public cal3d::RefCounted
 {
 public:
   struct Color
@@ -32,10 +34,12 @@ public:
     Cal::UserData userData;
   };
 
-public:
   CalCoreMaterial();
+
+protected:
   ~CalCoreMaterial() { }
 
+public:
   Color& getAmbientColor();
   Color& getDiffuseColor();
   int getMapCount();
@@ -57,8 +61,6 @@ public:
   void setName(const std::string& name);
   const std::string& getName(void);
   void setUserData(Cal::UserData userData);
-  void incRef();
-  bool decRef();  
 
 private:
   Color m_ambientColor;
@@ -69,9 +71,8 @@ private:
   Cal::UserData m_userData;
   std::string m_name;
   std::string m_filename;
-
-  int m_referenceCount;
 };
+typedef cal3d::RefPtr<CalCoreMaterial> CalCoreMaterialPtr;
 
 #endif
 

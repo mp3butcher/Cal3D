@@ -141,32 +141,43 @@ void CSkeletonFilePage::OnAbout()
 
 void CSkeletonFilePage::OnBrowse() 
 {
-	// display file dialog
-	CString strFilename;
-	m_lruCombo.GetWindowText(strFilename);
+    // display file dialog
+    CString strFilename;
+    m_lruCombo.GetWindowText(strFilename);
 
-	CFileDialog dlg(
-      TRUE,
-      "csf",
-      strFilename,
-      OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
-      "Cal3D Skeleton Files (*.csf;*.xsf)|*.csf;*.xsf|All Files (*.*)|*.*||",
-      this);
-	if(dlg.DoModal() != IDOK) return;
+/*
+    char buffer[MAX_PATH + 1] = "";
 
-	// set new filename
-	strFilename = dlg.GetPathName();
-	m_lruCombo.SetWindowText(strFilename);
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = m_hWnd;
+    ofn.lpstrFile = buffer;
+    ofn.nMaxFile  = MAX_PATH + 1;
+    BOOL res = GetOpenFileName(&ofn);
+*/
+
+    CFileDialog dlg(
+        TRUE,
+        "csf",
+        strFilename,
+        OFN_FILEMUSTEXIST,
+        "Cal3D Skeleton Files (*.csf;*.xsf)|*.csf;*.xsf|All Files (*.*)|*.*||",
+        this);
+    if(dlg.DoModal() != IDOK) return;
+    DWORD error = CommDlgExtendedError();
+
+    // set new filename
+    strFilename = dlg.GetPathName();
+    m_lruCombo.SetWindowText(strFilename);
 	
-	HKEY hk;
-	LONG lret=RegCreateKey(HKEY_CURRENT_USER, "Software\\Cal3D\\Exporter", &hk);
-	if(lret==ERROR_SUCCESS && NULL!=hk)
-	{
-		lret=RegSetValueEx(hk,"skeleton",NULL,REG_SZ,(unsigned char *)strFilename.GetBuffer(1) ,strFilename.GetLength());
-		RegCloseKey(hk);
-	}
-
-
+    HKEY hk;
+    LONG lret=RegCreateKey(HKEY_CURRENT_USER, "Software\\Cal3D\\Exporter", &hk);
+    if(lret==ERROR_SUCCESS && NULL!=hk)
+    {
+        lret=RegSetValueEx(hk,"skeleton",NULL,REG_SZ,(unsigned char *)strFilename.GetBuffer(1) ,strFilename.GetLength());
+        RegCloseKey(hk);
+    }
 }
 
 //----------------------------------------------------------------------------//

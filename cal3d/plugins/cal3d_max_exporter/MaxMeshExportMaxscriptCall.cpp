@@ -145,7 +145,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 	}
 
 	// create the core mesh instance
-	CalCoreMesh coreMesh;
+	CalCoreMeshPtr coreMesh = new CalCoreMesh;
 
 	// get the submesh candidate vector
 	std::vector<CSubmeshCandidate *>& vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
@@ -302,7 +302,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 			pCoreSubmesh->setLodCount(pSubmeshCandidate->GetLodCount());
 
 			// add the core submesh to the core mesh instance
-			coreMesh.addCoreSubmesh(pCoreSubmesh);
+			coreMesh->addCoreSubmesh(pCoreSubmesh);
 		}
 	}
 
@@ -310,7 +310,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 	StopProgressInfo();
 
 	// save core mesh to the file
-	if(!CalSaver::saveCoreMesh(strFilename, &coreMesh))
+	if(!CalSaver::saveCoreMesh(strFilename, coreMesh.get()))
 	{
 		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;

@@ -88,63 +88,49 @@ int main(int argc, char* argv[])
 	}
 
 
-	CalSaver *Saver = new CalSaver();
-	CalLoader *Loader = new CalLoader();
+	CalSaver Saver;
+	CalLoader Loader;
 
 	if(Type==SKELETON)
 	{
-	    CalCoreSkeleton *Ske = Loader->loadCoreSkeleton(strFilename1);
+	    CalCoreSkeletonPtr Ske = Loader.loadCoreSkeleton(strFilename1);
 		if(!Ske)
 		{
-			delete Saver;
-			delete Loader;
 			cout << "Error during loading of "<< strFilename1<< endl;
 			return 1;
 		}
-		Saver->saveCoreSkeleton(strFilename2,Ske);
-		delete Ske;
+		Saver.saveCoreSkeleton(strFilename2,Ske.get());
 	}
 	if(Type==MESH)
 	{	
-		CalCoreMesh *Mesh = Loader->loadCoreMesh(strFilename1);
+		CalCoreMeshPtr Mesh = Loader.loadCoreMesh(strFilename1);
 		if(!Mesh)
 		{
-			delete Saver;
-			delete Loader;
 			cout << "Error during loading of "<< strFilename1<< endl;
 			return 1;
 		}
-		Saver->saveCoreMesh(strFilename2,Mesh);
-		delete Mesh;
+		Saver.saveCoreMesh(strFilename2,Mesh.get());
 	}
 
 	if(Type==ANIMATION)
 	{
-		CalCoreAnimation *Ani = Loader->loadCoreAnimation(strFilename1);
+		CalCoreAnimationPtr Ani = Loader.loadCoreAnimation(strFilename1);
 		if(!Ani)
 		{
-			delete Saver;
-			delete Loader;
 			cout << "Error during loading of "<< strFilename1<< endl;
 			return 1;
 		}
-		Saver->saveCoreAnimation(strFilename2,Ani);
-		delete Ani;
+		Saver.saveCoreAnimation(strFilename2,Ani.get());
 	}
 	if(Type==MATERIAL)
 	{
-		CalCoreMaterial *Mat=  Loader->loadCoreMaterial(strFilename1);
+		CalCoreMaterialPtr Mat = Loader.loadCoreMaterial(strFilename1);
 		if(!Mat)
 		{
-			delete Saver;
-			delete Loader;
 			cout << "Error during loading of "<< strFilename1<< endl;
 			return 1;
 		}
-		Saver->saveCoreMaterial(strFilename2,Mat);
-		delete Mat;	
+		Saver.saveCoreMaterial(strFilename2,Mat.get());
 	}
-	delete Saver;
-	delete Loader;
 	return 0;
 }

@@ -18,8 +18,6 @@ class CVertexCandidate;
 
 class CBaseMesh
 {
-protected:
-  CBaseMesh() { }
 public:
   virtual ~CBaseMesh() { }
 

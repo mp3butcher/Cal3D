@@ -13,16 +13,20 @@
 
 
 #include "cal3d/global.h"
+#include "cal3d/refcounted.h"
+#include "cal3d/refptr.h"
 
 
 class CalCoreTrack;
 struct CalAnimationCallback;
 
-class CAL3D_API CalCoreAnimation
+class CAL3D_API CalCoreAnimation : public cal3d::RefCounted
 {
+protected:
+  ~CalCoreAnimation();
+
 public:
   CalCoreAnimation();
-  ~CalCoreAnimation();
 
   void addCoreTrack(CalCoreTrack *pCoreTrack);
   CalCoreTrack *getCoreTrack(int coreBoneId);
@@ -34,8 +38,6 @@ public:
   const std::string& getFilename(void);
   void setName(const std::string& name);
   const std::string& getName(void);
-  void incRef();
-  bool decRef();  
 
   void registerCallback(CalAnimationCallback *callback,float min_interval);
   void removeCallback(CalAnimationCallback *callback);
@@ -57,9 +59,8 @@ private:
   std::list<CalCoreTrack *>   m_listCoreTrack;
   std::string m_name;
   std::string m_filename;
-
-  int m_referenceCount;
 };
+typedef cal3d::RefPtr<CalCoreAnimation> CalCoreAnimationPtr;
 
 #endif
 

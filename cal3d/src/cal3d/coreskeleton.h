@@ -12,17 +12,21 @@
 #define CAL_CORESKELETON_H
 
 #include "cal3d/global.h"
+#include "cal3d/refcounted.h"
+#include "cal3d/refptr.h"
 
 
 class CalCoreBone;
 class CalCoreModel;
 
 
-class CAL3D_API CalCoreSkeleton
+class CAL3D_API CalCoreSkeleton : public cal3d::RefCounted
 {
+protected:
+  ~CalCoreSkeleton();
+
 public:
   CalCoreSkeleton();
-  ~CalCoreSkeleton();
 
   int addCoreBone(CalCoreBone *pCoreBone);
   void calculateState();
@@ -34,15 +38,13 @@ public:
   std::vector<CalCoreBone *>& getVectorCoreBone();
   void calculateBoundingBoxes(CalCoreModel * pCoreModel);
   void scale(float factor);
-  void incRef();
-  bool decRef();    
 
 private:
   std::vector<CalCoreBone *> m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
   std::list<int> m_listRootCoreBoneId;  
-  int m_referenceCount;
 };
+typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 
 #endif
 

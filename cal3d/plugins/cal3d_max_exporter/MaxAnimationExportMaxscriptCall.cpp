@@ -125,12 +125,11 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 	}
 
 	// create the core animation instance
-	CalCoreAnimation coreAnimation;
+	CalCoreAnimationPtr coreAnimation = new CalCoreAnimation;
 
 	// set the duration of the animation
-	float duration;
-	duration = (float)(param->m_endframe - param->m_startframe) / (float)GetFps();
-	coreAnimation.setDuration(duration);
+	float duration = (float)(param->m_endframe - param->m_startframe) / (float)GetFps();
+	coreAnimation->setDuration(duration);
 
 	// get bone candidate vector
 	std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
@@ -159,7 +158,7 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 			pCoreTrack->setCoreBoneId(boneCandidateId);
 
 			// add the core track to the core animation instance
-			coreAnimation.addCoreTrack(pCoreTrack);
+			coreAnimation->addCoreTrack(pCoreTrack);
 		}
 	}
 
@@ -167,8 +166,7 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 	StartProgressInfo("Exporting to animation file...");
 
 	// calculate the end frame
-	int endFrame;
-	endFrame = (int)(duration * (float)param->m_framerate + 0.5f);
+	int endFrame = (int)(duration * (float)param->m_framerate + 0.5f);
 
 	// calculate the displaced frame
   int displacedFrame;
@@ -230,7 +228,7 @@ OutputDebugString(str);
 
 				// get the core track for this bone candidate
 				CalCoreTrack *pCoreTrack;
-				pCoreTrack = coreAnimation.getCoreTrack(pBoneCandidate->GetId());
+				pCoreTrack = coreAnimation->getCoreTrack(pBoneCandidate->GetId());
 				if(pCoreTrack == 0)
 				{
 					theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
@@ -270,7 +268,7 @@ OutputDebugString(str);
 	StopProgressInfo();
 
 	// save core animation to the file
-	if(!CalSaver::saveCoreAnimation(strFilename, &coreAnimation))
+	if(!CalSaver::saveCoreAnimation(strFilename, coreAnimation.get()))
 	{
 		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;

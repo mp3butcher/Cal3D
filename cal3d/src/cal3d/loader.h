@@ -20,20 +20,20 @@
 #include <istream>
 #include "cal3d/global.h"
 #include "cal3d/datasource.h"
+#include "cal3d/coreanimation.h"
+#include "cal3d/corematerial.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coreskeleton.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
 //****************************************************************************//
 
 class CalCoreModel;
-class CalCoreSkeleton;
 class CalCoreBone;
-class CalCoreAnimation;
 class CalCoreTrack;
 class CalCoreKeyframe;
-class CalCoreMesh;
 class CalCoreSubmesh;
-class CalCoreMaterial;
 
 enum
 {
@@ -53,25 +53,25 @@ class CAL3D_API CalLoader
 {
 // member functions
 public:
-  static CalCoreAnimation *loadCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
-  static CalCoreMaterial *loadCoreMaterial(const std::string& strFilename);
-  static CalCoreMesh *loadCoreMesh(const std::string& strFilename);
-  static CalCoreSkeleton *loadCoreSkeleton(const std::string& strFilename);
+  static CalCoreAnimationPtr loadCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
+  static CalCoreMaterialPtr  loadCoreMaterial(const std::string& strFilename);
+  static CalCoreMeshPtr      loadCoreMesh(const std::string& strFilename);
+  static CalCoreSkeletonPtr  loadCoreSkeleton(const std::string& strFilename);
 
-  static CalCoreAnimation *loadCoreAnimation(std::istream& inputStream, CalCoreSkeleton *skel=NULL);
-  static CalCoreMaterial *loadCoreMaterial(std::istream& inputStream);
-  static CalCoreMesh *loadCoreMesh(std::istream& inputStream);
-  static CalCoreSkeleton *loadCoreSkeleton(std::istream& inputStream);
+  static CalCoreAnimationPtr loadCoreAnimation(std::istream& inputStream, CalCoreSkeleton *skel=NULL);
+  static CalCoreMaterialPtr  loadCoreMaterial(std::istream& inputStream);
+  static CalCoreMeshPtr      loadCoreMesh(std::istream& inputStream);
+  static CalCoreSkeletonPtr  loadCoreSkeleton(std::istream& inputStream);
 
-  static CalCoreAnimation *loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel=NULL);
-  static CalCoreMaterial *loadCoreMaterial(void* inputBuffer);
-  static CalCoreMesh *loadCoreMesh(void* inputBuffer);
-  static CalCoreSkeleton *loadCoreSkeleton(void* inputBuffer);
+  static CalCoreAnimationPtr loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel=NULL);
+  static CalCoreMaterialPtr  loadCoreMaterial(void* inputBuffer);
+  static CalCoreMeshPtr      loadCoreMesh(void* inputBuffer);
+  static CalCoreSkeletonPtr  loadCoreSkeleton(void* inputBuffer);
 
-  static CalCoreAnimation *loadCoreAnimation(CalDataSource& inputSrc, CalCoreSkeleton *skel=NULL);
-  static CalCoreMaterial *loadCoreMaterial(CalDataSource& inputSrc);
-  static CalCoreMesh *loadCoreMesh(CalDataSource& inputSrc);
-  static CalCoreSkeleton *loadCoreSkeleton(CalDataSource& inputSrc);
+  static CalCoreAnimationPtr loadCoreAnimation(CalDataSource& inputSrc, CalCoreSkeleton *skel=NULL);
+  static CalCoreMaterialPtr  loadCoreMaterial(CalDataSource& inputSrc);
+  static CalCoreMeshPtr      loadCoreMesh(CalDataSource& inputSrc);
+  static CalCoreSkeletonPtr  loadCoreSkeleton(CalDataSource& inputSrc);
 
   static void setLoadingMode(int flags);
 
@@ -81,10 +81,10 @@ private:
   static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc);
   static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel);
 
-  static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
-  static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
-  static CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
-  static CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
+  static CalCoreAnimationPtr loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
+  static CalCoreSkeletonPtr loadXmlCoreSkeleton(const std::string& strFilename);
+  static CalCoreMeshPtr loadXmlCoreMesh(const std::string& strFilename);
+  static CalCoreMaterialPtr loadXmlCoreMaterial(const std::string& strFilename);
 
   static int loadingMode;
 };

@@ -211,14 +211,19 @@ void CalBone_SetCoreStateRecursive(CalBone *self)
 // CalCoreAnimation wrapper functions definition                              //
 //****************************************************************************//
 
+CalCoreAnimation *CalCoreAnimation_New(CalCoreAnimation *self)
+{
+    return explicitIncRef(new CalCoreAnimation());
+}
+
+void CalCoreAnimation_Delete(CalCoreAnimation* self)
+{
+    explicitDecRef(self);
+}
+
 void CalCoreAnimation_AddCoreTrack(CalCoreAnimation *self, CalCoreTrack *pCoreTrack)
 {
   self->addCoreTrack(pCoreTrack);
-}
-
-void CalCoreAnimation_Delete(CalCoreAnimation *self)
-{
-  delete self;
 }
 
 CalCoreTrack *CalCoreAnimation_GetCoreTrack(CalCoreAnimation *self, int coreBoneId)
@@ -237,11 +242,6 @@ std::list<CalCoreTrack *>& CalCoreAnimation_GetListCoreTrack(CalCoreAnimation *s
   return self->getListCoreTrack();
 }
 */
-
-CalCoreAnimation *CalCoreAnimation_New(CalCoreAnimation *self)
-{
-  return new CalCoreAnimation();
-}
 
 void CalCoreAnimation_SetDuration(CalCoreAnimation *self, float duration)
 {
@@ -407,9 +407,14 @@ void CalCoreKeyframe_SetTranslation(CalCoreKeyframe *self, CalVector *pTranslati
 // CalCoreMaterial wrapper functions definition                               //
 //****************************************************************************//
 
+CalCoreMaterial *CalCoreMaterial_New()
+{
+    return explicitIncRef(new CalCoreMaterial());
+}
+
 void CalCoreMaterial_Delete(CalCoreMaterial *self)
 {
-  delete self;
+    explicitDecRef(self);
 }
 
 /*
@@ -418,7 +423,6 @@ CalCoreMaterial::Color *CalCoreMaterial_GetAmbientColor(CalCoreMaterial *self)
   return &(self->getAmbientColor());
 }
 */
-
 /*
 CalCoreMaterial::Color *CalCoreMaterial_GetDiffuseColor(CalCoreMaterial *self)
 {
@@ -464,11 +468,6 @@ std::vector<Map>& CalCoreMaterial_GetVectorMap(CalCoreMaterial *self)
   return self->getVectorMap();
 }
 */
-
-CalCoreMaterial *CalCoreMaterial_New()
-{
-  return new CalCoreMaterial();
-}
 
 Boolean CalCoreMaterial_Reserve(CalCoreMaterial *self, int mapCount)
 {
@@ -522,15 +521,21 @@ void CalCoreMaterial_SetUserData(CalCoreMaterial *self, CalUserData userData)
 // CalCoreMesh wrapper functions definition                                   //
 //****************************************************************************//
 
+CalCoreMesh *CalCoreMesh_New()
+{
+    return explicitIncRef(new CalCoreMesh());
+}
+
+void CalCoreMesh_Delete(CalCoreMesh *self)
+{
+    explicitDecRef(self);
+}
+
 int CalCoreMesh_AddCoreSubmesh(CalCoreMesh *self, CalCoreSubmesh *pCoreSubmesh)
 {
   return self->addCoreSubmesh(pCoreSubmesh);
 }
 
-void CalCoreMesh_Delete(CalCoreMesh *self)
-{
-  delete self;
-}
 
 CalCoreSubmesh *CalCoreMesh_GetCoreSubmesh(CalCoreMesh *self, int id)
 {
@@ -549,10 +554,6 @@ std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(CalCoreMesh *sel
 }
 */
 
-CalCoreMesh *CalCoreMesh_New()
-{
-  return new CalCoreMesh();
-}
 
 //****************************************************************************//
 // CalCoreModel wrapper functions definition                                  //
@@ -703,9 +704,14 @@ void CalCoreSkeleton_CalculateState(CalCoreSkeleton *self)
 }
 
 
+CalCoreSkeleton *CalCoreSkeleton_New()
+{
+    return explicitIncRef(new CalCoreSkeleton());
+}
+
 void CalCoreSkeleton_Delete(CalCoreSkeleton *self)
 {
-  delete self;
+    explicitDecRef(self);
 }
 
 CalCoreBone *CalCoreSkeleton_GetCoreBone(CalCoreSkeleton *self, int coreBoneId)
@@ -732,11 +738,6 @@ std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(CalCoreSkeleton *s
   return self->getVectorCoreBone();
 }
 */
-
-CalCoreSkeleton *CalCoreSkeleton_New()
-{
-  return new CalCoreSkeleton();
-}
 
 //****************************************************************************//
 // CalCoreSubmesh wrapper functions definition                                //
@@ -966,22 +967,22 @@ void CalLoader_Delete(CalLoader *self)
 
 CalCoreAnimation *CalLoader_LoadCoreAnimation(CalLoader *self, char *strFilename)
 {
-  return self->loadCoreAnimation(strFilename);
+  return explicitIncRef(self->loadCoreAnimation(strFilename).get());
 }
 
 CalCoreMaterial *CalLoader_LoadCoreMaterial(CalLoader *self, char *strFilename)
 {
-  return self->loadCoreMaterial(strFilename);
+  return explicitIncRef(self->loadCoreMaterial(strFilename).get());
 }
 
 CalCoreMesh *CalLoader_LoadCoreMesh(CalLoader *self, char *strFilename)
 {
-  return self->loadCoreMesh(strFilename);
+  return explicitIncRef(self->loadCoreMesh(strFilename).get());
 }
 
 CalCoreSkeleton *CalLoader_LoadCoreSkeleton(CalLoader *self, char *strFilename)
 {
-  return self->loadCoreSkeleton(strFilename);
+  return explicitIncRef(self->loadCoreSkeleton(strFilename).get());
 }
 
 CalLoader *CalLoader_New()

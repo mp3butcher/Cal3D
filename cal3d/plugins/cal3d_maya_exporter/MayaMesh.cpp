@@ -346,10 +346,8 @@ int CMayaMesh::GetSubmeshMaterialThreadId(int submeshId)
   std::string strName = pMaterial->GetName ();
   
   // get positions of the material thread id
-  std::string::size_type closePos;
-  closePos = strName.find_last_of("_");
-  std::string::size_type openPos;
-  openPos = strName.find_last_of("_", closePos-1);
+  std::string::size_type closePos = strName.find_last_of("_");
+  std::string::size_type openPos  = strName.find_last_of("_", closePos-1);
   if((openPos == std::string::npos) || (closePos == std::string::npos) || (++openPos >= closePos))
   {
     theExporter.SetLastError("Invalid material thread id in material.", __FILE__, __LINE__);
@@ -357,13 +355,8 @@ int CMayaMesh::GetSubmeshMaterialThreadId(int submeshId)
   }
 
   // extract material thread id from material name
-  std::string strMaterialThreadId;
-  strMaterialThreadId = strName.substr(openPos, closePos - openPos);
-
-  int materialThreadId;
-  materialThreadId = atoi(strMaterialThreadId.c_str());
-
-  return materialThreadId;
+  std::string strMaterialThreadId = strName.substr(openPos, closePos - openPos);
+  return atoi(strMaterialThreadId.c_str());
 }
 
 CVertexCandidate *CMayaMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId)

@@ -27,7 +27,7 @@
   * This function is the default constructor of the core mesh instance.
   *****************************************************************************/
 
-CalCoreMesh::CalCoreMesh() : m_referenceCount(0)
+CalCoreMesh::CalCoreMesh()
 {
 }
 
@@ -260,33 +260,3 @@ const std::string& CalCoreMesh::getName(void)
 {
   return m_name;
 }
-
- /*****************************************************************************/
-/** 
-  * Increment the reference counter the core mesh.
-  *
-  *****************************************************************************/
-
-void CalCoreMesh::incRef()
-{
-  m_referenceCount++;
-}
-
- /*****************************************************************************/
-/** 
-  * Decrement the reference counter the core mesh.
-  *
-  * @return One of the following values:
-  *         \li \b true if there are nomore reference
-  *         \li \b false if there are another reference
-  *
-  *****************************************************************************/
-
-bool CalCoreMesh::decRef()
-{
-  m_referenceCount--;
-  return (m_referenceCount <= 0); 
-}
-
-
-//****************************************************************************//

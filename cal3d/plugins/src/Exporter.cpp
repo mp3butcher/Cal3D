@@ -103,10 +103,10 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
     return false;
   }
 
-  CalCoreAnimation coreAnimation;
+  CalCoreAnimationPtr coreAnimation = new CalCoreAnimation;
 
   float duration = (float)(sheet.GetEndFrame() - sheet.GetStartFrame()) / (float)m_pInterface->GetFps();
-  coreAnimation.setDuration(duration);
+  coreAnimation->setDuration(duration);
 
   // get bone candidate vector
   std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
@@ -121,7 +121,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
       // allocate new core track instance
       CalCoreTrack *pCoreTrack = new CalCoreTrack();
       pCoreTrack->setCoreBoneId(boneCandidateId);
-      coreAnimation.addCoreTrack(pCoreTrack);
+      coreAnimation->addCoreTrack(pCoreTrack);
     }
   }
 
@@ -161,7 +161,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
         pCoreKeyframe->setRotation(rotation);
 
         // get the core track for this bone candidate
-        CalCoreTrack *pCoreTrack = coreAnimation.getCoreTrack(pBoneCandidate->GetId());
+        CalCoreTrack *pCoreTrack = coreAnimation->getCoreTrack(pBoneCandidate->GetId());
         assert(pCoreTrack);  // We added it, it should be there.
 
         // add this core keyframe to the core track
@@ -195,7 +195,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
   m_pInterface->StopProgressInfo();
 
   // save core animation to the file
-  if(!CalSaver::saveCoreAnimation(strFilename, &coreAnimation))
+  if(!CalSaver::saveCoreAnimation(strFilename, coreAnimation.get()))
   {
     SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
     return false;
@@ -244,7 +244,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
   }
 
   // create the core material instance
-  CalCoreMaterial coreMaterial;
+  CalCoreMaterialPtr coreMaterial = new CalCoreMaterial;
 
   // set the ambient color
   CalCoreMaterial::Color coreColor;
@@ -254,7 +254,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
   coreColor.green = (unsigned char)(255.0f * color[1]);
   coreColor.blue = (unsigned char)(255.0f * color[2]);
   coreColor.alpha = (unsigned char)(255.0f * color[3]);
-  coreMaterial.setAmbientColor(coreColor);
+  coreMaterial->setAmbientColor(coreColor);
 
 
   // set the diffuse color
@@ -263,7 +263,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
   coreColor.green = (unsigned char)(255.0f * color[1]);
   coreColor.blue = (unsigned char)(255.0f * color[2]);
   coreColor.alpha = (unsigned char)(255.0f * color[3]);
-  coreMaterial.setDiffuseColor(coreColor);
+  coreMaterial->setDiffuseColor(coreColor);
 
   // set the specular color
   pMaterialCandidate->GetSpecularColor(&color[0]);
@@ -271,16 +271,16 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
   coreColor.green = (unsigned char)(255.0f * color[1]);
   coreColor.blue = (unsigned char)(255.0f * color[2]);
   coreColor.alpha = (unsigned char)(255.0f * color[3]);
-  coreMaterial.setSpecularColor(coreColor);
+  coreMaterial->setSpecularColor(coreColor);
 
   // set the shininess factor
-  coreMaterial.setShininess(pMaterialCandidate->GetShininess());
+  coreMaterial->setShininess(pMaterialCandidate->GetShininess());
 
   // get the map vector of the material candidate
   std::vector<CMaterialCandidate::Map>& vectorMap = pMaterialCandidate->GetVectorMap();
 
   // reserve memory for all the material data
-  if(!coreMaterial.reserve(vectorMap.size()))
+  if(!coreMaterial->reserve(vectorMap.size()))
   {
     SetLastError("Memory reservation for maps failed.", __FILE__, __LINE__);
     return false;
@@ -295,11 +295,11 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
     map.strFilename = vectorMap[mapId].strFilename;
 
     // set map in the core material instance
-    coreMaterial.setMap(mapId, map);
+    coreMaterial->setMap(mapId, map);
   }
 
   // save core mesh to the file
-  if(!CalSaver::saveCoreMaterial(strFilename, &coreMaterial))
+  if(!CalSaver::saveCoreMaterial(strFilename, coreMaterial.get()))
   {
     SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
     return false;
@@ -335,7 +335,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
   if(sheet.DoModal() != ID_WIZFINISH) return true;
 
   // create the core mesh instance
-  CalCoreMesh coreMesh;
+  CalCoreMeshPtr coreMesh = new CalCoreMesh;
 
   // get the submesh candidate vector
   std::vector<CSubmeshCandidate *>& vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
@@ -473,7 +473,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
       pCoreSubmesh->setLodCount(pSubmeshCandidate->GetLodCount());
 
       // add the core submesh to the core mesh instance
-      coreMesh.addCoreSubmesh(pCoreSubmesh);
+      coreMesh->addCoreSubmesh(pCoreSubmesh);
     }
   }
 
@@ -481,7 +481,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
   m_pInterface->StopProgressInfo();
 
   // save core mesh to the file
-  if(!CalSaver::saveCoreMesh(strFilename, &coreMesh))
+  if(!CalSaver::saveCoreMesh(strFilename, coreMesh.get()))
   {
     SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
     return false;
@@ -522,7 +522,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
   }
 
   // create the core skeleton instance
-  CalCoreSkeleton coreSkeleton;
+  CalCoreSkeletonPtr coreSkeleton = new CalCoreSkeleton;
 
   // get bone candidate vector
   std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
@@ -572,18 +572,18 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
       pCoreBone->setRotationBoneSpace(rotationBoneSpace);
 
       // set the core skeleton of the core bone instance
-      pCoreBone->setCoreSkeleton(&coreSkeleton);
+      pCoreBone->setCoreSkeleton(coreSkeleton.get());
 
       // add the core bone to the core skeleton instance
       int boneId;
-      boneId = coreSkeleton.addCoreBone(pCoreBone);
+      boneId = coreSkeleton->addCoreBone(pCoreBone);
 
       // adjust child list of parent bone
       if(parentId != -1)
       {
         // get parent core bone
         CalCoreBone *pParentCoreBone;
-        pParentCoreBone = coreSkeleton.getCoreBone(parentId);
+        pParentCoreBone = coreSkeleton->getCoreBone(parentId);
         if(pParentCoreBone == 0)
         {
           SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
@@ -602,7 +602,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
   m_pInterface->StopProgressInfo();
 
   // save core skeleton to the file
-  if(!CalSaver::saveCoreSkeleton(strFilename, &coreSkeleton))
+  if(!CalSaver::saveCoreSkeleton(strFilename, coreSkeleton.get()))
   {
     SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
     return false;

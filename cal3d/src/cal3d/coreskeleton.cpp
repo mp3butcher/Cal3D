@@ -18,7 +18,7 @@
 #include "cal3d/corebone.h"
 
 
-CalCoreSkeleton::CalCoreSkeleton() : m_referenceCount(0)
+CalCoreSkeleton::CalCoreSkeleton()
 {
 }
 
@@ -242,32 +242,3 @@ void CalCoreSkeleton::scale(float factor)
   }
 
 }
-
- /*****************************************************************************/
-/** 
-  * Increment the reference counter the core skeleton.
-  *
-  *****************************************************************************/
-
-void CalCoreSkeleton::incRef()
-{
-  m_referenceCount++;
-}
-
- /*****************************************************************************/
-/** 
-  * Decrement the reference counter the core skeleton.
-  *
-  * @return One of the following values:
-  *         \li \b true if there are nomore reference
-  *         \li \b false if there are another reference
-  *
-  *****************************************************************************/
-
-bool CalCoreSkeleton::decRef()
-{
-  m_referenceCount--;
-  return (m_referenceCount <= 0); 
-}
-
-//****************************************************************************//

@@ -47,48 +47,6 @@ CalCoreModel::CalCoreModel(const std::string& name)
 
 CalCoreModel::~CalCoreModel()
 {
-  // destroy all core materials
-  std::vector<CalCoreMaterial *>::iterator iteratorCoreMaterial;
-  for(iteratorCoreMaterial = m_vectorCoreMaterial.begin(); iteratorCoreMaterial != m_vectorCoreMaterial.end(); ++iteratorCoreMaterial)
-  {
-	  if(*iteratorCoreMaterial) 
-	  {
-		  if((*iteratorCoreMaterial)->decRef())
-		  {
-			  delete (*iteratorCoreMaterial);
-		  }
-	  }
-  }
-  m_vectorCoreMaterial.clear();
-
-  // destroy all core meshes
-  std::vector<CalCoreMesh *>::iterator iteratorCoreMesh;
-  for(iteratorCoreMesh = m_vectorCoreMesh.begin(); iteratorCoreMesh != m_vectorCoreMesh.end(); ++iteratorCoreMesh)
-  {
-	  if(*iteratorCoreMesh) 
-	  {
-		  if((*iteratorCoreMesh)->decRef())
-		  {
-			  delete (*iteratorCoreMesh);
-		  }
-	  }
-  }
-  m_vectorCoreMesh.clear();
-
-  // destroy all core animations
-  std::vector<CalCoreAnimation *>::iterator iteratorCoreAnimation;
-  for(iteratorCoreAnimation = m_vectorCoreAnimation.begin(); iteratorCoreAnimation != m_vectorCoreAnimation.end(); ++iteratorCoreAnimation)
-  {
-	  if(*iteratorCoreAnimation) 
-	  {
-		  if((*iteratorCoreAnimation)->decRef())
-		  {
-			  delete (*iteratorCoreAnimation);
-		  }
-	  }
-  }
-  m_vectorCoreAnimation.clear();
-
   // destroy all core morph animations
   std::vector<CalCoreMorphAnimation *>::iterator iteratorCoreMorphAnimation;
   for(iteratorCoreMorphAnimation = m_vectorCoreMorphAnimation.begin(); iteratorCoreMorphAnimation != 
@@ -97,17 +55,6 @@ CalCoreModel::~CalCoreModel()
     delete (*iteratorCoreMorphAnimation);
   }
   m_vectorCoreMorphAnimation.clear();
-
-  if(m_pCoreSkeleton != 0)
-  {
-    if(m_pCoreSkeleton->decRef())
-	{
-		delete m_pCoreSkeleton;
-	}
-	m_pCoreSkeleton = 0;	
-  }
-
-  m_strName.erase();
 }
 
  /*****************************************************************************/
@@ -117,20 +64,13 @@ CalCoreModel::~CalCoreModel()
   *
   * @param pCoreAnimation A pointer to the core animation that should be added.
   *
-  * @return One of the following values:
-  *         \li the assigned animation \b ID of the added core animation
-  *         \li \b -1 if an error happend
+  * @return \li the assigned animation \b ID of the added core animation
   *****************************************************************************/
 
 int CalCoreModel::addCoreAnimation(CalCoreAnimation *pCoreAnimation)
 {
-  // get the id of the core animation
-  int animationId;
-  animationId = m_vectorCoreAnimation.size();
-
+  int animationId = m_vectorCoreAnimation.size();
   m_vectorCoreAnimation.push_back(pCoreAnimation);
-  pCoreAnimation->incRef();
-
   return animationId;
 }
 
@@ -173,11 +113,9 @@ int CalCoreModel::addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimati
 int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
 {
   // get the id of the core material
-  int materialId;
-  materialId = m_vectorCoreMaterial.size();
+  int materialId = m_vectorCoreMaterial.size();
 
   m_vectorCoreMaterial.push_back(pCoreMaterial);
-  pCoreMaterial->incRef();
 
   return materialId;
 }
@@ -197,12 +135,8 @@ int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
 int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
 {
   // get the id of the core mesh
-  int meshId;
-  meshId = m_vectorCoreMesh.size();
-
+  int meshId = m_vectorCoreMesh.size();
   m_vectorCoreMesh.push_back(pCoreMesh);
-  pCoreMesh->incRef();
-
   return meshId;
 }
 
@@ -248,7 +182,7 @@ CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId)
     return 0;
   }
 
-  return m_vectorCoreAnimation[coreAnimationId];
+  return m_vectorCoreAnimation[coreAnimationId].get();
 }
 
  /*****************************************************************************/
@@ -323,7 +257,7 @@ CalCoreMaterial *CalCoreModel::getCoreMaterial(int coreMaterialId)
     return 0;
   }
 
-  return m_vectorCoreMaterial[coreMaterialId];
+  return m_vectorCoreMaterial[coreMaterialId].get();
 }
 
  /*****************************************************************************/
@@ -400,7 +334,7 @@ CalCoreMesh *CalCoreModel::getCoreMesh(int coreMeshId)
     return 0;
   }
 
-  return m_vectorCoreMesh[coreMeshId];
+  return m_vectorCoreMesh[coreMeshId].get();
 }
 
  /*****************************************************************************/
@@ -428,7 +362,7 @@ int CalCoreModel::getCoreMeshCount()
 
 CalCoreSkeleton *CalCoreModel::getCoreSkeleton()
 {
-  return m_pCoreSkeleton;
+  return m_pCoreSkeleton.get();
 }
 
  /*****************************************************************************/
@@ -467,18 +401,12 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   }
 
   // load a new core animation
-  CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+  CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
   if(pCoreAnimation == 0) return -1;
+  
 
   // add core animation to this core model
-  int animationId = addCoreAnimation(pCoreAnimation);
-  if(animationId == -1)
-  {
-    delete pCoreAnimation;
-    return -1;
-  }
-
-  return animationId;
+  return addCoreAnimation(pCoreAnimation.get());
 }
 
  /*****************************************************************************/
@@ -518,11 +446,10 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
       CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
       return -1;
     }
-    CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+    CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
     if(pCoreAnimation == NULL) return -1;
     pCoreAnimation->setName(strAnimationName);
     m_vectorCoreAnimation[id] = pCoreAnimation;
-    pCoreAnimation->incRef();
   }
   else
   {
@@ -577,10 +504,6 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
     return -1;
   }
 
-  if(m_vectorCoreAnimation[coreAnimationId]->decRef())
-  {
-	  delete m_vectorCoreAnimation[coreAnimationId];	  
-  }
   m_vectorCoreAnimation[coreAnimationId] = 0;
 
   return coreAnimationId;
@@ -609,18 +532,11 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
   }
 
   // load a new core material
-  CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
+  CalCoreMaterialPtr pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
   if(pCoreMaterial == 0) return -1;
 
   // add core material to this core model
-  int materialId = addCoreMaterial(pCoreMaterial);
-  if(materialId == -1)
-  {
-    delete pCoreMaterial;
-    return -1;
-  }
-
-  return materialId;
+  return addCoreMaterial(pCoreMaterial.get());
 }
 
  /*****************************************************************************/
@@ -660,11 +576,10 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
       CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
       return -1;
     }
-    CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
+    CalCoreMaterialPtr pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
     if(pCoreMaterial == NULL) return -1;
     pCoreMaterial->setName(strMaterialName);
     m_vectorCoreMaterial[id] = pCoreMaterial;
-    pCoreMaterial->incRef();
   }
   else
   {
@@ -719,10 +634,6 @@ int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
     return -1;
   }
 
-  if(m_vectorCoreMaterial[coreMaterialId]->decRef())
-  {
-	  delete m_vectorCoreMaterial[coreMaterialId];	  
-  }
   m_vectorCoreMaterial[coreMaterialId] = 0;
 
   return coreMaterialId;
@@ -750,19 +661,11 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
   }
 
   // load a new core mesh
-  CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
+  CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(strFilename);
   if(pCoreMesh == 0) return -1;
 
   // add core mesh to this core model
-  int meshId;
-  meshId = addCoreMesh(pCoreMesh);
-  if(meshId == -1)
-  {
-    delete pCoreMesh;
-    return -1;
-  }
-
-  return meshId;
+  return addCoreMesh(pCoreMesh.get());
 }
 
  /*****************************************************************************/
@@ -802,11 +705,10 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
       CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
       return -1;
     }
-    CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
+    CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(strFilename);
     if(pCoreMesh == NULL) return -1;
     pCoreMesh->setName(strMeshName);
     m_vectorCoreMesh[id] = pCoreMesh;
-    pCoreMesh->incRef();
   }
   else
   {
@@ -862,10 +764,6 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
     return -1;
   }
 
-  if(m_vectorCoreMesh[coreMeshId]->decRef())
-  {
-	  delete m_vectorCoreMesh[coreMeshId];	  
-  }
   m_vectorCoreMesh[coreMeshId] = 0;
 
   return coreMeshId;
@@ -887,21 +785,9 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
 
 bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
 {
-  // destroy the current core skeleton
-  if(m_pCoreSkeleton != 0)
-  {
-    if(m_pCoreSkeleton->decRef())
-    {
-        delete m_pCoreSkeleton;
-    }        
-  }
-
   // load a new core skeleton
   m_pCoreSkeleton = CalLoader::loadCoreSkeleton(strFilename);
-  if(m_pCoreSkeleton == 0) return false;
-  m_pCoreSkeleton->incRef();
-
-  return true;
+  return (m_pCoreSkeleton != 0);
 }
 
  /*****************************************************************************/
@@ -927,7 +813,7 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
   }
 
   // save the core animation
-  if(!CalSaver::saveCoreAnimation(strFilename, m_vectorCoreAnimation[coreAnimationId]))
+  if(!CalSaver::saveCoreAnimation(strFilename, m_vectorCoreAnimation[coreAnimationId].get()))
   {
     return false;
   }
@@ -958,12 +844,7 @@ bool CalCoreModel::saveCoreMaterial(const std::string& strFilename, int coreMate
   }
 
   // save the core animation
-  if(!CalSaver::saveCoreMaterial(strFilename, m_vectorCoreMaterial[coreMaterialId]))
-  {
-    return false;
-  }
-
-  return true;
+  return CalSaver::saveCoreMaterial(strFilename, m_vectorCoreMaterial[coreMaterialId].get());
 }
 
  /*****************************************************************************/
@@ -989,12 +870,7 @@ bool CalCoreModel::saveCoreMesh(const std::string& strFilename, int coreMeshId)
   }
 
   // save the core animation
-  if(!CalSaver::saveCoreMesh(strFilename, m_vectorCoreMesh[coreMeshId]))
-  {
-    return false;
-  }
-
-  return true;
+  return CalSaver::saveCoreMesh(strFilename, m_vectorCoreMesh[coreMeshId].get());
 }
 
  /*****************************************************************************/
@@ -1019,12 +895,7 @@ bool CalCoreModel::saveCoreSkeleton(const std::string& strFilename)
   }
 
   // save the core skeleton
-  if(!CalSaver::saveCoreSkeleton(strFilename, m_pCoreSkeleton))
-  {
-    return false;
-  }
-
-  return true;
+  return CalSaver::saveCoreSkeleton(strFilename, m_pCoreSkeleton.get());
 }
 
  /*****************************************************************************/
@@ -1080,17 +951,7 @@ void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
     return;
   }
-
-  // destroy a possible existing core skeleton
-  if(m_pCoreSkeleton != 0)
-  {
-	if(m_pCoreSkeleton->decRef())
-	{
-		delete m_pCoreSkeleton;
-	}
-  }  
   m_pCoreSkeleton = pCoreSkeleton;  
-  m_pCoreSkeleton->incRef();
 }
 
  /*****************************************************************************/

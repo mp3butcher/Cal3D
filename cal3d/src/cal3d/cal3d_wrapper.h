@@ -188,12 +188,13 @@ extern "C"
 // CalCoreAnimation wrapper functions declaration                             //
 //****************************************************************************//
 
+  CAL3D_WRAPPER_API struct CalCoreAnimation *CalCoreAnimation_New();
+  CAL3D_WRAPPER_API void CalCoreAnimation_Delete(CalCoreAnimation* self);
+
   CAL3D_WRAPPER_API void CalCoreAnimation_AddCoreTrack(struct CalCoreAnimation *self, struct CalCoreTrack *pCoreTrack);
-  CAL3D_WRAPPER_API void CalCoreAnimation_Delete(struct CalCoreAnimation *self);
   CAL3D_WRAPPER_API struct CalCoreTrack *CalCoreAnimation_GetCoreTrack(struct CalCoreAnimation *self, int coreBoneId);
   CAL3D_WRAPPER_API float CalCoreAnimation_GetDuration(struct CalCoreAnimation *self);
 //  CAL3D_WRAPPER_API std::list<CalCoreTrack *>& CalCoreAnimation_GetListCoreTrack(struct CalCoreAnimation *self);
-  CAL3D_WRAPPER_API struct CalCoreAnimation *CalCoreAnimation_New();
   CAL3D_WRAPPER_API void CalCoreAnimation_SetDuration(struct CalCoreAnimation *self, float duration);
 
 //****************************************************************************//
@@ -239,7 +240,9 @@ extern "C"
 // CalCoreMaterial wrapper functions declaration                              //
 //****************************************************************************//
 
+  CAL3D_WRAPPER_API struct CalCoreMaterial *CalCoreMaterial_New();
   CAL3D_WRAPPER_API void CalCoreMaterial_Delete(struct CalCoreMaterial *self);
+
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetAmbientColor(struct CalCoreMaterial *self);
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetDiffuseColor(struct CalCoreMaterial *self);
   CAL3D_WRAPPER_API int CalCoreMaterial_GetMapCount(struct CalCoreMaterial *self);
@@ -249,7 +252,6 @@ extern "C"
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetSpecularColor(struct CalCoreMaterial *self);
   CAL3D_WRAPPER_API CalUserData CalCoreMaterial_GetUserData(struct CalCoreMaterial *self);
 //  CAL3D_WRAPPER_API std::vector<Map>& CalCoreMaterial_GetVectorMap(struct CalCoreMaterial *self);
-  CAL3D_WRAPPER_API struct CalCoreMaterial *CalCoreMaterial_New();
   CAL3D_WRAPPER_API enum Boolean CalCoreMaterial_Reserve(struct CalCoreMaterial *self, int mapCount);
 //  CAL3D_WRAPPER_API void CalCoreMaterial_SetAmbientColor(struct CalCoreMaterial *self, struct CalCoreMaterial::Color *pAmbientColor);
 //  CAL3D_WRAPPER_API void CalCoreMaterial_SetDiffuseColor(struct CalCoreMaterial *self, struct CalCoreMaterial::Color *pDiffuseColor);
@@ -263,12 +265,13 @@ extern "C"
 // CalCoreMesh wrapper functions declaration                                  //
 //****************************************************************************//
 
-  CAL3D_WRAPPER_API int CalCoreMesh_AddCoreSubmesh(struct CalCoreMesh *self, struct CalCoreSubmesh *pCoreSubmesh);
+  CAL3D_WRAPPER_API struct CalCoreMesh *CalCoreMesh_New();
   CAL3D_WRAPPER_API void CalCoreMesh_Delete(struct CalCoreMesh *self);
+
+  CAL3D_WRAPPER_API int CalCoreMesh_AddCoreSubmesh(struct CalCoreMesh *self, struct CalCoreSubmesh *pCoreSubmesh);
   CAL3D_WRAPPER_API struct CalCoreSubmesh *CalCoreMesh_GetCoreSubmesh(struct CalCoreMesh *self, int id);
   CAL3D_WRAPPER_API int CalCoreMesh_GetCoreSubmeshCount(struct CalCoreMesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(struct CalCoreMesh *self);
-  CAL3D_WRAPPER_API struct CalCoreMesh *CalCoreMesh_New();
 
 //****************************************************************************//
 // CalCoreModel wrapper functions declaration                                 //
@@ -305,14 +308,16 @@ extern "C"
 // CalCoreSkeleton wrapper functions declaration                              //
 //****************************************************************************//
 
+  CAL3D_WRAPPER_API struct CalCoreSkeleton *CalCoreSkeleton_New();
+  CAL3D_WRAPPER_API void CalCoreSkeleton_Delete(CalCoreSkeleton* self);
+
   CAL3D_WRAPPER_API int CalCoreSkeleton_AddCoreBone(struct CalCoreSkeleton *self, struct CalCoreBone *pCoreBone);
   CAL3D_WRAPPER_API void CalCoreSkeleton_CalculateState(struct CalCoreSkeleton *self);
-  CAL3D_WRAPPER_API void CalCoreSkeleton_Delete(struct CalCoreSkeleton *self);
+//  CAL3D_WRAPPER_API void CalCoreSkeleton_Delete(struct CalCoreSkeleton *self);
   CAL3D_WRAPPER_API struct CalCoreBone *CalCoreSkeleton_GetCoreBone(struct CalCoreSkeleton *self, int coreBoneId);
   CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneId(struct CalCoreSkeleton *self, char *strName);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreSkeleton_GetListRootCoreBoneId(struct CalCoreSkeleton *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(struct CalCoreSkeleton *self);
-  CAL3D_WRAPPER_API struct CalCoreSkeleton *CalCoreSkeleton_New();
 
 //****************************************************************************//
 // CalCoreSubmesh wrapper functions declaration                               //
@@ -392,12 +397,12 @@ CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubm
 // CalLoader wrapper functions declaration                                    //
 //****************************************************************************//
 
+  CAL3D_WRAPPER_API struct CalLoader *CalLoader_New();
   CAL3D_WRAPPER_API void CalLoader_Delete(struct CalLoader *self);
   CAL3D_WRAPPER_API struct CalCoreAnimation *CalLoader_LoadCoreAnimation(struct CalLoader *self, char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreMaterial *CalLoader_LoadCoreMaterial(struct CalLoader *self, char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreMesh *CalLoader_LoadCoreMesh(struct CalLoader *self, char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalLoader_LoadCoreSkeleton(struct CalLoader *self, char *strFilename);
-  CAL3D_WRAPPER_API struct CalLoader *CalLoader_New();
 
 //****************************************************************************//
 // CalMesh wrapper functions declaration                                      //

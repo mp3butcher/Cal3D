@@ -34,7 +34,7 @@ CMaxAnimationImport::DoImport(
 
   CString skeleton = fileDialog.GetPathName();
   
-  CalCoreSkeleton* skel = CalLoader::loadCoreSkeleton(std::string(skeleton));
+  CalCoreSkeletonPtr skel = CalLoader::loadCoreSkeleton(std::string(skeleton));
   if (!skel) {
     MessageBox(
       window, "Loading skeleton file failed",
@@ -42,7 +42,7 @@ CMaxAnimationImport::DoImport(
     return IMPEXP_FAIL;
   }
 
-  CalCoreAnimation* anim = CalLoader::loadCoreAnimation(name);
+  CalCoreAnimationPtr anim = CalLoader::loadCoreAnimation(name);
   if (!anim) {
     MessageBox(
       window, "Loading animation file failed",
@@ -134,10 +134,6 @@ CMaxAnimationImport::DoImport(
   }
   
 
-  delete anim;
-
-  delete skel;
-  
   return IMPEXP_SUCCESS;
 }
 

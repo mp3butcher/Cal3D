@@ -12,14 +12,15 @@
 #define CAL_COREMODEL_H
 
 
+#include "cal3d/coreanimation.h"
+#include "cal3d/corematerial.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coreskeleton.h"
 #include "cal3d/global.h"
 
 
-class CalCoreSkeleton;
-class CalCoreAnimation;
 class CalCoreMorphAnimation;
-class CalCoreMesh;
-class CalCoreMaterial;
+
 
 class CAL3D_API CalCoreModel
 {
@@ -87,11 +88,11 @@ public:
 // member variables
 private:
   std::string m_strName;
-  CalCoreSkeleton *m_pCoreSkeleton;
-  std::vector<CalCoreAnimation *> m_vectorCoreAnimation;
+  CalCoreSkeletonPtr m_pCoreSkeleton;
+  std::vector<CalCoreAnimationPtr> m_vectorCoreAnimation;
   std::vector<CalCoreMorphAnimation *> m_vectorCoreMorphAnimation;
-  std::vector<CalCoreMesh *> m_vectorCoreMesh;
-  std::vector<CalCoreMaterial *> m_vectorCoreMaterial;
+  std::vector<CalCoreMeshPtr> m_vectorCoreMesh;
+  std::vector<CalCoreMaterialPtr> m_vectorCoreMaterial;
   std::map<int, std::map<int, int> > m_mapmapCoreMaterialThread;
   Cal::UserData m_userData;
   std::map<std::string, int> m_animationName;

@@ -84,7 +84,7 @@ bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilen
 	}
 
 	// create the core material instance
-	CalCoreMaterial coreMaterial;
+	CalCoreMaterialPtr coreMaterial = new CalCoreMaterial;
 
 	// set the ambient color
 	CalCoreMaterial::Color coreColor;
@@ -94,7 +94,7 @@ bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilen
 	coreColor.green = (unsigned char)(255.0f * color[1]);
 	coreColor.blue = (unsigned char)(255.0f * color[2]);
 	coreColor.alpha = (unsigned char)(255.0f * color[3]);
-	coreMaterial.setAmbientColor(coreColor);
+	coreMaterial->setAmbientColor(coreColor);
 
 
 	// set the diffuse color
@@ -103,7 +103,7 @@ bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilen
 	coreColor.green = (unsigned char)(255.0f * color[1]);
 	coreColor.blue = (unsigned char)(255.0f * color[2]);
 	coreColor.alpha = (unsigned char)(255.0f * color[3]);
-	coreMaterial.setDiffuseColor(coreColor);
+	coreMaterial->setDiffuseColor(coreColor);
 
 	// set the specular color
 	pMaterialCandidate->GetSpecularColor(&color[0]);
@@ -111,16 +111,16 @@ bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilen
 	coreColor.green = (unsigned char)(255.0f * color[1]);
 	coreColor.blue = (unsigned char)(255.0f * color[2]);
 	coreColor.alpha = (unsigned char)(255.0f * color[3]);
-	coreMaterial.setSpecularColor(coreColor);
+	coreMaterial->setSpecularColor(coreColor);
 
 	// set the shininess factor
-	coreMaterial.setShininess(pMaterialCandidate->GetShininess());
+	coreMaterial->setShininess(pMaterialCandidate->GetShininess());
 
 	// get the map vector of the material candidate
 	std::vector<CMaterialCandidate::Map>& vectorMap = pMaterialCandidate->GetVectorMap();
 
 	// reserve memory for all the material data
-	if(!coreMaterial.reserve(vectorMap.size()))
+	if(!coreMaterial->reserve(vectorMap.size()))
 	{
 		theExporter.SetLastError("Memory reservation for maps failed.", __FILE__, __LINE__);
 		return false;
@@ -135,11 +135,11 @@ bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilen
 		map.strFilename = vectorMap[mapId].strFilename;
 
 		// set map in the core material instance
-		coreMaterial.setMap(mapId, map);
+		coreMaterial->setMap(mapId, map);
 	}
 
 	// save core mesh to the file
-	if(!CalSaver::saveCoreMaterial(strFilename, &coreMaterial))
+	if(!CalSaver::saveCoreMaterial(strFilename, coreMaterial.get()))
 	{
 		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;
