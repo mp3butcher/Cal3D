@@ -115,11 +115,13 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 		}
 	}
 
-  CalCoreAnimationPtr coreAnimation = theExporter.ExtractAnimation(skeletonCandidate,
-                                                                   param->m_startframe,
-                                                                   param->m_endframe,
-                                                                   param->m_frameoffset,
-                                                                   GetFps(), param->m_framerate);
+  CalCoreAnimationPtr coreAnimation = theExporter.ExtractAnimation(
+      skeletonCandidate,
+      param->m_startframe,
+      param->m_endframe,
+      param->m_frameoffset,
+      GetFps(),
+      param->m_framerate);
   if (!coreAnimation)
   {
     return false;

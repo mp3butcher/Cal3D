@@ -95,12 +95,13 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
   sheet.SetWizardMode();
   if(sheet.DoModal() != ID_WIZFINISH) return true;
 
-  CalCoreAnimationPtr coreAnimation = ExtractAnimation(skeletonCandidate,
-                                                       sheet.GetStartFrame(),
-                                                       sheet.GetEndFrame(),
-                                                       sheet.GetDisplacement(),
-                                                       m_pInterface->GetFps(),
-                                                       sheet.GetFps());
+  CalCoreAnimationPtr coreAnimation = ExtractAnimation(
+      skeletonCandidate,
+      sheet.GetStartFrame(),
+      sheet.GetEndFrame(),
+      sheet.GetDisplacement(),
+      m_pInterface->GetFps(),
+      sheet.GetFps());
   if (!coreAnimation)
   {
     return false;

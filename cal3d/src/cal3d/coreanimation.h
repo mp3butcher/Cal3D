@@ -91,7 +91,10 @@ private:
   /// The number of bone tracks in this animation.
   unsigned int m_numBoneTracks;
 
-  /// Interleaved array of poses for the skeleton.
+  /**
+   * Interleaved array of poses for the skeleton.  To get the transform
+   * at frame i for bone j, access m_poses[i * m_numBoneTracks + j].
+   */
   std::vector<cal3d::Transform> m_poses;
 
   /// Mapping of the skeleton bone IDs to the bone tracks in the animation.
