@@ -43,6 +43,8 @@ CalCoreSubmesh::~CalCoreSubmesh()
   assert(m_vectorPhysicalProperty.empty());
   assert(m_vectorvectorTextureCoordinate.empty());
   assert(m_vectorSpring.empty());
+  assert(m_vectorTangentsEnabled.empty());
+  assert(m_vectorvectorTangentSpace.empty());
 }
 
  /*****************************************************************************/
@@ -75,6 +77,8 @@ void CalCoreSubmesh::destroy()
   m_vectorPhysicalProperty.clear();
   m_vectorvectorTextureCoordinate.clear();
   m_vectorSpring.clear();
+  m_vectorTangentsEnabled.clear();
+  m_vectorvectorTangentSpace.clear();
 }
 
  /*****************************************************************************/
@@ -129,6 +133,108 @@ int CalCoreSubmesh::getSpringCount()
 {
   return m_vectorSpring.size();
 }
+
+ /*****************************************************************************/
+/** Returns true if tangent vectors are enabled.
+  *
+  * This function returns true if the core submesh contains tangent vectors.
+  *
+  * @return True if tangent vectors are enabled.
+  *****************************************************************************/
+
+bool CalCoreSubmesh::tangentsEnabled(int mapId)
+{
+  if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
+
+  return m_vectorTangentsEnabled[mapId];
+}
+
+
+ /*****************************************************************************/
+/** UpdateTangentVector
+  *
+  *****************************************************************************/
+
+
+void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
+{
+  std::vector<CalCoreSubmesh::Vertex> &vvtx = getVectorVertex();
+  std::vector<CalCoreSubmesh::TextureCoordinate> &vtex = m_vectorvectorTextureCoordinate[mapId];
+  
+  // Step 1. Compute the approximate tangent vector.
+  double du1 = vtex[v1].u - vtex[v0].u;
+  double dv1 = vtex[v1].v - vtex[v0].v;
+  double du2 = vtex[v2].u - vtex[v0].u;
+  double dv2 = vtex[v2].v - vtex[v0].v;
+  
+  double prod1 = (du1*dv2-dv1*du2);
+  double prod2 = (du2*dv1-dv2*du1);
+  if ((fabs(prod1) < 0.000001)||(fabs(prod2) < 0.000001)) return;
+  
+  double x = dv2/prod1;
+  double y = dv1/prod2;
+
+  CalVector vec1 = vvtx[v1].position - vvtx[v0].position;
+  CalVector vec2 = vvtx[v2].position - vvtx[v0].position;
+  CalVector tangent = (vec1 * x) + (vec2 * y);
+  
+  // Step 2. Orthonormalize the tangent.
+  double component = (tangent * vvtx[v0].normal);
+  tangent -= (vvtx[v0].normal * component);
+  tangent.normalize();
+  
+  // Step 3: Add the estimated tangent to the overall estimate for the vertex.
+
+  m_vectorvectorTangentSpace[mapId][v0].tangent+=tangent;
+}
+
+
+ /*****************************************************************************/
+/** Enables (and calculates) or disables the storage of tangent spaces.
+  *
+  * This function enables or disables the storage of tangent space bases.
+  *****************************************************************************/
+
+bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
+{
+  if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
+  
+  m_vectorTangentsEnabled[mapId] = enabled;
+
+  if(!enabled)
+  {
+	  m_vectorvectorTangentSpace[mapId].clear();
+	  return true;
+  }
+
+  m_vectorvectorTangentSpace[mapId].reserve(m_vectorVertex.size());
+  m_vectorvectorTangentSpace[mapId].resize(m_vectorVertex.size());
+
+  int tangentId;
+  for(tangentId=0;tangentId< (int)m_vectorvectorTangentSpace[mapId].size();tangentId++)
+  {
+      m_vectorvectorTangentSpace[mapId][tangentId].tangent= CalVector(0.0f,0.0f,0.0f);
+	  m_vectorvectorTangentSpace[mapId][tangentId].crossFactor=1;
+
+  }
+
+
+  int faceId;
+  for(faceId=0;faceId<(int)m_vectorFace.size();faceId++)
+  {
+	  UpdateTangentVector(m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],mapId);
+	  UpdateTangentVector(m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],mapId);
+	  UpdateTangentVector(m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],mapId);
+  }
+
+  for(tangentId=0;tangentId< (int)m_vectorvectorTangentSpace[mapId].size();tangentId++)
+  {
+      m_vectorvectorTangentSpace[mapId][tangentId].tangent.normalize();
+  }
+  
+  return true;
+}
+
 
  /*****************************************************************************/
 /** Returns the face vector.
@@ -188,6 +294,22 @@ std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> > & CalCoreSubmesh::g
 }
 
  /*****************************************************************************/
+/** Returns the tangent space vector-vector.
+  *
+  * This function returns the vector that contains all tangent space bases of
+  * the core submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the tangent space vector-vector.
+  *****************************************************************************/
+
+std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVectorVectorTangentSpace()
+{
+  return m_vectorvectorTangentSpace;
+}
+
+
+ /*****************************************************************************/
 /** Returns the vertex vector.
   *
   * This function returns the vector that contains all vertices of the core
@@ -240,6 +362,12 @@ bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int fa
   m_vectorVertex.reserve(vertexCount);
   m_vectorVertex.resize(vertexCount);
 
+  m_vectorTangentsEnabled.reserve(textureCoordinateCount);
+  m_vectorTangentsEnabled.resize(textureCoordinateCount);
+
+  m_vectorvectorTangentSpace.reserve(textureCoordinateCount);
+  m_vectorvectorTangentSpace.resize(textureCoordinateCount);
+
   m_vectorvectorTextureCoordinate.reserve(textureCoordinateCount);
   m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
 
@@ -248,6 +376,16 @@ bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int fa
   {
     m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
     m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
+	
+	if (m_vectorTangentsEnabled[textureCoordinateId])
+    {
+      m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
+      m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);
+    }
+    else
+    {
+      m_vectorvectorTangentSpace[textureCoordinateId].clear();
+    }
   }
 
   m_vectorFace.reserve(faceCount);
@@ -315,6 +453,34 @@ void CalCoreSubmesh::setLodCount(int lodCount)
 {
   m_lodCount = lodCount;
 }
+
+ /*****************************************************************************/
+/** Sets the tangent vector associated with a specified texture coordinate pair.
+  *
+  * This function sets the tangent vector associated with a specified
+  * texture coordinate pair in the core submesh instance.
+  *
+  * @param vertexId  The ID of the vertex.
+  * @param textureCoordinateId The ID of the texture coordinate channel.
+  * @param tangent   The tangent vector that should be stored.
+  * @param crossFactor The cross-product factor that should be stored.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, const CalVector& tangent, float crossFactor)
+{
+  if((vertexId < 0) || (vertexId >= (int)m_vectorVertex.size())) return false;
+  if((textureCoordinateId < 0) || (textureCoordinateId >= (int)m_vectorvectorTextureCoordinate.size())) return false;
+  if(!m_vectorTangentsEnabled[textureCoordinateId]) return false;
+  
+  m_vectorvectorTangentSpace[textureCoordinateId][vertexId].tangent = tangent;
+  m_vectorvectorTangentSpace[textureCoordinateId][vertexId].crossFactor = crossFactor;
+  return true;
+}
+
 
  /*****************************************************************************/
 /** Sets a specified physical property.

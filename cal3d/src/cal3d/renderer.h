@@ -65,6 +65,7 @@ public:
   int getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer);
   int getVertexCount();
   int getVertices(float *pVertexBuffer);
+  int getTangentSpaces(int mapId, float *pTangentSpaceBuffer);
   int getVerticesAndNormals(float *pVertexBuffer);
   int getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords=1);
   bool selectMeshSubmesh(int meshId, int submeshId);

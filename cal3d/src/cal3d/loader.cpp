@@ -765,6 +765,13 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     return 0;
   }
 
+  // load the tangent space enable flags.
+  int textureCoordinateId;
+  for (textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; textureCoordinateId++)
+  {
+	  pCoreSubmesh->enableTangents(textureCoordinateId, false);
+  }
+
   // load all vertices and their influences
   int vertexId;
   for(vertexId = 0; vertexId < vertexCount; ++vertexId)

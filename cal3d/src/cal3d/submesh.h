@@ -44,6 +44,14 @@ public:
     CalVector force;
   } PhysicalProperty;
 
+  /// The submesh TangentSpace.
+  struct TangentSpace
+  {
+    CalVector tangent;
+    float crossFactor;
+  };
+
+
   /// The submesh Face.
   typedef struct
   {
@@ -55,6 +63,7 @@ protected:
   CalCoreSubmesh *m_pCoreSubmesh;
   std::vector<CalVector> m_vectorVertex;
   std::vector<CalVector> m_vectorNormal;
+  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
   std::vector<Face> m_vectorFace;
   std::vector<PhysicalProperty> m_vectorPhysicalProperty;
   int m_vertexCount;
@@ -76,12 +85,16 @@ public:
   int getFaceCount();
   int getFaces(CalIndex *pFaceBuffer);
   std::vector<CalVector>& getVectorNormal();
+  std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
   std::vector<CalVector>& getVectorVertex();
   int getVertexCount();
   bool hasInternalData();
   void setCoreMaterialId(int coreMaterialId);
   void setLodLevel(float lodLevel);
+  bool tangentsEnabled(int mapId);
+  bool enableTangents(int mapId, bool enabled);
+
 };
 
 #endif

@@ -46,6 +46,7 @@ public:
 
 // member functions	
 public:
+  int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer);
   int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer);
   int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer);
   int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer);

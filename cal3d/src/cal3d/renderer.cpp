@@ -309,6 +309,53 @@ int CalRenderer::getMeshCount()
   return vectorMesh.size();
 }
 
+
+
+ /*****************************************************************************/
+/** Provides access to the tangent space data.
+  *
+  * This function returns the tangent space data of the selected mesh/submesh.
+  *
+  * @param mapID
+  *
+  * @param pTangentSpaceBuffer A pointer to the user-provided buffer where the normal
+  *                      data is written to.
+  *
+  * @return The number of tangent space written to the buffer.
+  *****************************************************************************/
+int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
+{
+  // get the texture coordinate vector vector
+  std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& vectorvectorTangentSpace = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace();
+  
+  // check if the map id is valid
+  if((mapId < 0) || (mapId >= (int)vectorvectorTangentSpace.size()) || !m_pSelectedSubmesh->tangentsEnabled(mapId))
+  {    
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  // check if the submesh handles vertex data internally
+  if(m_pSelectedSubmesh->hasInternalData())
+  {
+    // get the normal vector of the submesh
+	std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = m_pSelectedSubmesh->getVectorVectorTangentSpace()[mapId];
+
+    // get the number of normals (= number of vertices) in the submesh
+    int tangentSpaceCount;
+    tangentSpaceCount = m_pSelectedSubmesh->getVertexCount();
+
+    // copy the internal normal data to the provided normal buffer
+    memcpy(pTangentSpaceBuffer, &vectorTangentSpace[0], tangentSpaceCount * sizeof(CalCoreSubmesh::TangentSpace));
+
+    return tangentSpaceCount;
+  }
+
+  // submesh does not handle the vertex data internally, so let the physique calculate it now
+  return m_pModel->getPhysique()->calculateTangentSpaces(m_pSelectedSubmesh, mapId, pTangentSpaceBuffer);
+}
+
+
  /*****************************************************************************/
 /** Provides access to the normal data.
   *

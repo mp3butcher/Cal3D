@@ -81,6 +81,10 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
     m_vectorVertex.resize(m_pCoreSubmesh->getVertexCount());
     m_vectorNormal.reserve(m_pCoreSubmesh->getVertexCount());
     m_vectorNormal.resize(m_pCoreSubmesh->getVertexCount());
+
+	m_vectorvectorTangentSpace.reserve(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
+	m_vectorvectorTangentSpace.resize(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
+
     m_vectorPhysicalProperty.reserve(m_pCoreSubmesh->getVertexCount());
     m_vectorPhysicalProperty.resize(m_pCoreSubmesh->getVertexCount());
 
@@ -199,6 +203,22 @@ std::vector<CalVector>& CalSubmesh::getVectorNormal()
   return m_vectorNormal;
 }
 
+   /*****************************************************************************/
+/** Returns the tangent space vector-vector.
+  *
+  * This function returns the vector that contains all tangent space bases of
+  * the submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the tangent space vector-vector.
+  *****************************************************************************/
+
+std::vector<std::vector<CalSubmesh::TangentSpace> >& CalSubmesh::getVectorVectorTangentSpace()
+{
+  return m_vectorvectorTangentSpace;
+}
+
+
  /*****************************************************************************/
 /** Returns the physical property vector.
   *
@@ -255,6 +275,59 @@ bool CalSubmesh::hasInternalData()
 {
   return m_bInternalData;
 }
+
+ /*****************************************************************************/
+/** Returns true if tangent vectors are enabled.
+  *
+  * This function returns true if the submesh contains tangent vectors.
+  *
+  * @return True if tangent vectors are enabled.
+  *****************************************************************************/
+
+bool CalSubmesh::tangentsEnabled(int mapId)
+{
+	return m_pCoreSubmesh->tangentsEnabled(mapId);
+}
+
+ /*****************************************************************************/
+/** Enables (and calculates) or disables the storage of tangent spaces.
+  *
+  * This function enables or disables the storage of tangent space bases.
+  *****************************************************************************/
+
+bool CalSubmesh::enableTangents(int mapId, bool enabled)
+{
+	if(!m_pCoreSubmesh->enableTangents(mapId,enabled))
+        return false;
+
+	if(!m_bInternalData)
+		return true;
+
+    if(!enabled)
+	{
+		m_vectorvectorTangentSpace[mapId].clear();
+		return true;
+	}
+
+	m_vectorvectorTangentSpace[mapId].reserve(m_pCoreSubmesh->getVertexCount());
+    m_vectorvectorTangentSpace[mapId].resize(m_pCoreSubmesh->getVertexCount());
+	
+    // get the tangent space vector of the core submesh
+    std::vector<CalCoreSubmesh::TangentSpace >& vectorTangentSpace = m_pCoreSubmesh->getVectorVectorTangentSpace()[mapId];
+
+    // copy the data from the core submesh as default values
+    int vertexId;
+    for(vertexId = 0; vertexId < m_pCoreSubmesh->getVertexCount(); vertexId++)
+    {      
+      // copy the tangent space data
+	  m_vectorvectorTangentSpace[mapId][vertexId].tangent=vectorTangentSpace[vertexId].tangent;
+	  m_vectorvectorTangentSpace[mapId][vertexId].crossFactor=vectorTangentSpace[vertexId].crossFactor;
+    }
+
+	return true;    
+}
+
+
 
  /*****************************************************************************/
 /** Sets the core material ID.

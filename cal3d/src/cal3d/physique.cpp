@@ -141,6 +141,100 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 }
 
  /*****************************************************************************/
+/** Calculates the transformed tangent space data.
+  *
+  * This function calculates and returns the transformed tangent space data of a
+  * specific submesh.
+  *
+  * @param pSubmesh A pointer to the submesh from which the tangent space data 
+  *                 should be calculated and returned.
+  * @param mapId
+  * @param pTangentSpaceBuffer A pointer to the user-provided buffer where the tangent 
+  *                 space data is written to.
+  *
+  * @return The number of tangent spaces written to the buffer.
+  *****************************************************************************/
+
+int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer)
+{
+  if((mapId < 0) || (mapId >= (int)pSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace().size())) return false;
+
+  // get bone vector of the skeleton
+  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+
+  // get vertex vector of the submesh
+  std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
+
+  // get tangent space vector of the submesh
+  std::vector<CalCoreSubmesh::TangentSpace>& vectorTangentSpace = pSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace()[mapId];
+  
+  // get the number of vertices
+  int vertexCount;
+  vertexCount = pSubmesh->getVertexCount();
+
+  // calculate normal for all submesh vertices
+  int vertexId;
+  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  {
+    CalCoreSubmesh::TangentSpace& tangentSpace = vectorTangentSpace[vertexId];
+
+    // get the vertex
+    CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+
+    // initialize tangent
+    float tx, ty, tz;
+    tx = 0.0f;
+    ty = 0.0f;
+    tz = 0.0f;
+
+    // blend together all vertex influences
+    int influenceId;
+	int influenceCount=(int)vertex.vectorInfluence.size();
+    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    {
+      // get the influence
+      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+
+      // get the bone of the influence vertex
+      CalBone *pBone;
+      pBone = vectorBone[influence.boneId];
+
+      // transform normal with current state of the bone
+      CalVector v(tangentSpace.tangent);
+      v *= pBone->getTransformMatrix(); 
+
+      tx += influence.weight * v.x;
+      ty += influence.weight * v.y;
+      tz += influence.weight * v.z;
+    }
+
+    // re-normalize tangent if necessary
+    if (m_Normalize)
+    {
+      float scale;
+      scale = 1.0f / sqrt(tx * tx + ty * ty + tz * tz);
+
+      pTangentSpaceBuffer[0] = tx * scale;
+      pTangentSpaceBuffer[1] = ty * scale;
+      pTangentSpaceBuffer[2] = tz * scale;	  
+    }
+    else
+    {
+      pTangentSpaceBuffer[0] = tx;
+      pTangentSpaceBuffer[1] = ty;
+      pTangentSpaceBuffer[2] = tz;
+    }
+
+    pTangentSpaceBuffer[3] = tangentSpace.crossFactor;
+    // next vertex position in buffer
+    pTangentSpaceBuffer += 4;
+  }
+
+  return vertexCount;
+}
+
+
+ /*****************************************************************************/
 /** Calculates the transformed normal data.
   *
   * This function calculates and returns the transformed normal data of a
@@ -585,6 +679,16 @@ void CalPhysique::update()
         // calculate the transformed normals and store them in the submesh
         std::vector<CalVector>& vectorNormal = (*iteratorSubmesh)->getVectorNormal();
         calculateNormals(*iteratorSubmesh, (float *)&vectorNormal[0]);
+
+		int mapId;
+		for(mapId=0;mapId< (*iteratorSubmesh)->getVectorVectorTangentSpace().size();mapId++)
+		{
+			if((*iteratorSubmesh)->tangentsEnabled(mapId))
+			{
+                std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = (*iteratorSubmesh)->getVectorVectorTangentSpace()[mapId];
+                calculateTangentSpaces(*iteratorSubmesh, mapId,(float *)&vectorTangentSpace[0]);
+			}
+		}
       }
     }
   }
