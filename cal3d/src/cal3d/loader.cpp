@@ -71,8 +71,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename, C
     return loadXmlCoreAnimation(strFilename, skel);
 
   // open the file
-  std::ifstream file;
-  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
+  std::ifstream file(strFilename.c_str(), std::ios::in | std::ios::binary);
 
   //make sure it was opened properly
   if(!file)
