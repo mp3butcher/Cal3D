@@ -4,6 +4,7 @@ env.Library('cal3d', Split("""
     animation_action.cpp
     animation_cycle.cpp
     bone.cpp
+    buffersource.cpp
     cal3d_wrapper.cpp
     coreanimation.cpp
     corebone.cpp
@@ -13,6 +14,7 @@ env.Library('cal3d', Split("""
     coremodel.cpp
     coreskeleton.cpp
     coresubmesh.cpp
+    coresubmorphtarget.cpp
     coretrack.cpp
     error.cpp
     global.cpp
@@ -21,6 +23,7 @@ env.Library('cal3d', Split("""
     mesh.cpp
     mixer.cpp
     model.cpp
+    morphtargetmixer.cpp
     physique.cpp
     platform.cpp
     quaternion.cpp
@@ -28,6 +31,7 @@ env.Library('cal3d', Split("""
     saver.cpp
     skeleton.cpp
     springsystem.cpp
+    streamsource.cpp
     submesh.cpp
     tinystr.cpp
     tinyxml.cpp
