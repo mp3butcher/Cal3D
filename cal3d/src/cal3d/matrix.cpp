@@ -76,7 +76,6 @@ void CalMatrix::operator =(const CalQuaternion& q)
   float xx2=q.x*q.x*2;
   float yy2=q.y*q.y*2;
   float zz2=q.z*q.z*2;
-  float ww2=q.w*q.w*2;
   float xy2=q.x*q.y*2;
   float zw2=q.z*q.w*2;
   float xz2=q.x*q.z*2;
