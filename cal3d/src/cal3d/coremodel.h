@@ -80,7 +80,9 @@ public:
   bool setCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId);
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void setUserData(Cal::UserData userData);
+  void addBoneHelper(const std::string& strBoneName, int boneId);
   void addAnimHelper(const std::string& strAnimName, int animId);
+  int getBoneId(const std::string& strBoneName);
   int getAnimId(const std::string& strAnimName);
 
 };

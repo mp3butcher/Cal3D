@@ -733,6 +733,24 @@ void CalCoreModel::setUserData(Cal::UserData userData)
 }
 
  /*****************************************************************************/
+/** Creates or overwrites a string-to-boneId mapping
+  *
+  * This function makes a bone ID reference-able by a string name.
+  *
+  * @param strBoneName The string that will be associated with the ID.
+  * @param boneId The ID number of the bone that will be referenced by the string.
+  *****************************************************************************/
+
+void CalCoreModel::addBoneHelper(const std::string& strBoneName, int boneId)
+{
+  //Make sure the skeleton has been loaded first
+  if (m_pCoreSkeleton != NULL)
+  {
+    //Map the bone ID to the name
+    m_pCoreSkeleton->mapCoreBoneName(boneId, strBoneName);
+  }
+}
+ /*****************************************************************************/
 /** Creates or overwrites a string-to-animation ID mapping
   *
   * This function makes an animation ID reference-able by a string name.
@@ -748,6 +766,26 @@ void CalCoreModel::setUserData(Cal::UserData userData)
 void CalCoreModel::addAnimHelper(const std::string& strAnimName, int animId)
 {
   m_animationHelper[ strAnimName ] = animId;
+}
+
+ /*****************************************************************************/
+/** Retrieves the ID of the bone referenced by a string
+  *
+  * This function returns a bone ID
+  *
+  * @param strBoneName A string that is associated with a bone ID number.
+  * @return Returns:
+  *         \li \b -1 if there is no bone ID associated with the input string
+  *         \li \b the ID number of the bone asssociated with the input string
+  *****************************************************************************/
+
+int CalCoreModel::getBoneId(const std::string& strBoneName)
+{
+  if (m_pCoreSkeleton != NULL)
+  {
+    return m_pCoreSkeleton->getCoreBoneId(strBoneName);
+  }
+  return -1;
 }
 
  /*****************************************************************************/
