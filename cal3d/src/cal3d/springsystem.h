@@ -49,6 +49,7 @@ public:
   void setGravityVector(const CalVector & vGravity);
   CalVector & getForceVector();
   void setForceVector(const CalVector & vForce);
+  void setCollisionDetection(bool collision);
 
 
   /* DEBUG CODE ********************
@@ -63,6 +64,7 @@ private:
   CalModel *m_pModel;
   CalVector m_vGravity;  
   CalVector m_vForce;  
+  bool m_collision;
 };
 
 #endif

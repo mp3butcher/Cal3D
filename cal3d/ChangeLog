@@ -23,7 +23,11 @@ o-----------------------------------------------------------------------------o
   - Rename calculateBoundingBox to calculateBoundingBoxes.
   - Add reference counting. Core* objects can be
     now shared between several coremodel correctly.
-
+  - Modify the XML file format to be XML valid
+  - Added animation callbacks.
+  - Added Maya exporter.
+  - create/destroy functions removed.
+  
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 
 o-----------------------------------------------------------------------------o

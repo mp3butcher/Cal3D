@@ -22,6 +22,8 @@
 #include "cal3d/model.h"
 #include "cal3d/mesh.h"
 #include "cal3d/submesh.h"
+#include "cal3d/skeleton.h"
+#include "cal3d/bone.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/vector.h"
 
@@ -39,6 +41,7 @@ CalSpringSystem::CalSpringSystem(CalModel* pModel)
   m_vGravity = CalVector(0.0f, 0.0f, -98.1f);
   // We add this force to simulate some movement
   m_vForce = CalVector(0.0f, 0.5f, 0.0f);
+  m_collision=false;
 }
 
 
@@ -126,6 +129,62 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
     {
       // do the Verlet step
       physicalProperty.position += (position - physicalProperty.positionOld) * 0.99f + physicalProperty.force / corePhysicalProperty.weight * deltaTime * deltaTime;
+
+		CalSkeleton *pSkeleton = m_pModel->getSkeleton();
+		
+		if(m_collision)
+		{
+			std::vector<CalBone *> &m_vectorbone =  pSkeleton->getVectorBone();
+			
+			int boneId;
+			for(boneId=0; boneId < m_vectorbone.size(); boneId++)
+			{
+				CalBoundingBox p = m_vectorbone[boneId]->getBoundingBox();
+				bool in=true;
+				float min=1e10;
+				int index=-1;
+				
+				int faceId;
+				for(faceId=0; faceId < 6 ; faceId++)
+				{				
+					if(p.plane[faceId].eval(physicalProperty.position)<=0)
+					{
+						in=false;
+					}
+					else
+					{
+						float dist=p.plane[faceId].dist(physicalProperty.position);
+						if(dist<min)
+						{
+							index=faceId;
+							min=dist;
+						}
+					}
+				}
+				
+				if(in && index!=-1)
+				{
+					CalVector normal = CalVector(p.plane[index].a,p.plane[index].b,normal.z = p.plane[index].c);
+					normal.normalize();
+					physicalProperty.position = physicalProperty.position - min*normal;
+				}
+				
+				in=true;
+				
+				for(faceId=0; faceId < 6 ; faceId++)
+				{				
+					if(p.plane[faceId].eval(physicalProperty.position) < 0 )
+					{
+						in=false;				
+					}
+				}
+				if(in)
+				{
+					physicalProperty.position = vectorVertex[vertexId];
+				}
+			}
+		}
+
     }
     else
     {
@@ -324,5 +383,17 @@ void CalSpringSystem::setForceVector(const CalVector & vForce)
 {
 	m_vForce = vForce;
 }
+
+ /*****************************************************************************/
+/** Enable or disable the collision system
+  *
+  * @param collision true to enable the collision system else false
+  *****************************************************************************/
+
+void CalSpringSystem::setCollisionDetection(bool collision)
+{
+	m_collision=collision;
+}
+
 
 //****************************************************************************//

@@ -400,7 +400,7 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 			   {
 				   for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
 				   {
-					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId)
+					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId && vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
 					   {
 						   int planeId;
 						   for(planeId = 0; planeId < 6; ++planeId)

@@ -455,13 +455,6 @@ void Model::renderBoundingBox()
 {  
 
    CalSkeleton *pCalSkeleton = m_calModel->getSkeleton();
-   
-   // Note :
-   // You have to call coreSkeleton.calculateBoundingBoxes(calCoreModel)
-   // during the initialisation (before calModel.create(calCoreModel))
-   // if you want to use bounding boxes.
-
-   pCalSkeleton->calculateBoundingBoxes();
 
    std::vector<CalBone*> &vectorCoreBone = pCalSkeleton->getVectorBone();
 
@@ -736,6 +729,22 @@ void Model::onRender()
   glEnd();
 */
 //// DEBUG END
+
+  CalSkeleton *pCalSkeleton = m_calModel->getSkeleton();
+
+  // Note :
+  // You have to call coreSkeleton.calculateBoundingBoxes(calCoreModel)
+  // during the initialisation (before calModel.create(calCoreModel))
+  // if you want to use bounding boxes.
+
+  m_calModel->getSkeleton()->calculateBoundingBoxes();
+
+  // Note:
+  // Uncomment the next lines if you want to test the experimental collision system.
+  // Also remember that you need to call calculateBoundingBoxes()
+
+  //m_calModel->getSpringSystem()->setForceVector(CalVector(0.0f,0.0f,0.0f));
+  //m_calModel->getSpringSystem()->setCollisionDetection(true);  
 
   // check if we need to render the skeleton
   if(theMenu.isSkeleton()==1)

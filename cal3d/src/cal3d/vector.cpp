@@ -448,6 +448,11 @@ void CalPlane::setNormal(CalVector &p)
      d=-1e32f;
 };
 
+float CalPlane::dist(CalVector &p)
+{
+  return fabs( (p.x*a+p.y*b+p.z*c+d)/sqrt(a*a+b*b+c*c)) ;
+};
+
 
  /*****************************************************************************/
 /** Computes points of a bounding box.
