@@ -42,7 +42,7 @@ typedef int CalIndex;
 // Global Cal3D namespace for constants, ...                                  //
 //****************************************************************************//
 
-namespace Cal
+namespace cal3d
 {  
   // global typedefs
   typedef void *UserData;
@@ -58,17 +58,28 @@ namespace Cal
   const char MESH_XMLFILE_MAGIC[4]  = { 'X', 'M', 'F', '\0' };
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
-  // library version
+  // library version       // 0.10.0
   const int LIBRARY_VERSION = 1000;
 
   // file versions
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
   const int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
 
-  // empty string
-  const std::string strNull;
-};
+  /**
+   * Derive from noncopyable to mark your class as not having a copy
+   * constructor or operator=
+   */
+  class CAL3D_API noncopyable
+  {
+  protected:
+    noncopyable() {}
+    ~noncopyable() {}
+  private:  // emphasize the following members are private
+    noncopyable(const noncopyable&);
+    const noncopyable& operator=(const noncopyable&);
+  };
+}
+
+namespace Cal = cal3d;
 
 #endif
-
-//****************************************************************************//

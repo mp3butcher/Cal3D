@@ -136,8 +136,7 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 		{
 			std::vector<CalBone *> &m_vectorbone =  pSkeleton->getVectorBone();
 			
-			int boneId;
-			for(boneId=0; boneId < m_vectorbone.size(); boneId++)
+			for(size_t boneId=0; boneId < m_vectorbone.size(); boneId++)
 			{
 				CalBoundingBox p = m_vectorbone[boneId]->getBoundingBox();
 				bool in=true;

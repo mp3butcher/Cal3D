@@ -730,7 +730,7 @@ void Model::onRender()
 */
 //// DEBUG END
 
-  CalSkeleton *pCalSkeleton = m_calModel->getSkeleton();
+  //CalSkeleton *pCalSkeleton = m_calModel->getSkeleton();
 
   // Note :
   // You have to call coreSkeleton.calculateBoundingBoxes(calCoreModel)

@@ -81,7 +81,8 @@ const std::string& CalCoreMaterial::getMapFilename(int mapId)
   if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return Cal::strNull;
+    static const std::string strNull;
+    return strNull;
   }
 
   return m_vectorMap[mapId].strFilename;

@@ -27,7 +27,7 @@ class CalRenderer;
 class CalMesh;
 
 
-class CAL3D_API CalModel
+class CAL3D_API CalModel : Cal::noncopyable
 {
 public: 
   CalModel(CalCoreModel* pCoreModel);
