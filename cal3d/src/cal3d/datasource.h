@@ -35,10 +35,10 @@ class CAL3D_API CalDataSource
 {
 public:
 
-   virtual bool readBytes(void* pBuffer, int length);
-   virtual bool readFloat(float& value);
-   virtual bool readInteger(int& value); 
-   virtual bool readString(std::string& strValue);
+   virtual bool readBytes(void* pBuffer, int length) const = 0;
+   virtual bool readFloat(float& value) const = 0;
+   virtual bool readInteger(int& value) const = 0; 
+   virtual bool readString(std::string& strValue) const = 0;
 
 };
 

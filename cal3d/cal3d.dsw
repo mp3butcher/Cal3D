@@ -1,58 +1,29 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
-
-# WARNUNG: DIESE ARBEITSBEREICHSDATEI DARF NICHT BEARBEITET ODER GELÖSCHT WERDEN!
-
-
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
 
 ###############################################################################
 
-
-
-Project: "Cal3D"=.\cal3d.dsp - Package Owner=<4>
-
-
+Project: "Cal3D"=cal3d.dsp - Package Owner=<4>
 
 Package=<5>
-
 {{{
-
 }}}
-
-
 
 Package=<4>
-
 {{{
-
 }}}
 
-
-
 ###############################################################################
-
-
 
 Global:
 
-
-
 Package=<5>
-
 {{{
-
 }}}
-
-
 
 Package=<3>
-
 {{{
-
 }}}
 
-
-
 ###############################################################################
-
-
 

@@ -41,8 +41,8 @@ RSC=rc.exe
 # PROP Output_Dir ".\Release"
 # PROP Intermediate_Dir ".\Release"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /Ob1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /Gy /Fp".\Release/cal3d.pch" /Fo".\Release/" /Fd".\Release/" /FR /c /GX 
-# ADD CPP /nologo /MD /W3 /Ob1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /Gy /Fp".\Release/cal3d.pch" /Fo".\Release/" /Fd".\Release/" /FR /c /GX 
+# ADD BASE CPP /nologo /MD /I "src" /W3 /Ob1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /Gy /Fp".\Release/cal3d.pch" /Fo".\Release/" /Fd".\Release/" /FR /c /GX 
+# ADD CPP /nologo /MD /I "src" /W3 /Ob1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /Gy /Fp".\Release/cal3d.pch" /Fo".\Release/" /Fd".\Release/" /FR /c /GX 
 # ADD BASE MTL /nologo /D"NDEBUG" /mktyplib203 /tlb".\Release\cal3d.tlb" /win32 
 # ADD MTL /nologo /D"NDEBUG" /mktyplib203 /tlb".\Release\cal3d.tlb" /win32 
 # ADD BASE RSC /l 2055 /d "NDEBUG" 
@@ -66,8 +66,8 @@ LINK32=link.exe
 # PROP Output_Dir ".\Debug"
 # PROP Intermediate_Dir ".\Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /ZI /W3 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /Fp".\Debug/cal3d.pch" /Fo".\Debug/" /Fd".\Debug/" /GZ /c /GX 
-# ADD CPP /nologo /MDd /ZI /W3 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /Fp".\Debug/cal3d.pch" /Fo".\Debug/" /Fd".\Debug/" /GZ /c /GX 
+# ADD BASE CPP /nologo /MDd /I "src" /ZI /W3 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /Fp".\Debug/cal3d.pch" /Fo".\Debug/" /Fd".\Debug/" /GZ /c /GX 
+# ADD CPP /nologo /MDd /I "src" /ZI /W3 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /Fp".\Debug/cal3d.pch" /Fo".\Debug/" /Fd".\Debug/" /GZ /c /GX 
 # ADD BASE MTL /nologo /D"_DEBUG" /mktyplib203 /tlb".\Debug\cal3d.tlb" /win32 
 # ADD MTL /nologo /D"_DEBUG" /mktyplib203 /tlb".\Debug\cal3d.tlb" /win32 
 # ADD BASE RSC /l 2055 /d "_DEBUG" 
@@ -215,11 +215,15 @@ SOURCE=.\src\cal3d\springsystem.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=src\cal3d\streamsource.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\submesh.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\tinystr.cpp
+SOURCE=src\cal3d\tinystr.cpp
 # End Source File
 # Begin Source File
 
@@ -307,6 +311,10 @@ SOURCE=.\src\cal3d\coretrack.h
 # End Source File
 # Begin Source File
 
+SOURCE=src\cal3d\datasource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\error.h
 # End Source File
 # Begin Source File
@@ -367,11 +375,15 @@ SOURCE=.\src\cal3d\springsystem.h
 # End Source File
 # Begin Source File
 
+SOURCE=src\cal3d\streamsource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\submesh.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\tinystr.h
+SOURCE=src\cal3d\tinystr.h
 # End Source File
 # Begin Source File
 

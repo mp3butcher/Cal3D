@@ -14,6 +14,8 @@ Global
 		{F71500DD-778D-4E0C-8C2E-3411CA7A3EC4}.Release.ActiveCfg = Release|Win32
 		{F71500DD-778D-4E0C-8C2E-3411CA7A3EC4}.Release.Build.0 = Release|Win32
 	EndGlobalSection
+	GlobalSection(SolutionItems) = postSolution
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution
