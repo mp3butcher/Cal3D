@@ -231,7 +231,7 @@ void CalMorphTargetMixer::update(float deltaTime)
                    m_pModel->getCoreModel()->getCoreMorphAnimation(morphAnimationID);
     std::vector<int>& vectorCoreMeshID = pCoreMorphAnimation->getVectorCoreMeshID();
     std::vector<int>& vectorMorphTargetID = pCoreMorphAnimation->getVectorMorphTargetID();
-    int meshIterator = 0;
+    size_t meshIterator = 0;
     while(meshIterator<vectorCoreMeshID.size())
     {
        std::vector<CalSubmesh *> &vectorSubmesh = 
