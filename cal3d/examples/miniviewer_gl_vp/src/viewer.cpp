@@ -54,7 +54,7 @@ char vertexProgramStr[]=
 "DP3 R0.z, matrix[A0.x + 2].xyzx, normal.xyzx;\n"\
 "MUL R1.yzw, R0.xxyz, weight.y;\n"\
 "\n"\
-"ARL A0.x, R0.w;\n"\
+"ARL A0.x, R4.x;\n"\
 "DP3 R0.x, matrix[A0.x].xyzx, normal.xyzx;\n"\
 "DP3 R0.y, matrix[A0.x + 1].xyzx, normal.xyzx;\n"\
 "DP3 R0.z, matrix[A0.x + 2].xyzx, normal.xyzx;\n"\
@@ -68,8 +68,8 @@ char vertexProgramStr[]=
 "MUL R2.xyz, R1.x, lightDir.xyzx;\n"\
 "DP3 R0.x, R0.xyzx, R2.xyzx;\n"\
 "MAX R0.x, R0.x, constant.z;\n"\
-"ADD R2, R0.x, ambient;\n"\
-"MUL result.color.front.primary, R2, diffuse;\n"\
+"ADD R0, R0.x, ambient;\n"\
+"MUL result.color.front.primary, R0, diffuse;\n"\
 "\n"\
 "ARL A0.x, R4.w;\n"\
 "DPH R0.x, position.xyzx, matrix[A0.x];\n"\
@@ -101,7 +101,6 @@ char vertexProgramStr[]=
 "DPH result.position.z, R0.xyzx, worldViewProjMatrix[2];\n"\
 "DPH result.position.w, R0.xyzx, worldViewProjMatrix[3];\n"\
 "END\n";
-
 
 
 
@@ -392,6 +391,7 @@ void Viewer::onIdle()
   if(m_fpsDuration >= 1.0f)
   {
     m_fps = (int)((float)m_fpsFrames / m_fpsDuration);
+	printf("%d\n",m_fps);
     m_fpsDuration = 0.0f;
     m_fpsFrames = 0;
   }
@@ -490,7 +490,43 @@ bool Viewer::onInit()
   }
 
 
+  // Disable internal data
+  // this disable spring system
+
+
+  std::cout << "Disable internal." << std::endl;
   m_calModel.disableInternalData();
+
+  m_lastTick = Tick::getTick();
+
+  glewInit();
+
+  if (!GLEW_ARB_vertex_program)
+  {
+      std::cerr << "Error ARB_vertex_program OpenGL extension not found." << std::endl;
+	  return false;
+  }
+
+  if (!GLEW_ARB_vertex_buffer_object)
+  {
+      std::cerr << "Error ARB_vertex_buffer_object OpenGL extension not found." << std::endl;
+	  return false;
+  }
+
+
+  if(!loadBufferObject())
+  {
+      std::cerr << "Error loading vertex buffer object." << std::endl;
+	  return false;
+  }
+
+
+  if(!loadVertexProgram())
+  {
+      std::cerr << "Error loading vertex program." << std::endl;
+	  return false;
+  }
+  
 
 
   // we're done
@@ -499,58 +535,129 @@ bool Viewer::onInit()
   std::cout << "Quit the viewer by pressing 'q' or ESC" << std::endl;
   std::cout << std::endl;
 
-  m_lastTick = Tick::getTick();
+  
+
+  return true;
+}
+
+
+bool Viewer::loadBufferObject()
+{
+
+  float *pVertexBuffer = (float*)malloc(30000*3*sizeof(float));
+  float *pWeightBuffer = (float*)malloc(30000*4*sizeof(float));
+  float *pMatrixIndexBuffer = (float*)malloc(30000*4*sizeof(float));
+  float *pNormalBuffer = (float*)malloc(30000*3*sizeof(float));
+  float *pTexCoordBuffer = (float*)malloc(30000*2*sizeof(float));
+  CalIndex *pIndexBuffer = (CalIndex*)malloc(50000*3*sizeof(CalIndex));
+
+  if(pVertexBuffer==NULL || pWeightBuffer == NULL
+	 || pMatrixIndexBuffer==NULL || pNormalBuffer == NULL
+	 || pTexCoordBuffer==NULL || pIndexBuffer == NULL)
+  {
+	  return false;
+  }	  
 
 
   m_calHardwareModel.create(&m_calModel);
 
 
-  m_calHardwareModel.setVertexBuffer((char*)&m_vertexBuffer[0][0],3*sizeof(float));
-  m_calHardwareModel.setNormalBuffer((char*)&m_normalBuffer[0][0],3*sizeof(float));
-  m_calHardwareModel.setWeightBuffer((char*)&m_weightBuffer[0][0],4*sizeof(float));
-  m_calHardwareModel.setMatrixIndexBuffer((char*)&m_matrixIndexBuffer[0][0],4*sizeof(float));
+  m_calHardwareModel.setVertexBuffer((char*)pVertexBuffer,3*sizeof(float));
+  m_calHardwareModel.setNormalBuffer((char*)pNormalBuffer,3*sizeof(float));
+  m_calHardwareModel.setWeightBuffer((char*)pWeightBuffer,4*sizeof(float));
+  m_calHardwareModel.setMatrixIndexBuffer((char*)pMatrixIndexBuffer,4*sizeof(float));
   m_calHardwareModel.setTextureCoordNum(1);
-  m_calHardwareModel.setTextureCoordBuffer(0,(char*)&m_texCoordBuffer[0][0],2*sizeof(float));
-  m_calHardwareModel.setIndexBuffer(&m_indexBuffer[0]);
+  m_calHardwareModel.setTextureCoordBuffer(0,(char*)pTexCoordBuffer,2*sizeof(float));
+  m_calHardwareModel.setIndexBuffer(pIndexBuffer);
 
   m_calHardwareModel.load( 0, 0, MAXBONESPERMESH);
 
 
-  GLenum err = glewInit();
-  if (GLEW_OK != err)
+
+  // the index index in pIndexBuffer are relative to the begining of the hardware mesh,
+  // we make them relative to the begining of the buffer.
+
+  int meshId;
+  for(meshId = 0; meshId < m_calHardwareModel.getHardwareMeshCount(); meshId++)
   {
-	  /* problem: glewInit failed, something is seriously wrong */
-	  std::cerr <<  "Error: " << glewGetErrorString(err) << std::endl;
+	  m_calHardwareModel.selectHardwareMesh(meshId);
+
+	  int faceId;
+	  for(faceId = 0; faceId < m_calHardwareModel.getFaceCount(); faceId++)
+	  {
+		  pIndexBuffer[faceId*3+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
+		  pIndexBuffer[faceId*3+1+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
+		  pIndexBuffer[faceId*3+2+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
+	  }
+
   }
-  std::cout <<  "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
 
-  
-  glGenProgramsARB( 1, &m_vertexProgramId );
+  // We use ARB_vertex_buffer_object extension,
+  // it provide better performance
 
-  glBindProgramARB( GL_VERTEX_PROGRAM_ARB, m_vertexProgramId );
+  glGenBuffersARB(6, m_bufferObject);
 
-  glProgramStringARB( GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB,
-	  sizeof(vertexProgramStr), vertexProgramStr );
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[0]);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*3*sizeof(float),(const void*)pVertexBuffer, GL_STATIC_DRAW_ARB);
+
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[1]);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*4*sizeof(float),(const void*)pWeightBuffer, GL_STATIC_DRAW_ARB);
+
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[2]);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*3*sizeof(float),(const void*)pNormalBuffer, GL_STATIC_DRAW_ARB);
   
-  if ( GL_INVALID_OPERATION == glGetError() )
-  {
-	  // Find the error position
-	  GLint errPos;
-	  glGetIntegerv( GL_PROGRAM_ERROR_POSITION_ARB,
-		  &errPos );
-	  // Print implementation-dependent program
-	  // errors and warnings string.
-	  const unsigned char *errString = glGetString( GL_PROGRAM_ERROR_STRING_ARB);
-	  fprintf( stderr, "error at position: %d\n%s\n",
-		  errPos, errString );
-  }
-  
-  
-  glBindProgramARB( GL_VERTEX_PROGRAM_ARB, 0 );
-  
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[3]);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*4*sizeof(float),(const void*)pMatrixIndexBuffer, GL_STATIC_DRAW_ARB);
+
+  glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[4]);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*2*sizeof(float),(const void*)pTexCoordBuffer, GL_STATIC_DRAW_ARB);
+
+  glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_bufferObject[5]);
+
+  glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalFaceCount()*3*sizeof(CalIndex),(const void*)pIndexBuffer, GL_STATIC_DRAW_ARB);
+
+  free(pVertexBuffer);
+  free(pWeightBuffer);
+  free(pNormalBuffer);
+  free(pMatrixIndexBuffer);
+  free(pIndexBuffer);
 
   return true;
+
 }
+
+
+bool Viewer::loadVertexProgram()
+{
+	glGenProgramsARB( 1, &m_vertexProgramId );
+	
+	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, m_vertexProgramId );
+	
+	glProgramStringARB( GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB,
+		sizeof(vertexProgramStr), vertexProgramStr );
+	
+	if ( GL_INVALID_OPERATION == glGetError() )
+	{
+		// Find the error position
+		GLint errPos;
+		glGetIntegerv( GL_PROGRAM_ERROR_POSITION_ARB,
+			&errPos );
+		// Print implementation-dependent program
+		// errors and warnings string.
+		const unsigned char *errString = glGetString( GL_PROGRAM_ERROR_STRING_ARB);
+		fprintf( stderr, "error at position: %d\n%s\n",
+			errPos, errString );
+		return false;
+	}
+	
+	
+	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, 0 );
+
+	return true;
+	
+	
+}
+
 
 //----------------------------------------------------------------------------//
 // Handle a key event                                                         //
@@ -734,6 +841,7 @@ void Viewer::onShutdown()
   m_calCoreModel.destroy();
 
   glDeleteProgramsARB(1, &m_vertexProgramId);
+  glDeleteBuffersARB(6, m_bufferObject);
 
 }
 
@@ -918,7 +1026,26 @@ void Viewer::renderModel()
 	glEnable(GL_LIGHT0);		
 	glEnable(GL_VERTEX_PROGRAM_ARB);
 	
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[0]);
+	glVertexAttribPointerARB(0, 3 , GL_FLOAT, false, 0, NULL);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[1]);
+	glVertexAttribPointerARB(1, 4 , GL_FLOAT, false, 0, NULL);
+
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[2]);
+    glVertexAttribPointerARB(2, 3 , GL_FLOAT, false, 0, NULL);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[3]);
+
+	glVertexAttribPointerARB(3, 4 , GL_FLOAT, false, 0, NULL);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[4]);
+	glVertexAttribPointerARB(8, 2 , GL_FLOAT, false, 0, NULL);
+
+	glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_bufferObject[5]);
 	
+		
 	int hardwareMeshId;
 	
 	for(hardwareMeshId=0;hardwareMeshId<m_calHardwareModel.getHardwareMeshCount() ; hardwareMeshId++)
@@ -966,23 +1093,16 @@ void Viewer::renderModel()
 			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+1,&transformation[4]);
 			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+2,&transformation[8]);			
 			
-
-						  
             // set the texture id we stored in the map user data
             glBindTexture(GL_TEXTURE_2D, (GLuint)m_calHardwareModel.getMapUserData(0));
 		}
 
-
-		glVertexAttribPointerARB(0, 3 , GL_FLOAT, false, 0, (void *)&m_vertexBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
-		glVertexAttribPointerARB(1, 4 , GL_FLOAT, false, 0, (void *)&m_weightBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
-		glVertexAttribPointerARB(2, 3 , GL_FLOAT, false, 0, (void *)&m_normalBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);		
-		glVertexAttribPointerARB(3, 4 , GL_FLOAT, false, 0, (void *)&m_matrixIndexBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
-		glVertexAttribPointerARB(8, 2 , GL_FLOAT, false, 0, (void *)&m_texCoordBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
-		
 		if(sizeof(CalIndex)==2)
-			glDrawElements(GL_TRIANGLES, m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_SHORT, &m_indexBuffer[m_calHardwareModel.getStartIndex()]);
+			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel.getBaseVertexIndex(),m_calHardwareModel.getBaseVertexIndex()+m_calHardwareModel.getVertexCount(),
+			m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_SHORT, (((CalIndex *)NULL)+ m_calHardwareModel.getStartIndex()));
 		else
-			glDrawElements(GL_TRIANGLES, m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_INT, &m_indexBuffer[m_calHardwareModel.getStartIndex()]);	
+			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel.getBaseVertexIndex(),m_calHardwareModel.getBaseVertexIndex()+m_calHardwareModel.getVertexCount(),
+			m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_INT, (((CalIndex *)NULL)+ m_calHardwareModel.getStartIndex()));
 		
 
 	}
@@ -995,12 +1115,15 @@ void Viewer::renderModel()
 	glDisableVertexAttribArrayARB(3);
     glDisableVertexAttribArrayARB(8);
 
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+	glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
 
     // clear light
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
     glDisable(GL_DEPTH_TEST);
 	glDisable(GL_VERTEX_PROGRAM_ARB);
+
 
 	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, 0 );
 

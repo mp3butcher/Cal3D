@@ -50,15 +50,8 @@ protected:
   int m_vertexCount;
   int m_faceCount;
 
-  float m_vertexBuffer[30000][3];
-  float m_weightBuffer[30000][4];
-  float m_matrixIndexBuffer[30000][4];
-  float m_normalBuffer[30000][3];
-  float m_texCoordBuffer[30000][2];
-
-  CalIndex m_indexBuffer[50000*3];
-
   unsigned int m_vertexProgramId;
+  unsigned int m_bufferObject[6];
 
   float m_fpsDuration;
   int m_fpsFrames;
@@ -88,6 +81,10 @@ public:
 
 protected:
   GLuint loadTexture(const std::string& strFilename);
+
+  bool loadBufferObject();
+  bool loadVertexProgram();
+
   bool parseModelConfiguration(const std::string& strFilename);
   void renderCursor();
   void renderModel();

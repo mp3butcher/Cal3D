@@ -313,6 +313,7 @@ void Viewer::onIdle()
   if(m_fpsDuration >= 1.0f)
   {
     m_fps = (int)((float)m_fpsFrames / m_fpsDuration);
+	printf("%d\n",m_fps);
     m_fpsDuration = 0.0f;
     m_fpsFrames = 0;
   }
