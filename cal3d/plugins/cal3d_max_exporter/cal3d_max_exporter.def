@@ -1,0 +1,14 @@
+; cal3d_max_exporter.def
+
+LIBRARY     "cal3d_max_exporter"
+DESCRIPTION "3d Studio MAX 3.1/4.2 Cal3D Exporter"
+VERSION     0.7
+
+EXPORTS
+	LibDescription			@1
+	LibNumberClasses		@2
+	LibClassDesc			@3
+	LibVersion				@4
+
+SECTIONS
+	.data READ WRITE

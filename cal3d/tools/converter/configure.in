@@ -1,0 +1,57 @@
+dnl ************************************************************************
+dnl
+dnl This file is part of the Cal3D library/package
+dnl Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+dnl
+dnl This library is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU Lesser General Public License as published by
+dnl the Free Software Foundation; either version 2.1 of the License, or (at
+dnl your option) any later version.
+dnl
+dnl ************************************************************************
+
+AC_INIT(src/main.cpp)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_CANONICAL_SYSTEM
+
+AM_INIT_AUTOMAKE(cal3d_converter,0.9)
+
+dnl ************************************************************************
+
+CAL3D_CHECK_USER_CXX_FLAGS
+
+dnl ************************************************************************
+
+AC_PROG_CXX
+
+AC_PROG_INSTALL
+
+AC_CHECK_LIB(cal3d, CalModel_New,cal3d_default_lib_found=true,cal3d_default_lib_found=false,-lstdc++)
+if test $cal3d_default_lib_found = false; then
+ AC_MSG_WARN([cal3d library was not found in the default installation path, searching in vicinity...])
+ LDFLAGS="-L`pwd`/../cal3d/src/cal3d -L`pwd`/../cal3d/src/cal3d/.libs -lcal3d $LDFLAGS"
+ CPPFLAGS="$CPPFLAGS -I`pwd`/../cal3d/src"
+ AC_CHECK_LIB(cal3d, CalModel_Delete,,AC_MSG_ERROR(["cannot find required cal3d library."]),-lstdc++)
+else
+ LDFLAGS="-lcal3d $LDFLAGS"
+fi
+
+dnl ************************************************************************
+
+CAL3D_CHECK_BUILD
+
+dnl ************************************************************************
+
+AC_OUTPUT(Makefile src/Makefile)
+
+dnl ************************************************************************
+
+echo "o-----------------------------------------------------------o"
+echo "| To build and install the Cal3D converter type...          |"
+echo "|     make; make install                                    |"
+echo "o-----------------------------------------------------------o"
+
+dnl ************************************************************************
+
