@@ -32,6 +32,8 @@ distribution.
 
 #pragma warning( disable : 4514 )
 
+#include "cal3d/platform.h"
+
 #include <assert.h>
 
 /*
