@@ -461,6 +461,11 @@ void Model::renderBoundingBox()
 {  
 
    CalSkeleton *pCalSkeleton = m_calModel.getSkeleton();
+   
+   // Note :
+   // You have to call coreSkeleton.calculateBoundingBoxes(calCoreModel)
+   // during the initialisation (before calModel.create(calCoreModel))
+   // if you want to use bounding boxes.
 
    pCalSkeleton->calculateBoundingBoxes();
 
