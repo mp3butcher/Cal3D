@@ -128,6 +128,12 @@ std::string CalError::getLastErrorDescription()
     case NO_MESH_IN_MODEL:
       return "No mesh attached to the model";
       break;
+    case BAD_DATA_SOURCE:
+      return "Cannot read from data source";
+      break;
+    case NULL_BUFFER:
+      return "Memory buffer is null";
+      break;
     default:
       break;
   }
