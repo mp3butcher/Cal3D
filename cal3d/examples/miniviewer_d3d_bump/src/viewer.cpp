@@ -844,7 +844,7 @@ void Viewer::onRender()
   g_pD3DDevice->BeginScene();
 
   D3DXMATRIX matProj,matWorld,matView, matViewInv;
-  D3DXMatrixPerspectiveFovRH( &matProj, D3DX_PI/4, (float)m_width / (float)m_height, m_scale * 50.0, m_scale * 1000.0 );
+  D3DXMatrixPerspectiveFovRH( &matProj, D3DX_PI/4, (float)m_width / (float)m_height, m_scale * 50.0f, m_scale * 1000.0f );
   
   
   g_pD3DDevice->SetTransform( D3DTS_PROJECTION, &matProj );
