@@ -1,6 +1,6 @@
 //****************************************************************************//
-// mesh.h                                                                     //
-// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+// coremorphanimation.h                                                       //
+// Copyright (C) 2003 Steven Geens                                            //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -8,8 +8,8 @@
 // your option) any later version.                                            //
 //****************************************************************************//
 
-#ifndef CAL_MESH_H
-#define CAL_MESH_H
+#ifndef CAL_COREMORPHANIMATION_H
+#define CAL_COREMOPRHANIMATION_H
 
 //****************************************************************************//
 // Includes                                                                   //
@@ -18,46 +18,32 @@
 #include "cal3d/global.h"
 
 //****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
-
-class CalModel;
-class CalCoreMesh;
-class CalSubmesh;
-
-//****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
  /*****************************************************************************/
-/** The mesh class.
+/** The core morph animation class.
   *****************************************************************************/
 
-class CAL3D_API CalMesh
+class CAL3D_API CalCoreMorphAnimation
 {
 // member variables
 protected:
-  CalModel *m_pModel;
-  CalCoreMesh *m_pCoreMesh;
-  std::vector<CalSubmesh *> m_vectorSubmesh;
+  std::vector<int> m_vectorCoreMeshID;
+  std::vector<int> m_vectorMorphTargetID;
 
 // constructors/destructor
 public:
-  CalMesh();
-  virtual ~CalMesh();
+  CalCoreMorphAnimation();
+  virtual ~CalCoreMorphAnimation();
 
 // member functions	
 public:
-  bool create(CalCoreMesh *pCoreMesh);
+  bool addMorphTarget(int coreMeshID,int morphTargetID);
+  bool create();
   void destroy();
-  CalCoreMesh *getCoreMesh();
-  CalSubmesh *getSubmesh(int id);
-  int getSubmeshCount();
-  std::vector<CalSubmesh *>& getVectorSubmesh();
-  void setLodLevel(float lodLevel);
-  void setMaterialSet(int setId);
-  void setModel(CalModel *pModel);
-  void disableInternalData();
+  std::vector<int>& getVectorCoreMeshID();
+  std::vector<int>& getVectorMorphTargetID();
 };
 
 #endif

@@ -39,7 +39,7 @@
 
 CalModel::CalModel()
   :  m_pCoreModel(0), m_pSkeleton(0), m_pMixer(0), m_pPhysique(0), 
-     m_pSpringSystem(0), m_pRenderer(0), m_userData(0)
+     m_pSpringSystem(0), m_pRenderer(0), m_userData(0), m_pMorphTargetMixer(0)
 {
 }
 
@@ -178,6 +178,10 @@ bool CalModel::create(CalCoreModel *pCoreModel)
   }
 
   m_pMixer = pMixer;
+
+  // Create the morph target mixer from this model
+  m_pMorphTargetMixer = new CalMorphTargetMixer();
+  if(!m_pMorphTargetMixer->create(this)) return false;
 
   // allocate a new physqiue instance
   CalPhysique *pPhysique;
@@ -324,7 +328,15 @@ void CalModel::destroy()
     delete m_pMixer;
     m_pMixer = 0;
   }
-
+  
+  // destroy the morph target mixer instance
+  if(m_pMorphTargetMixer != 0)
+  {
+    m_pMorphTargetMixer->destroy();
+    delete m_pMorphTargetMixer;
+    m_pMorphTargetMixer = 0;
+  }
+  
   // destroy the skeleton instance
   if(m_pSkeleton != 0)
   {
@@ -454,6 +466,21 @@ CalMesh *CalModel::getMesh(int coreMeshId)
 CalMixer *CalModel::getMixer()
 {
   return m_pMixer;
+}
+
+/*****************************************************************************/
+/** Provides access to the morph target mixer.
+  *
+  * This function returns the morph target mixer.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the morph target mixer
+  *         \li \b 0 if an error happend
+  *****************************************************************************/
+
+CalMorphTargetMixer *CalModel::getMorphTargetMixer()
+{
+  return m_pMorphTargetMixer;
 }
 
  /*****************************************************************************/
@@ -607,12 +634,8 @@ void CalModel::update(float deltaTime)
   m_pMixer->updateAnimation(deltaTime);
   m_pMixer->updateSkeleton();
   std::vector<CalMesh *>::iterator iteratorVectorMesh = m_vectorMesh.begin();
-  while(iteratorVectorMesh != m_vectorMesh.end())
-  {
-    (*iteratorVectorMesh)->getMorphTargetMixer()->update(deltaTime);
-    ++iteratorVectorMesh;
-  }
   // m_pMorpher->update(...);
+  m_pMorphTargetMixer->update(deltaTime);
   m_pPhysique->update();
   m_pSpringSystem->update(deltaTime);
 }

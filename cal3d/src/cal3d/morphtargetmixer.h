@@ -21,7 +21,7 @@
 // Forward declarations                                                       //
 //****************************************************************************//
 
-class CalMesh;
+class CalModel;
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -36,8 +36,8 @@ class CAL3D_API CalMorphTargetMixer
 protected:
   std::vector<float> m_vectorCurrentWeight;
   std::vector<float> m_vectorEndWeight;
-  float m_duration;
-  CalMesh *m_pMesh;
+  std::vector<float> m_vectorDuration;
+  CalModel *m_pModel;
 
 // constructors/destructor
 public:
@@ -47,13 +47,11 @@ public:
 // member functions
 public:
   bool blend(int id, float weight, float delay);
-  bool blendBase(float weight, float delay);
   bool clear(int id, float delay);
-  bool clearBase(float delay);
   float getCurrentWeight(int id);
   float getCurrentWeightBase();
   int getMorphTargetCount();
-  bool create(CalMesh *pMesh);
+  bool create(CalModel *pModel);
   void destroy();
   void update(float deltaTime);
 };
