@@ -31,47 +31,368 @@
 #include "cal3d/coresubmesh.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/tinyxml.h"
+#include "cal3d/streamsource.h"
+#include "cal3d/buffersource.h"
 
  /*****************************************************************************/
 /** Loads a core animation instance.
   *
   * This function loads a core animation instance from a file.
   *
-  * @param strFilename The name of the file to load the core animation instance
-  *                    from.
+  * @param strFilename The file to load the core animation instance from.
   *
   * @return One of the following values:
   *         \li a pointer to the core animation
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 {
+
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
     return loadXmlCoreAnimation(strFilename);
 
   // open the file
   std::ifstream file;
   file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
+
+  //make sure it was opened properly
   if(!file)
   {
     CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
+  //make a new stream data source and use it to load the animation
+  CalStreamSource streamSrc( file );
+  
+  CalCoreAnimation* coreanim = loadCoreAnimation( streamSrc );
+
+  //close the file
+  file.close();
+
+  return coreanim;
+}
+
+ /*****************************************************************************/
+/** Loads a core material instance.
+  *
+  * This function loads a core material instance from a file.
+  *
+  * @param strFilename The file to load the core material instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
+{
+
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
+    return loadXmlCoreMaterial(strFilename);
+
+  // open the file
+  std::ifstream file;
+  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
+
+  // make sure it opened properly
+  if(!file)
+  {
+    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
+
+  //make a new stream data source and use it to load the material
+  CalStreamSource streamSrc( file );
+  
+  CalCoreMaterial* coremat = loadCoreMaterial( streamSrc );
+
+  //close the file
+  file.close();
+
+  return coremat;
+
+}
+
+ /*****************************************************************************/
+/** Loads a core mesh instance.
+  *
+  * This function loads a core mesh instance from a file.
+  *
+  * @param strFilename The file to load the core mesh instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
+{
+
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
+    return loadXmlCoreMesh(strFilename);
+
+  // open the file
+  std::ifstream file;
+  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
+
+  // make sure it opened properly
+  if(!file)
+  {
+    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
+
+  //make a new stream data source and use it to load the mesh
+  CalStreamSource streamSrc( file );
+  
+  CalCoreMesh* coremesh = loadCoreMesh( streamSrc );
+
+  //close the file
+  file.close();
+
+  return coremesh;
+
+}
+
+ /*****************************************************************************/
+/** Loads a core skeleton instance.
+  *
+  * This function loads a core skeleton instance from a file.
+  *
+  * @param strFilename The file to load the core skeleton instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
+{
+
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
+    return loadXmlCoreSkeleton(strFilename);
+
+  // open the file
+  std::ifstream file;
+  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
+
+  //make sure it opened properly
+  if(!file)
+  {
+    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
+
+  //make a new stream data source and use it to load the skeleton
+  CalStreamSource streamSrc( file );
+  
+  CalCoreSkeleton* coreskeleton = loadCoreSkeleton( streamSrc );
+
+  //close the file
+  file.close();
+
+  return coreskeleton;
+
+}
+
+
+ /*****************************************************************************/
+/** Loads a core animation instance.
+  *
+  * This function loads a core animation instance from an input stream.
+  *
+  * @param inputStream The stream to load the core animation instance from. This
+  *                    stream should be initialized and ready to be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreAnimation *CalLoader::loadCoreAnimation(std::istream& inputStream)
+{
+   //Create a new istream data source and pass it on
+   CalStreamSource streamSrc(inputStream);
+   return loadCoreAnimation(streamSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core material instance.
+  *
+  * This function loads a core material instance from an input stream.
+  *
+  * @param inputStream The stream to load the core material instance from. This
+  *                    stream should be initialized and ready to be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMaterial *CalLoader::loadCoreMaterial(std::istream& inputStream)
+{
+   //Create a new istream data source and pass it on
+   CalStreamSource streamSrc(inputStream);
+   return loadCoreMaterial(streamSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core mesh instance.
+  *
+  * This function loads a core mesh instance from an input stream.
+  *
+  * @param inputStream The stream to load the core mesh instance from. This
+  *                    stream should be initialized and ready to be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMesh *CalLoader::loadCoreMesh(std::istream& inputStream)
+{
+   //Create a new istream data source and pass it on
+   CalStreamSource streamSrc(inputStream);
+   return loadCoreMesh(streamSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core skeleton instance.
+  *
+  * This function loads a core skeleton instance from an input stream.
+  *
+  * @param inputStream The stream to load the core skeleton instance from. This
+  *                    stream should be initialized and ready to be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreSkeleton *CalLoader::loadCoreSkeleton(std::istream& inputStream)
+{
+   //Create a new istream data source and pass it on
+   CalStreamSource streamSrc(inputStream);
+   return loadCoreSkeleton(streamSrc);
+}
+
+
+
+
+ /*****************************************************************************/
+/** Loads a core animation instance.
+  *
+  * This function loads a core animation instance from a memory buffer.
+  *
+  * @param inputBuffer The memory buffer to load the core animation instance 
+  *                    from. This buffer should be initialized and ready to 
+  *                    be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreAnimation *CalLoader::loadCoreAnimation(void* inputBuffer)
+{
+   //Create a new buffer data source and pass it on
+   CalBufferSource bufferSrc(inputBuffer);
+   return loadCoreAnimation(bufferSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core material instance.
+  *
+  * This function loads a core material instance from a memory buffer.
+  *
+  * @param inputBuffer The memory buffer to load the core material instance 
+  *                    from. This buffer should be initialized and ready to 
+  *                    be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMaterial *CalLoader::loadCoreMaterial(void* inputBuffer)
+{
+   //Create a new buffer data source and pass it on
+   CalBufferSource bufferSrc(inputBuffer);
+   return loadCoreMaterial(bufferSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core mesh instance.
+  *
+  * This function loads a core mesh instance from a memory buffer.
+  *
+  * @param inputBuffer The memory buffer to load the core mesh instance from. 
+  *                    This buffer should be initialized and ready to be 
+  *                    read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMesh *CalLoader::loadCoreMesh(void* inputBuffer)
+{
+   //Create a new buffer data source and pass it on
+   CalBufferSource bufferSrc(inputBuffer);
+   return loadCoreMesh(bufferSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core skeleton instance.
+  *
+  * This function loads a core skeleton instance from a memory buffer.
+  *
+  * @param inputBuffer The memory buffer to load the core skeleton instance 
+  *                    from. This buffer should be initialized and ready to 
+  *                    be read from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreSkeleton *CalLoader::loadCoreSkeleton(void* inputBuffer)
+{
+   //Create a new buffer data source and pass it on
+   CalBufferSource bufferSrc(inputBuffer);
+   return loadCoreSkeleton(bufferSrc);
+}
+
+ /*****************************************************************************/
+/** Loads a core animation instance.
+  *
+  * This function loads a core animation instance from a data source.
+  *
+  * @param dataSrc The data source to load the core animation instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreAnimation *CalLoader::loadCoreAnimation(CalDataSource& dataSrc)
+{
+
   // check if this is a valid file
   char magic[4];
-  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::ANIMATION_FILE_MAGIC, 4) != 0))
+  if(!dataSrc.readBytes(&magic[0], 4) || (memcmp(&magic[0], Cal::ANIMATION_FILE_MAGIC, 4) != 0))
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
 
   // check if the version is compatible with the library
   int version;
-  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  if(!dataSrc.readInteger(version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
   {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__);
     return 0;
   }
 
@@ -93,9 +414,9 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 
   // get the duration of the core animation
   float duration;
-  if(!CalPlatform::readFloat(file, duration))
+  if(!dataSrc.readFloat(duration))
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     pCoreAnimation->destroy();
     delete pCoreAnimation;
     return 0;
@@ -104,7 +425,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
   // check for a valid duration
   if(duration <= 0.0f)
   {
-    CalError::setLastError(CalError::INVALID_ANIMATION_DURATION, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_ANIMATION_DURATION, __FILE__, __LINE__);
     pCoreAnimation->destroy();
     delete pCoreAnimation;
     return 0;
@@ -115,9 +436,9 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 
   // read the number of tracks
   int trackCount;
-  if(!CalPlatform::readInteger(file, trackCount) || (trackCount <= 0))
+  if(!dataSrc.readInteger(trackCount) || (trackCount <= 0))
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
 
@@ -127,7 +448,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
   {
     // load the core track
     CalCoreTrack *pCoreTrack;
-    pCoreTrack = loadCoreTrack(file, strFilename);
+    pCoreTrack = loadCoreTrack(dataSrc);
     if(pCoreTrack == 0)
     {
       pCoreAnimation->destroy();
@@ -139,71 +460,349 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
     pCoreAnimation->addCoreTrack(pCoreTrack);
   }
 
-  // explicitly close the file
-  file.close();
-
   return pCoreAnimation;
 }
+
+
+ /*****************************************************************************/
+/** Loads a core material instance.
+  *
+  * This function loads a core material instance from a data source.
+  *
+  * @param dataSrc The data source to load the core material instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMaterial *CalLoader::loadCoreMaterial(CalDataSource& dataSrc)
+{
+
+  // check if this is a valid file
+  char magic[4];
+  if(!dataSrc.readBytes(&magic[0], 4) || (memcmp(&magic[0], Cal::MATERIAL_FILE_MAGIC, 4) != 0))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // check if the version is compatible with the library
+  int version;
+  if(!dataSrc.readInteger(version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  {
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // allocate a new core material instance
+  CalCoreMaterial *pCoreMaterial;
+  pCoreMaterial = new CalCoreMaterial();
+  if(pCoreMaterial == 0)
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // create the core material instance
+  if(!pCoreMaterial->create())
+  {
+    delete pCoreMaterial;
+    return 0;
+  }
+
+  // get the ambient color of the core material
+  CalCoreMaterial::Color ambientColor;
+  dataSrc.readBytes(&ambientColor, sizeof(ambientColor));
+
+  // get the diffuse color of the core material
+  CalCoreMaterial::Color diffuseColor;
+  dataSrc.readBytes(&diffuseColor, sizeof(diffuseColor));
+
+  // get the specular color of the core material
+  CalCoreMaterial::Color specularColor;
+  dataSrc.readBytes(&specularColor, sizeof(specularColor));
+
+  // get the shininess factor of the core material
+  float shininess;
+  dataSrc.readFloat(shininess);
+
+  // check if an error happened
+  if(!dataSrc.ok())
+  {
+    dataSrc.setError();
+    pCoreMaterial->destroy();
+    delete pCoreMaterial;
+    return 0;
+  }
+
+  // set the colors and the shininess
+  pCoreMaterial->setAmbientColor(ambientColor);
+  pCoreMaterial->setDiffuseColor(diffuseColor);
+  pCoreMaterial->setSpecularColor(specularColor);
+  pCoreMaterial->setShininess(shininess);
+
+  // read the number of maps
+  int mapCount;
+  if(!dataSrc.readInteger(mapCount) || (mapCount < 0))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // reserve memory for all the material data
+  if(!pCoreMaterial->reserve(mapCount))
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    pCoreMaterial->destroy();
+    delete pCoreMaterial;
+    return 0;
+  }
+
+  // load all maps
+  int mapId;
+  for(mapId = 0; mapId < mapCount; ++mapId)
+  {
+    CalCoreMaterial::Map map;
+
+    // read the filename of the map
+    std::string strName;
+    dataSrc.readString(map.strFilename);
+
+    // initialize the user data
+    map.userData = 0;
+
+    // check if an error happened
+    if(!dataSrc.ok())
+    {
+      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+      pCoreMaterial->destroy();
+      delete pCoreMaterial;
+      return 0;
+    }
+
+    // set map in the core material instance
+    pCoreMaterial->setMap(mapId, map);
+  }
+
+  return pCoreMaterial;
+}
+
+ /*****************************************************************************/
+/** Loads a core mesh instance.
+  *
+  * This function loads a core mesh instance from a data source.
+  *
+  * @param dataSrc The data source to load the core mesh instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreMesh *CalLoader::loadCoreMesh(CalDataSource& dataSrc)
+{
+
+  // check if this is a valid file
+  char magic[4];
+  if(!dataSrc.readBytes(&magic[0], 4) || (memcmp(&magic[0], Cal::MESH_FILE_MAGIC, 4) != 0))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // check if the version is compatible with the library
+  int version;
+  if(!dataSrc.readInteger(version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  {
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // get the number of submeshes
+  int submeshCount;
+  if(!dataSrc.readInteger(submeshCount))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // allocate a new core mesh instance
+  CalCoreMesh *pCoreMesh;
+  pCoreMesh = new CalCoreMesh();
+  if(pCoreMesh == 0)
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // create the core mesh instance
+  if(!pCoreMesh->create())
+  {
+    delete pCoreMesh;
+    return 0;
+  }
+
+  // load all core submeshes
+  int submeshId;
+  for(submeshId = 0; submeshId < submeshCount; ++submeshId)
+  {
+    // load the core submesh
+    CalCoreSubmesh *pCoreSubmesh;
+    pCoreSubmesh = loadCoreSubmesh(dataSrc);
+    if(pCoreSubmesh == 0)
+    {
+      pCoreMesh->destroy();
+      delete pCoreMesh;
+      return 0;
+    }
+
+    // add the core submesh to the core mesh instance
+    pCoreMesh->addCoreSubmesh(pCoreSubmesh);
+  }
+
+  return pCoreMesh;
+}
+
+ /*****************************************************************************/
+/** Loads a core skeleton instance.
+  *
+  * This function loads a core skeleton instance from a data source.
+  *
+  * @param dataSrc The data source to load the core skeleton instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreSkeleton *CalLoader::loadCoreSkeleton(CalDataSource& dataSrc)
+{
+
+  // check if this is a valid file
+  char magic[4];
+  if(!dataSrc.readBytes(&magic[0], 4) || (memcmp(&magic[0], Cal::SKELETON_FILE_MAGIC, 4) != 0))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // check if the version is compatible with the library
+  int version;
+  if(!dataSrc.readInteger(version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  {
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // read the number of bones
+  int boneCount;
+  if(!dataSrc.readInteger(boneCount) || (boneCount <= 0))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // allocate a new core skeleton instance
+  CalCoreSkeleton *pCoreSkeleton = new CalCoreSkeleton();
+  if(pCoreSkeleton == 0)
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // create the core skeleton instance
+  if(!pCoreSkeleton->create())
+  {
+    delete pCoreSkeleton;
+    return 0;
+  }
+
+  // load all core bones
+  for(int boneId = 0; boneId < boneCount; ++boneId)
+  {
+    // load the core bone
+    CalCoreBone *pCoreBone = loadCoreBones(dataSrc);
+    if(pCoreBone == 0)
+    {
+      pCoreSkeleton->destroy();
+      delete pCoreSkeleton;
+      return 0;
+    }
+
+    // set the core skeleton of the core bone instance
+    pCoreBone->setCoreSkeleton(pCoreSkeleton);
+
+    // add the core bone to the core skeleton instance
+    pCoreSkeleton->addCoreBone(pCoreBone);
+  }
+
+  // calculate state of the core skeleton
+  pCoreSkeleton->calculateState();
+
+  return pCoreSkeleton;
+}
+
+
 
  /*****************************************************************************/
 /** Loads a core bone instance.
   *
-  * This function loads a core bone instance from a file stream.
+  * This function loads a core bone instance from a data source.
   *
-  * @param file The file stream to load the core bone instance from.
-  * @param strFilename The name of the file stream.
+  * @param dataSrc The data source to load the core bone instance from.
   *
   * @return One of the following values:
   *         \li a pointer to the core bone
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& strFilename)
+CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
 {
-  if(!file)
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
   // read the name of the bone
   std::string strName;
-  CalPlatform::readString(file, strName);
+  dataSrc.readString(strName);
 
   // get the translation of the bone
   float tx, ty, tz;
-  CalPlatform::readFloat(file, tx);
-  CalPlatform::readFloat(file, ty);
-  CalPlatform::readFloat(file, tz);
+  dataSrc.readFloat(tx);
+  dataSrc.readFloat(ty);
+  dataSrc.readFloat(tz);
 
   // get the rotation of the bone
   float rx, ry, rz, rw;
-  CalPlatform::readFloat(file, rx);
-  CalPlatform::readFloat(file, ry);
-  CalPlatform::readFloat(file, rz);
-  CalPlatform::readFloat(file, rw);
+  dataSrc.readFloat(rx);
+  dataSrc.readFloat(ry);
+  dataSrc.readFloat(rz);
+  dataSrc.readFloat(rw);
 
   // get the bone space translation of the bone
   float txBoneSpace, tyBoneSpace, tzBoneSpace;
-  CalPlatform::readFloat(file, txBoneSpace);
-  CalPlatform::readFloat(file, tyBoneSpace);
-  CalPlatform::readFloat(file, tzBoneSpace);
+  dataSrc.readFloat(txBoneSpace);
+  dataSrc.readFloat(tyBoneSpace);
+  dataSrc.readFloat(tzBoneSpace);
 
   // get the bone space rotation of the bone
   float rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace;
-  CalPlatform::readFloat(file, rxBoneSpace);
-  CalPlatform::readFloat(file, ryBoneSpace);
-  CalPlatform::readFloat(file, rzBoneSpace);
-  CalPlatform::readFloat(file, rwBoneSpace);
+  dataSrc.readFloat(rxBoneSpace);
+  dataSrc.readFloat(ryBoneSpace);
+  dataSrc.readFloat(rzBoneSpace);
+  dataSrc.readFloat(rwBoneSpace);
 
   // get the parent bone id
   int parentId;
-  CalPlatform::readInteger(file, parentId);
+  dataSrc.readInteger(parentId);
 
-  // check if an error happend
-  if(!file)
+  // check if an error happened
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
@@ -234,11 +833,11 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
 
   // read the number of children
   int childCount;
-  if(!CalPlatform::readInteger(file, childCount) || (childCount < 0))
+  if(!dataSrc.readInteger(childCount) || (childCount < 0))
   {
     pCoreBone->destroy();
     delete pCoreBone;
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
 
@@ -246,11 +845,11 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
   for(; childCount > 0; childCount--)
   {
     int childId;
-    if(!CalPlatform::readInteger(file, childId) || (childId < 0))
+    if(!dataSrc.readInteger(childId) || (childId < 0))
     {
       pCoreBone->destroy();
       delete pCoreBone;
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
       return 0;
     }
 
@@ -263,45 +862,44 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
  /*****************************************************************************/
 /** Loads a core keyframe instance.
   *
-  * This function loads a core keyframe instance from a file stream.
+  * This function loads a core keyframe instance from a data source.
   *
-  * @param file The file stream to load the core keyframe instance from.
-  * @param strFilename The name of the file stream.
+  * @param dataSrc The data source to load the core keyframe instance from.
   *
   * @return One of the following values:
   *         \li a pointer to the core keyframe
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreKeyframe *CalLoader::loadCoreKeyframe(std::ifstream& file, const std::string& strFilename)
+CalCoreKeyframe *CalLoader::loadCoreKeyframe(CalDataSource& dataSrc)
 {
-  if(!file)
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
   // get the time of the keyframe
   float time;
-  CalPlatform::readFloat(file, time);
+  dataSrc.readFloat(time);
 
   // get the translation of the bone
   float tx, ty, tz;
-  CalPlatform::readFloat(file, tx);
-  CalPlatform::readFloat(file, ty);
-  CalPlatform::readFloat(file, tz);
+  dataSrc.readFloat(tx);
+  dataSrc.readFloat(ty);
+  dataSrc.readFloat(tz);
 
   // get the rotation of the bone
   float rx, ry, rz, rw;
-  CalPlatform::readFloat(file, rx);
-  CalPlatform::readFloat(file, ry);
-  CalPlatform::readFloat(file, rz);
-  CalPlatform::readFloat(file, rw);
+  dataSrc.readFloat(rx);
+  dataSrc.readFloat(ry);
+  dataSrc.readFloat(rz);
+  dataSrc.readFloat(rw);
 
-  // check if an error happend
-  if(!file)
+  // check if an error happened
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
@@ -330,374 +928,50 @@ CalCoreKeyframe *CalLoader::loadCoreKeyframe(std::ifstream& file, const std::str
 }
 
  /*****************************************************************************/
-/** Loads a core material instance.
-  *
-  * This function loads a core material instance from a file.
-  *
-  * @param strFilename The name of the file to load the core material instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core material
-  *         \li \b 0 if an error happend
-  *****************************************************************************/
-
-CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
-{
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
-    return loadXmlCoreMaterial(strFilename);
-
-  // open the file
-  std::ifstream file;
-  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if this is a valid file
-  char magic[4];
-  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::MATERIAL_FILE_MAGIC, 4) != 0))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if the version is compatible with the library
-  int version;
-  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // allocate a new core material instance
-  CalCoreMaterial *pCoreMaterial;
-  pCoreMaterial = new CalCoreMaterial();
-  if(pCoreMaterial == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
-
-  // create the core material instance
-  if(!pCoreMaterial->create())
-  {
-    delete pCoreMaterial;
-    return 0;
-  }
-
-  // get the ambient color of the core material
-  CalCoreMaterial::Color ambientColor;
-  CalPlatform::readBytes(file, &ambientColor, sizeof(ambientColor));
-
-  // get the diffuse color of the core material
-  CalCoreMaterial::Color diffuseColor;
-  CalPlatform::readBytes(file, &diffuseColor, sizeof(diffuseColor));
-
-  // get the specular color of the core material
-  CalCoreMaterial::Color specularColor;
-  CalPlatform::readBytes(file, &specularColor, sizeof(specularColor));
-
-  // get the shininess factor of the core material
-  float shininess;
-  CalPlatform::readFloat(file, shininess);
-
-  // check if an error happend
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    pCoreMaterial->destroy();
-    delete pCoreMaterial;
-    return 0;
-  }
-
-  // set the colors and the shininess
-  pCoreMaterial->setAmbientColor(ambientColor);
-  pCoreMaterial->setDiffuseColor(diffuseColor);
-  pCoreMaterial->setSpecularColor(specularColor);
-  pCoreMaterial->setShininess(shininess);
-
-  // read the number of maps
-  int mapCount;
-  if(!CalPlatform::readInteger(file, mapCount) || (mapCount < 0))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // reserve memory for all the material data
-  if(!pCoreMaterial->reserve(mapCount))
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__, strFilename);
-    pCoreMaterial->destroy();
-    delete pCoreMaterial;
-    return 0;
-  }
-
-  // load all maps
-  int mapId;
-  for(mapId = 0; mapId < mapCount; ++mapId)
-  {
-    CalCoreMaterial::Map map;
-
-    // read the filename of the map
-    std::string strName;
-    CalPlatform::readString(file, map.strFilename);
-
-    // initialize the user data
-    map.userData = 0;
-
-    // check if an error happend
-    if(!file)
-    {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      pCoreMaterial->destroy();
-      delete pCoreMaterial;
-      return 0;
-    }
-
-    // set map in the core material instance
-    pCoreMaterial->setMap(mapId, map);
-  }
-
-  // explicitly close the file
-  file.close();
-
-  return pCoreMaterial;
-}
-
- /*****************************************************************************/
-/** Loads a core mesh instance.
-  *
-  * This function loads a core mesh instance from a file.
-  *
-  * @param strFilename The name of the file to load the core mesh instance from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core mesh
-  *         \li \b 0 if an error happend
-  *****************************************************************************/
-
-CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
-{
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
-    return loadXmlCoreMesh(strFilename);
-
-  // open the file
-  std::ifstream file;
-  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if this is a valid file
-  char magic[4];
-  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::MESH_FILE_MAGIC, 4) != 0))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if the version is compatible with the library
-  int version;
-  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // get the number of submeshes
-  int submeshCount;
-  if(!CalPlatform::readInteger(file, submeshCount))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // allocate a new core mesh instance
-  CalCoreMesh *pCoreMesh;
-  pCoreMesh = new CalCoreMesh();
-  if(pCoreMesh == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
-
-  // create the core mesh instance
-  if(!pCoreMesh->create())
-  {
-    delete pCoreMesh;
-    return 0;
-  }
-
-  // load all core submeshes
-  int submeshId;
-  for(submeshId = 0; submeshId < submeshCount; ++submeshId)
-  {
-    // load the core submesh
-    CalCoreSubmesh *pCoreSubmesh;
-    pCoreSubmesh = loadCoreSubmesh(file, strFilename);
-    if(pCoreSubmesh == 0)
-    {
-      pCoreMesh->destroy();
-      delete pCoreMesh;
-      return 0;
-    }
-
-    // add the core submesh to the core mesh instance
-    pCoreMesh->addCoreSubmesh(pCoreSubmesh);
-  }
-
-  // explicitly close the file
-  file.close();
-
-  return pCoreMesh;
-}
-
- /*****************************************************************************/
-/** Loads a core skeleton instance.
-  *
-  * This function loads a core skeleton instance from a file.
-  *
-  * @param strFilename The name of the file to load the core skeleton instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happend
-  *****************************************************************************/
-
-CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
-{
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
-    return loadXmlCoreSkeleton(strFilename);
-
-  // open the file
-  std::ifstream file;
-  file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if this is a valid file
-  char magic[4];
-  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::SKELETON_FILE_MAGIC, 4) != 0))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // check if the version is compatible with the library
-  int version;
-  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // read the number of bones
-  int boneCount;
-  if(!CalPlatform::readInteger(file, boneCount) || (boneCount <= 0))
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
-  // allocate a new core skeleton instance
-  CalCoreSkeleton *pCoreSkeleton = new CalCoreSkeleton();
-  if(pCoreSkeleton == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
-
-  // create the core skeleton instance
-  if(!pCoreSkeleton->create())
-  {
-    delete pCoreSkeleton;
-    return 0;
-  }
-
-  // load all core bones
-  for(int boneId = 0; boneId < boneCount; ++boneId)
-  {
-    // load the core bone
-    CalCoreBone *pCoreBone = loadCoreBones(file, strFilename);
-    if(pCoreBone == 0)
-    {
-      pCoreSkeleton->destroy();
-      delete pCoreSkeleton;
-      return 0;
-    }
-
-    // set the core skeleton of the core bone instance
-    pCoreBone->setCoreSkeleton(pCoreSkeleton);
-
-    // add the core bone to the core skeleton instance
-    pCoreSkeleton->addCoreBone(pCoreBone);
-  }
-
-  // explicitly close the file
-  file.close();
-
-  // calculate state of the core skeleton
-  pCoreSkeleton->calculateState();
-
-  return pCoreSkeleton;
-}
-
- /*****************************************************************************/
 /** Loads a core submesh instance.
   *
-  * This function loads a core submesh instance from a file stream.
+  * This function loads a core submesh instance from a data source.
   *
-  * @param file The file stream to load the core submesh instance from.
-  * @param strFilename The name of the file stream.
+  * @param dataSrc The data source to load the core submesh instance from.
   *
   * @return One of the following values:
   *         \li a pointer to the core submesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::string& strFilename)
+CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 {
-  if(!file)
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
   // get the material thread id of the submesh
   int coreMaterialThreadId;
-  CalPlatform::readInteger(file,coreMaterialThreadId );
+  dataSrc.readInteger(coreMaterialThreadId);
 
   // get the number of vertices, faces, level-of-details and springs
   int vertexCount;
-  CalPlatform::readInteger(file,vertexCount);
+  dataSrc.readInteger(vertexCount);
 
   int faceCount;
-  CalPlatform::readInteger(file, faceCount);
+  dataSrc.readInteger(faceCount);
 
   int lodCount;
-  CalPlatform::readInteger(file, lodCount);
+  dataSrc.readInteger(lodCount);
 
   int springCount;
-  CalPlatform::readInteger(file, springCount);
+  dataSrc.readInteger(springCount);
 
   // get the number of texture coordinates per vertex
   int textureCoordinateCount;
-  CalPlatform::readInteger(file, textureCoordinateCount);
+  dataSrc.readInteger(textureCoordinateCount);
 
-  // check if an error happend
-  if(!file)
+  // check if an error happened
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
@@ -726,7 +1000,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
   // reserve memory for all the submesh data
   if(!pCoreSubmesh->reserve(vertexCount, textureCoordinateCount, faceCount, springCount))
   {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     pCoreSubmesh->destroy();
     delete pCoreSubmesh;
     return 0;
@@ -746,19 +1020,19 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Vertex vertex;
 
     // load data of the vertex
-    CalPlatform::readFloat(file, vertex.position.x);
-    CalPlatform::readFloat(file, vertex.position.y);
-    CalPlatform::readFloat(file, vertex.position.z);
-    CalPlatform::readFloat(file, vertex.normal.x);
-    CalPlatform::readFloat(file, vertex.normal.y);
-    CalPlatform::readFloat(file, vertex.normal.z);
-    CalPlatform::readInteger(file, vertex.collapseId);
-    CalPlatform::readInteger(file, vertex.faceCollapseCount);
+    dataSrc.readFloat(vertex.position.x);
+    dataSrc.readFloat(vertex.position.y);
+    dataSrc.readFloat(vertex.position.z);
+    dataSrc.readFloat(vertex.normal.x);
+    dataSrc.readFloat(vertex.normal.y);
+    dataSrc.readFloat(vertex.normal.z);
+    dataSrc.readInteger(vertex.collapseId);
+    dataSrc.readInteger(vertex.faceCollapseCount);
 
-    // check if an error happend
-    if(!file)
+    // check if an error happened
+    if(!dataSrc.ok())
     {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      dataSrc.setError();
       pCoreSubmesh->destroy();
       delete pCoreSubmesh;
       return 0;
@@ -771,13 +1045,13 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
       CalCoreSubmesh::TextureCoordinate textureCoordinate;
 
       // load data of the influence
-      CalPlatform::readFloat(file, textureCoordinate.u);
-      CalPlatform::readFloat(file, textureCoordinate.v);
+      dataSrc.readFloat(textureCoordinate.u);
+      dataSrc.readFloat(textureCoordinate.v);
 
-      // check if an error happend
-      if(!file)
+      // check if an error happened
+      if(!dataSrc.ok())
       {
-        CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        dataSrc.setError();
         pCoreSubmesh->destroy();
         delete pCoreSubmesh;
         return 0;
@@ -789,9 +1063,9 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
     // get the number of influences
     int influenceCount;
-    if(!CalPlatform::readInteger(file, influenceCount) || (influenceCount < 0))
+    if(!dataSrc.readInteger(influenceCount) || (influenceCount < 0))
     {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      dataSrc.setError();
       pCoreSubmesh->destroy();
       delete pCoreSubmesh;
       return 0;
@@ -806,13 +1080,13 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     for(influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // load data of the influence
-      CalPlatform::readInteger(file, vertex.vectorInfluence[influenceId].boneId),
-      CalPlatform::readFloat(file, vertex.vectorInfluence[influenceId].weight);
+      dataSrc.readInteger(vertex.vectorInfluence[influenceId].boneId),
+      dataSrc.readFloat(vertex.vectorInfluence[influenceId].weight);
 
-      // check if an error happend
-      if(!file)
+      // check if an error happened
+      if(!dataSrc.ok())
       {
-        CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        dataSrc.setError();
         pCoreSubmesh->destroy();
         delete pCoreSubmesh;
         return 0;
@@ -828,12 +1102,12 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
       CalCoreSubmesh::PhysicalProperty physicalProperty;
 
       // load data of the physical property
-      CalPlatform::readFloat(file, physicalProperty.weight);
+      dataSrc.readFloat(physicalProperty.weight);
 
-      // check if an error happend
-      if(!file)
+      // check if an error happened
+      if(!dataSrc.ok())
       {
-        CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        dataSrc.setError();
         pCoreSubmesh->destroy();
         delete pCoreSubmesh;
         return 0;
@@ -851,15 +1125,15 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Spring spring;
 
     // load data of the spring
-    CalPlatform::readInteger(file, spring.vertexId[0]);
-    CalPlatform::readInteger(file, spring.vertexId[1]);
-    CalPlatform::readFloat(file, spring.springCoefficient);
-    CalPlatform::readFloat(file, spring.idleLength);
+    dataSrc.readInteger(spring.vertexId[0]);
+    dataSrc.readInteger(spring.vertexId[1]);
+    dataSrc.readFloat(spring.springCoefficient);
+    dataSrc.readFloat(spring.idleLength);
 
-    // check if an error happend
-    if(!file)
+    // check if an error happened
+    if(!dataSrc.ok())
     {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      dataSrc.setError();
       pCoreSubmesh->destroy();
       delete pCoreSubmesh;
       return 0;
@@ -878,15 +1152,15 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     // load data of the face
 	
 	int tmp[3];
-	CalPlatform::readInteger(file, tmp[0]);
-	CalPlatform::readInteger(file, tmp[1]);
-	CalPlatform::readInteger(file, tmp[2]);
+	dataSrc.readInteger(tmp[0]);
+	dataSrc.readInteger(tmp[1]);
+	dataSrc.readInteger(tmp[2]);
 
 	if(sizeof(CalIndex)==2)
 	{
 		if(tmp[0]>65535 || tmp[1]>65535 || tmp[2]>65535)
 		{			
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
 			pCoreSubmesh->destroy();
 			delete pCoreSubmesh;
 			return 0;
@@ -896,10 +1170,10 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 	face.vertexId[1]=tmp[1];
 	face.vertexId[2]=tmp[2];
 	
-    // check if an error happend
-    if(!file)
+    // check if an error happened
+    if(!dataSrc.ok())
     {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      dataSrc.setError();
       pCoreSubmesh->destroy();
       delete pCoreSubmesh;
       return 0;
@@ -915,29 +1189,28 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
  /*****************************************************************************/
 /** Loads a core track instance.
   *
-  * This function loads a core track instance from a file stream.
+  * This function loads a core track instance from a data source.
   *
-  * @param file The file stream to load the core track instance from.
-  * @param strFilename The name of the file stream.
+  * @param dataSrc The data source to load the core track instance from.
   *
   * @return One of the following values:
   *         \li a pointer to the core track
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& strFilename)
+CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc)
 {
-  if(!file)
+  if(!dataSrc.ok())
   {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+    dataSrc.setError();
     return 0;
   }
 
   // read the bone id
   int coreBoneId;
-  if(!CalPlatform::readInteger(file, coreBoneId) || (coreBoneId < 0))
+  if(!dataSrc.readInteger(coreBoneId) || (coreBoneId < 0))
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
 
@@ -962,9 +1235,9 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
 
   // read the number of keyframes
   int keyframeCount;
-  if(!CalPlatform::readInteger(file, keyframeCount) || (keyframeCount <= 0))
+  if(!dataSrc.readInteger(keyframeCount) || (keyframeCount <= 0))
   {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
 
@@ -974,7 +1247,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
   {
     // load the core keyframe
     CalCoreKeyframe *pCoreKeyframe;
-    pCoreKeyframe = loadCoreKeyframe(file, strFilename);
+    pCoreKeyframe = loadCoreKeyframe(dataSrc);
     if(pCoreKeyframe == 0)
     {
       pCoreTrack->destroy();
@@ -989,6 +1262,8 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
   return pCoreTrack;
 }
 
+
+
  /*****************************************************************************/
 /** Loads a core skeleton instance from a XML file.
   *
@@ -999,7 +1274,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
   *
   * @return One of the following values:
   *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
@@ -1329,7 +1604,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li a pointer to the core animation
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename)
@@ -1603,7 +1878,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
   *
   * @return One of the following values:
   *         \li a pointer to the core mesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
@@ -2150,7 +2425,7 @@ return pCoreMesh;
   *
   * @return One of the following values:
   *         \li a pointer to the core material
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 
@@ -2403,5 +2678,8 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
   
   return pCoreMaterial;
 }
+
+
+
 
 //****************************************************************************//

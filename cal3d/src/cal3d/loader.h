@@ -15,7 +15,11 @@
 // Includes                                                                   //
 //****************************************************************************//
 
+
+#include <string>
+#include <istream>
 #include "cal3d/global.h"
+#include "cal3d/datasource.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -48,11 +52,26 @@ public:
   static CalCoreMesh *loadCoreMesh(const std::string& strFilename);
   static CalCoreSkeleton *loadCoreSkeleton(const std::string& strFilename);
 
+  static CalCoreAnimation *loadCoreAnimation(std::istream& inputStream);
+  static CalCoreMaterial *loadCoreMaterial(std::istream& inputStream);
+  static CalCoreMesh *loadCoreMesh(std::istream& inputStream);
+  static CalCoreSkeleton *loadCoreSkeleton(std::istream& inputStream);
+
+  static CalCoreAnimation *loadCoreAnimation(void* inputBuffer);
+  static CalCoreMaterial *loadCoreMaterial(void* inputBuffer);
+  static CalCoreMesh *loadCoreMesh(void* inputBuffer);
+  static CalCoreSkeleton *loadCoreSkeleton(void* inputBuffer);
+
+  static CalCoreAnimation *loadCoreAnimation(CalDataSource& inputSrc);
+  static CalCoreMaterial *loadCoreMaterial(CalDataSource& inputSrc);
+  static CalCoreMesh *loadCoreMesh(CalDataSource& inputSrc);
+  static CalCoreSkeleton *loadCoreSkeleton(CalDataSource& inputSrc);
+
 private:
-  static CalCoreBone *loadCoreBones(std::ifstream& file, const std::string& strFilename);
-  static CalCoreKeyframe *loadCoreKeyframe(std::ifstream& file, const std::string& strFilename);
-  static CalCoreSubmesh *loadCoreSubmesh(std::ifstream& file, const std::string& strFilename);
-  static CalCoreTrack *loadCoreTrack(std::ifstream& file, const std::string& strFilename);
+  static CalCoreBone *loadCoreBones(CalDataSource& dataSrc);
+  static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc);
+  static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc);
+  static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc);
 
   static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
   static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
