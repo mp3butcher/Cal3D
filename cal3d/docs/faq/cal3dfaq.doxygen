@@ -156,17 +156,21 @@
  *  aimed at developing tools for massive-multiplayer online games. Cal3D was 
  *  originally a part of Worldforge, but became a standalone tool.
  *
- *  <b><i>A Tale in the Desert</b></i> - http://www.atitd.com - ATITD is a very unique 
+ *  <b><i>A Tale in the Desert</i></b> - http://www.atitd.com - ATITD is a very unique 
  *  massive-multiplayer online roleplaying game where strategy and management 
  *  take precedence over traditional combat. eGenesis used a derivative of Cal3D
  *  that they developed, which is also available on their "download" page. 
  *
- *  <b><i>Desert Rats</b></i> - http://www.valusoft.com/products/desertrats.html - A WW2 
+ *  <b><i>Desert Rats</i></b> - http://www.valusoft.com/products/desertrats.html - A WW2 
  *  action game where you fight the Nazis in northern Africa from a heavily
  *  armed jeep.
  *
- *  <b><i>Neverending ODC</b></i> - http://ne-odc.sourceforge.net - Tools to design and edit
+ *  <b><i>Neverending ODC</i></b> - http://ne-odc.sourceforge.net - Tools to design and edit
  *  massive 3D fantasy worlds. 
+ *
+ *  <b><i>Project FY</i></b> - http://fysoftware.com - A game still in development
+ *  featuring a 3D engine capable of handling both indoor and outdoor environments
+ *  and transitioning seamlessly between them.
  *
  *  If you know of anyone else using Cal3D, let us know!
  *  </ul>
