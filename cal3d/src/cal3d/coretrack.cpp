@@ -189,14 +189,26 @@ bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& r
 
 std::vector<CalCoreKeyframe*>::iterator CalCoreTrack::getUpperBound(float time)
 {
-  // Could be O(lg n) instead of O(n)
 
-  std::vector<CalCoreKeyframe*>::iterator itr = m_keyframes.begin();
-  while (itr != m_keyframes.end() && time >= (*itr)->getTime())
+  int lowerBound = 0;
+  int upperBound = m_keyframes.size()-1;
+
+  while(lowerBound<upperBound-1)
   {
-    ++itr;
+	  int middle = (lowerBound+upperBound)/2;
+
+	  if(time >= m_keyframes[middle]->getTime())
+	  {
+		  lowerBound=middle;
+	  }
+	  else
+	  {
+		  upperBound=middle;
+	  }
   }
-  return itr;
+
+  return &m_keyframes[upperBound];
+
 }
 
  /*****************************************************************************/
