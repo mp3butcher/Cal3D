@@ -29,29 +29,7 @@
 #include "coremesh.h"
 #include "coresubmesh.h"
 #include "corematerial.h"
-
-#ifdef CAL_USE_XML
 #include "tinyxml.h"
-#endif
- /*****************************************************************************/
-/** Constructs the saver instance.
-  *
-  * This function is the default constructor of the saver instance.
-  *****************************************************************************/
-
-CalSaver::CalSaver()
-{
-}
-
- /*****************************************************************************/
-/** Destructs the saver instance.
-  *
-  * This function is the destructor of the saver instance.
-  *****************************************************************************/
-
-CalSaver::~CalSaver()
-{
-}
 
  /*****************************************************************************/
 /** Saves a core animation instance.
@@ -70,10 +48,8 @@ CalSaver::~CalSaver()
 
 bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
 {
-#ifdef CAL_USE_XML
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
 	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);	
-#endif
 
   // open the file
   std::ofstream file;
@@ -285,10 +261,8 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
 
 bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
 {
-#ifdef CAL_USE_XML
-	if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
-	 return saveXmlCoreMaterial(strFilename, pCoreMaterial);	
-#endif
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
+    return saveXmlCoreMaterial(strFilename, pCoreMaterial);	
 
   // open the file
   std::ofstream file;
@@ -383,10 +357,8 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
 bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
 {
-#ifdef CAL_USE_XML
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
-	 return saveXmlCoreMesh(strFilename, pCoreMesh);
-#endif
+    return saveXmlCoreMesh(strFilename, pCoreMesh);
 
   // open the file
   std::ofstream file;
@@ -455,10 +427,8 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
 bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
-#ifdef CAL_USE_XML
-	if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
-	 return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);	
-#endif
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
+    return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);	
 
   // open the file
   std::ofstream file;
@@ -730,7 +700,6 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   return true;
 }
 
-#ifdef CAL_USE_XML
  /*****************************************************************************/
 /** Saves a core skeleton instance to a XML file
   *
@@ -1314,5 +1283,4 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   return true;
 
 }
-#endif
 //****************************************************************************//

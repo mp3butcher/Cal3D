@@ -30,10 +30,7 @@
 #include "coremesh.h"
 #include "coresubmesh.h"
 #include "corematerial.h"
-
-#ifdef CAL_USE_XML
 #include "tinyxml.h"
-#endif
 
  /*****************************************************************************/
 /** Loads a core animation instance.
@@ -50,10 +47,8 @@
 
 CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 {
-#ifdef CAL_USE_XML
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
-	 return loadXmlCoreAnimation(strFilename);
-#endif
+    return loadXmlCoreAnimation(strFilename);
 
   // open the file
   std::ifstream file;
@@ -349,10 +344,8 @@ CalCoreKeyframe *CalLoader::loadCoreKeyframe(std::ifstream& file, const std::str
 
 CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
 {
-#ifdef CAL_USE_XML
-	if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
-	 return loadXmlCoreMaterial(strFilename);
-#endif
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
+    return loadXmlCoreMaterial(strFilename);
 
   // open the file
   std::ifstream file;
@@ -489,10 +482,9 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
 
 CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
 {
-#ifdef CAL_USE_XML
-   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
-	 return loadXmlCoreMesh(strFilename);
-#endif
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
+    return loadXmlCoreMesh(strFilename);
+
   // open the file
   std::ifstream file;
   file.open(strFilename.c_str(), std::ios::in | std::ios::binary);
@@ -581,10 +573,8 @@ CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
 
 CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
 {
-#ifdef CAL_USE_XML
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
-	 return loadXmlCoreSkeleton(strFilename);
-#endif
+    return loadXmlCoreSkeleton(strFilename);
 
   // open the file
   std::ifstream file;
@@ -999,7 +989,6 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
   return pCoreTrack;
 }
 
-#ifdef CAL_USE_XML
  /*****************************************************************************/
 /** Loads a core skeleton instance from a XML file.
   *
@@ -2414,10 +2403,5 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
   
   return pCoreMaterial;
 }
-#endif
-
-
-
-
 
 //****************************************************************************//

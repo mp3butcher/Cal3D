@@ -37,10 +37,6 @@ typedef unsigned short CalIndex;
 typedef int CalIndex; 
 #endif
 
-//Comment this if you don't want to use Cal3D Xml file format
-
-#define CAL_USE_XML
-
 
 //****************************************************************************//
 // Global Cal3D namespace for constants, ...                                  //
@@ -57,12 +53,10 @@ namespace Cal
   const char MESH_FILE_MAGIC[4]      = { 'C', 'M', 'F', '\0' };
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
-#ifdef CAL_USE_XML
   const char SKELETON_XMLFILE_MAGIC[4]  = { 'X', 'S', 'F', '\0' };
   const char ANIMATION_XMLFILE_MAGIC[4]  = { 'X', 'A', 'F', '\0' };
   const char MESH_XMLFILE_MAGIC[4]  = { 'X', 'M', 'F', '\0' };
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
-#endif
 
   // library version
   const int LIBRARY_VERSION = 900;

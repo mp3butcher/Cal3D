@@ -54,13 +54,10 @@ private:
   static CalCoreSubmesh *loadCoreSubmesh(std::ifstream& file, const std::string& strFilename);
   static CalCoreTrack *loadCoreTrack(std::ifstream& file, const std::string& strFilename);
 
-#ifdef CAL_USE_XML  
   static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
   static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
   static CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
   static CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
-#endif
-
 };
 
 #endif
