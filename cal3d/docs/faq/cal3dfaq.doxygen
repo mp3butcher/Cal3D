@@ -1,0 +1,52 @@
+/** @file cal3dfaq.doxygen
+  *
+  */
+
+/** @page cal3dfaq Cal3D FAQ
+ *  Welcome to the Cal3D frequently asked questions list.
+ *
+ *
+ *  @section faqgeneral General Questions about Cal3D
+ *
+ *  <b>What is Cal3D?</b>
+ *
+ *  <b>What can I do with Cal3D?</b>
+ *  <b>What DOESN'T Cal3D do?</b>
+ *  <b>Is Cal3D stable enough to use in a game?</b>
+ *  <b>Can I use Cal3D for a commercial product?</b>
+ *  <b>What operating systems does Cal3D work on?</b>
+ *  <b>Can I use Cal3D with OpenGL?, Direct3D, etc?</b>
+ *  <b>Who else is using Cal3D?</b>
+ *  
+ *  Worldforge
+ *  vjAvatar
+ *  A Tale in the Desert
+ *  Desert Rats
+ *  
+ *
+ *  @section Character Modeling
+ *
+ *  <b>How do I make new characters?</b>
+ *  <b>What modeling packages does Cal3D support?</b>
+ *  <b>How do I export from 3D Studio MAX to Cal3D?</b>
+ *  <b>Why does the exporter crash?</b>
+ *  <b>Is there an exporter for Maya?</b>
+ *  <b>Is there an exporter for Blender?</b>
+ *
+ *
+ *  @section Programming
+ *
+ *  <b>Are there Python bindings for Cal3D?</b>
+ *  <b>What coordinate system does Cal3D use?</b>
+ *  <b>Why are there classes and core classes?</b>
+ *
+ *
+ *  @section Compiling Cal3D
+ * 
+ *  <b>Where is the bipexp.h file?</b>
+ *  <b>What versions of MAX does Cal3D's exporter plugin work with?</b>
+ *
+ *
+ *
+ *
+ */ 
