@@ -10,10 +10,53 @@
  *
  *  <b>What is Cal3D?</b>
  *
- *  
+ *  <ul>
+ *  Cal3D is a skeletal based 3D character animation library written in C++ 
+ *  in a way that is both platform-independent and graphics API-independent. 
+ *  It was originally designed to be used in a 3D client for Worldforge, but 
+ *  evolved into a stand-alone product which can be used in many different 
+ *  kinds of projects.
+ *
+ *  Cal3D's essentials can be boiled down to 2 parts: the C++ library and the 
+ *  exporter. The exporter is what you would use to take your characters 
+ *  (built in a 3D modeling package) and create the Cal3D-format files that 
+ *  the library knows how to load. The exporters are actually plug-ins for 3D 
+ *  modeling packages. This allows 3D artists to use the modeling tools that 
+ *  they're already comfortable with.
+ * 
+ *  The C++ library is what you would actually use in your application, whether
+ *  it's a game or a VR application. The library provides methods to load your
+ *  exported files, build characters, run animations, and access the data
+ *  necessary to render them with 3D graphics.
+ *  </ul>
  *
  *  <b>What can I do with Cal3D?</b>
  *
+ *  <ul>
+ *  Primarily, Cal3D is useful for putting animated 3D characters into your 
+ *  interactive graphical applications. 
+ *
+ *  The exporters provide a bridge for users to take their characters created
+ *  in a 3D modeling package to their own applications, where they will have
+ *  control over the characters' actions. 
+ *
+ *  Cal3D can perform animation blending. This means that you can execute 
+ *  multiple animations at the same time and Cal3D will blend them together
+ *  smoothly. This effect is best demonstrated in the Cally Demo, where the
+ *  walking, running, and strutting animations can be blended together in any
+ *  ratio to get a wide variety of movement characteristics. 
+ *
+ *  Cal3D also provides an automatic level-of-detail control, which allows you
+ *  to scale back the number of polygons that make up your character at runtime. 
+ *  This can be a good performance boost when your character is farther away 
+ *  and the lower detail isn't noticable to the viewer. 
+ *  
+ *  With a little work, you can fully manipulate the individual parts of your
+ *  characters. This is useful when you want to create truly dynamic motion at
+ *  runtime without the aid of predefined animations. For instance, if you
+ *  wanted your character's head to turn as a car goes past him, you could
+ *  control the head's rotation directly to keep facing the moving car.
+ *  </ul>
  *
  *  <b>What DOESN'T Cal3D do?</b>
  *
@@ -69,7 +112,7 @@
  *  </ul>
  *
  *
- *  <b>Can I use Cal3D with OpenGL?, Direct3D, etc?</b>
+ *  <b>Can I use Cal3D with OpenGL / Direct3D / etc?</b>
  *
  *  <ul>
  *  Cal3D is designed to be independent of any graphics API such as OpenGL or
@@ -108,6 +151,17 @@
  *  If you know of anyone else using Cal3D, let us know!
  *  </ul>
  *  
+ *  <b>Can I just load my 3D Studio MAX files directly into Cal3D?</b>
+ *
+ *  <ul>
+ *  No. You have to export your character to Cal3D-format files. There are many
+ *  different things besides just animated figures that can be included in a 
+ *  3DS file, and to make the Cal3D library sort these things out automagically
+ *  would be an incredibly difficult task. 
+ *
+ *  Plus, you can only have a single animation stored in a 3DS file and 
+ *  characters will typically have a variety of animations to choose from. 
+ *  </ul>
  *
  *  @section calmodeling Character Modeling
  *
