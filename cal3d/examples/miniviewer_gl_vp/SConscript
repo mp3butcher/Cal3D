@@ -1,0 +1,13 @@
+Import('*')
+env = env.Copy(tools=['glut'], toolpath=['../../toolspec'])
+env.Append(
+    CPPDEFINES=['GLEW_STATIC'],
+    CPPPATH=['src', '#/src'],
+    LIBPATH=['#/src/cal3d'],
+    LIBS=['cal3d'])
+env.Program('miniviewer_gl_vp', [
+    'src/glew.c',
+    'src/main.cpp',
+    'src/tga.cpp',
+    'src/tick.cpp',
+    'src/viewer.cpp'])
