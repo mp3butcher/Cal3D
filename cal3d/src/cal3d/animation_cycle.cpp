@@ -156,7 +156,7 @@ void CalAnimationCycle::setAsync(float time, float duration)
 
 bool CalAnimationCycle::update(float deltaTime)
 {
-  if(m_targetDelay <= deltaTime)
+  if(m_targetDelay <= fabs(deltaTime))
   {
     // we reached target delay, set to full weight
     m_weight = m_targetWeight;
