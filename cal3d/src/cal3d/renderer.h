@@ -26,15 +26,6 @@ class CalModel;
 class CalSubmesh;
 
 //****************************************************************************//
-// VertexBuffer Format declarations                                           //
-//****************************************************************************//
-
-#define CAL3D_VF_XYZ 1
-#define CAL3D_VF_NORMAL 2
-#define CAL3D_VF_TEX1 4
-
-
-//****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
@@ -63,7 +54,11 @@ public:
   void getAmbientColor(unsigned char *pColorBuffer);
   void getDiffuseColor(unsigned char *pColorBuffer);
   int getFaceCount();
+#ifdef CAL_16BIT_INDICES
+  int getFaces(unsigned short *pFaceBuffer);
+#else
   int getFaces(int *pFaceBuffer);
+#endif
   int getMapCount();
   Cal::UserData getMapUserData(int mapId);
   int getMeshCount();

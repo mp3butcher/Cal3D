@@ -224,8 +224,11 @@ int CalRenderer::getFaceCount()
   *
   * @return The number of faces written to the buffer.
   *****************************************************************************/
-
+#ifdef CAL_16BIT_INDICES
+int CalRenderer::getFaces(unsigned short *pFaceBuffer)
+#else
 int CalRenderer::getFaces(int *pFaceBuffer)
+#endif
 {
   return m_pSelectedSubmesh->getFaces(pFaceBuffer);
 }

@@ -49,7 +49,7 @@ public:
     FILE_WRITING_FAILED,
     INCOMPATIBLE_FILE_VERSION,
     NO_MESH_IN_MODEL,
-    MAX_ERROR_CODE
+    MAX_ERROR_CODE	
   };
 
 // member variables

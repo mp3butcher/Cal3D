@@ -1,6 +1,7 @@
 //****************************************************************************//
 // submesh.cpp                                                                //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -177,8 +178,11 @@ int CalSubmesh::getFaceCount()
   *
   * @return The number of faces written to the buffer.
   *****************************************************************************/
-
-int CalSubmesh::getFaces(int *pFaceBuffer)
+#ifdef CAL_16BIT_INDICES
+int CalSubmesh::getFaces(unsigned short *pFaceBuffer)
+#else
+  int CalSubmesh::getFaces(int *pFaceBuffer)
+#endif
 {
   // copy the face vector to the face buffer
   memcpy(pFaceBuffer, &m_vectorFace[0], m_faceCount * sizeof(Face));
@@ -317,7 +321,11 @@ void CalSubmesh::setLodLevel(float lodLevel)
     for(vertexId = 0; vertexId < 3; vertexId++)
     {
       // get the vertex id
+#ifdef CAL_16BIT_INDICES
+      unsigned short collapsedVertexId;
+#else
       int collapsedVertexId;
+#endif      
       collapsedVertexId = vectorFace[faceId].vertexId[vertexId];
 
       // collapse the vertex id until it fits into the current lod level

@@ -878,9 +878,41 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Face face;
 
     // load data of the face
+#ifdef CAL_16BIT_INDICES
+	int tmp;
+	CalPlatform::readInteger(file, tmp);
+	if(tmp>65536)
+	{
+	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      pCoreSubmesh->destroy();
+      delete pCoreSubmesh;
+      return 0;
+	}
+	face.vertexId[0]=tmp;
+	CalPlatform::readInteger(file, tmp);
+	if(tmp>65536)
+	{
+	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      pCoreSubmesh->destroy();
+      delete pCoreSubmesh;
+      return 0;
+	}
+	face.vertexId[1]=tmp;
+	CalPlatform::readInteger(file, tmp);
+	if(tmp>65536)
+	{
+	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      pCoreSubmesh->destroy();
+      delete pCoreSubmesh;
+      return 0;
+	}
+	face.vertexId[2]=tmp;
+
+#else
     CalPlatform::readInteger(file, face.vertexId[0]);
     CalPlatform::readInteger(file, face.vertexId[1]);
     CalPlatform::readInteger(file, face.vertexId[2]);
+#endif
 
     // check if an error happend
     if(!file)
