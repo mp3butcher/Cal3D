@@ -634,7 +634,7 @@ bool Viewer::loadVertexProgram()
 	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, m_vertexProgramId );
 	
 	glProgramStringARB( GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB,
-		sizeof(vertexProgramStr), vertexProgramStr );
+		strlen(vertexProgramStr), vertexProgramStr );
 	
 	if ( GL_INVALID_OPERATION == glGetError() )
 	{
