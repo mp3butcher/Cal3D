@@ -35,6 +35,12 @@ class CalCoreMesh;
 class CalCoreSubmesh;
 class CalCoreMaterial;
 
+enum
+{
+    LOADER_ROTATE_X_AXIS = 1,
+    LOADER_INVERT_V_COORD = 2
+};
+
 //****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
@@ -67,6 +73,8 @@ public:
   static CalCoreMesh *loadCoreMesh(CalDataSource& inputSrc);
   static CalCoreSkeleton *loadCoreSkeleton(CalDataSource& inputSrc);
 
+  static void setLoadingMode(int flags);
+
 private:
   static CalCoreBone *loadCoreBones(CalDataSource& dataSrc);
   static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc);
@@ -77,6 +85,8 @@ private:
   static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
   static CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
   static CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
+
+  static int loadingMode;
 };
 
 #endif

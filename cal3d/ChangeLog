@@ -3,9 +3,11 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
 
 o-----------------------------------------------------------------------------o
-| Version 0.9.1 ( 26. November 2003) 
+| Version 0.9.1 ( 29. November 2003) 
 o-----------------------------------------------------------------------------o
-
+  - Modifications to the loader to accomplish the 
+    X axis (Y/Z) rotation from Keith Fulton <keith@paqrat.com>
+  - Implementation of UV coord inversion from Keith Fulton  
   - Implemented loading from generic "data sources", which will allow the
     loading of Cal3d objects from istreams and memory buffers
   - Implementation of mesh morph targets from old_belge

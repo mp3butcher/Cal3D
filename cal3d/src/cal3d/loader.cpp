@@ -34,6 +34,25 @@
 #include "cal3d/streamsource.h"
 #include "cal3d/buffersource.h"
 
+int CalLoader::loadingMode;
+
+ /*****************************************************************************/
+/** Sets optional flags which affect how the model is loaded into memory.
+  *
+  * This function sets the loading mode for all future loader calls.
+  *
+  * @param flags A boolean OR of any of the following flags
+  *         \li LOADER_ROTATE_X_AXIS will rotate the mesh 90 degrees about the X axis,
+  *             which has the effect of swapping Y/Z coordinates.
+  *         \li LOADER_INVERT_V_COORD will substitute (1-v) for any v texture coordinate
+  *             to eliminate the need for texture inversion after export.
+  *
+  *****************************************************************************/
+void CalLoader::setLoadingMode(int flags)
+{
+    loadingMode = flags;
+}
+
  /*****************************************************************************/
 /** Loads a core animation instance.
   *
@@ -803,6 +822,24 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
   int parentId;
   dataSrc.readInteger(parentId);
 
+  CalQuaternion rot(rx,ry,rz,rw);
+  CalQuaternion rotbs(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace);
+  CalVector trans(tx,ty,tz);
+
+  if (loadingMode & LOADER_ROTATE_X_AXIS)
+  {
+    if (parentId == -1) // only root bone necessary
+    {
+      // Root bone must have quaternion rotated
+      float temp = (float)sqrt(2.0f)/2.0f;
+      CalQuaternion x_axis_90(temp,0.0f,0.0f,temp);
+      rot *= x_axis_90;
+      // Root bone must have translation rotated also
+      trans.set(tx,tz,ty);
+    }
+  }
+  
+
   // check if an error happened
   if(!dataSrc.ok())
   {
@@ -830,10 +867,10 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
   pCoreBone->setParentId(parentId);
 
   // set all attributes of the bone
-  pCoreBone->setTranslation(CalVector(tx, ty, tz));
-  pCoreBone->setRotation(CalQuaternion(rx, ry, rz, rw));
+  pCoreBone->setTranslation(trans);
+  pCoreBone->setRotation(rot);
   pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
-  pCoreBone->setRotationBoneSpace(CalQuaternion(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace));
+  pCoreBone->setRotationBoneSpace(rotbs);
 
   // read the number of children
   int childCount;
@@ -1052,6 +1089,11 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
       dataSrc.readFloat(textureCoordinate.u);
       dataSrc.readFloat(textureCoordinate.v);
 
+      if (loadingMode & LOADER_INVERT_V_COORD)
+      {
+          textureCoordinate.v = 1.0f - textureCoordinate.v;
+      }
+
       // check if an error happened
       if(!dataSrc.ok())
       {
@@ -1258,6 +1300,25 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc)
       delete pCoreTrack;
       return 0;
     }
+    if (loadingMode & LOADER_ROTATE_X_AXIS)
+    {
+      // Check for anim rotation
+      if (!coreBoneId)  // root bone
+      {
+        // rotate root bone quaternion
+        CalQuaternion rot = pCoreKeyframe->getRotation();
+        float temp = (float)sqrt(2.0f)/2.0f;
+        CalQuaternion x_axis_90(temp,0.0f,0.0f,temp);
+        rot *= x_axis_90;
+        pCoreKeyframe->setRotation(rot);
+        // rotate root bone displacement
+        CalVector vec = pCoreKeyframe->getTranslation();
+        temp = vec.y;
+        vec.y = vec.z;
+        vec.z = temp;
+        pCoreKeyframe->setTranslation(vec);
+      }
+    }    
 
     // add the core keyframe to the core track instance
     pCoreTrack->addCoreKeyframe(pCoreKeyframe);
