@@ -8,6 +8,7 @@ DIE=0
 : ${AUTOHEADER=autoheader}
 : ${ACLOCAL=aclocal}
 : ${AUTOMAKE=automake}
+: ${LIBTOOLIZE=libtoolize}
 
 ($AUTOHEADER --version) < /dev/null > /dev/null 2>&1 || {
   echo
@@ -28,11 +29,20 @@ DIE=0
   DIE=1
 }
 
+($LIBTOOLIZE --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo "**Error**: Missing libtoolize"
+  DIE=1
+}
+
 if test "$DIE" -eq 1; then
   exit 1
 fi
 
 aclocalinclude="$ACLOCAL_FLAGS"
+
+echo "Running $LIBTOOLIZE ..."
+$LIBTOOLIZE --force --copy
 
 echo "Running $ACLOCAL $aclocalinclude ..."
 $ACLOCAL $aclocalinclude
@@ -41,7 +51,7 @@ echo "Running $AUTOHEADER..."
 $AUTOHEADER
 
 echo "Running $AUTOMAKE ..."
-$AUTOMAKE --add-missing
+$AUTOMAKE --add-missing --copy --force
 
 echo "Running $AUTOCONF ..."
 $AUTOCONF
