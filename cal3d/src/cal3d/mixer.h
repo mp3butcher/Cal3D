@@ -108,50 +108,6 @@ public:
   virtual bool isDefaultMixer() { return false; }
 
   /*****************************************************************************/
-  /**
-   * Allocates and initializes all resources needed for the instance to
-   * operate.
-   *
-   * When subclassing, it is recommended that the constructor does as
-   * little as possible and leaves the work to the \b create
-   * method. The \b create method must be called before any other
-   * method. It MUST support multiple calls without undesirable side
-   * effects (for instance object->create(model) called twice without
-   * a call to object->destroy() in between must not leak memory).
-   *
-   * The CalModel::setAbstractMixer method will call \b create. The
-   * CalModel::create method will call \b create if called after the
-   * instance was set using CalModel::setAbstractMixer (otherwise
-   * an instance of CalMixer is allocated and its \b create method
-   * is called).
-   *
-   * @param pModel a pointer to the CalModel instance in which the
-   *        animations to be mixed are found.
-   * 
-   * @return \li \b true if successful
-   *         \li \b false if an error happend
-   *
-   *****************************************************************************/
-  virtual bool create(CalModel *pModel) = 0;
-
-  /*****************************************************************************/
-  /**
-   * Releases all resources used by the instance and frees all
-   * allocated memory. It is recommended that the destructor of a
-   * CalAbstractMixer subclass does as little as possible and leaves
-   * the work to the destroy method. The \b destroy method MUST
-   * support multiple calls without undesirable side effects (such 
-   * as deallocating a pointer twice).
-   *
-   * The CalModel::destroy method will call destroy if the instance
-   * was allocated by CalModel::create (in which case it is a CalMixer
-   * instance) or if the instance was set via
-   * CalModel::setAbstractMixer.
-   *
-   *****************************************************************************/
-  virtual void destroy() = 0;
-
-  /*****************************************************************************/
   /** 
    * Notifies the instance that updateAnimation was last called
    * deltaTime seconds ago. The internal scheduler of the instance
@@ -189,38 +145,16 @@ public:
   virtual void updateSkeleton() = 0;
 };
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The mixer class.
-  *****************************************************************************/
 
 class CAL3D_API CalMixer : public CalAbstractMixer
 {
-// member variables
 public:
-  CalModel *m_pModel;
-  std::vector<CalAnimation *> m_vectorAnimation;
-  std::list<CalAnimationAction *> m_listAnimationAction;
-  std::list<CalAnimationCycle *> m_listAnimationCycle;
-  float m_animationTime;
-  float m_animationDuration;
-  float m_timeFactor;
-
-// constructors/destructor
-public:
-  CalMixer();
+  CalMixer(CalModel* pModel);
   virtual ~CalMixer();
 
-// member functions	
-public:
   virtual bool isDefaultMixer() { return true; }
   bool blendCycle(int id, float weight, float delay);
   bool clearCycle(int id, float delay);
-  virtual bool create(CalModel *pModel);
-  virtual void destroy();
   bool executeAction(int id, float delayIn, float delayOut, float weightTarget = 1.0f, bool autoLock=false);
   bool removeAction(int id);
   virtual void updateAnimation(float deltaTime);
@@ -231,7 +165,14 @@ public:
   void setTimeFactor(float timeFactor);
   float getTimeFactor();
   
-
+private:
+  CalModel *m_pModel;
+  std::vector<CalAnimation *> m_vectorAnimation;
+  std::list<CalAnimationAction *> m_listAnimationAction;
+  std::list<CalAnimationCycle *> m_listAnimationCycle;
+  float m_animationTime;
+  float m_animationDuration;
+  float m_timeFactor;
 };
 
 #endif

@@ -36,8 +36,23 @@
   * This function is the default constructor of the mixer instance.
   *****************************************************************************/
 
-CalMixer::CalMixer()
+CalMixer::CalMixer(CalModel* pModel)
 {
+  assert(pModel);
+
+  m_pModel = pModel;
+
+  // build the animation table
+  int coreAnimationCount = m_pModel->getCoreModel()->getCoreAnimationCount();
+
+  m_vectorAnimation.reserve(coreAnimationCount);
+  CalAnimation* null = 0;
+  m_vectorAnimation.insert(m_vectorAnimation.begin(), coreAnimationCount, null);
+
+  // set the animation time/duration values to default
+  m_animationTime = 0.0f;
+  m_animationDuration = 0.0f;
+  m_timeFactor = 1.0f;
 }
 
  /*****************************************************************************/
@@ -48,9 +63,29 @@ CalMixer::CalMixer()
 
 CalMixer::~CalMixer()
 {
-  assert(m_vectorAnimation.empty());
-  assert(m_listAnimationCycle.empty());
-  assert(m_listAnimationAction.empty());
+  // destroy all active animation actions
+  while(!m_listAnimationAction.empty())
+  {
+    CalAnimationAction *pAnimationAction = m_listAnimationAction.front();
+    m_listAnimationAction.pop_front();
+
+    delete pAnimationAction;
+  }
+
+  // destroy all active animation cycles
+  while(!m_listAnimationCycle.empty())
+  {
+    CalAnimationCycle *pAnimationCycle;
+    pAnimationCycle = m_listAnimationCycle.front();
+    m_listAnimationCycle.pop_front();
+
+    delete pAnimationCycle;
+  }
+
+  // clear the animation table
+  m_vectorAnimation.clear();
+
+  m_pModel = 0;
 }
 
  /*****************************************************************************/
@@ -120,17 +155,10 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
 	}
 
     // allocate a new animation cycle instance
-    CalAnimationCycle *pAnimationCycle = new CalAnimationCycle();
+    CalAnimationCycle *pAnimationCycle = new CalAnimationCycle(pCoreAnimation);
     if(pAnimationCycle == 0)
     {
       CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-      return false;
-    }
-
-    // create the new animation instance
-    if(!pAnimationCycle->create(pCoreAnimation))
-    {
-      delete pAnimationCycle;
       return false;
     }
 
@@ -214,69 +242,6 @@ bool CalMixer::clearCycle(int id, float delay)
   return pAnimationCycle->blend(0.0f, delay);
 }
 
-bool CalMixer::create(CalModel *pModel)
-{
-  if(pModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pModel = pModel;
-
-  CalCoreModel *pCoreModel;
-  pCoreModel = m_pModel->getCoreModel();
-  if(pCoreModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  // build the animation table
-  int coreAnimationCount;
-  coreAnimationCount = m_pModel->getCoreModel()->getCoreAnimationCount();
-
-  m_vectorAnimation.reserve(coreAnimationCount);
-  m_vectorAnimation.insert(m_vectorAnimation.begin(), (std::vector<CalAnimation *>::size_type)coreAnimationCount, 0);
-
-  // set the animation time/duration values to default
-  m_animationTime = 0.0f;
-  m_animationDuration = 0.0f;
-  m_timeFactor = 1.0f;
-
-  return true;
-}
-
-void CalMixer::destroy()
-{
-  // destroy all active animation actions
-  while(!m_listAnimationAction.empty())
-  {
-    CalAnimationAction *pAnimationAction;
-    pAnimationAction = m_listAnimationAction.front();
-    m_listAnimationAction.pop_front();
-
-    pAnimationAction->destroy();
-    delete pAnimationAction;
-  }
-
-  // destroy all active animation cycles
-  while(!m_listAnimationCycle.empty())
-  {
-    CalAnimationCycle *pAnimationCycle;
-    pAnimationCycle = m_listAnimationCycle.front();
-    m_listAnimationCycle.pop_front();
-
-    pAnimationCycle->destroy();
-    delete pAnimationCycle;
-  }
-
-  // clear the animation table
-  m_vectorAnimation.clear();
-
-  m_pModel = 0;
-}
-
 /*****************************************************************************/
 /** Executes an animation action.
   *
@@ -306,18 +271,10 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   }
 
   // allocate a new animation action instance
-  CalAnimationAction *pAnimationAction;
-  pAnimationAction = new CalAnimationAction();
+  CalAnimationAction *pAnimationAction = new CalAnimationAction(pCoreAnimation);
   if(pAnimationAction == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return false;
-  }
-
-  // create the new animation instance
-  if(!pAnimationAction->create(pCoreAnimation))
-  {
-    delete pAnimationAction;
     return false;
   }
 
@@ -360,7 +317,6 @@ bool CalMixer::removeAction(int id)
     if((*iteratorAnimationAction)->getCoreAnimation() == pCoreAnimation )
     {
         // found, so remove
-      (*iteratorAnimationAction)->destroy();
       delete (*iteratorAnimationAction);
       iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
       return true;
@@ -411,7 +367,6 @@ void CalMixer::updateAnimation(float deltaTime)
     else
     {
       // animation action has ended, destroy and remove it from the animation list
-      (*iteratorAnimationAction)->destroy();
       delete (*iteratorAnimationAction);
       iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
     }
@@ -444,7 +399,6 @@ void CalMixer::updateAnimation(float deltaTime)
     else
     {
       // animation cycle has ended, destroy and remove it from the animation list
-      (*iteratorAnimationCycle)->destroy();
       delete (*iteratorAnimationCycle);
       iteratorAnimationCycle = m_listAnimationCycle.erase(iteratorAnimationCycle);
     }

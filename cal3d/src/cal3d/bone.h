@@ -11,9 +11,6 @@
 #ifndef CAL_BONE_H
 #define CAL_BONE_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/vector.h"
@@ -21,54 +18,22 @@
 #include "cal3d/matrix.h"
 #include "cal3d/corebone.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 //class CalCoreBone;
 class CalSkeleton;
 class CalModel;
 class CalCoreModel;
-//class CalBoundingBox;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The bone class.
-  *****************************************************************************/
 
 class CAL3D_API CalBone
 {
-// member variables
-protected:
-  CalCoreBone *m_pCoreBone;
-  CalSkeleton *m_pSkeleton;
-  float m_accumulatedWeight;
-  float m_accumulatedWeightAbsolute;
-  CalVector m_translation;
-  CalQuaternion m_rotation;
-  CalVector m_translationAbsolute;
-  CalQuaternion m_rotationAbsolute;
-  CalVector m_translationBoneSpace;
-  CalQuaternion m_rotationBoneSpace;
-  CalMatrix m_transformMatrix;  
-  CalBoundingBox m_boundingBox;
-
-
-// constructors/destructor
 public:
-  CalBone();
-  virtual ~CalBone();
+  CalBone(CalCoreBone* coreBone);
+  ~CalBone() { }
 
-// member functions
-public:
   void blendState(float weight, const CalVector& translation, const CalQuaternion& rotation);
   void calculateState();
   void clearState();
-  bool create(CalCoreBone *pCoreBone);
-  void destroy();
   CalCoreBone *getCoreBone();
   void setCoreState();
   void setCoreStateRecursive();
@@ -86,7 +51,19 @@ public:
   void calculateBoundingBox();
   CalBoundingBox & getBoundingBox();
 
-
+private:
+  CalCoreBone *m_pCoreBone;
+  CalSkeleton *m_pSkeleton;
+  float m_accumulatedWeight;
+  float m_accumulatedWeightAbsolute;
+  CalVector m_translation;
+  CalQuaternion m_rotation;
+  CalVector m_translationAbsolute;
+  CalQuaternion m_rotationAbsolute;
+  CalVector m_translationBoneSpace;
+  CalQuaternion m_rotationBoneSpace;
+  CalMatrix m_transformMatrix;  
+  CalBoundingBox m_boundingBox;
 };
 
 #endif

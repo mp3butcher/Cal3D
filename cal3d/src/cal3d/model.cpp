@@ -37,7 +37,7 @@
   * This function is the default constructor of the model instance.
   *****************************************************************************/
 
-CalModel::CalModel()
+CalModel::CalModel(CalCoreModel* pCoreModel)
   : m_pCoreModel(0)
   , m_pSkeleton(0)
   , m_pMixer(0)
@@ -47,6 +47,17 @@ CalModel::CalModel()
   , m_pRenderer(0)
   , m_userData(0)
 {
+  assert(pCoreModel);
+
+  m_pCoreModel = pCoreModel;
+  m_pSkeleton = new CalSkeleton(pCoreModel->getCoreSkeleton());
+  m_pMixer = new CalMixer(this);
+  m_pMorphTargetMixer = new CalMorphTargetMixer(this);
+  m_pPhysique = new CalPhysique(this);
+  m_pSpringSystem = new CalSpringSystem(this);
+  m_pRenderer = new CalRenderer(this);
+
+  m_userData = 0;
 }
 
  /*****************************************************************************/
@@ -57,7 +68,17 @@ CalModel::CalModel()
 
 CalModel::~CalModel()
 {
-  assert(m_vectorMesh.empty());
+  for(size_t meshId = 0; meshId < m_vectorMesh.size(); ++meshId)
+  {
+    delete m_vectorMesh[meshId];
+  }
+
+  delete m_pRenderer;
+  delete m_pSpringSystem;
+  delete m_pPhysique;
+  delete m_pMixer;
+  delete m_pMorphTargetMixer;
+  delete m_pSkeleton;
 }
 
  /*****************************************************************************/
@@ -98,18 +119,10 @@ bool CalModel::attachMesh(int coreMeshId)
   }
 
   // allocate a new mesh instance
-  CalMesh *pMesh;
-  pMesh = new CalMesh();
+  CalMesh *pMesh = new CalMesh(pCoreMesh);
   if(pMesh == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return false;
-  }
-
-  // create the new mesh instance
-  if(!pMesh->create(pCoreMesh))
-  {
-    delete pMesh;
     return false;
   }
 
@@ -122,244 +135,6 @@ bool CalModel::attachMesh(int coreMeshId)
   return true;
 }
 
- /*****************************************************************************/
-/** Creates the model instance.
-  *
-  * This function creates the model instance based on a core model.
-  *
-  * @param pCoreModel A pointer to the core model on which this model instance
-  *                   should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalModel::create(CalCoreModel *pCoreModel)
-{
-  if(pCoreModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreModel = pCoreModel;
-
-  // allocate a new skeleton instance
-  CalSkeleton *pSkeleton;
-  pSkeleton = new CalSkeleton();
-  if(pSkeleton == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return false;
-  }
-
-  // create the skeleton from the core skeleton
-  if(!pSkeleton->create(pCoreModel->getCoreSkeleton()))
-  {
-    delete pSkeleton;
-    return false;
-  }
-
-  m_pSkeleton = pSkeleton;
-
-  // if a mixer was already set (from a previous call to create or
-  // a call to setAbstractMixer), re-use it. Otherwise create a
-  // CalMixer instance.
-  CalAbstractMixer *pMixer;
-  if(m_pMixer) {
-    pMixer = m_pMixer;
-    pMixer->destroy();
-  } else
-    pMixer = new CalMixer();
-  
-  if(pMixer == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    return false;
-  }
-
-  // create the mixer from this model
-  if(!pMixer->create(this))
-  {
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    delete pMixer;
-    return false;
-  }
-
-  m_pMixer = pMixer;
-
-  // Create the morph target mixer from this model
-  m_pMorphTargetMixer = new CalMorphTargetMixer();
-  if(!m_pMorphTargetMixer->create(this)) return false;
-
-  // allocate a new physqiue instance
-  CalPhysique *pPhysique;
-  pPhysique = new CalPhysique();
-  if(pPhysique == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    return false;
-  }
-
-  // create the physique from this model
-  if(!pPhysique->create(this))
-  {
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    delete pPhysique;
-    return false;
-  }
-
-  m_pPhysique = pPhysique;
-
-  // allocate a new spring system instance
-  CalSpringSystem *pSpringSystem;
-  pSpringSystem = new CalSpringSystem();
-  if(pSpringSystem == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    m_pPhysique->destroy();
-    delete m_pPhysique;
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    return false;
-  }
-
-  // create the spring system from this model
-  if(!pSpringSystem->create(this))
-  {
-    m_pPhysique->destroy();
-    delete m_pPhysique;
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    delete pSpringSystem;
-    return false;
-  }
-
-  m_pSpringSystem = pSpringSystem;
-
-  // allocate a new renderer instance
-  CalRenderer *pRenderer;
-  pRenderer = new CalRenderer();
-  if(pRenderer == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    m_pSpringSystem->destroy();
-    delete m_pSpringSystem;
-    m_pPhysique->destroy();
-    delete m_pPhysique;
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    return false;
-  }
-
-  // create the renderer from this model
-  if(!pRenderer->create(this))
-  {
-    m_pSpringSystem->destroy();
-    delete m_pSpringSystem;
-    m_pPhysique->destroy();
-    delete m_pPhysique;
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    delete pRenderer;
-    return false;
-  }
-
-  m_pRenderer = pRenderer;
-
-  // initialize the user data
-  m_userData = 0;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the model instance.
-  *
-  * This function destroys all data stored in the model instance and frees all
-  * allocated memory.
-  *****************************************************************************/
-
-void CalModel::destroy()
-{
-  // destroy all active meshes
-  int meshId;
-  for(meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
-  {
-    m_vectorMesh[meshId]->destroy();
-    delete m_vectorMesh[meshId];
-  }
-  m_vectorMesh.clear();
-
-  // destroy the renderer instance
-  if(m_pRenderer != 0)
-  {
-    m_pRenderer->destroy();
-    delete m_pRenderer;
-    m_pRenderer = 0;
-  }
-
-  // destroy the spring system instance
-  if(m_pSpringSystem != 0)
-  {
-    m_pSpringSystem->destroy();
-    delete m_pSpringSystem;
-    m_pSpringSystem = 0;
-  }
-
-  // destroy the physique instance
-  if(m_pPhysique != 0)
-  {
-    m_pPhysique->destroy();
-    delete m_pPhysique;
-    m_pPhysique = 0;
-  }
-
-  // destroy the mixer instance
-  if(m_pMixer != 0)
-  {
-    m_pMixer->destroy();
-    delete m_pMixer;
-    m_pMixer = 0;
-  }
-  
-  // destroy the morph target mixer instance
-  if(m_pMorphTargetMixer != 0)
-  {
-    m_pMorphTargetMixer->destroy();
-    delete m_pMorphTargetMixer;
-    m_pMorphTargetMixer = 0;
-  }
-  
-  // destroy the skeleton instance
-  if(m_pSkeleton != 0)
-  {
-    m_pSkeleton->destroy();
-    delete m_pSkeleton;
-    m_pSkeleton = 0;
-  }
-
-  m_pCoreModel = 0;
-}
 
  /*****************************************************************************/
 /** Detaches a mesh.
@@ -398,7 +173,6 @@ bool CalModel::detachMesh(int coreMeshId)
     if(pMesh->getCoreMesh() == pCoreMesh)
     {
       // destroy the mesh
-      pMesh->destroy();
       delete pMesh;
 
       // erase the mesh out of the active mesh list
@@ -525,13 +299,7 @@ CalAbstractMixer *CalModel::getAbstractMixer() const
 
 void CalModel::setAbstractMixer(CalAbstractMixer* pMixer)
 {
-  if(m_pMixer != 0)
-    m_pMixer->destroy();
-
   m_pMixer = pMixer;
-
-  if(m_pMixer != 0)
-    m_pMixer->create(this);
 }
 
 /*****************************************************************************/

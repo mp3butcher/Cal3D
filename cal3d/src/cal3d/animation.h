@@ -11,29 +11,15 @@
 #ifndef CAL_ANIMATION_H
 #define CAL_ANIMATION_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreAnimation;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The animation class.
-  *****************************************************************************/
 
 class CAL3D_API CalAnimation
 {
-// misc
 public:
   enum Type
   {
@@ -51,28 +37,14 @@ public:
     STATE_IN,
     STATE_STEADY,
     STATE_OUT,
-	STATE_STOPPED
+    STATE_STOPPED
   };
 
-// member variables
 protected:
-  CalCoreAnimation *m_pCoreAnimation;
-  Type m_type;
-  State m_state;
-  float m_time;
-  float m_timeFactor;
-  float m_weight;
-
-// constructors/destructor
-protected:
-  CalAnimation();
+  CalAnimation(CalCoreAnimation* pCoreAnimation);
 public:
-  virtual ~CalAnimation();
+  virtual ~CalAnimation() { }
 
-// member functions	
-public:
-  virtual bool create(CalCoreAnimation *pCoreAnimation) = 0;
-  virtual void destroy();
   CalCoreAnimation *getCoreAnimation();
   State getState();
   float getTime();
@@ -82,6 +54,26 @@ public:
   void setTimeFactor(float timeFactor);
   float getTimeFactor();
 
+protected:
+  void setType(Type type) {
+    m_type = type;
+  }
+
+  void setState(State state) {
+    m_state = state;
+  }
+
+  void setWeight(float weight) {
+    m_weight = weight;
+  }
+
+private:
+  CalCoreAnimation *m_pCoreAnimation;
+  Type m_type;
+  State m_state;
+  float m_time;
+  float m_timeFactor;
+  float m_weight;
 };
 
 #endif

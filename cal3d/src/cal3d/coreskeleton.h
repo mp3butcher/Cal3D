@@ -11,47 +11,21 @@
 #ifndef CAL_CORESKELETON_H
 #define CAL_CORESKELETON_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreBone;
 class CalCoreModel;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core skeleton class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreSkeleton
 {
-// member variables
-protected:
-  std::vector<CalCoreBone *> m_vectorCoreBone;
-  std::map< std::string, int > m_mapCoreBoneNames;
-  std::list<int> m_listRootCoreBoneId;  
-  int m_referenceCount;
-
-// constructors/destructor
 public:
   CalCoreSkeleton();
-  virtual ~CalCoreSkeleton();
+  ~CalCoreSkeleton();
 
-// member functions
-public:
   int addCoreBone(CalCoreBone *pCoreBone);
   void calculateState();
-  bool create();
-  void destroy();
   CalCoreBone* getCoreBone(int coreBoneId);
   CalCoreBone* getCoreBone(const std::string& strName);
   int getCoreBoneId(const std::string& strName);
@@ -62,6 +36,12 @@ public:
   void scale(float factor);
   void incRef();
   bool decRef();    
+
+private:
+  std::vector<CalCoreBone *> m_vectorCoreBone;
+  std::map< std::string, int > m_mapCoreBoneNames;
+  std::list<int> m_listRootCoreBoneId;  
+  int m_referenceCount;
 };
 
 #endif

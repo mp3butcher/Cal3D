@@ -11,17 +11,10 @@
 #ifndef CAL_MODEL_H
 #define CAL_MODEL_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/vector.h"
 
-
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreModel;
 class CalSkeleton;
@@ -33,39 +26,14 @@ class CalSpringSystem;
 class CalRenderer;
 class CalMesh;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The model class.
-  *****************************************************************************/
 
 class CAL3D_API CalModel
 {
-// member variables
-protected:
-  CalCoreModel *m_pCoreModel;
-  CalSkeleton *m_pSkeleton;
-  CalAbstractMixer *m_pMixer;
-  CalMorphTargetMixer *m_pMorphTargetMixer;
-  CalPhysique *m_pPhysique;
-  CalSpringSystem *m_pSpringSystem;
-  CalRenderer *m_pRenderer;
-  Cal::UserData m_userData;
-  std::vector<CalMesh *> m_vectorMesh;
-  CalBoundingBox m_boundingBox;
-
-// constructors/destructor
 public: 
-  CalModel();
-  virtual ~CalModel();
+  CalModel(CalCoreModel* pCoreModel);
+  ~CalModel();
 
-// member functions
-public:
   bool attachMesh(int coreMeshId);
-  bool create(CalCoreModel *pCoreModel);
-  void destroy();
   bool detachMesh(int coreMeshId);
   CalCoreModel *getCoreModel() const;
   CalMesh *getMesh(int coreMeshId) const;
@@ -85,6 +53,18 @@ public:
   void setUserData(Cal::UserData userData);
   void update(float deltaTime);
   void disableInternalData();
+
+private:
+  CalCoreModel *m_pCoreModel;
+  CalSkeleton *m_pSkeleton;
+  CalAbstractMixer *m_pMixer;
+  CalMorphTargetMixer *m_pMorphTargetMixer;
+  CalPhysique *m_pPhysique;
+  CalSpringSystem *m_pSpringSystem;
+  CalRenderer *m_pRenderer;
+  Cal::UserData m_userData;
+  std::vector<CalMesh *> m_vectorMesh;
+  CalBoundingBox m_boundingBox;
 };
 
 #endif

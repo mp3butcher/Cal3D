@@ -11,52 +11,32 @@
 #ifndef CAL_PHYSIQUE_H
 #define CAL_PHYSIQUE_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalModel;
 class CalSubmesh;
 class CalVector;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The physique class.
-  *****************************************************************************/
 
 class CAL3D_API CalPhysique
 {
-// member variables
 public:
-  CalModel *m_pModel;
-  bool m_Normalize;
+  CalPhysique(CalModel* pModel);
+  ~CalPhysique() { }
 
-// constructors/destructor
-public:
-  CalPhysique();
-  virtual ~CalPhysique();
-
-// member functions	
-public:
   int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer);
   int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer);
   int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer);
   CalVector calculateVertex(CalSubmesh *pSubmesh, int vertexId);
   int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer);
   int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
-  bool create(CalModel *pModel);
-  void destroy();
   void update();
   void setNormalization(bool normalize);
+
+private:
+  CalModel *m_pModel;
+  bool m_Normalize;
 };
 
 #endif

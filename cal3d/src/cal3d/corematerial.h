@@ -11,62 +11,31 @@
 #ifndef CAL_COREMATERIAL_H
 #define CAL_COREMATERIAL_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core material class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreMaterial
 {
-// misc
 public:
-  /// The core material Color.
-  typedef struct
+  struct Color
   {
     unsigned char red;
     unsigned char green;
     unsigned char blue;
     unsigned char alpha;
-  } Color;
+  };
 
-  /// The core material Map.
-  typedef struct
+  struct Map
   {
     std::string strFilename;
     Cal::UserData userData;
-  } Map;
+  };
 
-// member variables
-protected:
-  Color m_ambientColor;
-  Color m_diffuseColor;
-  Color m_specularColor;
-  float m_shininess;
-  std::vector<Map> m_vectorMap;
-  Cal::UserData m_userData;
-  std::string m_name;
-  std::string m_filename;
-
-  int m_referenceCount;
-
-// constructors/destructor
 public:
   CalCoreMaterial();
-  virtual ~CalCoreMaterial();
+  ~CalCoreMaterial() { }
 
-// member functions
-public:
-  bool create();
-  void destroy();
   Color& getAmbientColor();
   Color& getDiffuseColor();
   int getMapCount();
@@ -90,6 +59,18 @@ public:
   void setUserData(Cal::UserData userData);
   void incRef();
   bool decRef();  
+
+private:
+  Color m_ambientColor;
+  Color m_diffuseColor;
+  Color m_specularColor;
+  float m_shininess;
+  std::vector<Map> m_vectorMap;
+  Cal::UserData m_userData;
+  std::string m_name;
+  std::string m_filename;
+
+  int m_referenceCount;
 };
 
 #endif

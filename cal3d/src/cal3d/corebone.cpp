@@ -29,20 +29,13 @@
   * This function is the default constructor of the core bone instance.
   *****************************************************************************/
 
-CalCoreBone::CalCoreBone()
-  : m_pCoreSkeleton(0), m_parentId(-1), m_userData(0) , m_boundingBoxPrecomputed(false)
+CalCoreBone::CalCoreBone(const std::string& name)
+  : m_strName(name)
+  , m_pCoreSkeleton(0)
+  , m_parentId(-1)
+  , m_userData(0)
+  , m_boundingBoxPrecomputed(false)
 {
-}
-
- /*****************************************************************************/
-/** Destructs the core bone instance.
-  *
-  * This function is the destructor of the core bone instance.
-  *****************************************************************************/
-
-CalCoreBone::~CalCoreBone()
-{
-  assert(m_listChildId.empty());
 }
 
  /*****************************************************************************/
@@ -102,42 +95,6 @@ void CalCoreBone::calculateState()
   {
     m_pCoreSkeleton->getCoreBone(*iteratorChildId)->calculateState();
   }
-}
-
- /*****************************************************************************/
-/** Creates the core bone instance.
-  *
-  * This function creates the core bone instance.
-  *
-  * @param strName A string that should be used as the name of the core bone
-  *                instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreBone::create(const std::string& strName)
-{
-  m_strName = strName;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core bone instance.
-  *
-  * This function destroys all data stored in the core bone instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreBone::destroy()
-{
-  // clear children id list
-  m_listChildId.clear();
-
-  m_parentId = -1;
-  m_strName.erase();
 }
 
  /*****************************************************************************/

@@ -11,49 +11,31 @@
 #ifndef CAL_CORESUBMORPHTARGET_H
 #define CAL_CORESUBMORPHTARGET_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/vector.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core sub morph target class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreSubMorphTarget
 {
-// misc
 public:
-  /// The core sub morph target BlendVertex.
-  typedef struct
+  struct BlendVertex
   {
      CalVector position;
      CalVector normal;
-  } BlendVertex;
+  };
   
-// member variables
-protected:
-  std::vector<BlendVertex> m_vectorBlendVertex;
-
-// constructors/destructor
 public:
-  CalCoreSubMorphTarget();
-  virtual ~CalCoreSubMorphTarget();
+  CalCoreSubMorphTarget()  { }
+  ~CalCoreSubMorphTarget() { }
 
-// member functions
-public:
-  bool create();
-  void destroy();
   int getBlendVertexCount();
   std::vector<BlendVertex>& getVectorBlendVertex();
   bool reserve(int blendVertexCount);
   bool setBlendVertex(int vertexId, const BlendVertex& vertex);
+
+private:
+  std::vector<BlendVertex> m_vectorBlendVertex;
 };
 #endif
 //****************************************************************************//

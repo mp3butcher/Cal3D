@@ -11,47 +11,20 @@
 #ifndef CAL_COREANIMATION_H
 #define CAL_COREANIMATION_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreTrack;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core animation class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreAnimation
 {
-// member variables
-protected:
-  float m_duration;
-  std::list<CalCoreTrack *> m_listCoreTrack;
-  std::string m_name;
-  std::string m_filename;
-
-  int m_referenceCount;
-
-// constructors/destructor
 public:
   CalCoreAnimation();
-  virtual ~CalCoreAnimation();
+  ~CalCoreAnimation();
 
-// member functions	
-public:
-  bool addCoreTrack(CalCoreTrack *pCoreTrack);
-  bool create();
-  void destroy();
+  void addCoreTrack(CalCoreTrack *pCoreTrack);
   CalCoreTrack *getCoreTrack(int coreBoneId);
   float getDuration();
   std::list<CalCoreTrack *>& getListCoreTrack();
@@ -63,6 +36,14 @@ public:
   const std::string& getName(void);
   void incRef();
   bool decRef();  
+
+private:
+  float m_duration;
+  std::list<CalCoreTrack *> m_listCoreTrack;
+  std::string m_name;
+  std::string m_filename;
+
+  int m_referenceCount;
 };
 
 #endif

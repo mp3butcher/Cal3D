@@ -12,34 +12,28 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/coretrack.h"
 #include "cal3d/error.h"
 #include "cal3d/corekeyframe.h"
 
- /*****************************************************************************/
-/** Constructs the core track instance.
-  *
-  * This function is the default constructor of the core track instance.
-  *****************************************************************************/
 
 CalCoreTrack::CalCoreTrack()
   : m_coreBoneId(-1)
 {
 }
 
- /*****************************************************************************/
-/** Destructs the core track instance.
-  *
-  * This function is the destructor of the core track instance.
-  *****************************************************************************/
 
 CalCoreTrack::~CalCoreTrack()
 {
-  assert(m_keyframes.empty());
+  // destroy all core keyframes
+  for (unsigned i = 0; i < m_keyframes.size(); ++i)
+  {
+    delete m_keyframes[i];
+  }
+  m_keyframes.clear();
+
+  m_coreBoneId = -1;
 }
 
  /*****************************************************************************/
@@ -64,41 +58,6 @@ bool CalCoreTrack::addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe)
   }
 
   return true;
-}
-
- /*****************************************************************************/
-/** Creates the core track instance.
-  *
-  * This function creates the core track instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreTrack::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core track instance.
-  *
-  * This function destroys all data stored in the core track instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreTrack::destroy()
-{
-  // destroy all core keyframes
-  for (unsigned i = 0; i < m_keyframes.size(); ++i)
-  {
-    m_keyframes[i]->destroy();
-    delete m_keyframes[i];
-  }
-  m_keyframes.clear();
-
-  m_coreBoneId = -1;
 }
 
  /*****************************************************************************/

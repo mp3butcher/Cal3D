@@ -11,15 +11,9 @@
 #ifndef CAL_COREMODEL_H
 #define CAL_COREMODEL_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreSkeleton;
 class CalCoreAnimation;
@@ -27,39 +21,11 @@ class CalCoreMorphAnimation;
 class CalCoreMesh;
 class CalCoreMaterial;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core model class.
-  *****************************************************************************/
-
 class CAL3D_API CalCoreModel
 {
-// member variables
-private:
-  std::string m_strName;
-  CalCoreSkeleton *m_pCoreSkeleton;
-  std::vector<CalCoreAnimation *> m_vectorCoreAnimation;
-  std::vector<CalCoreMorphAnimation *> m_vectorCoreMorphAnimation;
-  std::vector<CalCoreMesh *> m_vectorCoreMesh;
-  std::vector<CalCoreMaterial *> m_vectorCoreMaterial;
-  std::map<int, std::map<int, int> > m_mapmapCoreMaterialThread;
-  Cal::UserData m_userData;
-  std::map<std::string, int> m_animationName;
-  std::map<std::string, int> m_materialName;
-  std::map<std::string, int> m_meshName;
-
-// constructors/destructor
 public:
-  CalCoreModel();
-  virtual ~CalCoreModel();
-
-// member functions
-public:
-  bool create(const std::string& strName);
-  void destroy();
+  CalCoreModel(const std::string& name);
+  ~CalCoreModel();
 
   Cal::UserData getUserData();
   void setUserData(Cal::UserData userData);
@@ -118,6 +84,19 @@ public:
   void addBoneName(const std::string& strBoneName, int boneId);
   int getBoneId(const std::string& strBoneName);
 
+// member variables
+private:
+  std::string m_strName;
+  CalCoreSkeleton *m_pCoreSkeleton;
+  std::vector<CalCoreAnimation *> m_vectorCoreAnimation;
+  std::vector<CalCoreMorphAnimation *> m_vectorCoreMorphAnimation;
+  std::vector<CalCoreMesh *> m_vectorCoreMesh;
+  std::vector<CalCoreMaterial *> m_vectorCoreMaterial;
+  std::map<int, std::map<int, int> > m_mapmapCoreMaterialThread;
+  Cal::UserData m_userData;
+  std::map<std::string, int> m_animationName;
+  std::map<std::string, int> m_materialName;
+  std::map<std::string, int> m_meshName;
 };
 
 #endif

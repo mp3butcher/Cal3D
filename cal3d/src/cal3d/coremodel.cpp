@@ -32,8 +32,10 @@
   * This function is the default constructor of the core model instance.
   *****************************************************************************/
 
-CalCoreModel::CalCoreModel()
-  : m_pCoreSkeleton(0), m_userData(0)
+CalCoreModel::CalCoreModel(const std::string& name)
+: m_strName(name)
+, m_pCoreSkeleton(0)
+, m_userData(0)
 {
 }
 
@@ -45,10 +47,67 @@ CalCoreModel::CalCoreModel()
 
 CalCoreModel::~CalCoreModel()
 {
-  assert(m_vectorCoreAnimation.empty());
-  assert(m_vectorCoreMorphAnimation.empty());
-  assert(m_vectorCoreMesh.empty());
-  assert(m_vectorCoreMaterial.empty());
+  // destroy all core materials
+  std::vector<CalCoreMaterial *>::iterator iteratorCoreMaterial;
+  for(iteratorCoreMaterial = m_vectorCoreMaterial.begin(); iteratorCoreMaterial != m_vectorCoreMaterial.end(); ++iteratorCoreMaterial)
+  {
+	  if(*iteratorCoreMaterial) 
+	  {
+		  if((*iteratorCoreMaterial)->decRef())
+		  {
+			  delete (*iteratorCoreMaterial);
+		  }
+	  }
+  }
+  m_vectorCoreMaterial.clear();
+
+  // destroy all core meshes
+  std::vector<CalCoreMesh *>::iterator iteratorCoreMesh;
+  for(iteratorCoreMesh = m_vectorCoreMesh.begin(); iteratorCoreMesh != m_vectorCoreMesh.end(); ++iteratorCoreMesh)
+  {
+	  if(*iteratorCoreMesh) 
+	  {
+		  if((*iteratorCoreMesh)->decRef())
+		  {
+			  delete (*iteratorCoreMesh);
+		  }
+	  }
+  }
+  m_vectorCoreMesh.clear();
+
+  // destroy all core animations
+  std::vector<CalCoreAnimation *>::iterator iteratorCoreAnimation;
+  for(iteratorCoreAnimation = m_vectorCoreAnimation.begin(); iteratorCoreAnimation != m_vectorCoreAnimation.end(); ++iteratorCoreAnimation)
+  {
+	  if(*iteratorCoreAnimation) 
+	  {
+		  if((*iteratorCoreAnimation)->decRef())
+		  {
+			  delete (*iteratorCoreAnimation);
+		  }
+	  }
+  }
+  m_vectorCoreAnimation.clear();
+
+  // destroy all core morph animations
+  std::vector<CalCoreMorphAnimation *>::iterator iteratorCoreMorphAnimation;
+  for(iteratorCoreMorphAnimation = m_vectorCoreMorphAnimation.begin(); iteratorCoreMorphAnimation != 
+      m_vectorCoreMorphAnimation.end(); ++iteratorCoreMorphAnimation)
+  {
+    delete (*iteratorCoreMorphAnimation);
+  }
+  m_vectorCoreMorphAnimation.clear();
+
+  if(m_pCoreSkeleton != 0)
+  {
+    if(m_pCoreSkeleton->decRef())
+	{
+		delete m_pCoreSkeleton;
+	}
+	m_pCoreSkeleton = 0;	
+  }
+
+  m_strName.erase();
 }
 
  /*****************************************************************************/
@@ -148,26 +207,6 @@ int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
 }
 
  /*****************************************************************************/
-/** Creates the core model instance.
-  *
-  * This function creates the core model instance.
-  *
-  * @param strName A string that should be used as the name of the core model
-  *                instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreModel::create(const std::string& strName)
-{
-  m_strName = strName;
-
-  return true;
-}
-
- /*****************************************************************************/
 /** Creates a core material thread.
   *
   * This function creates a new core material thread with the given ID.
@@ -187,83 +226,6 @@ bool CalCoreModel::createCoreMaterialThread(int coreMaterialThreadId)
   m_mapmapCoreMaterialThread.insert(std::make_pair(coreMaterialThreadId, mapCoreMaterialThreadId));
 
   return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core model instance.
-  *
-  * This function destroys all data stored in the core model instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreModel::destroy()
-{
-  // destroy all core materials
-  std::vector<CalCoreMaterial *>::iterator iteratorCoreMaterial;
-  for(iteratorCoreMaterial = m_vectorCoreMaterial.begin(); iteratorCoreMaterial != m_vectorCoreMaterial.end(); ++iteratorCoreMaterial)
-  {
-	  if(*iteratorCoreMaterial) 
-	  {
-		  if((*iteratorCoreMaterial)->decRef())
-		  {
-			  (*iteratorCoreMaterial)->destroy();
-			  delete (*iteratorCoreMaterial);
-		  }
-	  }
-  }
-  m_vectorCoreMaterial.clear();
-
-  // destroy all core meshes
-  std::vector<CalCoreMesh *>::iterator iteratorCoreMesh;
-  for(iteratorCoreMesh = m_vectorCoreMesh.begin(); iteratorCoreMesh != m_vectorCoreMesh.end(); ++iteratorCoreMesh)
-  {
-	  if(*iteratorCoreMesh) 
-	  {
-		  if((*iteratorCoreMesh)->decRef())
-		  {
-			  (*iteratorCoreMesh)->destroy();
-			  delete (*iteratorCoreMesh);
-		  }
-	  }
-  }
-  m_vectorCoreMesh.clear();
-
-  // destroy all core animations
-  std::vector<CalCoreAnimation *>::iterator iteratorCoreAnimation;
-  for(iteratorCoreAnimation = m_vectorCoreAnimation.begin(); iteratorCoreAnimation != m_vectorCoreAnimation.end(); ++iteratorCoreAnimation)
-  {
-	  if(*iteratorCoreAnimation) 
-	  {
-		  if((*iteratorCoreAnimation)->decRef())
-		  {
-			  (*iteratorCoreAnimation)->destroy();
-			  delete (*iteratorCoreAnimation);
-		  }
-	  }
-  }
-  m_vectorCoreAnimation.clear();
-
-  // destroy all core morph animations
-  std::vector<CalCoreMorphAnimation *>::iterator iteratorCoreMorphAnimation;
-  for(iteratorCoreMorphAnimation = m_vectorCoreMorphAnimation.begin(); iteratorCoreMorphAnimation != 
-      m_vectorCoreMorphAnimation.end(); ++iteratorCoreMorphAnimation)
-  {
-    (*iteratorCoreMorphAnimation)->destroy();
-    delete (*iteratorCoreMorphAnimation);
-  }
-  m_vectorCoreMorphAnimation.clear();
-
-  if(m_pCoreSkeleton != 0)
-  {
-    if(m_pCoreSkeleton->decRef())
-	{
-		m_pCoreSkeleton->destroy();
-		delete m_pCoreSkeleton;
-	}
-	m_pCoreSkeleton = 0;	
-  }
-
-  m_strName.erase();
 }
 
  /*****************************************************************************/
@@ -617,7 +579,6 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
 
   if(m_vectorCoreAnimation[coreAnimationId]->decRef())
   {
-	  m_vectorCoreAnimation[coreAnimationId]->destroy();
 	  delete m_vectorCoreAnimation[coreAnimationId];	  
   }
   m_vectorCoreAnimation[coreAnimationId] = 0;
@@ -760,7 +721,6 @@ int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
 
   if(m_vectorCoreMaterial[coreMaterialId]->decRef())
   {
-	  m_vectorCoreMaterial[coreMaterialId]->destroy();
 	  delete m_vectorCoreMaterial[coreMaterialId];	  
   }
   m_vectorCoreMaterial[coreMaterialId] = 0;
@@ -904,7 +864,6 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
 
   if(m_vectorCoreMesh[coreMeshId]->decRef())
   {
-	  m_vectorCoreMesh[coreMeshId]->destroy();
 	  delete m_vectorCoreMesh[coreMeshId];	  
   }
   m_vectorCoreMesh[coreMeshId] = 0;
@@ -933,7 +892,6 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   {
     if(m_pCoreSkeleton->decRef())
     {
-        m_pCoreSkeleton->destroy();
         delete m_pCoreSkeleton;
     }        
   }
@@ -1128,7 +1086,6 @@ void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
   {
 	if(m_pCoreSkeleton->decRef())
 	{
-		m_pCoreSkeleton->destroy();
 		delete m_pCoreSkeleton;
 	}
   }  

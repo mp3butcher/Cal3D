@@ -12,9 +12,6 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/error.h"
 #include "cal3d/bone.h"
@@ -25,27 +22,15 @@
 #include "cal3d/skeleton.h"
 #include "cal3d/coreskeleton.h"
 
- /*****************************************************************************/
-/** Constructs the bone instance.
-  *
-  * This function is the default constructor of the bone instance.
-  *****************************************************************************/
 
-CalBone::CalBone()
-  : m_pCoreBone(0), m_pSkeleton(0)
+CalBone::CalBone(CalCoreBone* coreBone)
+  : m_pSkeleton(0)
 {
-    clearState();
+  assert(coreBone);
+  m_pCoreBone = coreBone;
+  clearState();
 }
 
- /*****************************************************************************/
-/** Destructs the bone instance.
-  *
-  * This function is the destructor of the bone instance.
-  *****************************************************************************/
-
-CalBone::~CalBone()
-{
-}
 
  /*****************************************************************************/
 /** Interpolates the current state to another state.
@@ -157,44 +142,6 @@ void CalBone::clearState()
   m_accumulatedWeightAbsolute = 0.0f;
 }
 
- /*****************************************************************************/
-/** Creates the bone instance.
-  *
-  * This function creates the bone instance based on a core bone.
-  *
-  * @param pCoreBone A pointer to the core bone on which this bone instance
-  *                  should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalBone::create(CalCoreBone *pCoreBone)
-{
-  if(pCoreBone == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreBone = pCoreBone;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the bone instance.
-  *
-  * This function destroys all data stored in the bone instance and frees all
-  * allocated memory.
-  *****************************************************************************/
-
-void CalBone::destroy()
-{
-  m_pCoreBone = 0;
-  m_pSkeleton = 0;
-}
 
  /*****************************************************************************/
 /** Provides access to the core bone.

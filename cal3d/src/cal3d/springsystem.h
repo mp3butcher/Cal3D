@@ -35,25 +35,14 @@ class CalSubmesh;
 
 class CAL3D_API CalSpringSystem
 {
-// member variables
-protected:
-  CalVector m_vGravity;  
-  CalVector m_vForce;  
-
 public:
-  CalModel *m_pModel;
-
-// constructors/destructor
-public:
-  CalSpringSystem();
-  virtual ~CalSpringSystem();
+  CalSpringSystem(CalModel* pModel);
+  ~CalSpringSystem() { }
 
 // member functions	
 public:
   void calculateForces(CalSubmesh *pSubmesh, float deltaTime);
   void calculateVertices(CalSubmesh *pSubmesh, float deltaTime);
-  bool create(CalModel *pModel);
-  void destroy();
   void update(float deltaTime);
   
   CalVector & getGravityVector();
@@ -69,6 +58,11 @@ public:
   } Sphere;
   void setSphere(float x, float y, float z, float radius) { Sphere.x = x; Sphere.y = y; Sphere.z = z; Sphere.radius = radius; };
   *********************************/
+
+private:
+  CalModel *m_pModel;
+  CalVector m_vGravity;  
+  CalVector m_vForce;  
 };
 
 #endif

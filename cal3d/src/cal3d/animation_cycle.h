@@ -11,46 +11,27 @@
 #ifndef CAL_ANIMATION_CYCLE_H
 #define CAL_ANIMATION_CYCLE_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/animation.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreAnimation;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The animation cycle class.
-  *****************************************************************************/
 
 class CAL3D_API CalAnimationCycle : public CalAnimation
 {
-// member variables
-protected:
-  float m_targetDelay;
-  float m_targetWeight;
-
-// constructors/destructor
 public:
-  CalAnimationCycle();
-  virtual ~CalAnimationCycle();
+  CalAnimationCycle(CalCoreAnimation* pCoreAnimation);
+  virtual ~CalAnimationCycle() { }
 
-// member functions	
-public:
   bool blend(float weight, float delay);
-  bool create(CalCoreAnimation *pCoreAnimation);
-  void destroy();
   void setAsync(float time, float duration);
   bool update(float deltaTime);
+
+private:
+  float m_targetDelay;
+  float m_targetWeight;
 };
 
 #endif

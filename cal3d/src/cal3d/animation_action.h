@@ -11,50 +11,29 @@
 #ifndef CAL_ANIMATION_ACTION_H
 #define CAL_ANIMATION_ACTION_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/animation.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreAnimation;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The animation action class.
-  *****************************************************************************/
 
 class CAL3D_API CalAnimationAction : public CalAnimation
 {
-// member variables
-protected:
+public:
+  CalAnimationAction(CalCoreAnimation* pCoreAnimation);
+  virtual ~CalAnimationAction() { }
+
+  bool execute(float delayIn, float delayOut, float weightTarget = 1.0f,bool autoLock=false);
+  bool update(float deltaTime);
+
+private:
   float m_delayIn;
   float m_delayOut;
   float m_delayTarget;
   float m_weightTarget;
   bool  m_autoLock; 
-
-// constructor/destructor
-public:
-  CalAnimationAction();
-  virtual ~CalAnimationAction();
-
-// member functions	
-public:
-  bool create(CalCoreAnimation *pCoreAnimation);
-  void destroy();
-  bool execute(float delayIn, float delayOut, float weightTarget = 1.0f,bool autoLock=false);
-  bool update(float deltaTime);
 };
 
 #endif
-
-//****************************************************************************//

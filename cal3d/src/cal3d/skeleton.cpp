@@ -29,9 +29,33 @@
   * This function is the default constructor of the skeleton instance.
   *****************************************************************************/
 
-CalSkeleton::CalSkeleton()
-  : m_pCoreSkeleton(0),m_isBoundingBoxesComputed(false)
+CalSkeleton::CalSkeleton(CalCoreSkeleton* pCoreSkeleton)
+  : m_pCoreSkeleton(0)
+  , m_isBoundingBoxesComputed(false)
 {
+  assert(pCoreSkeleton);
+  m_pCoreSkeleton = pCoreSkeleton;
+
+  // clone the skeleton structure of the core skeleton
+  std::vector<CalCoreBone *>& vectorCoreBone = pCoreSkeleton->getVectorCoreBone();
+
+  // get the number of bones
+  int boneCount = vectorCoreBone.size();
+
+  // reserve space in the bone vector
+  m_vectorBone.reserve(boneCount);
+
+  // clone every core bone
+  for(int boneId = 0; boneId < boneCount; ++boneId)
+  {
+    CalBone *pBone = new CalBone(vectorCoreBone[boneId]);
+
+    // set skeleton in the bone instance
+    pBone->setSkeleton(this);
+
+    // insert bone into bone vector
+    m_vectorBone.push_back(pBone);
+  }
 }
 
  /*****************************************************************************/
@@ -42,7 +66,12 @@ CalSkeleton::CalSkeleton()
 
 CalSkeleton::~CalSkeleton()
 {
-  assert(m_vectorBone.empty());
+  // destroy all bones
+  std::vector<CalBone *>::iterator iteratorBone;
+  for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
+  {
+    delete (*iteratorBone);
+  }
 }
 
  /*****************************************************************************/
@@ -83,88 +112,6 @@ void CalSkeleton::clearState()
   m_isBoundingBoxesComputed=false;
 }
 
- /*****************************************************************************/
-/** Creates the skeleton instance.
-  *
-  * This function creates the skeleton instance based on a core skeleton.
-  *
-  * @param pCoreSkeleton A pointer to the core skeleton on which this skeleton
-  *                      instance should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalSkeleton::create(CalCoreSkeleton *pCoreSkeleton)
-{
-  if(pCoreSkeleton == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreSkeleton = pCoreSkeleton;
-
-  // clone the skeleton structure of the core skeleton
-  std::vector<CalCoreBone *>& vectorCoreBone = pCoreSkeleton->getVectorCoreBone();
-
-  // get the number of bones
-  int boneCount;
-  boneCount = vectorCoreBone.size();
-
-  // reserve space in the bone vector
-  m_vectorBone.reserve(boneCount);
-
-  // clone every core bone
-  int boneId;
-  for(boneId = 0; boneId < boneCount; ++boneId)
-  {
-    CalBone *pBone;
-    pBone = new CalBone();
-    if(pBone == 0)
-    {
-      CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-      return false;
-    }
-
-    // create a bone for every core bone
-    if(!pBone->create(vectorCoreBone[boneId]))
-    {
-      delete pBone;
-      return false;
-    }
-
-    // set skeleton in the bone instance
-    pBone->setSkeleton(this);
-
-    // insert bone into bone vector
-    m_vectorBone.push_back(pBone);
-  }
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the skeleton instance.
-  *
-  * This function destroys all data stored in the skeleton instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalSkeleton::destroy()
-{
-  // destroy all bones
-  std::vector<CalBone *>::iterator iteratorBone;
-  for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
-  {
-    (*iteratorBone)->destroy();
-    delete (*iteratorBone);
-  }
-  m_vectorBone.clear();
-
-  m_pCoreSkeleton = 0;
-}
 
  /*****************************************************************************/
 /** Provides access to a bone.

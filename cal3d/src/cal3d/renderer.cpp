@@ -35,9 +35,12 @@
   * This function is the default constructor of the renderer instance.
   *****************************************************************************/
 
-CalRenderer::CalRenderer()
+CalRenderer::CalRenderer(CalModel* pModel)
   : m_pSelectedSubmesh(0)
 {
+  assert(pModel);
+
+  m_pModel = pModel;
 }
 
  /*****************************************************************************/
@@ -51,16 +54,6 @@ CalRenderer::CalRenderer(CalRenderer* pRenderer)
 {
   m_pModel = pRenderer->m_pModel ;
   m_pSelectedSubmesh = pRenderer->m_pSelectedSubmesh ;
-}
-
- /*****************************************************************************/
-/** Destructs the renderer instance.
-  *
-  * This function is the destructor of the renderer instance.
-  *****************************************************************************/
-
-CalRenderer::~CalRenderer()
-{
 }
 
  /*****************************************************************************/
@@ -87,44 +80,6 @@ bool CalRenderer::beginRendering()
   if(m_pSelectedSubmesh == 0) return false;
 
   return true;
-}
-
- /*****************************************************************************/
-/** Creates the renderer instance.
-  *
-  * This function creates the renderer instance.
-  *
-  * @param pModel A pointer to the model that should be managed with this
-  *               renderer instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalRenderer::create(CalModel *pModel)
-{
-  if(pModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pModel = pModel;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the renderer instance.
-  *
-  * This function destroys all data stored in the renderer instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalRenderer::destroy()
-{
-  m_pModel = 0;
 }
 
  /*****************************************************************************/

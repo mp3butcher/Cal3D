@@ -11,47 +11,22 @@
 #ifndef CAL_CORETRACK_H
 #define CAL_CORETRACK_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/matrix.h"
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreBone;
 class CalCoreKeyframe;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
-//*****************************************************************************/
-//** The core track class.
-//*****************************************************************************/
 
 class CAL3D_API CalCoreTrack
 {
-// member variables
-protected:
-  /// The index of the associated CoreBone in the CoreSkeleton.
-  int m_coreBoneId;
-
-  /// List of keyframes, always sorted by time.
-  std::vector<CalCoreKeyframe*> m_keyframes;
-
-// constructors/destructor
 public:
   CalCoreTrack();
-  virtual ~CalCoreTrack();
-
-  bool create();
-  void destroy();
+  ~CalCoreTrack();
 
   bool getState(float time, CalVector& translation, CalQuaternion& rotation);
 
@@ -67,6 +42,12 @@ public:
 
 private:
   std::vector<CalCoreKeyframe*>::iterator getUpperBound(float time);
+
+  /// The index of the associated CoreBone in the CoreSkeleton.
+  int m_coreBoneId;
+
+  /// List of keyframes, always sorted by time.
+  std::vector<CalCoreKeyframe*> m_keyframes;
 };
 
 #endif

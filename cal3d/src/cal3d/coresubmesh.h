@@ -11,103 +11,65 @@
 #ifndef CAL_CORESUBMESH_H
 #define CAL_CORESUBMESH_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/vector.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreSubMorphTarget;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core submesh class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreSubmesh
 {
-// misc
 public:
-  /// The core submesh TextureCoordinate.
-  typedef struct
+  struct TextureCoordinate
   {
     float u, v;
-  } TextureCoordinate;
+  };
 
-  typedef struct 
+  struct TangentSpace
   {
     CalVector tangent;
     float crossFactor;  // To get the binormal, use ((N x T) * crossFactor)
-  } TangentSpace;
+  };
 
-
-  /// The core submesh Influence.
-  typedef struct
+  struct Influence
   {
     int boneId;
     float weight;
-  } Influence;
+  };
 
-  /// The core submesh PhysicalProperty.
-  typedef struct
+  struct PhysicalProperty
   {
     float weight;
-  } PhysicalProperty;
+  };
 
-  /// The core submesh Vertex.
-  typedef struct
+  struct Vertex
   {
     CalVector position;
     CalVector normal;
     std::vector<Influence> vectorInfluence;
     int collapseId;
     int faceCollapseCount;
-  } Vertex;
+  };
 
-  /// The core submesh Face.
-  typedef struct
+  struct Face
   {
-	  CalIndex vertexId[3];
-  } Face;
+    CalIndex vertexId[3];
+  };
   
   /// The core submesh Spring.
-  typedef struct
+  struct Spring
   {
     int vertexId[2];
     float springCoefficient;
     float idleLength;
-  } Spring;
+  };
 
-// member variables
-protected:
-  std::vector<Vertex> m_vectorVertex;
-  std::vector<bool> m_vectorTangentsEnabled;
-  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
-  std::vector<std::vector<TextureCoordinate> > m_vectorvectorTextureCoordinate;
-  std::vector<PhysicalProperty> m_vectorPhysicalProperty;
-  std::vector<Face> m_vectorFace;
-  std::vector<Spring> m_vectorSpring;
-  std::vector<CalCoreSubMorphTarget *> m_vectorCoreSubMorphTarget;
-  int m_coreMaterialThreadId;
-  int m_lodCount;
-
-// constructors/destructor
 public:
   CalCoreSubmesh();
-  virtual ~CalCoreSubmesh();
+  ~CalCoreSubmesh();
 
-// member functions	
-public:
-  bool create();
-  void destroy();
   int getCoreMaterialThreadId();
   int getFaceCount();
   int getLodCount();
@@ -135,8 +97,21 @@ public:
   int getCoreSubMorphTargetCount();
   std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
   void scale(float factor);
-protected:
+
+private:
   void UpdateTangentVector(int v0, int v1, int v2, int channel);
+
+private:
+  std::vector<Vertex> m_vectorVertex;
+  std::vector<bool> m_vectorTangentsEnabled;
+  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
+  std::vector<std::vector<TextureCoordinate> > m_vectorvectorTextureCoordinate;
+  std::vector<PhysicalProperty> m_vectorPhysicalProperty;
+  std::vector<Face> m_vectorFace;
+  std::vector<Spring> m_vectorSpring;
+  std::vector<CalCoreSubMorphTarget *> m_vectorCoreSubMorphTarget;
+  int m_coreMaterialThreadId;
+  int m_lodCount;
 };
 
 #endif

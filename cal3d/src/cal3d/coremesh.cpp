@@ -39,7 +39,13 @@ CalCoreMesh::CalCoreMesh() : m_referenceCount(0)
 
 CalCoreMesh::~CalCoreMesh()
 {
-  assert(m_vectorCoreSubmesh.empty());
+  // destroy all core submeshes
+  for(size_t i = 0; i < m_vectorCoreSubmesh.size(); ++i)
+  {
+    delete m_vectorCoreSubmesh[i];
+  }
+
+  m_vectorCoreSubmesh.clear();
 }
 
  /*****************************************************************************/
@@ -65,40 +71,6 @@ int CalCoreMesh::addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh)
   return submeshId;
 }
 
- /*****************************************************************************/
-/** Creates the core mesh instance.
-  *
-  * This function creates the core mesh instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreMesh::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core mesh instance.
-  *
-  * This function destroys all data stored in the core mesh instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreMesh::destroy()
-{
-  // destroy all core submeshes
-  std::vector<CalCoreSubmesh *>::iterator iteratorCoreSubmesh;
-  for(iteratorCoreSubmesh = m_vectorCoreSubmesh.begin(); iteratorCoreSubmesh != m_vectorCoreSubmesh.end(); ++iteratorCoreSubmesh)
-  {
-    (*iteratorCoreSubmesh)->destroy();
-    delete (*iteratorCoreSubmesh);
-  }
-
-  m_vectorCoreSubmesh.clear();
-}
 
  /*****************************************************************************/
 /** Provides access to a core submesh.
@@ -198,7 +170,6 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
   {
     int vertexCount = (*otherIteratorCoreSubmesh)->getVertexCount();
     CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new CalCoreSubMorphTarget();
-    if(!pCalCoreSubMorphTarget->create()) return -1;
     if(!pCalCoreSubMorphTarget->reserve(vertexCount)) return -1;
     std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
     std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();

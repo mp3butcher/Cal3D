@@ -32,22 +32,35 @@
   * This function is the default constructor of the morph target mixer instance.
   *****************************************************************************/
 
-CalMorphTargetMixer::CalMorphTargetMixer()
-  : m_pModel(0)
+CalMorphTargetMixer::CalMorphTargetMixer(CalModel* pModel)
 {
+  assert(pModel);
+  m_pModel = pModel;
+
+  if(pModel->getCoreModel()->getCoreMorphAnimationCount() != 0)
+  {
+    int morphAnimationCount = pModel->getCoreModel()->getCoreMorphAnimationCount();
+    // reserve the space needed in all the vectors
+    m_vectorCurrentWeight.resize(morphAnimationCount);
+    m_vectorEndWeight.resize(morphAnimationCount);
+    m_vectorDuration.resize(morphAnimationCount);
+    std::vector<float>::iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
+    std::vector<float>::iterator iteratorEndWeight = m_vectorEndWeight.begin();
+    std::vector<float>::iterator iteratorDuration = m_vectorDuration.begin();
+    while(iteratorCurrentWeight!=m_vectorCurrentWeight.end())
+    {
+      (*iteratorCurrentWeight) = 0.0f;
+      (*iteratorEndWeight) = 0.0f;
+      (*iteratorDuration) = 0.0f;
+      ++iteratorCurrentWeight;
+      ++iteratorEndWeight;
+      ++iteratorDuration;
+    }
+  }
 }
 
- /*****************************************************************************/
-/** Destructs the morph target mixer instance.
-  *
-  * This function is the destructor of the morph target mixer instance.
-  *****************************************************************************/
 
-CalMorphTargetMixer::~CalMorphTargetMixer()
-{
-}
-
- /*****************************************************************************/
+/*****************************************************************************/
 /** Interpolates the weight of a morph target.
   *
   * This function interpolates the weight of a morph target a new value
@@ -131,66 +144,6 @@ float CalMorphTargetMixer::getCurrentWeightBase()
     ++iteratorCurrentWeight;
   }
   return currentWeight;
-}
- /*****************************************************************************/
-/** Creates the morph target mixer instance.
-  *
-  * This function creates the mixer instance.
-  *
-  * @param pModel A pointer to the model that should be managed with this 
-  *               morph target mixer instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalMorphTargetMixer::create(CalModel *pModel)
-{
-  if(pModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-  m_pModel = pModel;
-  
-  if(pModel->getCoreModel()->getCoreMorphAnimationCount() != 0)
-  {
-    int morphAnimationCount = pModel->getCoreModel()->getCoreMorphAnimationCount();
-    // reserve the space needed in all the vectors
-    m_vectorCurrentWeight.reserve(morphAnimationCount);
-    m_vectorCurrentWeight.resize(morphAnimationCount);
-    m_vectorEndWeight.reserve(morphAnimationCount);
-    m_vectorEndWeight.resize(morphAnimationCount);
-    m_vectorDuration.reserve(morphAnimationCount);
-    m_vectorDuration.resize(morphAnimationCount);
-    std::vector<float>::iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
-    std::vector<float>::iterator iteratorEndWeight = m_vectorEndWeight.begin();
-    std::vector<float>::iterator iteratorDuration = m_vectorDuration.begin();
-    while(iteratorCurrentWeight!=m_vectorCurrentWeight.end())
-    {
-      (*iteratorCurrentWeight) = 0.0f;
-      (*iteratorEndWeight) = 0.0f;
-      (*iteratorDuration) = 0.0f;
-      ++iteratorCurrentWeight;
-      ++iteratorEndWeight;
-      ++iteratorDuration;
-    }
-  }
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the morph target mixer instance.
-  *
-  * This function destroys all data stored in the mixer instance and frees all
-  * allocated memory.
-  *****************************************************************************/
-
-void CalMorphTargetMixer::destroy()
-{
-  m_pModel = 0;
 }
 
  /*****************************************************************************/

@@ -26,59 +26,12 @@
   * This function is the default constructor of the animation action instance.
   *****************************************************************************/
 
-CalAnimationAction::CalAnimationAction() : CalAnimation()
+CalAnimationAction::CalAnimationAction(CalCoreAnimation* pCoreAnimation)
+: CalAnimation(pCoreAnimation)
 {
-  m_type = TYPE_ACTION;
+  setType(TYPE_ACTION);
 }
 
- /*****************************************************************************/
-/** Destructs the animation action instance.
-  *
-  * This function is the destructor of the animation action instance.
-  *****************************************************************************/
-
-CalAnimationAction::~CalAnimationAction()
-{
-}
-
- /*****************************************************************************/
-/** Creates the animation action instance.
-  *
-  * This function creates the animation action instance based on a core
-  * animation.
-  *
-  * @param pCoreAnimation A pointer to the core animation on which this
-  *                       animation action instance should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalAnimationAction::create(CalCoreAnimation *pCoreAnimation)
-{
-  if(pCoreAnimation == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreAnimation = pCoreAnimation;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the animation action instance.
-  *
-  * This function destroys all data stored in the animation action instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalAnimationAction::destroy()
-{
-  m_pCoreAnimation = 0;
-}
 
  /*****************************************************************************/
 /** Executes the animation action instance.
@@ -100,11 +53,11 @@ void CalAnimationAction::destroy()
 
 bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget,bool autoLock)
 {
-  m_state = STATE_IN;
-  m_weight = 0.0f;
+  setState(STATE_IN);
+  setWeight(0.0f);
   m_delayIn = delayIn;
   m_delayOut = delayOut;
-  m_time = 0.0f;
+  setTime(0.0f);
   m_weightTarget = weightTarget;
   m_autoLock = autoLock;
 
@@ -129,56 +82,55 @@ bool CalAnimationAction::update(float deltaTime)
 {
   // update animation action time
 
-  if(m_state != STATE_STOPPED)
+  if(getState() != STATE_STOPPED)
   {
-	  m_time += deltaTime * m_timeFactor;
+    setTime(getTime() + deltaTime * getTimeFactor());
   }
 
   // handle IN phase
-  if(m_state == STATE_IN)
+  if(getState() == STATE_IN)
   {
     // check if we are still in the IN phase
-    if(m_time < m_delayIn)
+    if(getTime() < m_delayIn)
     {
-      m_weight = m_time / m_delayIn * m_weightTarget;
+      setWeight(getTime() / m_delayIn * m_weightTarget);
       //m_weight = m_time / m_delayIn;
     }
     else
     {
-      m_state = STATE_STEADY;
-      m_weight = m_weightTarget;
+      setState(STATE_STEADY);
+      setWeight(m_weightTarget);
     }
   }
 
   // handle STEADY
-  if(m_state == STATE_STEADY)
+  if(getState() == STATE_STEADY)
   {
     // check if we reached OUT phase
-    if(!m_autoLock && m_time >= m_pCoreAnimation->getDuration() - m_delayOut)
+    if(!m_autoLock && getTime() >= getCoreAnimation()->getDuration() - m_delayOut)
     {
-      m_state = STATE_OUT;
+      setState(STATE_OUT);
     }
     // if the anim is supposed to stay locked on last keyframe, reset the time here.
-    else if (m_autoLock && m_time > m_pCoreAnimation->getDuration())
-	{
-	  m_state = STATE_STOPPED;
-	  m_time = m_pCoreAnimation->getDuration();
-	}      
+    else if (m_autoLock && getTime() > getCoreAnimation()->getDuration())
+    {
+      setState(STATE_STOPPED);
+      setTime(getCoreAnimation()->getDuration());
+    }      
   }
 
   // handle OUT phase
-  if(m_state == STATE_OUT)
+  if(getState() == STATE_OUT)
   {
     // check if we are still in the OUT phase
-    if(m_time < m_pCoreAnimation->getDuration())
+    if(getTime() < getCoreAnimation()->getDuration())
     {
-      m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut * m_weightTarget;
-//      m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut;
+      setWeight((getCoreAnimation()->getDuration() - getTime()) / m_delayOut * m_weightTarget);
     }
     else
     {
       // we reached the end of the action animation
-      m_weight = 0.0f;
+      setWeight(0.0f);
       return false;
     }
   }

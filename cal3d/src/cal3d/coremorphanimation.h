@@ -11,39 +11,21 @@
 #ifndef CAL_COREMORPHANIMATION_H
 #define CAL_COREMOPRHANIMATION_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/global.h"
-
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core morph animation class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreMorphAnimation
 {
-// member variables
-protected:
-  std::vector<int> m_vectorCoreMeshID;
-  std::vector<int> m_vectorMorphTargetID;
-
-// constructors/destructor
 public:
-  CalCoreMorphAnimation();
-  virtual ~CalCoreMorphAnimation();
+  CalCoreMorphAnimation()  { }
+  ~CalCoreMorphAnimation() { }
 
-// member functions	
-public:
   bool addMorphTarget(int coreMeshID,int morphTargetID);
-  bool create();
-  void destroy();
   std::vector<int>& getVectorCoreMeshID();
   std::vector<int>& getVectorMorphTargetID();
+
+private:
+  std::vector<int> m_vectorCoreMeshID;
+  std::vector<int> m_vectorMorphTargetID;
 };
 
 #endif

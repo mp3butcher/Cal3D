@@ -11,63 +11,25 @@
 #ifndef CAL_COREBONE_H
 #define CAL_COREBONE_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/matrix.h"
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreSkeleton;
 class CalCoreModel;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
-
- /*****************************************************************************/
-/** The core bone class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreBone
 {
-// member variables
-protected:
-  std::string m_strName;
-  CalCoreSkeleton *m_pCoreSkeleton;
-  int m_parentId;
-  std::list<int> m_listChildId;
-  CalVector m_translation;
-  CalQuaternion m_rotation;
-  CalVector m_translationAbsolute;
-  CalQuaternion m_rotationAbsolute;
-  CalVector m_translationBoneSpace;
-  CalQuaternion m_rotationBoneSpace;
-  Cal::UserData m_userData;
-
-  CalBoundingBox m_boundingBox;
-  CalVector m_boundingPosition[6];
-  bool m_boundingBoxPrecomputed;
-  
-
-// constructors/destructor
 public:
-  CalCoreBone();
-  virtual ~CalCoreBone();
+  CalCoreBone(const std::string& name);
+  ~CalCoreBone() { }
 
-// member functions
-public:
   bool addChildId(int childId);
   void calculateState();
-  bool create(const std::string& strName);
-  void destroy();
   std::list<int>& getListChildId();
   const std::string& getName();
   int getParentId();
@@ -93,6 +55,22 @@ public:
   bool isBoundingBoxPrecomputed();
   void scale(float factor);
   
+private:
+  std::string m_strName;
+  CalCoreSkeleton *m_pCoreSkeleton;
+  int m_parentId;
+  std::list<int> m_listChildId;
+  CalVector m_translation;
+  CalQuaternion m_rotation;
+  CalVector m_translationAbsolute;
+  CalQuaternion m_rotationAbsolute;
+  CalVector m_translationBoneSpace;
+  CalQuaternion m_rotationBoneSpace;
+  Cal::UserData m_userData;
+
+  CalBoundingBox m_boundingBox;
+  CalVector m_boundingPosition[6];
+  bool m_boundingBoxPrecomputed;
 };
 
 #endif

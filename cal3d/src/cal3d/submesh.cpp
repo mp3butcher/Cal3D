@@ -12,58 +12,16 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/submesh.h"
 #include "cal3d/error.h"
 #include "cal3d/coresubmesh.h"
 
- /*****************************************************************************/
-/** Constructs the submesh instance.
-  *
-  * This function is the default constructor of the submesh instance.
-  *****************************************************************************/
 
-CalSubmesh::CalSubmesh()
-  : m_pCoreSubmesh(0)
+CalSubmesh::CalSubmesh(CalCoreSubmesh* coreSubmesh)
 {
-}
+  assert(coreSubmesh);
 
- /*****************************************************************************/
-/** Destructs the submesh instance.
-  *
-  * This function is the destructor of the submesh instance.
-  *****************************************************************************/
-
-CalSubmesh::~CalSubmesh()
-{
-
-}
-
- /*****************************************************************************/
-/** Creates the submesh instance.
-  *
-  * This function creates the submesh instance based on a core submesh.
-  *
-  * @param pCoreSubmesh A pointer to the core submesh on which this submesh
-  *                     instance should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
-{
-  if(pCoreSubmesh == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreSubmesh = pCoreSubmesh;
+  m_pCoreSubmesh = coreSubmesh;
 
   // reserve memory for the face vector
   m_vectorFace.reserve(m_pCoreSubmesh->getFaceCount());
@@ -120,30 +78,6 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
   {
     m_bInternalData = false;
   }
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the submesh instance.
-  *
-  * This function destroys all data stored in the submesh instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalSubmesh::destroy()
-{
-  m_vectorFace.clear();
-
-  if(m_bInternalData)
-  {
-    m_vectorVertex.clear();
-    m_vectorNormal.clear();
-    m_vectorvectorTangentSpace.clear();
-    m_vectorPhysicalProperty.clear();
-  }
-
-  m_pCoreSubmesh = 0;
 }
 
  /*****************************************************************************/

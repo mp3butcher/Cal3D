@@ -11,45 +11,22 @@
 #ifndef CAL_RENDERER_H
 #define CAL_RENDERER_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalModel;
 class CalSubmesh;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The renderer class.
-  *****************************************************************************/
 
 class CAL3D_API CalRenderer
 {
-// member variables
 public:
-  CalModel *m_pModel;
-  CalSubmesh *m_pSelectedSubmesh;
-
-// constructors/destructor
-public:
-  CalRenderer();
+  CalRenderer(CalModel* pModel);
   CalRenderer(CalRenderer* pRenderer); 
-  virtual ~CalRenderer();
+  ~CalRenderer() { }
 
-// member functions	
-public:
   bool beginRendering();
-  bool create(CalModel *pModel);
-  void destroy();
   void endRendering();
   void getAmbientColor(unsigned char *pColorBuffer);
   void getDiffuseColor(unsigned char *pColorBuffer);
@@ -72,6 +49,9 @@ public:
   bool selectMeshSubmesh(int meshId, int submeshId);
   void setNormalization(bool normalize);
 
+private:
+  CalModel *m_pModel;
+  CalSubmesh *m_pSelectedSubmesh;
 };
 
 #endif

@@ -11,49 +11,31 @@
 #ifndef CAL_MORPHTARGETMIXER_H
 #define CAL_MORPHTARGETMIXER_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalModel;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
 
- /*****************************************************************************/
-/** The morph target mixer class.
-  *****************************************************************************/
 class CAL3D_API CalMorphTargetMixer
 {
-// member variables
-protected:
-  std::vector<float> m_vectorCurrentWeight;
-  std::vector<float> m_vectorEndWeight;
-  std::vector<float> m_vectorDuration;
-  CalModel *m_pModel;
-
-// constructors/destructor
 public:
-  CalMorphTargetMixer();
-  virtual ~CalMorphTargetMixer();
+  CalMorphTargetMixer(CalModel* model);
+  ~CalMorphTargetMixer() { }
 
-// member functions
-public:
   bool blend(int id, float weight, float delay);
   bool clear(int id, float delay);
   float getCurrentWeight(int id);
   float getCurrentWeightBase();
   int getMorphTargetCount();
-  bool create(CalModel *pModel);
-  void destroy();
   void update(float deltaTime);
+
+private:
+  std::vector<float> m_vectorCurrentWeight;
+  std::vector<float> m_vectorEndWeight;
+  std::vector<float> m_vectorDuration;
+  CalModel *m_pModel;
 };
 
 #endif

@@ -33,19 +33,12 @@
   * This function is the default constructor of the physique instance.
   *****************************************************************************/
 
-CalPhysique::CalPhysique()
-  : m_pModel(0), m_Normalize(true)
+CalPhysique::CalPhysique(CalModel* pModel)
+  : m_pModel(0)
+  , m_Normalize(true)
 {
-}
-
- /*****************************************************************************/
-/** Destructs the physique instance.
-  *
-  * This function is the destructor of the physique instance.
-  *****************************************************************************/
-
-CalPhysique::~CalPhysique()
-{
+  assert(pModel);
+  m_pModel = pModel;
 }
 
  /*****************************************************************************/
@@ -923,53 +916,6 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
   return vertexCount;
 }
 
-
-
- /*****************************************************************************/
-/** Creates the physique instance.
-  *
-  * This function creates the physique instance.
-  *
-  * @param pModel A pointer to the model that should be managed with this
-  *               physique instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalPhysique::create(CalModel *pModel)
-{
-  if(pModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pModel = pModel;
-
-  CalCoreModel *pCoreModel;
-  pCoreModel = m_pModel->getCoreModel();
-  if(pCoreModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the physique instance.
-  *
-  * This function destroys all data stored in the physique instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalPhysique::destroy()
-{
-  m_pModel = 0;
-}
 
  /*****************************************************************************/
 /** Updates all the internally handled attached meshes.

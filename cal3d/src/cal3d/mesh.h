@@ -11,45 +11,22 @@
 #ifndef CAL_MESH_H
 #define CAL_MESH_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalModel;
 class CalCoreMesh;
 class CalSubmesh;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The mesh class.
-  *****************************************************************************/
 
 class CAL3D_API CalMesh
 {
-// member variables
-protected:
-  CalModel *m_pModel;
-  CalCoreMesh *m_pCoreMesh;
-  std::vector<CalSubmesh *> m_vectorSubmesh;
-
 // constructors/destructor
 public:
-  CalMesh();
-  virtual ~CalMesh();
+  CalMesh(CalCoreMesh *pCoreMesh);
+  ~CalMesh();
 
-// member functions	
-public:
-  bool create(CalCoreMesh *pCoreMesh);
-  void destroy();
   CalCoreMesh *getCoreMesh();
   CalSubmesh *getSubmesh(int id);
   int getSubmeshCount();
@@ -58,6 +35,11 @@ public:
   void setMaterialSet(int setId);
   void setModel(CalModel *pModel);
   void disableInternalData();
+
+private:
+  CalModel *m_pModel;
+  CalCoreMesh *m_pCoreMesh;
+  std::vector<CalSubmesh *> m_vectorSubmesh;
 };
 
 #endif

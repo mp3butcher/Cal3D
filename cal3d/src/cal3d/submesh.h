@@ -11,76 +11,39 @@
 #ifndef CAL_SUBMESH_H
 #define CAL_SUBMESH_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/vector.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreSubmesh;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The submesh class.
-  *****************************************************************************/
 
 class CAL3D_API CalSubmesh
 {
-// misc
 public:
-  /// The submesh PhysicalProperty.
-  typedef struct
+  struct PhysicalProperty
   {
     CalVector position;
     CalVector positionOld;
     CalVector force;
-  } PhysicalProperty;
+  };
 
-  /// The submesh TangentSpace.
   struct TangentSpace
   {
     CalVector tangent;
     float crossFactor;
   };
 
-
-  /// The submesh Face.
-  typedef struct
+  struct Face
   {
     CalIndex vertexId[3];
-  } Face;
+  };
 
-// member variables
-protected:
-  CalCoreSubmesh *m_pCoreSubmesh;
-  std::vector<float> m_vectorMorphTargetWeight;
-  std::vector<CalVector> m_vectorVertex;
-  std::vector<CalVector> m_vectorNormal;
-  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
-  std::vector<Face> m_vectorFace;
-  std::vector<PhysicalProperty> m_vectorPhysicalProperty;
-  int m_vertexCount;
-  int m_faceCount;
-  int m_coreMaterialId;
-  bool m_bInternalData;
-
-// constructors/destructor
 public:
-  CalSubmesh();
-  virtual ~CalSubmesh();
+  CalSubmesh(CalCoreSubmesh* coreSubmesh);
+  ~CalSubmesh() { }
 
-// member functions	
-public:
-  bool create(CalCoreSubmesh *pCoreSubmesh);
-  void destroy();
   CalCoreSubmesh *getCoreSubmesh();
   int getCoreMaterialId();
   int getFaceCount();
@@ -103,8 +66,18 @@ public:
   int getMorphTargetWeightCount();
   std::vector<float>& getVectorMorphTargetWeight();
 
+private:
+  CalCoreSubmesh *m_pCoreSubmesh;
+  std::vector<float> m_vectorMorphTargetWeight;
+  std::vector<CalVector> m_vectorVertex;
+  std::vector<CalVector> m_vectorNormal;
+  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
+  std::vector<Face> m_vectorFace;
+  std::vector<PhysicalProperty> m_vectorPhysicalProperty;
+  int m_vertexCount;
+  int m_faceCount;
+  int m_coreMaterialId;
+  bool m_bInternalData;
 };
 
 #endif
-
-//****************************************************************************//

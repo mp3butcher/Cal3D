@@ -19,29 +19,6 @@
 #include "cal3d/coremorphanimation.h"
 
  /*****************************************************************************/
-/** Constructs the core morph animation instance.
-  *
-  * This function is the default constructor of the core morph animation 
-  * instance.
-  *****************************************************************************/
-
-CalCoreMorphAnimation::CalCoreMorphAnimation()
-{
-}
-
- /*****************************************************************************/
-/** Destructs the core morph animation instance.
-  *
-  * This function is the destructor of the core morph animation instance.
-  *****************************************************************************/
-
-CalCoreMorphAnimation::~CalCoreMorphAnimation()
-{
-  assert(m_vectorCoreMeshID.empty());
-  assert(m_vectorMorphTargetID.empty());
-}
-
- /*****************************************************************************/
 /** Adds a core mesh ID and a morph target ID of that core mesh.
   *
   * @param coreMeshID A core mesh ID that should be added.
@@ -60,33 +37,6 @@ bool CalCoreMorphAnimation::addMorphTarget(int coreMeshID,int morphTargetID)
   return true;
 }
 
- /*****************************************************************************/
-/** Creates the core morph animation instance.
-  *
-  * This function creates the core morph animation instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreMorphAnimation::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core morph animation instance.
-  *
-  * This function destroys all data stored in the core morph animation instance 
-  * and frees all allocated memory.
-  *****************************************************************************/
-
-void CalCoreMorphAnimation::destroy()
-{
-  m_vectorCoreMeshID.clear();
-  m_vectorMorphTargetID.clear();
-}
 
  /*****************************************************************************/
 /** Returns the core mesh ID list.

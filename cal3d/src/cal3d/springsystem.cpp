@@ -31,25 +31,16 @@
   * This function is the default constructor of the spring system instance.
   *****************************************************************************/
 
-CalSpringSystem::CalSpringSystem()
-  : m_pModel(0)
+CalSpringSystem::CalSpringSystem(CalModel* pModel)
 {
-	m_vGravity = CalVector(0.0f, 0.0f, -98.1f);
-
-	// We add this force to simulate some movement
-
-	m_vForce = CalVector(0.0f, 0.5f, 0.0f);
+  assert(pModel);
+  m_pModel = pModel;
+  
+  m_vGravity = CalVector(0.0f, 0.0f, -98.1f);
+  // We add this force to simulate some movement
+  m_vForce = CalVector(0.0f, 0.5f, 0.0f);
 }
 
- /*****************************************************************************/
-/** Destructs the spring system instance.
-  *
-  * This function is the destructor of the spring system instance.
-  *****************************************************************************/
-
-CalSpringSystem::~CalSpringSystem()
-{
-}
 
  /*****************************************************************************/
 /** Calculates the forces on each unbound vertex.
@@ -244,51 +235,6 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 *********************************/
 }
 
- /*****************************************************************************/
-/** Creates the spring system instance.
-  *
-  * This function creates the spring system instance.
-  *
-  * @param pModel A pointer to the model that should be managed with this
-  *               spring system instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalSpringSystem::create(CalModel *pModel)
-{
-  if(pModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pModel = pModel;
-
-  CalCoreModel *pCoreModel;
-  pCoreModel = m_pModel->getCoreModel();
-  if(pCoreModel == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the spring system instance.
-  *
-  * This function destroys all data stored in the spring system instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalSpringSystem::destroy()
-{
-  m_pModel = 0;
-}
 
  /*****************************************************************************/
 /** Updates all the spring systems in the attached meshes.

@@ -29,19 +29,9 @@
 // CalAnimation wrapper functions definition                                  //
 //****************************************************************************//
 
-Boolean CalAnimation_Create(CalAnimation *self, CalCoreAnimation *pCoreAnimation)
-{
-  return self->create(pCoreAnimation) ? True : False;
-}
-
 void CalAnimation_Delete(CalAnimation *self)
 {
   delete self;
-}
-
-void CalAnimation_Destroy(CalAnimation *self)
-{
-  self->destroy();
 }
 
 CalCoreAnimation *CalAnimation_GetCoreAnimation(CalAnimation *self)
@@ -73,19 +63,9 @@ float CalAnimation_GetWeight(CalAnimation *self)
 // CalAnimationAction wrapper functions definition                            //
 //****************************************************************************//
 
-Boolean CalAnimationAction_Create(CalAnimationAction *self, CalCoreAnimation *pCoreAnimation)
-{
-  return self->create(pCoreAnimation) ? True : False;
-}
-
 void CalAnimationAction_Delete(CalAnimationAction *self)
 {
   delete self;
-}
-
-void CalAnimationAction_Destroy(CalAnimationAction *self)
-{
-  self->destroy();
 }
 
 Boolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, float delayOut)
@@ -93,9 +73,9 @@ Boolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, floa
   return self->execute(delayIn, delayOut) ? True : False;
 }
 
-CalAnimationAction *CalAnimationAction_New()
+CalAnimationAction *CalAnimationAction_New(struct CalCoreAnimation *pCoreAnimation)
 {
-  return new CalAnimationAction();
+  return new CalAnimationAction(pCoreAnimation);
 }
 
 Boolean CalAnimationAction_Update(CalAnimationAction *self, float deltaTime)
@@ -112,24 +92,14 @@ Boolean CalAnimationCycle_Blend(CalAnimationCycle *self, float weight, float del
   return self->blend(weight, delay) ? True : False;
 }
 
-Boolean CalAnimationCycle_Create(CalAnimationCycle *self, CalCoreAnimation *pCoreAnimation)
-{
-  return self->create(pCoreAnimation) ? True : False;
-}
-
 void CalAnimationCycle_Delete(CalAnimationCycle *self)
 {
   delete self;
 }
 
-void CalAnimationCycle_Destroy(CalAnimationCycle *self)
+CalAnimationCycle *CalAnimationCycle_New(CalCoreAnimation *pCoreAnimation)
 {
-  self->destroy();
-}
-
-CalAnimationCycle *CalAnimationCycle_New()
-{
-  return new CalAnimationCycle();
+  return new CalAnimationCycle(pCoreAnimation);
 }
 
 void CalAnimationCycle_SetAsync(CalAnimationCycle *self, float time, float duration)
@@ -161,19 +131,9 @@ void CalBone_ClearState(CalBone *self)
   self->clearState();
 }
 
-Boolean CalBone_Create(CalBone *self, CalCoreBone *pCoreBone)
-{
-  return self->create(pCoreBone) ? True : False;
-}
-
 void CalBone_Delete(CalBone *self)
 {
   delete self;
-}
-
-void CalBone_Destroy(CalBone *self)
-{
-  self->destroy();
 }
 
 CalCoreBone *CalBone_GetCoreBone(CalBone *self)
@@ -216,9 +176,9 @@ void CalBone_LockState(CalBone *self)
   self->lockState();
 }
 
-CalBone *CalBone_New()
+CalBone *CalBone_New(CalCoreBone* coreBone)
 {
-  return new CalBone();
+  return new CalBone(coreBone);
 }
 
 void CalBone_SetSkeleton(CalBone *self, CalSkeleton *pSkeleton)
@@ -251,24 +211,14 @@ void CalBone_SetCoreStateRecursive(CalBone *self)
 // CalCoreAnimation wrapper functions definition                              //
 //****************************************************************************//
 
-Boolean CalCoreAnimation_AddCoreTrack(CalCoreAnimation *self, CalCoreTrack *pCoreTrack)
+void CalCoreAnimation_AddCoreTrack(CalCoreAnimation *self, CalCoreTrack *pCoreTrack)
 {
-  return self->addCoreTrack(pCoreTrack) ? True : False;
-}
-
-Boolean CalCoreAnimation_Create(CalCoreAnimation *self)
-{
-  return self->create() ? True : False;
+  self->addCoreTrack(pCoreTrack);
 }
 
 void CalCoreAnimation_Delete(CalCoreAnimation *self)
 {
   delete self;
-}
-
-void CalCoreAnimation_Destroy(CalCoreAnimation *self)
-{
-  self->destroy();
 }
 
 CalCoreTrack *CalCoreAnimation_GetCoreTrack(CalCoreAnimation *self, int coreBoneId)
@@ -312,19 +262,9 @@ void CalCoreBone_CalculateState(CalCoreBone *self)
   self->calculateState();
 }
 
-Boolean CalCoreBone_Create(CalCoreBone *self, char *strName)
-{
-  return self->create(strName) ? True : False;
-}
-
 void CalCoreBone_Delete(CalCoreBone *self)
 {
   delete self;
-}
-
-void CalCoreBone_Destroy(CalCoreBone *self)
-{
-  self->destroy();
 }
 
 /*
@@ -379,9 +319,9 @@ CalUserData CalCoreBone_GetUserData(CalCoreBone *self)
   return self->getUserData();
 }
 
-CalCoreBone *CalCoreBone_New()
+CalCoreBone *CalCoreBone_New(const char* name)
 {
-  return new CalCoreBone();
+  return new CalCoreBone(name);
 }
 
 void CalCoreBone_SetCoreSkeleton(CalCoreBone *self, CalCoreSkeleton *pCoreSkeleton)
@@ -423,19 +363,9 @@ void CalCoreBone_SetUserData(CalCoreBone *self, CalUserData userData)
 // CalCoreKeyframe wrapper functions definition                               //
 //****************************************************************************//
 
-Boolean CalCoreKeyframe_Create(CalCoreKeyframe *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreKeyframe_Delete(CalCoreKeyframe *self)
 {
   delete self;
-}
-
-void CalCoreKeyframe_Destroy(CalCoreKeyframe *self)
-{
-  self->destroy();
 }
 
 CalQuaternion *CalCoreKeyframe_GetRotation(CalCoreKeyframe *self)
@@ -477,19 +407,9 @@ void CalCoreKeyframe_SetTranslation(CalCoreKeyframe *self, CalVector *pTranslati
 // CalCoreMaterial wrapper functions definition                               //
 //****************************************************************************//
 
-Boolean CalCoreMaterial_Create(CalCoreMaterial *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreMaterial_Delete(CalCoreMaterial *self)
 {
   delete self;
-}
-
-void CalCoreMaterial_Destroy(CalCoreMaterial *self)
-{
-  self->destroy();
 }
 
 /*
@@ -607,19 +527,9 @@ int CalCoreMesh_AddCoreSubmesh(CalCoreMesh *self, CalCoreSubmesh *pCoreSubmesh)
   return self->addCoreSubmesh(pCoreSubmesh);
 }
 
-Boolean CalCoreMesh_Create(CalCoreMesh *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreMesh_Delete(CalCoreMesh *self)
 {
   delete self;
-}
-
-void CalCoreMesh_Destroy(CalCoreMesh *self)
-{
-  self->destroy();
 }
 
 CalCoreSubmesh *CalCoreMesh_GetCoreSubmesh(CalCoreMesh *self, int id)
@@ -663,11 +573,6 @@ int CalCoreModel_AddCoreMesh(CalCoreModel *self, CalCoreMesh *pCoreMesh)
   return self->addCoreMesh(pCoreMesh);
 }
 
-Boolean CalCoreModel_Create(CalCoreModel *self, char *strName)
-{
-  return self->create(strName) ? True : False;
-}
-
 Boolean CalCoreModel_CreateCoreMaterialThread(CalCoreModel *self, int coreMaterialThreadId)
 {
   return self->createCoreMaterialThread(coreMaterialThreadId) ? True : False;
@@ -676,11 +581,6 @@ Boolean CalCoreModel_CreateCoreMaterialThread(CalCoreModel *self, int coreMateri
 void CalCoreModel_Delete(CalCoreModel *self)
 {
   delete self;
-}
-
-void CalCoreModel_Destroy(CalCoreModel *self)
-{
-  self->destroy();
 }
 
 CalCoreAnimation *CalCoreModel_GetCoreAnimation(CalCoreModel *self, int coreAnimationId)
@@ -748,9 +648,9 @@ Boolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, char *strFilename)
   return self->loadCoreSkeleton(strFilename) ? True : False;
 }
 
-CalCoreModel *CalCoreModel_New()
+CalCoreModel *CalCoreModel_New(const char* name)
 {
-  return new CalCoreModel();
+  return new CalCoreModel(name);
 }
 
 Boolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, char *strFilename, int coreAnimationId)
@@ -803,19 +703,9 @@ void CalCoreSkeleton_CalculateState(CalCoreSkeleton *self)
 }
 
 
-Boolean CalCoreSkeleton_Create(CalCoreSkeleton *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreSkeleton_Delete(CalCoreSkeleton *self)
 {
   delete self;
-}
-
-void CalCoreSkeleton_Destroy(CalCoreSkeleton *self)
-{
-  self->destroy();
 }
 
 CalCoreBone *CalCoreSkeleton_GetCoreBone(CalCoreSkeleton *self, int coreBoneId)
@@ -852,19 +742,9 @@ CalCoreSkeleton *CalCoreSkeleton_New()
 // CalCoreSubmesh wrapper functions definition                                //
 //****************************************************************************//
 
-Boolean CalCoreSubmesh_Create(CalCoreSubmesh *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreSubmesh_Delete(CalCoreSubmesh *self)
 {
   delete self;
-}
-
-void CalCoreSubmesh_Destroy(CalCoreSubmesh *self)
-{
-  self->destroy();
 }
 
 int CalCoreSubmesh_GetCoreMaterialThreadId(CalCoreSubmesh *self)
@@ -1001,19 +881,9 @@ Boolean CalCoreTrack_AddCoreKeyframe(CalCoreTrack *self, CalCoreKeyframe *pCoreK
   return self->addCoreKeyframe(pCoreKeyframe) ? True : False;
 }
 
-Boolean CalCoreTrack_Create(CalCoreTrack *self)
-{
-  return self->create() ? True : False;
-}
-
 void CalCoreTrack_Delete(CalCoreTrack *self)
 {
   delete self;
-}
-
-void CalCoreTrack_Destroy(CalCoreTrack *self)
-{
-  self->destroy();
 }
 
 int CalCoreTrack_GetCoreBoneId(CalCoreTrack *self)
@@ -1123,19 +993,9 @@ CalLoader *CalLoader_New()
 // CalMesh wrapper functions definition                                       //
 //****************************************************************************//
 
-Boolean CalMesh_Create(CalMesh *self, CalCoreMesh *pCoreMesh)
-{
-  return self->create(pCoreMesh) ? True : False;
-}
-
 void CalMesh_Delete(CalMesh *self)
 {
   delete self;
-}
-
-void CalMesh_Destroy(CalMesh *self)
-{
-  self->destroy();
 }
 
 CalCoreMesh *CalMesh_GetCoreMesh(CalMesh *self)
@@ -1160,9 +1020,9 @@ std::vector<CalSubmesh *>& CalMesh_GetVectorSubmesh(CalMesh *self)
 }
 */
 
-CalMesh *CalMesh_New()
+CalMesh *CalMesh_New(CalCoreMesh *pCoreMesh)
 {
-  return new CalMesh();
+  return new CalMesh(pCoreMesh);
 }
 
 void CalMesh_SetLodLevel(CalMesh *self, float lodLevel)
@@ -1194,19 +1054,9 @@ Boolean CalMixer_ClearCycle(CalMixer *self, int id, float delay)
   return self->clearCycle(id, delay) ? True : False;
 }
 
-Boolean CalMixer_Create(CalMixer *self, CalModel *pModel)
-{
-  return self->create(pModel) ? True : False;
-}
-
 void CalMixer_Delete(CalMixer *self)
 {
   delete self;
-}
-
-void CalMixer_Destroy(CalMixer *self)
-{
-  self->destroy();
 }
 
 Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut)
@@ -1214,9 +1064,9 @@ Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float dela
   return self->executeAction(id, delayIn, delayOut, 1.0f) ? True : False;
 }
 
-CalMixer *CalMixer_New()
+CalMixer *CalMixer_New(CalModel* pModel)
 {
-  return new CalMixer();
+  return new CalMixer(pModel);
 }
 
 void CalMixer_UpdateAnimation(CalMixer *self, float deltaTime)
@@ -1238,19 +1088,9 @@ Boolean CalModel_AttachMesh(CalModel *self, int coreMeshId)
   return self->attachMesh(coreMeshId) ? True : False;
 }
 
-Boolean CalModel_Create(CalModel *self, CalCoreModel *pCoreModel)
-{
-  return self->create(pCoreModel) ? True : False;
-}
-
 void CalModel_Delete(CalModel *self)
 {
   delete self;
-}
-
-void CalModel_Destroy(CalModel *self)
-{
-  self->destroy();
 }
 
 Boolean CalModel_DetachMesh(CalModel *self, int coreMeshId)
@@ -1305,9 +1145,9 @@ std::vector<CalMesh *>& CalModel_GetVectorMesh(CalModel *self)
 }
 */
 
-CalModel *CalModel_New()
+CalModel *CalModel_New(CalCoreModel* pCoreModel)
 {
-  return new CalModel();
+  return new CalModel(pCoreModel);
 }
 
 void CalModel_SetLodLevel(CalModel *self, float lodLevel)
@@ -1359,24 +1199,14 @@ int CalPhysique_CalculateTangentSpaces(CalPhysique *self, CalSubmesh *pSubmesh, 
   return self->calculateTangentSpaces(pSubmesh, mapId, pTangentSpaceBuffer);
 }
 
-Boolean CalPhysique_Create(CalPhysique *self, CalModel *pModel)
-{
-  return self->create(pModel) ? True : False;
-}
-
 void CalPhysique_Delete(CalPhysique *self)
 {
   delete self;
 }
 
-void CalPhysique_Destroy(CalPhysique *self)
+CalPhysique *CalPhysique_New(CalModel* pModel)
 {
-  self->destroy();
-}
-
-CalPhysique *CalPhysique_New()
-{
-  return new CalPhysique();
+  return new CalPhysique(pModel);
 }
 
 void CalPhysique_Update(CalPhysique *self)
@@ -1456,19 +1286,9 @@ Boolean CalRenderer_BeginRendering(CalRenderer *self)
   return self->beginRendering() ? True : False;
 }
 
-Boolean CalRenderer_Create(CalRenderer *self, CalModel *pModel)
-{
-  return self->create(pModel) ? True : False;
-}
-
 void CalRenderer_Delete(CalRenderer *self)
 {
   delete self;
-}
-
-void CalRenderer_Destroy(CalRenderer *self)
-{
-  self->destroy();
 }
 
 void CalRenderer_EndRendering(CalRenderer *self)
@@ -1566,9 +1386,9 @@ Boolean CalRenderer_IsTangentsEnabled(CalRenderer *self, int mapId)
   return self->isTangentsEnabled(mapId) ? True : False;
 }
 
-CalRenderer *CalRenderer_New()
+CalRenderer *CalRenderer_New(CalModel* pModel)
 {
-  return new CalRenderer();
+  return new CalRenderer(pModel);
 }
 
 Boolean CalRenderer_SelectMeshSubmesh(CalRenderer *self, int meshId, int submeshId)
@@ -1624,19 +1444,9 @@ void CalSkeleton_ClearState(CalSkeleton *self)
   self->clearState();
 }
 
-Boolean CalSkeleton_Create(CalSkeleton *self, CalCoreSkeleton *pCoreSkeleton)
-{
-  return self->create(pCoreSkeleton) ? True : False;
-}
-
 void CalSkeleton_Delete(CalSkeleton *self)
 {
   delete self;
-}
-
-void CalSkeleton_Destroy(CalSkeleton *self)
-{
-  self->destroy();
 }
 
 CalBone *CalSkeleton_GetBone(CalSkeleton *self, int boneId)
@@ -1661,9 +1471,9 @@ void CalSkeleton_LockState(CalSkeleton *self)
   self->lockState();
 }
 
-CalSkeleton *CalSkeleton_New()
+CalSkeleton *CalSkeleton_New(CalCoreSkeleton *pCoreSkeleton)
 {
-  return new CalSkeleton();
+  return new CalSkeleton(pCoreSkeleton);
 }
 
 // DEBUG-CODE
@@ -1704,24 +1514,14 @@ void CalSpringSystem_CalculateVertices(CalSpringSystem *self, CalSubmesh *pSubme
   self->calculateVertices(pSubmesh, deltaTime);
 }
 
-Boolean CalSpringSystem_Create(CalSpringSystem *self, CalModel *pModel)
-{
-  return self->create(pModel) ? True : False;
-}
-
 void CalSpringSystem_Delete(CalSpringSystem *self)
 {
   delete self;
 }
 
-void CalSpringSystem_Destroy(CalSpringSystem *self)
+CalSpringSystem *CalSpringSystem_New(CalModel* pModel)
 {
-  self->destroy();
-}
-
-CalSpringSystem *CalSpringSystem_New()
-{
-  return new CalSpringSystem();
+  return new CalSpringSystem(pModel);
 }
 
 void CalSpringSystem_Update(CalSpringSystem *self, float deltaTime)
@@ -1733,19 +1533,9 @@ void CalSpringSystem_Update(CalSpringSystem *self, float deltaTime)
 // CalSubmesh wrapper functions definition                                    //
 //****************************************************************************//
 
-Boolean CalSubmesh_Create(CalSubmesh *self, CalCoreSubmesh *pCoreSubmesh)
-{
-  return self->create(pCoreSubmesh) ? True : False;
-}
-
 void CalSubmesh_Delete(CalSubmesh *self)
 {
   delete self;
-}
-
-void CalSubmesh_Destroy(CalSubmesh *self)
-{
-  self->destroy();
 }
 
 CalCoreSubmesh *CalSubmesh_GetCoreSubmesh(CalSubmesh *self)
@@ -1798,9 +1588,9 @@ Boolean CalSubmesh_HasInternalData(CalSubmesh *self)
   return self->hasInternalData() ? True : False;
 }
 
-CalSubmesh *CalSubmesh_New()
+CalSubmesh *CalSubmesh_New(CalCoreSubmesh* coreSubmesh)
 {
-  return new CalSubmesh();
+  return new CalSubmesh(coreSubmesh);
 }
 
 void CalSubmesh_SetCoreMaterialId(CalSubmesh *self, int coreMaterialId)

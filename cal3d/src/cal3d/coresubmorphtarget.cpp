@@ -12,63 +12,11 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/coresubmorphtarget.h"
 
- /*****************************************************************************/
-/** Constructs the core sub morph target instance.
-  *
-  * This function is the default constructor of the core sub morph target 
-  * instance.
-  *****************************************************************************/
 
-CalCoreSubMorphTarget::CalCoreSubMorphTarget()
-{
-}
-
- /*****************************************************************************/
-/** Destructs the core sub morph target instance.
-  *
-  * This function is the destructor of the core sub morph target instance.
-  *****************************************************************************/
-
-CalCoreSubMorphTarget::~CalCoreSubMorphTarget()
-{
-  assert(m_vectorBlendVertex.empty());
-}
-
- /*****************************************************************************/
-/** Creates the core sub morph target instance.
-  *
-  * This function creates the core sub morph target instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreSubMorphTarget::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core sub morph target instance.
-  *
-  * This function destroys all data stored in the core sub morph target instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalCoreSubMorphTarget::destroy()
-{
-  // destroy all data
-  m_vectorBlendVertex.clear();
-}
-
- /*****************************************************************************/
+/*****************************************************************************/
 /** Returns the blend vertex vector.
   *
   * This function returns the vector that contains all blend vertices of the core

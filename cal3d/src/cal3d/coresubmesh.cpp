@@ -38,40 +38,6 @@ CalCoreSubmesh::CalCoreSubmesh()
 
 CalCoreSubmesh::~CalCoreSubmesh()
 {
-  assert(m_vectorFace.empty());
-  assert(m_vectorVertex.empty());
-  assert(m_vectorPhysicalProperty.empty());
-  assert(m_vectorvectorTextureCoordinate.empty());
-  assert(m_vectorSpring.empty());
-  assert(m_vectorTangentsEnabled.empty());
-  assert(m_vectorvectorTangentSpace.empty());
-  assert(m_vectorCoreSubMorphTarget.empty());
-}
-
- /*****************************************************************************/
-/** Creates the core submesh instance.
-  *
-  * This function creates the core submesh instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreSubmesh::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core submesh instance.
-  *
-  * This function destroys all data stored in the core submesh instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalCoreSubmesh::destroy()
-{
   // destroy all data
   m_vectorFace.clear();
   m_vectorVertex.clear();
@@ -84,7 +50,6 @@ void CalCoreSubmesh::destroy()
   std::vector<CalCoreSubMorphTarget *>::iterator iteratorCoreSubMorphTarget;
   for(iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); ++iteratorCoreSubMorphTarget)
   {
-    (*iteratorCoreSubMorphTarget)->destroy();
     delete (*iteratorCoreSubMorphTarget);
   }
   m_vectorCoreSubMorphTarget.clear();

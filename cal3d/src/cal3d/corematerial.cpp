@@ -12,59 +12,16 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/error.h"
 #include "cal3d/corematerial.h"
 
- /*****************************************************************************/
-/** Constructs the core material instance.
-  *
-  * This function is the default constructor of the core material instance.
-  *****************************************************************************/
 
 CalCoreMaterial::CalCoreMaterial()
   : m_userData(0), m_referenceCount(0)
 {
 }
 
- /*****************************************************************************/
-/** Destructs the core model instance.
-  *
-  * This function is the destructor of the core model instance.
-  *****************************************************************************/
-
-CalCoreMaterial::~CalCoreMaterial()
-{
-}
-
- /*****************************************************************************/
-/** Creates the core material instance.
-  *
-  * This function creates the core material instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreMaterial::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core material instance.
-  *
-  * This function destroys all data stored in the core material instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalCoreMaterial::destroy()
-{
-}
 
  /*****************************************************************************/
 /** Returns the ambient color.

@@ -11,45 +11,20 @@
 #ifndef CAL_COREMESH_H
 #define CAL_COREMESH_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreSubmesh;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
- /*****************************************************************************/
-/** The core mesh class.
-  *****************************************************************************/
 
 class CAL3D_API CalCoreMesh
 {
-// member variables
-protected:
-  std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
-  std::string m_name;
-  std::string m_filename;
-  int m_referenceCount;
-
-// constructors/destructor
 public:
   CalCoreMesh();
-  virtual ~CalCoreMesh();
+  ~CalCoreMesh();
 
-// member functions	
-public:
   int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
-  bool create();
-  void destroy();
   CalCoreSubmesh *getCoreSubmesh(int id);
   int getCoreSubmeshCount();
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
@@ -61,8 +36,12 @@ public:
   const std::string& getName(void);
   void incRef();
   bool decRef();  
+
+private:
+  std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
+  std::string m_name;
+  std::string m_filename;
+  int m_referenceCount;
 };
 
 #endif
-
-//****************************************************************************//

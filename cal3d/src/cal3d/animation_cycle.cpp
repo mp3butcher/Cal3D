@@ -26,20 +26,16 @@
   * This function is the default constructor of the animation cycle instance.
   *****************************************************************************/
 
-CalAnimationCycle::CalAnimationCycle() : CalAnimation()
+CalAnimationCycle::CalAnimationCycle(CalCoreAnimation* pCoreAnimation)
+: CalAnimation(pCoreAnimation)
 {
-  m_type = TYPE_CYCLE;
-  m_state = STATE_SYNC;
-}
+  setType(TYPE_CYCLE);
+  setState(STATE_SYNC);
 
- /*****************************************************************************/
-/** Destructs the animation cycle instance.
-  *
-  * This function is the destructor of the animation cycle instance.
-  *****************************************************************************/
-
-CalAnimationCycle::~CalAnimationCycle()
-{
+  // set default weights and delay
+  setWeight(0.0f);
+  m_targetDelay = 0.0f;
+  m_targetWeight = 0.0f;
 }
 
  /*****************************************************************************/
@@ -65,50 +61,6 @@ bool CalAnimationCycle::blend(float weight, float delay)
 }
 
  /*****************************************************************************/
-/** Creates the animation cycle instance.
-  *
-  * This function creates the animation cycle instance based on a core
-  * animation.
-  *
-  * @param pCoreAnimation A pointer to the core animation on which this
-  *                       animation cycle instance should be based on.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalAnimationCycle::create(CalCoreAnimation *pCoreAnimation)
-{
-  if(pCoreAnimation == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
-  m_pCoreAnimation = pCoreAnimation;
-
-  // set default weights and delay
-  m_weight = 0.0f;
-  m_targetDelay = 0.0f;
-  m_targetWeight = 0.0f;
-
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the animation cycle instance.
-  *
-  * This function destroys all data stored in the animation cycle instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalAnimationCycle::destroy()
-{
-  m_pCoreAnimation = 0;
-}
-
- /*****************************************************************************/
 /** Puts the animation cycle instance into async state.
   *
   * This function puts the animation cycle instance into async state, which
@@ -123,20 +75,20 @@ void CalAnimationCycle::destroy()
 void CalAnimationCycle::setAsync(float time, float duration)
 {
   // check if thie animation cycle is already async
-  if(m_state != STATE_ASYNC)
+  if(getState() != STATE_ASYNC)
   {
     if(duration == 0.0f)
     {
-      m_timeFactor = 1.0f;
-      m_time = 0.0f;
+      setTimeFactor(1.0f);
+      setTime(0.0f);
     }
     else
     {
-      m_timeFactor = m_pCoreAnimation->getDuration() / duration;
-      m_time = time * m_timeFactor;
+      setTimeFactor(getCoreAnimation()->getDuration() / duration);
+      setTime(time * getTimeFactor());
     }
 
-    m_state = STATE_ASYNC;
+    setState(STATE_ASYNC);
   }
 }
 
@@ -159,11 +111,11 @@ bool CalAnimationCycle::update(float deltaTime)
   if(m_targetDelay <= fabs(deltaTime))
   {
     // we reached target delay, set to full weight
-    m_weight = m_targetWeight;
+    setWeight(m_targetWeight);
     m_targetDelay = 0.0f;
 
     // check if we reached the cycles end
-    if(m_weight == 0.0f)
+    if(getWeight() == 0.0f)
     {
       return false;
     }
@@ -173,20 +125,20 @@ bool CalAnimationCycle::update(float deltaTime)
     // not reached target delay yet, interpolate between current and target weight
     float factor;
     factor = deltaTime / m_targetDelay;
-    m_weight = (1.0f - factor) * m_weight + factor * m_targetWeight;
+    setWeight((1.0f - factor) * getWeight() + factor * m_targetWeight);
     m_targetDelay -= deltaTime;
   }
 
   // update animation cycle time if it is in async state
-  if(m_state == STATE_ASYNC)
+  if(getState() == STATE_ASYNC)
   {
-    m_time += deltaTime * m_timeFactor;
-    if(m_time >= m_pCoreAnimation->getDuration())
+    setTime(getTime() + deltaTime * getTimeFactor());
+    if(getTime() >= getCoreAnimation()->getDuration())
     {
-      m_time = (float) fmod(m_time, m_pCoreAnimation->getDuration());
+      setTime(fmod(getTime(), getCoreAnimation()->getDuration()));
     }
-	if (m_time < 0)
-      m_time += m_pCoreAnimation->getDuration();
+    if (getTime() < 0)
+      setTime(getTime() + getCoreAnimation()->getDuration());
 
   }
 
