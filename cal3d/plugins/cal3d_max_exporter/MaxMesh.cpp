@@ -528,7 +528,7 @@ CVertexCandidate *CMaxMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCand
 
 				// add texture coordinate to the vertex candidate, inverting the y coordinate
 				pVertexCandidate->AddTextureCoordinate(uvVert.x, 1.0f - uvVert.y);
-			}f
+			}
 		}
 	}
 
