@@ -33,6 +33,7 @@
 
 CalSpringSystem::CalSpringSystem()
 {
+  m_pModel = 0;
 }
 
  /*****************************************************************************/
@@ -314,17 +315,12 @@ void CalSpringSystem::update(float deltaTime)
       // check if the submesh contains a spring system
       if((*iteratorSubmesh)->getCoreSubmesh()->getSpringCount() > 0)
       {
-int I = 10;
-int i;
-for(i = 0; i < I; i++)
-{
         // calculate the new forces on each unbound vertex
-        calculateForces(*iteratorSubmesh, deltaTime / (float)I);
+        calculateForces(*iteratorSubmesh, deltaTime);
 
         // calculate the vertices influenced by the spring system
-        calculateVertices(*iteratorSubmesh, deltaTime / (float)I);
+        calculateVertices(*iteratorSubmesh, deltaTime);
       }
-}
     }
   }
 }

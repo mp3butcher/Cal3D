@@ -70,7 +70,6 @@ public:
   {
     int vertexId[2];
     float springCoefficient;
-    float dampingCoefficient;
     float idleLength;
   } Spring;
 

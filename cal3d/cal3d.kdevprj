@@ -38,7 +38,7 @@ project_type=normal_cpp
 sgml_file=/home/beosil/Projects/cal3d/docs/guide.sgml
 short_info=
 sub_dir=src/
-version=0.7alpha
+version=0.7devel
 version_control=None
 workspace=1
 

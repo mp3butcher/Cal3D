@@ -909,7 +909,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     file.read((char *)&spring.vertexId[0], 4);
     file.read((char *)&spring.vertexId[1], 4);
     file.read((char *)&spring.springCoefficient, 4);
-    file.read((char *)&spring.dampingCoefficient, 4);
     file.read((char *)&spring.idleLength, 4);
 
     // check if an error happend

@@ -714,7 +714,6 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
     file.write((char *)&spring.vertexId[0], 4);
     file.write((char *)&spring.vertexId[1], 4);
     file.write((char *)&spring.springCoefficient, 4);
-    file.write((char *)&spring.dampingCoefficient, 4);
     file.write((char *)&spring.idleLength, 4);
 
     // check if an error happend

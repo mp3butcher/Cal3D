@@ -51,11 +51,11 @@ namespace Cal
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
   // library version
-  const unsigned int LIBRARY_VERSION = 700;
+  const unsigned int LIBRARY_VERSION = 699;
 
   // file versions
   const unsigned int CURRENT_FILE_VERSION = LIBRARY_VERSION;
-  const unsigned int EARLIEST_COMPATIBLE_FILE_VERSION = 600;
+  const unsigned int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
 };
 
 #endif
