@@ -368,6 +368,7 @@ int CMayaMesh::GetSubmeshMaterialThreadId(int submeshId)
 
 CVertexCandidate *CMayaMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId)
 {
+  size_t i;
   MStatus stat;
 
   if( (faceId < 0) || (faceId >= (int)m_Faces.size()) )
@@ -394,7 +395,7 @@ CVertexCandidate *CMayaMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCan
   pVertexCandidate->SetNormal ((float)vertex.normal.x, (float)vertex.normal.y, (float)vertex.normal.z);
 
   // Add the UVs
-  for (size_t i = 0; i < vertex.uvs.size(); ++i)
+  for (i = 0; i < vertex.uvs.size(); ++i)
   {
     pVertexCandidate->AddTextureCoordinate (vertex.uvs[i].u, vertex.uvs[i].v);
   }
@@ -408,7 +409,7 @@ CVertexCandidate *CMayaMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCan
 
   //
   // Add the bone weights
-  for (size_t i = 0; i < vertex.weights.size(); ++i)
+  for (i = 0; i < vertex.weights.size(); ++i)
   {
     VertexWeight& vw = vertex.weights[i];
     // Get the ID for this joint name

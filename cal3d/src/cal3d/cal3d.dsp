@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /Ob1 /Gy /I "src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /FR /GF /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Ob1 /I ".." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -100,6 +100,7 @@ LINK32=link.exe
 SOURCE=.\animation.cpp
 DEP_CPP_ANIMA=\
 	".\animation.h"\
+	".\animcallback.h"\
 	".\coreanimation.h"\
 	".\error.h"\
 	".\global.h"\
@@ -719,6 +720,8 @@ NODEP_CPP_SKELE=\
 
 SOURCE=.\springsystem.cpp
 DEP_CPP_SPRIN=\
+	".\bone.h"\
+	".\corebone.h"\
 	".\coremodel.h"\
 	".\coresubmesh.h"\
 	".\error.h"\
@@ -727,6 +730,8 @@ DEP_CPP_SPRIN=\
 	".\mesh.h"\
 	".\model.h"\
 	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
 	".\springsystem.h"\
 	".\submesh.h"\
 	".\vector.h"\
@@ -769,6 +774,7 @@ NODEP_CPP_SUBME=\
 
 SOURCE=.\tinystr.cpp
 DEP_CPP_TINYS=\
+	".\platform.h"\
 	".\tinystr.h"\
 	".\tinyxml.h"\
 	
@@ -777,6 +783,7 @@ DEP_CPP_TINYS=\
 
 SOURCE=.\tinyxml.cpp
 DEP_CPP_TINYX=\
+	".\platform.h"\
 	".\tinystr.h"\
 	".\tinyxml.h"\
 	
@@ -785,6 +792,7 @@ DEP_CPP_TINYX=\
 
 SOURCE=.\tinyxmlerror.cpp
 DEP_CPP_TINYXM=\
+	".\platform.h"\
 	".\tinystr.h"\
 	".\tinyxml.h"\
 	
@@ -793,6 +801,7 @@ DEP_CPP_TINYXM=\
 
 SOURCE=.\tinyxmlparser.cpp
 DEP_CPP_TINYXML=\
+	".\platform.h"\
 	".\tinystr.h"\
 	".\tinyxml.h"\
 	
@@ -826,6 +835,10 @@ SOURCE=.\animation_action.h
 # Begin Source File
 
 SOURCE=.\animation_cycle.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\animcallback.h
 # End Source File
 # Begin Source File
 

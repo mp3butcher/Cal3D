@@ -93,6 +93,7 @@ void CMeshCandidate::Clear()
 
 bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold)
 {
+  size_t i;
   // clear current content
   Clear();
 
@@ -118,7 +119,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
     return false;
   }
 
-  for (size_t i = 0; i < m_meshes.size(); ++i)
+  for (i = 0; i < m_meshes.size(); ++i)
   {
     CBaseMesh* mesh = m_meshes[i];
 
@@ -141,7 +142,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
   }
 
   int baseSubmesh = 0;
-  for (size_t i = 0; i < m_meshes.size(); ++i)
+  for (i = 0; i < m_meshes.size(); ++i)
   {
     CBaseMesh* mesh = m_meshes[i];
     int materialCount = mesh->GetMaterialCount();
@@ -216,7 +217,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
   }
 
   // adjust all bone assignments in the submesh candidates
-  for(size_t i = 0; i < m_vectorSubmeshCandidate.size(); ++i)
+  for(i = 0; i < m_vectorSubmeshCandidate.size(); ++i)
   {
     m_vectorSubmeshCandidate[i]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
   }
