@@ -2232,7 +2232,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
 			      return false;
 			  }
-			  Vertex.collapseId = atoi(normdata->Value());
+			  Vertex.collapseId = atoi(collapseid->Value());
 
 			  TiXmlElement *collapseCount= collapse->NextSiblingElement();
 			  if(!collapseCount|| stricmp(collapseCount->Value(),"COLLAPSECOUNT")!=0)
