@@ -58,7 +58,9 @@ public:
   void blend(float d, const CalQuaternion& q);
   void clear();
   void conjugate();
+  void invert();
   void set(float qx, float qy, float qz, float qw);
+  friend CAL3D_API CalQuaternion shortestArc( const CalVector& from, const CalVector& to );
 };
 
 #endif

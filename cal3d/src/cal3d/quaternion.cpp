@@ -260,6 +260,25 @@ void CalQuaternion::conjugate()
 }
 
  /*****************************************************************************/
+/** Inverts the quaternion instance.
+  *
+  * This function inverts the quaternion instance.
+  *****************************************************************************/
+
+void CalQuaternion::invert()
+{
+   conjugate();
+   float norm = (x*x) + (y*y) + (z*z) + (w*w);
+
+   if (norm == 0.0f) return;
+
+   x /= norm;
+   y /= norm;
+   z /= norm;
+   w /= norm;
+}
+
+ /*****************************************************************************/
 /** Sets new values.
   *
   * This function sets new values in the quaternion instance.
@@ -276,6 +295,32 @@ void CalQuaternion::set(float qx, float qy, float qz, float qw)
   y = qy;
   z = qz;
   w = qw;
+}
+
+ /*****************************************************************************/
+/** Computes the shortest arc quaternion that will rotate one vector to another.
+  *
+  * This function finds the shortest arc quaternion. 
+  * Based on equations from "Game Programming Gems" - chapter 2.10
+  *
+  * @param from The original vector
+  * @param to The target vector
+  *****************************************************************************/
+
+CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
+{
+
+   CalVector cross = from % to; //Compute vector cross product
+   float dot = from * to ;      //Compute dot product
+
+   dot = sqrt( 2*(dot+1) ) ; //We will use this equation twice
+
+   cross /= dot ; //Get the x, y, z components
+
+   //Return with the w component (Note that w is inverted because Cal3D has
+   // left-handed rotations )
+   return CalQuaternion( cross[0], cross[1], cross[2], -dot/2 ) ; 
+
 }
 
 //****************************************************************************//
