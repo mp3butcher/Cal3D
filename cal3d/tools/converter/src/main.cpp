@@ -102,7 +102,6 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		Saver->saveCoreSkeleton(strFilename2,Ske);
-		Ske->destroy();
 		delete Ske;
 	}
 	if(Type==MESH)
@@ -116,7 +115,6 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		Saver->saveCoreMesh(strFilename2,Mesh);
-		Mesh->destroy();
 		delete Mesh;
 	}
 
@@ -131,7 +129,6 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		Saver->saveCoreAnimation(strFilename2,Ani);
-		Ani->destroy();
 		delete Ani;
 	}
 	if(Type==MATERIAL)
@@ -145,7 +142,6 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		Saver->saveCoreMaterial(strFilename2,Mat);
-		Mat->destroy();
 		delete Mat;	
 	}
 	delete Saver;
