@@ -77,6 +77,7 @@ public:
   float getTime();
   Type getType();
   float getWeight();
+  void setTime(float time);
 };
 
 #endif

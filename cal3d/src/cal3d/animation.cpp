@@ -133,4 +133,18 @@ float CalAnimation::getWeight()
   return m_weight;
 }
 
+ /*****************************************************************************/
+/** Set the time.
+  *
+  * This function set the time of the animation instance.
+  *
+  *****************************************************************************/
+
+void CalAnimation::setTime(float time)
+{
+    m_time = time;
+}
+ 
+
+
 //****************************************************************************//
