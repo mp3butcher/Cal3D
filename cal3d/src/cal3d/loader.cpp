@@ -18,6 +18,7 @@
 
 #include "loader.h"
 #include "error.h"
+#include "matrix.h"
 #include "vector.h"
 #include "quaternion.h"
 #include "coremodel.h"

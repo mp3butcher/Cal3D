@@ -30,6 +30,7 @@
 #include "coretrack.h"
 #include "error.h"
 #include "loader.h"
+#include "matrix.h"
 #include "mesh.h"
 #include "mixer.h"
 #include "model.h"

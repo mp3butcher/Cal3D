@@ -16,6 +16,7 @@
 //****************************************************************************//
 
 #include "global.h"
+#include "matrix.h"
 #include "vector.h"
 #include "quaternion.h"
 

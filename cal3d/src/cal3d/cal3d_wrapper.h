@@ -45,7 +45,7 @@
 
 #define CAL3D_WRAPPER_API
 
-#endif
+#endif 
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -66,7 +66,9 @@ struct CalCoreModel;
 struct CalCoreSkeleton;
 struct CalCoreSubmesh;
 struct CalCoreTrack;
+struct CalIndex;
 struct CalLoader;
+struct CalMatrix;
 struct CalMesh;
 struct CalMixer;
 struct CalModel;

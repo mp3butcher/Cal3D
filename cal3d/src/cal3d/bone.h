@@ -18,6 +18,7 @@
 #include "global.h"
 #include "vector.h"
 #include "quaternion.h"
+#include "matrix.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
