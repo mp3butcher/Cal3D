@@ -91,7 +91,7 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   }
 
   // write the duration of the core animation
-  if(!CalPlatform::writeInteger(file, pCoreAnimation->getDuration()))
+  if(!CalPlatform::writeFloat(file, pCoreAnimation->getDuration()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -589,7 +589,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
       // write the influence data
       CalPlatform::writeInteger(file, influence.boneId);
-      CalPlatform::writeInteger(file, influence.weight);
+      CalPlatform::writeFloat(file, influence.weight);
 
       // check if an error happend
       if(!file)
