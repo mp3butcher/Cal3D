@@ -302,6 +302,21 @@ void CalCoreBone::setParentId(int parentId)
   m_parentId = parentId;
 }
 
+/*****************************************************************************/
+/** Provides access to the core skeleton.
+  *
+  * This function returns the core skeleton.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happend
+  *****************************************************************************/
+
+CalCoreSkeleton *CalCoreBone::getCoreSkeleton()
+{
+  return m_pCoreSkeleton;
+}
+
  /*****************************************************************************/
 /** Sets the rotation.
   *

@@ -64,6 +64,7 @@ public:
   std::list<int>& getListChildId();
   const std::string& getName();
   int getParentId();
+  CalCoreSkeleton *getCoreSkeleton();
   const CalQuaternion& getRotation();
   const CalQuaternion& getRotationAbsolute();
   const CalQuaternion& getRotationBoneSpace();
