@@ -22,8 +22,8 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "cal3d.h"
-#include "cal3d_wrapper.h"
+#include "cal3d/cal3d.h"
+#include "cal3d/cal3d_wrapper.h"
 
 //****************************************************************************//
 // CalAnimation wrapper functions definition                                  //

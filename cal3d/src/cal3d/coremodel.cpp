@@ -16,14 +16,14 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "coremodel.h"
-#include "error.h"
-#include "coreskeleton.h"
-#include "coreanimation.h"
-#include "coremesh.h"
-#include "corematerial.h"
-#include "loader.h"
-#include "saver.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/error.h"
+#include "cal3d/coreskeleton.h"
+#include "cal3d/coreanimation.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/corematerial.h"
+#include "cal3d/loader.h"
+#include "cal3d/saver.h"
 
  /*****************************************************************************/
 /** Constructs the core model instance.

@@ -16,19 +16,19 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "mixer.h"
-#include "coremodel.h"
-#include "corebone.h"
-#include "coreanimation.h"
-#include "coretrack.h"
-#include "corekeyframe.h"
-#include "model.h"
-#include "skeleton.h"
-#include "bone.h"
-#include "animation.h"
-#include "animation_action.h"
-#include "animation_cycle.h"
+#include "cal3d/error.h"
+#include "cal3d/mixer.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/corebone.h"
+#include "cal3d/coreanimation.h"
+#include "cal3d/coretrack.h"
+#include "cal3d/corekeyframe.h"
+#include "cal3d/model.h"
+#include "cal3d/skeleton.h"
+#include "cal3d/bone.h"
+#include "cal3d/animation.h"
+#include "cal3d/animation_action.h"
+#include "cal3d/animation_cycle.h"
 
  /*****************************************************************************/
 /** Constructs the mixer instance.

@@ -16,8 +16,8 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "corematerial.h"
+#include "cal3d/error.h"
+#include "cal3d/corematerial.h"
 
  /*****************************************************************************/
 /** Constructs the core material instance.

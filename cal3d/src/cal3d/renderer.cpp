@@ -16,18 +16,18 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "renderer.h"
-#include "coremodel.h"
-#include "model.h"
-#include "coremesh.h"
-#include "mesh.h"
-#include "submesh.h"
-#include "skeleton.h"
-#include "bone.h"
-#include "corematerial.h"
-#include "coresubmesh.h"
-#include "physique.h"
+#include "cal3d/error.h"
+#include "cal3d/renderer.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/model.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/mesh.h"
+#include "cal3d/submesh.h"
+#include "cal3d/skeleton.h"
+#include "cal3d/bone.h"
+#include "cal3d/corematerial.h"
+#include "cal3d/coresubmesh.h"
+#include "cal3d/physique.h"
 
  /*****************************************************************************/
 /** Constructs the renderer instance.

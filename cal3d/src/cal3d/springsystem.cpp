@@ -16,14 +16,14 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "springsystem.h"
-#include "coremodel.h"
-#include "model.h"
-#include "mesh.h"
-#include "submesh.h"
-#include "coresubmesh.h"
-#include "vector.h"
+#include "cal3d/error.h"
+#include "cal3d/springsystem.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/model.h"
+#include "cal3d/mesh.h"
+#include "cal3d/submesh.h"
+#include "cal3d/coresubmesh.h"
+#include "cal3d/vector.h"
 
  /*****************************************************************************/
 /** Constructs the spring system instance.

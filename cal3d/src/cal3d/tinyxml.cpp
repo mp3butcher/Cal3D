@@ -23,7 +23,7 @@ distribution.
 */
 
 #include <ctype.h>
-#include "tinyxml.h"
+#include "cal3d/tinyxml.h"
 
 bool TiXmlBase::condenseWhiteSpace = true;
 

@@ -15,10 +15,10 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "global.h"
-#include "matrix.h"
-#include "vector.h"
-#include "quaternion.h"
+#include "cal3d/global.h"
+#include "cal3d/matrix.h"
+#include "cal3d/vector.h"
+#include "cal3d/quaternion.h"
 
 //****************************************************************************//
 // Class declaration                                                          //

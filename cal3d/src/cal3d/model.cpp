@@ -16,19 +16,19 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "model.h"
-#include "skeleton.h"
-#include "bone.h"
-#include "mixer.h"
-#include "renderer.h"
-#include "coremodel.h"
-#include "coreskeleton.h"
-#include "coremesh.h"
-#include "coresubmesh.h"
-#include "mesh.h"
-#include "physique.h"
-#include "springsystem.h"
+#include "cal3d/error.h"
+#include "cal3d/model.h"
+#include "cal3d/skeleton.h"
+#include "cal3d/bone.h"
+#include "cal3d/mixer.h"
+#include "cal3d/renderer.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/coreskeleton.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coresubmesh.h"
+#include "cal3d/mesh.h"
+#include "cal3d/physique.h"
+#include "cal3d/springsystem.h"
 
  /*****************************************************************************/
 /** Constructs the model instance.

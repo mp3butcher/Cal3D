@@ -15,8 +15,8 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "global.h"
-#include "vector.h"
+#include "cal3d/global.h"
+#include "cal3d/vector.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //

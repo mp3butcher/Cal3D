@@ -16,9 +16,9 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "animation_action.h"
-#include "error.h"
-#include "coreanimation.h"
+#include "cal3d/animation_action.h"
+#include "cal3d/error.h"
+#include "cal3d/coreanimation.h"
 
  /*****************************************************************************/
 /** Constructs the animation action instance.

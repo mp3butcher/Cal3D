@@ -16,20 +16,20 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "saver.h"
-#include "error.h"
-#include "vector.h"
-#include "quaternion.h"
-#include "coremodel.h"
-#include "coreskeleton.h"
-#include "corebone.h"
-#include "coreanimation.h"
-#include "coretrack.h"
-#include "corekeyframe.h"
-#include "coremesh.h"
-#include "coresubmesh.h"
-#include "corematerial.h"
-#include "tinyxml.h"
+#include "cal3d/saver.h"
+#include "cal3d/error.h"
+#include "cal3d/vector.h"
+#include "cal3d/quaternion.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/coreskeleton.h"
+#include "cal3d/corebone.h"
+#include "cal3d/coreanimation.h"
+#include "cal3d/coretrack.h"
+#include "cal3d/corekeyframe.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coresubmesh.h"
+#include "cal3d/corematerial.h"
+#include "cal3d/tinyxml.h"
 
  /*****************************************************************************/
 /** Saves a core animation instance.

@@ -16,9 +16,9 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "quaternion.h"
-#include "matrix.h"
-#include "vector.h"
+#include "cal3d/quaternion.h"
+#include "cal3d/matrix.h"
+#include "cal3d/vector.h"
 
  /*****************************************************************************/
 /** Constructs the quaternion instance.

@@ -21,7 +21,7 @@
 #endif
 
 // platform dependent includes
-#include "platform.h"
+#include "cal3d/platform.h"
 
 //****************************************************************************//
 // Define options

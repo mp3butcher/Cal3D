@@ -16,11 +16,11 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "skeleton.h"
-#include "error.h"
-#include "bone.h"
-#include "coreskeleton.h"
-#include "corebone.h" // DEBUG
+#include "cal3d/skeleton.h"
+#include "cal3d/error.h"
+#include "cal3d/bone.h"
+#include "cal3d/coreskeleton.h"
+#include "cal3d/corebone.h" // DEBUG
 
  /*****************************************************************************/
 /** Constructs the skeleton instance.

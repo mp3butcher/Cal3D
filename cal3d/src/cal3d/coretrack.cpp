@@ -16,9 +16,9 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "coretrack.h"
-#include "error.h"
-#include "corekeyframe.h"
+#include "cal3d/coretrack.h"
+#include "cal3d/error.h"
+#include "cal3d/corekeyframe.h"
 
  /*****************************************************************************/
 /** Constructs the core track instance.

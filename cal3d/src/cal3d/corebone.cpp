@@ -16,9 +16,9 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "corebone.h"
-#include "coreskeleton.h"
+#include "cal3d/error.h"
+#include "cal3d/corebone.h"
+#include "cal3d/coreskeleton.h"
 
  /*****************************************************************************/
 /** Constructs the core bone instance.

@@ -16,15 +16,15 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "error.h"
-#include "physique.h"
-#include "coremodel.h"
-#include "model.h"
-#include "mesh.h"
-#include "submesh.h"
-#include "skeleton.h"
-#include "bone.h"
-#include "coresubmesh.h"
+#include "cal3d/error.h"
+#include "cal3d/physique.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/model.h"
+#include "cal3d/mesh.h"
+#include "cal3d/submesh.h"
+#include "cal3d/skeleton.h"
+#include "cal3d/bone.h"
+#include "cal3d/coresubmesh.h"
 
  /*****************************************************************************/
 /** Constructs the physique instance.

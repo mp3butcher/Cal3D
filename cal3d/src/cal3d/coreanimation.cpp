@@ -16,8 +16,8 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "coreanimation.h"
-#include "coretrack.h"
+#include "cal3d/coreanimation.h"
+#include "cal3d/coretrack.h"
 
  /*****************************************************************************/
 /** Constructs the core animation instance.

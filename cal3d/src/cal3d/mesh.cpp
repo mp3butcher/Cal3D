@@ -16,13 +16,13 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "mesh.h"
-#include "error.h"
-#include "coremesh.h"
-#include "coresubmesh.h"
-#include "submesh.h"
-#include "coremodel.h"
-#include "model.h"
+#include "cal3d/mesh.h"
+#include "cal3d/error.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coresubmesh.h"
+#include "cal3d/submesh.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/model.h"
 
  /*****************************************************************************/
 /** Constructs the mesh instance.

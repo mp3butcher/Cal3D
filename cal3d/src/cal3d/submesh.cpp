@@ -16,9 +16,9 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "submesh.h"
-#include "error.h"
-#include "coresubmesh.h"
+#include "cal3d/submesh.h"
+#include "cal3d/error.h"
+#include "cal3d/coresubmesh.h"
 
  /*****************************************************************************/
 /** Constructs the submesh instance.
