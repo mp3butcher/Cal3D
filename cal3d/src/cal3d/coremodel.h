@@ -45,6 +45,7 @@ protected:
   std::vector<CalCoreMaterial *> m_vectorCoreMaterial;
   std::map<int, std::map<int, int> > m_mapmapCoreMaterialThread;
   Cal::UserData m_userData;
+  std::map<std::string, int> m_animationHelper;
 
 // constructors/destructor
 public:
@@ -79,6 +80,9 @@ public:
   bool setCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId);
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void setUserData(Cal::UserData userData);
+  void addAnimHelper(const std::string& strAnimName, int animId);
+  int getAnimId(const std::string& strAnimName);
+
 };
 
 #endif

@@ -732,4 +732,42 @@ void CalCoreModel::setUserData(Cal::UserData userData)
   m_userData = userData;
 }
 
+ /*****************************************************************************/
+/** Creates or overwrites a string-to-animation ID mapping
+  *
+  * This function makes an animation ID reference-able by a string name.
+  * Note that we don't verify that the ID is valid because the animation
+  * may be added later.
+  * Also, if there is already a helper with this name, it will be overwritten
+  * without warning.
+  *
+  * @param strAnimName The string that will be associated with the ID.
+  * @param animId The ID number of the animation to be referenced by the string.
+  *****************************************************************************/
+
+void CalCoreModel::addAnimHelper(const std::string& strAnimName, int animId)
+{
+  m_animationHelper[ strAnimName ] = animId;
+}
+
+ /*****************************************************************************/
+/** Retrieves the ID of the animation referenced by a string
+  *
+  * This function returns an animation ID
+  *
+  * @param strAnimName A string that is associated with an anim ID number.
+  * @return Returns:
+  *         \li \b -1 if there is no anim ID associated with the input string
+  *         \li \b the ID number of the anim asssociated with the input string
+  *****************************************************************************/
+
+int CalCoreModel::getAnimId(const std::string& strAnimName)
+{
+  if (m_animationHelper.count( strAnimName ) < 1)
+  {
+    return -1;
+  }
+   
+  return m_animationHelper[strAnimName];
+}
 //****************************************************************************//
