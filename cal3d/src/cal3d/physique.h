@@ -25,11 +25,11 @@ public:
   CalPhysique(CalModel* pModel);
   ~CalPhysique() { }
 
-  int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer);
-  int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer);
-  int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer);
+  int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer, int stride=0);
+  int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0);
+  int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
   CalVector calculateVertex(CalSubmesh *pSubmesh, int vertexId);
-  int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer);
+  int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
   int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
   void update();
   void setNormalization(bool normalize);

@@ -27,6 +27,7 @@ o-----------------------------------------------------------------------------o
   - Added animation callbacks.
   - Added Maya exporter.
   - create/destroy functions removed.
+  - Add a "stride" argument to getVertices(), getNormals() ...
   
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 

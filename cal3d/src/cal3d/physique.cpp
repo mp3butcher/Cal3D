@@ -55,8 +55,13 @@ CalPhysique::CalPhysique(CalModel* pModel)
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
+int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride)
 {
+  if(stride <= 0)
+  {
+	  stride = 3*sizeof(float);
+  }
+
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
@@ -170,7 +175,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
     }
 
     // next vertex position in buffer
-    pVertexBuffer += 3;
+    pVertexBuffer = (float *)(((char *)pVertexBuffer) + stride) ;
   }
 
   return vertexCount;
@@ -314,9 +319,13 @@ CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
   * @return The number of tangent spaces written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer)
+int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer, int stride)
 {
   if((mapId < 0) || (mapId >= (int)pSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace().size())) return false;
+  if(stride <= 0)
+  {
+	  stride = 4*sizeof(float);
+  }
 
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
@@ -387,7 +396,7 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
 
     pTangentSpaceBuffer[3] = tangentSpace.crossFactor;
     // next vertex position in buffer
-    pTangentSpaceBuffer += 4;
+    pTangentSpaceBuffer = (float *)(((char *)pTangentSpaceBuffer) + stride) ;
   }
 
   return vertexCount;
@@ -408,8 +417,13 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
   * @return The number of normals written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
+int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride)
 {
+  if(stride <= 0)
+  {
+	  stride = 3*sizeof(float);
+  }
+
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
@@ -516,7 +530,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
     } 
 
     // next vertex position in buffer
-    pNormalBuffer += 3;
+    pNormalBuffer = (float *)(((char *)pNormalBuffer) + stride) ;
   }
 
   return vertexCount;
@@ -536,8 +550,13 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer)
+int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride)
 {
+  if(stride <= 0)
+  {
+	  stride = 6*sizeof(float);
+  }
+
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
@@ -697,8 +716,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
 
 	// next vertex position in buffer	
-	pVertexBuffer += 6;
-
+    pVertexBuffer = (float *)(((char *)pVertexBuffer) + stride) ;
   }
 
   return vertexCount;

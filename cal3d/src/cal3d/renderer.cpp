@@ -278,7 +278,7 @@ int CalRenderer::getMeshCount()
   *
   * @return The number of tangent space written to the buffer.
   *****************************************************************************/
-int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
+int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer, int stride)
 {
   // get the texture coordinate vector vector
   std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& vectorvectorTangentSpace = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace();
@@ -301,13 +301,26 @@ int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
     tangentSpaceCount = m_pSelectedSubmesh->getVertexCount();
 
     // copy the internal normal data to the provided normal buffer
-    memcpy(pTangentSpaceBuffer, &vectorTangentSpace[0], tangentSpaceCount * sizeof(CalCoreSubmesh::TangentSpace));
+    
+	if(stride == sizeof(CalCoreSubmesh::TangentSpace) || stride <= 0)
+	{
+		memcpy(pTangentSpaceBuffer, &vectorTangentSpace[0], tangentSpaceCount * sizeof(CalCoreSubmesh::TangentSpace));	
+	}
+	else
+	{
+		char * pBuffer = (char*) pTangentSpaceBuffer;
+		for(int i=0; i < tangentSpaceCount; ++i)
+		{
+			memcpy(&pBuffer[0], &vectorTangentSpace[i], sizeof(CalCoreSubmesh::TangentSpace));
+			pBuffer+=stride;
+		}
+	}
 
     return tangentSpaceCount;
   }
 
   // submesh does not handle the vertex data internally, so let the physique calculate it now
-  return m_pModel->getPhysique()->calculateTangentSpaces(m_pSelectedSubmesh, mapId, pTangentSpaceBuffer);
+  return m_pModel->getPhysique()->calculateTangentSpaces(m_pSelectedSubmesh, mapId, pTangentSpaceBuffer, stride);
 }
 
 
@@ -322,7 +335,7 @@ int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
   * @return The number of normals written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getNormals(float *pNormalBuffer)
+int CalRenderer::getNormals(float *pNormalBuffer, int stride)
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -335,13 +348,27 @@ int CalRenderer::getNormals(float *pNormalBuffer)
     normalCount = m_pSelectedSubmesh->getVertexCount();
 
     // copy the internal normal data to the provided normal buffer
-    memcpy(pNormalBuffer, &vectorNormal[0], normalCount * sizeof(CalVector));
+
+	if(stride == sizeof(CalVector) || stride <= 0)
+	{
+		memcpy(pNormalBuffer, &vectorNormal[0], normalCount * sizeof(CalVector));
+	}
+	else
+	{
+		char * pBuffer = (char*) pNormalBuffer;
+		for(int i=0; i < normalCount; ++i)
+		{
+			memcpy(&pBuffer[0], &vectorNormal[i], sizeof(CalVector));
+			pBuffer+=stride;
+		}
+
+	}
 
     return normalCount;
   }
 
   // submesh does not handle the vertex data internally, so let the physique calculate it now
-  return m_pModel->getPhysique()->calculateNormals(m_pSelectedSubmesh, pNormalBuffer);
+  return m_pModel->getPhysique()->calculateNormals(m_pSelectedSubmesh, pNormalBuffer, stride);
 }
 
  /*****************************************************************************/
@@ -438,7 +465,7 @@ int CalRenderer::getSubmeshCount(int meshId)
   * @return The number of texture coordinates written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer)
+int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer, int stride)
 {
   // get the texture coordinate vector vector
   std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTextureCoordinate();
@@ -455,7 +482,21 @@ int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffe
   textureCoordinateCount = m_pSelectedSubmesh->getVertexCount();
 
   // copy the texture coordinate vector to the face buffer
-  memcpy(pTextureCoordinateBuffer, &vectorvectorTextureCoordinate[mapId][0], textureCoordinateCount * sizeof(CalCoreSubmesh::TextureCoordinate));
+
+  if(stride == sizeof(CalCoreSubmesh::TextureCoordinate) || stride <= 0)
+  {
+	  memcpy(pTextureCoordinateBuffer, &vectorvectorTextureCoordinate[mapId][0], textureCoordinateCount * sizeof(CalCoreSubmesh::TextureCoordinate));
+  }
+  else
+  {
+	  char * pBuffer = (char*) pTextureCoordinateBuffer;
+	  for(int i=0; i < textureCoordinateCount; ++i)
+	  {
+		  memcpy(&pBuffer[0], &vectorvectorTextureCoordinate[mapId][i], sizeof(CalCoreSubmesh::TextureCoordinate));
+		  pBuffer+=stride;
+	  }
+	  
+  }
 
   return textureCoordinateCount;
 }
@@ -497,7 +538,7 @@ bool CalRenderer::isTangentsEnabled(int mapId)
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getVertices(float *pVertexBuffer)
+int CalRenderer::getVertices(float *pVertexBuffer, int stride)
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -510,13 +551,27 @@ int CalRenderer::getVertices(float *pVertexBuffer)
     vertexCount = m_pSelectedSubmesh->getVertexCount();
 
     // copy the internal vertex data to the provided vertex buffer
-    memcpy(pVertexBuffer, &vectorVertex[0], vertexCount * sizeof(CalVector));
+
+	if(stride == sizeof(CalVector) || stride <= 0)
+	{
+		memcpy(pVertexBuffer, &vectorVertex[0], vertexCount * sizeof(CalVector));
+	}
+	else
+	{
+		char * pBuffer = (char*) pVertexBuffer;
+		for(int i=0; i < vertexCount; ++i)
+		{
+			memcpy(&pBuffer[0], &vectorVertex[i], sizeof(CalVector));
+			pBuffer+=stride;
+		}
+
+	}
 
     return vertexCount;
   }
 
   // submesh does not handle the vertex data internally, so let the physique calculate it now
-  return m_pModel->getPhysique()->calculateVertices(m_pSelectedSubmesh, pVertexBuffer);
+  return m_pModel->getPhysique()->calculateVertices(m_pSelectedSubmesh, pVertexBuffer, stride);
 }
 
  /*****************************************************************************/
@@ -530,7 +585,7 @@ int CalRenderer::getVertices(float *pVertexBuffer)
   * @return The number of vertex written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getVerticesAndNormals(float *pVertexBuffer)
+int CalRenderer::getVerticesAndNormals(float *pVertexBuffer, int stride)
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -545,19 +600,25 @@ int CalRenderer::getVerticesAndNormals(float *pVertexBuffer)
     int vertexCount;
     vertexCount = m_pSelectedSubmesh->getVertexCount();
 
+	if(stride <= 0)
+	{
+		stride = 6*sizeof(float);
+	}	
+
     // copy the internal vertex data to the provided vertex buffer
+	char * pBuffer = (char*) pVertexBuffer;
 	for(int i=0; i < vertexCount; ++i)
 	{
-		memcpy(&pVertexBuffer[0], &vectorVertex[i], sizeof(CalVector));		
-		memcpy(&pVertexBuffer[3], &vectorNormal[i], sizeof(CalVector));
-		pVertexBuffer+=6;
+		memcpy(&pBuffer[0], &vectorVertex[i], sizeof(CalVector));		
+		memcpy(&pBuffer[sizeof(CalVector)], &vectorNormal[i], sizeof(CalVector));
+		pBuffer+=stride;
 	}
 
     return vertexCount;
   }
 
   // submesh does not handle the vertex data internally, so let the physique calculate it now
-  return m_pModel->getPhysique()->calculateVerticesAndNormals(m_pSelectedSubmesh, pVertexBuffer);
+  return m_pModel->getPhysique()->calculateVerticesAndNormals(m_pSelectedSubmesh, pVertexBuffer, stride);
 }
 
  /*****************************************************************************/
