@@ -1,7 +1,6 @@
 Import('*')
-env = env.Copy()
-env.Append(CPPPATH = ['..'])
-env.Library('cal3d', Split("""
+
+sources = Split("""
     animation.cpp
     animation_action.cpp
     animation_cycle.cpp
@@ -40,4 +39,10 @@ env.Library('cal3d', Split("""
     tinyxml.cpp
     tinyxmlerror.cpp
     tinyxmlparser.cpp
-    vector.cpp"""))
+    vector.cpp
+""")
+
+env = env.Copy()
+env.Append(CPPPATH = ['..'])
+env.Library('cal3d', sources)
+env.SharedLibrary('cal3d', sources)
