@@ -114,6 +114,8 @@ char vertexProgramStr[]=
 
 Viewer::Viewer()
 {
+  m_calCoreModel = new CalCoreModel("dummy");
+
   m_width = 640;
   m_height = 480;
   m_bFullscreen = false;
@@ -357,21 +359,16 @@ bool Viewer::onCreate(int argc, char *argv[])
   // mapping without further information on the model etc., so this is the only
   // thing we can do here.
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // create the a material thread
-    m_calCoreModel.createCoreMaterialThread(materialId);
+    m_calCoreModel->createCoreMaterialThread(materialId);
 
     // initialize the material thread
-    m_calCoreModel.setCoreMaterialId(materialId, 0, materialId);
+    m_calCoreModel->setCoreMaterialId(materialId, 0, materialId);
   }
 
-  // create the model instance from the loaded core model
-  if(!m_calModel.create(&m_calCoreModel))
-  {
-    CalError::printLastError();
-    return false;
-  }
+  m_calModel = new CalModel(m_calCoreModel);
 
   return true;
 }
@@ -404,23 +401,23 @@ void Viewer::onIdle()
   if(!m_bPaused)
   {
     // check if the time has come to blend to the next animation
-    if(m_calCoreModel.getCoreAnimationCount() > 1)
+    if(m_calCoreModel->getCoreAnimationCount() > 1)
     {
       m_leftAnimationTime -= elapsedSeconds;
       if(m_leftAnimationTime <= m_blendTime)
       {
         // get the next animation
-        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel.getCoreAnimationCount();
+        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel->getCoreAnimationCount();
 
         // fade in the new animation
-        m_calModel.getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
+        m_calModel->getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
 
         // adjust the animation time left until next animation flip
-        m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+        m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
       }
     }
 
-    m_calModel.update(elapsedSeconds);
+    m_calModel->update(elapsedSeconds);
   }
 
   // current tick will be last tick next round
@@ -440,11 +437,11 @@ bool Viewer::onInit()
 {
   // load all textures and store the opengl texture id in the corresponding map in the material
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // get the core material
     CalCoreMaterial *pCoreMaterial;
-    pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
+    pCoreMaterial = m_calCoreModel->getCoreMaterial(materialId);
 
     // loop through all maps of the core material
     int mapId;
@@ -465,26 +462,26 @@ bool Viewer::onInit()
 
   // attach all meshes to the model
   int meshId;
-  for(meshId = 0; meshId < m_calCoreModel.getCoreMeshCount(); meshId++)
+  for(meshId = 0; meshId < m_calCoreModel->getCoreMeshCount(); meshId++)
   {
-    m_calModel.attachMesh(meshId);
+    m_calModel->attachMesh(meshId);
   }
 
   // set the material set of the whole model
-  m_calModel.setMaterialSet(0);
+  m_calModel->setMaterialSet(0);
 
   // set initial animation state
-  if(m_calCoreModel.getCoreAnimationCount() > 0)
+  if(m_calCoreModel->getCoreAnimationCount() > 0)
   {
     m_currentAnimationId = 0;
-    m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
-    if(m_calCoreModel.getCoreAnimationCount() > 1)
+    m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+    if(m_calCoreModel->getCoreAnimationCount() > 1)
     {
-      m_calModel.getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
+      m_calModel->getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
     }
     else
     {
-      m_calModel.getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
+      m_calModel->getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
     }
   }
   else
@@ -499,7 +496,7 @@ bool Viewer::onInit()
 
 
   std::cout << "Disable internal." << std::endl;
-  m_calModel.disableInternalData();
+  m_calModel->disableInternalData();
 
   m_lastTick = Tick::getTick();
 
@@ -563,18 +560,16 @@ bool Viewer::loadBufferObject()
   }	  
 
 
-  m_calHardwareModel.create(&m_calCoreModel);
+  m_calHardwareModel = new CalHardwareModel(m_calCoreModel);
+  m_calHardwareModel->setVertexBuffer((char*)pVertexBuffer,3*sizeof(float));
+  m_calHardwareModel->setNormalBuffer((char*)pNormalBuffer,3*sizeof(float));
+  m_calHardwareModel->setWeightBuffer((char*)pWeightBuffer,4*sizeof(float));
+  m_calHardwareModel->setMatrixIndexBuffer((char*)pMatrixIndexBuffer,4*sizeof(float));
+  m_calHardwareModel->setTextureCoordNum(1);
+  m_calHardwareModel->setTextureCoordBuffer(0,(char*)pTexCoordBuffer,2*sizeof(float));
+  m_calHardwareModel->setIndexBuffer(pIndexBuffer);
 
-
-  m_calHardwareModel.setVertexBuffer((char*)pVertexBuffer,3*sizeof(float));
-  m_calHardwareModel.setNormalBuffer((char*)pNormalBuffer,3*sizeof(float));
-  m_calHardwareModel.setWeightBuffer((char*)pWeightBuffer,4*sizeof(float));
-  m_calHardwareModel.setMatrixIndexBuffer((char*)pMatrixIndexBuffer,4*sizeof(float));
-  m_calHardwareModel.setTextureCoordNum(1);
-  m_calHardwareModel.setTextureCoordBuffer(0,(char*)pTexCoordBuffer,2*sizeof(float));
-  m_calHardwareModel.setIndexBuffer(pIndexBuffer);
-
-  m_calHardwareModel.load( 0, 0, MAXBONESPERMESH);
+  m_calHardwareModel->load( 0, 0, MAXBONESPERMESH);
 
 
 
@@ -582,16 +577,16 @@ bool Viewer::loadBufferObject()
   // we make them relative to the begining of the buffer.
 
   int meshId;
-  for(meshId = 0; meshId < m_calHardwareModel.getHardwareMeshCount(); meshId++)
+  for(meshId = 0; meshId < m_calHardwareModel->getHardwareMeshCount(); meshId++)
   {
-	  m_calHardwareModel.selectHardwareMesh(meshId);
+	  m_calHardwareModel->selectHardwareMesh(meshId);
 
 	  int faceId;
-	  for(faceId = 0; faceId < m_calHardwareModel.getFaceCount(); faceId++)
+	  for(faceId = 0; faceId < m_calHardwareModel->getFaceCount(); faceId++)
 	  {
-		  pIndexBuffer[faceId*3+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
-		  pIndexBuffer[faceId*3+1+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
-		  pIndexBuffer[faceId*3+2+ m_calHardwareModel.getStartIndex()]+=m_calHardwareModel.getBaseVertexIndex();
+		  pIndexBuffer[faceId*3+ m_calHardwareModel->getStartIndex()]+=m_calHardwareModel->getBaseVertexIndex();
+		  pIndexBuffer[faceId*3+1+ m_calHardwareModel->getStartIndex()]+=m_calHardwareModel->getBaseVertexIndex();
+		  pIndexBuffer[faceId*3+2+ m_calHardwareModel->getStartIndex()]+=m_calHardwareModel->getBaseVertexIndex();
 	  }
 
   }
@@ -602,23 +597,23 @@ bool Viewer::loadBufferObject()
   glGenBuffersARB(6, m_bufferObject);
 
   glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[0]);
-  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*3*sizeof(float),(const void*)pVertexBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalVertexCount()*3*sizeof(float),(const void*)pVertexBuffer, GL_STATIC_DRAW_ARB);
 
   glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[1]);
-  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*4*sizeof(float),(const void*)pWeightBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalVertexCount()*4*sizeof(float),(const void*)pWeightBuffer, GL_STATIC_DRAW_ARB);
 
   glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[2]);
-  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*3*sizeof(float),(const void*)pNormalBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalVertexCount()*3*sizeof(float),(const void*)pNormalBuffer, GL_STATIC_DRAW_ARB);
   
   glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[3]);
-  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*4*sizeof(float),(const void*)pMatrixIndexBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalVertexCount()*4*sizeof(float),(const void*)pMatrixIndexBuffer, GL_STATIC_DRAW_ARB);
 
   glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_bufferObject[4]);
-  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalVertexCount()*2*sizeof(float),(const void*)pTexCoordBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalVertexCount()*2*sizeof(float),(const void*)pTexCoordBuffer, GL_STATIC_DRAW_ARB);
 
   glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_bufferObject[5]);
 
-  glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_calHardwareModel.getTotalFaceCount()*3*sizeof(CalIndex),(const void*)pIndexBuffer, GL_STATIC_DRAW_ARB);
+  glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, m_calHardwareModel->getTotalFaceCount()*3*sizeof(CalIndex),(const void*)pIndexBuffer, GL_STATIC_DRAW_ARB);
 
   free(pVertexBuffer);
   free(pWeightBuffer);
@@ -699,7 +694,7 @@ void Viewer::onKey(unsigned char key, int x, int y)
   }
 
   // set the (possible) new lod level
-  m_calModel.setLodLevel(m_lodLevel);
+  m_calModel->setLodLevel(m_lodLevel);
 }
 
 //----------------------------------------------------------------------------//
@@ -838,11 +833,9 @@ void Viewer::onRender()
 
 void Viewer::onShutdown()
 {
-  // destroy model instance
-  m_calModel.destroy();
-
-  // destroy core model instance
-  m_calCoreModel.destroy();
+  delete m_calHardwareModel;
+  delete m_calModel;
+  delete m_calCoreModel;
 
   glDeleteProgramsARB(1, &m_vertexProgramId);
   glDeleteBuffersARB(6, m_bufferObject);
@@ -891,13 +884,6 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
   if(!file)
   {
     std::cerr << "Failed to open model configuration file '" << strFilename << "'." << std::endl;
-    return false;
-  }
-
-  // create a core model instance
-  if(!m_calCoreModel.create("dummy"))
-  {
-    CalError::printLastError();
     return false;
   }
 
@@ -959,7 +945,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core skeleton
       std::cout << "Loading skeleton '" << strData << "'..." << std::endl;
-      if(!m_calCoreModel.loadCoreSkeleton(strData))
+      if(!m_calCoreModel->loadCoreSkeleton(strData))
       {
         CalError::printLastError();
         return false;
@@ -969,7 +955,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core animation
       std::cout << "Loading animation '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreAnimation(strData) == -1)
+      if(m_calCoreModel->loadCoreAnimation(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -979,7 +965,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core mesh
       std::cout << "Loading mesh '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMesh(strData) == -1)
+      if(m_calCoreModel->loadCoreMesh(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -989,7 +975,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core material
       std::cout << "Loading material '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMaterial(strData) == -1)
+      if(m_calCoreModel->loadCoreMaterial(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -1052,37 +1038,37 @@ void Viewer::renderModel()
 		
 	int hardwareMeshId;
 	
-	for(hardwareMeshId=0;hardwareMeshId<m_calHardwareModel.getHardwareMeshCount() ; hardwareMeshId++)
+	for(hardwareMeshId=0;hardwareMeshId<m_calHardwareModel->getHardwareMeshCount() ; hardwareMeshId++)
 	{
-		m_calHardwareModel.selectHardwareMesh(hardwareMeshId);
+		m_calHardwareModel->selectHardwareMesh(hardwareMeshId);
 
 		unsigned char meshColor[4];	
 		float materialColor[4];
 		// set the material ambient color
-		m_calHardwareModel.getAmbientColor(&meshColor[0]);
+		m_calHardwareModel->getAmbientColor(&meshColor[0]);
 		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
 		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColor);
 		
 		// set the material diffuse color
-		m_calHardwareModel.getDiffuseColor(&meshColor[0]);
+		m_calHardwareModel->getDiffuseColor(&meshColor[0]);
 		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColor);
 		
 		// set the material specular color
-		m_calHardwareModel.getSpecularColor(&meshColor[0]);
+		m_calHardwareModel->getSpecularColor(&meshColor[0]);
 		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
 		glMaterialfv(GL_FRONT, GL_SPECULAR, materialColor);
 		
 		// set the material shininess factor
 		float shininess;
-		shininess = 50.0f; //m_calHardwareModel.getShininess();
+		shininess = 50.0f; //m_calHardwareModel->getShininess();
 		glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
 		int boneId;
-		for(boneId = 0; boneId < m_calHardwareModel.getBoneCount(); boneId++)
+		for(boneId = 0; boneId < m_calHardwareModel->getBoneCount(); boneId++)
 		{
-			CalQuaternion rotationBoneSpace = m_calHardwareModel.getRotationBoneSpace(boneId, m_calModel.getSkeleton());
-			CalVector translationBoneSpace = m_calHardwareModel.getTranslationBoneSpace(boneId, m_calModel.getSkeleton());
+			CalQuaternion rotationBoneSpace = m_calHardwareModel->getRotationBoneSpace(boneId, m_calModel->getSkeleton());
+			CalVector translationBoneSpace = m_calHardwareModel->getTranslationBoneSpace(boneId, m_calModel->getSkeleton());
 
 			CalMatrix rotationMatrix = rotationBoneSpace;
 
@@ -1098,15 +1084,15 @@ void Viewer::renderModel()
 			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+2,&transformation[8]);			
 			
             // set the texture id we stored in the map user data
-            glBindTexture(GL_TEXTURE_2D, (GLuint)m_calHardwareModel.getMapUserData(0));
+            glBindTexture(GL_TEXTURE_2D, (GLuint)m_calHardwareModel->getMapUserData(0));
 		}
 
 		if(sizeof(CalIndex)==2)
-			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel.getBaseVertexIndex(),m_calHardwareModel.getBaseVertexIndex()+m_calHardwareModel.getVertexCount(),
-			m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_SHORT, (((CalIndex *)NULL)+ m_calHardwareModel.getStartIndex()));
+			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel->getBaseVertexIndex(),m_calHardwareModel->getBaseVertexIndex()+m_calHardwareModel->getVertexCount(),
+			m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_SHORT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
 		else
-			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel.getBaseVertexIndex(),m_calHardwareModel.getBaseVertexIndex()+m_calHardwareModel.getVertexCount(),
-			m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_INT, (((CalIndex *)NULL)+ m_calHardwareModel.getStartIndex()));
+			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel->getBaseVertexIndex(),m_calHardwareModel->getBaseVertexIndex()+m_calHardwareModel->getVertexCount(),
+			m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_INT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
 		
 
 	}

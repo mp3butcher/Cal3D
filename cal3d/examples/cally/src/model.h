@@ -32,8 +32,8 @@ public:
 // member variables
 protected:
   int m_state;
-  CalCoreModel m_calCoreModel;
-  CalModel m_calModel;
+  CalCoreModel* m_calCoreModel;
+  CalModel* m_calModel;
   int m_animationId[16];
   int m_animationCount;
   int m_meshId[32];

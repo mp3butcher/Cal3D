@@ -39,9 +39,9 @@ protected:
   bool m_bRightMouseButtonDown;
   unsigned int m_lastTick;
   bool m_bPaused;
-  CalCoreModel m_calCoreModel;
-  CalModel m_calModel;
-  CalHardwareModel m_calHardwareModel;
+  CalCoreModel* m_calCoreModel;
+  CalModel* m_calModel;
+  CalHardwareModel* m_calHardwareModel;
   float m_scale;
   int m_currentAnimationId;
   float m_leftAnimationTime;

@@ -39,8 +39,8 @@ protected:
   bool m_bPaused;
   bool m_drawSkeleton;
   bool m_drawGrid;
-  CalCoreModel m_calCoreModel;
-  CalModel m_calModel;
+  CalCoreModel* m_calCoreModel;
+  CalModel* m_calModel;
   float m_scale;
   int m_currentAnimationId;
   float m_leftAnimationTime;

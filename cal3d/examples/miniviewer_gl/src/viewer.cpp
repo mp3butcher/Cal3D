@@ -36,6 +36,8 @@ Viewer theViewer;
 
 Viewer::Viewer()
 {
+  m_calCoreModel = new CalCoreModel("dummy");
+
   m_width = 640;
   m_height = 480;
   m_bFullscreen = false;
@@ -282,21 +284,16 @@ bool Viewer::onCreate(int argc, char *argv[])
   // mapping without further information on the model etc., so this is the only
   // thing we can do here.
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // create the a material thread
-    m_calCoreModel.createCoreMaterialThread(materialId);
+    m_calCoreModel->createCoreMaterialThread(materialId);
 
     // initialize the material thread
-    m_calCoreModel.setCoreMaterialId(materialId, 0, materialId);
+    m_calCoreModel->setCoreMaterialId(materialId, 0, materialId);
   }
 
-  // create the model instance from the loaded core model
-  if(!m_calModel.create(&m_calCoreModel))
-  {
-    CalError::printLastError();
-    return false;
-  }
+  m_calModel = new CalModel(m_calCoreModel);
 
   return true;
 }
@@ -329,23 +326,23 @@ void Viewer::onIdle()
   if(!m_bPaused)
   {
     // check if the time has come to blend to the next animation
-    if(m_calCoreModel.getCoreAnimationCount() > 1)
+    if(m_calCoreModel->getCoreAnimationCount() > 1)
     {
       m_leftAnimationTime -= elapsedSeconds;
       if(m_leftAnimationTime <= m_blendTime)
       {
         // get the next animation
-        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel.getCoreAnimationCount();
+        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel->getCoreAnimationCount();
 
         // fade in the new animation
-        m_calModel.getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
+        m_calModel->getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
 
         // adjust the animation time left until next animation flip
-        m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+        m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
       }
     }
 
-    m_calModel.update(elapsedSeconds);
+    m_calModel->update(elapsedSeconds);
   }
 
   // current tick will be last tick next round
@@ -362,10 +359,10 @@ void Viewer::onIdle()
 bool Viewer::onInit()
 {
   // load all textures and store the opengl texture id in the corresponding map in the material
-  for(int materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(int materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // get the core material
-    CalCoreMaterial *pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
+    CalCoreMaterial *pCoreMaterial = m_calCoreModel->getCoreMaterial(materialId);
 
     // loop through all maps of the core material
     for(int mapId = 0; mapId < pCoreMaterial->getMapCount(); mapId++)
@@ -382,26 +379,26 @@ bool Viewer::onInit()
   }
 
   // attach all meshes to the model
-  for(int meshId = 0; meshId < m_calCoreModel.getCoreMeshCount(); meshId++)
+  for(int meshId = 0; meshId < m_calCoreModel->getCoreMeshCount(); meshId++)
   {
-    m_calModel.attachMesh(meshId);
+    m_calModel->attachMesh(meshId);
   }
 
   // set the material set of the whole model
-  m_calModel.setMaterialSet(0);
+  m_calModel->setMaterialSet(0);
 
   // set initial animation state
-  if(m_calCoreModel.getCoreAnimationCount() > 0)
+  if(m_calCoreModel->getCoreAnimationCount() > 0)
   {
     m_currentAnimationId = 0;
-    m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
-    if(m_calCoreModel.getCoreAnimationCount() > 1)
+    m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+    if(m_calCoreModel->getCoreAnimationCount() > 1)
     {
-      m_calModel.getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
+      m_calModel->getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
     }
     else
     {
-      m_calModel.getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
+      m_calModel->getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
     }
   }
   else
@@ -469,7 +466,7 @@ void Viewer::onKey(unsigned char key, int x, int y)
   }
 
   // set the (possible) new lod level
-  m_calModel.setLodLevel(m_lodLevel);
+  m_calModel->setLodLevel(m_lodLevel);
 }
 
 //----------------------------------------------------------------------------//
@@ -560,7 +557,7 @@ void Viewer::onRender()
   // set the projection transformation
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(45.0f, (GLdouble)m_width / (GLdouble)m_height, m_scale * 50.0, m_scale * 1000.0);
+  gluPerspective(45.0f, (GLdouble)m_width / (GLdouble)m_height, 0.01, 10000);
 
   // set the model transformation
   glMatrixMode(GL_MODELVIEW);
@@ -608,12 +605,7 @@ void Viewer::onRender()
 
 void Viewer::onShutdown()
 {
-  // destroy model instance
-  m_calModel.destroy();
-
-  // destroy core model instance
-  m_calCoreModel.destroy();
-
+  delete m_calModel;
 }
 
 //----------------------------------------------------------------------------//
@@ -658,13 +650,6 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
   if(!file)
   {
     std::cerr << "Failed to open model configuration file '" << strFilename << "'." << std::endl;
-    return false;
-  }
-
-  // create a core model instance
-  if(!m_calCoreModel.create("dummy"))
-  {
-    CalError::printLastError();
     return false;
   }
 
@@ -726,7 +711,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core skeleton
       std::cout << "Loading skeleton '" << strData << "'..." << std::endl;
-      if(!m_calCoreModel.loadCoreSkeleton(strData))
+      if(!m_calCoreModel->loadCoreSkeleton(strData))
       {
         CalError::printLastError();
         return false;
@@ -736,7 +721,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core animation
       std::cout << "Loading animation '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreAnimation(strData) == -1)
+      if(m_calCoreModel->loadCoreAnimation(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -746,7 +731,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core mesh
       std::cout << "Loading mesh '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMesh(strData) == -1)
+      if(m_calCoreModel->loadCoreMesh(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -756,7 +741,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core material
       std::cout << "Loading material '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMaterial(strData) == -1)
+      if(m_calCoreModel->loadCoreMaterial(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -784,11 +769,8 @@ void Viewer::renderModel()
   if (m_drawGrid)
     drawGrid();
 
-  if (m_drawSkeleton)
-    return renderSkeleton();
-
   // get the renderer of the model
-  CalRenderer *pCalRenderer = m_calModel.getRenderer();
+  CalRenderer *pCalRenderer = m_calModel->getRenderer();
 
   // begin the rendering loop
   if(pCalRenderer->beginRendering())
@@ -911,6 +893,9 @@ void Viewer::renderModel()
     // end the rendering
     pCalRenderer->endRendering();
   }
+
+  if (m_drawSkeleton)
+    renderSkeleton();
 }
 
 inline void glVertex(const CalVector& v) {
@@ -920,7 +905,7 @@ inline void glVertex(const CalVector& v) {
 void Viewer::renderSkeleton()
 {
 #if 0
-  CalSkeleton* skeleton = m_calModel.getSkeleton();
+  CalSkeleton* skeleton = m_calModel->getSkeleton();
   std::vector<CalBone*>& bones = skeleton->getVectorBone();
 
   glColor3f(1, 1, 1);
@@ -934,7 +919,7 @@ void Viewer::renderSkeleton()
 #endif
   // draw the bone lines
   float lines[1024][2][3];
-  int nrLines = m_calModel.getSkeleton()->getBoneLines(&lines[0][0][0]);
+  int nrLines = m_calModel->getSkeleton()->getBoneLines(&lines[0][0][0]);
 
   glLineWidth(3.0f);
   glColor3f(1.0f, 1.0f, 1.0f);
@@ -949,7 +934,7 @@ void Viewer::renderSkeleton()
 
   // draw the bone points
   float points[1024][3];
-  int nrPoints = m_calModel.getSkeleton()->getBonePoints(&points[0][0]);
+  int nrPoints = m_calModel->getSkeleton()->getBonePoints(&points[0][0]);
 
   glPointSize(4.0f);
   glBegin(GL_POINTS);

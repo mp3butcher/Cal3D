@@ -56,6 +56,8 @@ struct VERTEX2 //Use for the cursor
 
 Viewer::Viewer()
 {
+  m_calCoreModel = new CalCoreModel("dummy");
+
   m_width = 640;
   m_height = 480;
   m_bFullscreen = false;
@@ -334,21 +336,16 @@ bool Viewer::onCreate(LPSTR lpCmdLine)
   // mapping without further information on the model etc., so this is the only
   // thing we can do here.
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // create the a material thread
-    m_calCoreModel.createCoreMaterialThread(materialId);
+    m_calCoreModel->createCoreMaterialThread(materialId);
 
     // initialize the material thread
-    m_calCoreModel.setCoreMaterialId(materialId, 0, materialId);
+    m_calCoreModel->setCoreMaterialId(materialId, 0, materialId);
   }
 
-  // create the model instance from the loaded core model
-  if(!m_calModel.create(&m_calCoreModel))
-  {
-    CalError::printLastError();
-    return false;
-  }  
+  m_calModel = new CalModel(m_calCoreModel);
 
   return true;
 }
@@ -381,23 +378,23 @@ void Viewer::onIdle()
   if(!m_bPaused)
   {
     // check if the time has come to blend to the next animation
-    if(m_calCoreModel.getCoreAnimationCount() > 1)
+    if(m_calCoreModel->getCoreAnimationCount() > 1)
     {
       m_leftAnimationTime -= elapsedSeconds;
       if(m_leftAnimationTime <= m_blendTime)
       {
         // get the next animation
-        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel.getCoreAnimationCount();
+        m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel->getCoreAnimationCount();
 
         // fade in the new animation
-        m_calModel.getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
+        m_calModel->getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
 
         // adjust the animation time left until next animation flip
-        m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+        m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
       }
     }
 
-    m_calModel.update(elapsedSeconds);
+    m_calModel->update(elapsedSeconds);
   }
 
   // current tick will be last tick next round
@@ -439,11 +436,11 @@ bool Viewer::onInit()
 {
   // load all textures and store the D3D texture object id in the corresponding map in the material
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // get the core material
     CalCoreMaterial *pCoreMaterial;
-    pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
+    pCoreMaterial = m_calCoreModel->getCoreMaterial(materialId);
 
     // loop through all maps of the core material
     int mapId;
@@ -464,24 +461,24 @@ bool Viewer::onInit()
 
   // attach all meshes to the model
   int meshId;
-  for(meshId = 0; meshId < m_calCoreModel.getCoreMeshCount(); meshId++)
+  for(meshId = 0; meshId < m_calCoreModel->getCoreMeshCount(); meshId++)
   {
-    m_calModel.attachMesh(meshId);
+    m_calModel->attachMesh(meshId);
   }
 
   // set the material set of the whole model
-  m_calModel.setMaterialSet(0);
+  m_calModel->setMaterialSet(0);
 
   // set initial animation state
   m_currentAnimationId = 0;
-  m_leftAnimationTime = m_calCoreModel.getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
-  if(m_calCoreModel.getCoreAnimationCount() > 1)
+  m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+  if(m_calCoreModel->getCoreAnimationCount() > 1)
   {
-    m_calModel.getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
+    m_calModel->getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
   }
   else
   {
-    m_calModel.getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
+    m_calModel->getMixer()->blendCycle(m_currentAnimationId, 1.0f, 0.0f);
   }
 
   // we're done
@@ -556,7 +553,7 @@ void Viewer::onKey(unsigned char key, int x, int y)
   }
 
   // set the (possible) new lod level
-  m_calModel.setLodLevel(m_lodLevel);
+  m_calModel->setLodLevel(m_lodLevel);
 }
 
 //----------------------------------------------------------------------------//
@@ -750,11 +747,11 @@ void Viewer::onShutdown()
   LPDIRECT3DTEXTURE9 texture;      
   
   int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(materialId = 0; materialId < m_calCoreModel->getCoreMaterialCount(); materialId++)
   {
     // get the core material
     CalCoreMaterial *pCoreMaterial;
-    pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
+    pCoreMaterial = m_calCoreModel->getCoreMaterial(materialId);
 
     // loop through all maps of the core material
     int mapId;
@@ -769,15 +766,9 @@ void Viewer::onShutdown()
     }
   }
 
-
-  // destroy model instance
-  m_calModel.destroy();
-
-  // destroy core model instance
-  m_calCoreModel.destroy();
-
-
   // destroy
+  delete m_calModel;
+  delete m_calCoreModel;
 
   if(m_pVB!=NULL)
   	  m_pVB->Release();  
@@ -848,13 +839,6 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     return false;
   }
 
-  // create a core model instance
-  if(!m_calCoreModel.create("dummy"))
-  {
-    CalError::printLastError();
-    return false;
-  }
-
   // parse all lines from the model configuration file
   int line;
   for(line = 1; ; line++)
@@ -913,7 +897,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core skeleton
       std::cout << "Loading skeleton '" << strData << "'..." << std::endl;
-      if(!m_calCoreModel.loadCoreSkeleton(strData))
+      if(!m_calCoreModel->loadCoreSkeleton(strData))
       {
         CalError::printLastError();
         return false;
@@ -923,7 +907,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core animation
       std::cout << "Loading animation '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreAnimation(strData) == -1)
+      if(m_calCoreModel->loadCoreAnimation(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -933,7 +917,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core mesh
       std::cout << "Loading mesh '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMesh(strData) == -1)
+      if(m_calCoreModel->loadCoreMesh(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -943,7 +927,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     {
       // load core material
       std::cout << "Loading material '" << strData << "'..." << std::endl;
-      if(m_calCoreModel.loadCoreMaterial(strData) == -1)
+      if(m_calCoreModel->loadCoreMaterial(strData) == -1)
       {
         CalError::printLastError();
         return false;
@@ -971,7 +955,7 @@ void Viewer::renderModel()
   	
   // get the renderer of the model
   CalRenderer *pCalRenderer;
-  pCalRenderer = m_calModel.getRenderer();
+  pCalRenderer = m_calModel->getRenderer();
 
   // begin the rendering loop
   if(!pCalRenderer->beginRendering()) return;
