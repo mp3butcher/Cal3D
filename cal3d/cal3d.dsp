@@ -33,12 +33,12 @@ RSC=rc.exe
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir ".\Release"
+# PROP BASE Output_Dir ".\lib"
 # PROP BASE Intermediate_Dir ".\Release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir ".\Release"
+# PROP Output_Dir ".\lib"
 # PROP Intermediate_Dir ".\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /I "src" /W3 /Ob1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /Gy /Fp".\Release/cal3d.pch" /Fo".\Release/" /Fd".\Release/" /FR /c /GX 
@@ -51,19 +51,19 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo 
 # ADD BSC32 /nologo 
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\Release\cal3d.dll" /incremental:no /pdb:".\Release\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\Release/cal3d.lib" /MACHINE:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\Release\cal3d.dll" /incremental:no /pdb:".\Release\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\Release/cal3d.lib" /MACHINE:I386
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\bin\cal3d.dll" /incremental:no /pdb:".\Release\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\lib/cal3d.lib" /MACHINE:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\bin\cal3d.dll" /incremental:no /pdb:".\Release\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\lib/cal3d.lib" /MACHINE:I386
 
 !ELSEIF  "$(CFG)" == "Cal3D - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir ".\Debug"
+# PROP BASE Output_Dir ".\lib"
 # PROP BASE Intermediate_Dir ".\Debug"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir ".\Debug"
+# PROP Output_Dir ".\lib"
 # PROP Intermediate_Dir ".\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /I "src" /ZI /W3 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /Fp".\Debug/cal3d.pch" /Fo".\Debug/" /Fd".\Debug/" /GZ /c /GX 
@@ -76,8 +76,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo 
 # ADD BSC32 /nologo 
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\Debug\cal3d.dll" /incremental:yes /debug /pdb:".\Debug\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\Debug/cal3d.lib" /MACHINE:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\Debug\cal3d.dll" /incremental:yes /debug /pdb:".\Debug\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\Debug/cal3d.lib" /MACHINE:I386
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\bin\cal3dd.dll" /incremental:yes /debug /pdb:".\Debug\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\lib/cal3dd.lib" /MACHINE:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /dll /out:".\bin\cal3dd.dll" /incremental:yes /debug /pdb:".\Debug\cal3d.pdb" /pdbtype:sept /subsystem:windows /implib:".\lib/cal3dd.lib" /MACHINE:I386
 
 !ENDIF
 
@@ -106,7 +106,7 @@ SOURCE=.\src\cal3d\bone.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\buffersource.cpp
+SOURCE=src\cal3d\buffersource.cpp
 # End Source File
 # Begin Source File
 
@@ -159,7 +159,7 @@ SOURCE=.\src\cal3d\coresubmesh.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\coresubmorphtarget.cpp
+SOURCE=src\cal3d\coresubmorphtarget.cpp
 # End Source File
 # Begin Source File
 
@@ -195,7 +195,7 @@ SOURCE=.\src\cal3d\model.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\morphtargetmixer.cpp
+SOURCE=src\cal3d\morphtargetmixer.cpp
 # End Source File
 # Begin Source File
 
@@ -275,7 +275,7 @@ SOURCE=.\src\cal3d\bone.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\buffersource.h
+SOURCE=src\cal3d\buffersource.h
 # End Source File
 # Begin Source File
 
@@ -323,7 +323,7 @@ SOURCE=.\src\cal3d\coresubmesh.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\coresubmorphtarget.h
+SOURCE=src\cal3d\coresubmorphtarget.h
 # End Source File
 # Begin Source File
 
@@ -363,7 +363,7 @@ SOURCE=.\src\cal3d\model.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\cal3d\morphtargetmixer.h
+SOURCE=src\cal3d\morphtargetmixer.h
 # End Source File
 # Begin Source File
 
