@@ -153,6 +153,136 @@ bool CalPlatform::readString(std::istream& input, std::string& strValue)
   return true;
 }
 
+ /*****************************************************************************/
+/** Reads a number of bytes.
+  *
+  * This function reads a given number of bytes from a memory buffer.
+  *
+  * @param input The buffer to read the bytes from.
+  * @param pBuffer A pointer to the buffer where the bytes are stored into.
+  * @param length The number of bytes that should be read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if the input or destination buffer is NULL
+  *****************************************************************************/
+
+bool CalPlatform::readBytes(void* input, void *pBuffer, int length)
+{
+  if ((input == NULL) || (pBuffer == NULL)) return false;
+
+  memcpy( pBuffer, input, length );
+
+  return true;
+}
+
+ /*****************************************************************************/
+/** Reads a float.
+  *
+  * This function reads a float from a memory buffer.
+  *
+  * @param input The buffer to read the float from.
+  * @param value A reference to the float into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if the input buffer is NULL
+  *****************************************************************************/
+
+bool CalPlatform::readFloat(void* input, float& value)
+{
+  if (input == NULL) return false;
+
+  memcpy( (void*)&value, input, 4 );
+
+#ifdef CAL3D_BIG_ENDIAN
+  float x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;  
+#endif
+
+  return true;
+}
+
+ /*****************************************************************************/
+/** Reads an integer.
+  *
+  * This function reads an integer from a memory buffer.
+  *
+  * @param input The buffer to read the integer from.
+  * @param value A reference to the integer into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if the input buffer is NULL
+  *****************************************************************************/
+
+bool CalPlatform::readInteger(void* input, int& value)
+{
+  if (input == NULL) return false;
+
+  memcpy( (void*)&value, input, 4 );
+
+#ifdef CAL3D_BIG_ENDIAN
+  int x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;
+#endif
+
+  return true;
+}
+
+ /*****************************************************************************/
+/** Reads a string.
+  *
+  * This function reads a string from a memory buffer.
+  *
+  * @param input The buffer to read the string from.
+  * @param value A reference to the string into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if the input buffer is NULL
+  *****************************************************************************/
+
+bool CalPlatform::readString(void* input, std::string& strValue)
+{
+  if (input == NULL) return false;
+
+  // get the string length
+  int length;
+  memcpy( (void*)&length, input, 4 );
+
+#ifdef CAL3D_BIG_ENDIAN
+  int x = length ;
+  ((char*)&length)[0] = ((char*)&x)[3] ;
+  ((char*)&length)[1] = ((char*)&x)[2] ;
+  ((char*)&length)[2] = ((char*)&x)[1] ;
+  ((char*)&length)[3] = ((char*)&x)[0] ;
+#endif
+
+  if(length < 0) return false;
+
+  // read the string
+  char *strBuffer;
+  strBuffer = new char[length];
+
+  //offset the read by 4 bytes (skip over the length integer)
+  memcpy( (void*)strBuffer, input, length );
+
+  //skip over the first 4 bytes
+  char* strTemp = &strBuffer[4];
+
+  strValue = strTemp;
+  delete [] strBuffer;
+
+  return true;
+}
+
 
  /*****************************************************************************/
 /** Writes a number of bytes.
