@@ -904,19 +904,6 @@ inline void glVertex(const CalVector& v) {
 
 void Viewer::renderSkeleton()
 {
-#if 0
-  CalSkeleton* skeleton = m_calModel->getSkeleton();
-  std::vector<CalBone*>& bones = skeleton->getVectorBone();
-
-  glColor3f(1, 1, 1);
-  glPointSize(4);
-  glBegin(GL_POINTS);
-  for (size_t i = 0; i < bones.size(); ++i)
-  {
-    glVertex(bones[i]->getTranslationAbsolute());
-  }
-  glEnd();
-#endif
   // draw the bone lines
   float lines[1024][2][3];
   int nrLines = m_calModel->getSkeleton()->getBoneLines(&lines[0][0][0]);
