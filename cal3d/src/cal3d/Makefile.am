@@ -127,6 +127,8 @@ pkginclude_HEADERS = \
 	physique.h \
 	platform.h \
 	quaternion.h \
+	refcounted.h \
+	refptr.h \
 	renderer.h \
 	resource.h \
 	saver.h \
