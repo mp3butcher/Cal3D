@@ -16,7 +16,7 @@
 
 
 class CalCoreAnimation;
-
+class CalModel;
 
 class CAL3D_API CalAnimation
 {
@@ -43,7 +43,7 @@ public:
 protected:
   CalAnimation(CalCoreAnimation* pCoreAnimation);
 public:
-  virtual ~CalAnimation() { }
+    virtual ~CalAnimation() {  }
 
   CalCoreAnimation *getCoreAnimation();
   State getState();
@@ -53,6 +53,9 @@ public:
   void setTime(float time);
   void setTimeFactor(float timeFactor);
   float getTimeFactor();
+
+  void checkCallbacks(float animationTime,CalModel *model);
+  void completeCallbacks(CalModel *model);
 
 protected:
   void setType(Type type) {
@@ -67,8 +70,11 @@ protected:
     m_weight = weight;
   }
 
+
 private:
+
   CalCoreAnimation *m_pCoreAnimation;
+  std::vector<float> m_lastCallbackTimes;
   Type m_type;
   State m_state;
   float m_time;

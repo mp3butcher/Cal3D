@@ -16,7 +16,7 @@
 
 
 class CalCoreTrack;
-
+struct CalAnimationCallback;
 
 class CAL3D_API CalCoreAnimation
 {
@@ -37,9 +37,24 @@ public:
   void incRef();
   bool decRef();  
 
+  void registerCallback(CalAnimationCallback *callback,float min_interval);
+  void removeCallback(CalAnimationCallback *callback);
+
+  struct CallbackRecord
+  {
+    CalAnimationCallback *callback;
+    float                 min_interval;
+  };
+
+  std::vector<CallbackRecord>& getCallbackList() { return m_listCallbacks; }
+
 private:
+
+
+  std::vector<CallbackRecord> m_listCallbacks;
+
   float m_duration;
-  std::list<CalCoreTrack *> m_listCoreTrack;
+  std::list<CalCoreTrack *>   m_listCoreTrack;
   std::string m_name;
   std::string m_filename;
 

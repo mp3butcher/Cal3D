@@ -188,7 +188,9 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
   pAnimationCycle = (CalAnimationCycle *)pAnimation;
 
   // blend the animation cycle
-  return pAnimationCycle->blend(weight, delay);
+  pAnimationCycle->blend(weight, delay);
+  pAnimationCycle->checkCallbacks(0,m_pModel);
+  return true;
 }
 
  /*****************************************************************************/
@@ -239,7 +241,9 @@ bool CalMixer::clearCycle(int id, float delay)
   pAnimationCycle->setAsync(m_animationTime, m_animationDuration);
 
   // blend the animation cycle
-  return pAnimationCycle->blend(0.0f, delay);
+  pAnimationCycle->blend(0.0f, delay);
+  pAnimationCycle->checkCallbacks(0, m_pModel);
+  return true;
 }
 
 /*****************************************************************************/
@@ -282,7 +286,9 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   m_listAnimationAction.push_front(pAnimationAction);
 
   // execute the animation
-  return pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock);
+  pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock);
+  pAnimationAction->checkCallbacks(0, m_pModel);
+  return true;
 }
 
 /*****************************************************************************/
@@ -317,6 +323,7 @@ bool CalMixer::removeAction(int id)
     if((*iteratorAnimationAction)->getCoreAnimation() == pCoreAnimation )
     {
         // found, so remove
+      (*iteratorAnimationAction)->completeCallbacks(m_pModel);
       delete (*iteratorAnimationAction);
       iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
       return true;
@@ -362,11 +369,13 @@ void CalMixer::updateAnimation(float deltaTime)
     // update and check if animation action is still active
     if((*iteratorAnimationAction)->update(deltaTime))
     {
+      (*iteratorAnimationAction)->checkCallbacks(m_animationTime,m_pModel);
       ++iteratorAnimationAction;
     }
     else
     {
       // animation action has ended, destroy and remove it from the animation list
+      (*iteratorAnimationAction)->completeCallbacks(m_pModel);
       delete (*iteratorAnimationAction);
       iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
     }
@@ -394,11 +403,13 @@ void CalMixer::updateAnimation(float deltaTime)
         accumulatedDuration += (*iteratorAnimationCycle)->getWeight() * (*iteratorAnimationCycle)->getCoreAnimation()->getDuration();
       }
 
+      (*iteratorAnimationCycle)->checkCallbacks(m_animationTime,m_pModel);
       ++iteratorAnimationCycle;
     }
     else
     {
       // animation cycle has ended, destroy and remove it from the animation list
+      (*iteratorAnimationCycle)->completeCallbacks(m_pModel);
       delete (*iteratorAnimationCycle);
       iteratorAnimationCycle = m_listAnimationCycle.erase(iteratorAnimationCycle);
     }

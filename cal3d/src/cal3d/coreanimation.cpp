@@ -207,7 +207,7 @@ void CalCoreAnimation::incRef()
   m_referenceCount++;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** 
   * Decrement the reference counter the core animation.
   *
@@ -221,6 +221,47 @@ bool CalCoreAnimation::decRef()
 {
   m_referenceCount--;
   return (m_referenceCount <= 0);
+}
+
+
+/*****************************************************************************/
+/** 
+  * Add a callback to the current list of callbacks for this CoreAnim.
+  *
+  * @param  callback     Ptr to a subclass of this abstract class implementing the callback function.
+  * @param  min_interval Minimum interval (in seconds) between callbacks.  Specifying 0 means call every update().
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::registerCallback(CalAnimationCallback *callback,float min_interval)
+{
+  CallbackRecord record;
+  record.callback     = callback;
+  record.min_interval = min_interval;
+
+  m_listCallbacks.push_back(record);
+}
+
+
+/*****************************************************************************/
+/** 
+  * Remove a callback from the current list of callbacks for this Anim.
+  * Callback objects not removed this way will be deleted in the dtor of the Anim.
+  *
+  * @param  callback     Ptr to a subclass of this abstract class implementing the callback function to remove.
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::removeCallback(CalAnimationCallback *callback)
+{
+  for (std::vector<CallbackRecord>::iterator i = m_listCallbacks.begin(); i != m_listCallbacks.end(); i++)
+  {
+    if ((*i).callback == callback)
+    {
+      m_listCallbacks.erase(i);
+      return;
+    }
+  }
 }
 
 
