@@ -139,8 +139,18 @@
  *
  *  <b>Is there an exporter for Maya or Blender?</b>
  *
+ *  There have been rumors of people working on Cal3D exporters for both Maya
+ *  and Blender, but they have not been released yet.
  *
- *  <b>Is there an exporter for Blender?</b>
+ *
+ *  <b>What's with these RAW image files?</b>
+ *
+ *  Previous to version 0.9, the textures for the Paladin sample model were 
+ *  contained in a RAW image file format. The current developers are not sure
+ *  where they originated from, but they have (as of version 0.9) been converted
+ *  to TGA files.
+ *
+ *  These old RAW files are no longer be supported or necessary.
  *
  *
  *  @section Programming
