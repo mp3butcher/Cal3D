@@ -250,7 +250,8 @@ void CalCoreAnimation::getPose(float time, std::vector<CalTransform>& pose) cons
 
     // Init the pose to the previous keyframe
     int previous_frame = static_cast<int>(time / time_per_frame);
-    for (unsigned index = 0; index < m_numBoneTracks; ++index)
+	unsigned index;
+    for (index = 0; index < m_numBoneTracks; ++index)
     {
       pose[index] = m_poses[(frame_width * previous_frame) + index];
     }
@@ -260,7 +261,7 @@ void CalCoreAnimation::getPose(float time, std::vector<CalTransform>& pose) cons
 
     // Blend in the next frame
     int next_frame = previous_frame + 1;
-    for (unsigned index = 0; index < m_numBoneTracks; ++index)
+    for (index = 0; index < m_numBoneTracks; ++index)
     {
       pose[index].blend(lerp_distance, m_poses[(frame_width * next_frame) + index]);
     }

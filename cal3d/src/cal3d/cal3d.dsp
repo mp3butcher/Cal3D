@@ -104,9 +104,14 @@ DEP_CPP_ANIMA=\
 	".\coreanimation.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
+	".\model.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
+	".\transform.h"\
+	".\vector.h"\
 	
 NODEP_CPP_ANIMA=\
 	".\config.h"\
@@ -121,9 +126,13 @@ DEP_CPP_ANIMAT=\
 	".\coreanimation.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
+	".\transform.h"\
+	".\vector.h"\
 	
 NODEP_CPP_ANIMAT=\
 	".\config.h"\
@@ -138,9 +147,13 @@ DEP_CPP_ANIMATI=\
 	".\coreanimation.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
+	".\transform.h"\
+	".\vector.h"\
 	
 NODEP_CPP_ANIMATI=\
 	".\config.h"\
@@ -166,6 +179,7 @@ DEP_CPP_BONE_=\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\skeleton.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_BONE_=\
@@ -202,7 +216,6 @@ DEP_CPP_CAL3D=\
 	".\cal3d_wrapper.h"\
 	".\coreanimation.h"\
 	".\corebone.h"\
-	".\corekeyframe.h"\
 	".\corematerial.h"\
 	".\coremesh.h"\
 	".\coremodel.h"\
@@ -210,7 +223,6 @@ DEP_CPP_CAL3D=\
 	".\coreskeleton.h"\
 	".\coresubmesh.h"\
 	".\coresubmorphtarget.h"\
-	".\coretrack.h"\
 	".\datasource.h"\
 	".\error.h"\
 	".\global.h"\
@@ -232,6 +244,7 @@ DEP_CPP_CAL3D=\
 	".\springsystem.h"\
 	".\streamsource.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_CAL3D=\
@@ -243,13 +256,13 @@ NODEP_CPP_CAL3D=\
 SOURCE=.\coreanimation.cpp
 DEP_CPP_COREA=\
 	".\coreanimation.h"\
-	".\coretrack.h"\
 	".\global.h"\
 	".\matrix.h"\
 	".\platform.h"\
 	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_COREA=\
@@ -274,24 +287,10 @@ DEP_CPP_COREB=\
 	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_COREB=\
-	".\config.h"\
-	
-# End Source File
-# Begin Source File
-
-SOURCE=.\corekeyframe.cpp
-DEP_CPP_COREK=\
-	".\corekeyframe.h"\
-	".\global.h"\
-	".\matrix.h"\
-	".\platform.h"\
-	".\quaternion.h"\
-	".\vector.h"\
-	
-NODEP_CPP_COREK=\
 	".\config.h"\
 	
 # End Source File
@@ -343,10 +342,14 @@ DEP_CPP_COREMO=\
 	".\error.h"\
 	".\global.h"\
 	".\loader.h"\
+	".\matrix.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\saver.h"\
+	".\transform.h"\
+	".\vector.h"\
 	
 NODEP_CPP_COREMO=\
 	".\config.h"\
@@ -414,23 +417,6 @@ NODEP_CPP_CORESUB=\
 # End Source File
 # Begin Source File
 
-SOURCE=.\coretrack.cpp
-DEP_CPP_CORET=\
-	".\corekeyframe.h"\
-	".\coretrack.h"\
-	".\error.h"\
-	".\global.h"\
-	".\matrix.h"\
-	".\platform.h"\
-	".\quaternion.h"\
-	".\vector.h"\
-	
-NODEP_CPP_CORET=\
-	".\config.h"\
-	
-# End Source File
-# Begin Source File
-
 SOURCE=.\error.cpp
 DEP_CPP_ERROR=\
 	".\error.h"\
@@ -474,6 +460,7 @@ DEP_CPP_HARDW=\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\skeleton.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_HARDW=\
@@ -487,13 +474,11 @@ DEP_CPP_LOADE=\
 	".\buffersource.h"\
 	".\coreanimation.h"\
 	".\corebone.h"\
-	".\corekeyframe.h"\
 	".\corematerial.h"\
 	".\coremesh.h"\
 	".\coremodel.h"\
 	".\coreskeleton.h"\
 	".\coresubmesh.h"\
-	".\coretrack.h"\
 	".\datasource.h"\
 	".\error.h"\
 	".\global.h"\
@@ -505,6 +490,7 @@ DEP_CPP_LOADE=\
 	".\refptr.h"\
 	".\streamsource.h"\
 	".\tinyxml.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_LOADE=\
@@ -542,9 +528,11 @@ DEP_CPP_MESH_=\
 	".\mesh.h"\
 	".\model.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_MESH_=\
@@ -561,12 +549,10 @@ DEP_CPP_MIXER=\
 	".\bone.h"\
 	".\coreanimation.h"\
 	".\corebone.h"\
-	".\corekeyframe.h"\
 	".\corematerial.h"\
 	".\coremesh.h"\
 	".\coremodel.h"\
 	".\coreskeleton.h"\
-	".\coretrack.h"\
 	".\error.h"\
 	".\global.h"\
 	".\matrix.h"\
@@ -577,6 +563,7 @@ DEP_CPP_MIXER=\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\skeleton.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_MIXER=\
@@ -610,6 +597,7 @@ DEP_CPP_MODEL=\
 	".\renderer.h"\
 	".\skeleton.h"\
 	".\springsystem.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_MODEL=\
@@ -634,9 +622,11 @@ DEP_CPP_MORPH=\
 	".\model.h"\
 	".\morphtargetmixer.h"\
 	".\platform.h"\
+	".\quaternion.h"\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_MORPH=\
@@ -668,6 +658,7 @@ DEP_CPP_PHYSI=\
 	".\refptr.h"\
 	".\skeleton.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_PHYSI=\
@@ -723,6 +714,7 @@ DEP_CPP_RENDE=\
 	".\renderer.h"\
 	".\skeleton.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_RENDE=\
@@ -735,13 +727,11 @@ SOURCE=.\saver.cpp
 DEP_CPP_SAVER=\
 	".\coreanimation.h"\
 	".\corebone.h"\
-	".\corekeyframe.h"\
 	".\corematerial.h"\
 	".\coremesh.h"\
 	".\coremodel.h"\
 	".\coreskeleton.h"\
 	".\coresubmesh.h"\
-	".\coretrack.h"\
 	".\error.h"\
 	".\global.h"\
 	".\matrix.h"\
@@ -751,6 +741,7 @@ DEP_CPP_SAVER=\
 	".\refptr.h"\
 	".\saver.h"\
 	".\tinyxml.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_SAVER=\
@@ -777,6 +768,7 @@ DEP_CPP_SKELE=\
 	".\refcounted.h"\
 	".\refptr.h"\
 	".\skeleton.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_SKELE=\
@@ -807,6 +799,7 @@ DEP_CPP_SPRIN=\
 	".\skeleton.h"\
 	".\springsystem.h"\
 	".\submesh.h"\
+	".\transform.h"\
 	".\vector.h"\
 	
 NODEP_CPP_SPRIN=\
