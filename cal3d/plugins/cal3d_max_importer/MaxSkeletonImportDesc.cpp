@@ -57,3 +57,8 @@ CMaxSkeletonImportDesc::SuperClassID()
 {
   return SCENE_IMPORT_CLASS_ID;
 }
+
+char * CMaxSkeletonImportDesc::GetRsrcString(long n)
+{
+	return NULL;
+}

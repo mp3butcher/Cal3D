@@ -57,3 +57,8 @@ CMaxAnimationImportDesc::SuperClassID()
 {
   return SCENE_IMPORT_CLASS_ID;
 }
+
+char * CMaxAnimationImportDesc::GetRsrcString(long n)
+{
+	return NULL;
+}

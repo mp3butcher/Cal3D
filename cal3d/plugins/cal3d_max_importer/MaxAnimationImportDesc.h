@@ -22,6 +22,7 @@ public:
   const TCHAR* InternalName(); 
   int IsPublic();
   SClass_ID SuperClassID();
+  char * GetRsrcString(long n);
 
 private:
   HINSTANCE m_instance;
