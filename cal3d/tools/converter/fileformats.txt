@@ -2,8 +2,8 @@ o------------------------------------------------------------------------------o
 |                                                                              |
 |                       cal3d fileformat description                           |
 |                                                                              |
-|                                Version 0.9                                   |
-|                             (7. August 2003)                                 |
+|                                Version 0.10.0                                |
+|                             (12. january 2005)                               |
 |                                                                              |
 |        Copyright (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger            |
 |                                                                              |
@@ -31,7 +31,7 @@ o------------------------------------------------------------------------------o
 o------------------------------------------------------------------------------o
 
 This document describes the format of the different files used in the cal3d
-character animation library version 0.9devel.
+character animation library version 0.10.0.
 
 ********************************************************************************
 ********************************************************************************
@@ -274,8 +274,7 @@ o-----------------------------------------------------------------------------o
 this is the text/Xml file format of cal3d animation file, 
 see cal3d skeleton file (.csf) for more information
 
-<HEADER MAGIC="XAF" VERSION="900"/>
-<ANIMATION DURATION="FLOAT" NUMTRACKS="INT">
+<ANIMATION VERSION="1000" DURATION="FLOAT" NUMTRACKS="INT">
    <TRACK BONEID="INT" NUMKEYFRAMES="INT">
       <KEYFRAME TIME="FLOAT">
          <TRANSLATION>FLOAT FLOAT FLOAT</TRANSLATION>
@@ -293,8 +292,7 @@ o-----------------------------------------------------------------------------o
 this is the text/Xml file format of cal3d mesh file, 
 see cal3d mesh file (.cmf) for more information
 
-<HEADER MAGIC="XMF" VERSION="900"/>
-<MESH NUMSUBMESH="INT">
+<MESH VERSION="1000" NUMSUBMESH="INT">
    <SUBMESH MATERIAL="INT" NUMVERTICES="INT" NUMFACES="INT" NUMLODSTEPS="INT" NUMSPRINGS="INT" NUMTEXCOORDS="INT">
        <VERTEX ID="INT" NUMINFLUENCES="INT">
           <POS>FLOAT FLOAT FLOAT</POS>
@@ -323,8 +321,7 @@ o-----------------------------------------------------------------------------o
 this is the text/Xml file format of cal3d material file, 
 see cal3d material file (.crf) for more information
 
-<HEADER MAGIC="XRF" VERSION="900"/>
-<MATERIAL NUMMAPS="INT">
+<MATERIAL VERSION="1000" NUMMAPS="INT">
    <AMBIENT>FLOAT FLOAT FLOAT FLOAT</AMBIENT>
    <DIFFUSE>FLOAT FLOAT FLOAT FLOAT</DIFFUSE>
    <SPECULAR>FLOAT FLOAT FLOAT FLOAT</SPECULAR>
