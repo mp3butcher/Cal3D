@@ -78,6 +78,7 @@ protected:
   GLuint loadTexture(const std::string& strFilename);
   void renderMesh(bool bWireframe, bool bLight);
   void renderSkeleton();
+  void renderBoundingBox();
 };
 
 #endif

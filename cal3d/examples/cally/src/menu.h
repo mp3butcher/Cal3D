@@ -40,7 +40,7 @@ protected:
   GLuint m_lodTextureId;
   bool m_bMotionMovement;
   bool m_bLodMovement;
-  bool m_bSkeleton;
+  int m_bSkeleton;
   bool m_bWireframe;
   bool m_bLight;
   float m_actionTimespan[2];
@@ -56,7 +56,7 @@ public:
   int getMenuItem(int x, int y);
   bool isInside(int x, int y);
   bool isLight();
-  bool isSkeleton();
+  int isSkeleton();
   bool isWireframe();
   bool onInit(int width, int height);
   bool onKey(unsigned char key, int x, int y);

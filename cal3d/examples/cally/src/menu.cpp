@@ -40,7 +40,7 @@ Menu::Menu()
   m_bMotionMovement = false;
   m_menuX = 4;
   m_menuY = 4;
-  m_bSkeleton = false;
+  m_bSkeleton = 0;
   m_bWireframe = false;
   m_bLight = true;
   m_actionTimespan[0] = 0.0f;
@@ -183,7 +183,7 @@ bool Menu::isLight()
 // Get skeleton flag                                                          //
 //----------------------------------------------------------------------------//
 
-bool Menu::isSkeleton()
+int Menu::isSkeleton()
 {
   return m_bSkeleton;
 }
@@ -276,7 +276,7 @@ bool Menu::onMouseButtonDown(int button, int x, int y)
   // handle 'skeleton' button
   if(menuItem == 5)
   {
-    m_bSkeleton = !m_bSkeleton;
+    m_bSkeleton = (m_bSkeleton + 1) % 3;
   }
 
   // handle 'wireframe' button
@@ -424,7 +424,7 @@ void Menu::onRender()
       glVertex2i(m_menuX, m_menuY + endY);
     }
 
-    if(m_bSkeleton)
+    if(m_bSkeleton!=0)
     {
       glTexCoord2f(0.0f, 1.0f);
       glVertex2i(m_menuX, m_menuY);

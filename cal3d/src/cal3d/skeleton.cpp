@@ -277,7 +277,6 @@ void CalSkeleton::getBoneBoundingBox(float *min, float *max)
   *
   * This function Calculates the bounding box of every bone in the Skeleton.
   *
-  * @param pCoreModel The coreModel (needed for vertices data).
   *****************************************************************************/
 
 

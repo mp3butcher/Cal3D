@@ -221,7 +221,7 @@ bool Demo::onCreate(int argc, char *argv[])
 {
   // show some information
   std::cout << "o----------------------------------------------------------------o" << std::endl;
-  std::cout << "|                        The Cally Demo 2.9                      |" << std::endl;
+  std::cout << "|                      The Cally Demo 2.9.1                      |" << std::endl;
   std::cout << "|       (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger         |" << std::endl;
   std::cout << "o----------------------------------------------------------------o" << std::endl;
   std::cout << "| This program is free software; you can redistribute it and/or  |" << std::endl;

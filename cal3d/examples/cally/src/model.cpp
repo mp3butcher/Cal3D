@@ -381,6 +381,10 @@ bool Model::onInit(const std::string& strFilename)
     m_calCoreModel.setCoreMaterialId(materialId, 0, materialId);
   }
 
+  // Calculate Bounding Boxes
+
+  m_calCoreModel.getCoreSkeleton()->calculateBoundingBox(&m_calCoreModel);
+
   // create the model instance from the loaded core model
   if(!m_calModel.create(&m_calCoreModel))
   {
@@ -448,6 +452,73 @@ void Model::renderSkeleton()
   glEnd();
   glPointSize(1.0f);
 }
+
+//----------------------------------------------------------------------------//
+// Render the bounding boxes of a model                                       //
+//----------------------------------------------------------------------------//
+
+void Model::renderBoundingBox()
+{  
+
+   CalSkeleton *pCalSkeleton = m_calModel.getSkeleton();
+
+   pCalSkeleton->calculateBoundingBox();
+
+   std::vector<CalBone*> &vectorCoreBone = pCalSkeleton->getVectorBone();
+
+   glColor3f(1.0f, 1.0f, 1.0f);
+   glBegin(GL_LINES);      
+
+   for(size_t boneId=0;boneId<vectorCoreBone.size();++boneId)
+   {
+      CalBoundingBox & calBoundingBox  = vectorCoreBone[boneId]->getBoundingBox();
+
+	  CalVector p[8];
+	  calBoundingBox.computePoints(p);
+
+	  
+	  glVertex3f(p[0].x,p[0].y,p[0].z);
+	  glVertex3f(p[1].x,p[1].y,p[1].z);
+
+	  glVertex3f(p[0].x,p[0].y,p[0].z);
+	  glVertex3f(p[2].x,p[2].y,p[2].z);
+
+	  glVertex3f(p[1].x,p[1].y,p[1].z);
+	  glVertex3f(p[3].x,p[3].y,p[3].z);
+
+	  glVertex3f(p[2].x,p[2].y,p[2].z);
+	  glVertex3f(p[3].x,p[3].y,p[3].z);
+
+  	  glVertex3f(p[4].x,p[4].y,p[4].z);
+	  glVertex3f(p[5].x,p[5].y,p[5].z);
+
+	  glVertex3f(p[4].x,p[4].y,p[4].z);
+	  glVertex3f(p[6].x,p[6].y,p[6].z);
+
+	  glVertex3f(p[5].x,p[5].y,p[5].z);
+	  glVertex3f(p[7].x,p[7].y,p[7].z);
+
+	  glVertex3f(p[6].x,p[6].y,p[6].z);
+	  glVertex3f(p[7].x,p[7].y,p[7].z);
+
+	  glVertex3f(p[0].x,p[0].y,p[0].z);
+	  glVertex3f(p[4].x,p[4].y,p[4].z);
+
+	  glVertex3f(p[1].x,p[1].y,p[1].z);
+	  glVertex3f(p[5].x,p[5].y,p[5].z);
+
+	  glVertex3f(p[2].x,p[2].y,p[2].z);
+	  glVertex3f(p[6].x,p[6].y,p[6].z);
+
+	  glVertex3f(p[3].x,p[3].y,p[3].z);
+	  glVertex3f(p[7].x,p[7].y,p[7].z);  
+
+   }
+
+   glEnd();
+
+}
+
 
 //----------------------------------------------------------------------------//
 // Render the mesh of the model                                               //
@@ -668,13 +739,17 @@ void Model::onRender()
 //// DEBUG END
 
   // check if we need to render the skeleton
-  if(theMenu.isSkeleton())
+  if(theMenu.isSkeleton()==1)
   {
     renderSkeleton();
   }
-
+  else if(theMenu.isSkeleton()==2)
+  {
+    renderBoundingBox();
+  }
+  
   // check if we need to render the mesh
-  if(!theMenu.isSkeleton() || theMenu.isWireframe())
+  if(theMenu.isSkeleton()==0 || theMenu.isWireframe())
   {
     renderMesh(theMenu.isWireframe(), theMenu.isLight());
   }

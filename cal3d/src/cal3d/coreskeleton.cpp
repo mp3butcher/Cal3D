@@ -254,6 +254,16 @@ std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
   return m_vectorCoreBone;
 }
 
+
+ /*****************************************************************************/
+/** Calculates bounding boxes.
+  *
+  * This function Calculates the bounding box of every bone in the core Skeleton.
+  *
+  * @param pCoreModel The coreModel (needed for vertices data).
+  *****************************************************************************/
+
+
 void CalCoreSkeleton::calculateBoundingBox(CalCoreModel * pCoreModel)
 {
    for(size_t boneId=0;boneId<m_vectorCoreBone.size();++boneId)
