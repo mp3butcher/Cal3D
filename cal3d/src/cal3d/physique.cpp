@@ -35,6 +35,7 @@
 CalPhysique::CalPhysique()
 {
   m_pModel = 0;
+  m_Normalize = true;
 }
 
  /*****************************************************************************/
@@ -199,13 +200,22 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
       nz += influence.weight * v.z;
     }
 
-    // re-normalize normal
-    float scale;
-    scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+    // re-normalize normal if necessary
+    if (m_Normalize)
+    {
+      float scale;
+      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
 
-    pNormalBuffer[0] = nx * scale;
-    pNormalBuffer[1] = ny * scale;
-    pNormalBuffer[2] = nz * scale;
+      pNormalBuffer[0] = nx * scale;
+      pNormalBuffer[1] = ny * scale;
+      pNormalBuffer[2] = nz * scale;
+    }
+    else
+    {
+      pNormalBuffer[0] = nx;
+      pNormalBuffer[1] = ny;
+      pNormalBuffer[2] = nz;
+    } 
 
     // next vertex position in buffer
     pNormalBuffer += 3;
@@ -313,13 +323,23 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
       pVertexBuffer[2] = z;
     }
     
-	// re-normalize normal
-    float scale;
-    scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+    // re-normalize normal if necessary
+    if (m_Normalize)
+    {
+      float scale;
+      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
 
-    pVertexBuffer[3] = nx * scale;
-    pVertexBuffer[4] = ny * scale;
-    pVertexBuffer[5] = nz * scale;
+      pVertexBuffer[3] = nx * scale;
+      pVertexBuffer[4] = ny * scale;
+      pVertexBuffer[5] = nz * scale;
+    }
+    else
+    {
+      pVertexBuffer[3] = nx;
+      pVertexBuffer[4] = ny;
+      pVertexBuffer[5] = nz;
+    } 
+
 
 	// next vertex position in buffer	
 	pVertexBuffer += 6;
@@ -447,13 +467,22 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
       pVertexBuffer[2] = z;
     }
     
-	// re-normalize normal
-    float scale;
-    scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+	 // re-normalize normal if necessary
+    if (m_Normalize)
+    {
+      float scale;
+      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
 
-    pVertexBuffer[3] = nx * scale;
-    pVertexBuffer[4] = ny * scale;
-    pVertexBuffer[5] = nz * scale;
+      pVertexBuffer[3] = nx * scale;
+      pVertexBuffer[4] = ny * scale;
+      pVertexBuffer[5] = nz * scale;
+    }
+    else
+    {
+      pVertexBuffer[3] = nx;
+      pVertexBuffer[4] = ny;
+      pVertexBuffer[5] = nz;
+    }
 
 	pVertexBuffer += 6;
 	
@@ -559,6 +588,19 @@ void CalPhysique::update()
       }
     }
   }
+}
+
+ /*****************************************************************************/
+/** Sets the normalization flag to true or false.
+  *
+  * This function sets the normalization flag on or off. If off, the normals
+  * calculated by Cal3D will not be normalized. Instead, this transform is left
+  * up to the user.
+  *****************************************************************************/
+
+void CalPhysique::setNormalization(bool normalize)
+{
+  m_Normalize = normalize;
 }
 
 //****************************************************************************//

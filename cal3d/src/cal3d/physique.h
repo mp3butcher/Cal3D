@@ -37,6 +37,7 @@ class CAL3D_API CalPhysique
 // member variables
 public:
   CalModel *m_pModel;
+  bool m_Normalize;
 
 // constructors/destructor
 public:
@@ -52,6 +53,7 @@ public:
   bool create(CalModel *pModel);
   void destroy();
   void update();
+  void setNormalization(bool normalize);
 };
 
 #endif
