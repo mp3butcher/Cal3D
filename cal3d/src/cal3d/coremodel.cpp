@@ -199,8 +199,10 @@ void CalCoreModel::destroy()
   std::vector<CalCoreMaterial *>::iterator iteratorCoreMaterial;
   for(iteratorCoreMaterial = m_vectorCoreMaterial.begin(); iteratorCoreMaterial != m_vectorCoreMaterial.end(); ++iteratorCoreMaterial)
   {
-    (*iteratorCoreMaterial)->destroy();
-    delete (*iteratorCoreMaterial);
+    if(*iteratorCoreMaterial) {
+      (*iteratorCoreMaterial)->destroy();
+      delete (*iteratorCoreMaterial);
+    }
   }
   m_vectorCoreMaterial.clear();
 
@@ -208,8 +210,10 @@ void CalCoreModel::destroy()
   std::vector<CalCoreMesh *>::iterator iteratorCoreMesh;
   for(iteratorCoreMesh = m_vectorCoreMesh.begin(); iteratorCoreMesh != m_vectorCoreMesh.end(); ++iteratorCoreMesh)
   {
-    (*iteratorCoreMesh)->destroy();
-    delete (*iteratorCoreMesh);
+    if(*iteratorCoreMesh) {
+      (*iteratorCoreMesh)->destroy();
+      delete (*iteratorCoreMesh);
+    }
   }
   m_vectorCoreMesh.clear();
 
@@ -217,12 +221,14 @@ void CalCoreModel::destroy()
   std::vector<CalCoreAnimation *>::iterator iteratorCoreAnimation;
   for(iteratorCoreAnimation = m_vectorCoreAnimation.begin(); iteratorCoreAnimation != m_vectorCoreAnimation.end(); ++iteratorCoreAnimation)
   {
-    (*iteratorCoreAnimation)->destroy();
-    delete (*iteratorCoreAnimation);
+    if(*iteratorCoreAnimation) {
+      (*iteratorCoreAnimation)->destroy();
+      delete (*iteratorCoreAnimation);
+    }
   }
   m_vectorCoreAnimation.clear();
 
-  // destroy all core animations
+  // destroy all core morph animations
   std::vector<CalCoreMorphAnimation *>::iterator iteratorCoreMorphAnimation;
   for(iteratorCoreMorphAnimation = m_vectorCoreMorphAnimation.begin(); iteratorCoreMorphAnimation != 
       m_vectorCoreMorphAnimation.end(); ++iteratorCoreMorphAnimation)
@@ -496,6 +502,103 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
 }
 
  /*****************************************************************************/
+/** Loads a core animation and bind it to a name.
+  *
+  * This function loads a core animation from a file. It is equivalent
+  * to calling addAnimName(strAnimationName, loadCoreAnimation(strFilename)).
+  * If strAnimationName is already associated to a coreAnimationId because
+  * of a previous call to addAnimName, the same coreAnimationId will
+  * be used. 
+  *
+  * @param strFilename The file from which the core animation should be loaded
+  *                    from.
+  * @param strAnimationName A string that is associated with an anim ID number.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core animation
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName)
+{
+  int id = getCoreAnimationId(strAnimationName);
+  if(id >= 0)
+    {
+      // the core skeleton has to be loaded already
+      if(m_pCoreSkeleton == 0)
+	{
+	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+	  return -1;
+	}
+      if(m_vectorCoreAnimation[id])
+	{
+	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+	  return -1;
+	}
+      CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+      if(pCoreAnimation == 0) return -1;
+      m_vectorCoreAnimation[id] = pCoreAnimation;
+    }
+  else
+    {
+      id = loadCoreAnimation(strFilename);
+      if(id >= 0)
+	addAnimationName(strAnimationName, id);
+    }
+
+  return id;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by the named core animation. The name must 
+  * be associated with a valid core animation Id with the function
+  * getAnimationId. The caller must ensure that the corresponding is not
+  * referenced anywhere otherwise unpredictable results will occur.
+  *
+  * @param name The symbolic name of the core animation to unload.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core animation
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::unloadCoreAnimation(const std::string& name)
+{
+  int id = getCoreAnimationId(name);
+  if(id >= 0)
+    return unloadCoreAnimation(id);
+  else
+    return -1;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by a core animation. The caller must
+  * ensure that the corresponding is not referenced anywhere otherwise
+  * unpredictable results will occur.
+  *
+  * @param coreAnimationId The ID of the core animation that should be unloaded.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core animation
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+
+int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
+{
+  if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  delete m_vectorCoreAnimation[coreAnimationId];
+  m_vectorCoreAnimation[coreAnimationId] = 0;
+
+  return coreAnimationId;
+}
+
+ /*****************************************************************************/
 /** Loads a core material.
   *
   * This function loads a core material from a file.
@@ -530,6 +633,103 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
   }
 
   return materialId;
+}
+
+ /*****************************************************************************/
+/** Loads a core material and bind it to a name.
+  *
+  * This function loads a core material from a file. It is equivalent
+  * to calling addMaterialName(strMaterialName, loadCoreMaterial(strFilename)).
+  * If strMaterialName is already associated to a coreMaterialId because
+  * of a previous call to addMaterialName, the same coreMaterialId will
+  * be used. 
+  *
+  * @param strFilename The file from which the core material should be loaded
+  *                    from.
+  * @param strMaterialName A string that is associated with an anim ID number.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core material
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName)
+{
+  int id = getCoreMaterialId(strMaterialName);
+  if(id >= 0)
+    {
+      // the core skeleton has to be loaded already
+      if(m_pCoreSkeleton == 0)
+	{
+	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+	  return -1;
+	}
+      if(m_vectorCoreMaterial[id])
+	{
+	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+	  return -1;
+	}
+      CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
+      if(pCoreMaterial == 0) return -1;
+      m_vectorCoreMaterial[id] = pCoreMaterial;
+    }
+  else
+    {
+      id = loadCoreMaterial(strFilename);
+      if(id >= 0)
+	addMaterialName(strMaterialName, id);
+    }
+
+  return id;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by the named core material. The name must 
+  * be associated with a valid core material Id with the function
+  * getMaterialId. The caller must ensure that the corresponding is not
+  * referenced anywhere otherwise unpredictable results will occur.
+  *
+  * @param name The symbolic name of the core material to unload.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core material
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::unloadCoreMaterial(const std::string& name)
+{
+  int id = getCoreMaterialId(name);
+  if(id >= 0)
+    return unloadCoreMaterial(id);
+  else
+    return -1;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by a core material. The caller must
+  * ensure that the corresponding is not referenced anywhere otherwise
+  * unpredictable results will occur.
+  *
+  * @param coreMaterialId The ID of the core material that should be unloaded.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core material
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+
+int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
+{
+  if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  delete m_vectorCoreMaterial[coreMaterialId];
+  m_vectorCoreMaterial[coreMaterialId] = 0;
+
+  return coreMaterialId;
 }
 
  /*****************************************************************************/
@@ -568,6 +768,105 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
 
   return meshId;
 }
+
+ /*****************************************************************************/
+/** Loads a core mesh and bind it to a name.
+  *
+  * This function loads a core mesh from a file. It is equivalent
+  * to calling addMeshName(strMeshName, loadCoreMesh(strFilename)).
+  * If strMeshName is already associated to a coreMeshId because
+  * of a previous call to addMeshName, the same coreMeshId will
+  * be used. 
+  *
+  * @param strFilename The file from which the core mesh should be loaded
+  *                    from.
+  * @param strMeshName A string that is associated with an anim ID number.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core mesh
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string& strMeshName)
+{
+  int id = getCoreMeshId(strMeshName);
+  if(id >= 0)
+    {
+      // the core skeleton has to be loaded already
+      if(m_pCoreSkeleton == 0)
+	{
+	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+	  return -1;
+	}
+      if(m_vectorCoreMesh[id])
+	{
+	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+	  return -1;
+	}
+      CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
+      if(pCoreMesh == 0) return -1;
+      m_vectorCoreMesh[id] = pCoreMesh;
+    }
+  else
+    {
+      id = loadCoreMesh(strFilename);
+      if(id >= 0)
+	addMeshName(strMeshName, id);
+    }
+
+  return id;
+}
+
+
+ /*****************************************************************************/
+/** Delete the resources used by the named core mesh. The name must 
+  * be associated with a valid core mesh Id with the function
+  * getMeshId. The caller must ensure that the corresponding is not
+  * referenced anywhere otherwise unpredictable results will occur.
+  *
+  * @param name The symbolic name of the core mesh to unload.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core mesh
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::unloadCoreMesh(const std::string& name)
+{
+  int id = getCoreMeshId(name);
+  if(id >= 0)
+    return unloadCoreMesh(id);
+  else
+    return -1;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by a core mesh. The caller must
+  * ensure that the corresponding is not referenced anywhere otherwise
+  * unpredictable results will occur.
+  *
+  * @param coreMeshId The ID of the core mesh that should be unloaded.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core mesh
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+
+int CalCoreModel::unloadCoreMesh(int coreMeshId)
+{
+  if((coreMeshId < 0) || (coreMeshId >= (int)m_vectorCoreMesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  delete m_vectorCoreMesh[coreMeshId];
+  m_vectorCoreMesh[coreMeshId] = 0;
+
+  return coreMeshId;
+}
+
 
  /*****************************************************************************/
 /** Loads the core skeleton.
@@ -801,7 +1100,7 @@ void CalCoreModel::setUserData(Cal::UserData userData)
   * @param boneId The ID number of the bone that will be referenced by the string.
   *****************************************************************************/
 
-void CalCoreModel::addBoneHelper(const std::string& strBoneName, int boneId)
+void CalCoreModel::addBoneName(const std::string& strBoneName, int boneId)
 {
   //Make sure the skeleton has been loaded first
   if (m_pCoreSkeleton != NULL)
@@ -809,23 +1108,6 @@ void CalCoreModel::addBoneHelper(const std::string& strBoneName, int boneId)
     //Map the bone ID to the name
     m_pCoreSkeleton->mapCoreBoneName(boneId, strBoneName);
   }
-}
- /*****************************************************************************/
-/** Creates or overwrites a string-to-animation ID mapping
-  *
-  * This function makes an animation ID reference-able by a string name.
-  * Note that we don't verify that the ID is valid because the animation
-  * may be added later.
-  * Also, if there is already a helper with this name, it will be overwritten
-  * without warning.
-  *
-  * @param strAnimName The string that will be associated with the ID.
-  * @param animId The ID number of the animation to be referenced by the string.
-  *****************************************************************************/
-
-void CalCoreModel::addAnimHelper(const std::string& strAnimName, int animId)
-{
-  m_animationHelper[ strAnimName ] = animId;
 }
 
  /*****************************************************************************/
@@ -849,24 +1131,149 @@ int CalCoreModel::getBoneId(const std::string& strBoneName)
 }
 
  /*****************************************************************************/
+/** Creates or overwrites a string-to-animation ID mapping
+  *
+  * This function makes an animation ID reference-able by a string name.
+  * Note that we don't verify that the ID is valid because the animation
+  * may be added later.
+  * Also, if there is already a helper with this name, it will be overwritten
+  * without warning.
+  *
+  * @param strAnimationName The string that will be associated with the ID.
+  * @param coreAnimationId The ID number of the animation to be referenced by the string.
+  *****************************************************************************/
+
+bool CalCoreModel::addAnimationName(const std::string& strAnimationName, int coreAnimationId)
+{
+  // check if the core animation id is valid
+  if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return false;
+  }
+
+  m_vectorCoreAnimation[ coreAnimationId ]->setName(strAnimationName);
+  m_animationName[ strAnimationName ] = coreAnimationId;
+  return true;
+}
+
+ /*****************************************************************************/
 /** Retrieves the ID of the animation referenced by a string
   *
   * This function returns an animation ID
   *
-  * @param strAnimName A string that is associated with an anim ID number.
+  * @param strAnimationName A string that is associated with an anim ID number.
   * @return Returns:
   *         \li \b -1 if there is no anim ID associated with the input string
   *         \li \b the ID number of the anim asssociated with the input string
   *****************************************************************************/
 
-int CalCoreModel::getAnimId(const std::string& strAnimName)
+int CalCoreModel::getCoreAnimationId(const std::string& strAnimationName)
 {
-  if (m_animationHelper.count( strAnimName ) < 1)
+  if (m_animationName.count( strAnimationName ) < 1)
   {
     return -1;
   }
    
-  return m_animationHelper[strAnimName];
+  return m_animationName[strAnimationName];
+}
+
+ /*****************************************************************************/
+/** Creates or overwrites a string-to-core-material ID mapping
+  *
+  * This function makes a core material ID reference-able by a string name.
+  * Note that we don't verify that the ID is valid because the material
+  * may be added later.
+  * Also, if there is already a helper with this name, it will be overwritten
+  * without warning.
+  *
+  * @param strMaterialName The string that will be associated with the ID.
+  * @param coreMaterialId The core ID number of the material to be referenced by the string.
+  *****************************************************************************/
+
+bool CalCoreModel::addMaterialName(const std::string& strMaterialName, int coreMaterialId)
+{
+  
+  // check if the core material id is valid
+  if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return false;
+  }
+
+  m_vectorCoreMaterial[ coreMaterialId ]->setName(strMaterialName);
+  m_materialName[ strMaterialName ] = coreMaterialId;
+  return true;
+}
+
+ /*****************************************************************************/
+/** Retrieves the ID of the core material referenced by a string
+  *
+  * This function returns a core material ID
+  *
+  * @param strMaterialName A string that is associated with a core material ID number.
+  * @return Returns:
+  *         \li \b -1 if there is no core material ID associated with the input string
+  *         \li \b the core ID number of the material asssociated with the input string
+  *****************************************************************************/
+
+int CalCoreModel::getCoreMaterialId(const std::string& strMaterialName)
+{
+  if (m_materialName.count( strMaterialName ) < 1)
+  {
+    return -1;
+  }
+   
+  return m_materialName[strMaterialName];
+}
+
+
+ /*****************************************************************************/
+/** Creates or overwrites a string-to-core-mesh ID mapping
+  *
+  * This function makes a core mesh ID reference-able by a string name.
+  * Note that we don't verify that the ID is valid because the mesh
+  * may be added later.
+  * Also, if there is already a helper with this name, it will be overwritten
+  * without warning.
+  *
+  * @param strMeshName The string that will be associated with the ID.
+  * @param coreMeshId The core ID number of the mesh to be referenced by the string.
+  *****************************************************************************/
+
+bool CalCoreModel::addMeshName(const std::string& strMeshName, int coreMeshId)
+{
+  // check if the core mesh id is valid
+  if((coreMeshId < 0) || (coreMeshId >= (int)m_vectorCoreMesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return false;
+  }
+
+  m_vectorCoreMesh[ coreMeshId ]->setName(strMeshName);
+  m_meshName[ strMeshName ] = coreMeshId;
+  return true;
+}
+
+ /*****************************************************************************/
+/** Retrieves the ID of the core mesh referenced by a string
+  *
+  * This function returns a core mesh ID
+  *
+  * @param strMeshName A string that is associated with a core mesh ID number.
+  * @return Returns:
+  *         \li \b -1 if there is no core mesh ID associated with the input string
+  *         \li \b the core ID number of the mesh asssociated with the input string
+  *****************************************************************************/
+
+int CalCoreModel::getCoreMeshId(const std::string& strMeshName)
+{
+  if (m_meshName.count( strMeshName ) < 1)
+  {
+    return -1;
+  }
+   
+  return m_meshName[strMeshName];
 }
 
  /*****************************************************************************/

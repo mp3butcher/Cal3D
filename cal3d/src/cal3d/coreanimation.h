@@ -37,6 +37,8 @@ class CAL3D_API CalCoreAnimation
 protected:
   float m_duration;
   std::list<CalCoreTrack *> m_listCoreTrack;
+  std::string m_name;
+  std::string m_filename;
 
 // constructors/destructor
 public:
@@ -53,6 +55,10 @@ public:
   std::list<CalCoreTrack *>& getListCoreTrack();
   void setDuration(float duration);
   void scale(float factor);
+  void setFilename(const std::string& filename);
+  const std::string& getFilename(void);
+  void setName(const std::string& name);
+  const std::string& getName(void);
 };
 
 #endif

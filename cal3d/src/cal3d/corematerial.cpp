@@ -327,6 +327,61 @@ void CalCoreMaterial::setSpecularColor(const CalCoreMaterial::Color& specularCol
   m_specularColor = specularColor;
 }
 
+
+ /*****************************************************************************/
+/** 
+  * Set the name of the file in which the core material is stored, if any.
+  *
+  * @param filename The path of the file.
+  *****************************************************************************/
+
+void CalCoreMaterial::setFilename(const std::string& filename)
+{
+  m_filename = filename;
+}
+
+ /*****************************************************************************/
+/** 
+  * Get the name of the file in which the core material is stored, if any.
+  *
+  * @return One of the following values:
+  *         \li \b empty string if the material was not stored in a file
+  *         \li \b the path of the file
+  *
+  *****************************************************************************/
+
+const std::string& CalCoreMaterial::getFilename(void)
+{
+  return m_filename;
+}
+
+ /*****************************************************************************/
+/** 
+  * Set the symbolic name of the core material.
+  *
+  * @param name A symbolic name.
+  *****************************************************************************/
+
+void CalCoreMaterial::setName(const std::string& name)
+{
+  m_name = name;
+}
+
+ /*****************************************************************************/
+/** 
+  * Get the symbolic name the core material.
+  *
+  * @return One of the following values:
+  *         \li \b empty string if the material was no associated to a symbolic name
+  *         \li \b the symbolic name
+  *
+  *****************************************************************************/
+
+const std::string& CalCoreMaterial::getName(void)
+{
+  return m_name;
+}
+
  /*****************************************************************************/
 /** Stores user data.
   *

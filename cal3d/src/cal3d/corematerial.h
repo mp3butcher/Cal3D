@@ -53,6 +53,8 @@ protected:
   float m_shininess;
   std::vector<Map> m_vectorMap;
   Cal::UserData m_userData;
+  std::string m_name;
+  std::string m_filename;
 
 // constructors/destructor
 public:
@@ -79,6 +81,10 @@ public:
   bool setMapUserData(int mapId, Cal::UserData userData);
   void setShininess(float shininess);
   void setSpecularColor(const Color& specularColor);
+  void setFilename(const std::string& filename);
+  const std::string& getFilename(void);
+  void setName(const std::string& name);
+  const std::string& getName(void);
   void setUserData(Cal::UserData userData);
 };
 

@@ -84,6 +84,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename, C
   CalStreamSource streamSrc( file );
   
   CalCoreAnimation* coreanim = loadCoreAnimation( streamSrc,skel );
+  if(coreanim) coreanim->setFilename( strFilename );
 
   //close the file
   file.close();
@@ -125,6 +126,8 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
   
   CalCoreMaterial* coremat = loadCoreMaterial( streamSrc );
 
+  if(coremat) coremat->setFilename( strFilename );
+
   //close the file
   file.close();
 
@@ -165,6 +168,9 @@ CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
   CalStreamSource streamSrc( file );
   
   CalCoreMesh* coremesh = loadCoreMesh( streamSrc );
+
+  if(coremesh) coremesh->setFilename( strFilename );
+
 
   //close the file
   file.close();

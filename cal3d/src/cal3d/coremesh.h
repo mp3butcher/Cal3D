@@ -36,6 +36,8 @@ class CAL3D_API CalCoreMesh
 // member variables
 protected:
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
+  std::string m_name;
+  std::string m_filename;
 
 // constructors/destructor
 public:
@@ -52,6 +54,10 @@ public:
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   int addAsMorphTarget(CalCoreMesh *pCoreMesh);
   void scale(float factor);
+  void setFilename(const std::string& filename);
+  const std::string& getFilename(void);
+  void setName(const std::string& name);
+  const std::string& getName(void);
 };
 
 #endif

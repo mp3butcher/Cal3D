@@ -105,6 +105,8 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   // explicitly close the file
   file.close();
 
+  pCoreAnimation->setFilename(strFilename);
+
   return true;
 }
 
@@ -339,6 +341,8 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   // explicitly close the file
   file.close();
 
+  pCoreMaterial->setFilename(strFilename);
+
   return true;
 }
 
@@ -406,6 +410,8 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
   // explicitly close the file
   file.close();
+
+  pCoreMesh->setFilename(strFilename);
 
   return true;
 }
