@@ -51,7 +51,7 @@ namespace Cal
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
   // library version
-  const unsigned int LIBRARY_VERSION = 700;
+  const unsigned int LIBRARY_VERSION = 799;
 
   // file versions
   const unsigned int CURRENT_FILE_VERSION = LIBRARY_VERSION;
