@@ -1,0 +1,13 @@
+Import('*')
+env = env.Copy(tools=['glut'], toolpath=['../../toolspec'])
+env.Append(
+    CPPPATH=['#/src'],
+    LIBPATH=['#/src/cal3d'],
+    LIBS=['cal3d'])
+env.Program('cally', [
+    'src/demo.cpp',
+    'src/main.cpp',
+    'src/menu.cpp',
+    'src/model.cpp',
+    'src/tga.cpp',
+    'src/tick.cpp'])

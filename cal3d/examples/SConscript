@@ -1,5 +1,5 @@
 SConscript(dirs=[
-    #'cally',
+    'cally',
     'miniviewer_gl',
     #'miniviewer_gl_vp'
     ])
