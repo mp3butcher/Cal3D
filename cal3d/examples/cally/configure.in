@@ -16,7 +16,7 @@ AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(cal3d_cally,2.10.0)
+AM_INIT_AUTOMAKE(cally,2.10.0)
 
 dnl ************************************************************************
 
@@ -32,7 +32,7 @@ AC_ARG_WITH(cal3d,
 AC_ARG_WITH(glut,
             [  --with-glut=<PATH>     Path to glut install directory
                           (ie. parent of include and lib)],
-            GLUT_ROOT=$withval, GLUT_ROOT=/usr)
+            GLUT_ROOT=$withval, GLUT_ROOT=none)
 
 dnl ************************************************************************
 
@@ -53,15 +53,15 @@ if test "x$CAL3D_ROOT" = "xnone"; then
    # Check the default paths
    if test -e "/usr/include/cal3d/cal3d.h" ; then
       CAL3D_ROOT=/usr
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT(yes)        
    else
 
       if test -e "/usr/local/include/cal3d/cal3d.h" ; then
          CAL3D_ROOT=/usr/local
-         AC_MSG_RESULT(yes)
+         AC_MSG_RESULT(yes)        
       else
 
-         AC_MSG_ERROR(*** Can't find Cal3D installation. Did you specify a path using --with-cal3d=<path> ***)
+         AC_MSG_ERROR(*** Can't find Cal3D installation. Did you specify a path using --with-cal3d=<path> ***) 
 
       fi
 
@@ -71,10 +71,10 @@ if test "x$CAL3D_ROOT" = "xnone"; then
 #If a cal3d root WAS specified...
 else
    if test -e "$CAL3D_ROOT/include/cal3d/cal3d.h" ; then
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT(yes)        
    else
-
-      AC_MSG_ERROR(*** Can't find Cal3D installation in $CAL3D_ROOT ***)
+   
+      AC_MSG_ERROR(*** Can't find Cal3D installation in $CAL3D_ROOT ***) 
 
    fi
 
@@ -90,7 +90,7 @@ if test "x$GLUT_ROOT" = "xnone"; then
    # Check the default paths
    if test -e "/usr/include/glut.h" ; then
       GLUT_ROOT=/usr
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT(yes)        
    else
 
       if test -e "/usr/include/GL/glut.h" ; then
@@ -100,14 +100,14 @@ if test "x$GLUT_ROOT" = "xnone"; then
 
          if test -e "/usr/local/include/glut.h" ; then
             GLUT_ROOT=/usr/local
-            AC_MSG_RESULT(yes)
+            AC_MSG_RESULT(yes)        
          else
 
             if test -e "/usr/local/include/GL/glut.h" ; then
                GLUT_ROOT=/usr/local
-               AC_MSG_RESULT(yes)
+               AC_MSG_RESULT(yes)        
             else
-               AC_MSG_ERROR(*** Can't find glut. Did you specify a path using --with-glut=<path> ***)
+               AC_MSG_ERROR(*** Can't find glut. Did you specify a path using --with-glut=<path> ***) 
             fi
 
          fi
@@ -121,13 +121,13 @@ if test "x$GLUT_ROOT" = "xnone"; then
 #If a glut root WAS specified...
 else
    if test -e "$GLUT_ROOT/include/glut.h" ; then
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT(yes)        
    else
-
+   
       if test -e "$GLUT_ROOT/include/GL/glut.h" ; then
          AC_MSG_RESULT(yes)
       else
-         AC_MSG_ERROR(*** Can't find glut in $GLUT_ROOT ***)
+         AC_MSG_ERROR(*** Can't find glut in $GLUT_ROOT ***) 
       fi
 
    fi
@@ -135,25 +135,27 @@ else
 fi
 
 
-LDFLAGS="-L$GLUT_ROOT/lib -lglut -L$CAL3D_ROOT/lib -lcal3d $LDFLAGS"
+AC_CHECK_LIB(GL, glBegin,,AC_MSG_ERROR(["cannot find required GL library."]))
+AC_CHECK_LIB(GLU, gluLookAt,,AC_MSG_ERROR(["cannot find required GLU library."]))
+AC_CHECK_LIB(glut, glutInit,,AC_MSG_ERROR(["cannot find required glut library."]))
+
+LDFLAGS="-L$GLUT_ROOT/lib -lglut -L$CAL3D_ROOT/lib -lcal3d $LDFLAGS -lm"
 CXXFLAGS="-O3 -ffast-math -funroll-all-loops $CXXFLAGS -I$GLUT_ROOT/include -I$CAL3D_ROOT/include"
+
+
+AC_LANG_CPLUSPLUS
 
 AC_CHECK_LIB(cal3d, CalModel_New,cal3d_default_lib_found=true,cal3d_default_lib_found=false,-lstdc++)
 if test $cal3d_default_lib_found = false; then
  AC_MSG_ERROR([cal3d library was not found in the default installation path])
 fi
 
-AC_CHECK_LIB(GL, glBegin,,AC_MSG_ERROR(["cannot find required GL library."]))
-AC_CHECK_LIB(GLU, gluLookAt,,AC_MSG_ERROR(["cannot find required GLU library."]))
-AC_CHECK_LIB(glut, glutInit,,AC_MSG_ERROR(["cannot find required glut library."]))
-
-
 AC_OUTPUT(Makefile src/Makefile)
 
 dnl ************************************************************************
 
 echo "o-----------------------------------------------------------o"
-echo "| To build and install The Cal3D Cally Demo type...         |"
+echo "| To build and install the Cal3D cally demo type...         |"
 echo "|     make; make install                                    |"
 echo "o-----------------------------------------------------------o"
 
