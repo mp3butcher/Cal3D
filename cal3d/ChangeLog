@@ -7,6 +7,8 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
   
   - Add functions to control force of the spring system
+  - CalHardwareModel : a object to store and to compute information
+    needed to do hardware vertex skinning
 
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 

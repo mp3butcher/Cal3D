@@ -32,6 +32,7 @@
 #include "cal3d/coretrack.h"
 #include "cal3d/datasource.h"
 #include "cal3d/error.h"
+#include "cal3d/hardwaremodel.h"
 #include "cal3d/loader.h"
 #include "cal3d/matrix.h"
 #include "cal3d/mesh.h"

@@ -202,6 +202,7 @@ DEP_CPP_CAL3D=\
 	".\datasource.h"\
 	".\error.h"\
 	".\global.h"\
+	".\hardwaremodel.h"\
 	".\loader.h"\
 	".\matrix.h"\
 	".\mesh.h"\
@@ -417,6 +418,31 @@ DEP_CPP_GLOBA=\
 	".\platform.h"\
 	
 NODEP_CPP_GLOBA=\
+	".\config.h"\
+	
+# End Source File
+# Begin Source File
+
+SOURCE=.\hardwaremodel.cpp
+DEP_CPP_HARDW=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\hardwaremodel.h"\
+	".\matrix.h"\
+	".\model.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
+	".\vector.h"\
+	
+NODEP_CPP_HARDW=\
 	".\config.h"\
 	
 # End Source File
@@ -864,6 +890,10 @@ SOURCE=.\error.h
 # Begin Source File
 
 SOURCE=.\global.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\hardwaremodel.h
 # End Source File
 # Begin Source File
 

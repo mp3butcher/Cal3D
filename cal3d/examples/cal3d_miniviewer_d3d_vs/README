@@ -1,0 +1,123 @@
+o-----------------------------------------------------------------------------o
+|                                                                             |
+|                    c a l 3 d - miniviewer D3D VS version                    |
+|                                                                             |
+|                            Version 0.9.1                                    |
+|                                                                             |
+|    Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                     |
+|    Copyright (C) 2002, 2003, 2004 Desmecht 'Maxun' Laurent for D3D version  |         
+|                                                                             |
+o-----------------------------------------------------------------------------o
+
+Attention, you need a recent version of Cal3D 
+if you want to compile the program, you can find it on the cvs.
+
+o-----------------------------------------------------------------------------o
+| Table of Contents                                                           |
+o-----------------------------------------------------------------------------o
+
+  1 License
+  2 What is 'cal3d-miniviewer vs'?
+  3 Usage
+  4 Model Configuration File
+  5 Requirements
+  6 Website
+  7 Author
+
+
+o-----------------------------------------------------------------------------o
+| 1 License                                                                   |
+o-----------------------------------------------------------------------------o
+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your option)
+  any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation Inc., 59
+  Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+
+o-----------------------------------------------------------------------------o
+| 2 What is 'cal3d-miniviewer vs' D3D version ?                               |
+o-----------------------------------------------------------------------------o
+  
+  cal3d-miniviewer vs is a modified version of the cal3d-miniviewer, this 
+  version use vertex shader to render models so the performance depend only
+  on the gpu and not to Cal3D because Cal3D don't do any calculation expensive
+  task. But the springs system are disabled because it can be do in vertex shader.
+  This is possible to mix vertex shader and cal3d normal code, but this program
+  don't do this yet.  
+  
+
+o-----------------------------------------------------------------------------o
+| 3 Usage                                                                     |
+o-----------------------------------------------------------------------------o
+
+  The miniviewer tool is started from a shell with the following arguments:
+
+  cal3d_miniviewer_vs [--fullscreen]              : run in fullscreen mode
+                      [--window]                  : run in window mode
+                      [--dimension width height]  : dimension of the window
+                      [--help]                    : show this usage info
+                   model-configuration-file    : the model definition file
+  if you want to have the debug informations:
+  cal3d_miniviewer_vs ... > debug.txt  
+
+
+o-----------------------------------------------------------------------------o
+| 4 Model Configuration File                                                  |
+o-----------------------------------------------------------------------------o
+
+  The model configuration file contains the definition of a model. This
+  includes paths to one skeleton, one or more animation, mesh and material
+  files.
+
+  The whole file consists of comment lines that start with a leading '#'
+  character or lines with a 'key=value' pair. Here is a list of the possible
+  keys:
+
+  path=...       : a relative path to the data files below
+  scale=...      : a scale factor that is used to fit the model to the screen
+  skeleton=...   : a cal3d skeleton file
+  animation=...  : a cal3d animation file
+  mesh=...       : a cal3d mesh file
+  material=...   : a cal3d material file
+
+  There should only be one skeleton line in the file. If you define multiple
+  animations they will be executed one after another.
+
+
+o-----------------------------------------------------------------------------o
+| 5 Requirements                                                              |
+o-----------------------------------------------------------------------------o
+
+  You need a hardware accelerated 3d graphic card (with Directx 9 driver) to
+  get a decent framerate.
+  if you want best performance, a full dx 8 is needed so vertex shader can
+  be executed in hardware but this is not required to run the program.
+
+
+o-----------------------------------------------------------------------------o
+| 6 Website                                                                   |
+o-----------------------------------------------------------------------------o
+
+  The official website of cal3d can be found at: http://cal3d.sourceforge.net
+
+
+o-----------------------------------------------------------------------------o
+| 7 Author                                                                    |
+o-----------------------------------------------------------------------------o
+
+  This project was originally started by Bruno 'Beosil' Heidelberger. You can
+  find a list of all people contributing to cal3d in the AUTHORS file.
+  The adaptation of the miniviewer to D3D have been made by Desmecht Laurent
+
+
+o-----------------------------------------------------------------------------o
