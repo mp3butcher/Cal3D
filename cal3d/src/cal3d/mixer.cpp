@@ -328,6 +328,7 @@ bool CalMixer::removeAction(int id)
       iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
       return true;
     }
+    iteratorAnimationAction++;
   }
   return false;
 }
