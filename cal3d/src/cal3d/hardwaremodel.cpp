@@ -28,6 +28,13 @@
 #include "cal3d/skeleton.h"
 
 
+ /*****************************************************************************/
+/** Constructs the hardware model instance.
+  *
+  * This function is the default constructor of the hardware model instance.
+  *****************************************************************************/
+
+
 CalHardwareModel::CalHardwareModel() : m_selectedHardwareMesh(-1)
 {
 	m_pVertexBuffer = NULL;
@@ -44,11 +51,31 @@ CalHardwareModel::CalHardwareModel() : m_selectedHardwareMesh(-1)
 	m_totalVertexCount=0;
 }
 
+ /*****************************************************************************/
+/** Destructs the hardware model instance.
+  *
+  * This function is the destructor of the hardware model instance.
+  *****************************************************************************/
+
 
 CalHardwareModel::~CalHardwareModel()
 {
 	
 }
+
+ /*****************************************************************************/
+/** Creates the hardware model instance.
+  *
+  * This function creates the hardware model instance.
+  *
+  * @param pModel A pointer to the model that should be managed with this
+  *               hardware model instance.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
 
 bool CalHardwareModel::create(CalModel *pModel)
 {
@@ -64,33 +91,94 @@ bool CalHardwareModel::create(CalModel *pModel)
 	
 }
 
+ /*****************************************************************************/
+/** Set the vertex (position) buffer of the hardware model instance.
+  *
+  * This function set the vertex (position) buffer the hardware model instance.
+  *
+  * @param pVertexBuffer A pointer to the vertex buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
+
 void CalHardwareModel::setVertexBuffer( char * pVertexBuffer, int stride)
 {
 	m_pVertexBuffer = pVertexBuffer;
 	m_vertexStride = stride;
 }
 
+ /*****************************************************************************/
+/** Set the index buffer of the hardware model instance.
+  *
+  * This function set the index buffer the hardware model instance.
+  *
+  * @param pIndexBuffer A pointer to the index buffer.
+  *
+  *****************************************************************************/
+
 void CalHardwareModel::setIndexBuffer( CalIndex * pIndexBuffer)
 {
 	m_pIndexBuffer= pIndexBuffer;
 }
+
+ /*****************************************************************************/
+/** Set the normal buffer of the hardware model instance.
+  *
+  * This function set the normal buffer the hardware model instance.
+  *
+  * @param pNormalBuffer A pointer to the normal buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
 
 void CalHardwareModel::setNormalBuffer( char * pNormalBuffer, int stride)
 {
 	m_pNormalBuffer = pNormalBuffer;
 	m_normalStride = stride;
 }
+
+ /*****************************************************************************/
+/** Set the weight buffer of the hardware model instance.
+  *
+  * This function set the weight buffer the hardware model instance.
+  *
+  * @param pWeightBuffer A pointer to the weight buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
+
+
 void CalHardwareModel::setWeightBuffer( char * pWeightBuffer, int stride)
 {
 	m_pWeightBuffer = pWeightBuffer;
 	m_weightStride = stride;
 }
 
+ /*****************************************************************************/
+/** Set the matrix index buffer of the hardware model instance.
+  *
+  * This function set the matrix index buffer the hardware model instance.
+  *
+  * @param pMatrixIndexBuffer A pointer to the matrix index buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
+
+
 void CalHardwareModel::setMatrixIndexBuffer( char * pMatrixIndexBuffer, int stride)
 {
 	m_pMatrixIndexBuffer = pMatrixIndexBuffer;
 	m_matrixIndexStride = stride;
 }
+
+ /*****************************************************************************/
+/** Set the number the texture coordinate of the hardware model instance.
+  *
+  * This function set the number the texture coordinate the hardware model instance.
+  *
+  * @param textureCoordNum A integer with the number the texture coordinate.
+  *
+  *****************************************************************************/
 
 void CalHardwareModel::setTextureCoordNum(int textureCoordNum)
 {
@@ -100,6 +188,18 @@ void CalHardwareModel::setTextureCoordNum(int textureCoordNum)
 	}      
 }
 
+ /*****************************************************************************/
+/** Set the texture coordinate buffer of the hardware model instance.
+  *
+  * This function set the texture coordinate buffer the hardware model instance.
+  *
+  * @param mapId A integer to the texture stage
+  * @param pTextureCoordBuffer A pointer to the weight buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
+
+
 void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride)
 {
 	if( 0<= mapId && mapId < 8)
@@ -108,6 +208,13 @@ void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuff
 		m_textureCoordStride[mapId] = stride;  	
 	}	
 }
+
+ /*****************************************************************************/
+/** Destroys the hardware model instance.
+  *
+  * This function destroys all data stored in the hardware model instance and frees
+  * all allocated memory.
+  *****************************************************************************/
 
 
 void CalHardwareModel::destroy()
@@ -121,10 +228,31 @@ void CalHardwareModel::destroy()
 	
 }
 
+ /*****************************************************************************/
+/** Returns the hardware mesh vector.
+  *
+  * This function returns the vector that contains all hardware mesh of the
+  * core mesh instance.
+  *
+  * @return A reference to the hardware mesh vector.
+  *****************************************************************************/
+
+
 std::vector<CalHardwareModel::CalHardwareMesh> & CalHardwareModel::getVectorHardwareMesh()
 {
 	return m_vectorHardwareMesh;
 }
+
+ /*****************************************************************************/
+/** Provides access to the ambient color.
+  *
+  * This function returns the ambient color of the material of the selected
+  * hardware mesh.
+  *
+  * @param pColorBuffer A pointer to the user-provided buffer where the color
+  *                     data is written to.
+  *****************************************************************************/
+
 
 void CalHardwareModel::getAmbientColor(unsigned char *pColorBuffer)
 {
@@ -146,6 +274,17 @@ void CalHardwareModel::getAmbientColor(unsigned char *pColorBuffer)
 	}	
 }
 
+ /*****************************************************************************/
+/** Provides access to the diffuse color.
+  *
+  * This function returns the diffuse color of the material of the selected
+  * hardware mesh.
+  *
+  * @param pColorBuffer A pointer to the user-provided buffer where the color
+  *                     data is written to.
+  *****************************************************************************/
+
+
 void CalHardwareModel::getDiffuseColor(unsigned char *pColorBuffer)
 {
 	if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < m_vectorHardwareMesh.size() 
@@ -165,6 +304,16 @@ void CalHardwareModel::getDiffuseColor(unsigned char *pColorBuffer)
 		pColorBuffer[3] = 0;   	
 	}	
 }
+ 
+/*****************************************************************************/
+/** Provides access to the specular color.
+  *
+  * This function returns the specular color of the material of the selected
+  * hardware.
+  *
+  * @param pColorBuffer A pointer to the user-provided buffer where the color
+  *                     data is written to.
+  *****************************************************************************/
 
 void CalHardwareModel::getSpecularColor(unsigned char *pColorBuffer)
 {
@@ -186,6 +335,16 @@ void CalHardwareModel::getSpecularColor(unsigned char *pColorBuffer)
 	}	
 }
 
+/*****************************************************************************/
+/** Returns the shininess factor.
+  *
+  * This function returns the shininess factor of the material of the selected
+  * hardware mesh..
+  *
+  * @return The shininess factor.
+  *****************************************************************************/
+
+
 float CalHardwareModel::getShininess()
 {
 	if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < m_vectorHardwareMesh.size() 
@@ -199,6 +358,15 @@ float CalHardwareModel::getShininess()
 	}	
 }
 
+ /*****************************************************************************/
+/** Returns the bone space rotation of the bone boneId.
+  *
+  * This function returns the rotation to bring a point into the
+  *bone instance space of the bone boneId of the selected hardware mesh.
+  *
+  * @param boneId A integer with the bone number
+  * @return The rotation to bring a point into bone space.
+  *****************************************************************************/
 
 const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId)
 {
@@ -206,6 +374,15 @@ const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId)
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getRotationBoneSpace();
 }
 
+ /*****************************************************************************/
+/** Returns the bone space translation of the bone boneId.
+  *
+  * This function returns the translation to bring a point into the
+  *bone instance space of the bone boneId of the selected hardware mesh.
+  *
+  * @param boneId A integer with the bone number
+  * @return The translation to bring a point into bone space.
+  *****************************************************************************/
 
 
 const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId)
@@ -214,12 +391,30 @@ const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId)
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getTranslationBoneSpace();
 }
 
+ /*****************************************************************************/
+/** Returns the number of hardware meshes.
+  *
+  * This function returns the number of hardware meshes in the hardware model
+  * instance.
+  *
+  * @return The number of hardware meshes.
+  *****************************************************************************/
+
 
 
 int CalHardwareModel::getHardwareMeshCount()
 {
 	return m_vectorHardwareMesh.size();
 }
+
+ /*****************************************************************************/
+/** Returns the number of faces.
+  *
+  * This function returns the number of faces in the selected hardware mesh instance.
+  *
+  * @return The number of faces.
+  *****************************************************************************/
+
 
 int CalHardwareModel::getFaceCount()
 {
@@ -230,6 +425,14 @@ int CalHardwareModel::getFaceCount()
 	return 0;		
 }
 
+/*****************************************************************************/
+/** Returns the number of vertex.
+  *
+  * This function returns the number of vertex in the selected hardware mesh instance.
+  *
+  * @return The number of vertex.
+  *****************************************************************************/
+
 int CalHardwareModel::getVertexCount()
 {
 	if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < m_vectorHardwareMesh.size()) 
@@ -238,6 +441,15 @@ int CalHardwareModel::getVertexCount()
 	}
 	return 0;		
 }
+
+/*****************************************************************************/
+/** Returns the number of bone.
+  *
+  * This function returns the number of bone in the selected hardware mesh instance.
+  *
+  * @return The number of bone.
+  *****************************************************************************/
+
 
 int CalHardwareModel::getBoneCount()
 {
@@ -248,6 +460,14 @@ int CalHardwareModel::getBoneCount()
 	return 0;		
 }
 
+/*****************************************************************************/
+/** Returns the base vertex index.
+  *
+  * This function returns the base vertex index of the selected hardware mesh instance.
+  *
+  * @return a integer with the base vertex index.
+  *****************************************************************************/
+
 
 int CalHardwareModel::getBaseVertexIndex()
 {
@@ -257,6 +477,14 @@ int CalHardwareModel::getBaseVertexIndex()
 	}
 	return 0;		
 }
+
+/*****************************************************************************/
+/** Returns the start index.
+  *
+  * This function returns the start index of the selected hardware mesh instance.
+  *
+  * @return a integer with the start index.
+  *****************************************************************************/
 
 
 int CalHardwareModel::getStartIndex()
@@ -269,6 +497,20 @@ int CalHardwareModel::getStartIndex()
 }
 
 
+ /*****************************************************************************/
+/** Selects a hardware mesh for rendering data queries.
+  *
+  * This function selects a hardware mesh for further rendering data queries.
+  *
+  * @param meshId The ID of the hardware mesh that should be used for further rendering
+  *               data queries.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+
 bool CalHardwareModel::selectHardwareMesh(int meshId)
 {
 	if( meshId >= 0 && meshId < m_vectorHardwareMesh.size()) 
@@ -279,11 +521,28 @@ bool CalHardwareModel::selectHardwareMesh(int meshId)
 	return false;		
 }
 
+/*****************************************************************************/
+/** Returns the number of faces in the hardware model instance.
+  *
+  * This function returns the number of faces in the hardware model instance.
+  *
+  * @return The number of faces.
+  *****************************************************************************/
+
 
 int CalHardwareModel::getTotalFaceCount()
 {
 	return m_totalFaceCount;
 }
+
+/*****************************************************************************/
+/** Returns the number of vertices in the hardware model instance.
+  *
+  * This function returns the number of vertices in the hardware model instance.
+  *
+  * @return The number of vertices.
+  *****************************************************************************/
+
 
 int CalHardwareModel::getTotalVertexCount()
 {
@@ -291,12 +550,11 @@ int CalHardwareModel::getTotalVertexCount()
 }
 
 
-
 /*****************************************************************************/
 /** Provides access to a specified map user data.
 *
 * This function returns the user data stored in the specified map of the
-* material of the selected hardwaremesh.
+* material of the selected hardware mesh.
 *
 * @param mapId The ID of the map.
 *
@@ -327,6 +585,21 @@ Cal::UserData CalHardwareModel::getMapUserData(int mapId)
 	}
 	return 0;
 }
+
+/*****************************************************************************/
+/** Compute the information needed to use the hardware model .
+*
+* This function Compute the information needed to use the hardware model,
+* it fill vertex buffers with the model data
+*
+* @param baseVertexIndex The base vertex Index.
+* @param startIndex The start index.
+* @param maxBonesPerMesh The maximun of bone by hardware mesh
+*
+* @return One of the following values:
+*         \li \b true if succeed
+*         \li \b false if an error happend
+*****************************************************************************/
 
 
 

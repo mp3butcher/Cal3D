@@ -194,6 +194,7 @@ void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
 
   // Step 3: Add the estimated tangent to the overall estimate for the vertex.
 
+
   m_vectorvectorTangentSpace[mapId][v0].tangent+=tangent;
 }
 
