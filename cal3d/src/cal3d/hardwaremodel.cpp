@@ -45,7 +45,10 @@ CalHardwareModel::CalHardwareModel() : m_selectedHardwareMesh(-1)
 	int i;
 	for( i = 0 ; i < 8 ; i++)
 		m_pTextureCoordBuffer[i]=NULL;
-	m_textureCoordNum=0;	
+	m_textureCoordNum=0;
+	
+	for( i = 0 ; i < 8 ; i++)
+		m_pTangentSpaceBuffer [i]=NULL;	
 
 	m_totalFaceCount=0;
 	m_totalVertexCount=0;
@@ -196,7 +199,7 @@ void CalHardwareModel::setTextureCoordNum(int textureCoordNum)
   * This function set the texture coordinate buffer the hardware model instance.
   *
   * @param mapId A integer to the texture stage
-  * @param pTextureCoordBuffer A pointer to the weight buffer.
+  * @param pTextureCoordBuffer A pointer to the texture coord buffer.
   * @param stride  The number of byte to add to find the next element
   *
   *****************************************************************************/
@@ -204,10 +207,30 @@ void CalHardwareModel::setTextureCoordNum(int textureCoordNum)
 
 void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride)
 {
-	if( 0<= mapId && mapId < 8)
+	if( 0 <= mapId && mapId < 8)
 	{
 		m_pTextureCoordBuffer[mapId] = pTextureCoordBuffer;
 		m_textureCoordStride[mapId] = stride;  	
+	}	
+}
+
+ /*****************************************************************************/
+/** Set the tangent space buffer of the hardware model instance.
+  *
+  * This function set the tangent space buffer the hardware model instance.
+  *
+  * @param mapId A integer to the texture stage
+  * @param pTangentSpaceBuffer A pointer to the tangent space buffer.
+  * @param stride  The number of byte to add to find the next element
+  *
+  *****************************************************************************/
+
+void CalHardwareModel::setTangentSpaceBuffer(int mapId, char * pTangentSpaceBuffer, int stride)
+{
+	if( 0 <= mapId && mapId < 8)
+	{
+		m_pTangentSpaceBuffer[mapId] = pTangentSpaceBuffer;
+		m_tangentSpaceStride[mapId] = stride;  	
 	}	
 }
 
@@ -220,6 +243,7 @@ void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuff
   * @param coreMeshIds a vector of core mesh ids
   *
   *****************************************************************************/
+
 void CalHardwareModel::setCoreMeshIds(const std::vector<int>& coreMeshIds)
 {
 	m_coreMeshIds = coreMeshIds;
@@ -657,7 +681,7 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 		CalCoreMesh *pCoreMesh = m_pCoreModel->getCoreMesh(meshId);
 		int submeshCount= pCoreMesh->getCoreSubmeshCount();
 		int submeshId;
-		for(submeshId = 0 ;submeshId<submeshCount;submeshId++)
+		for(submeshId = 0 ;submeshId < submeshCount ; submeshId++)
 		{		  
 			CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
 			
@@ -684,9 +708,9 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 			{
 				if(canAddFace(hardwareMesh,vectorFace[faceId],vectorVertex,maxBonesPerMesh))
 				{
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3]=   addVertex(hardwareMesh,vectorFace[faceId].vertexId[0],vectorVertex,vectorTex,maxBonesPerMesh);
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+1]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[1],vectorVertex,vectorTex,maxBonesPerMesh);
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+2]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[2],vectorVertex,vectorTex,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3]=   addVertex(hardwareMesh,vectorFace[faceId].vertexId[0],pCoreSubmesh,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+1]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[1],pCoreSubmesh,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+2]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[2],pCoreSubmesh,maxBonesPerMesh);
 					hardwareMesh.faceCount++;
 				}
 				else
@@ -706,9 +730,9 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 					
 					startIndex=hardwareMesh.startIndex;
 					
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3]=   addVertex(hardwareMesh,vectorFace[faceId].vertexId[0],vectorVertex,vectorTex,maxBonesPerMesh);
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+1]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[1],vectorVertex,vectorTex,maxBonesPerMesh);
-					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+2]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[2],vectorVertex,vectorTex,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3]=   addVertex(hardwareMesh,vectorFace[faceId].vertexId[0],pCoreSubmesh,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+1]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[1],pCoreSubmesh,maxBonesPerMesh);
+					m_pIndexBuffer[startIndex+hardwareMesh.faceCount*3+2]= addVertex(hardwareMesh,vectorFace[faceId].vertexId[2],pCoreSubmesh,maxBonesPerMesh);
 					hardwareMesh.faceCount++;				  
 				}
 			}
@@ -767,7 +791,9 @@ bool CalHardwareModel::canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh:
 	return true;	
 }
 
-int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice ,std::vector<CalCoreSubmesh::Vertex>& vectorVertex,  std::vector< std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorTexCoord, int maxBonesPerMesh)
+
+
+int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice, CalCoreSubmesh *pCoreSubmesh, int maxBonesPerMesh)
 {
 	int i=0;
 	
@@ -778,6 +804,10 @@ int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice ,std::
 		return i;
 
 	
+	std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
+	std::vector< std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
+	std::vector< std::vector<CalCoreSubmesh::TangentSpace> >& vectorvectorTangentSpace = pCoreSubmesh->getVectorVectorTangentSpace();
+
 	m_vectorVertexIndiceUsed[hardwareMesh.vertexCount]=indice;
 	
 	memcpy(&m_pVertexBuffer[(hardwareMesh.baseVertexIndex+i)*m_vertexStride],&vectorVertex[indice].position,sizeof(CalVector));
@@ -787,13 +817,23 @@ int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice ,std::
 	int mapId;	
 	for(mapId = 0; mapId < m_textureCoordNum; mapId++)
 	{
-		if( vectorTexCoord.size() > mapId)
-			memcpy(&m_pTextureCoordBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_textureCoordStride[mapId]],&vectorTexCoord[mapId][indice],2*sizeof(float));
+		if( vectorvectorTextureCoordinate.size() > mapId)
+			memcpy(&m_pTextureCoordBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_textureCoordStride[mapId]],&vectorvectorTextureCoordinate[mapId][indice],sizeof(CalCoreSubmesh::TextureCoordinate));
 		else
-			memset(&m_pTextureCoordBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_textureCoordStride[mapId]],0,2*sizeof(float));
+			memset(&m_pTextureCoordBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_textureCoordStride[mapId]],0,sizeof(CalCoreSubmesh::TextureCoordinate));
 		
 	}
 
+	for(mapId = 0; mapId < 8 ; mapId++)
+	{
+		if(m_pTangentSpaceBuffer[mapId] != NULL)
+		{
+			if(vectorvectorTangentSpace.size() > mapId && pCoreSubmesh->isTangentsEnabled(mapId))
+				memcpy(&m_pTangentSpaceBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_tangentSpaceStride[mapId]],&vectorvectorTangentSpace[mapId][indice],sizeof(CalCoreSubmesh::TangentSpace));
+			else
+				memset(&m_pTangentSpaceBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_tangentSpaceStride[mapId]],0,sizeof(CalCoreSubmesh::TangentSpace));
+		}
+	}
 	
 	int l;
 	for( l=0 ; l<4 ; l++)

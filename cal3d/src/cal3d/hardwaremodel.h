@@ -72,7 +72,9 @@ private:
 	int m_matrixIndexStride;
 	char * m_pTextureCoordBuffer[8];
 	int m_textureCoordStride[8];
-	int m_textureCoordNum;
+	int m_textureCoordNum;	
+	char * m_pTangentSpaceBuffer[8];
+	int m_tangentSpaceStride[8];
 	
 	CalIndex * m_pIndexBuffer;
 
@@ -96,7 +98,8 @@ private:
 		void setWeightBuffer( char * pWeightBuffer, int stride); 
 		void setMatrixIndexBuffer( char * pMatrixIndexBuffer, int stride); 
 		void setTextureCoordNum(int textureCoordNum);
-		void setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride); 
+		void setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride);
+		void setTangentSpaceBuffer(int mapId, char * pTangentSpaceBuffer, int stride);
 		void setCoreMeshIds(const std::vector<int>& coreMeshIds);
 
 		bool load(int baseVertexIndex, int startIndex,int maxBonesPerMesh);
@@ -129,7 +132,7 @@ private:
 		
 	private:
 		bool canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face,std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh);
-		int  addVertex(CalHardwareMesh &hardwareMesh, int indice ,std::vector<CalCoreSubmesh::Vertex>& vectorVertex,  std::vector< std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorTexCoord, int maxBonesPerMesh);
+		int  addVertex(CalHardwareMesh &hardwareMesh, int indice , CalCoreSubmesh *pCoreSubmesh, int maxBonesPerMesh);
 		int  addBoneIndice(CalHardwareMesh &hardwareMesh, int Indice, int maxBonesPerMesh);  
 		
 };
