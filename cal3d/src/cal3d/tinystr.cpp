@@ -22,7 +22,7 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-#include "cal3d/tinyxml.h"
+#include "tinyxml.h"
 
 #ifndef TIXML_USE_STL
 
@@ -31,7 +31,7 @@ distribution.
 #include <string.h>
 #include <ctype.h>
 
-#include "cal3d/tinystr.h"
+#include "tinystr.h"
 
 // TiXmlString constructor, based on a C string
 TiXmlString::TiXmlString (const char* instring)
@@ -242,13 +242,13 @@ void TiXmlString::append( const char * suffix )
 //    return (! strcmp (c_str (), compare . c_str ()));
 //}
 
-unsigned TiXmlString::length () const
-{
-    if (allocated)
-        // return strlen (cstring);
-        return current_length;
-    return 0;
-}
+//unsigned TiXmlString::length () const
+//{
+//    if (allocated)
+//        // return strlen (cstring);
+//        return current_length;
+//    return 0;
+//}
 
 
 unsigned TiXmlString::find (char tofind, unsigned offset) const

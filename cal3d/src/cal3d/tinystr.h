@@ -22,7 +22,7 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-#include "cal3d/tinyxml.h"
+#include "tinyxml.h"
 
 
 #ifndef TIXML_USE_STL
@@ -73,7 +73,10 @@ class TiXmlString
     }
 
     // Return the length of a TiXmlString
-    unsigned length () const;
+    unsigned length () const
+	{
+		return ( allocated ) ? current_length : 0;
+	}
 
     // TiXmlString = operator
     void operator = (const char * content);
