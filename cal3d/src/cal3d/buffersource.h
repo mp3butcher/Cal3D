@@ -34,6 +34,7 @@ public:
    virtual ~CalBufferSource();
 
    virtual bool ok();
+   virtual void setError();
    virtual bool readBytes(void* pBuffer, int length);
    virtual bool readFloat(float& value);
    virtual bool readInteger(int& value);

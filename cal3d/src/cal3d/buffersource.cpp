@@ -62,6 +62,16 @@ bool CalBufferSource::ok()
 }
 
  /*****************************************************************************/
+/** Sets the error code and message related to a memory buffer source.
+  *
+  *****************************************************************************/
+
+void CalBufferSource::setError()
+{
+   CalError::setLastError(CalError::NULL_BUFFER, __FILE__, __LINE__);
+}
+
+ /*****************************************************************************/
 /** Reads a number of bytes.
   *
   * This function reads a given number of bytes from this data source.

@@ -61,6 +61,17 @@ bool CalStreamSource::ok()
 }
 
  /*****************************************************************************/
+/** Sets the error code and message related to a streaming source.
+  *
+  *****************************************************************************/
+
+void CalStreamSource::setError()
+{
+   CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+}
+
+
+ /*****************************************************************************/
 /** Reads a number of bytes.
   *
   * This function reads a given number of bytes from this data source.
