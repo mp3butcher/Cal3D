@@ -143,7 +143,7 @@ Boolean CalAnimationCycle_Update(CalAnimationCycle *self, float deltaTime)
 }
 
 //****************************************************************************//
-// CalAnimationCycle wrapper functions definition                             //
+// CalBone wrapper functions definition                                           //
 //****************************************************************************//
 
 void CalBone_BlendState(CalBone *self, float weight, CalVector *pTranslation, CalQuaternion *pRotation)
@@ -225,6 +225,27 @@ void CalBone_SetSkeleton(CalBone *self, CalSkeleton *pSkeleton)
 {
   self->setSkeleton(pSkeleton);
 }
+
+void CalBone_SetRotation(CalBone *self, CalQuaternion *pRotation)
+{
+  self->setRotation(*pRotation);
+}
+
+void CalBone_SetTranslation(CalBone *self, CalVector *pTranslation)
+{
+  self->setTranslation(*pTranslation);
+}
+
+void CalBone_SetCoreState(CalBone *self)
+{
+  self->setCoreState();
+}
+
+void CalBone_SetCoreStateRecursive(CalBone *self)
+{
+  self->setCoreStateRecursive();
+}
+
 
 //****************************************************************************//
 // CalCoreAnimation wrapper functions definition                              //
@@ -961,6 +982,16 @@ Boolean CalCoreSubmesh_SetVertex(CalCoreSubmesh *self, int vertexId, CalCoreSubm
 }
 */
 
+Boolean CalCoreSubmesh_TangentsEnabled(CalCoreSubmesh *self, int mapId)
+{
+  return self->tangentsEnabled(mapId) ? True : False;
+}
+
+Boolean CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled)
+{
+  return self->enableTangents(mapId, enabled) ? True : False;
+}
+
 //****************************************************************************//
 // CalCoreTrack wrapper functions definition                                  //
 //****************************************************************************//
@@ -1313,6 +1344,21 @@ int CalPhysique_CalculateVertices(CalPhysique *self, CalSubmesh *pSubmesh, float
   return self->calculateVertices(pSubmesh, pVertexBuffer);
 }
 
+int CalPhysique_CalculateVerticesAndNormals(CalPhysique *self, CalSubmesh *pSubmesh, float *pVertexBuffer)
+{
+  return self->calculateVerticesAndNormals(pSubmesh, pVertexBuffer);
+}
+
+int CalPhysique_CalculateVerticesNormalsAndTexCoords(CalPhysique *self, CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords)
+{
+  return self->calculateVerticesNormalsAndTexCoords(pSubmesh, pVertexBuffer, NumTexCoords);
+}
+
+int CalPhysique_CalculateTangentSpaces(CalPhysique *self, CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer)
+{
+  return self->calculateTangentSpaces(pSubmesh, mapId, pTangentSpaceBuffer);
+}
+
 Boolean CalPhysique_Create(CalPhysique *self, CalModel *pModel)
 {
   return self->create(pModel) ? True : False;
@@ -1402,7 +1448,7 @@ void CalQuaternion_Set(CalQuaternion *self, float qx, float qy, float qz, float 
 }
 
 //****************************************************************************//
-// CalPlatform wrapper functions definition                                   //
+// CalRender wrapper functions definition                                         //
 //****************************************************************************//
 
 Boolean CalRenderer_BeginRendering(CalRenderer *self)
@@ -1510,6 +1556,10 @@ int CalRenderer_GetVerticesNormalsAndTexCoords(CalRenderer *self, float *pVertex
   return self->getVerticesNormalsAndTexCoords(pVertexBuffer,NumTexCoords);
 }
 
+int CalRenderer_GetTangentSpaces(CalRenderer *self, int mapId, float *pTangentSpaceBuffer)
+{
+  return self->getTangentSpaces(mapId, pTangentSpaceBuffer);
+}
 
 CalRenderer *CalRenderer_New()
 {

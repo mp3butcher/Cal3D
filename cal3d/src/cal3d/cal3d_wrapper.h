@@ -193,6 +193,11 @@ extern "C"
   CAL3D_WRAPPER_API void CalBone_LockState(struct CalBone *self);
   CAL3D_WRAPPER_API struct CalBone *CalBone_New();
   CAL3D_WRAPPER_API void CalBone_SetSkeleton(struct CalBone *self, struct CalSkeleton *pSkeleton);
+  CAL3D_WRAPPER_API void CalBone_SetTranslation(struct CalBone *self, struct CalVector *pTranslation);
+  CAL3D_WRAPPER_API void CalBone_SetRotation(struct CalBone *self, struct CalQuaternion *pRotation);
+  CAL3D_WRAPPER_API void CalBone_SetCoreState(struct CalBone *self);
+  CAL3D_WRAPPER_API void CalBone_SetCoreStateRecursive(struct CalBone *self);
+
 
 //****************************************************************************//
 // CalCoreAnimation wrapper functions declaration                             //
@@ -364,6 +369,8 @@ extern "C"
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetSpring(struct CalCoreSubmesh *self, int springId, struct CalCoreSubmesh::Spring *pSpring);
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetTextureCoordinate(struct CalCoreSubmesh *self, int vertexId, int textureCoordinateId, struct CalCoreSubmesh::TextureCoordinate *pTextureCoordinate);
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetVertex(struct CalCoreSubmesh *self, int vertexId, struct CalCoreSubmesh::Vertex *pVertex);
+CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_TangentsEnabled(struct CalCoreSubmesh *self, int mapId);
+CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled);
 
 //****************************************************************************//
 // CalCoreTrack wrapper functions declaration                                 //
@@ -486,7 +493,8 @@ extern "C"
   CAL3D_WRAPPER_API int CalPhysique_CalculateNormals(struct CalPhysique *self, struct CalSubmesh *pSubmesh, float *pNormalBuffer);
   CAL3D_WRAPPER_API int CalPhysique_CalculateVertices(struct CalPhysique *self, struct CalSubmesh *pSubmesh, float *pVertexBuffer);
   CAL3D_WRAPPER_API int CalPhysique_CalculateVerticesAndNormals(struct CalPhysique *self, struct CalSubmesh *pSubmesh, float *pVertexBuffer);
-  CAL3D_WRAPPER_API int CalPhysique_CalculateVerticesNormalsAndTexCoords(struct CalPhysique *self, struct CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords);  
+  CAL3D_WRAPPER_API int CalPhysique_CalculateVerticesNormalsAndTexCoords(struct CalPhysique *self, struct CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords);
+  CAL3D_WRAPPER_API int CalPhysique_CalculateTangentSpaces(struct CalPhysique *self, struct CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer);
   CAL3D_WRAPPER_API enum Boolean CalPhysique_Create(struct CalPhysique *self, struct CalModel *pModel);
   CAL3D_WRAPPER_API void CalPhysique_Delete(struct CalPhysique *self);
   CAL3D_WRAPPER_API void CalPhysique_Destroy(struct CalPhysique *self);
@@ -538,6 +546,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalRenderer_GetVertices(struct CalRenderer *self, float *pVertexBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetVerticesAndNormals(struct CalRenderer *self, float *pVertexBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetVerticesNormalsAndTexCoords(struct CalRenderer *self, float *pVertexBuffer, int NumTexCoords);
+  CAL3D_WRAPPER_API int CalRenderer_GetTangentSpaces(struct CalRenderer *self, int mapId, float *pTangentSpaceBuffer);
   CAL3D_WRAPPER_API struct CalRenderer *CalRenderer_New();
   CAL3D_WRAPPER_API enum Boolean CalRenderer_SelectMeshSubmesh(struct CalRenderer *self, int meshId, int submeshId);
 
