@@ -160,7 +160,7 @@ bool CalBufferSource::readString(std::string& strValue)
 
    bool result = CalPlatform::readString( ((char*)mInputBuffer+mOffset), strValue );
 
-   mOffset += (strValue.length() + 4);
+   mOffset += (strValue.length() + 4 + 1); // +1 is for Null-terminator
    
    return result;
 }
