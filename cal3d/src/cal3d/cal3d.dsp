@@ -43,7 +43,8 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /Ob1 /Gy /I "src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /FR /GF /c
-# ADD CPP /nologo /MD /W3 /GX /Ob1 /Gy /I ".." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /FR /GF /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /Ob1 /I ".." /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "CAL3D_EXPORTS" /D "_MBCS" /GF /c
+# SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x807 /d "NDEBUG"
@@ -297,6 +298,7 @@ DEP_CPP_COREME=\
 	".\coresubmorphtarget.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
 	".\vector.h"\
 	
@@ -361,6 +363,7 @@ DEP_CPP_CORESU=\
 	".\coresubmesh.h"\
 	".\coresubmorphtarget.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
 	".\vector.h"\
 	
@@ -374,6 +377,7 @@ SOURCE=.\coresubmorphtarget.cpp
 DEP_CPP_CORESUB=\
 	".\coresubmorphtarget.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
 	".\vector.h"\
 	
@@ -499,6 +503,7 @@ DEP_CPP_MESH_=\
 	".\coresubmesh.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\mesh.h"\
 	".\model.h"\
 	".\platform.h"\
@@ -575,6 +580,7 @@ DEP_CPP_MORPH=\
 	".\coresubmesh.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\mesh.h"\
 	".\model.h"\
 	".\morphtargetmixer.h"\
@@ -717,6 +723,7 @@ DEP_CPP_SPRIN=\
 	".\coresubmesh.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\mesh.h"\
 	".\model.h"\
 	".\platform.h"\
@@ -749,6 +756,7 @@ DEP_CPP_SUBME=\
 	".\coresubmesh.h"\
 	".\error.h"\
 	".\global.h"\
+	".\matrix.h"\
 	".\platform.h"\
 	".\submesh.h"\
 	".\vector.h"\

@@ -10,6 +10,7 @@ o-----------------------------------------------------------------------------o
   - CalHardwareModel : a object to store and to compute information
     needed to do hardware vertex skinning
   - Add a time factor to allow reverse time of sync animation.
+  - Most of the math functions are now inline.  
 
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 
