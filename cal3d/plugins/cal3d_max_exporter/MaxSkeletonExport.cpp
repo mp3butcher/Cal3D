@@ -86,6 +86,35 @@ int CMaxSkeletonExport::DoExport(const TCHAR *name, ExpInterface *ei, Interface 
 	return 1;
 }
 
+int CMaxSkeletonExport::ExportSkeletonFromMaxscriptCall(const TCHAR *name, INodeTab& _tabnode, bool bShowUI)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// create an export interface for 3d studio max and set automatically the bones to export from Maxscript
+	CMaxInterface maxInterface;
+	if(!maxInterface.Create(NULL, GetCOREInterface(),_tabnode))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// create an exporter instance 
+	if(!theExporter.Create(&maxInterface))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// export the skeleton
+	if(!theExporter.ExportSkeletonFromMaxscriptCall(name, bShowUI))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	return 1;
+}
+
 const TCHAR *CMaxSkeletonExport::Ext(int i)
 {
 	switch(i)

@@ -76,7 +76,7 @@ int CMaxMaterialExport::DoExport(const TCHAR *name, ExpInterface *ei, Interface 
 		return 0;
 	}
 
-	// export the skeleton
+	// export the materials
 	if(!theExporter.ExportMaterial(name))
 	{
 		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
@@ -138,3 +138,33 @@ unsigned int CMaxMaterialExport::Version()
 }
 
 //----------------------------------------------------------------------------//
+bool CMaxMaterialExport::ExportMaterialFromMaxscriptCall(const char* fullpathfilename, StdMat* _stdmatfrommaxscript)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// create an export interface for 3d studio max
+	CMaxInterface maxInterface;
+	
+	//Set the tab of materials into our Max interface
+	if(! maxInterface.Create(NULL, GetCOREInterface(), _stdmatfrommaxscript))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// create an exporter instance
+	if(!theExporter.Create(&maxInterface))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// export the materials
+	if(!theExporter.ExportMaterialFromMaxscriptCall(fullpathfilename))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	return 1;	
+}

@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=cal3d_max_exporter - Win32 Debug
+CFG=cal3d_max_exporter - Win32 Debug Max 5
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,12 +13,15 @@ CFG=cal3d_max_exporter - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "cal3d_max_exporter.mak" CFG="cal3d_max_exporter - Win32 Debug"
+!MESSAGE NMAKE /f "cal3d_max_exporter.mak" CFG="cal3d_max_exporter - Win32 Debug Max 5"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
 !MESSAGE "cal3d_max_exporter - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "cal3d_max_exporter - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "cal3d_max_exporter - Win32 Release Max 6" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "cal3d_max_exporter - Win32 Debug Max 6" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "cal3d_max_exporter - Win32 Debug Max 5" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -81,12 +84,108 @@ LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
 
+!ELSEIF  "$(CFG)" == "cal3d_max_exporter - Win32 Release Max 6"
+
+# PROP BASE Use_MFC 6
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "cal3d_max_exporter___Win32_Release_Max_6"
+# PROP BASE Intermediate_Dir "cal3d_max_exporter___Win32_Release_Max_6"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 6
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "cal3d_max_exporter___Win32_Release_Max_6"
+# PROP Intermediate_Dir "cal3d_max_exporter___Win32_Release_Max_6"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MD /W3 /GR /GX /O2 /I "..\src" /I "..\src\win32" /I "..\..\src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\src" /I "..\src\win32" /I "..\..\src" /I "c:\3dsmax6\maxsdk\include" /I "c:\3dsmax6\maxsdk\cssdk\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
+# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD BASE RSC /l 0x807 /d "NDEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x807 /d "NDEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /machine:I386 /out:"..\..\bin\Release\cal3d_max_exporter.dle" /libpath:"..\..\cal3d\Release" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib cal3D.lib /nologo /subsystem:windows /dll /machine:I386 /out:"..\..\bin\Release\cal3d_max_exporter_DL3D.dle" /libpath:"..\..\cal3d\Release" /libpath:"C:\3dsmax6\Maxsdk\lib" /libpath:"..\..\bin\release"
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=copy ..\..\bin\Release\cal3d_max_exporter_DL3D.dle c:\3dsmax6\plugins
+# End Special Build Tool
+
+!ELSEIF  "$(CFG)" == "cal3d_max_exporter - Win32 Debug Max 6"
+
+# PROP BASE Use_MFC 6
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "cal3d_max_exporter___Win32_Debug_Max_6"
+# PROP BASE Intermediate_Dir "cal3d_max_exporter___Win32_Debug_Max_6"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 6
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "cal3d_max_exporter___Win32_Debug_Max_6"
+# PROP Intermediate_Dir "cal3d_max_exporter___Win32_Debug_Max_6"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\src" /I "..\src\win32" /I "..\..\src" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\src" /I "..\src\win32" /I "..\..\src" /I "c:\3dsmax6\maxsdk\include" /I "c:\3dsmax6\maxsdk\cssdk\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD BASE RSC /l 0x807 /d "_DEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x807 /d "_DEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib cal3D_d.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter_DL3D.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\3dsmax6\Maxsdk\lib" /libpath:"..\..\bin\debug"
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=copy ..\..\bin\Debug\cal3d_max_exporter_DL3D.dle c:\3dsmax6\plugins
+# End Special Build Tool
+
+!ELSEIF  "$(CFG)" == "cal3d_max_exporter - Win32 Debug Max 5"
+
+# PROP BASE Use_MFC 6
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "cal3d_max_exporter___Win32_Debug_Max_5"
+# PROP BASE Intermediate_Dir "cal3d_max_exporter___Win32_Debug_Max_5"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 6
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "cal3d_max_exporter___Win32_Debug_Max_5"
+# PROP Intermediate_Dir "cal3d_max_exporter___Win32_Debug_Max_5"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\src" /I "..\src\win32" /I "..\..\src" /I "c:\3dsmax6\maxsdk\include" /I "c:\3dsmax6\maxsdk\cssdk\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\src" /I "..\src\win32" /I "..\..\src" /I "c:\3dsmax5\maxsdk\include" /I "c:\3dsmax6\maxsdk\cssdk\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD BASE RSC /l 0x807 /d "_DEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x807 /d "_DEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib cal3D_d.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter_DL3D.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\3dsmax6\Maxsdk\lib" /libpath:"..\..\bin\debug"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib cal3D_d.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter_DL3D.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\3dsmax5\Maxsdk\lib" /libpath:"..\..\bin\debug"
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=copy ..\..\bin\Debug\cal3d_max_exporter_DL3D.dle c:\3dsmax5\plugins
+# End Special Build Tool
+
 !ENDIF 
 
 # Begin Target
 
 # Name "cal3d_max_exporter - Win32 Release"
 # Name "cal3d_max_exporter - Win32 Debug"
+# Name "cal3d_max_exporter - Win32 Release Max 6"
+# Name "cal3d_max_exporter - Win32 Debug Max 6"
+# Name "cal3d_max_exporter - Win32 Debug Max 5"
 # Begin Group "Quellcodedateien"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -180,6 +279,10 @@ SOURCE=.\MaxAnimationExportDesc.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MaxAnimationExportMaxscriptCall.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MaxInterface.cpp
 # End Source File
 # Begin Source File
@@ -196,6 +299,10 @@ SOURCE=.\MaxMaterialExportDesc.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MaxMaterialExportMaxscriptCall.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MaxMesh.cpp
 # End Source File
 # Begin Source File
@@ -205,6 +312,10 @@ SOURCE=.\MaxMeshExport.cpp
 # Begin Source File
 
 SOURCE=.\MaxMeshExportDesc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MaxMeshExportMaxscriptCall.cpp
 # End Source File
 # Begin Source File
 
@@ -221,6 +332,10 @@ SOURCE=.\MaxSkeletonExport.cpp
 # Begin Source File
 
 SOURCE=.\MaxSkeletonExportDesc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MaxSkeletonExportMaxscriptCall.cpp
 # End Source File
 # Begin Source File
 

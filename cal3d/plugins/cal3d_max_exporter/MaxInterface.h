@@ -57,6 +57,17 @@ public:
 // member functions
 public:
 	bool Create(ExpInterface *pExpInterface, Interface *pInterface);
+
+	bool Create(ExpInterface *pExpInterface, Interface *pInterface, INodeTab&	_TabNodeFromMaxScript);
+	bool Create(ExpInterface *pExpInterface, Interface *pInterface, StdMat*		_MatFromMaxScript);
+
+	int			GetNumNodesInTabNodeFromMaxscript(void);
+	INode*		GetNodeInTabNodeFromMaxscript(int idx);
+	CBaseNode*	GetNodeFromMaxscriptArray(int nodeId);
+
+	StdMat*			GetStdMatFromMaxscript();
+	CBaseMaterial*	GetBaseMatFromMaxscript();
+
 	int GetCurrentFrame();
 	float GetCurrentTime();
 	int GetEndFrame();
@@ -81,6 +92,9 @@ public:
 protected:
 	Matrix3 GetNodeTM(CMaxNode *pNode, float time);
 	bool IsBipedBone(INode *pNode);
+
+	INodeTab	m_TabNodeFromMaxScript;
+	StdMat*		m_MatFromMaxScript;
 private:
 	int GetSubMaterialCount(Mtl *pMtl);
 	CBaseMaterial *GetSubMaterial(int materialId, Mtl *pMtl,int & materialCount);

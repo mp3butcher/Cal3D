@@ -24,6 +24,8 @@ public:
 
 // interface functions	
 public:
+	static bool ExportMaterialFromMaxscriptCall(const char* fullpathfilename, StdMat* _stdmatfrommaxscript);
+
 	const TCHAR *AuthorName();
 	const TCHAR *CopyrightMessage();
 	int DoExport(const TCHAR *name, ExpInterface *ei, Interface *i, BOOL suppressPrompts, DWORD options);

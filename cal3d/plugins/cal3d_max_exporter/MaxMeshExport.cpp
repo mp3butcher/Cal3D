@@ -138,3 +138,48 @@ unsigned int CMaxMeshExport::Version()
 }
 
 //----------------------------------------------------------------------------//
+MeshMaxscriptExportParams::MeshMaxscriptExportParams(INode* _MeshNode, const char* _SkeletonFilename, int _MaxNumBonesPerVertex, float _WeightThreshold, int _LODCreation, int _springsystem)
+{
+	m_MeshNode				= _MeshNode;
+	m_SkeletonFilename		= strdup(_SkeletonFilename);
+	m_MaxNumBonesPerVertex	= _MaxNumBonesPerVertex;
+	m_WeightThreshold		= _WeightThreshold;
+	m_LODCreation			= _LODCreation;
+	m_springsystem			= _springsystem;
+}
+
+MeshMaxscriptExportParams::~MeshMaxscriptExportParams()
+{
+	if (m_SkeletonFilename)
+		delete m_SkeletonFilename;
+	m_SkeletonFilename = NULL;
+}
+
+int CMaxMeshExport::ExportMeshFromMaxscriptCall(const TCHAR *name, const MeshMaxscriptExportParams& _param)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// create an export interface for 3d studio max
+	CMaxInterface maxInterface;
+	if(!maxInterface.Create(NULL, GetCOREInterface()))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// create an exporter instance
+	if(!theExporter.Create(&maxInterface))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// export the mesh
+	if(!theExporter.ExportMeshFromMaxscriptCall(name, (void*)&_param))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	return 1;	
+}

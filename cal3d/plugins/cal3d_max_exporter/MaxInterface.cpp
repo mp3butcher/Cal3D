@@ -37,8 +37,13 @@ static char THIS_FILE[] = __FILE__;
 CMaxInterface::CMaxInterface()
 {
 	m_pExpInterface = 0;
-	m_pInterface = 0;
+	m_pInterface	= 0;
+
+	m_TabNodeFromMaxScript.ZeroCount();
+	m_MatFromMaxScript = 0;
 }
+
+
 
 //----------------------------------------------------------------------------//
 // Destructor                                                                 //
@@ -51,11 +56,47 @@ CMaxInterface::~CMaxInterface()
 //----------------------------------------------------------------------------//
 // Create a max interface instance                                            //
 //----------------------------------------------------------------------------//
-
 bool CMaxInterface::Create(ExpInterface *pExpInterface, Interface *pInterface)
 {
 	m_pExpInterface = pExpInterface;
 	m_pInterface = pInterface;
+
+	return true;
+}
+
+//----------------------------------------------------------------------------//
+// Create a max interface instance and set the Tab node from Maxscript        //
+//----------------------------------------------------------------------------//
+bool CMaxInterface::Create(ExpInterface *pExpInterface, Interface *pInterface, INodeTab& _TabNodeFromMaxScript)
+{
+	int i = 0;
+	m_pExpInterface = pExpInterface;
+	m_pInterface	= pInterface;
+
+	const int tabsize = _TabNodeFromMaxScript.Count();
+	for (i=0;i<tabsize;i++)
+	{
+		INode* node = _TabNodeFromMaxScript[i];
+		if (!node)return false;
+
+		m_TabNodeFromMaxScript.Append(1,&node);
+	}
+
+	return true;
+}
+
+//----------------------------------------------------------------------------//
+// Create a max interface instance and set the Tab materials from Maxscript   //
+//----------------------------------------------------------------------------//
+bool CMaxInterface::Create(ExpInterface *pExpInterface, Interface *pInterface, StdMat* _MatFromMaxScript)
+{
+	int i = 0;
+	m_pExpInterface = pExpInterface;
+	m_pInterface	= pInterface;
+	
+	if (! _MatFromMaxScript)return false;
+
+	m_MatFromMaxScript = _MatFromMaxScript;
 
 	return true;
 }
@@ -531,6 +572,106 @@ CBaseNode *CMaxInterface::GetSelectedNode(int nodeId)
 }
 
 //----------------------------------------------------------------------------//
+// Get the node for a given node id                                           //
+//----------------------------------------------------------------------------//
+CBaseNode *CMaxInterface::GetNodeFromMaxscriptArray(int nodeId)
+{
+	// Get the number of nodes in array
+	int nodeCount;
+	nodeCount = m_TabNodeFromMaxScript.Count();
+
+	// if nothing is selected, we go with the scene root node
+	if(nodeCount == 0)
+	{
+		// check if the given node id is valid
+		if(nodeId == 0)
+		{
+			// allocate a new max node instance
+			CMaxNode *pNode;
+			pNode = new CMaxNode();
+			if(pNode == 0)
+			{
+				theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+				return 0;
+			}
+
+			// create the max node
+			if(!pNode->Create(m_pInterface->GetRootNode()))
+			{
+				delete pNode;
+				return 0;
+			}
+
+			return pNode;
+		}
+
+		// invalid node id requested!
+		return 0;
+	}
+
+	// check if the given node id is valid
+	if((nodeId < 0) || (nodeId >= nodeCount))
+	{
+		theExporter.SetLastError("Invalid index.", __FILE__, __LINE__);
+		return 0;
+	}
+
+	// allocate a new max node instance
+	CMaxNode *pNode;
+	pNode = new CMaxNode();
+	if(pNode == 0)
+	{
+		theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+		return 0;
+	}
+
+	// create the max node from index in array
+	if(!pNode->Create( m_TabNodeFromMaxScript[nodeId] ))
+	{
+		delete pNode;
+		return 0;
+	}
+
+	return pNode;
+}
+
+CBaseMaterial* CMaxInterface::GetBaseMatFromMaxscript()
+{
+	// check if it is a material
+	if(m_MatFromMaxScript->SuperClassID()==MATERIAL_CLASS_ID)
+	{
+		// get the material
+		Mtl *pMtl;
+		pMtl = (Mtl *)m_MatFromMaxScript;
+
+		// check if we have a standard material
+		if(pMtl->ClassID() == Class_ID(DMTL_CLASS_ID, 0))
+		{
+			// allocate a new max material instance
+			CMaxMaterial *pMaxMaterial;
+			pMaxMaterial = new CMaxMaterial();
+			if(pMaxMaterial == 0)
+			{
+				theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+				return 0;
+			}
+
+			// create the max material
+			if(! pMaxMaterial->Create((StdMat *)pMtl))
+			{
+				delete pMaxMaterial;
+				return 0;
+			}
+
+			return pMaxMaterial;
+		}
+	}
+
+	theExporter.SetLastError("Invalid material index.", __FILE__, __LINE__);
+	return 0;
+}
+
+//----------------------------------------------------------------------------//
 // Get the start frame of the animation                                       //
 //----------------------------------------------------------------------------//
 
@@ -781,3 +922,28 @@ void CMaxInterface::StopProgressInfo()
 }
 
 //----------------------------------------------------------------------------//
+// Get the number of nodes in the tab that has been filled by Maxscript       //
+//----------------------------------------------------------------------------//
+int  CMaxInterface::GetNumNodesInTabNodeFromMaxscript(void)
+{
+	return m_TabNodeFromMaxScript.Count();
+}
+
+//----------------------------------------------------------------------------//
+// Get node in the tab that has been filled by Maxscript from its index  //
+//----------------------------------------------------------------------------//
+INode* CMaxInterface::GetNodeInTabNodeFromMaxscript(int idx)
+{
+	const int num = m_TabNodeFromMaxScript.Count();
+	if (idx <0 || idx >= num) return NULL;
+	
+	return m_TabNodeFromMaxScript[idx];
+}
+
+//----------------------------------------------------------------------------//
+// Get material in the tab that has been filled by Maxscript from its index  //
+//----------------------------------------------------------------------------//
+StdMat* CMaxInterface::GetStdMatFromMaxscript()
+{
+	return m_MatFromMaxScript;
+}

@@ -1,0 +1,7 @@
+name "cal3D - Export - 1.02.00"
+description "Export Skin (Automatic) and Physique (may be manually if more than one biped is present)"
+description "MZP made with ScriptPacker"
+extract To $Temp\mzp_cmzmoyyxuf
+clear temp on MAX exit
+run msrun.ms
+drop msrun.ms

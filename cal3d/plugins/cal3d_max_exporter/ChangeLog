@@ -9,7 +9,10 @@ o-----------------------------------------------------------------------------o
 
   - Fixed the animation export so that the motion wraps are exported in the
     correct way.
-
+  - Added maxscript API implementation
+  - Added single window GUI based on the maxscript API 
+    zip 'cal3D - Export.mzp' msrun.ms mzp.run '#scripts/export_cal3D/'[a-z]*
+  - Any object type can be a bone
 
 o-----------------------------------------------------------------------------o
 | Version 0.7 (5. January 2002)                                               |

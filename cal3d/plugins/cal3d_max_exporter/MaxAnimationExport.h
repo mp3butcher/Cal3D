@@ -11,10 +11,24 @@
 #ifndef MAX_ANIMATION_EXPORT_H
 #define MAX_ANIMATION_EXPORT_H
 
+class AnimExportParams
+{
+	AnimExportParams();
+public:
+	AnimExportParams(const char* _skeletonfilepath, INodeTab& _tabbones, int startframe, int endframe, int frameoffset, int framerate);
+	~AnimExportParams();
+	
+	char*		m_skeletonfilepath;
+	int			m_startframe;
+	int			m_endframe;
+	int			m_frameoffset;
+	int			m_framerate;
+	INodeTab	m_tabbones;
+};
+
 //----------------------------------------------------------------------------//
 // Class declaration                                                          //
 //----------------------------------------------------------------------------//
-
 class CMaxAnimationExport : public SceneExport
 {
 // constructors/destructor
@@ -35,6 +49,8 @@ public:
 	const TCHAR *ShortDesc();
 	void ShowAbout(HWND hWnd);
 	unsigned int Version();
+
+	static bool ExportAnimationFromMaxscriptCall(const TCHAR *name, AnimExportParams* _animexportparams);
 };
 
 #endif

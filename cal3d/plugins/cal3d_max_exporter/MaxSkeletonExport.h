@@ -24,6 +24,9 @@ public:
 
 // interface functions	
 public:
+
+	static int ExportSkeletonFromMaxscriptCall(const TCHAR *name, INodeTab& _tabnode, bool bShowUI);
+
 	const TCHAR *AuthorName();
 	const TCHAR *CopyrightMessage();
 	int DoExport(const TCHAR *name, ExpInterface *ei, Interface *i, BOOL suppressPrompts, DWORD options);

@@ -126,7 +126,7 @@ bool CMaxMesh::CreateMaterial(Mtl *pMtl)
 	// check for valid material
 	if(pMtl == 0)
 	{
-		theExporter.SetLastError("Invalid handle.", __FILE__, __LINE__);
+		theExporter.SetLastError("Invalid material, please set a material on the node.", __FILE__, __LINE__);
 		return false;
 	}
 

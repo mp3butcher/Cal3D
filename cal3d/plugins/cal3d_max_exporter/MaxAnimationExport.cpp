@@ -137,4 +137,63 @@ unsigned int CMaxAnimationExport::Version()
 	return 50;
 }
 
+bool CMaxAnimationExport::ExportAnimationFromMaxscriptCall(const TCHAR *name, AnimExportParams* _animexportparams)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// create an export interface for 3d studio max
+	CMaxInterface maxInterface;
+	if(!maxInterface.Create(NULL, GetCOREInterface()))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// create an exporter instance
+	if(!theExporter.Create(&maxInterface))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	// export the animation
+	if(! theExporter.ExportAnimationFromMaxscriptCall(name, (void*)_animexportparams))
+	{
+		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		return 0;
+	}
+
+	return 1;
+}
+
 //----------------------------------------------------------------------------//
+
+AnimExportParams::AnimExportParams(const char* _skeletonfilepath, INodeTab& _tabbones, int _startframe, int _endframe, int _frameoffset, int _framerate)
+{
+	int i = 0;
+
+	m_skeletonfilepath	= strdup(_skeletonfilepath);
+	m_startframe		= _startframe;
+	m_endframe			= _endframe;
+	m_frameoffset		= _frameoffset;
+	m_framerate			= _framerate;
+
+	//Copy thr array of nodes
+	m_tabbones.ZeroCount();
+	const int num = _tabbones.Count();
+	for (i=0;i<num;i++)
+	{
+		INode* node = _tabbones[i];
+		m_tabbones.Append(1,&node);
+	}
+}
+
+AnimExportParams::~AnimExportParams()
+{
+	if (m_skeletonfilepath)
+	{
+		delete m_skeletonfilepath;
+		m_skeletonfilepath = NULL;
+	}
+}
+
