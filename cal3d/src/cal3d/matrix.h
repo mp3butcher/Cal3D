@@ -41,9 +41,9 @@ public:
 	
 	// constructors/destructor
 public:
-	inline CalMatrix()	: dxdx(0.0), dxdy(0.0), dxdz(0.0),
-		dydx(0.0), dydy(0.0), dydz(0.0),
-		dzdx(0.0), dzdy(0.0), dzdz(0.0)
+	inline CalMatrix()	: dxdx(0.0), dydx(0.0), dzdx(0.0),
+		dxdy(0.0), dydy(0.0), dzdy(0.0),
+		dxdz(0.0), dydz(0.0), dzdz(0.0)
 	{
 	}
 	
@@ -90,38 +90,38 @@ public:
 		float ndzdz=m.dzdx*dxdz+m.dzdy*dydz+m.dzdz*dzdz;
 		
 		dxdx=ndxdx;
-		dxdy=ndxdy;
-		dxdz=ndxdz;
 		dydx=ndydx;
-		dydy=ndydy;
-		dydz=ndydz;
 		dzdx=ndzdx;
+		dxdy=ndxdy;
+		dydy=ndydy;
 		dzdy=ndzdy;
+		dxdz=ndxdz;
+		dydz=ndydz;
 		dzdz=ndzdz;
 	}
 	
 	inline void operator *= (float factor)
 	{
 		dxdx *= factor;
-		dxdy *= factor;
-		dxdz *= factor;
 		dydx *= factor;
-		dydy *= factor;
-		dydz *= factor;
 		dzdx *= factor;
+		dxdy *= factor;
+		dydy *= factor;
 		dzdy *= factor;
+		dxdz *= factor;
+		dydz *= factor;
 		dzdz *= factor;
 	}
 	inline void blend(float factor, const CalMatrix& m)
 	{
 		dxdx += m.dxdx*factor;
-		dxdy += m.dxdy*factor;
-		dxdz += m.dxdz*factor;
 		dydx += m.dydx*factor;
-		dydy += m.dydy*factor;
-		dydz += m.dydz*factor;
 		dzdx += m.dzdx*factor;
+		dxdy += m.dxdy*factor;
+		dydy += m.dydy*factor;
 		dzdy += m.dzdy*factor;
+		dxdz += m.dxdz*factor;
+		dydz += m.dydz*factor;
 		dzdz += m.dzdz*factor;
 	}
 	
