@@ -2,8 +2,10 @@ o-----------------------------------------------------------------------------o
 |                             C h a n g e L o g                               |
 o-----------------------------------------------------------------------------o
 
-
-
+  - Made the refcounted classes derive from RefCounted, and manage
+    their lifetimes with RefPtr smart pointers.
+  - Put TinyXML into the cal3d namespace so it doesn't conflict with other
+    libraries linking with their own TinyXML.
   - Fixed bug in updating current anim time when time factor is set to negative,
     which resuilted in anim times like -32 instead of between 0 and 2 seconds, 
     for example.  This threw the bone extrapolations way off and made the model
