@@ -41,6 +41,19 @@ CalRenderer::CalRenderer()
 }
 
  /*****************************************************************************/
+/** Copy-constructor for the renderer instance.
+  *
+  * This function is the copy constructor of the renderer instance.
+  * This is useful for multi-pipe parallel rendering.
+  *****************************************************************************/
+
+CalRenderer::CalRenderer(CalRenderer* pRenderer)
+{
+  m_pModel = pRenderer->m_pModel ;
+  m_pSelectedSubmesh = pRenderer->m_pSelectedSubmesh ;
+}
+
+ /*****************************************************************************/
 /** Destructs the renderer instance.
   *
   * This function is the destructor of the renderer instance.
