@@ -20,6 +20,7 @@
 #include "cal3d/error.h"
 #include "cal3d/bone.h"
 #include "cal3d/coreskeleton.h"
+#include "cal3d/coremodel.h"
 #include "cal3d/corebone.h" // DEBUG
 
  /*****************************************************************************/
@@ -269,6 +270,24 @@ void CalSkeleton::getBoneBoundingBox(float *min, float *max)
       min[2] = translation[2];
 
   }
+
+}
+ /*****************************************************************************/
+/** Calculates bounding boxes.
+  *
+  * This function Calculates the bounding box of every bone in the Skeleton.
+  *
+  * @param pCoreModel The coreModel (needed for vertices data).
+  *****************************************************************************/
+
+
+void CalSkeleton::calculateBoundingBox()
+{
+   int boneId;
+   for(boneId=0;boneId<m_vectorBone.size();++boneId)
+   {
+      m_vectorBone[boneId]->calculateBoundingBox();
+   }
 
 }
 

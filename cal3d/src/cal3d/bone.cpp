@@ -18,8 +18,12 @@
 
 #include "cal3d/error.h"
 #include "cal3d/bone.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coresubmesh.h"
 #include "cal3d/corebone.h"
 #include "cal3d/skeleton.h"
+#include "cal3d/coreskeleton.h"
 
  /*****************************************************************************/
 /** Constructs the bone instance.
@@ -434,5 +438,79 @@ void CalBone::setSkeleton(CalSkeleton *pSkeleton)
 {
   m_pSkeleton = pSkeleton;
 }
+
+ /*****************************************************************************/
+/** Calculates the bounding box.
+  *
+  * This function Calculates the bounding box of the bone instance.
+  *
+  *****************************************************************************/
+
+
+void CalBone::calculateBoundingBox()
+{
+   int boneId =  m_pSkeleton->getCoreSkeleton()->getCoreBoneId(getCoreBone()->getName());
+
+   
+   CalVector dir = CalVector(1.0f,0.0f,0.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[0].setNormal(dir);
+
+   dir = CalVector(-1.0f,0.0f,0.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[1].setNormal(dir);
+
+   dir = CalVector(0.0f,1.0f,0.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[2].setNormal(dir);
+
+   dir = CalVector(0.0f,-1.0f,0.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[3].setNormal(dir);
+
+   dir = CalVector(0.0f,0.0f,1.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[4].setNormal(dir);
+
+   dir = CalVector(0.0f,0.0f,-1.0f);
+   dir*=getTransformMatrix();
+   m_boundingBox.plane[5].setNormal(dir);
+   
+   int i;
+   
+   for(i=0;i< 6; i++)
+   {
+       CalVector position;
+       getCoreBone()->getBoundingData(i,position);
+      
+       position*=getTransformMatrix();
+       position+=getTranslationBoneSpace();
+
+       int planeId;
+       for(planeId = 0; planeId < 6; ++planeId)
+       {
+          if(m_boundingBox.plane[planeId].eval(position) < 0.0f)
+          {
+             m_boundingBox.plane[planeId].setPosition(position);
+          }
+       }
+       
+   }
+}
+
+ /*****************************************************************************/
+/** Returns the current bounding box.
+  *
+  * This function returns the current bounding box of the bone instance.
+  *
+  * @return bounding box.
+  *****************************************************************************/
+
+
+CalBoundingBox & CalBone::getBoundingBox()
+{
+   return m_boundingBox;
+}
+
 
 //****************************************************************************//

@@ -22,6 +22,7 @@
 //****************************************************************************//
 
 class CalCoreSkeleton;
+class CalCoreModel;
 class CalBone;
 
 //****************************************************************************//
@@ -55,6 +56,8 @@ public:
   std::vector<CalBone *>& getVectorBone();
   void lockState();
   void getBoneBoundingBox(float *min, float *max);
+  void calculateBoundingBox();
+
 
 
 // DEBUG-CODE

@@ -22,6 +22,7 @@
 //****************************************************************************//
 
 class CalCoreBone;
+class CalCoreModel;
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -56,6 +57,8 @@ public:
   bool mapCoreBoneName(int coreBoneId, const std::string& strName);
   std::list<int>& getListRootCoreBoneId();
   std::vector<CalCoreBone *>& getVectorCoreBone();
+  void calculateBoundingBox(CalCoreModel * pCoreModel);
+  
 };
 
 #endif

@@ -156,15 +156,15 @@ void CalMatrix::operator *=(const CalMatrix &m)
   float ndxdx=m.dxdx*dxdx+m.dxdy*dydx+m.dxdz*dzdx;
   float ndydx=m.dydx*dxdx+m.dydy*dydx+m.dydz*dzdx;
   float ndzdx=m.dzdx*dxdx+m.dzdy*dydx+m.dzdz*dzdx;
-  
+
   float ndxdy=m.dxdx*dxdy+m.dxdy*dydy+m.dxdz*dzdy;
   float ndydy=m.dydx*dxdy+m.dydy*dydy+m.dydz*dzdy;
   float ndzdy=m.dzdx*dxdy+m.dzdy*dydy+m.dzdz*dzdy;
-  
+
   float ndxdz=m.dxdx*dxdz+m.dxdy*dydz+m.dxdz*dzdz;
   float ndydz=m.dydx*dxdz+m.dydy*dydz+m.dydz*dzdz;
   float ndzdz=m.dzdx*dxdz+m.dzdy*dydz+m.dzdz*dzdz;
-  
+
   dxdx=ndxdx;
   dxdy=ndxdy;
   dxdz=ndxdz;
@@ -176,5 +176,18 @@ void CalMatrix::operator *=(const CalMatrix &m)
   dzdz=ndzdz;
 }
 
+/*****************************************************************************/
+/** Matrix determinant
+  *
+  * This function compute the determinant of the matrix.
+  *****************************************************************************/
+
+
+float CalMatrix::det()
+{
+   return dxdx * (dydy*dzdz-dydz*dzdy)
+            -dxdy* ( dydx*dzdz-dzdx*dydz)
+	    +dxdz* (dydx*dzdy-dzdx*dydy);
+}
 
 //****************************************************************************//

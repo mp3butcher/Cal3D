@@ -25,10 +25,12 @@
 //****************************************************************************//
 
 class CalCoreSkeleton;
+class CalCoreModel;
 
 //****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
+
 
  /*****************************************************************************/
 /** The core bone class.
@@ -49,6 +51,10 @@ protected:
   CalVector m_translationBoneSpace;
   CalQuaternion m_rotationBoneSpace;
   Cal::UserData m_userData;
+
+  CalBoundingBox m_boundingBox;
+  CalVector m_boundingPosition[6];
+  
 
 // constructors/destructor
 public:
@@ -79,6 +85,11 @@ public:
   void setTranslation(const CalVector& translation);
   void setTranslationBoneSpace(const CalVector& translation);
   void setUserData(Cal::UserData userData);
+
+  void calculateBoundingBox(CalCoreModel * pCoreModel);
+  CalBoundingBox & getBoundingBox();
+  void getBoundingData(int planeId,CalVector & position); 
+  
 };
 
 #endif

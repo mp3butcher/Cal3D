@@ -56,7 +56,7 @@ public:
   bool clearCycle(int id, float delay);
   bool create(CalModel *pModel);
   void destroy();
-  bool executeAction(int id, float delayIn, float delayOut, float weightTarget);
+  bool executeAction(int id, float delayIn, float delayOut, float weightTarget = 1.0f);
   void updateAnimation(float deltaTime);
   void updateSkeleton();
   float getAnimationTime();

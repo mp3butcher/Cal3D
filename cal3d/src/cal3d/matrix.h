@@ -57,6 +57,7 @@ public:
   void operator *= (const CalMatrix &m);
   void operator *= (float factor);
   void blend(float d, const CalMatrix& m);
+  float det();
 };
 
 

@@ -19,13 +19,17 @@
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 #include "cal3d/matrix.h"
+#include "cal3d/corebone.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
 //****************************************************************************//
 
-class CalCoreBone;
+//class CalCoreBone;
 class CalSkeleton;
+class CalModel;
+class CalCoreModel;
+//class CalBoundingBox;
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -50,6 +54,9 @@ protected:
   CalVector m_translationBoneSpace;
   CalQuaternion m_rotationBoneSpace;
   CalMatrix m_transformMatrix;
+  
+  CalBoundingBox m_boundingBox;
+
 
 // constructors/destructor
 public:
@@ -77,6 +84,10 @@ public:
   const CalMatrix& getTransformMatrix();
   void lockState();
   void setSkeleton(CalSkeleton *pSkeleton);
+  void calculateBoundingBox();
+  CalBoundingBox & getBoundingBox();
+
+
 };
 
 #endif

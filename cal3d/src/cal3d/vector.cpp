@@ -422,4 +422,89 @@ void CalVector::set(float vx, float vy, float vz)
   z = vz;
 }
 
+ /*****************************************************************************
+  *
+  *   Functions for the plane class, they don't have real sense outside
+  *   bounding box calculation,
+  *   
+  *****************************************************************************/
+  
+  
+float CalPlane::eval(CalVector &p)
+{
+   return p.x*a+p.y*b+p.z*c+d;
+}
+
+void CalPlane::setPosition(CalVector &p)
+{
+   d=-p.x*a-p.y*b-p.z*c;
+}
+
+void CalPlane::setNormal(CalVector &p)
+{
+     a=p.x;
+     b=p.y;
+     c=p.z;
+     d=-1e32f;
+};
+
+
+ /*****************************************************************************/
+/** Computes points of a bounding box.
+  *
+  * This function computes the 8 points of a bounding box.
+  *
+  * @param p A pointer to CalVector[8], the 8 points of the bounding box
+  *****************************************************************************/
+
+
+void CalBoundingBox::computePoints(CalVector *p)
+{
+    CalMatrix m;
+     
+    int i,j,k;
+        
+    for(i=0;i<2;i++)
+       for(j=2;j<4;j++)
+           for(k=4;k<6;k++)
+        {
+           float x,y,z;
+           
+           m.dxdx=plane[i].a;m.dxdy=plane[i].b;m.dxdz=plane[i].c;        
+           m.dydx=plane[j].a;m.dydy=plane[j].b;m.dydz=plane[j].c;        
+           m.dzdx=plane[k].a;m.dzdy=plane[k].b;m.dzdz=plane[k].c;
+           
+           float det = m.det();
+           
+           if(det!=0)
+           {
+              m.dxdx=-plane[i].d;m.dxdy=plane[i].b;m.dxdz=plane[i].c;        
+              m.dydx=-plane[j].d;m.dydy=plane[j].b;m.dydz=plane[j].c;        
+              m.dzdx=-plane[k].d;m.dzdy=plane[k].b;m.dzdz=plane[k].c;
+              
+              x=m.det()/det;
+
+              m.dxdx=plane[i].a;m.dxdy=-plane[i].d;m.dxdz=plane[i].c;        
+              m.dydx=plane[j].a;m.dydy=-plane[j].d;m.dydz=plane[j].c;        
+              m.dzdx=plane[k].a;m.dzdy=-plane[k].d;m.dzdz=plane[k].c;
+              
+              y=m.det()/det;
+
+              m.dxdx=plane[i].a;m.dxdy=plane[i].b;m.dxdz=-plane[i].d;        
+              m.dydx=plane[j].a;m.dydy=plane[j].b;m.dydz=-plane[j].d;        
+              m.dzdx=plane[k].a;m.dzdy=plane[k].b;m.dzdz=-plane[k].d;
+  
+              z=m.det()/det;
+              
+              p->x=x;p->y=y;p->z=z;
+           }
+           else {p->x=0.0f;p->y=0.0f;p->z=0.0f;}
+           
+           p++;           
+        }           
+ }
+   
+
+
+
 //****************************************************************************//

@@ -19,6 +19,9 @@
 #include "cal3d/error.h"
 #include "cal3d/corebone.h"
 #include "cal3d/coreskeleton.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/coremesh.h"
+#include "cal3d/coresubmesh.h"
 
  /*****************************************************************************/
 /** Constructs the core bone instance.
@@ -381,5 +384,104 @@ void CalCoreBone::setUserData(Cal::UserData userData)
 {
   m_userData = userData;
 }
+ /*****************************************************************************/
+/** Calculates the bounding box.
+  *
+  * This function Calculates the bounding box of the core bone instance.
+  *
+  * @param pCoreModel The coreModel (needed for vertices data.
+  *****************************************************************************/
+
+void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
+{
+   int boneId =  m_pCoreSkeleton->getCoreBoneId(m_strName);
+   
+   CalQuaternion rot;
+   rot=m_rotationBoneSpace;   
+  
+   rot.invert();
+   
+   CalVector dir = CalVector(1.0f,0.0f,0.0f);
+   dir*=rot;
+   m_boundingBox.plane[0].setNormal(dir);
+
+   dir = CalVector(-1.0f,0.0f,0.0f);
+   dir*=rot;
+   m_boundingBox.plane[1].setNormal(dir);
+
+   dir = CalVector(0.0f,1.0f,0.0f);
+   dir*=rot;
+   m_boundingBox.plane[2].setNormal(dir);
+
+   dir = CalVector(0.0f,-1.0f,0.0f);
+   dir*=rot;
+   m_boundingBox.plane[3].setNormal(dir);
+
+   dir = CalVector(0.0f,0.0f,1.0f);
+   dir*=rot;
+   m_boundingBox.plane[4].setNormal(dir);
+
+   dir = CalVector(0.0f,0.0f,-1.0f);
+   dir*=rot;
+   m_boundingBox.plane[5].setNormal(dir);
+
+   int meshId;
+   for(meshId=0; meshId < pCoreModel->getCoreMeshCount(); ++meshId)
+   {
+       CalCoreMesh * pCoreMesh = pCoreModel->getCoreMesh(meshId);
+
+       int submeshId;
+       for(submeshId=0;submeshId<pCoreMesh->getCoreSubmeshCount();submeshId++)
+       {
+         CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
+         
+         if(pCoreSubmesh->getSpringCount()==0)
+{
+
+         std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
+         int vertexId;
+         for(vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
+         {
+            int influenceId;
+            for(influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
+	    {
+      	       if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId)
+	       {
+	           int planeId;
+		   for(planeId = 0; planeId < 6; ++planeId)
+		   {
+		       if(m_boundingBox.plane[planeId].eval(vectorVertex[vertexId].position) < 0.0f)
+		       {
+		          m_boundingBox.plane[planeId].setPosition(vectorVertex[vertexId].position);
+                      m_boundingPosition[planeId]=vectorVertex[vertexId].position;		          
+		       }
+		   }
+	      }
+	   }
+}	}
+      }
+   }
+}
+
+ /*****************************************************************************/
+/** Returns the current bounding box.
+  *
+  * This function returns the current bounding box of the core bone instance.
+  *
+  * @return bounding box.
+  *****************************************************************************/
+
+
+CalBoundingBox & CalCoreBone::getBoundingBox()
+{
+   return m_boundingBox;
+}
+
+void CalCoreBone::getBoundingData(int planeId,CalVector & position)
+{
+   position = m_boundingPosition[planeId];
+}
+
+
 
 //****************************************************************************//
