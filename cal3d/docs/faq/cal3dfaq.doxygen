@@ -10,42 +10,140 @@
  *
  *  <b>What is Cal3D?</b>
  *
+ *
  *  <b>What can I do with Cal3D?</b>
+ *
+ *
  *  <b>What DOESN'T Cal3D do?</b>
+ *
+ *
  *  <b>Is Cal3D stable enough to use in a game?</b>
+ *
+ *
  *  <b>Can I use Cal3D for a commercial product?</b>
+ *
+ *  The short answer is yes. Cal3D is released under the Lesser GNU Public
+ *  License (LGPL), which allows the use of Cal3D in your commercial game or
+ *  simulator or whatever.
+ *
+ *  The catch, however, is that if you make <i>changes</i> to Cal3D and use them
+ *  in a product, you are obligated to release the modified library under the
+ *  same license. 
+ *
+ * 
  *  <b>What operating systems does Cal3D work on?</b>
+ *  
+ *  Cal3D is written to be cross-platform. It works on Windows, SGI Irix, 
+ *  various flavors of Linux, Mac OS X, etc. 
+ *
+ *  Basically all you need is a decent C++ compiler with standard template
+ *  library support.
+ *
+ *
  *  <b>Can I use Cal3D with OpenGL?, Direct3D, etc?</b>
+ *
+ *  Cal3D is designed to be independent of any graphics API such as OpenGL or
+ *  DirectX. While this makes Cal3D more flexible, it does put a little more
+ *  work on the users. 
+ *
+ *  We have several examples of our miniviewer application that can show you
+ *  how to use Cal3D with various graphics APIs such as OpenGL, Direct 3D, or
+ *  even shader languages. 
+ *
+ *  Keep in mind that these examples only show one way how to do it; you are 
+ *  free to develop your own methods and techniques specific to your
+ *  application. 
+ *
+ *
  *  <b>Who else is using Cal3D?</b>
  *  
- *  Worldforge
- *  vjAvatar
- *  A Tale in the Desert
- *  Desert Rats
+ *  Worldforge - http://www.worldforge.org - This is another open source project
+ *  aimed at developing tools for massive-multiplayer online games. Cal3D was 
+ *  originally a part of Worldforge, but became a standalone tool.
+ *
+ *  A Tale in the Desert - http://www.atitd.com - ATITD is a very unique 
+ *  massive-multiplayer online roleplaying game where strategy and management 
+ *  take precedence over traditional combat. eGenesis used a derivative of Cal3D
+ *  that they developed, which is also available on their "download" page. 
+ *
+ *  Desert Rats - http://www.valusoft.com/products/desertrats.html - A WW2 
+ *  action game where you fight the Nazis in northern Africa from a heavily
+ *  armed jeep.
+ *
+ *  Neverending ODC - http://ne-odc.sourceforge.net - Tools to design and edit
+ *  massive 3D fantasy worlds. 
+ *
+ *  If you know of anyone else using Cal3D, let us know!
  *  
  *
  *  @section Character Modeling
  *
  *  <b>How do I make new characters?</b>
+ *
+ *
  *  <b>What modeling packages does Cal3D support?</b>
+ *
+ *
  *  <b>How do I export from 3D Studio MAX to Cal3D?</b>
+ *
+ *
  *  <b>Why does the exporter crash?</b>
+ *
+ *
  *  <b>Is there an exporter for Maya?</b>
+ *
+ *
  *  <b>Is there an exporter for Blender?</b>
  *
  *
  *  @section Programming
  *
  *  <b>Are there Python bindings for Cal3D?</b>
+ * 
+ *  Yes. The Py3D project has Python bindings for Cal3D. You can get them at
+ *  the Py3D website:
+ *
+ *  http://www.py3d.org/pycal3d
+ *
+ *
  *  <b>What coordinate system does Cal3D use?</b>
+ *
+ *  Cal3D characters exported from a modeling package such as 3DSMax or 
+ *  Milkshape will be in the same coordinate system as the package. For 
+ *  instance, a model exported from MAX and loaded for use in an OpenGL
+ *  application will require a -90-degree rotation about the X-axis to be
+ *  converted to the OpenGL coordinate system.
+ *
+ *
  *  <b>Why are there classes and core classes?</b>
  *
  *
  *  @section Compiling Cal3D
  * 
- *  <b>Where is the bipexp.h file?</b>
- *  <b>What versions of MAX does Cal3D's exporter plugin work with?</b>
+ *  <b>What do I need to compile the exporters in Windows?</b>
+ * 
+ *  In order to compile the 3D Studio MAX exporter, you need the 3DSMax SDK
+ *  (Software Development Kit) and the Character Studio SDK. When you install
+ *  MAX and/or Character Studio, there will be an option to also install the
+ *  SDKs. 
  *
+ *  For the Milkshape exporter, you need to get the Milkshape SDK, which is
+ *  available separately from their website:
+ *
+ *  http://www.swissquake.ch/chumbalum-soft/ms3d/download.html
+ *
+ *
+ *  <b>Where is the biped.h / bipexp.h / phyexp.h file?</b>
+ *
+ *  You need to have the Character Studio SDK installed, which contains these
+ *  header files.
+ *
+ *
+ *  <b>Do I need a specific version of 3D Studio MAX to use the exporters?</b>
+ *
+ *  Cal3D's exporters are known to work with 3DSMax 3, 4, and 5. This includes
+ *  Character Studio 4 as well.
+ *  
  *
  *
  *
