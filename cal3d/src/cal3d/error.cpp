@@ -134,6 +134,9 @@ std::string CalError::getLastErrorDescription()
     case NULL_BUFFER:
       return "Memory buffer is null";
       break;
+    case INVALID_MIXER_TYPE:
+      return "The CalModel mixer is not a CalMixer instance";
+      break;
     default:
       break;
   }

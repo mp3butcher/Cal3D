@@ -51,6 +51,7 @@ public:
     NO_MESH_IN_MODEL,
     BAD_DATA_SOURCE,
     NULL_BUFFER,
+    INVALID_MIXER_TYPE,
     MAX_ERROR_CODE
   };
 

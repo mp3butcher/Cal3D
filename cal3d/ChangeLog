@@ -6,6 +6,8 @@ o-----------------------------------------------------------------------------o
 | Version 0.9.1.9 ( development) 
 o-----------------------------------------------------------------------------o
   
+  - CalModel::setAbstractMixer and CalAbstractMixer to enable third
+    party mixers.
   - Add functions to control force of the spring system
   - CalHardwareModel : a object to store and to compute information
     needed to do hardware vertex skinning.

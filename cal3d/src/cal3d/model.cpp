@@ -157,9 +157,16 @@ bool CalModel::create(CalCoreModel *pCoreModel)
 
   m_pSkeleton = pSkeleton;
 
-  // allocate a new mixer instance
-  CalMixer *pMixer;
-  pMixer = new CalMixer();
+  // if a mixer was already set (from a previous call to create or
+  // a call to setAbstractMixer), re-use it. Otherwise create a
+  // CalMixer instance.
+  CalAbstractMixer *pMixer;
+  if(m_pMixer) {
+    pMixer = m_pMixer;
+    pMixer->destroy();
+  } else
+    pMixer = new CalMixer();
+  
   if(pMixer == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -453,19 +460,74 @@ CalMesh *CalModel::getMesh(int coreMeshId)
   return 0;
 }
 
- /*****************************************************************************/
-/** Provides access to the mixer.
-  *
-  * This function returns the mixer.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the mixer
-  *         \li \b 0 if an error happend
-  *****************************************************************************/
+/*****************************************************************************/
+/** Returns the mixer.
+ *
+ * If a mixer that is not an instance of CalMixer was set with the
+ * CalModel::setAbstractMixer method, an INVALID_MIXER_TYPE error (see
+ * CalError) is set and 0 is returned.
+ *
+ * @return \li a pointer to the mixer
+ *         \li \b 0 if an error happend
+ *****************************************************************************/
 
 CalMixer *CalModel::getMixer()
 {
+  if(m_pMixer == 0)
+    return 0;
+
+  if(m_pMixer->isDefaultMixer() == false) {
+    CalError::setLastError(CalError::INVALID_MIXER_TYPE, __FILE__, __LINE__);
+    return 0;
+  } else {
+    return (CalMixer*)(m_pMixer);
+  }
+}
+
+/*****************************************************************************/
+/** Returns the mixer. 
+ *
+ * @return \li a pointer to the mixer
+ *         \li \b 0 if no mixer was set
+ *****************************************************************************/
+
+CalAbstractMixer *CalModel::getAbstractMixer()
+{
   return m_pMixer;
+}
+
+/*****************************************************************************/
+/** Sets the mixer to a CalAbstractMixer subclass instance.
+ *
+ * If a mixer was already set (with CalModel::setAbstractMixer or
+ * because the CalModel::create method created a CalMixer instance),
+ * its \b destroy method is called. The existing mixer is not
+ * deallocated, it is the responsibility of the caller to call the
+ * getAbstractMixer method and deallocate the returned instance if
+ * appropriate.
+ *
+ * \b pMixer will be deallocated by cal3d if and only if the
+ * CalModel::destroy function is called.
+ *
+ * The \b create method of pMixer is called.
+ *
+ * pMixer may be null. After setting a null pointer, the caller MUST
+ * call CalModel::create or CalModel::setAbstractMixer with a non-null
+ * pointer before any other method is called.
+ *
+ * @param pMixer is a pointer to a CalAbstractMixer subclass instance.
+ *
+ *****************************************************************************/
+
+void CalModel::setAbstractMixer(CalAbstractMixer* pMixer)
+{
+  if(m_pMixer != 0)
+    m_pMixer->destroy();
+
+  m_pMixer = pMixer;
+
+  if(m_pMixer != 0)
+    m_pMixer->create(this);
 }
 
 /*****************************************************************************/

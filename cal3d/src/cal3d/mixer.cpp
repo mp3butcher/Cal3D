@@ -211,19 +211,6 @@ bool CalMixer::clearCycle(int id, float delay)
   return pAnimationCycle->blend(0.0f, delay);
 }
 
- /*****************************************************************************/
-/** Creates the mixer instance.
-  *
-  * This function creates the mixer instance.
-  *
-  * @param pModel A pointer to the model that should be managed with this mixer
-  *               instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
 bool CalMixer::create(CalModel *pModel)
 {
   if(pModel == 0)
@@ -256,13 +243,6 @@ bool CalMixer::create(CalModel *pModel)
 
   return true;
 }
-
- /*****************************************************************************/
-/** Destroys the mixer instance.
-  *
-  * This function destroys all data stored in the mixer instance and frees all
-  * allocated memory.
-  *****************************************************************************/
 
 void CalMixer::destroy()
 {
@@ -442,12 +422,6 @@ void CalMixer::updateAnimation(float deltaTime)
     m_animationDuration = 0.0f;
   }
 }
-
- /*****************************************************************************/
-/** Updates the skeleton.
-  *
-  * This function updates the skeleton to match the current animation state.
-  *****************************************************************************/
 
 void CalMixer::updateSkeleton()
 {
