@@ -47,11 +47,11 @@ if test -z $autoconf ; then
 fi
 
 automake=''
-for am in automake automake-1.7; do
+for am in automake automake-1.7 automake-1.8 automake-1.9; do
 	if $am --version < /dev/null > /dev/null 2>&1 ; then
 		am_version=`$am --version | grep 'automake (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
 		case $am_version in
-			1.7*) 
+			1.[789]*) 
 				automake="$am"
 				;;
 		esac
@@ -63,11 +63,11 @@ if test -z $automake ; then
 fi
 
 aclocal=''
-for acl in aclocal aclocal-1.7; do
+for acl in aclocal aclocal-1.7 aclocal-1.8 aclocal-1.9 ; do
 	if $acl --version < /dev/null > /dev/null 2>&1 ; then
 		acl_version=`$acl --version | grep 'aclocal (GNU automake)' | sed 's/^[^0-9]*\(.*\)/\1/'`
 		case $acl_version in
-			1.7*) 
+			1.[789]*) 
 				aclocal="$acl"
 				;;
 		esac
