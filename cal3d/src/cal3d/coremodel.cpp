@@ -521,30 +521,33 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
 
 int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName)
 {
-  int id = getCoreAnimationId(strAnimationName);
-  if(id >= 0)
+  int id = -1;
+  std::map<std::string, int>::iterator it = m_animationName.find(strAnimationName);
+  if (it != m_animationName.end())
+  {
+    id=(*it).second;
+
+    // the core skeleton has to be loaded already
+    if(m_pCoreSkeleton == NULL)
     {
-      // the core skeleton has to be loaded already
-      if(m_pCoreSkeleton == 0)
-	{
-	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-	  return -1;
-	}
-      if(m_vectorCoreAnimation[id])
-	{
-	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
-	  return -1;
-	}
-      CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
-      if(pCoreAnimation == 0) return -1;
-      m_vectorCoreAnimation[id] = pCoreAnimation;
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return -1;
     }
+    if(m_vectorCoreAnimation[id] != NULL)
+    {
+      CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+      return -1;
+    }
+    CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
+    if(pCoreAnimation == NULL) return -1;
+    m_vectorCoreAnimation[id] = pCoreAnimation;
+  }
   else
-    {
-      id = loadCoreAnimation(strFilename);
-      if(id >= 0)
-	addAnimationName(strAnimationName, id);
-    }
+  {
+    id = loadCoreAnimation(strFilename);
+    if(id >= 0)
+      addAnimationName(strAnimationName, id);
+  }
 
   return id;
 }
@@ -655,30 +658,33 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
 
 int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName)
 {
-  int id = getCoreMaterialId(strMaterialName);
-  if(id >= 0)
+  int id = -1;
+  std::map<std::string, int>::iterator it = m_materialName.find(strMaterialName);
+  if (it != m_materialName.end())
+  {
+    id=(*it).second;
+
+    // the core skeleton has to be loaded already
+    if(m_pCoreSkeleton == NULL)
     {
-      // the core skeleton has to be loaded already
-      if(m_pCoreSkeleton == 0)
-	{
-	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-	  return -1;
-	}
-      if(m_vectorCoreMaterial[id])
-	{
-	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
-	  return -1;
-	}
-      CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
-      if(pCoreMaterial == 0) return -1;
-      m_vectorCoreMaterial[id] = pCoreMaterial;
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return -1;
     }
+    if(m_vectorCoreMaterial[id] != NULL)
+    {
+      CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+      return -1;
+    }
+    CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
+    if(pCoreMaterial == NULL) return -1;
+    m_vectorCoreMaterial[id] = pCoreMaterial;
+  }
   else
-    {
-      id = loadCoreMaterial(strFilename);
-      if(id >= 0)
-	addMaterialName(strMaterialName, id);
-    }
+  {
+    id = loadCoreMaterial(strFilename);
+    if(id >= 0)
+      addMaterialName(strMaterialName, id);
+  }
 
   return id;
 }
@@ -789,30 +795,33 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
 
 int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string& strMeshName)
 {
-  int id = getCoreMeshId(strMeshName);
-  if(id >= 0)
+  int id = -1;
+  std::map<std::string, int>::iterator it = m_meshName.find(strMeshName);
+  if (it != m_meshName.end())
+  {
+    id=(*it).second;
+
+    // the core skeleton has to be loaded already
+    if(m_pCoreSkeleton == NULL)
     {
-      // the core skeleton has to be loaded already
-      if(m_pCoreSkeleton == 0)
-	{
-	  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-	  return -1;
-	}
-      if(m_vectorCoreMesh[id])
-	{
-	  CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
-	  return -1;
-	}
-      CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
-      if(pCoreMesh == 0) return -1;
-      m_vectorCoreMesh[id] = pCoreMesh;
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return -1;
     }
+    if(m_vectorCoreMesh[id] != NULL)
+    {
+      CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+      return -1;
+    }
+    CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
+    if(pCoreMesh == NULL) return -1;
+    m_vectorCoreMesh[id] = pCoreMesh;
+  }
   else
-    {
-      id = loadCoreMesh(strFilename);
-      if(id >= 0)
-	addMeshName(strMeshName, id);
-    }
+  {
+    id = loadCoreMesh(strFilename);
+    if(id >= 0)
+      addMeshName(strMeshName, id);
+  }
 
   return id;
 }
@@ -861,6 +870,7 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
     return -1;
   }
 
+  m_vectorCoreMesh[coreMeshId]->destroy();
   delete m_vectorCoreMesh[coreMeshId];
   m_vectorCoreMesh[coreMeshId] = 0;
 
@@ -1175,6 +1185,11 @@ int CalCoreModel::getCoreAnimationId(const std::string& strAnimationName)
     return -1;
   }
    
+  if (getCoreAnimation(m_animationName[strAnimationName]) == NULL)
+  {
+    return -1;
+  }
+
   return m_animationName[strAnimationName];
 }
 
@@ -1223,7 +1238,12 @@ int CalCoreModel::getCoreMaterialId(const std::string& strMaterialName)
   {
     return -1;
   }
-   
+
+  if (getCoreMaterial(m_materialName[strMaterialName]) == NULL) 
+  {
+    return -1;
+  }
+
   return m_materialName[strMaterialName];
 }
 
@@ -1272,7 +1292,12 @@ int CalCoreModel::getCoreMeshId(const std::string& strMeshName)
   {
     return -1;
   }
-   
+
+  if (getCoreMesh(m_meshName[strMeshName]) == NULL)
+  {
+    return -1;
+  }
+
   return m_meshName[strMeshName];
 }
 
