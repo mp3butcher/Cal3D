@@ -97,54 +97,80 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=.\animation.cpp
+DEP_CPP_ANIMA=\
+	".\animation.h"\
+	".\coreanimation.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_ANIMA=\
-	".\cal3d\animation.h"\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\animation_action.cpp
+DEP_CPP_ANIMAT=\
+	".\animation.h"\
+	".\animation_action.h"\
+	".\coreanimation.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_ANIMAT=\
-	".\cal3d\animation_action.h"\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\animation_cycle.cpp
+DEP_CPP_ANIMATI=\
+	".\animation.h"\
+	".\animation_cycle.h"\
+	".\coreanimation.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_ANIMATI=\
-	".\cal3d\animation_cycle.h"\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\bone.cpp
+DEP_CPP_BONE_=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
+	".\vector.h"\
+	
 NODEP_CPP_BONE_=\
-	".\cal3d\bone.h"\
-	".\cal3d\corebone.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\skeleton.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\buffersource.cpp
+DEP_CPP_BUFFE=\
+	".\buffersource.h"\
+	".\datasource.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_BUFFE=\
-	".\cal3d\buffersource.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
@@ -155,392 +181,599 @@ SOURCE=.\cal3d.rc
 # Begin Source File
 
 SOURCE=.\cal3d_wrapper.cpp
+DEP_CPP_CAL3D=\
+	".\animation.h"\
+	".\animation_action.h"\
+	".\animation_cycle.h"\
+	".\bone.h"\
+	".\cal3d.h"\
+	".\cal3d_wrapper.h"\
+	".\coreanimation.h"\
+	".\corebone.h"\
+	".\corekeyframe.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coremorphanimation.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\coresubmorphtarget.h"\
+	".\coretrack.h"\
+	".\datasource.h"\
+	".\error.h"\
+	".\global.h"\
+	".\loader.h"\
+	".\matrix.h"\
+	".\mesh.h"\
+	".\mixer.h"\
+	".\model.h"\
+	".\morphtargetmixer.h"\
+	".\physique.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\renderer.h"\
+	".\saver.h"\
+	".\skeleton.h"\
+	".\springsystem.h"\
+	".\streamsource.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_CAL3D=\
-	".\cal3d\cal3d.h"\
-	".\cal3d\cal3d_wrapper.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coreanimation.cpp
+DEP_CPP_COREA=\
+	".\coreanimation.h"\
+	".\coretrack.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_COREA=\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\coretrack.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\corebone.cpp
+DEP_CPP_COREB=\
+	".\corebone.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_COREB=\
-	".\cal3d\corebone.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\corekeyframe.cpp
+DEP_CPP_COREK=\
+	".\corekeyframe.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_COREK=\
-	".\cal3d\corekeyframe.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\corematerial.cpp
+DEP_CPP_COREM=\
+	".\corematerial.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_COREM=\
-	".\cal3d\corematerial.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coremesh.cpp
+DEP_CPP_COREME=\
+	".\coremesh.h"\
+	".\coresubmesh.h"\
+	".\coresubmorphtarget.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	".\vector.h"\
+	
 NODEP_CPP_COREME=\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\coresubmorphtarget.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coremodel.cpp
+DEP_CPP_COREMO=\
+	".\coreanimation.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coremorphanimation.h"\
+	".\coreskeleton.h"\
+	".\datasource.h"\
+	".\error.h"\
+	".\global.h"\
+	".\loader.h"\
+	".\platform.h"\
+	".\saver.h"\
+	
 NODEP_CPP_COREMO=\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\corematerial.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\error.h"\
-	".\cal3d\loader.h"\
-	".\cal3d\saver.h"\
+	".\config.h"\
+	
+# End Source File
+# Begin Source File
+
+SOURCE=.\coremorphanimation.cpp
+DEP_CPP_COREMOR=\
+	".\coremorphanimation.h"\
+	".\global.h"\
+	".\platform.h"\
+	
+NODEP_CPP_COREMOR=\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coreskeleton.cpp
+DEP_CPP_CORES=\
+	".\corebone.h"\
+	".\coreskeleton.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_CORES=\
-	".\cal3d\corebone.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coresubmesh.cpp
+DEP_CPP_CORESU=\
+	".\coresubmesh.h"\
+	".\coresubmorphtarget.h"\
+	".\global.h"\
+	".\platform.h"\
+	".\vector.h"\
+	
 NODEP_CPP_CORESU=\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\coresubmorphtarget.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coresubmorphtarget.cpp
+DEP_CPP_CORESUB=\
+	".\coresubmorphtarget.h"\
+	".\global.h"\
+	".\platform.h"\
+	".\vector.h"\
+	
 NODEP_CPP_CORESUB=\
-	".\cal3d\coresubmorphtarget.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\coretrack.cpp
+DEP_CPP_CORET=\
+	".\corekeyframe.h"\
+	".\coretrack.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_CORET=\
-	".\cal3d\corekeyframe.h"\
-	".\cal3d\coretrack.h"\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\error.cpp
+DEP_CPP_ERROR=\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_ERROR=\
-	".\cal3d\error.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\global.cpp
+DEP_CPP_GLOBA=\
+	".\global.h"\
+	".\platform.h"\
+	
 NODEP_CPP_GLOBA=\
-	".\cal3d\global.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\loader.cpp
+DEP_CPP_LOADE=\
+	".\buffersource.h"\
+	".\coreanimation.h"\
+	".\corebone.h"\
+	".\corekeyframe.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\coretrack.h"\
+	".\datasource.h"\
+	".\error.h"\
+	".\global.h"\
+	".\loader.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\streamsource.h"\
+	".\tinystr.h"\
+	".\tinyxml.h"\
+	".\vector.h"\
+	
 NODEP_CPP_LOADE=\
-	".\cal3d\buffersource.h"\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\corebone.h"\
-	".\cal3d\corekeyframe.h"\
-	".\cal3d\corematerial.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\coretrack.h"\
-	".\cal3d\error.h"\
-	".\cal3d\loader.h"\
-	".\cal3d\matrix.h"\
-	".\cal3d\quaternion.h"\
-	".\cal3d\streamsource.h"\
-	".\cal3d\tinyxml.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\matrix.cpp
+DEP_CPP_MATRI=\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_MATRI=\
-	".\cal3d\matrix.h"\
-	".\cal3d\quaternion.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\mesh.cpp
+DEP_CPP_MESH_=\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\mesh.h"\
+	".\model.h"\
+	".\platform.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_MESH_=\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\model.h"\
-	".\cal3d\morphtargetmixer.h"\
-	".\cal3d\submesh.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\mixer.cpp
+DEP_CPP_MIXER=\
+	".\animation.h"\
+	".\animation_action.h"\
+	".\animation_cycle.h"\
+	".\bone.h"\
+	".\coreanimation.h"\
+	".\corebone.h"\
+	".\corekeyframe.h"\
+	".\coremodel.h"\
+	".\coretrack.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\mixer.h"\
+	".\model.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
+	".\vector.h"\
+	
 NODEP_CPP_MIXER=\
-	".\cal3d\animation.h"\
-	".\cal3d\animation_action.h"\
-	".\cal3d\animation_cycle.h"\
-	".\cal3d\bone.h"\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\corebone.h"\
-	".\cal3d\corekeyframe.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coretrack.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mixer.h"\
-	".\cal3d\model.h"\
-	".\cal3d\skeleton.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\model.cpp
+DEP_CPP_MODEL=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\mesh.h"\
+	".\mixer.h"\
+	".\model.h"\
+	".\morphtargetmixer.h"\
+	".\physique.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\renderer.h"\
+	".\skeleton.h"\
+	".\springsystem.h"\
+	".\vector.h"\
+	
 NODEP_CPP_MODEL=\
-	".\cal3d\bone.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\mixer.h"\
-	".\cal3d\model.h"\
-	".\cal3d\morphtargetmixer.h"\
-	".\cal3d\physique.h"\
-	".\cal3d\renderer.h"\
-	".\cal3d\skeleton.h"\
-	".\cal3d\springsystem.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\morphtargetmixer.cpp
+DEP_CPP_MORPH=\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coremorphanimation.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\mesh.h"\
+	".\model.h"\
+	".\morphtargetmixer.h"\
+	".\platform.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_MORPH=\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\morphtargetmixer.h"\
-	".\cal3d\submesh.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\physique.cpp
+DEP_CPP_PHYSI=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\coremodel.h"\
+	".\coresubmesh.h"\
+	".\coresubmorphtarget.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\mesh.h"\
+	".\model.h"\
+	".\physique.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_PHYSI=\
-	".\cal3d\bone.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\coresubmorphtarget.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\model.h"\
-	".\cal3d\physique.h"\
-	".\cal3d\skeleton.h"\
-	".\cal3d\submesh.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\platform.cpp
+DEP_CPP_PLATF=\
+	".\platform.h"\
+	
 NODEP_CPP_PLATF=\
-	".\cal3d\platform.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\quaternion.cpp
+DEP_CPP_QUATE=\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_QUATE=\
-	".\cal3d\matrix.h"\
-	".\cal3d\quaternion.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\renderer.cpp
+DEP_CPP_RENDE=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\mesh.h"\
+	".\model.h"\
+	".\physique.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\renderer.h"\
+	".\skeleton.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_RENDE=\
-	".\cal3d\bone.h"\
-	".\cal3d\corematerial.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\model.h"\
-	".\cal3d\physique.h"\
-	".\cal3d\renderer.h"\
-	".\cal3d\skeleton.h"\
-	".\cal3d\submesh.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\saver.cpp
+DEP_CPP_SAVER=\
+	".\coreanimation.h"\
+	".\corebone.h"\
+	".\corekeyframe.h"\
+	".\corematerial.h"\
+	".\coremesh.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\coresubmesh.h"\
+	".\coretrack.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\saver.h"\
+	".\tinystr.h"\
+	".\tinyxml.h"\
+	".\vector.h"\
+	
 NODEP_CPP_SAVER=\
-	".\cal3d\coreanimation.h"\
-	".\cal3d\corebone.h"\
-	".\cal3d\corekeyframe.h"\
-	".\cal3d\corematerial.h"\
-	".\cal3d\coremesh.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\coretrack.h"\
-	".\cal3d\error.h"\
-	".\cal3d\quaternion.h"\
-	".\cal3d\saver.h"\
-	".\cal3d\tinyxml.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\skeleton.cpp
+DEP_CPP_SKELE=\
+	".\bone.h"\
+	".\corebone.h"\
+	".\coremodel.h"\
+	".\coreskeleton.h"\
+	".\error.h"\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\skeleton.h"\
+	".\vector.h"\
+	
 NODEP_CPP_SKELE=\
-	".\cal3d\bone.h"\
-	".\cal3d\corebone.h"\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coreskeleton.h"\
-	".\cal3d\error.h"\
-	".\cal3d\skeleton.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\springsystem.cpp
+DEP_CPP_SPRIN=\
+	".\coremodel.h"\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\mesh.h"\
+	".\model.h"\
+	".\platform.h"\
+	".\springsystem.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_SPRIN=\
-	".\cal3d\coremodel.h"\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\mesh.h"\
-	".\cal3d\model.h"\
-	".\cal3d\springsystem.h"\
-	".\cal3d\submesh.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\streamsource.cpp
+DEP_CPP_STREA=\
+	".\datasource.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	".\streamsource.h"\
+	
 NODEP_CPP_STREA=\
-	".\cal3d\error.h"\
-	".\cal3d\platform.h"\
-	".\cal3d\streamsource.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\submesh.cpp
+DEP_CPP_SUBME=\
+	".\coresubmesh.h"\
+	".\error.h"\
+	".\global.h"\
+	".\platform.h"\
+	".\submesh.h"\
+	".\vector.h"\
+	
 NODEP_CPP_SUBME=\
-	".\cal3d\coresubmesh.h"\
-	".\cal3d\error.h"\
-	".\cal3d\submesh.h"\
 	".\config.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\tinystr.cpp
-NODEP_CPP_TINYS=\
-	".\cal3d\tinystr.h"\
-	".\cal3d\tinyxml.h"\
+DEP_CPP_TINYS=\
+	".\tinystr.h"\
+	".\tinyxml.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\tinyxml.cpp
-NODEP_CPP_TINYX=\
-	".\cal3d\tinyxml.h"\
+DEP_CPP_TINYX=\
+	".\tinystr.h"\
+	".\tinyxml.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\tinyxmlerror.cpp
-NODEP_CPP_TINYXM=\
-	".\cal3d\tinyxml.h"\
+DEP_CPP_TINYXM=\
+	".\tinystr.h"\
+	".\tinyxml.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\tinyxmlparser.cpp
-NODEP_CPP_TINYXML=\
-	".\cal3d\tinyxml.h"\
+DEP_CPP_TINYXML=\
+	".\tinystr.h"\
+	".\tinyxml.h"\
 	
 # End Source File
 # Begin Source File
 
 SOURCE=.\vector.cpp
+DEP_CPP_VECTO=\
+	".\global.h"\
+	".\matrix.h"\
+	".\platform.h"\
+	".\quaternion.h"\
+	".\vector.h"\
+	
 NODEP_CPP_VECTO=\
-	".\cal3d\matrix.h"\
-	".\cal3d\quaternion.h"\
-	".\cal3d\vector.h"\
 	".\config.h"\
 	
 # End Source File
@@ -599,6 +832,10 @@ SOURCE=.\coremesh.h
 # Begin Source File
 
 SOURCE=.\coremodel.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\coremorphanimation.h
 # End Source File
 # Begin Source File
 
