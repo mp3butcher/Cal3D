@@ -219,6 +219,10 @@ SOURCE=.\src\cal3d\submesh.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\tinystr.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=src\cal3d\tinyxml.cpp
 # End Source File
 # Begin Source File
@@ -364,6 +368,10 @@ SOURCE=.\src\cal3d\springsystem.h
 # Begin Source File
 
 SOURCE=.\src\cal3d\submesh.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\tinystr.h
 # End Source File
 # Begin Source File
 

@@ -102,6 +102,7 @@ const char* TiXmlBase::ReadName( const char* p, TIXML_STRING * name )
 				&&	(		isalnum( (unsigned char ) *p ) 
 						 || *p == '_'
 						 || *p == '-'
+						 || *p == '.'
 						 || *p == ':' ) )
 		{
 			(*name) += *p;
@@ -464,7 +465,7 @@ void TiXmlElement::StreamIn (TIXML_ISTREAM * in, TIXML_STRING * tag)
 			StreamWhiteSpace( in, tag );
 
 			// Do we have text?
-			if ( in->peek() != '<' )
+			if ( in->good() && in->peek() != '<' ) 
 			{
 				// Yep, text.
 				TiXmlText text( "" );

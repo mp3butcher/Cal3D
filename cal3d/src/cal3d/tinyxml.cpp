@@ -706,10 +706,10 @@ bool TiXmlDocument::LoadFile( const char* filename )
 		fclose( file );
 
 		Parse( data.c_str() );
-		if (  !Error() )
-		{
+		if (  Error() )
+            return false;
+        else
 			return true;
-		}
 	}
 	SetError( TIXML_ERROR_OPENING_FILE );
 	return false;

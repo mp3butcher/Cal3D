@@ -228,6 +228,9 @@
 				RelativePath=".\src\cal3d\submesh.cpp">
 			</File>
 			<File
+				RelativePath="src\cal3d\tinystr.cpp">
+			</File>
+			<File
 				RelativePath="src\cal3d\tinyxml.cpp">
 			</File>
 			<File
@@ -338,6 +341,9 @@
 			</File>
 			<File
 				RelativePath=".\src\cal3d\submesh.h">
+			</File>
+			<File
+				RelativePath="src\cal3d\tinystr.h">
 			</File>
 			<File
 				RelativePath="src\cal3d\tinyxml.h">

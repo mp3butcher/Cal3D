@@ -22,6 +22,7 @@
 #include "corebone.h"
 #include "coreanimation.h"
 #include "coretrack.h"
+#include "corekeyframe.h"
 #include "model.h"
 #include "skeleton.h"
 #include "bone.h"
@@ -90,6 +91,30 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
     CalCoreAnimation *pCoreAnimation;
     pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
     if(pCoreAnimation == 0) return false;
+
+	CalCoreTrack *coreTrack = pCoreAnimation->getCoreTrack(0);
+		
+	CalCoreKeyframe *lastKeyframe = coreTrack->getCoreKeyframe(coreTrack->getCoreKeyframeCount()-1);
+	
+	if(lastKeyframe->getTime()<pCoreAnimation->getDuration())
+	{
+		std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+
+		std::list<CalCoreTrack *>::iterator itr;		
+		for(itr=listCoreTrack.begin();itr!=listCoreTrack.end();++itr)
+		{
+			coreTrack = *itr;
+			
+            CalCoreKeyframe *firstKeyframe = coreTrack->getCoreKeyframe(0);			
+			CalCoreKeyframe *newKeyframe = new CalCoreKeyframe();
+            
+			newKeyframe->setTranslation(firstKeyframe->getTranslation());
+            newKeyframe->setRotation(firstKeyframe->getRotation());
+            newKeyframe->setTime(pCoreAnimation->getDuration());
+
+			coreTrack->addCoreKeyframe(newKeyframe);
+		}	
+	}
 
     // allocate a new animation cycle instance
     CalAnimationCycle *pAnimationCycle;
