@@ -12,7 +12,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = cal3d_converter.dsw cal3d_converter.dsp fileformats-0_9devel.txt
+EXTRA_DIST = cal3d_converter.dsp fileformats.txt
 
 SUBDIRS = src
 

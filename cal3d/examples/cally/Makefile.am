@@ -12,7 +12,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = cal3d_cally.dsp cal3d_cally.dsw cal3d_cally.kdevprj cal3d_cally.kdevses cal3d_cally.opt data/*.raw data/*.cfg
+EXTRA_DIST = cally.dsp data/*.raw data/*.cfg ChangeLog README TODO
 
 SUBDIRS = src
 

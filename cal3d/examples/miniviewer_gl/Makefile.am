@@ -12,7 +12,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = cal3d_miniviewer.dsp cal3d_miniviewer.dsw cal3d_miniviewer.kdevprj cal3d_miniviewer.kdevses cal3d_miniviewer.opt
+EXTRA_DIST = cal3d_miniviewer.dsp ChangeLog AUTHORS README TODO
 
 SUBDIRS = src
 

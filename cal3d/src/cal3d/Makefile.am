@@ -13,13 +13,13 @@
 INCLUDES = $(all_includes) -I$(top_srcdir)/src
 
 all_libraries = @all_libraries@
-AM_LDFLAGS = @LDFLAGS@
+LDFLAGS = @LDFLAGS@
 
-EXTRA_DIST = cal3d.rc
+EXTRA_DIST = cal3d.rc cal3d.dsp SConscript
 
 SOMAJOR = 0
 SOMINOR = 9
-SOSUBMINOR = 0
+SOSUBMINOR = 1
 
 lib_LTLIBRARIES = libcal3d.la
 

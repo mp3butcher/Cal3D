@@ -16,7 +16,7 @@ AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(cal3d_cally,2.9)
+AM_INIT_AUTOMAKE(cal3d_cally,2.9.1)
 
 dnl ************************************************************************
 
