@@ -55,6 +55,7 @@ CalPlatform::~CalPlatform()
 bool CalPlatform::readBytes(std::istream& input, void *pBuffer, int length)
 {
   input.read((char *)pBuffer, length);
+
   return !input ? false : true;
 }
 
@@ -167,7 +168,7 @@ bool CalPlatform::readString(std::istream& input, std::string& strValue)
   *         \li \b false if the input or destination buffer is NULL
   *****************************************************************************/
 
-bool CalPlatform::readBytes(void* input, void *pBuffer, int length)
+bool CalPlatform::readBytes(char* input, void *pBuffer, int length)
 {
   if ((input == NULL) || (pBuffer == NULL)) return false;
 
@@ -189,11 +190,11 @@ bool CalPlatform::readBytes(void* input, void *pBuffer, int length)
   *         \li \b false if the input buffer is NULL
   *****************************************************************************/
 
-bool CalPlatform::readFloat(void* input, float& value)
+bool CalPlatform::readFloat(char* input, float& value)
 {
   if (input == NULL) return false;
 
-  memcpy( (void*)&value, input, 4 );
+  memcpy( (void*)&value, (void*)input, 4 );
 
 #ifdef CAL3D_BIG_ENDIAN
   float x = value ;
@@ -219,11 +220,11 @@ bool CalPlatform::readFloat(void* input, float& value)
   *         \li \b false if the input buffer is NULL
   *****************************************************************************/
 
-bool CalPlatform::readInteger(void* input, int& value)
+bool CalPlatform::readInteger(char* input, int& value)
 {
   if (input == NULL) return false;
 
-  memcpy( (void*)&value, input, 4 );
+  memcpy( (void*)&value, (void*)input, 4 );
 
 #ifdef CAL3D_BIG_ENDIAN
   int x = value ;
@@ -249,13 +250,13 @@ bool CalPlatform::readInteger(void* input, int& value)
   *         \li \b false if the input buffer is NULL
   *****************************************************************************/
 
-bool CalPlatform::readString(void* input, std::string& strValue)
+bool CalPlatform::readString(char* input, std::string& strValue)
 {
   if (input == NULL) return false;
 
   // get the string length
   int length;
-  memcpy( (void*)&length, input, 4 );
+  memcpy( (void*)&length, (void*)input, 4 );
 
 #ifdef CAL3D_BIG_ENDIAN
   int x = length ;
@@ -272,7 +273,7 @@ bool CalPlatform::readString(void* input, std::string& strValue)
   strBuffer = new char[length];
 
   //offset the read by 4 bytes (skip over the length integer)
-  memcpy( (void*)strBuffer, input, length + 4 );
+  memcpy( (void*)strBuffer, (void*)input, length + 4 );
 
   //skip over the first 4 bytes
   char* strTemp = &strBuffer[4];

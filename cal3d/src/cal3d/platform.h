@@ -105,10 +105,10 @@ public:
   static bool readInteger(std::istream& input, int& value);
   static bool readString(std::istream& input, std::string& strValue);
 
-  static bool readBytes(void* input, void *pBuffer, int length);
-  static bool readFloat(void* input, float& value);
-  static bool readInteger(void* input, int& value);
-  static bool readString(void* input, std::string& strValue);
+  static bool readBytes(char* input, void *pBuffer, int length);
+  static bool readFloat(char* input, float& value);
+  static bool readInteger(char* input, int& value);
+  static bool readString(char* input, std::string& strValue);
 
   static bool writeBytes(std::ostream& output, const void *pBuffer, int length);
   static bool writeFloat(std::ostream& output, float value);
