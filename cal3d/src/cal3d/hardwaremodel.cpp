@@ -371,7 +371,7 @@ float CalHardwareModel::getShininess()
 
 const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton)
 {
-	std::vector<CalBone *> vectorBone = pSkeleton->getVectorBone();
+	const std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getRotationBoneSpace();
 }
 
@@ -388,7 +388,7 @@ const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkel
 
 const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton)
 {
-	std::vector<CalBone *> vectorBone = pSkeleton->getVectorBone();
+	const std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getTranslationBoneSpace();
 }
 
