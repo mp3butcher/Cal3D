@@ -1,12 +1,54 @@
 #!BPY
 
 """
-Name: 'Cal3D Exporter V0.7'
+Name: 'Cal3D Exporter V0.8'
 Blender: 234
 Group: 'Export'
 Tip: 'Export armature/bone data to the Cal3D library.'
 """
 
+__author__ = ["Jean-Baptiste Lamy (Jiba)", "Chris Montijin", "Damien McGinnes"]
+__url__ = ("blender", "elysiun", "Cal3D, http://cal3d.sf.net")
+__version__ = "0.8"
+
+__bpydoc__ = """\
+This script exports armature / bone data to the well known open source Cal3D
+library.
+
+Usage:
+
+Simply run the script to export available armatures.
+
+Supported:<br>
+    Cal3D versions 0.7 -> 0.9.
+
+Known issues:<br>
+    Cal3d has a bug in that a cycle that doesn't have a root bone channel
+will segfault cal3d.  Until cal3d supports this, add a keyframe for the
+root bone (should be fixed in cal3d0.9.1);<br>
+    When you finish an animation and run the script you can get an error
+(something with KeyError). Just save your work and reload the model. This is
+usually caused by deleted items hanging around;<br>
+    Cloth export only works reliably on a planar mesh (like a cape, or a
+ribbon), not on a connected mesh (like a ball).  The mesh should have no
+disconnects like multiple tex coords applied to the same vertex, as this will
+create a gap in the mesh, that the springs will accentuate. The exporter 
+will, however, handle this case but it just looks bad. 
+
+
+Notes:<br>
+    Objects/bones/actions whose names start by "_" are not exported so call IK
+and null bones _LegIK, for example;<br>
+    Actions that start with '@' will be exported as actions, others will be
+exported as cycles;<br>
+    Meshes whose names are prefixed with _Cloth or _cloth will have a spring
+system created. Vertex group _cloth_weight is used to define the parts of
+the mesh that act as anchors - give the 0 weight in this group. Otherwise 0.01
+is a good weight. For now all springs have a coeff of 1000<br>
+"""
+
+# $Id$
+#
 # Copyright (C) 2003 Jean-Baptiste LAMY -- jiba@tuxfamily.org
 # Copyright (C) 2004 Chris Montijin
 # Copyright (C) 2004 Damien McGinnes
@@ -33,6 +75,11 @@ Tip: 'Export armature/bone data to the Cal3D library.'
 # This script was written by Jiba, modified by Chris and later modified by Damien
 
 # Changes:
+#
+# 0.8 Damien McGinnes <mcginnes at netspeed.com.au>
+#    Added Cloth export
+#    Fixed bone child translation bug 
+#    Added material colors
 #
 # 0.7 Damien McGinnes <mcginnes at netspeed com au>
 #    Added NLA functionality for IPOs - this simplifies
@@ -68,16 +115,22 @@ Tip: 'Export armature/bone data to the Cal3D library.'
 # ADVICE
 # - Objects/bones/actions whose names start by "_" are not exported
 #   so call IK and null bones _LegIK for example
-# - All your armature's exported bones must be connected to another bone (except
-#   for the rootbone). Contrary to Blender, Cal3D doesn't support "floating" bones.
 # - Actions that start with '@' will be exported as actions, others will be
 #   exported as cycles
+# - Meshes whose names are prefixed with _Cloth or _cloth will have a spring
+#   system created. Vertex group _cloth_weight is used to define the parts of
+#   the mesh that act as anchors - give them 0 weight in this group. 
+#   Otherwise 0.01 is a good weight. For now all springs have a coeff of 1000
+# - Cloth export only works reliably on a planar mesh (like a cape, or a
+#   ribbon), not on a connected mesh (like a ball).  The mesh should have no
+#   disconnects like multiple tex coords applied to the same vertex, as this will
+#   create a gap in the mesh, that the springs will accentuate. The exporter 
+#   will, however, handle this case but it just looks bad. 
 
 # BUGS / TODO :
-# - Material color is not supported yet
-# - Cal3D springs (for clothes and hair) are not supported yet
 # - Cal3d has a bug in that a cycle that doesnt have as rootbone channel
-#    will segfault cal3d. until cal3d supports this, add a keyframe for the rootbone
+#   will segfault cal3d. until cal3d supports this, add a keyframe for the rootbone
+#   this is supposed to be fixed in cal3d 0.9.1+
 
 
 # REMARKS
@@ -87,9 +140,9 @@ Tip: 'Export armature/bone data to the Cal3D library.'
 # 2. If a vertex is assigned to one or more bones, but is has a for each
 #    bone a weight of zero, there was a subdivision by zero somewhere
 #    Made a workaround (if sum is 0.0 then sum becomes 1.0).
-#    I have not checked what the outcome of that is, so you better nail 'm,
-#    and give it some weight...
-
+#    Generally vertices with no weight, simply dont deform at all - regardless
+#    of what you do with the skeleton - it is generally undesirable for this to
+#    happen
 
 # Parameters :
 
@@ -458,11 +511,11 @@ class Material:
   def to_cal3d_xml(self):
     s = "<HEADER MAGIC=\"XRF\" VERSION=\"%i\"/>\n" % CAL3D_XML_VERSION
     s += "  <MATERIAL NUMMAPS=\"%i\">\n" % len(self.maps_filenames)
-    s += "  <AMBIENT>%f %f %f %f</AMBIENT>\n" % \
+    s += "  <AMBIENT>%i %i %i %i</AMBIENT>\n" % \
          (self.ambient_r, self.ambient_g, self.ambient_b, self.ambient_a)   
-    s += "  <DIFFUSE>%f %f %f %f</DIFFUSE>\n" % \
+    s += "  <DIFFUSE>%i %i %i %i</DIFFUSE>\n" % \
          (self.diffuse_r, self.diffuse_g, self.diffuse_b, self.diffuse_a)
-    s += "  <SPECULAR>%f %f %f %f</SPECULAR>\n" % \
+    s += "  <SPECULAR>%i %i %i %i</SPECULAR>\n" % \
          (self.specular_r, self.specular_g, self.specular_b, self.specular_a)
     s += "  <SHININESS>%f</SHININESS>\n" % self.shininess
     for map_filename in self.maps_filenames:
@@ -651,7 +704,8 @@ class Vertex:
     self.face_collapse_count = 0
     self.maps = []
     self.influences = []
-    self.weight = None
+    self.weight = 0.0
+    self.hasweight = 0
     
     self.cloned_from = None
     self.clones = []
@@ -672,8 +726,8 @@ class Vertex:
     s += "".join(map(Map.to_cal3d, self.maps))
     s += struct.pack("i", len(self.influences))
     s += "".join(map(Influence.to_cal3d, self.influences))
-    if not self.weight is None:
-      s += struct.pack("f", len(self.weight))
+    if self.hasweight:
+      s += struct.pack("f", self.weight)
     return s
   
   def to_cal3d_xml(self):
@@ -692,8 +746,8 @@ class Vertex:
            self.face_collapse_count
     s += "".join(map(Map.to_cal3d_xml, self.maps))
     s += "".join(map(Influence.to_cal3d_xml, self.influences))
-    if not self.weight is None:
-      s += "      <PHYSIQUE>%f</PHYSIQUE>\n" % len(self.weight)
+    if self.hasweight:
+      s += "      <PHYSIQUE>%f</PHYSIQUE>\n" % self.weight
     s += "    </VERTEX>\n"
     return s
   
@@ -902,6 +956,109 @@ class KeyFrame:
     s += "    </KEYFRAME>\n"
     return s
 
+def elimdup(a):
+  return reduce(lambda l, x: x not in l and l.append(x) or l, a, [])
+
+def realvertid(a):
+  if a.cloned_from == None:
+    return a.id
+  else:
+    return a.cloned_from.id
+
+def generateSprings(mesh):
+    global STATUS
+    oldstatus = STATUS
+    STATUS = "Calculating springsystem for cloth mesh"
+    Draw()
+    if not len(mesh.submeshes) == 1:
+      print "#######ERROR Cloth has none or more than 1 submesh"
+      STATUS = oldstatus
+      Draw()
+      return
+
+    springlist = []
+    clothmesh = mesh.submeshes[0]
+
+    faces = clothmesh.faces
+
+    # facemap is a list of all faces incident to this vertex
+    # springs are placed between a vertex and all vertices of
+    # the faces in facemap for that vertex
+
+    # a blank map
+    facemap = {}
+    for v in clothmesh.vertices:
+       facemap[v.id] = []
+    
+    #fill up the map
+    for i in range(0, len(faces)):
+       facemap[realvertid(faces[i].vertex1)].append(i)
+       facemap[realvertid(faces[i].vertex2)].append(i)
+       facemap[realvertid(faces[i].vertex3)].append(i)
+
+    #now for each vertex we get the faces incident to it  
+    for v in clothmesh.vertices:
+        facelist = []
+        vertlist = []
+        for majface in facemap[v.id]:
+          # then for each vertex in the major faces we 
+          # get the faces incident to them
+          facelist = facelist + facemap[realvertid(faces[majface].vertex1)]
+          facelist = facelist + facemap[realvertid(faces[majface].vertex2)]
+          facelist = facelist + facemap[realvertid(faces[majface].vertex3)]
+        
+        facelist = elimdup(facelist)
+
+        # and retrieve all the vertices in the faces
+        for f in facelist:
+          vertlist.append(realvertid(faces[f].vertex1))
+          vertlist.append(realvertid(faces[f].vertex2))
+          vertlist.append(realvertid(faces[f].vertex3))
+
+        vertlist = elimdup(vertlist)
+        
+        #now create springs between the vertices
+        for sv in vertlist:
+          springvert = clothmesh.vertices[sv]
+          #dont put spring to self, or between anchor nodes
+          if (not springvert.id == v.id) and (
+             (not springvert.weight == 0.0) or (
+              not v.weight == 0)):
+            sp = [v.id, springvert.id]
+            sp.sort()
+            springlist.append(sp)
+
+            #an attempt to get cloned vertices to work in cloth.
+            #you still see gaps in the mesh due to the approximations
+            #used, but it is almost ok
+            for c in springvert.clones:
+              sp = [v.id, c.id]
+              sp.sort()
+              springlist.append(sp)
+              for cc in v.clones:
+                sp = [cc.id, c.id]
+                sp.sort()
+                springlist.append(sp)
+            for c in v.clones:
+              sp = [springvert.id, c.id]
+              sp.sort()
+              springlist.append(sp)
+              for cc in springvert.clones:
+                sp = [cc.id, c.id]
+                sp.sort()
+                springlist.append(sp)
+            
+    springlist = elimdup(springlist)
+    springlist.sort()
+
+    for sp in springlist:
+      spring = Spring(clothmesh.vertices[sp[0]], clothmesh.vertices[sp[1]])
+      spring.spring_coefficient = 1000
+      spring.idlelength = point_distance(spring.vertex1.loc, spring.vertex2.loc)
+      clothmesh.springs.append(spring)
+
+    STATUS = oldstatus
+    Draw()
 
 def export():
   global STATUS
@@ -992,16 +1149,31 @@ def export():
       Draw()
 
       meshes = []
-      
+
       for obj in Blender.Object.Get():
         data = obj.getData()
         if (type(data) is Blender.Types.NMeshType) and data.faces and EXPORT_MESH:
           mesh = Mesh(obj.name)
+ 
+          clothenabled = 0
+          clothweightmap = {}
 
           if mesh.name[0] == '_' :
-              print "skipping object ", mesh.name
-              continue
+            print "skipping object ", mesh.name
+            continue
 
+          if mesh.name[0:6] == 'Cloth_' or mesh.name[0:6] == 'cloth_':
+            ##### This item uses a Spring System
+            ## default weight is 0.01
+            #for v in data.verts:
+            #  clothweightmap[v.index] = 0.01
+					 
+            clothenabled = 1
+            clothweights = data.getVertsFromGroup("_cloth_weight",1)
+            for v, w in clothweights:
+              clothweightmap[v] = w
+            mesh.name = mesh.name[6:]
+         
           meshes.append(mesh)
           
           matrix = obj.getMatrix()
@@ -1035,7 +1207,26 @@ def export():
               image_file = image_filename
             material = MATERIALS.get(image_file) or Material(image_file)
             
-            # TODO add material color support here
+            #this is where colors get exported
+            if not len(data.getMaterials()) == 0:
+              objMaterial = data.getMaterials()[0]
+              amb  = map(lambda x: int(x*255), Blender.World.GetActive().getAmb() + [1.0])
+              rgba = map(lambda x: int(x*255), objMaterial.getRGBCol() + [objMaterial.getAlpha()])
+              spec = map(lambda x: int(x*255), objMaterial.getSpecCol() + [objMaterial.getAlpha()])
+
+              material.shininess = objMaterial.getSpec()
+              material.diffuse_r = rgba[0]
+              material.diffuse_g = rgba[1]
+              material.diffuse_b = rgba[2]
+              material.diffuse_a = rgba[3]
+              material.ambient_r = amb[0]
+              material.ambient_g = amb[1]
+              material.ambient_b = amb[2]
+              material.ambient_a = amb[3]            
+              material.specular_r = spec[0]
+              material.specular_g = spec[1]
+              material.specular_b = spec[2]
+              material.specular_a = spec[3]
             
             submesh = SubMesh(mesh, material)
             vertices = {}
@@ -1065,7 +1256,6 @@ def export():
                                matrix))
                     vertex = vertices[face.v[i].index] = Vertex(submesh, coord, 
                              normal)
-                    
                     influences = data.getVertexInfluences(face.v[i].index)
                     if not influences:
                       print "Warning: vertex %i (%i) has no influence !" % \
@@ -1090,24 +1280,26 @@ def export():
                       # face.v[i].sel = 1 # does not work???
                       sum = 1.0
                     if face.v[i].sel:
-                      print "Vertex %i is selected" % (face.v[i].index)
+                      print "In mesh: %s, Vertex %i is selected" % (mesh.name, face.v[i].index)
 
                     for bone_name, weight in influences:
                       #print "bone: %s, weight: %f, sum: %f" % (bone_name, weight, sum)
                       vertex.influences.append(Influence(BONES[bone_name], 
                                                weight / sum))
-                      
-                  elif not face.smooth:
-                    # We cannot share vertex for non-smooth faces, 
-                    # since Cal3D does not support vertex sharing 
-                    # for 2 vertices with different normals.
-                    # => we must clone the vertex.
                     
-                    old_vertex = vertex
-                    vertex = Vertex(submesh, vertex.loc, normal)
-                    vertex.cloned_from = old_vertex
-                    vertex.influences = old_vertex.influences
-                    old_vertex.clones.append(vertex)
+                  #not sure if this section is valuable or not
+                  #it will most likely cause more trouble than it solves  
+                  #elif not face.smooth:
+                  #  # We cannot share vertex for non-smooth faces, 
+                  #  # since Cal3D does not support vertex sharing 
+                  #  # for 2 vertices with different normals.
+                  #  # => we must clone the vertex.
+                  #  
+                  #  old_vertex = vertex
+                  #  vertex = Vertex(submesh, vertex.loc, normal)
+                  #  vertex.cloned_from = old_vertex
+                  #  vertex.influences = old_vertex.influences
+                  #  old_vertex.clones.append(vertex)
                     
                   if data.hasFaceUV():
                     uv = [face.uv[i][0], face.uv[i][1]] #1.0 - face.uv[i][1]]
@@ -1131,17 +1323,29 @@ def export():
                         vertex.influences = old_vertex.influences
                         vertex.maps.append(Map(*uv))
                         old_vertex.clones.append(vertex)
-                        
+
+                  if clothenabled and not vertex.hasweight:
+                       try: 
+                          w = clothweightmap[face.v[i].index]
+                          vertex.weight = w
+                          vertex.hasweight = 1
+                       except KeyError:
+                          print "cloth vertex (", vertex.id,") out of range using default weight"
+                          vertex.weight = 0.01
+                          vertex.hasweight = 1                         
+                       
                   face_vertices.append(vertex)
-                  
+
                 # Split faces with more than 3 vertices
                 for i in range(1, len(face.v) - 1):
                   Face(submesh, face_vertices[0], face_vertices[i],
                        face_vertices[i + 1])
-                  
+         
             # Computes LODs info
             if LODS:
               submesh.compute_lods()
+          if clothenabled:
+            generateSprings(mesh)         
             
   # Export animations
               
@@ -1225,6 +1429,9 @@ def export():
                 curve[0].evaluate(time1),
                 curve[1].evaluate(time1),
                 curve[2].evaluate(time1)), bone.matrix)
+
+              if bone.parent:
+                trans = vector_by_matrix(trans, matrix_invert(bone.parent.matrix))
 
               loc = [
                 bone.loc[0] + trans[0],
@@ -1437,7 +1644,7 @@ def gui():
 def event(evt, val):
   global STATUS
 
-  if evt == QKEY:
+  if (evt == QKEY or evt == ESCKEY):
     Exit()
     return
   if evt == EKEY:
