@@ -16,5 +16,9 @@ EXTRA_DIST = cal3d.dsp cal3d.dsw cal3d.kdevprj cal3d.kdevses
 
 SUBDIRS = src docs
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = cal3d.pc
+
+
 # ************************************************************************
 
