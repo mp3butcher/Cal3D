@@ -10,7 +10,7 @@ dnl AC_CONFIG_AUX_DIR(admin)
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
-AM_INIT_AUTOMAKE(cal3d,0.7devel)
+AM_INIT_AUTOMAKE(cal3d,0.7)
 
 AC_PREFIX_DEFAULT(/usr/local)
 if test "x$prefix" = "xNONE"; then

@@ -95,7 +95,7 @@
       <title>Instance Classes</title>
       <para>
         Each set of <link linkend="instanceclasses">Instance Classes</link> contains the
-        specific data for one instance of a model type.  This data can be divided into 3 parts:
+        specific data for one instance of a model type. This data can be divided into 3 parts:
         <orderedlist>
           <listitem>
             <para>
@@ -122,13 +122,23 @@
       </para>
 
       <para>
-        There are 2 helper classes that simplify the model handling:
+        There are 4 helper classes that simplify the model handling:
         <orderedlist>
           <listitem>
             <para>
               The motion control, see
               <xref linkend="mixer" endterm="mixerTITLE">
               for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The skinning stage (Phyique).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The (experimental) cloth animation layer (SpringSystem).
             </para>
           </listitem>
           <listitem>
@@ -200,6 +210,58 @@
       </figure>
     </sect2>
 
+    <sect2 id="animationpipeline">
+      <title>Animation Pipeline</title>
+      <para>
+        The process of calculating the final model from the core data and
+        the current instance state must be seen as one single pipeline:
+
+        <orderedlist>
+          <listitem>
+            <para>
+              The combination of all the active animations in the "Mixer" to get a
+              current skeleton pose.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The combination of all the active morph targets in the "Morpher" to
+              get a current mesh (planned feature).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The deformation of the current mesh based on the current skeleton
+              pose in the "Physique".
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The simulation of the cloth parts of the model in the "SpringSystem"
+              (experimental feature).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The querying of the final data from the "Renderer".
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <figure>
+        <title>Animation Pipeline</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="../guide_pipeline.gif">
+          </imageobject>
+          <textobject>
+            <phrase>Animation Pipeline</phrase>
+          </textobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+
   </sect1>
 
   <sect1 id="vectorsquaternions">
@@ -262,9 +324,8 @@
     <title id="animationstrackskeyframesTITLE">Animations, Tracks and Keyframes</title>
     <para>
       The Cal3D library stores every motion such as walking, jumping, waving etc. in
-      a seprarate core animation inside the core model (inside the mixer to be more
-      exact). These animations contain one core track for each bone that is affected
-      by the specific motion.
+      a separate core animation inside the core model. These animations contain one core
+      track for each bone that is affected by the specific motion.
     </para>
 
     <example>
@@ -311,7 +372,7 @@
         </listitem>
         <listitem>
           <para>
-            The update of the active animation states including fading in and out.
+            The update of the active animation states including fade in and out.
           </para>
         </listitem>
         <listitem>
@@ -463,7 +524,7 @@
     <title id="rendererTITLE">The 'Renderer'</title>
     <para>
       The Cal3D library does not handle the actual rendering itself, but it provides
-      an easy-to-use interface called 'renderer' to access all needed data for your
+      an easy-to-use interface called 'Renderer' to access all needed data for your
       rendering loop. The basic idea is to go through all the meshes of the model
       instance and visit one of its submeshes after the other.
     </para>

@@ -9,7 +9,7 @@
     <title>What is Cal3D?</title>
     <para>
       Cal3D is a free skeletal-based 3d character animation library written
-      in C++ in a platform-/graphic API-independent way.
+      in C++ in a platform/graphic-API independent way.
     </para>
     <para>
       Originally designed to be used in a 3d client for
@@ -76,36 +76,23 @@
   <sect1>
     <title>Credits</title>
     <para>
-      Here is a list of people who have made relevant contributions to the Cal3D project:
-      <itemizedlist mark='opencircle'>
-        <listitem>
-          <para>
-            <ulink url="mailto:beosil@swileys.com">Bruno 'Beosil' Heidelberger</ulink>
-          </para>
-          <para>
-            Lead Developer
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <ulink url="mailto:walshdouglas@hotmail.com">Douglas Walsh</ulink>
-          </para>
-          <para>
-            Creator of the Paladin model for The Cally Demo
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <ulink url="mailto:i4q@i4q.de">Wolfgang Wester</ulink>
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <ulink url="mailto:">Nick Edgington</ulink>
-          </para>
-        </listitem>
-      </itemizedlist>
+      There are already numerous people who have made contributions in some sort to
+      the Cal3D project. Here they are, in no specific order:
     </para>
+
+    <para>
+      Douglas Walsh, Nick Edgington, Marco Heidelberger, Wolfgang Wester, Brandon Ehle,
+      Wolfgang Scheicher, Stephan Stapel, Steve Cordon, Elessar and Ladislav Stefun.
+    </para>
+
+    <para>
+      <emphasis>A very big thanks to all of you!</emphasis>
+    </para>
+
+    <para>
+      <ulink url="mailto:beosil@swileys.com">Bruno 'Beosil' Heidelberger</ulink> - Creator and lead developer of Cal3D
+    </para>
+
   </sect1>
 
   <sect1 id="licenses">
@@ -120,7 +107,7 @@
       movement and provides this library without any additional restrictions.
       However, to make this a "fair deal" and to support the future development of
       the library, we invite you to follow these points when using the Cal3D library
-      in your projects:
+      in your project:
 
       <orderedlist>
         <listitem>
@@ -131,7 +118,7 @@
         <listitem>
           <para>
             Read and understand the <link linkend="lgpl">LGPL</link> and make sure
-            your project comply with it.
+            that your usage of Cal3D complies with it.
           </para>
         </listitem>
         <listitem>
@@ -171,8 +158,8 @@
         </listitem>
         <listitem>
           <para>
-            Sponsoring and donations can definitely help the project, just contact
-            us.
+            Sponsoring and donations can definitively help the project, just contact
+            <ulink url="mailto:beosil@swileys.com">us</ulink>.
           </para>
         </listitem>
         <listitem>

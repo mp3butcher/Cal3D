@@ -73,7 +73,7 @@
         application that has to be portable. Hardcoded dependencies on libraries and on
         APIs, such as OpenGL or DirectX, must be avoided. Therefore the library is
         coded in C++ and only depends on the STL. It does not handle the actual
-        rendering and the texture-managing itself. Necessary platform-dependent code
+        rendering and the texture-management itself. Necessary platform-dependent code
         (such as endianness) must be minimized and encapsulated into a single class to
         make it easy to add support for other platforms.
       </para>

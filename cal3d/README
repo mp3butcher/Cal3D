@@ -3,7 +3,7 @@ o-----------------------------------------------------------------------------o
 |                                 c a l 3 d                                   |
 |                                                                             |
 |                                Version 0.7                                  |
-|                             (in development)                                |
+|                             (5. January 2002)                               |
 |                                                                             |
 |               Copyright (C) 2001 Bruno 'Beosil' Heidelberger                |
 |                                                                             |
@@ -54,7 +54,8 @@ o-----------------------------------------------------------------------------o
   in your projects:
 
     - Seriously consider releasing you project under a free license yourself.
-    - Read and understand the LGPL and make sure your project comply with it.
+    - Read and understand the LGPL and make sure that your usage of Cal3D
+      complies with it.
     - Include a prominent mention about the usage of the Cal3D library in
       your project.
     - Send a short message to us when you release your work.
@@ -66,8 +67,8 @@ o-----------------------------------------------------------------------------o
 
     - The Cal3D is always in need of models, animations, textures and demos.
       So, if you have something to spare, send it along!
-    - Sponsoring and donations can definitely help the project, just contact
-      us.
+    - Sponsoring and donations can definitively help the project, just
+      contact us.
     - Have you heard of a new animation technology? Is there a freshly
       written, earth-shaking paper about inverse-kinematics on your desk?
       Fell free to send it to the Cal3D project, so we can put it into the

@@ -1,6 +1,6 @@
 //****************************************************************************//
 // submesh.h                                                                  //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -39,11 +39,9 @@ public:
   /// The submesh PhysicalProperty.
   typedef struct
   {
-    int neighbourCount;
     CalVector position;
-    CalVector velocity;
+    CalVector positionOld;
     CalVector force;
-    CalVector neighbourTerm;
   } PhysicalProperty;
 
   /// The submesh Face.

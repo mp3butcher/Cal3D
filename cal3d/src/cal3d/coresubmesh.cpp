@@ -1,6 +1,6 @@
 //****************************************************************************//
 // coresubmesh.cpp                                                            //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -335,8 +335,7 @@ bool CalCoreSubmesh::setPhysicalProperty(int vertexId, const PhysicalProperty& p
   if((vertexId < 0) || (vertexId >= (int)m_vectorPhysicalProperty.size())) return false;
 
   m_vectorPhysicalProperty[vertexId] = physicalProperty;
-if(physicalProperty.weight > 0.0f) m_vectorPhysicalProperty[vertexId].weight = 0.01f;
-std::cout << physicalProperty.weight << std::endl;
+
   return true;
 }
 
@@ -358,8 +357,7 @@ bool CalCoreSubmesh::setSpring(int springId, const Spring& spring)
   if((springId < 0) || (springId >= (int)m_vectorSpring.size())) return false;
 
   m_vectorSpring[springId] = spring;
-m_vectorSpring[springId].springCoefficient = 1000.0f;
-std::cout << spring.springCoefficient << std::endl;
+
   return true;
 }
 

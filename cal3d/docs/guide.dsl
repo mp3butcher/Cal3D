@@ -14,7 +14,7 @@
 ;; o-------------------------------------------------------------------------o
 ;; |                                                                         |
 ;; | DocBook Stylesheet for Cal3D                                            |
-;; | (c) 2001 Bruno Heidelberger <beosil@swileys.com> |                      |
+;; | (c) 2001, 2002 Bruno Heidelberger <beosil@swileys.com>                  |
 ;; |                                                                         |
 ;; | Based on:                                                               |
 ;; |   "Dave's Custom DocBook Stylesheet" by Dave Mason <dcm@redhat.com>     |

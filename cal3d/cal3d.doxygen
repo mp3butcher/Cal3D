@@ -3,8 +3,8 @@
 #---------------------------------------------------------------------------
 # General configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = cal3d
-PROJECT_NUMBER         = 0.7devel
+PROJECT_NAME           = Cal3D
+PROJECT_NUMBER         = 0.7
 OUTPUT_DIRECTORY       = docs/
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = NO

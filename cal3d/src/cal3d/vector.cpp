@@ -1,6 +1,6 @@
 //****************************************************************************//
 // vector.cpp                                                                 //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -368,6 +368,23 @@ float CalVector::normalize()
   z /= length;
 
   return length;
+}
+
+ /*****************************************************************************/
+/** Sets new values.
+  *
+  * This function sets new values in the vector instance.
+  *
+  * @param x The x component.
+  * @param y The y component.
+  * @param z The z component.
+  *****************************************************************************/
+
+void CalVector::set(float vx, float vy, float vz)
+{
+  x = vx;
+  y = vy;
+  z = vz;
 }
 
 //****************************************************************************//

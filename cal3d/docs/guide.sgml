@@ -13,7 +13,7 @@
 
 <bookinfo>
   <title>The Cal3D User's Guide</title>
-  <subtitle>Version 0.7 alpha</subtitle>
+  <subtitle>Version 0.7</subtitle>
 
   <authorgroup>
     <author>
@@ -28,7 +28,7 @@
   </authorgroup>
 
   <copyright>
-    <year>2001</year>
+    <year>2001, 2002</year>
     <holder><ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink></holder>
   </copyright>
 
@@ -37,7 +37,7 @@
       <blockquote>
         <title>Copyright</title>
         <para>
-          Copyright (C) 2001 <ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink>
+          Copyright (C) 2001, 2002 <ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink>
         </para>
         <para>
           Permission is granted to copy, distribute and/or modify this document
@@ -49,9 +49,9 @@
     </para>
   </legalnotice>
 
-  <date>Last updated: 19. September 2001</date>
+  <date>Last updated: 4. January 2002</date>
 
-  <releaseinfo>Alpha Release</releaseinfo>
+  <releaseinfo>Initial Release</releaseinfo>
 
   <abstract>
     <para>
@@ -59,9 +59,9 @@
       a free 3d character animation library.
       <important>
         <para>
-          This is.an *alpha* version of the Cal3D User's Guide 0.7. It surely contains errors,
+          This is.the first version of the Cal3D User's Guide. It surely contains errors,
           obscure descriptions and other anomalies. Please report them to the authors, and
-          help us make the final release flawless, thanks!
+          help us make it better, thanks!
         </para>
       </important>
     </para>

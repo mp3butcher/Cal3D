@@ -1,6 +1,6 @@
 //****************************************************************************//
 // submesh.cpp                                                                //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -93,6 +93,8 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
     {
       // copy the vertex data
       m_vectorVertex[vertexId] = vectorVertex[vertexId].position;
+      m_vectorPhysicalProperty[vertexId].position = vectorVertex[vertexId].position;
+      m_vectorPhysicalProperty[vertexId].positionOld = vectorVertex[vertexId].position;
 
       // copy the normal data
       m_vectorNormal[vertexId] = vectorVertex[vertexId].normal;

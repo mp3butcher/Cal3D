@@ -1,6 +1,6 @@
 //****************************************************************************//
 // springsystem.cpp                                                           //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -59,9 +59,6 @@ CalSpringSystem::~CalSpringSystem()
 
 void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
 {
-  // get the spring vector of the core submesh
-  std::vector<CalCoreSubmesh::Spring>& vectorSpring = pSubmesh->getCoreSubmesh()->getVectorSpring();
-
   // get the vertex vector of the submesh
   std::vector<CalVector>& vectorVertex = pSubmesh->getVectorVertex();
 
@@ -71,60 +68,21 @@ void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
   // get the physical property vector of the core submesh
   std::vector<CalCoreSubmesh::PhysicalProperty>& vectorCorePhysicalProperty = pSubmesh->getCoreSubmesh()->getVectorPhysicalProperty();
 
-  // loop through all the springs
-  std::vector<CalCoreSubmesh::Spring>::iterator iteratorSpring;
-  for(iteratorSpring = vectorSpring.begin(); iteratorSpring != vectorSpring.end(); ++iteratorSpring)
+  // loop through all the vertices
+  int vertexId;
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
   {
-    // get the spring
-    CalCoreSubmesh::Spring& spring = *iteratorSpring;
+    // get the physical property of the vertex
+    CalSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
 
-    // compute the difference between the two spring vertices
-    CalVector distance;
-    distance = vectorVertex[spring.vertexId[1]] - vectorVertex[spring.vertexId[0]];
+    // get the physical property of the core vertex
+    CalCoreSubmesh::PhysicalProperty& corePhysicalProperty = vectorCorePhysicalProperty[vertexId];
 
-    // get the current length of the spring and normalize the force vector
-    float length;
-    length = distance.normalize();
-
-    // calculate the current amount of force of the spring
-    float factor;
-    factor = (length - spring.idleLength) * spring.springCoefficient;
-
-    // scale the force vector by the calculated amount
-    CalVector force;
-    force = distance * factor;
-
-    // compute relative speed for damping
-    CalVector damping;
-    damping = vectorPhysicalProperty[spring.vertexId[1]].velocity - vectorPhysicalProperty[spring.vertexId[0]].velocity;
-
-    // calculate the damping force
-    damping *= spring.springCoefficient * deltaTime;
-
-    // apply the force and damping to both vertices
-    vectorPhysicalProperty[spring.vertexId[0]].force += force;
-    vectorPhysicalProperty[spring.vertexId[0]].force += damping;
-    vectorPhysicalProperty[spring.vertexId[1]].force -= force;
-    vectorPhysicalProperty[spring.vertexId[1]].force -= damping;
-
-    // adjust the neighbour count in both vertices
-    vectorPhysicalProperty[spring.vertexId[0]].neighbourCount++;
-    vectorPhysicalProperty[spring.vertexId[1]].neighbourCount++;
-  }
-
-  // loop through all the springs
-  for(iteratorSpring = vectorSpring.begin(); iteratorSpring != vectorSpring.end(); ++iteratorSpring)
-  {
-    // get the spring
-    CalCoreSubmesh::Spring& spring = *iteratorSpring;
-
-    float factor;
-
-    factor = deltaTime / (vectorCorePhysicalProperty[spring.vertexId[1]].weight + deltaTime * deltaTime * spring.springCoefficient * vectorPhysicalProperty[spring.vertexId[1]].neighbourCount);
-    vectorPhysicalProperty[spring.vertexId[0]].neighbourTerm += vectorPhysicalProperty[spring.vertexId[1]].force * factor;
-
-    factor = deltaTime / (vectorCorePhysicalProperty[spring.vertexId[0]].weight + deltaTime * deltaTime * spring.springCoefficient * vectorPhysicalProperty[spring.vertexId[0]].neighbourCount);
-    vectorPhysicalProperty[spring.vertexId[1]].neighbourTerm += vectorPhysicalProperty[spring.vertexId[0]].force * factor;
+    // only take vertices with a weight > 0 into account
+    if(corePhysicalProperty.weight > 0.0f)
+    {
+      physicalProperty.force.set(0.0f, 0.5f, corePhysicalProperty.weight * -98.1f);
+    }
   }
 }
 
@@ -163,82 +121,81 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
     // get the physical property of the core vertex
     CalCoreSubmesh::PhysicalProperty& corePhysicalProperty = vectorCorePhysicalProperty[vertexId];
 
+    // store current position for later use
+    CalVector position;
+    position = physicalProperty.position;
+
     // only take vertices with a weight > 0 into account
     if(corePhysicalProperty.weight > 0.0f)
     {
-      CalVector deltaVelocity;
-      deltaVelocity = deltaTime * physicalProperty.force + deltaTime * deltaTime * physicalProperty.neighbourTerm;
-
-      float factor;
-      factor = corePhysicalProperty.weight + deltaTime * deltaTime * 1000.0f * physicalProperty.neighbourCount;
-      deltaVelocity /= factor;
-
-      // TODO: external gravity setting
-      const CalVector gravity(0.0f, 5.0f, -9.81f);
-
-      // adjust the velocity of the vertex
-      physicalProperty.velocity += deltaVelocity + gravity * deltaTime;
-
-      // adjust the position of the vertex
-      vertex += physicalProperty.velocity * deltaTime;
+      // do the Verlet step
+      physicalProperty.position += (position - physicalProperty.positionOld) * 0.99f + physicalProperty.force / corePhysicalProperty.weight * deltaTime * deltaTime;
     }
     else
     {
-      CalVector acceleration;
-      acceleration = 2.0f  / (3.0f * deltaTime * deltaTime) * ((vertex - physicalProperty.position) - physicalProperty.velocity * deltaTime);
-
-      // adjust the velocity of the vertex
-      physicalProperty.velocity += acceleration * deltaTime;
-      physicalProperty.velocity *= 0.99f;
-
-      physicalProperty.force = acceleration * corePhysicalProperty.weight;
+      physicalProperty.position = vectorVertex[vertexId];
     }
 
-    // store vertex position for possible use in next simulation step
-    physicalProperty.position = vertex;
+    // make the current position the old one
+    physicalProperty.positionOld = position;
 
-    // clear the force and neighbour term
+    // set the new position of the vertex
+    vertex = physicalProperty.position;
+
+    // clear the accumulated force on the vertex
     physicalProperty.force.clear();
-    physicalProperty.neighbourTerm.clear();
-
-    // clear the neighbour count
-    physicalProperty.neighbourCount = 0;
   }
 
   // get the spring vector of the core submesh
   std::vector<CalCoreSubmesh::Spring>& vectorSpring = pSubmesh->getCoreSubmesh()->getVectorSpring();
 
-  // loop through all the springs
-  std::vector<CalCoreSubmesh::Spring>::iterator iteratorSpring;
-  for(iteratorSpring = vectorSpring.begin(); iteratorSpring != vectorSpring.end(); ++iteratorSpring)
+  // iterate a few times to relax the constraints
+  int iterationCount;
+#define ITERATION_COUNT 2
+  for(iterationCount = 0; iterationCount < ITERATION_COUNT; iterationCount++)
   {
-    // get the spring
-    CalCoreSubmesh::Spring& spring = *iteratorSpring;
-
-    // compute the difference between the two spring vertices
-    CalVector distance;
-    distance = vectorVertex[spring.vertexId[1]] - vectorVertex[spring.vertexId[0]];
-
-    // get the current length of the spring and normalize the force vector
-    float length;
-    length = distance.normalize();
-
-const float LIMIT = 1.1f;
-
-    if((length > LIMIT * spring.idleLength) || (length < (2.0f - LIMIT) * spring.idleLength))
+    // loop through all the springs
+    std::vector<CalCoreSubmesh::Spring>::iterator iteratorSpring;
+    for(iteratorSpring = vectorSpring.begin(); iteratorSpring != vectorSpring.end(); ++iteratorSpring)
     {
-      if((vectorCorePhysicalProperty[spring.vertexId[0]].weight > 0.0f) && (vectorCorePhysicalProperty[spring.vertexId[1]].weight > 0.0f))
+      // get the spring
+      CalCoreSubmesh::Spring& spring = *iteratorSpring;
+
+      // compute the difference between the two spring vertices
+      CalVector distance;
+      distance = vectorVertex[spring.vertexId[1]] - vectorVertex[spring.vertexId[0]];
+
+      // get the current length of the spring
+      float length;
+      length = distance.length();
+
+      if(length > 0.0f)
       {
-        vectorVertex[spring.vertexId[0]] += 0.5f * (length - LIMIT * spring.idleLength) * distance;
-        vectorVertex[spring.vertexId[1]] -= 0.5f * (length - LIMIT * spring.idleLength) * distance;
-      }
-      else if(vectorCorePhysicalProperty[spring.vertexId[0]].weight > 0.0f)
-      {
-        vectorVertex[spring.vertexId[0]] += (length - LIMIT * spring.idleLength) * distance;
-      }
-      else if(vectorCorePhysicalProperty[spring.vertexId[1]].weight > 0.0f)
-      {
-        vectorVertex[spring.vertexId[1]] -= (length - LIMIT * spring.idleLength) * distance;
+        float factor[2];
+        factor[0] = (length - spring.idleLength) / length;
+        factor[1] = factor[0];
+
+        if(vectorCorePhysicalProperty[spring.vertexId[0]].weight > 0.0f)
+        {
+          factor[0] /= 2.0f;
+          factor[1] /= 2.0f;
+        }
+        else
+        {
+          factor[0] = 0.0f;
+        }
+
+        if(vectorCorePhysicalProperty[spring.vertexId[1]].weight <= 0.0f)
+        {
+          factor[0] *= 2.0f;
+          factor[1] = 0.0f;
+        }
+
+        vectorVertex[spring.vertexId[0]] += distance * factor[0];
+        vectorPhysicalProperty[spring.vertexId[0]].position = vectorVertex[spring.vertexId[0]];
+
+        vectorVertex[spring.vertexId[1]] -= distance * factor[1];
+        vectorPhysicalProperty[spring.vertexId[1]].position = vectorVertex[spring.vertexId[1]];
       }
     }
   }

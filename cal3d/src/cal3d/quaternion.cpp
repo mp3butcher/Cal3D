@@ -1,6 +1,6 @@
 //****************************************************************************//
 // quaternion.cpp                                                             //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -232,52 +232,35 @@ void CalQuaternion::blend(float d, const CalQuaternion& q)
 }
 
  /*****************************************************************************/
-/** Multiplies the quaternion instance by given components.
+/** Conjugates the quaternion instance.
   *
-  * This function multiplies the quaternion instance by given components.
-  *
-  * @param tx The x component to be multiplied.
-  * @param ty The y component to be multiplied.
-  * @param tz The z component to be multiplied.
+  * This function conjugates the quaternion instance.
   *****************************************************************************/
-/*
-void CalQuaternion::product(float tx, float ty, float tz)
-{
-  float qx, qy, qz, qw;
-  qx = x;
-  qy = y;
-  qz = z;
-  qw = w;
 
-  x = qw * tx           + qy * tz - qz * ty;
-  y = qw * ty - qx * tz           + qz * tx;
-  z = qw * tz + qx * ty - qy * tx;
-  w =         - qx * tx - qy * ty - qz * tz;
+void CalQuaternion::conjugate()
+{
+  x = -x;
+  y = -y;
+  z = -z;
 }
-*/
+
  /*****************************************************************************/
-/** Multiplies the quaternion instance by given components.
+/** Sets new values.
   *
-  * This function multiplies the quaternion instance by given components.
+  * This function sets new values in the quaternion instance.
   *
-  * @param tx The x component to be multiplied.
-  * @param ty The y component to be multiplied.
-  * @param tz The z component to be multiplied.
-  * @param tw The w component to be multiplied.
+  * @param qx The x component.
+  * @param qy The y component.
+  * @param qz The z component.
+  * @param qw The w component.
   *****************************************************************************/
-/*
-void CalQuaternion::product(float tx, float ty, float tz, float tw)
-{
-  float qx, qy, qz, qw;
-  qx = x;
-  qy = y;
-  qz = z;
-  qw = w;
 
-  x = qw * tx + qx * tw + qy * tz - qz * ty;
-  y = qw * ty - qx * tz + qy * tw + qz * tx;
-  z = qw * tz + qx * ty - qy * tx + qz * tw;
-  w = qw * tw - qx * tx - qy * ty - qz * tz;
+void CalQuaternion::set(float qx, float qy, float qz, float qw)
+{
+  x = qx;
+  y = qy;
+  z = qz;
+  w = qw;
 }
-*/
+
 //****************************************************************************//

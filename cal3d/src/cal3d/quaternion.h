@@ -1,6 +1,6 @@
 //****************************************************************************//
 // quaternion.h                                                               //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -56,6 +56,8 @@ public:
   void operator*=(const CalVector& v);
   friend CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r);
   void blend(float d, const CalQuaternion& q);
+  void conjugate();
+  void set(float qx, float qy, float qz, float qw);
 };
 
 #endif

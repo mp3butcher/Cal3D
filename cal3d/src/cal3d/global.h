@@ -1,6 +1,6 @@
 //****************************************************************************//
 // global.h                                                                   //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -51,7 +51,7 @@ namespace Cal
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
   // library version
-  const unsigned int LIBRARY_VERSION = 699;
+  const unsigned int LIBRARY_VERSION = 700;
 
   // file versions
   const unsigned int CURRENT_FILE_VERSION = LIBRARY_VERSION;

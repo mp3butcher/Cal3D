@@ -24,12 +24,12 @@ ldadd=
 ldflags=
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Bruno 'Beosil' Heidelberger
 configure_args=
 email=beosil@swileys.com
 kdevprj_version=1.3
-lfv_open_groups=GNU
+lfv_open_groups=
 make_options=\s-j1
 makefiles=Makefile.am,src/Makefile.am,src/cal3d/Makefile.am,docs/Makefile.am,docs/shared/Makefile.am
 modifyMakefiles=true
@@ -38,7 +38,7 @@ project_type=normal_cpp
 sgml_file=/home/beosil/Projects/cal3d/docs/guide.sgml
 short_info=
 sub_dir=src/
-version=0.7devel
+version=0.7
 version_control=None
 workspace=1
 

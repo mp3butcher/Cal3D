@@ -1,6 +1,6 @@
 //****************************************************************************//
 // cal3d.h                                                                    //
-// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
+// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -45,11 +45,11 @@
 #endif
 
  /*****************************************************************************/
-/** \mainpage cal3d API Reference
+/** \mainpage Cal3D API Reference
   * <center>
   *   \image html ../../shared/cal3d.gif
   *   <p>
-  *   &copy; 2001 Bruno Heidelberger
+  *   &copy; 2001, 2002 Bruno Heidelberger
   *   <p>
   *     Permission is granted to copy, distribute and/or modify this document
   *     under the terms of the GNU Free Documentation License, Version 1.1 or

@@ -26,7 +26,7 @@
       handled as a precompiled header-file, in case your compiler supports this feature.
     </para>
     <para>
-      In addition your project has to be linked to the Cal3D library code to build properly.
+      In addition your project has to be linked to the Cal3D library code to be built properly.
       This requires a successfully compiled Cal3D library. See
       <xref linkend="compilation" endterm="compilationTITLE"> for details.
     </para>
@@ -291,10 +291,9 @@
       <title>Attachment and Detachment of Meshes</title>
       <para>
         There is no mesh attached to a freshly created model instance. This can be done by calling
-        the <function>attachMesh()</function> function of the <classname>CalRenderer</classname>
-        associated with the model instance. The single argument is the identifier of the mesh, which
-        was returned when the mesh was loaded. It is always possible to attach another mesh or detach
-        an existing mesh. Detachment of an attached mesh can be done with the
+        the <function>attachMesh()</function> function. The single argument is the identifier of the
+        mesh, which was returned when the mesh was loaded. It is always possible to attach another mesh
+        or detach an existing mesh. Detachment of an attached mesh can be done with the
         <function>detachMesh()</function> function.
       </para>
       <example>
@@ -302,7 +301,7 @@
         <programlisting>
 
 
-  if(!myModel.getRenderer()->attachMesh(helmetMeshId))
+  if(!myModel.attachMesh(helmetMeshId))
   {
     // error handling ...
   }
@@ -313,7 +312,7 @@
         <programlisting>
 
 
-  if(!myModel.getRenderer()->detachMesh(helmetMeshId))
+  if(!myModel.detachMesh(helmetMeshId))
   {
     // error handling ...
   }
@@ -346,7 +345,7 @@
         <programlisting>
 
 
-  myModel.getRenderer()->setLodLevel(0.5f);
+  myModel.setLodLevel(0.5f);
         </programlisting>
       </example>
     </sect2>
@@ -355,21 +354,21 @@
       <title>Material Control</title>
       <para>
         A proper initialized material setup in the core model makes it possible to
-        easily change the material set of the whole model instance. The
-        <function>setMaterialSet()</function> function is used for this. The single
-        argument is the new material set to use.
+        easily change the material set of a mesh or the whole model instance. The
+        <function>setMaterialSet()</function> function, either of the
+        <classname>CalModel</classname> or the <classname>CalMesh</classname> class,
+        is used for this. The single argument is the new material set to use.
       </para>
       <example>
         <title>Material Set Change</title>
         <programlisting>
 
 
-  myModel.getRenderer()->setMaterialSet(CHAINMAIL_MATERIAL_SET);
+  myModel.setMaterialSet(CHAINMAIL_MATERIAL_SET);
+
+  myModel.getMesh(upperBodyMeshId)->setMaterialSet(PLATEMAIL_MATERIAL_SET);
         </programlisting>
       </example>
-      <para>
-        [[[ TODO: Specific material set change of a single mesh in the model instance. ]]]
-      </para>
     </sect2>
 
     <sect2>
@@ -392,7 +391,7 @@
       </para>
       <para>
         There are two function calls that are used to control cycles: <function>blendCycle()</function>
-        and <function>clearCycle()</function>.
+        and <function>clearCycle()</function> of the <classname>CalMixer>/classname>.helper class.
       </para>
       <para>
         <function>blendCycle()</function> adjusts the weight of a cyclic animation in a given amount of time. This
