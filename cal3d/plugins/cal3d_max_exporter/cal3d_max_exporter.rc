@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -27,18 +27,18 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -59,15 +59,14 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,1,0
- PRODUCTVERSION 0,9,1,0
+ FILEVERSION 0,9,2,0
+ PRODUCTVERSION 0,9,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -82,18 +81,15 @@ BEGIN
     BEGIN
         BLOCK "080704b0"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", " \0"
-            VALUE "FileDescription", "Cal3D Exporter Plugin\0"
-            VALUE "FileVersion", "0.9.1\0"
-            VALUE "InternalName", "cal3d_max_exporter\0"
-            VALUE "LegalCopyright", "Copyright © 2001, 2002 Bruno Heidelberger\0"
-            VALUE "LegalTrademarks", "GNU General Public License\0"
-            VALUE "OriginalFilename", "cal3d_max_exporter.dle\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Cal3D Character Animation Library Exporter Plugin\0"
-            VALUE "ProductVersion", "0.9.1\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "Cal3D Exporter Plugin"
+            VALUE "FileVersion", "0.9.2"
+            VALUE "InternalName", "cal3d_max_exporter"
+            VALUE "LegalCopyright", "Copyright © 2001, 2002 Bruno Heidelberger"
+            VALUE "LegalTrademarks", "GNU General Public License"
+            VALUE "OriginalFilename", "cal3d_max_exporter.dle"
+            VALUE "ProductName", "Cal3D Character Animation Library Exporter Plugin"
+            VALUE "ProductVersion", "0.9.2"
         END
     END
     BLOCK "VarFileInfo"
@@ -102,8 +98,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -111,8 +105,8 @@ END
 //
 
 IDD_ABOUT DIALOGEX 0, 0, 233, 65
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D - About"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -131,8 +125,8 @@ BEGIN
 END
 
 IDD_SKELETON_HIERARCHY_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Skeleton Hierarchy"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -151,8 +145,8 @@ BEGIN
 END
 
 IDD_SKELETON_FILE_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Skeleton File"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -171,8 +165,8 @@ BEGIN
 END
 
 IDD_ANIMATION_TIME_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Animation Time"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -203,8 +197,8 @@ BEGIN
 END
 
 IDD_BONE_ASSIGNMENT_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Bone Assignment"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -228,8 +222,8 @@ BEGIN
 END
 
 IDD_LOD_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Level of Detail"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -247,8 +241,8 @@ BEGIN
 END
 
 IDD_MATERIAL_SELECTION_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Material Selection"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -266,8 +260,8 @@ BEGIN
 END
 
 IDD_SPRINGSYSTEM_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Spring System"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -286,8 +280,8 @@ BEGIN
 END
 
 IDD_MATERIAL_MAPS_PAGE DIALOGEX 0, 0, 400, 260
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Material Maps"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -305,8 +299,8 @@ BEGIN
 END
 
 IDD_MATERIAL_MAP DIALOGEX 0, 0, 186, 68
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D Export - Material Map"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -327,7 +321,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_ABOUT, DIALOG
     BEGIN
@@ -419,8 +413,8 @@ END
 // Bitmap
 //
 
-IDB_CAL3D_LOGO          BITMAP  DISCARDABLE     "..\\src\\res\\cal3d.bmp"
-IDB_CAL3D_BAR           BITMAP  DISCARDABLE     "..\\src\\res\\cal3d_bar.bmp"
+IDB_CAL3D_LOGO          BITMAP                  "..\\src\\res\\cal3d.bmp"
+IDB_CAL3D_BAR           BITMAP                  "..\\src\\res\\cal3d_bar.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -429,16 +423,16 @@ IDB_CAL3D_BAR           BITMAP  DISCARDABLE     "..\\src\\res\\cal3d_bar.bmp"
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_TYPE_BONE           ICON    DISCARDABLE     "..\\src\\res\\type_bone.ico"
-IDI_TYPE_OTHER          ICON    DISCARDABLE     "..\\src\\res\\type_other.ico"
-IDI_TYPE_DUMMY          ICON    DISCARDABLE     "..\\src\\res\\type_dummy.ico"
+IDI_TYPE_BONE           ICON                    "..\\src\\res\\type_bone.ico"
+IDI_TYPE_OTHER          ICON                    "..\\src\\res\\type_other.ico"
+IDI_TYPE_DUMMY          ICON                    "..\\src\\res\\type_dummy.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     IDS_SKELETON_EXPORT_DESCRIPTION 
                             "The exporter has found the nodes below that match the criteria for Cal3D bones. Select the ones you want to export. Keep in mind that only the selected ones can be used later in animation and mesh exports."

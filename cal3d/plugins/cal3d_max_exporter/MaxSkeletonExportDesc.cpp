@@ -16,13 +16,17 @@
 #include "MaxSkeletonExportDesc.h"
 #include "MaxSkeletonExport.h"
 
+// initialize variables to hold names used as keyword parameters
+
 #include "Maxscrpt\Maxscrpt.h"
 #include "maxscrpt\Strings.h"
 #include "maxscrpt\arrays.h"
 #include "maxscrpt\numbers.h"
 #include "maxscrpt\maxobj.h"
-#include "maxscrpt\definsfn.h"
 
+#include "exporter.h"
+
+#include "maxscrpt\definsfn.h"
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -80,6 +84,7 @@ HINSTANCE CMaxSkeletonExportDesc::HInstance()
 
 const TCHAR *CMaxSkeletonExportDesc::InternalName()
 {
+  def_name(axisGL);
 	return _T("Cal3D_Skeleton_Export");
 } 
 
@@ -112,6 +117,7 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	bool		bShowUI			;
 
 	check_arg_count(ExportCalSkel, 3, count);
+
 	type_check(arg_list[0], String, "[The first argument of ExportCalSkel should be a string that is a full path name of the file to export]");
 	type_check(arg_list[1], Array , "[The 2nd argument of ExportCalSkel should be an array of nodes]");
 	type_check(arg_list[2], Boolean,"[The 3rd argument of ExportCalSkel should be a boolean that tells if you want to use the UI or not to select nodes of skeleton]");
@@ -120,6 +126,12 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	{
 		fullpathfilename	= arg_list[0]->to_string();
 
+  bool bUseAxisGL=false; 
+
+  // Cedric Pinson, now we can export in gl coordinates
+	check_arg_count_with_keys(ExportCalSkel, 3, count);
+	Value* transform= key_arg_or_default(transform, &false_value);
+	type_check(transform, Boolean, "[The axisGL argument of ExportCalSkel should be a boolean that is true if you want to export in openGL axis]");
 		//Get Array
 		Array* BonesArray	= static_cast<Array*>(arg_list[1]);
 		ArraySize			= BonesArray->size;	
@@ -129,6 +141,7 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 		if (! strcmp(fullpathfilename,"")) return new Integer (1);
 		if (! ArraySize)		return new Integer (2);
  
+    bUseAxisGL       = (bool)transform->to_bool();
 		for (i=0;i<ArraySize;i++)
 		{
 			if (BonesArray->data[i]->is_kind_of(class_tag(MAXNode)) )
@@ -150,5 +163,10 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	{	
 		//MessageBox(NULL,"Exception catched in ExportCalSkel C++ function","Error",MB_OK);
 		return new Integer (-2);
+    theExporter.SetAxisGL(bUseAxisGL);
+
+
 	}
 }
+    theExporter.SetAxisGL(false);
+

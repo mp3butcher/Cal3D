@@ -19,6 +19,7 @@
 #include "MaxMesh.h"
 #include "MaxMaterial.h"
 #include "MaxNullView.h"
+#include "max2ogl.h"
 
 //----------------------------------------------------------------------------//
 // Debug                                                                      //
@@ -711,6 +712,10 @@ void CMaxInterface::GetTranslationAndRotation(CBaseNode *pNode, CBaseNode *pPare
 	Matrix3 tm;
 	tm = GetNodeTM(pMaxNode, time) * Inverse(GetNodeTM(pMaxParentNode, time));
 
+  // cpinson here i should make the transform max2gl
+  if (theExporter.GetAxisGL())
+    tm=ConvertMax2Ogl(tm);
+
 	// calculate the translation component
 	Point3 p;
 	p = tm.GetTrans();
@@ -747,6 +752,11 @@ void CMaxInterface::GetTranslationAndRotationBoneSpace(CBaseNode *pNode, float t
 	// calculate the inverse transformation
 	Matrix3 tm;
 	tm = Inverse(GetNodeTM(pMaxNode, time));
+
+  // cpinson here i should make the transform max2gl
+  if (theExporter.GetAxisGL())
+    tm=ConvertMax2Ogl(tm);
+
 
 	// calculate the translation component
 	Point3 p;

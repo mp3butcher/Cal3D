@@ -21,7 +21,11 @@
 #include "maxscrpt\numbers.h"
 #include "maxscrpt\Maxobj.h"
 #include "maxscrpt\definsfn.h"
+#include "maxscrpt\MAXclses.h"
+#include "maxscrpt\MAXObj.h"
+#include "maxscrpt\Parser.h"
 
+#include "exporter.h"
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -115,6 +119,8 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 	INode*	MeshNode					;
 
 	check_arg_count(ExportCalMesh, 7, count);
+ 	Value* transform= key_arg_or_default(transform, &false_value);
+ 	type_check(transform, Boolean, "[The axisGL argument of ExportCalMesh should be a boolean that is true if you want to export in openGL axis]");
 	type_check(arg_list[0], String		, "[The first argument of ExportCalMesh should be a string that is a full path name of the file to export]");
 	type_check(arg_list[1], String		, "[The 2nd argument of ExportCalMesh should be a string that is the fullpath name of the skeleton file]");
 	type_check(arg_list[2], MAXNode		, "[The 3rd argument of ExportCalMesh should be an mesh node that is the mesh to be exported]");
@@ -123,6 +129,7 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 	type_check(arg_list[5], Boolean		, "[The 5th argument of ExportCalMesh should be a boolean that is true if you want LOD creation]");
 	type_check(arg_list[6], Boolean		, "[The 6th argument of ExportCalMesh should be a boolean that is true if you want to use spring system]");
 	
+  bool bUseAxisGL=false;
 	try
 	{
 		Filefullpathfilename		= arg_list[0]->to_string();
@@ -142,6 +149,8 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		if (! _stream)return new Integer(3); //Error code number 3
 		fclose(_stream);
 
+    bUseAxisGL       = (bool)transform->to_bool();
+
 		if ((MaxNumOfBones <= 0))return new Integer (4);
 
 		if (WeightThreshold < 0.f) return new Integer (5);  
@@ -155,13 +164,22 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		//Create the parameter structure to be sent to the function ExportMeshFromMaxscriptCall
 		MeshMaxscriptExportParams	param ( MeshNode, Skeletonfullpathfilename,	MaxNumOfBones, WeightThreshold,bUseLODCreation,bUseSpringsystem);
 
-		if ( CMaxMeshExport::ExportMeshFromMaxscriptCall(Filefullpathfilename, param) )
+    theExporter.SetAxisGL(bUseAxisGL); // set axis wanted
+    if ( CMaxMeshExport::ExportMeshFromMaxscriptCall(Filefullpathfilename, param) ) {
+      // reset to default
+      theExporter.SetAxisGL(false);
 			return new Integer(0);
+    }
 		
+    theExporter.SetAxisGL(false);
 		return new Integer(-1);
 	}
+
+
 	catch(...)
 	{	
+    theExporter.SetAxisGL(false);
+
 		//MessageBox(NULL,"Exception catched in ExportCalMesh C++ function","Error",MB_OK);
 		return new Integer(-2);
 	}

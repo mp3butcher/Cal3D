@@ -23,6 +23,7 @@
 #include "maxscrpt\maxobj.h"
 #include "maxscrpt\definsfn.h"
 
+#include "exporter.h"
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -35,7 +36,7 @@ CMaxAnimationExportDesc::CMaxAnimationExportDesc()
 //----------------------------------------------------------------------------//
 // Destructor                                                                 //
 //----------------------------------------------------------------------------//
-
+ 
 CMaxAnimationExportDesc::~CMaxAnimationExportDesc()
 {
 }
@@ -127,6 +128,12 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 	
 	try
 	{
+  bool   bUseAxisGL=false;
+
+  // Cedric Pinson, now we can export in gl coordinates
+	check_arg_count_with_keys(ExportCalAnim, 7, count);
+	Value* transform= key_arg_or_default(transform, &false_value);
+	type_check(transform, Boolean, "[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]");
 		Filefullpathfilename		= arg_list[0]->to_string();
 		Skeletonfullpathfilename	= arg_list[1]->to_string();
 		BonesArray					= static_cast<Array*>(arg_list[2]);
@@ -136,6 +143,7 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 		FrameRate					= arg_list[6]->to_int();
 
 		if (! strcmp(Filefullpathfilename,""))return new Integer(1);
+
 		if (! strcmp(Skeletonfullpathfilename,"")) return new Integer(2);
 
 		//Does skeleton file exist ?
@@ -146,6 +154,8 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 
 		//Get the elements of the bones array
 		int ArraySize;
+    bUseAxisGL       = (bool)transform->to_bool();
+
 		ArraySize = BonesArray->size;
 
 		if (! ArraySize) return new Integer(4);
@@ -173,13 +183,22 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 		
 		AnimExportParams param(Skeletonfullpathfilename, tabnode, StartFrame, EndFrame, FrameOffset, FrameRate);
 
-		if (CMaxAnimationExport::ExportAnimationFromMaxscriptCall(Filefullpathfilename, &param))
+    theExporter.SetAxisGL(bUseAxisGL); // set axis wanted
+    if (CMaxAnimationExport::ExportAnimationFromMaxscriptCall(Filefullpathfilename, &param)) {
+      //reset to default
+      theExporter.SetAxisGL(false);
 			return new Integer(0);
-		
+    }
+
+
+    theExporter.SetAxisGL(false);
 		return new Integer(-1);
 	}
+
+
 	catch(...)
 	{	
+    theExporter.SetAxisGL(false);
 		//MessageBox(NULL,"Exception catched in ExportCalAnim C++ function","Error",MB_OK);
 		return new Integer(-2);
 	}

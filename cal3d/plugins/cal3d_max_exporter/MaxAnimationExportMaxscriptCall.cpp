@@ -69,13 +69,15 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 	}
 
 	AnimExportParams*	param = reinterpret_cast<AnimExportParams*>(_AnimExportParams);
-	
+
+
 	// check if a valid interface is set
 	if(m_pInterface == 0)
 	{
 		SetLastError("m_pInterface == 0.", __FILE__, __LINE__);
 		return false;
 	}
+
 
 	// build a skeleton candidate
 	CSkeletonCandidate skeletonCandidate;

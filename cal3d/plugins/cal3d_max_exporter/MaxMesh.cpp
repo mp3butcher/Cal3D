@@ -18,6 +18,7 @@
 #include "BaseInterface.h"
 #include "SkeletonCandidate.h"
 #include "VertexCandidate.h"
+#include "max2ogl.h"
 
 //----------------------------------------------------------------------------//
 // Debug                                                                      //
@@ -426,16 +427,24 @@ CVertexCandidate *CMaxMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCand
 
 	// get the absolute vertex position
 	Point3 vertex;
+
+  // cpinson
 	vertex = m_pIMesh->getVert(vertexId) * m_tm;
+
+  if (theExporter.GetAxisGL())
+	  vertex = ConvertMax2Ogl(vertex);
 
 	// set the vertex candidate position
 	pVertexCandidate->SetPosition(vertex.x, vertex.y, vertex.z);
-
+ 
 	// get the absolute vertex normal
 	Point3 normal;
 	normal = GetVertexNormal(faceId, vertexId);
 	normal = normal * Inverse(Transpose(m_tm));
-	normal = normal.Normalize();
+  normal = normal.Normalize();
+
+  if (theExporter.GetAxisGL())
+  	normal = ConvertMax2Ogl(normal);
 
 	// set the vertex candidate normal
 	pVertexCandidate->SetNormal(normal.x, normal.y, normal.z);

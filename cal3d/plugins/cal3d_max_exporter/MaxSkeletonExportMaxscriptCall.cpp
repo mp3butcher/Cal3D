@@ -175,6 +175,7 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 			// get the translation and the rotation of the bone candidate
 			CalVector translation;
 			CalQuaternion rotation;
+
 			skeletonCandidate.GetTranslationAndRotation(boneCandidateId, -1.0f, translation, rotation);
 
 			// set the translation and rotation
