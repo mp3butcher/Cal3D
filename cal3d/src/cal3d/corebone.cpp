@@ -92,8 +92,8 @@ void CalCoreBone::calculateState()
     m_translationAbsolute *= pParent->getRotationAbsolute();
     m_translationAbsolute += pParent->getTranslationAbsolute();
 
-    m_rotationAbsolute = pParent->getRotationAbsolute();
-    m_rotationAbsolute *= m_rotation;
+	m_rotationAbsolute = m_rotation;
+	m_rotationAbsolute *= pParent->getRotationAbsolute();
   }
 
   // calculate all child bones
