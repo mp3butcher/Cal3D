@@ -54,12 +54,18 @@ AC_DEFUN(CAL3D_CHECK_BUILD,
       CXXFLAGS="$CXXFLAGS -DCAL_16BIT_INDICES"
     ],)
 
+    AC_ARG_ENABLE(profile,[  --enable-profile        enable profile building (disabled by default)],
+    [
+      CXXFLAGS="$CXXFLAGS -pg"
+    ],)
+
+
     CAL3D_CHECK_CXX_FLAG(fno-exceptions,
     [
       CXXFLAGS="$CXXFLAGS -fno-exceptions"
     ])
 
-    AC_ARG_ENABLE(rtti, [  --enable-rtti     allow runtime type identification (disabled by default)],
+    AC_ARG_ENABLE(rtti, [  --enable-rtti           allow runtime type identification (disabled by default)],
     ,
     [ 
       CAL3D_CHECK_CXX_FLAG(fno-rtti,
