@@ -60,28 +60,17 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
     ],)
 
 
-    CAL3D_CHECK_CXX_FLAG(fno-exceptions,
-    [
-      CXXFLAGS="$CXXFLAGS -fno-exceptions"
-    ])
-
     AC_ARG_ENABLE(rtti, [  --enable-rtti           allow runtime type identification (disabled by default)],
     ,
-    [ 
+    [
       CAL3D_CHECK_CXX_FLAG(fno-rtti,
       [
         CXXFLAGS="$CXXFLAGS -fno-rtti"
       ])
     ])
 
-
-    CAL3D_CHECK_CXX_FLAG(fno-check-new,
-    [
-      CXXFLAGS="$CXXFLAGS -fno-check-new"
-    ])
-
     if test "x$CXX" = "xCC"; then
-      CXXFLAGS="$CXXFLAGS -LANG:std -n32 -mips3" 
+      CXXFLAGS="$CXXFLAGS -LANG:std -n32 -mips3"
     fi
 
   fi
