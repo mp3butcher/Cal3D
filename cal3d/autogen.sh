@@ -41,7 +41,7 @@ echo "Running $AUTOHEADER..."
 $AUTOHEADER
 
 echo "Running $AUTOMAKE ..."
-$AUTOMAKE
+$AUTOMAKE --add-missing
 
 echo "Running $AUTOCONF ..."
 $AUTOCONF
