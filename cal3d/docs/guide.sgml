@@ -28,7 +28,7 @@
   </authorgroup>
 
   <copyright>
-    <year>2001, 2002</year>
+    <year>2001, 2002, 2003</year>
     <holder><ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink></holder>
   </copyright>
 
@@ -38,6 +38,10 @@
         <title>Copyright</title>
         <para>
           Copyright (C) 2001, 2002 <ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink>
+        </para>
+        <para>
+          For answers to many frequently asked questions about Cal3D, check out
+          the <ulink url="./cal3dfaq.html">Cal3D FAQ.</ulink>
         </para>
         <para>
           Permission is granted to copy, distribute and/or modify this document
