@@ -11,7 +11,7 @@ o-------------------------------------------------------------------------------
   3) Optional single window export interface, based on the maxscript API
      zip 'cal3D - Export.mzp' msrun.ms mzp.run '#scripts/export_cal3D/'[a-z]*
      Drag and drop the file on a 3D Studio MAX viewport (see the 
-     #scripts/export_cal3D/readme_1_02_00.txt file for more information)
+     #scripts/export_cal3D/readme.txt file for more information)
 
   4) Maxscript API documentation: read maxscript-api-export.txt
 o------------------------------------------------------------------------------------o

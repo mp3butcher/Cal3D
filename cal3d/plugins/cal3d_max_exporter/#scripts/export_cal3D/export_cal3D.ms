@@ -1,6 +1,6 @@
 --	-------------------------------------------------------------------
 --	CAL3D export
---	version : 1.02.00
+--	version : 1.02.01
 --	Based on the 0.9.1 'maxscript-extended' version of the exporter for Max6
 --
 -- Copyright (C) 2004 Mekensleep
@@ -436,7 +436,6 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 			cal3DDataNode = point name:cal3DDataNodeName
 			cal3DDataNode.isFrozen=true
 		)
-format "sbuff : \n-----------------------------------------\n%\n-----------------------------------------\n" sbuff
 		setUserPropBuffer cal3DDataNode sbuff
 		setSaveRequired ON
 	)
@@ -532,13 +531,15 @@ format "sbuff : \n-----------------------------------------\n%\n----------------
 			animationFile = exportDir + anm[1] + "."+expType+"AF"
 			if anm[4] then
 			(
-				bonesList = #()
-				getChildren SRootsSet &bonesList
+				bonesList = for obj in selectionSets[anm[5]] collect obj
 			)
 			else
 			(
-				bonesList = for obj in selectionSets[anm[5]] collect obj
+				bonesList = #()
+				getChildren SRootsSet &bonesList
 			)
+
+--	format "Animation % :\nStart : %\nEnd : %\nFull skel : % (%)\nBoneList : %\n\n" anm[1] anm[2] anm[3] anm[4] anm[5] (for hh in bonesList collect hh.name)
 
 			res = exportcalanim animationFile skeletonfile boneslist anm[2] anm[3] spnSRate.value frameRate
 			case res of

@@ -26,6 +26,11 @@ Authors:
  Philippe Lamoureux <box@phlam.net>
 -----------------------------------------------
 
+History :
+--------------
+. 1.02.01
+Fixed : wrong reading of the "Full skeleton/Bones set" parameter (inversed behaviour)
+. 1.02.00
 Complete rewrite of the previous version.
 Based on Named Selection Sets to clearly define the objects, skeleton
 roots and used bones that are to be exported. Allows the definition of
@@ -101,5 +106,3 @@ Each time the parameters are saved, the 'Save is required' state of the scene
 is activated, to remind you to save the scene so as to keep the fresh
 parameters.
 
-Implements a workaround that avoids the bug described at
-http://sourceforge.net/tracker/index.php?func=detail&aid=555376&group_id=26281&atid=386671
