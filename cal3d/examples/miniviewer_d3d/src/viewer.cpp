@@ -495,9 +495,24 @@ bool Viewer::onInit()
   if(!loadVertexBuffer())
 	  return false;
 
+  // 
+  //  There are changes here between Direct3D SDK 9 and Direct3D SDK 9 summer 2003 update
+  //
+
+  /* Original SDK
+
   LOGFONT LogFont = {24,0,0,0,FW_NORMAL,false,false,false,DEFAULT_CHARSET,OUT_TT_PRECIS,CLIP_DEFAULT_PRECIS,PROOF_QUALITY,DEFAULT_PITCH,"Arial"};
 
   D3DXCreateFontIndirect(g_pD3DDevice,&LogFont ,&m_pFont);
+
+  */
+
+  ///* Update
+  
+  D3DXCreateFont(g_pD3DDevice,24,0,0,0,false,DEFAULT_CHARSET,CLIP_DEFAULT_PRECIS,
+	  PROOF_QUALITY,DEFAULT_PITCH, "Arial", &m_pFont);
+
+  //*/
 
 
   
@@ -694,9 +709,24 @@ void Viewer::onRender()
 
   sprintf(s,"%d",m_fps);
 
+  // 
+  //  There are changes here between Direct3D SDK 9 and Direct3D SDK 9 summer 2003 update
+  //
+
+  /* Original SDK
+
   m_pFont->Begin();										
   m_pFont->DrawText(s,-1,&FontPosition,DT_CENTER,0xffffffff);
   m_pFont->End();
+
+  */
+
+
+  ///* Update
+
+  m_pFont->DrawText(NULL,s,-1,&FontPosition,DT_CENTER,0xffffffff);
+
+  //*/
 
 
   g_pD3DDevice->EndScene();
