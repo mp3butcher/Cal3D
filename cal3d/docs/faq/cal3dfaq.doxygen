@@ -306,6 +306,13 @@
  *  it has not been released yet.
  *  </ul>
  *
+ *  <b>How do I convert an IK-Solver animation in 3D Studio MAX to a keyframe animation?</b>
+ *
+ *  <ul>
+ *  To do this, you need to collapse the bone trajectories. Select all of the model's
+ *  bones. Open the Motion panel, and then the Trajectories tab. Click the Collapse
+ *  button. 
+ *  </ul>
  *
  *  <b>What's with these RAW image files?</b>
  *
@@ -315,7 +322,7 @@
  *  where they originated from, but they have (as of version 0.9) been converted
  *  to TGA files.
  *
- *  These old RAW files are no longer be supported or necessary.
+ *  These old RAW files are no longer supported or necessary.
  *  </ul>
  *
  *
