@@ -208,6 +208,21 @@ CalCoreBone *CalBone::getCoreBone()
 }
 
  /*****************************************************************************/
+/** Sets the current rotation.
+  *
+  * This function sets the current relative rotation of the bone instance.
+  * Caveat: For this change to appear, calculateState() must be called 
+  * afterwards.
+  *****************************************************************************/
+
+void CalBone::setRotation(const CalQuaternion& rotation)
+{
+  m_rotation = rotation;
+  m_accumulatedWeightAbsolute = 1.0f;
+  m_accumulatedWeight = 1.0f ;
+}
+
+ /*****************************************************************************/
 /** Returns the current rotation.
   *
   * This function returns the current relative rotation of the bone instance.
@@ -245,6 +260,21 @@ const CalQuaternion& CalBone::getRotationAbsolute()
 const CalQuaternion& CalBone::getRotationBoneSpace()
 {
   return m_rotationBoneSpace;
+}
+
+ /*****************************************************************************/
+/** Sets the current translation.
+  *
+  * This function sets the current relative translation of the bone instance.
+  * Caveat: For this change to appear, calculateState() must be called 
+  * afterwards.
+  *****************************************************************************/
+
+void CalBone::setTranslation(const CalVector& translation)
+{
+  m_translation = translation;
+  m_accumulatedWeightAbsolute = 1.0f;
+  m_accumulatedWeight = 1.0f ;
 }
 
  /*****************************************************************************/

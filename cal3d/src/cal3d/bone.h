@@ -64,9 +64,11 @@ public:
   bool create(CalCoreBone *pCoreBone);
   void destroy();
   CalCoreBone *getCoreBone();
+  void setRotation(const CalQuaternion& rotation);
   const CalQuaternion& getRotation();
   const CalQuaternion& getRotationAbsolute();
   const CalQuaternion& getRotationBoneSpace();
+  void setTranslation(const CalVector& translation);
   const CalVector& getTranslation();
   const CalVector& getTranslationAbsolute();
   const CalVector& getTranslationBoneSpace();
