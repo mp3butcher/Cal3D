@@ -68,7 +68,7 @@ void CalLoader::setLoadingMode(int flags)
 CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel)
 {
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
-    return loadXmlCoreAnimation(strFilename);
+    return loadXmlCoreAnimation(strFilename, skel);
 
   // open the file
   std::ifstream file;
@@ -830,11 +830,9 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
     if (parentId == -1) // only root bone necessary
     {
       // Root bone must have quaternion rotated
-      float temp = (float)sqrt(2.0f)/2.0f;
-      CalQuaternion x_axis_90(temp,0.0f,0.0f,temp);
+      CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
       rot *= x_axis_90;
       // Root bone must have translation rotated also
-      trans.set(tx,ty,tz);
       trans *= x_axis_90;
     }
   }
@@ -1350,8 +1348,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
       {
         // rotate root bone quaternion
         CalQuaternion rot = pCoreKeyframe->getRotation();
-        float temp = (float)sqrt(2.0f)/2.0f;
-        CalQuaternion x_axis_90(temp,0.0f,0.0f,temp);
+        CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
         rot *= x_axis_90;
         pCoreKeyframe->setRotation(rot);
         // rotate root bone displacement
@@ -1640,8 +1637,25 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  pCoreBone->setParentId(parentId);
 
 	  // set all attributes of the bone
-	  pCoreBone->setTranslation(CalVector(tx, ty, tz));
-	  pCoreBone->setRotation(CalQuaternion(rx, ry, rz, rw));
+
+	  CalVector trans = CalVector(tx, ty, tz);
+	  CalQuaternion rot = CalQuaternion(rx, ry, rz, rw);
+
+	  if (loadingMode & LOADER_ROTATE_X_AXIS)
+	  {
+		  if (parentId == -1) // only root bone necessary
+		  {
+			  // Root bone must have quaternion rotated
+			  CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
+			  rot *= x_axis_90;
+			  // Root bone must have translation rotated also
+			  trans *= x_axis_90;
+		  }
+	  }	  
+	  
+
+	  pCoreBone->setTranslation(trans);
+	  pCoreBone->setRotation(rot);
 	  pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
 	  pCoreBone->setRotationBoneSpace(CalQuaternion(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace));
 
@@ -1713,7 +1727,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename)
+CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel)
 {
   std::stringstream str;
   TiXmlDocument doc(strFilename);
@@ -1958,6 +1972,25 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 		  pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
 		  pCoreKeyframe->setRotation(CalQuaternion(rx, ry, rz, rw));
 
+		  
+		  if (loadingMode & LOADER_ROTATE_X_AXIS)
+		  {
+			  // Check for anim rotation
+			  if (skel && skel->getCoreBone(coreBoneId)->getParentId() == -1)  // root bone
+			  {
+				  // rotate root bone quaternion
+				  CalQuaternion rot = pCoreKeyframe->getRotation();
+				  CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
+				  rot *= x_axis_90;
+				  pCoreKeyframe->setRotation(rot);
+				  // rotate root bone displacement
+				  CalVector trans = pCoreKeyframe->getTranslation();
+				  trans *= x_axis_90;
+				  pCoreKeyframe->setTranslation(trans);
+			  }
+		  }    
+		  
+		  
 		  // add the core keyframe to the core track instance
          pCoreTrack->addCoreKeyframe(pCoreKeyframe);
 
@@ -2315,6 +2348,12 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			  str.clear();
 			  str << texcoorddata->Value();
 			  str >> textureCoordinate.u >> textureCoordinate.v;
+
+			  if (loadingMode & LOADER_INVERT_V_COORD)
+			  {
+				  textureCoordinate.v = 1.0f - textureCoordinate.v;
+			  }
+
 
 			  // set texture coordinate in the core submesh instance
 			  pCoreSubmesh->setTextureCoordinate(vertexId, textureCoordinateId, textureCoordinate);

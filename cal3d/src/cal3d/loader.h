@@ -81,7 +81,7 @@ private:
   static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc);
   static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel);
 
-  static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
+  static CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
   static CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
   static CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
   static CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
