@@ -47,7 +47,7 @@
     (defined(__mips__) && defined(MIPSEL)) || \
     defined(__MIPSEL__) || \
     (defined(__arm__) && defined(ARMEL)) || \
-    defined(__ARMEL__)
+    defined(__ARMEL__) || defined(_WIN32)
 
 #define CAL3D_LITTLE_ENDIAN
 

@@ -171,7 +171,6 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   CalPlatform::writeFloat(file, translationBoneSpace[0]);
   CalPlatform::writeFloat(file, translationBoneSpace[1]);
   CalPlatform::writeFloat(file, translationBoneSpace[2]);
-  CalPlatform::writeFloat(file, translationBoneSpace[3]);
 
   // write the rotation of the bone
   const CalQuaternion& rotationBoneSpace = pCoreBone->getRotationBoneSpace();

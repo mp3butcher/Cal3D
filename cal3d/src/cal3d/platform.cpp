@@ -224,7 +224,7 @@ bool CalPlatform::writeString(std::ofstream& file, const std::string& strValue)
 #endif
 
   file.write((char *)&length, 4);
-  file.write(strValue.c_str(), length);
+  file.write(strValue.c_str(), strValue.size()+1);
 
   return !file ? false : true;
 }
