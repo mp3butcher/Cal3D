@@ -19,16 +19,18 @@
  *
  *  <b>Is Cal3D stable enough to use in a game?</b>
  *
+ *  Yes, Cal3D is quite stable and efficient enough for a lot of games. Several
+ *  published games have used Cal3D successfully.
+ *
  *
  *  <b>Can I use Cal3D for a commercial product?</b>
  *
  *  The short answer is yes. Cal3D is released under the Lesser GNU Public
- *  License (LGPL), which allows the use of Cal3D in your commercial game or
- *  simulator or whatever.
+ *  License (LGPL), which allows you to link in the Cal3D library for your 
+ *  commercial game or simulator or whatever.
  *
- *  The catch, however, is that if you make <i>changes</i> to Cal3D and use them
- *  in a product, you are obligated to release the modified library under the
- *  same license. 
+ *  The catch, however, is that if you make <i>changes</i> to Cal3D and use
+ *  them, you are obligated to release the source code under the same license. 
  *
  * 
  *  <b>What operating systems does Cal3D work on?</b>
@@ -37,7 +39,8 @@
  *  various flavors of Linux, Mac OS X, etc. 
  *
  *  Basically all you need is a decent C++ compiler with standard template
- *  library support.
+ *  library support. If you want to use the build system, you either need
+ *  Visual Studio on Windows, or GNU's autotools on *nix systems.
  *
  *
  *  <b>Can I use Cal3D with OpenGL?, Direct3D, etc?</b>
@@ -80,8 +83,17 @@
  *
  *  <b>How do I make new characters?</b>
  *
+ *  This is a job for an artist. Generally, one would create a mesh model of
+ *  a character, create a skeletal system for it, animate it, and then export
+ *  all of the pieces using the Cal3D exporters. (Skeleton, meshes, materials,
+ *  and animations)
  *
  *  <b>What modeling packages does Cal3D support?</b>
+ *
+ *  We currently have exporters for 3D Studio MAX and Milkshape 3D.
+ *
+ *  3D Studio MAX - http://www.discreet.com/products/3dsmax
+ *  Milkshape 3D - http://www.swissquake.ch/chumbalum-soft
  *
  *
  *  <b>How do I export from 3D Studio MAX to Cal3D?</b>
@@ -118,7 +130,31 @@
  *  <b>Why are there classes and core classes?</b>
  *
  *
- *  @section Compiling Cal3D
+ *  <b>Can I integrate Cal3D with a scenegraph like OSG or OpenSG?</b>
+ *
+ *  There are a few ways to get your Cal3D characters working within an 
+ *  application that uses a scene graph.
+ *
+ *  The easiest way is to simply draw your characters using OpenGL after you've
+ *  drawn your scene graph. This can be inefficient, however, because you lose
+ *  the culling features that the scenegraph provides. Plus you need to be very 
+ *  careful about the OpenGL state, which is changed by the scene graph
+ *  constantly.
+ *  
+ *  Most major scene graphs support draw callback functions. Using these, you
+ *  can basically attach a Cal3D character to a node inside the scene graph and
+ *  the character can be drawn (using your OpenGL commands) automatically as the
+ *  scene graph is traversed. This approach requires a little more work, and
+ *  will be different depending on the specific scene graph you're using.
+ * 
+ *  If you're interested in using OpenSceneGraph, there's a Sourceforge project
+ *  called osgCal that provides an adapter to put Cal3D models into OSG
+ *  applications. Find it here:
+ *
+ *  http://osgcal.sourceforge.net
+ *
+ *
+ *  @section Compiling Cal3D and the exporters
  * 
  *  <b>What do I need to compile the exporters in Windows?</b>
  * 
