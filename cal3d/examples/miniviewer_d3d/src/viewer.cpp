@@ -217,56 +217,8 @@ LPDIRECT3DTEXTURE9 Viewer::loadTexture(const std::string& strFilename)
 
 		delete [] pBuffer;
 	}	
-	else
-	{
-		D3DXIMAGE_INFO SrcInfo;
-		
-		if(FAILED(D3DXCreateTextureFromFileEx(          
-			g_pD3DDevice,
-            strFilename.c_str(),
-            D3DX_DEFAULT,
-            D3DX_DEFAULT,
-            D3DX_DEFAULT,
-            0,
-            D3DFMT_A8R8G8B8,
-            D3DPOOL_MANAGED ,
-            D3DX_DEFAULT ,
-            D3DX_DEFAULT ,
-            0,
-            &SrcInfo,
-            NULL,
-            &pTex
-			)))
-			return NULL;
-		
-		int width = SrcInfo.Width;
-		int height = SrcInfo.Height;
-
-		// Flip the texture
-
-		unsigned char *pBuffer = new unsigned char[4*width];		
-
-		D3DLOCKED_RECT Locked;
-
-		pTex->LockRect(0, &Locked, NULL, 0);
-		
-		int y;
-        for(y = 0; y < height/2; y++)
-        {
-			DWORD* pBits1 = (DWORD*)((BYTE*)Locked.pBits + (y * Locked.Pitch));
-			DWORD* pBits2 = (DWORD*)((BYTE*)Locked.pBits + ((height - y - 1) * Locked.Pitch));
-			memcpy(pBuffer,pBits1,4*width);
-			memcpy(pBits1,pBits2,4*width);
-			memcpy(pBits2,pBuffer,4*width);			
-        }
-
-		pTex->UnlockRect(0);
-
-		delete[] pBuffer;
-		
-		D3DXFilterTexture(pTex, NULL, 0, D3DX_FILTER_LINEAR);
-
-	}
+	else 
+		D3DXCreateTextureFromFile(g_pD3DDevice,strFilename.c_str(),&pTex);	
 	
 	
 	g_pD3DDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER,     D3DTEXF_LINEAR  );
