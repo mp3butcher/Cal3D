@@ -1,6 +1,12 @@
+import sys
+
 env = Environment()
 
-opts = Options('options.cache')
+# Since we can't use toolpath=['#/toolspec'] yet...
+sys.path.append(Dir('#/toolspec').abspath)
+
+optCache = 'options.cache'
+opts = Options(optCache)
 opts.AddOptions(
     BoolOption('dbg',    'Build with debugging enabled', 0),
     BoolOption('opt',    'Build with optimizations', 0),
@@ -10,7 +16,7 @@ opts.AddOptions(
 
 opts.Update(env)
 Help(opts.GenerateHelpText(env))
-opts.Save('options.cache', env)
+opts.Save(optCache, env)
 
 if env.get('dbg'):
     env.Append(CCFLAGS=['-g'], CPPDEFINES=['DEBUG', '_DEBUG'])
@@ -35,4 +41,4 @@ if env.get('warningsAsErrors'):
         env.Append(CXXFLAGS=['-Werror'])
 
 Export('env')
-SConscript(dirs=['src/cal3d', 'tools/converter'])
+SConscript(dirs=['examples', 'src', 'tools'])
