@@ -1088,11 +1088,9 @@ void Viewer::renderModel()
 		}
 
 		if(sizeof(CalIndex)==2)
-			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel->getBaseVertexIndex(),m_calHardwareModel->getBaseVertexIndex()+m_calHardwareModel->getVertexCount(),
-			m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_SHORT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
+			glDrawElements(GL_TRIANGLES, m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_SHORT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
 		else
-			glDrawRangeElements(GL_TRIANGLES, m_calHardwareModel->getBaseVertexIndex(),m_calHardwareModel->getBaseVertexIndex()+m_calHardwareModel->getVertexCount(),
-			m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_INT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
+			glDrawElements(GL_TRIANGLES, m_calHardwareModel->getFaceCount() * 3, GL_UNSIGNED_INT, (((CalIndex *)NULL)+ m_calHardwareModel->getStartIndex()));
 		
 
 	}
