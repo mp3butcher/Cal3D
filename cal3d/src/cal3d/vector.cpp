@@ -213,6 +213,19 @@ void CalVector::operator/=(const float d)
 }
 
  /*****************************************************************************/
+/** Tests the equality of 2 vectors
+  *
+  * This operator checks to see if 2 vectors are equal
+  *
+  * @param v The vector to be tested against.
+  *****************************************************************************/
+
+bool CalVector::operator==(const CalVector& v)
+{
+  return ((x == v.x) && (y == v.y) && (z == v.z));
+}
+
+ /*****************************************************************************/
 /** Calculates the sum of two vectors.
   *
   * This operator calculates the sum of two vectors.

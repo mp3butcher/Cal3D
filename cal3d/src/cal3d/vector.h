@@ -58,6 +58,7 @@ public:
   void operator*=(const CalQuaternion& q);
   void operator*=(const CalMatrix &m);
   void operator/=(const float d);
+  bool operator==(const CalVector& v);
   friend CAL3D_API CalVector operator+(const CalVector& v, const CalVector& u);
   friend CAL3D_API CalVector operator-(const CalVector& v, const CalVector& u);
   friend CAL3D_API CalVector operator*(const CalVector& v, const float d);
