@@ -1,0 +1,92 @@
+====================================================
+         Building the Cal3D Miniviewer
+====================================================
+
+      The Cal3D Team  (June 2003)
+
+----------------------------------------------------
+
+
+-------------------------
+Build System Dependencies
+-------------------------
+
+   To configure and build the Cally demo, you need the following tools:
+   
+   GNU Autoconf 2.13 or newer
+   GNU Automake 1.4 or newer
+
+   The source packages can be found at:
+
+   ftp://ftp.gnu.org/gnu/autoconf
+   ftp://ftp.gnu.org/gnu/automake
+
+
+
+------------------
+Basic Installation
+------------------
+
+   The miniviewer uses GNU's autobuild tools in order to allow users to 
+build the library from source using the same methods on a wide variety of 
+platforms.
+
+The simplest way to compile this package is:
+
+  1. In the top-level directory of the cal3d_cally package, run `./autogen.sh'
+     to automatically generate the configuration scripting files.
+ 
+  2. Type `./configure' to configure the package for your system. 
+
+     Running `configure' takes a while.  While running, it prints some
+     messages telling which features it is checking for. See below for
+     more info on configuring the Cal3D miniviewer.
+
+  3. Type `make' to compile the package.
+
+  4. Type `make install' to install the application into
+     the appropriate location.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  
+
+
+   The `autogen.sh' script will run the autotools for you and create
+the configure script and Makefile.in files, which will be used during 
+the build process.
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, a file
+`config.cache' that saves the results of its tests to speed up
+reconfiguring, and a file `config.log' containing compiler output
+(useful mainly for debugging `configure').
+
+
+---------------------------------
+Some Useful Configuration Options
+---------------------------------
+
+   When using the `configure' script, you might want to use some of the 
+optional flags to change various aspects of the build and installation.
+Below are some of the most commonly-used options.
+
+
+   --with-cal3d=<DIR>      Specify the location where you've installed the
+                           Cal3d package. This should be the parent directory
+                           of /lib and /include.
+
+   --prefix=<DIR>          Sets the package to be installed in a particular
+                           location. By default, Cal3D is installed to
+                           /usr/local
+
+   --with-cxx=<COMPILER>   Forces the use of a particular compiler. By default,
+                           the CXX environment variable is used.
+                           
+
+
+   To get a list of all configuration options that the script supports, type
+`./configure --help'. 
+

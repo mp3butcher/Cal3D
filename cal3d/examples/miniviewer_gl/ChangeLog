@@ -1,0 +1,45 @@
+o-----------------------------------------------------------------------------o
+|                             C h a n g e L o g                               |
+o-----------------------------------------------------------------------------o
+
+
+o-----------------------------------------------------------------------------o
+| Version 0.8 (29. August 2002)                                               |
+o-----------------------------------------------------------------------------o
+
+  - 16/32bits face indices support
+  - Completely revamped the automake/autoconf setup.
+  - Model will be rendered in the default skeleton pose when no animation was
+    specified.
+
+
+o-----------------------------------------------------------------------------o
+| Version 0.7 (5. January 2002)                                               |
+o-----------------------------------------------------------------------------o
+
+  - Fixed a bug that blended between different animations in spite of the
+    paused state.
+  - Fixed a bug in the parsing of the model configuration file. (Thanks to
+    Nick Edgington and Ladislav Stefun!)
+
+
+o-----------------------------------------------------------------------------o
+| Version 0.6 (4. August 2001)                                                |
+o-----------------------------------------------------------------------------o
+
+  - Finished the initial version. I think we are on the right path: The code
+    for initialization and I/O handling is a lot bigger than the cal3d
+    character animation control, and the rendering-loop is clean, short and
+    straight-forward ... ok, ok, there is no fancy bump-map yet, but we need
+    something for the next release, right? =)
+
+
+o-----------------------------------------------------------------------------o
+| Version 0.0 (27. June 2001)                                                 |
+o-----------------------------------------------------------------------------o
+
+  - Project kick off.
+
+
+o-----------------------------------------------------------------------------o
+
