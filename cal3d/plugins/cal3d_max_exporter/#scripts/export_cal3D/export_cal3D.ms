@@ -1,6 +1,6 @@
 --	-------------------------------------------------------------------
 --	CAL3D export
---	version : 1.02.01
+--	version : 1.04.00
 --	Based on the 0.9.1 'maxscript-extended' version of the exporter for Max6
 --
 -- Copyright (C) 2004 Mekensleep
@@ -32,7 +32,6 @@ global cal3DexportR
 try (destroyDialog cal3DexportR) catch()
 global cal3DDataVersion = 1.0
 global cal3DDataNodeName = "cal3D_data"
-
 
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
@@ -172,7 +171,7 @@ fn getStringKey sbuff section myKey =
 
 --	-------------------------------------------------------------------
 --	-------------------------------------------------------------------
-rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
+rollout cal3DexportR "Cal3D Multi-export" width:464 height:400
 (
 	local aList=#()						--	Animations data array
 	--	each element is a 5 items array
@@ -191,22 +190,22 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 	)
 	local configFile = (backslash (getDir #plugcfg)) + "cal3DExport.cfg"	--	general config file path
 
-	GroupBox grp1 "Meshes && Skeleton" pos:[8,8] width:216 height:184
+	GroupBox grp1 "Meshes && Skeleton" pos:[8,8] width:216 height:192
 	label lbl11 "Objects" pos:[16,36] width:40 height:16
 	dropdownList ddlObjSet "" pos:[80,32] width:136 height:21
-	checkbox chkIndexMat "Re-index materials" pos:[80,56] width:136 height:16
+	checkbox chkIndexMat "Re-index materials" pos:[80,56] width:136 height:16 enabled:true checked:true
 	checkbox chkLOD "LOD creation" pos:[80,72] width:136 height:16
-	checkbox chkSprings "Spring system" pos:[80,88] width:136 height:16
-
-	label lbl13 "Skel. root(s)" pos:[16,120] width:64 height:16
-	dropdownList ddlSkelSet "" pos:[80,120] width:136 height:21
-	label lbl9 "Max bones by vertex" pos:[48,152] width:104 height:16
-	spinner spnMaxBones "" pos:[152,152] width:64 height:16 range:[1,999,999] type:#integer scale:1
-	label lbl10 "Min weight threshold" pos:[48,168] width:104 height:16
-	spinner spnMinThres "" pos:[152,168] width:64 height:16 range:[0,1,0] scale:0.01
+	checkbox chkSprings "Spring system" pos:[32,88] width:96 height:16
+	dropdownList ddlSprings "" pos:[80,104] width:136 height:21
+	label lbl13 "Skel. root(s)" pos:[16,138] width:64 height:16
+	dropdownList ddlSkelSet "" pos:[80,136] width:136 height:21
+	label lbl9 "Max bones by vertex" pos:[48,160] width:104 height:16
+	spinner spnMaxBones "" pos:[152,160] width:64 height:16 range:[1,999,4] type:#integer scale:1
+	label lbl10 "Min weight threshold" pos:[48,176] width:104 height:16
+	spinner spnMinThres "" pos:[152,176] width:64 height:16 range:[0.001,1,0.001] scale:0.01
 	GroupBox grp4 "Cal3D mini-viewer" pos:[8,200] width:216 height:56
-	checkbox chkCreateCFG "Create ALL.CFG" pos:[32,216] width:112 height:16
-	checkbox chkPreviewCFG "Preview ALL.CFG" pos:[32,232] width:112 height:16
+	checkbox chkCreateCFG "Create cal3D.cfg" pos:[24,216] width:112 height:16
+	checkbox chkPreviewCFG "Preview cal3D.cfg" pos:[24,232] width:112 height:16
 	GroupBox grp2 "Animations" pos:[232,8] width:224 height:248
 	listbox lbxAnims "" pos:[256,48] width:160 height:8
 	button btnAnimAdd "+" pos:[424,48] width:24 height:16 toolTip:"Add an animation entry"
@@ -222,19 +221,21 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 	spinner spnAnimEnd "" pos:[396,188] width:48 height:16 range:[0,10000,0] type:#integer scale:1
 	radiobuttons rdoSkelType "" pos:[248,208] width:195 height:16 labels:#("Full skeleton", "Bones set") columns:2
 	dropdownList ddlBonesSet "" pos:[288,224] width:157 height:21
-	GroupBox grp3 "Configuration" pos:[8,264] width:448 height:72
+	GroupBox grp3 "Configuration" pos:[8,264] width:448 height:96
 	label lbl19 "File format" pos:[24,280] width:56 height:16
 	radiobuttons rdoFormat "" pos:[96,280] width:118 height:16 enabled:true labels:#("Binary", "XML") columns:2
+	checkbox chkTransform "Transform into OpenGL coord. system" pos:[24,296] width:208 height:16
+	label lb210 "Scale factor" pos:[320,280] width:64 height:16
+	spinner spnScale "" pos:[384,280] width:64 height:16 range:[0.001,100000,1]
 	label lbl40 "Sampling rate (frames)" pos:[248,24] width:104 height:16
 	spinner spnSRate "" pos:[368,24] width:48 height:16 range:[0,100,1] type:#integer scale:1
-	button btnViewerPath "Viewer path" pos:[16,296] width:72 height:16
-	edittext lblViewerPath "" pos:[88,296] width:360 height:16 enabled:false
-	button btnExportDir "Export dir" pos:[16,312] width:72 height:16
-	edittext lblExportDir "" pos:[88,312] width:360 height:16 enabled:false
-	button btnSaveConfig "Save config" pos:[88,344] width:80 height:24
-	button btnExport "Export" pos:[176,344] width:112 height:24
-	button btnAbort "Abort" pos:[296,344] width:80 height:24
-
+	button btnViewerPath "Viewer path" pos:[16,320] width:72 height:16
+	edittext lblViewerPath "" pos:[88,320] width:360 height:16 enabled:false
+	button btnExportDir "Export dir" pos:[16,336] width:72 height:16
+	edittext lblExportDir "" pos:[88,336] width:360 height:16 enabled:false
+	button btnSaveConfig "Save config" pos:[88,368] width:80 height:24
+	button btnExport "Export" pos:[176,368] width:112 height:24
+	button btnAbort "Cancel" pos:[296,368] width:80 height:24
 	--	-------------------------------------------------------------------
 	fn displayAnim num =
 	--	Fills the fields of the currently selected (num) animation data
@@ -332,7 +333,10 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 		lblViewerPath.text = getINIsetting configFile "Directories" "viewerPath"
 		tmp = getINIsetting configFile "Directories" "Format"
 		if tmp=="" then tmp="1"
-		rdoFormat.state = tmp as integer
+		rdoFormat.state = tmp as Integer
+		chkTransform.checked = (getINIsetting configFile "Options" "Transform") == "true"
+		tmp = (getINIsetting configFile "Options" "Scale") as Float
+		spnScale.value = if (tmp != 0.0) then tmp else 1.0
 		spnSRate.value = (getINIsetting configFile "Options" "SamplingRate") as integer
 	)
 	--	-------------------------------------------------------------------
@@ -342,6 +346,8 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 	(
 		setINIsetting configFile "Directories" "viewerPath" lblViewerPath.text
 		setINIsetting configFile "Directories" "Format" (rdoFormat.state as string)
+		setINIsetting configFile "Options" "Transform" (chkTransform.checked as String)
+		setINIsetting configFile "Options" "Scale" (spnScale.value as string)
 		setINIsetting configFile "Options" "SamplingRate" (spnSRate.value as string)
 	)
 	--	-------------------------------------------------------------------
@@ -385,9 +391,14 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 			chkLOD.checked = (getStringKey sbuff "export" "LOD")== "true"
 			chkSprings.checked = (getStringKey sbuff "export" "Springs")== "true"
 
+			--	Get the springs set
+			nssn = getStringKey sbuff "export" "springSet"
+			ddlSprings.selection = if ((idx = findItem nssList nssn) != 0) then idx else 1
+
 			--	Get the skeleton roots set
 			nssn = getStringKey sbuff "export" "skelSet"
 			ddlSkelSet.selection = if ((idx = findItem nssList nssn) != 0) then idx else 1
+
 			--	Get the animations list
 			num = (getStringKey sbuff "export" "anmNumber") as integer
 			for i=1 to num do
@@ -399,6 +410,10 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 				anmBSet = getStringKey sbuff ("anim" + i as string) "BonesSet"
 				append aList #(anmName, anmStart, anmEnd, anmUseBSet, anmBSet)
 			)
+
+			--	Get the Max Bones parameters
+			spnMaxBones.value = (getStringKey sbuff "general" "MaxBones") as integer
+			spnMinThres.value = (getStringKey sbuff "general" "MinThreshold") as float
 		)
 	)
 	--	-------------------------------------------------------------------
@@ -413,11 +428,14 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 		setStringKey &sbuff "general" "exportDir" lblExportDir.text
 		setStringKey &sbuff "general" "generateCFG" (chkCreateCFG.checked as string)
 		setStringKey &sbuff "general" "LaunchPreview" (chkPreviewCFG.checked as string)
+		setStringKey &sbuff "general" "MaxBones" (spnMaxBones.value as string)
+		setStringKey &sbuff "general" "MinThreshold" (spnMinThres.value as string)
 
 		setStringKey &sbuff "export" "meshSet" ddlObjSet.selected
 		setStringKey &sbuff "export" "ReIndexMat" (chkIndexMat.checked as string)
 		setStringKey &sbuff "export" "LOD" (chkLOD.checked as string)
 		setStringKey &sbuff "export" "Springs" (chkSprings.checked as string)
+		setStringKey &sbuff "export" "springSet" ddlSprings.selected
 
 		setStringKey &sbuff "export" "skelSet" ddlSkelSet.selected
 		setStringKey &sbuff "export" "anmNumber" (aList.count as string)
@@ -446,6 +464,8 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 	--	Returns an error message string in case of failure
 	--	-------------------------------------------------------------------
 	(
+		oldCommandPanelTaskMode = getCommandPanelTaskMode()
+
 		--	Need the TimeSlider on frame 0
 				oldAnimationRange = animationRange
 				animationRange = interval 0f animationRange.end
@@ -457,12 +477,17 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 		local exportDir = lblExportDir.text
 		try ( objSet = for obj in selectionSets[ddlObjSet.selected] collect obj )
 		catch ( return "The Named Selection Set that lists the objects is invalid" )
+		if chkSprings.checked then
+		(
+			try ( for obj in selectionSets[ddlSprings.selected] where ((finditem objSet obj)==0) do append objSet obj )
+			catch ( return "The Named Selection Set that lists the cloth objects is invalid" )
+		)
 
 		--	Skeleton
 		skeletonfile = exportDir + "Skeleton."+expType+"SF"
 		try ( SRootsSet = for obj in selectionSets[ddlSkelSet.selected] collect obj )
 		catch ( return "The Named Selection Set that lists the skeleton roots is invalid" )
-		res = exportcalskel skeletonfile SRootsSet off
+		res = exportcalskel skeletonfile SRootsSet off transform:chkTransform.checked
 		case res of
 		(
 			(-2) : return "An Exception occured in the ExportSkeleton plugin function"
@@ -486,12 +511,40 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 
 			--	Re-index materials
 			mat = obj.material
-			if classof mat != Standardmaterial then return "The material assigned to "+obj.name+" is not a Standard Material"
-			if chkIndexMat.checked then
-				mat.name = setMatIndex mat.name num
-			--	Export material
-			materialFile = exportDir + obj.name + "."+expType+"RF"
-			res = exportcalmat materialFile mat
+			case (classof mat) of
+			(
+				StandardMaterial:
+				(
+					if chkIndexMat.checked then
+					(
+						mat.name = setMatIndex mat.name num
+						num+=1
+						--	Export material
+						materialFile = exportDir + obj.name + "." + expType + "RF"
+						res = exportcalmat materialFile mat
+					)
+				)
+				MultiMaterial:
+				(
+					if chkIndexMat.checked then
+					(
+						for i=1 to mat.materialList.count do
+						(
+							mat.materialList[i].name = setMatIndex mat.materialList[i].name num
+							num+=1
+
+							--	Export material
+							materialFile = exportDir + obj.name + "_" + (i as String) + "." + expType + "RF"
+							res = exportcalmat materialFile mat.materialList[i]
+							if (res!=0) then exit
+						)
+					)
+				)
+				default:
+				(
+					return "The material assigned to "+obj.name+" is not a Standard- nor a Multi- material"
+				)
+			)
 			case res of
 			(
 				(-2) : return "An Exception occured in the ExportMaterial plugin function"
@@ -500,8 +553,6 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 				 2 : return "No good material"	--	already checked before the export (will never appear)
 				 3 : return "No good material"	--	already checked before the export (will never appear)
 			)
-			num+=1
-
 
 			--	Export Mesh
 			meshFile = exportDir + obj.name + "."+expType+"MF"
@@ -509,7 +560,8 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 			if (getCommandPanelTaskMode() == #modify) then
 				setCommandPanelTaskMode mode:#create
 
-			res = exportcalmesh meshfile skeletonfile obj spnMaxBones.value spnMinThres.value chkLOD.checked chkSprings.checked
+			isaCloth = chkSprings.checked and ((findItem selectionSets[ddlSprings.selected] obj)!=0)
+			res = exportcalmesh meshfile skeletonfile obj spnMaxBones.value spnMinThres.value chkLOD.checked isaCloth  transform:chkTransform.checked
 			case res of
 			(
 				(-2) : return "An Exception occured in the ExportMesh plugin function"
@@ -523,7 +575,6 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 				 7 : return "The Names Selection Set for the objects cointains invalid mesh nodes"
 			)
 		)
-
 		--	Animations
 		for anm in aList do
 		(
@@ -539,9 +590,7 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 				getChildren SRootsSet &bonesList
 			)
 
---	format "Animation % :\nStart : %\nEnd : %\nFull skel : % (%)\nBoneList : %\n\n" anm[1] anm[2] anm[3] anm[4] anm[5] (for hh in bonesList collect hh.name)
-
-			res = exportcalanim animationFile skeletonfile boneslist anm[2] anm[3] spnSRate.value frameRate
+			res = exportcalanim animationFile skeletonfile boneslist anm[2] anm[3] spnSRate.value frameRate transform:chkTransform.checked
 			case res of
 			(
 				(-2) : return "An Exception occured in the ExportAnimation plugin function"
@@ -562,12 +611,14 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 		--	Set the environment back to its former state
 		animationrange = oldAnimationRange
 		sliderTime = oldSliderTime
+		if (oldCommandPanelTaskMode != getCommandPanelTaskMode()) then
+			setCommandPanelTaskMode mode:oldCommandPanelTaskMode
 		return ""
 	)
 	--	-------------------------------------------------------------------
 	fn exportDataCheck =
 	--	Calls the exportData process
-	--	If no error is returned, creates the ALL.CFG file and launches the viewer
+	--	If no error is returned, creates the cal3D.cfg file and launches the viewer
 	--	-------------------------------------------------------------------
 	(
 		--	Export the data files and check for an error
@@ -577,29 +628,36 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 			MessageBox ("Error during the export :\n" + err + "\n\nProcess aborted") title:"CAL3D Export"
 			return()
 		)
-		--	Generate the ALL.CFG file
+		--	Generate the cal3D.CFG file
 		if chkCreateCFG.checked then
 		(
-			f = createFile (lblExportDir.text + "ALL.CFG")
+			f = createFile (lblExportDir.text + "cal3d.cfg")
 			if (f==undefined) then
 			(
 				MessageBox ("Cannot create the config file\n"+f) title:"CAL3D Export"
 				return()
 			)
+			--	XML or Binary
 			extens = if rdoFormat.state==1 then "C" else "X"
+
+			--	Objects to be listed (meshes and clothes)
+			nods = for o in selectionSets[ddlObjSet.selected] collect o
+			if chkSprings.checked then
+				for o in selectionSets[ddlSprings.selected] where ((finditem nods o)==0) do append nods o
+
 			format "################################################\n" to:f
 			format "#\n" to:f
 			format "# Cal3d cfg File\n" to:f
 			format "#\n" to:f
 			format "################################################\n" to:f
 			format "\n" to:f
-			format "scale=1\n" to:f
+			format "scale=%\n" spnScale.value to:f
 			format "\n" to:f
 			format "################# Skeleton #################\n" to:f
 			format "skeleton=Skeleton.%SF\n" extens to:f
 			format "\n" to:f
 			format "################# Meshes #################\n" to:f
-			for meshnod in selectionSets[ddlObjSet.selected] do
+			for meshnod in nods do
 				format "mesh=%.%MF\n" meshnod.name extens to:f
 			format "\n" to:f
 			format "################# Animations #################\n" to:f
@@ -607,12 +665,33 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 				format "animation=%.%AF\n" anm[1] extens to:f
 			format "\n" to:f
 			format "################# Materials #################\n" to:f
-			for meshnod in selectionSets[ddlObjSet.selected] do
-				format "material=%.%RF\n" meshnod.name extens to:f
+			for meshnod in nods do
+			(
+				mat = meshnod.material
+				case (classof mat) of
+				(
+					StandardMaterial:
+					(
+						format "material=%.%RF\n" meshnod.name extens to:f
+					)
+					MultiMaterial:
+					(
+						for i=1 to mat.materialList.count do
+						(
+							format "material=%_%.%RF\n" meshnod.name i extens to:f
+						)
+					)
+					default:
+					(
+						MessageBox ("Grumpfffff, no good material for "+meshnod.name)
+					)
+				)
+			)
 			format "\n" to:f
 			close f
 		)
-		--	Preview the ALL.CFG file
+
+		--	Preview the cal3D.CFG file
 		if chkPreviewCFG.checked then
 		(
 			local f, viewBatch="c:\\cal3Dpre.bat"
@@ -627,7 +706,7 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 			if ((findstring lblViewerPath.text " ") != undefined) then delimiter2="\""
 			format "%:\n" lblExportDir.text[1] to:f
 			format "cd %%%\n" delimiter1 lblExportDir.text delimiter1 to:f
-			format "%%% ALL.CFG\n" delimiter2 lblViewerPath.text delimiter2 to:f
+			format "%%% cal3d.cfg\n" delimiter2 lblViewerPath.text delimiter2 to:f
 			close f
 			DOSCommand viewBatch
 			deleteFile viewBatch
@@ -651,6 +730,7 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 		--	Named Selection Sets
 		nssList = for i=1 to getNumNamedSelSets() collect (getNamedSelSetName i)
 		ddlObjSet.items = nssList
+		ddlSprings.items = nssList
 		ddlSkelSet.items = nssList
 		ddlBonesSet.items = nssList
 		--	Animations list
@@ -769,9 +849,6 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:376
 	)
 )
 
-
-
-
 --	-------------------------------------------------------------------
 fn cal3DExportFull =
 --	Checks the presence of Named Selection Sets before calling the interface
@@ -784,7 +861,7 @@ fn cal3DExportFull =
 		MessageBox "This utility works with Named Selection Sets.\nDefine Named Selection Sets that represent :	\n	. the objects to export,\n	. the skeleton root(s),\n	. the animated bones\nbefore using this tool."
 		return()
 	)
-	--	Everythings seems fine, continue
+	--	Everything seems fine, continue
 	createDialog cal3DexportR
 )
 
@@ -803,3 +880,4 @@ macroScript exportCAL3D category:"File" buttonText:"CAL3D Export" toolTip:"CAL3D
 
 
 cal3DExportFull()
+

@@ -86,7 +86,7 @@ fn SPReportErrors =
 /*	-----------------------------------------------------------------------------  */
 /*	-----------------------------------------------------------------------------  */
 
-myTreemove "mzp_vognccrjos" "scripts"
+myTreemove "mzp_jtskgadkbr" "scripts"
 fileIn ((bkslash (getDir #scripts)) + "export_cal3D\\export_cal3D.ms")
 SPReportErrors()
 
