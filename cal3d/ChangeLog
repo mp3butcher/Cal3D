@@ -7,6 +7,8 @@ o-----------------------------------------------------------------------------o
 | Version 0.7 (in development)                                                |
 o-----------------------------------------------------------------------------o
 
+  - The header files of Cal3D are now installed to '/usr/local/include/cal3d'
+    when executing the 'make install' command. (Thanks to Brandon Ehle!)
   - The skeleton pose is now set to the initial state when no active animation
     exists. (Thanks to Brandon Ehle!)
   - Enhanced the CalVector and CalQuaternion class with a great number of
