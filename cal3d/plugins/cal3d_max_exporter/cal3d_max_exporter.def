@@ -1,6 +1,6 @@
 ; cal3d_max_exporter.def
 
-LIBRARY     "cal3d_max_exporter_DL3D"
+LIBRARY     "cal3d_max_exporter"
 ; DESCRIPTION is only valid for VxD files
 ; DESCRIPTION "3d Studio MAX 3.1/4.2/6 Cal3D Exporter"
 VERSION     0.9

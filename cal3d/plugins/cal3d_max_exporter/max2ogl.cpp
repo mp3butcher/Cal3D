@@ -18,7 +18,7 @@ Matrix3 ConvertMax2Ogl(const Matrix3& _mat)
   //T = R x _mat x R-1
   Matrix3 tm,tmogl,tmoglInv;
   tmogl.IdentityMatrix();
-  tmogl.RotateX(PI*0.5);
+  tmogl.RotateX(PI*0.5f);
   tmoglInv=tmogl;
   tmoglInv.Invert();
   tm=tmogl*_mat*tmoglInv;

@@ -271,6 +271,10 @@ SOURCE=..\src\win32\MaterialSelectionPage.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\max2ogl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MaxAnimationExport.cpp
 # End Source File
 # Begin Source File
@@ -458,6 +462,10 @@ SOURCE=..\src\win32\MaterialMapsPage.h
 # Begin Source File
 
 SOURCE=..\src\win32\MaterialSelectionPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\max2ogl.h
 # End Source File
 # Begin Source File
 
