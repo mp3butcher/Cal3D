@@ -161,7 +161,7 @@
  *  take precedence over traditional combat. eGenesis used a derivative of Cal3D
  *  that they developed, which is also available on their "download" page. 
  *
- *  <b><i>Desert Rats</i></b> - http://www.valusoft.com/products/desertrats.html - A WW2 
+ *  <b><i>Desert Rats</i></b> - http://www.valusoft.com/ (no longer in their product list) - A WW2 
  *  action game where you fight the Nazis in northern Africa from a heavily
  *  armed jeep.
  *
@@ -171,11 +171,21 @@
  *  <b><i>The Nebula Device</i></b> - http://nebuladevice.sourceforge.net/cgi-bin/twiki/view/Nebula/NCal3DPackage
  *  -  An open source 3D game/visualization engine designed to be highly scriptable. 
  *  Their package, nCal3D, allows Nebula users to easily integrate Cal3D into their
- *  own applications.
+ *  own applications (based on cal3d version 0.8).
  * 
  *  <b><i>Project FY</i></b> - http://fysoftware.com - A game still in development
  *  featuring a 3D engine capable of handling both indoor and outdoor environments
  *  and transitioning seamlessly between them.
+ *
+ *  <b><i>Poker3d</i></b> - http://freshmeat.net/projects/poker3d/ - Poker 3D client and server
+ *  released under the GNU GPL (pre-Alpha stage).
+ *
+ *  <b><i>osgCal</i></b> - http://osgcal.sourceforge.net/ - OpenSceneGraph adapter for cal3d
+ *  released under the GNU LGPL (Beta stage).
+ *
+ *  <b><i>ReplicantBody</i></b> - http://www.vrlab.umu.se/research/replicants/rbody.html - 
+ *  ReplicantBody is a character animation toolkit released under the GNU LGPL, written in C++, 
+ *  built upon Cal3D, ConfigScript and OpenSceneGraph.
  *
  *  If you know of anyone else using Cal3D, let us know!
  *  </ul>
