@@ -48,6 +48,7 @@ protected:
   CalQuaternion m_rotationAbsolute;
   CalVector m_translationBoneSpace;
   CalQuaternion m_rotationBoneSpace;
+  CalMatrix m_transformMatrix;
 
 // constructors/destructor
 public:
@@ -68,6 +69,7 @@ public:
   const CalVector& getTranslation();
   const CalVector& getTranslationAbsolute();
   const CalVector& getTranslationBoneSpace();
+  const CalMatrix& getTransformMatrix();
   void lockState();
   void setSkeleton(CalSkeleton *pSkeleton);
 };

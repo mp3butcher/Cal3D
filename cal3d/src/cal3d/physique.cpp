@@ -104,7 +104,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 
       // transform vertex with current state of the bone
       CalVector v(vertex.position);
-      v *= pBone->getRotationBoneSpace();
+      v *= pBone->getTransformMatrix();
       v += pBone->getTranslationBoneSpace();
 
       x += influence.weight * v.x;
@@ -193,7 +193,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
 
       // transform normal with current state of the bone
       CalVector v(vertex.normal);
-      v *= pBone->getRotationBoneSpace();
+      v *= pBone->getTransformMatrix(); 
 
       nx += influence.weight * v.x;
       ny += influence.weight * v.y;
@@ -277,7 +277,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
       // transform vertex with current state of the bone
       CalVector v(vertex.position);
-      v *= pBone->getRotationBoneSpace();
+      v *= pBone->getTransformMatrix();
       v += pBone->getTranslationBoneSpace();
 
       x += influence.weight * v.x;
@@ -286,7 +286,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
 	  // transform normal with current state of the bone
       CalVector n(vertex.normal);
-      n *= pBone->getRotationBoneSpace();
+      n *= pBone->getTransformMatrix();
 
       nx += influence.weight * n.x;
       ny += influence.weight * n.y;
@@ -411,7 +411,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 
       // transform vertex with current state of the bone
       CalVector v(vertex.position);
-      v *= pBone->getRotationBoneSpace();
+      v *= pBone->getTransformMatrix();
       v += pBone->getTranslationBoneSpace();
 
       x += influence.weight * v.x;
@@ -420,7 +420,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 
 	  // transform normal with current state of the bone
       CalVector n(vertex.normal);	  
-      n *= pBone->getRotationBoneSpace();
+      n *= pBone->getTransformMatrix();
 
       nx += influence.weight * n.x;
       ny += influence.weight * n.y;

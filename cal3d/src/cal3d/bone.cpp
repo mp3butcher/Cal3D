@@ -128,6 +128,10 @@ void CalBone::calculateState()
   m_rotationBoneSpace = m_pCoreBone->getRotationBoneSpace();
   m_rotationBoneSpace *= m_rotationAbsolute;
 
+  // Generate the vertex transform.  If I ever add support for bone-scaling
+  // to Cal3D, this step will become significantly more complex.
+  m_transformMatrix = m_rotationBoneSpace;
+
   // calculate all child bones
   std::list<int>::iterator iteratorChildId;
   for(iteratorChildId = m_pCoreBone->getListChildId().begin(); iteratorChildId != m_pCoreBone->getListChildId().end(); ++iteratorChildId)
@@ -282,6 +286,21 @@ const CalVector& CalBone::getTranslationBoneSpace()
 {
   return m_translationBoneSpace;
 }
+
+ /*****************************************************************************/
+/** Returns the current bone space translation.
+  *
+  * This function returns the current translation to bring a point into the
+  *bone instance space.
+  *
+  * @return The translation to bring a point into bone space.
+  *****************************************************************************/
+
+const CalMatrix& CalBone::getTransformMatrix()
+{
+  return m_transformMatrix;
+}
+
 
  /*****************************************************************************/
 /** Locks the current state.

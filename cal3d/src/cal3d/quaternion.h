@@ -61,6 +61,35 @@ public:
   void set(float qx, float qy, float qz, float qw);
 };
 
+class CAL3D_API CalMatrix
+{
+// member variables
+public:
+  // float dxdx,dydx,dzdx;
+  // float dxdy,dydy,dzdy;
+  // float dxdz,dydz,dzdz;
+
+  float dxdx,dxdy,dxdz;
+  float dydx,dydy,dydz;
+  float dzdx,dzdy,dzdz;
+
+// constructors/destructor
+public:
+  CalMatrix();
+  CalMatrix(const CalQuaternion &q);
+  CalMatrix(float weight, const CalMatrix &m);
+  ~CalMatrix();
+
+// member functions
+public:
+  void operator=(const CalQuaternion& q);
+  void operator=(const CalMatrix& m);
+  void operator *= (const CalMatrix &m);
+  void operator *= (float factor);
+  void blend(float d, const CalMatrix& m);
+};
+
+
 #endif
 
 //****************************************************************************//

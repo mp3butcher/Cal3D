@@ -22,6 +22,7 @@
 //****************************************************************************//
 
 class CalQuaternion;
+class CalMatrix;
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -55,6 +56,7 @@ public:
   void operator-=(const CalVector& v);
   void operator*=(const float d);
   void operator*=(const CalQuaternion& q);
+  void operator*=(const CalMatrix &m);
   void operator/=(const float d);
   friend CAL3D_API CalVector operator+(const CalVector& v, const CalVector& u);
   friend CAL3D_API CalVector operator-(const CalVector& v, const CalVector& u);

@@ -178,6 +178,24 @@ void CalVector::operator*=(const CalQuaternion& q)
 }
 
  /*****************************************************************************/
+/** Transforms the vector instance by a matrix.
+  *
+  * This function transforms the vector instance by a given matrix.
+  *
+  * @param m The matrix to be used for the transformation.
+  *****************************************************************************/
+
+void CalVector::operator*=(const CalMatrix& m)
+{
+  float ox = x;
+  float oy = y;
+  float oz = z;
+  x = m.dxdx*ox + m.dxdy*oy + m.dxdz*oz;
+  y = m.dydx*ox + m.dydy*oy + m.dydz*oz;
+  z = m.dzdx*ox + m.dzdy*oy + m.dzdz*oz;
+}
+
+ /*****************************************************************************/
 /** Scales the vector instance.
   *
   * This operator scales the vector instance by dividing its components by a
