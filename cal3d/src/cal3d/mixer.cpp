@@ -352,7 +352,7 @@ void CalMixer::updateAnimation(float deltaTime)
   else
   {
     m_animationTime += deltaTime * m_timeFactor;
-    if(m_animationTime >= m_animationDuration)
+    if(m_animationTime >= m_animationDuration || m_animationTime<0)
     {
       m_animationTime = (float) fmod(m_animationTime, m_animationDuration);
     }
