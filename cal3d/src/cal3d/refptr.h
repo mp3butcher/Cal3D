@@ -66,6 +66,12 @@ namespace cal3d
             return *this;
         }
 
+        /// Need this to override the built-in operator!
+        bool operator!() const
+        {            
+            return !get();
+        }
+
         T* operator->() const
         {
             assert(get() && "Accessing member of null pointer!");
