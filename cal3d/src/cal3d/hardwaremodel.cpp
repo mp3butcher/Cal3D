@@ -212,6 +212,20 @@ void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuff
 }
 
  /*****************************************************************************/
+/** Set the list of core mesh ids to use for building the hardware model instance.
+  * setCoreMeshIds must be called before the load method otherwise it will have
+  * no effect. If setCoreMeshIds is not called, the hardware model instance will
+  * use all the core mesh ids from the core model.
+  *
+  * @param coreMeshIds a vector of core mesh ids
+  *
+  *****************************************************************************/
+void CalHardwareModel::setCoreMeshIds(const std::vector<int>& coreMeshIds)
+{
+	m_coreMeshIds = coreMeshIds;
+}
+
+ /*****************************************************************************/
 /** Destroys the hardware model instance.
   *
   * This function destroys all data stored in the hardware model instance and frees
@@ -629,10 +643,17 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 	CalCoreSkeleton * pCoreSkeleton = m_pCoreModel->getCoreSkeleton();
 	
 	std::vector< CalCoreBone *>& vectorBone = pCoreSkeleton->getVectorCoreBone();
-	
-	int meshId;
-	for(meshId = 0;meshId< m_pCoreModel->getCoreMeshCount();meshId++)
+
+	// if unspecified, fill with all core mesh ids
+	if(m_coreMeshIds.empty())
 	{
+		for(int coreMeshId = 0; coreMeshId < m_pCoreModel->getCoreMeshCount(); coreMeshId++)
+			m_coreMeshIds.push_back(coreMeshId);
+	}
+		
+	for(std::vector<int>::iterator meshIdIt = m_coreMeshIds.begin();meshIdIt != m_coreMeshIds.end(); meshIdIt++)
+	{
+		int meshId = *meshIdIt;
 		CalCoreMesh *pCoreMesh = m_pCoreModel->getCoreMesh(meshId);
 		int submeshCount= pCoreMesh->getCoreSubmeshCount();
 		int submeshId;

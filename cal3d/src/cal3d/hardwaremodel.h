@@ -58,7 +58,7 @@ private:
 	std::vector<CalHardwareMesh> m_vectorHardwareMesh;
 	std::vector<CalIndex> m_vectorVertexIndiceUsed;
 	int m_selectedHardwareMesh;
-	
+	std::vector<int> m_coreMeshIds;
 	CalCoreModel *m_pCoreModel;
 	
 	
@@ -97,6 +97,7 @@ private:
 		void setMatrixIndexBuffer( char * pMatrixIndexBuffer, int stride); 
 		void setTextureCoordNum(int textureCoordNum);
 		void setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride); 
+		void setCoreMeshIds(const std::vector<int>& coreMeshIds);
 
 		bool load(int baseVertexIndex, int startIndex,int maxBonesPerMesh);
 				
