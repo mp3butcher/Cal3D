@@ -635,36 +635,8 @@ void Viewer::onRender()
   g_pD3DDevice->BeginScene();
 
   D3DXMATRIX matProj;
-  //D3DXMatrixPerspectiveFovRH( &matProj, D3DX_PI/4, m_width / m_height, m_scale * 50.0, m_scale * 1000.0 );
   
-  /*
-         I got problem with D3DXMatrixPerspectiveFovRH or D3DXMatrixPerspectiveFovLH
-		 I did'nt got the same result that in OpenGL version, thus I do the work here
-  */
-  
-		 
-  float xmin, xmax, ymin, ymax;
-  ymax = m_scale * 50.0f * tanf(45.0f * D3DX_PI / 360.0f);
-  ymin = -ymax;
-  xmin = ymin * m_width / m_height;
-  xmax = ymax * m_width / m_height;
-  float x, y, a, b, c, d;
-
-  x = (2.0f * m_scale * 50.0f) / (xmax - xmin);
-  y = (2.0f * m_scale * 50.0f) / (ymax - ymin);
-  a = (xmax + xmin) / (xmax - xmin);
-  b = (ymax + ymin) / (ymax - ymin);
-  c = -(m_scale * 1000.0f + m_scale * 50.0f) / ( m_scale * 1000.0f - m_scale * 50.0f);
-  d = -(2.0f * m_scale * 1000.0f * m_scale * 50.0f) / (m_scale * 1000.0f - m_scale * 50.0f);
-
-  #define M(row,col)  matProj[col*4+row]
-  M(0,0) = x;     M(0,1) = 0.0f;  M(0,2) = a;      M(0,3) = 0.0f;
-  M(1,0) = 0.0f;  M(1,1) = y;     M(1,2) = b;      M(1,3) = 0.0f;
-  M(2,0) = 0.0f;  M(2,1) = 0.0f;  M(2,2) = c;      M(2,3) = d;
-  M(3,0) = 0.0f;  M(3,1) = 0.0f;  M(3,2) = -1.0f;  M(3,3) = 0.0f;
-  #undef M  
-
-
+  D3DXMatrixPerspectiveFovRH( &matProj, D3DX_PI/4, (float) m_width / (float) m_height, m_scale * 50.0, m_scale * 1000.0 );
 
   g_pD3DDevice->SetTransform( D3DTS_PROJECTION, &matProj );
 
