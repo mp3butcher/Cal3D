@@ -65,9 +65,8 @@ void CalLoader::setLoadingMode(int flags)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
+CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel)
 {
-
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
     return loadXmlCoreAnimation(strFilename);
 
@@ -85,7 +84,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
   //make a new stream data source and use it to load the animation
   CalStreamSource streamSrc( file );
   
-  CalCoreAnimation* coreanim = loadCoreAnimation( streamSrc );
+  CalCoreAnimation* coreanim = loadCoreAnimation( streamSrc,skel );
 
   //close the file
   file.close();
@@ -230,11 +229,11 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimation *CalLoader::loadCoreAnimation(std::istream& inputStream)
+CalCoreAnimation *CalLoader::loadCoreAnimation(std::istream& inputStream, CalCoreSkeleton *skel )
 {
    //Create a new istream data source and pass it on
    CalStreamSource streamSrc(inputStream);
-   return loadCoreAnimation(streamSrc);
+   return loadCoreAnimation(streamSrc, skel);
 }
 
  /*****************************************************************************/
@@ -314,11 +313,11 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(std::istream& inputStream)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimation *CalLoader::loadCoreAnimation(void* inputBuffer)
+CalCoreAnimation *CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel)
 {
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
-   return loadCoreAnimation(bufferSrc);
+   return loadCoreAnimation(bufferSrc,skel);
 }
 
  /*****************************************************************************/
@@ -396,7 +395,7 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(void* inputBuffer)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimation *CalLoader::loadCoreAnimation(CalDataSource& dataSrc)
+CalCoreAnimation *CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCoreSkeleton *skel)
 {
 
   // check if this is a valid file
@@ -467,7 +466,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(CalDataSource& dataSrc)
   {
     // load the core track
     CalCoreTrack *pCoreTrack;
-    pCoreTrack = loadCoreTrack(dataSrc);
+    pCoreTrack = loadCoreTrack(dataSrc,skel);
     if(pCoreTrack == 0)
     {
       pCoreAnimation->destroy();
@@ -1189,15 +1188,18 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
     pCoreSubmesh->setSpring(springId, spring);
   }
 
+
   // load all faces
   int faceId;
+  int justOnce = 0;
+  bool flipModel = false;
   for(faceId = 0; faceId < faceCount; ++faceId)
   {
     CalCoreSubmesh::Face face;
 
     // load data of the face
-	
-	int tmp[3];
+
+	int tmp[4];
 	dataSrc.readInteger(tmp[0]);
 	dataSrc.readInteger(tmp[1]);
 	dataSrc.readInteger(tmp[2]);
@@ -1225,6 +1227,46 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
       return 0;
     }
 
+    // check if left-handed coord system is used by the object
+    // can be done only once since the object has one system for all faces
+    if (justOnce==0)
+    {
+      // get vertexes of first face
+      std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
+      CalCoreSubmesh::Vertex& v1 = vectorVertex[tmp[0]];
+      CalCoreSubmesh::Vertex& v2 = vectorVertex[tmp[1]];
+      CalCoreSubmesh::Vertex& v3 = vectorVertex[tmp[2]];
+
+      CalVector point1 = CalVector(v1.position.x, v1.position.y, v1.position.z);
+      CalVector point2 = CalVector(v2.position.x, v2.position.y, v2.position.z);
+      CalVector point3 = CalVector(v3.position.x, v3.position.y, v3.position.z);
+
+      // gets vectors (v1-v2) and (v3-v2)
+      CalVector vect1 = point1 - point2;
+      CalVector vect2 = point3 - point2;
+
+      // calculates normal of face
+      CalVector cross = vect1 % vect2;
+      CalVector faceNormal = cross / cross.length();
+
+      // compare the calculated normal with the normal of a vertex
+      CalVector maxNorm = v1.normal;
+
+      // if the two vectors point to the same direction then the poly needs flipping
+      // so if the dot product > 0 it needs flipping
+      if (faceNormal*maxNorm>0)
+		  flipModel = true;
+
+      justOnce = 1;
+    }
+
+    // flip if needed
+    if (flipModel) {
+      tmp[3] = face.vertexId[1];
+      face.vertexId[1]=face.vertexId[2];
+	  face.vertexId[2]=tmp[3];
+    }
+
     // set face in the core submesh instance
     pCoreSubmesh->setFace(faceId, face);
   }
@@ -1244,7 +1286,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc)
+CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel)
 {
   if(!dataSrc.ok())
   {
@@ -1303,7 +1345,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc)
     if (loadingMode & LOADER_ROTATE_X_AXIS)
     {
       // Check for anim rotation
-      if (!coreBoneId)  // root bone
+      if (skel && skel->getCoreBone(coreBoneId)->getParentId() == -1)  // root bone
       {
         // rotate root bone quaternion
         CalQuaternion rot = pCoreKeyframe->getRotation();
@@ -2748,3 +2790,4 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
 
 
 //****************************************************************************//
+
