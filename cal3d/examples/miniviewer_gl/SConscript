@@ -9,4 +9,3 @@ env.Program('miniviewer_gl', [
     'src/tga.cpp',
     'src/tick.cpp',
     'src/viewer.cpp'])
-

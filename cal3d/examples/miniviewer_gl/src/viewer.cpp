@@ -48,6 +48,8 @@ Viewer::Viewer()
   m_bRightMouseButtonDown = false;
   m_lastTick = 0;
   m_bPaused = false;
+  m_drawGrid = false;
+  m_drawSkeleton = false;
   m_scale = 1.0f;
   m_blendTime = 0.3f;
   m_lodLevel = 1.0f;
@@ -305,12 +307,10 @@ bool Viewer::onCreate(int argc, char *argv[])
 void Viewer::onIdle()
 {
   // get the current tick value
-  unsigned int tick;
-  tick = Tick::getTick();
+  unsigned int tick = Tick::getTick();
 
   // calculate the amount of elapsed seconds
-  float elapsedSeconds;
-  elapsedSeconds = (float)(tick - m_lastTick) / 1000.0f;
+  float elapsedSeconds = (float)(tick - m_lastTick) / 1000.0f;
 
   // adjust fps counter
   m_fpsDuration += elapsedSeconds;
@@ -360,24 +360,19 @@ void Viewer::onIdle()
 bool Viewer::onInit()
 {
   // load all textures and store the opengl texture id in the corresponding map in the material
-  int materialId;
-  for(materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
+  for(int materialId = 0; materialId < m_calCoreModel.getCoreMaterialCount(); materialId++)
   {
     // get the core material
-    CalCoreMaterial *pCoreMaterial;
-    pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
+    CalCoreMaterial *pCoreMaterial = m_calCoreModel.getCoreMaterial(materialId);
 
     // loop through all maps of the core material
-    int mapId;
-    for(mapId = 0; mapId < pCoreMaterial->getMapCount(); mapId++)
+    for(int mapId = 0; mapId < pCoreMaterial->getMapCount(); mapId++)
     {
       // get the filename of the texture
-      std::string strFilename;
-      strFilename = pCoreMaterial->getMapFilename(mapId);
+      std::string strFilename = pCoreMaterial->getMapFilename(mapId);
 
       // load the texture from the file
-      GLuint textureId;
-      textureId = loadTexture(strFilename);
+      GLuint textureId = loadTexture(strFilename);
 
       // store the opengl texture id in the user data of the map
       pCoreMaterial->setMapUserData(mapId, (Cal::UserData)textureId);
@@ -385,8 +380,7 @@ bool Viewer::onInit()
   }
 
   // attach all meshes to the model
-  int meshId;
-  for(meshId = 0; meshId < m_calCoreModel.getCoreMeshCount(); meshId++)
+  for(int meshId = 0; meshId < m_calCoreModel.getCoreMeshCount(); meshId++)
   {
     m_calModel.attachMesh(meshId);
   }
@@ -446,6 +440,12 @@ void Viewer::onKey(unsigned char key, int x, int y)
     case '+':
       m_lodLevel += 0.002f;
       if(m_lodLevel > 1.0f) m_lodLevel = 1.0f;
+      break;
+    case 'g':
+      m_drawGrid = !m_drawGrid;
+      break;
+    case 's':
+      m_drawSkeleton = !m_drawSkeleton;
       break;
     // test for pause event
     case ' ':
@@ -773,9 +773,14 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
 
 void Viewer::renderModel()
 {
+  if (m_drawGrid)
+    drawGrid();
+
+  if (m_drawSkeleton)
+    return renderSkeleton();
+
   // get the renderer of the model
-  CalRenderer *pCalRenderer;
-  pCalRenderer = m_calModel.getRenderer();
+  CalRenderer *pCalRenderer = m_calModel.getRenderer();
 
   // begin the rendering loop
   if(pCalRenderer->beginRendering())
@@ -791,20 +796,16 @@ void Viewer::renderModel()
     glEnableClientState(GL_NORMAL_ARRAY);
 
     // get the number of meshes
-    int meshCount;
-    meshCount = pCalRenderer->getMeshCount();
+    int meshCount = pCalRenderer->getMeshCount();
 
     // render all meshes of the model
-    int meshId;
-    for(meshId = 0; meshId < meshCount; meshId++)
+    for(int meshId = 0; meshId < meshCount; meshId++)
     {
       // get the number of submeshes
-      int submeshCount;
-      submeshCount = pCalRenderer->getSubmeshCount(meshId);
+      int submeshCount = pCalRenderer->getSubmeshCount(meshId);
 
       // render all submeshes of the mesh
-      int submeshId;
-      for(submeshId = 0; submeshId < submeshCount; submeshId++)
+      for(int submeshId = 0; submeshId < submeshCount; submeshId++)
       {
         // select mesh and submesh for further data access
         if(pCalRenderer->selectMeshSubmesh(meshId, submeshId))
@@ -834,8 +835,7 @@ void Viewer::renderModel()
 
           // get the transformed vertices of the submesh
           static float meshVertices[30000][3];
-          int vertexCount;
-          vertexCount = pCalRenderer->getVertices(&meshVertices[0][0]);
+          int vertexCount = pCalRenderer->getVertices(&meshVertices[0][0]);
 
           // get the transformed normals of the submesh
           static float meshNormals[30000][3];
@@ -843,13 +843,11 @@ void Viewer::renderModel()
 
           // get the texture coordinates of the submesh
           static float meshTextureCoordinates[30000][2];
-          int textureCoordinateCount;
-          textureCoordinateCount = pCalRenderer->getTextureCoordinates(0, &meshTextureCoordinates[0][0]);
+          int textureCoordinateCount = pCalRenderer->getTextureCoordinates(0, &meshTextureCoordinates[0][0]);
 
           // get the faces of the submesh
           static CalIndex meshFaces[50000][3];
-          int faceCount;
-          faceCount = pCalRenderer->getFaces(&meshFaces[0][0]);
+          int faceCount = pCalRenderer->getFaces(&meshFaces[0][0]);
 
           // set the vertex and normal buffers
           glVertexPointer(3, GL_FLOAT, 0, &meshVertices[0][0]);
@@ -872,10 +870,10 @@ void Viewer::renderModel()
 
           // draw the submesh
 		  
-		  if(sizeof(CalIndex)==2)
-			  glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_SHORT, &meshFaces[0][0]);
-		  else
-			  glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, &meshFaces[0][0]);
+          if(sizeof(CalIndex)==2)
+            glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_SHORT, &meshFaces[0][0]);
+          else
+            glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, &meshFaces[0][0]);
 
           // disable the texture coordinate state if necessary
           if((pCalRenderer->getMapCount() > 0) && (textureCoordinateCount > 0))
@@ -906,6 +904,85 @@ void Viewer::renderModel()
     pCalRenderer->endRendering();
   }
 
+}
+
+inline void glVertex(const CalVector& v) {
+  glVertex3f(v.x, v.y, v.z);
+}
+
+void Viewer::renderSkeleton()
+{
+#if 0
+  CalSkeleton* skeleton = m_calModel.getSkeleton();
+  std::vector<CalBone*>& bones = skeleton->getVectorBone();
+
+  glColor3f(1, 1, 1);
+  glPointSize(4);
+  glBegin(GL_POINTS);
+  for (size_t i = 0; i < bones.size(); ++i)
+  {
+    glVertex(bones[i]->getTranslationAbsolute());
+  }
+  glEnd();
+#endif
+  // draw the bone lines
+  float lines[1024][2][3];
+  int nrLines = m_calModel.getSkeleton()->getBoneLines(&lines[0][0][0]);
+
+  glLineWidth(3.0f);
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glBegin(GL_LINES);
+  for(int currLine = 0; currLine < nrLines; currLine++)
+  {
+    glVertex3f(lines[currLine][0][0], lines[currLine][0][1], lines[currLine][0][2]);
+    glVertex3f(lines[currLine][1][0], lines[currLine][1][1], lines[currLine][1][2]);
+  }
+  glEnd();
+  glLineWidth(1.0f);
+
+  // draw the bone points
+  float points[1024][3];
+  int nrPoints = m_calModel.getSkeleton()->getBonePoints(&points[0][0]);
+
+  glPointSize(4.0f);
+  glBegin(GL_POINTS);
+  glColor3f(0.0f, 0.0f, 1.0f);
+  for(int currPoint = 0; currPoint < nrPoints; currPoint++)
+  {
+    glVertex3f(points[currPoint][0], points[currPoint][1], points[currPoint][2]);
+  }
+  glEnd();
+  glPointSize(1.0f);
+}
+
+void Viewer::drawGrid()
+{
+  glColor3f(0.3f, 0.3f, 0.3f);
+  glBegin(GL_LINES);
+
+  // Draw grid.
+  for (int i = -100; i <= 100; i += 10) {
+    glVertex2f(-100, i);
+    glVertex2f( 100, i);
+
+    glVertex2f(i, -100);
+    glVertex2f(i,  100);
+  }
+
+  // Draw axis lines.
+  glColor3f(1, 0, 0);
+  glVertex3f(0, 0, 0);
+  glVertex3f(100, 0, 0);
+
+  glColor3f(0, 1, 0);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 100, 0);
+
+  glColor3f(0, 0, 1);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, 100);
+
+  glEnd();
 }
 
 //----------------------------------------------------------------------------//

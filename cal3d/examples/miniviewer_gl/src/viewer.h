@@ -37,6 +37,8 @@ protected:
   bool m_bRightMouseButtonDown;
   unsigned int m_lastTick;
   bool m_bPaused;
+  bool m_drawSkeleton;
+  bool m_drawGrid;
   CalCoreModel m_calCoreModel;
   CalModel m_calModel;
   float m_scale;
@@ -54,11 +56,12 @@ protected:
 
 // constructors/destructor
 public:
-	Viewer();
-	virtual ~Viewer();
+  Viewer();
+  virtual ~Viewer();
 	
 // member functions
 public:
+
   std::string getCaption();
   bool getFullscreen();
   int getHeight();
@@ -79,6 +82,8 @@ protected:
   bool parseModelConfiguration(const std::string& strFilename);
   void renderCursor();
   void renderModel();
+  void renderSkeleton();
+  void drawGrid();
 };
 
 extern Viewer theViewer;
