@@ -424,7 +424,7 @@ CalMesh *CalModel::getMesh(int coreMeshId)
   if((coreMeshId < 0) ||(coreMeshId >= m_pCoreModel->getCoreMeshCount()))
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
+    return 0;
   }
 
   // get the core mesh

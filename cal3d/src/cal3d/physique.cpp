@@ -102,7 +102,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 
       // transform vertex with current state of the bone
       CalVector v(vertex.position);
-      v.transform(pBone->getRotationBoneSpace());
+      v *= pBone->getRotationBoneSpace();
       v += pBone->getTranslationBoneSpace();
 
       x += influence.weight * v.x;
@@ -190,7 +190,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
 
       // transform normal with current state of the bone
       CalVector v(vertex.normal);
-      v.transform(pBone->getRotationBoneSpace());
+      v *= pBone->getRotationBoneSpace();
 
       nx += influence.weight * v.x;
       ny += influence.weight * v.y;

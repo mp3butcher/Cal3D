@@ -54,6 +54,7 @@ public:
   void operator+=(const CalVector& v);
   void operator-=(const CalVector& v);
   void operator*=(const float d);
+  void operator*=(const CalQuaternion& q);
   void operator/=(const float d);
   friend CalVector operator+(const CalVector& v, const CalVector& u);
   friend CalVector operator-(const CalVector& v, const CalVector& u);
@@ -66,7 +67,6 @@ public:
   void clear();
   float length();
   float normalize();
-  void transform(const CalQuaternion& q);
 };
 
 #endif

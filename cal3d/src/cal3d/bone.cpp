@@ -113,7 +113,7 @@ void CalBone::calculateState()
 
     // transform relative state with the absolute state of the parent
     m_translationAbsolute = m_translation;
-    m_translationAbsolute.transform(pParent->getRotationAbsolute());
+    m_translationAbsolute *= pParent->getRotationAbsolute();
     m_translationAbsolute += pParent->getTranslationAbsolute();
 
     m_rotationAbsolute = m_rotation;
@@ -122,7 +122,7 @@ void CalBone::calculateState()
 
   // calculate the bone space transformation
   m_translationBoneSpace = m_pCoreBone->getTranslationBoneSpace();
-  m_translationBoneSpace.transform(m_rotationAbsolute);
+  m_translationBoneSpace *= m_rotationAbsolute;
   m_translationBoneSpace += m_translationAbsolute;
 
   m_rotationBoneSpace = m_pCoreBone->getRotationBoneSpace();

@@ -87,7 +87,7 @@ void CalCoreBone::calculateState()
 
     // transform relative state with the absolute state of the parent
     m_translationAbsolute = m_translation;
-    m_translationAbsolute.transform(pParent->getRotationAbsolute());
+    m_translationAbsolute *= pParent->getRotationAbsolute();
     m_translationAbsolute += pParent->getTranslationAbsolute();
 
     m_rotationAbsolute = pParent->getRotationAbsolute();

@@ -159,6 +159,25 @@ void CalVector::operator*=(const float d)
 }
 
  /*****************************************************************************/
+/** Transforms the vector instance by a quaternion.
+  *
+  * This function transforms the vector instance by a given quaternion.
+  *
+  * @param q The quaternion to be used for the transformation.
+  *****************************************************************************/
+
+void CalVector::operator*=(const CalQuaternion& q)
+{
+  CalQuaternion temp(-q.x, -q.y, -q.z, q.w);
+  temp *= *this;
+  temp *= q;
+
+  x = temp.x;
+  y = temp.y;
+  z = temp.z;
+}
+
+ /*****************************************************************************/
 /** Scales the vector instance.
   *
   * This operator scales the vector instance by dividing its components by a
@@ -349,25 +368,6 @@ float CalVector::normalize()
   z /= length;
 
   return length;
-}
-
- /*****************************************************************************/
-/** Transforms the vector instance by a quaternion.
-  *
-  * This function transforms the vector instance by a given quaternion.
-  *
-  * @param q The quaternion to be used for the transformation.
-  *****************************************************************************/
-
-void CalVector::transform(const CalQuaternion& q)
-{
-  CalQuaternion temp(-q.x, -q.y, -q.z, q.w);
-  temp *= *this;
-  temp *= q;
-
-  x = temp.x;
-  y = temp.y;
-  z = temp.z;
 }
 
 //****************************************************************************//
