@@ -274,7 +274,7 @@ void CalMixer::destroy()
   m_pModel = 0;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Executes an animation action.
   *
   * This function executes an animation action.
@@ -329,6 +329,53 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
 
   // execute the animation
   return pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock);
+}
+
+/*****************************************************************************/
+/** Clears an active animation action.
+  *
+  * This function removes an animation action from the blend list.  This is
+  * particularly useful with auto-locked actions on their last frame.
+  *
+  * @param id The ID of the animation cycle that should be removed.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happened or action was not found
+  *****************************************************************************/
+bool CalMixer::removeAction(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorAnimation.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return false;
+  }
+
+  // get the core animation
+  CalCoreAnimation *pCoreAnimation;
+  pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
+  if(pCoreAnimation == 0)
+  {
+    return false;
+  }
+
+  // update all active animation actions of this model
+  std::list<CalAnimationAction *>::iterator iteratorAnimationAction;
+  iteratorAnimationAction = m_listAnimationAction.begin();
+
+  while(iteratorAnimationAction != m_listAnimationAction.end())
+  {
+    // find the specified action and remove it
+    if((*iteratorAnimationAction)->getCoreAnimation() == pCoreAnimation )
+    {
+        // found, so remove
+      (*iteratorAnimationAction)->destroy();
+      delete (*iteratorAnimationAction);
+      iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
+      return true;
+    }
+  }
+  return false;
 }
 
  /*****************************************************************************/

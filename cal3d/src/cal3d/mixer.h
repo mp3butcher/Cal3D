@@ -222,6 +222,7 @@ public:
   virtual bool create(CalModel *pModel);
   virtual void destroy();
   bool executeAction(int id, float delayIn, float delayOut, float weightTarget = 1.0f, bool autoLock=false);
+  bool removeAction(int id);
   virtual void updateAnimation(float deltaTime);
   virtual void updateSkeleton();
   float getAnimationTime();
