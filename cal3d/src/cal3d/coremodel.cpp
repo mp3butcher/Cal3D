@@ -504,7 +504,7 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
     return -1;
   }
 
-  m_vectorCoreAnimation[coreAnimationId] = 0;
+  m_vectorCoreAnimation[coreAnimationId] = CalCoreAnimationPtr (0);
 
   return coreAnimationId;
 }
@@ -634,7 +634,7 @@ int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
     return -1;
   }
 
-  m_vectorCoreMaterial[coreMaterialId] = 0;
+  m_vectorCoreMaterial[coreMaterialId] = CalCoreMaterialPtr(0);
 
   return coreMaterialId;
 }
@@ -764,7 +764,7 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
     return -1;
   }
 
-  m_vectorCoreMesh[coreMeshId] = 0;
+  m_vectorCoreMesh[coreMeshId] = CalCoreMeshPtr(0);
 
   return coreMeshId;
 }

@@ -12,11 +12,11 @@
 #include "config.h"
 #endif
 
-
 #include "cal3d/animation.h"
 #include "cal3d/error.h"
 #include "cal3d/coreanimation.h"
 #include "cal3d/animcallback.h"
+#include "cal3d/model.h"
 
 CalAnimation::CalAnimation(CalCoreAnimation* pCoreAnimation)
   : m_pCoreAnimation(pCoreAnimation)
@@ -153,9 +153,13 @@ float CalAnimation::getTimeFactor()
 void CalAnimation::checkCallbacks(float animationTime,CalModel *model)
 {
   std::vector<CalCoreAnimation::CallbackRecord>& list = m_pCoreAnimation->getCallbackList();
-  
+
   for (size_t i=0; i<list.size(); i++)
   {
+	if (m_lastCallbackTimes.size() <= i)                // need these two lines to allow dynamic adding of callbacks. 
+		m_lastCallbackTimes.push_back(animationTime);
+
+    list[i].callback->AnimationUpdate(animationTime, model, model->getUserData());
     if (animationTime > 0 && animationTime < m_lastCallbackTimes[i])  // looped
         m_lastCallbackTimes[i] -= m_pCoreAnimation->getDuration();
     else if (animationTime < 0 && animationTime > m_lastCallbackTimes[i])     // reverse-looped  
@@ -164,7 +168,7 @@ void CalAnimation::checkCallbacks(float animationTime,CalModel *model)
     if ((animationTime >= 0 && animationTime >= m_lastCallbackTimes[i] + list[i].min_interval) ||
         (animationTime <  0 && animationTime <= m_lastCallbackTimes[i] - list[i].min_interval))
     {
-      list[i].callback->AnimationUpdate(animationTime,model);
+      list[i].callback->AnimationUpdate(animationTime,model, model->getUserData());
       m_lastCallbackTimes[i] = animationTime;
     }
   }
@@ -174,7 +178,7 @@ void CalAnimation::completeCallbacks(CalModel *model)
 {
   std::vector<CalCoreAnimation::CallbackRecord>& list = m_pCoreAnimation->getCallbackList();
   for (size_t i=0; i<list.size(); i++)
-    list[i].callback->AnimationComplete(model);
+    list[i].callback->AnimationComplete(model, model->getUserData());
 }
 
 //****************************************************************************//

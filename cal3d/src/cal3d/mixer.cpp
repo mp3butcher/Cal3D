@@ -370,7 +370,7 @@ void CalMixer::updateAnimation(float deltaTime)
     // update and check if animation action is still active
     if((*iteratorAnimationAction)->update(deltaTime))
     {
-      (*iteratorAnimationAction)->checkCallbacks(m_animationTime,m_pModel);
+      (*iteratorAnimationAction)->checkCallbacks((*iteratorAnimationAction)->getTime(),m_pModel);
       ++iteratorAnimationAction;
     }
     else
