@@ -56,11 +56,11 @@ public:
   void operator*=(const float d);
   void operator*=(const CalQuaternion& q);
   void operator/=(const float d);
-  friend CalVector operator+(const CalVector& v, const CalVector& u);
-  friend CalVector operator-(const CalVector& v, const CalVector& u);
-  friend CalVector operator*(const CalVector& v, const float d);
-  friend CalVector operator*(const float d, const CalVector& v);
-  friend CalVector operator/(const CalVector& v, const float d);
+  friend CAL3D_API CalVector operator+(const CalVector& v, const CalVector& u);
+  friend CAL3D_API CalVector operator-(const CalVector& v, const CalVector& u);
+  friend CAL3D_API CalVector operator*(const CalVector& v, const float d);
+  friend CAL3D_API CalVector operator*(const float d, const CalVector& v);
+  friend CAL3D_API CalVector operator/(const CalVector& v, const float d);
   friend float operator*(const CalVector& v, const CalVector& u);
   friend CalVector operator%(const CalVector& v, const CalVector& u);
   void blend(float d, const CalVector& v);

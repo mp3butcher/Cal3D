@@ -54,8 +54,9 @@ public:
   void operator=(const CalQuaternion& q);
   void operator*=(const CalQuaternion& q);
   void operator*=(const CalVector& v);
-  friend CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r);
+  friend CAL3D_API CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r);
   void blend(float d, const CalQuaternion& q);
+  void clear();
   void conjugate();
   void set(float qx, float qy, float qz, float qw);
 };

@@ -53,7 +53,7 @@ public:
   void destroy();
   int getCoreBoneId();
   std::map<float, CalCoreKeyframe *>& getMapCoreKeyframe();
-  bool getState(float time, float duration, CalVector& translation, CalQuaternion& rotation);
+  bool getState(float time, CalVector& translation, CalQuaternion& rotation);
   bool setCoreBoneId(int coreBoneId);
 };
 

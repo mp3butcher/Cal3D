@@ -391,7 +391,7 @@
       </para>
       <para>
         There are two function calls that are used to control cycles: <function>blendCycle()</function>
-        and <function>clearCycle()</function> of the <classname>CalMixer>/classname>.helper class.
+        and <function>clearCycle()</function> of the <classname>CalMixer</classname>.helper class.
       </para>
       <para>
         <function>blendCycle()</function> adjusts the weight of a cyclic animation in a given amount of time. This

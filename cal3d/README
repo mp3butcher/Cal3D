@@ -2,10 +2,10 @@ o-----------------------------------------------------------------------------o
 |                                                                             |
 |                                 c a l 3 d                                   |
 |                                                                             |
-|                                Version 0.7                                  |
-|                             (5. January 2002)                               |
+|                              Version 0.8devel                               |
+|                              (in development)                               |
 |                                                                             |
-|               Copyright (C) 2001 Bruno 'Beosil' Heidelberger                |
+|            Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger             |
 |                                                                             |
 o-----------------------------------------------------------------------------o
 
@@ -102,7 +102,8 @@ o-----------------------------------------------------------------------------o
   - support for multiple texture mapping channels
   - progressive meshes for LOD (level-of-detail)
   - experimental spring-system module for cloth and hair animation
-  - unified exporter plugin framework (3d Studio Max, others following)
+  - unified exporter plugin framework (3D Studio Max, MilkShape 3D and others
+    following)
   - highly portable and modular design (only depends on C++ and STL)
   - simple and clean API
   - did I mention that it is free? (see the LGPL license)

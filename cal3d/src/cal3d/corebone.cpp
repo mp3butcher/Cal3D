@@ -30,6 +30,7 @@ CalCoreBone::CalCoreBone()
 {
   m_pCoreSkeleton = 0;
   m_parentId = -1;
+  m_userData = 0;
 }
 
  /*****************************************************************************/

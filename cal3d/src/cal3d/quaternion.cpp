@@ -25,7 +25,7 @@
   * This function is the default constructor of the quaternion instance.
   *****************************************************************************/
 
-CalQuaternion::CalQuaternion() : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+CalQuaternion::CalQuaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
 {
 }
 
@@ -229,6 +229,20 @@ void CalQuaternion::blend(float d, const CalQuaternion& q)
   y = inv_d * y + d * q.y;
   z = inv_d * z + d * q.z;
   w = inv_d * w + d * q.w;
+}
+
+ /*****************************************************************************/
+/** Clears the quaternion instance.
+  *
+  * This function clears the quaternion instance.
+  *****************************************************************************/
+
+void CalQuaternion::clear()
+{
+  x = 0.0f;
+  y = 0.0f;
+  z = 0.0f;
+  w = 1.0f;
 }
 
  /*****************************************************************************/

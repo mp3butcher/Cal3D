@@ -440,10 +440,6 @@ void CalMixer::updateSkeleton()
     CalCoreAnimation *pCoreAnimation;
     pCoreAnimation = (*iteratorAnimationAction)->getCoreAnimation();
 
-    // get the duration of the core animation
-    float duration;
-    duration = pCoreAnimation->getDuration();
-
     // get the list of core tracks of above core animation
     std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
@@ -458,7 +454,7 @@ void CalMixer::updateSkeleton()
       // get the current translation and rotation
       CalVector translation;
       CalQuaternion rotation;
-      (*iteratorCoreTrack)->getState((*iteratorAnimationAction)->getTime(), duration, translation, rotation);
+      (*iteratorCoreTrack)->getState((*iteratorAnimationAction)->getTime(), translation, rotation);
 
       // blend the bone state with the new state
       pBone->blendState((*iteratorAnimationAction)->getWeight(), translation, rotation);
@@ -494,10 +490,6 @@ void CalMixer::updateSkeleton()
       animationTime = (*iteratorAnimationCycle)->getTime();
     }
 
-    // get the duration of the core animation
-    float duration;
-    duration = pCoreAnimation->getDuration();
-
     // get the list of core tracks of above core animation
     std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
@@ -512,7 +504,7 @@ void CalMixer::updateSkeleton()
       // get the current translation and rotation
       CalVector translation;
       CalQuaternion rotation;
-      (*iteratorCoreTrack)->getState(animationTime, duration, translation, rotation);
+      (*iteratorCoreTrack)->getState(animationTime, translation, rotation);
 
       // blend the bone state with the new state
       pBone->blendState((*iteratorAnimationCycle)->getWeight(), translation, rotation);

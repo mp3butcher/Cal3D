@@ -4,7 +4,17 @@ o-----------------------------------------------------------------------------o
 
 
 o-----------------------------------------------------------------------------o
-| Version 0.7 (5. January 2002)                                                |
+| Version 0.8 (in development)                                                |
+o-----------------------------------------------------------------------------o
+
+  - Changed the interpolation calculations in CalCoretrack::getState() so that
+    the motion wraps are handled like in the 3d modellers.
+  - Tagged some forgotten friend functions of the CalVector and CalQuaternion
+    classes as exported..
+
+
+o-----------------------------------------------------------------------------o
+| Version 0.7 (5. January 2002)                                               |
 o-----------------------------------------------------------------------------o
 
   - The header files of Cal3D are now installed to '/usr/local/include/cal3d'

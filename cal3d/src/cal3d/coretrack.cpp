@@ -139,8 +139,6 @@ std::map<float, CalCoreKeyframe *>& CalCoreTrack::getMapCoreKeyframe()
   * for the specified time and duration.
   *
   * @param time The time in seconds at which the state should be returned.
-  * @param duration The duration of the animation containing this core track
-  *                 instance in seconds.
   * @param translation A reference to the translation reference that will be
   *                    filled with the specified state.
   * @param rotation A reference to the rotation reference that will be filled
@@ -151,41 +149,40 @@ std::map<float, CalCoreKeyframe *>& CalCoreTrack::getMapCoreKeyframe()
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalCoreTrack::getState(float time, float duration, CalVector& translation, CalQuaternion& rotation)
+bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& rotation)
 {
   std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframeBefore;
   std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframeAfter;
 
-  // get the one core keyframe before and the one after the requested time
-  bool bWrap;
+  // get the keyframe after the requested time
   iteratorCoreKeyframeAfter = m_mapCoreKeyframe.upper_bound(time);
 
-  // check if we have a wrap-around
+  // check if the time is after the last keyframe
   if(iteratorCoreKeyframeAfter == m_mapCoreKeyframe.end())
   {
-    iteratorCoreKeyframeBefore = iteratorCoreKeyframeAfter;
-    --iteratorCoreKeyframeBefore;
-    iteratorCoreKeyframeAfter = m_mapCoreKeyframe.begin();
+    // return the last keyframe state
+    --iteratorCoreKeyframeAfter;
+    rotation = (iteratorCoreKeyframeAfter->second)->getRotation();
+    translation = (iteratorCoreKeyframeAfter->second)->getTranslation();
 
-    bWrap = true;
+    return true;
   }
-  else
+
+  // check if the time is before the first keyframe
+  if(iteratorCoreKeyframeAfter == m_mapCoreKeyframe.begin())
   {
-    if(iteratorCoreKeyframeAfter == m_mapCoreKeyframe.begin())
-    {
-      iteratorCoreKeyframeBefore = m_mapCoreKeyframe.end();
-    }
-    else
-    {
-      iteratorCoreKeyframeBefore = iteratorCoreKeyframeAfter;
-    }
+    // return the first keyframe state
+    rotation = (iteratorCoreKeyframeAfter->second)->getRotation();
+    translation = (iteratorCoreKeyframeAfter->second)->getTranslation();
 
-    --iteratorCoreKeyframeBefore;
-
-    bWrap = false;
+    return true;
   }
 
-  // get the two keyframes
+  // get the keyframe before the requested one
+  iteratorCoreKeyframeBefore = iteratorCoreKeyframeAfter;
+  --iteratorCoreKeyframeBefore;
+
+  // get the two keyframe pointers
   CalCoreKeyframe *pCoreKeyframeBefore;
   pCoreKeyframeBefore = iteratorCoreKeyframeBefore->second;
   CalCoreKeyframe *pCoreKeyframeAfter;
@@ -193,14 +190,7 @@ bool CalCoreTrack::getState(float time, float duration, CalVector& translation, 
 
   // calculate the blending factor between the two keyframe states
   float blendFactor;
-  if(bWrap)
-  {
-    blendFactor = (time - pCoreKeyframeBefore->getTime()) / (duration - pCoreKeyframeBefore->getTime());
-  }
-  else
-  {
-    blendFactor = (time - pCoreKeyframeBefore->getTime()) / (pCoreKeyframeAfter->getTime() - pCoreKeyframeBefore->getTime());
-  }
+  blendFactor = (time - pCoreKeyframeBefore->getTime()) / (pCoreKeyframeAfter->getTime() - pCoreKeyframeBefore->getTime());
 
   // blend between the two keyframes
   translation = pCoreKeyframeBefore->getTranslation();
