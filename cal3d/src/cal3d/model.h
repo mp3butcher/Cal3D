@@ -74,7 +74,7 @@ public:
   CalRenderer *getRenderer();
   CalSkeleton *getSkeleton();
   CalSpringSystem *getSpringSystem();
-  CalBoundingBox & getBoundingBox();
+  CalBoundingBox & getBoundingBox(bool precision = false);
   Cal::UserData getUserData();
   std::vector<CalMesh *>& getVectorMesh();
   void setLodLevel(float lodLevel);

@@ -38,7 +38,7 @@ class CAL3D_API CalCoreSkeleton
 protected:
   std::vector<CalCoreBone *> m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
-  std::list<int> m_listRootCoreBoneId;
+  std::list<int> m_listRootCoreBoneId;  
 
 // constructors/destructor
 public:
@@ -57,7 +57,7 @@ public:
   bool mapCoreBoneName(int coreBoneId, const std::string& strName);
   std::list<int>& getListRootCoreBoneId();
   std::vector<CalCoreBone *>& getVectorCoreBone();
-  void calculateBoundingBox(CalCoreModel * pCoreModel);
+  void calculateBoundingBoxes(CalCoreModel * pCoreModel);
   void scale(float factor);
   
 };

@@ -39,6 +39,7 @@ class CAL3D_API CalSkeleton
 protected:
   CalCoreSkeleton *m_pCoreSkeleton;
   std::vector<CalBone *> m_vectorBone;
+  bool m_isBoundingBoxesComputed;
 
 // constructors/destructor
 public:
@@ -56,7 +57,7 @@ public:
   std::vector<CalBone *>& getVectorBone();
   void lockState();
   void getBoneBoundingBox(float *min, float *max);
-  void calculateBoundingBox();
+  void calculateBoundingBoxes();
 
 
 

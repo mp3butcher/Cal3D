@@ -15,6 +15,8 @@ o-----------------------------------------------------------------------------o
   - Add functions to rescale a core model, 
     but this can be done only before creating the CalModel.
   - Fix in the XML loader
+  - Add a function to compute the global bounding box of the model.
+  - Rename calculateBoundingBox to calculateBoundingBoxes.
 
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 

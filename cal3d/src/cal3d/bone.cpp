@@ -449,6 +449,9 @@ void CalBone::setSkeleton(CalSkeleton *pSkeleton)
 
 void CalBone::calculateBoundingBox()
 {
+   if(!getCoreBone()->isBoundingBoxPrecomputed())
+	   return;
+
    int boneId =  m_pSkeleton->getCoreSkeleton()->getCoreBoneId(getCoreBone()->getName());
 
    

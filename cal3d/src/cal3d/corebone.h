@@ -54,6 +54,7 @@ protected:
 
   CalBoundingBox m_boundingBox;
   CalVector m_boundingPosition[6];
+  bool m_boundingBoxPrecomputed;
   
 
 // constructors/destructor
@@ -89,6 +90,7 @@ public:
   void calculateBoundingBox(CalCoreModel * pCoreModel);
   CalBoundingBox & getBoundingBox();
   void getBoundingData(int planeId,CalVector & position); 
+  bool isBoundingBoxPrecomputed();
   void scale(float factor);
   
 };

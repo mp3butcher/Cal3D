@@ -383,7 +383,7 @@ bool Model::onInit(const std::string& strFilename)
 
   // Calculate Bounding Boxes
 
-  m_calCoreModel.getCoreSkeleton()->calculateBoundingBox(&m_calCoreModel);
+  m_calCoreModel.getCoreSkeleton()->calculateBoundingBoxes(&m_calCoreModel);
 
   // create the model instance from the loaded core model
   if(!m_calModel.create(&m_calCoreModel))
@@ -462,7 +462,7 @@ void Model::renderBoundingBox()
 
    CalSkeleton *pCalSkeleton = m_calModel.getSkeleton();
 
-   pCalSkeleton->calculateBoundingBox();
+   pCalSkeleton->calculateBoundingBoxes();
 
    std::vector<CalBone*> &vectorCoreBone = pCalSkeleton->getVectorBone();
 

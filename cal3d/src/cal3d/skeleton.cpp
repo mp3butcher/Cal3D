@@ -30,7 +30,7 @@
   *****************************************************************************/
 
 CalSkeleton::CalSkeleton()
-  : m_pCoreSkeleton(0)
+  : m_pCoreSkeleton(0),m_isBoundingBoxesComputed(false)
 {
 }
 
@@ -62,6 +62,7 @@ void CalSkeleton::calculateState()
   {
     m_vectorBone[*iteratorRootBoneId]->calculateState();
   }
+  m_isBoundingBoxesComputed=false;
 }
 
  /*****************************************************************************/
@@ -79,6 +80,7 @@ void CalSkeleton::clearState()
   {
     (*iteratorBone)->clearState();
   }
+  m_isBoundingBoxesComputed=false;
 }
 
  /*****************************************************************************/
@@ -238,6 +240,11 @@ void CalSkeleton::lockState()
 
 void CalSkeleton::getBoneBoundingBox(float *min, float *max)
 {
+  if(!m_isBoundingBoxesComputed)
+  {
+	  calculateBoundingBoxes();
+  }
+
 
   std::vector<CalBone *>::iterator iteratorBone;
 
@@ -280,12 +287,16 @@ void CalSkeleton::getBoneBoundingBox(float *min, float *max)
   *****************************************************************************/
 
 
-void CalSkeleton::calculateBoundingBox()
+void CalSkeleton::calculateBoundingBoxes()
 {
+   if(m_isBoundingBoxesComputed) 
+	   return;
+
    for(size_t boneId=0;boneId<m_vectorBone.size();++boneId)
    {
       m_vectorBone[boneId]->calculateBoundingBox();
    }
+   m_isBoundingBoxesComputed=true;
 
 }
 

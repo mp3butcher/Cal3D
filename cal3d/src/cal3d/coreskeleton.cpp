@@ -264,7 +264,7 @@ std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
   *****************************************************************************/
 
 
-void CalCoreSkeleton::calculateBoundingBox(CalCoreModel * pCoreModel)
+void CalCoreSkeleton::calculateBoundingBoxes(CalCoreModel * pCoreModel)
 {
    for(size_t boneId=0;boneId<m_vectorCoreBone.size();++boneId)
    {
