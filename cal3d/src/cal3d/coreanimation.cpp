@@ -269,7 +269,7 @@ void CalCoreAnimation::getPose(float time, std::vector<CalTransform>& pose) cons
   // Hold the last frame if past the end of the animation's last frame
   else
   {
-    unsigned last_frame = m_poses.size() / frame_width;
+    unsigned last_frame = (m_poses.size() / frame_width) - 1;
     for (unsigned index = 0; index < m_numBoneTracks; ++index)
     {
       pose[index] = m_poses[(frame_width * last_frame) + index];
