@@ -282,12 +282,12 @@ void CalMixer::destroy()
   *
   * This function executes an animation action.
   *
-  * @param id The ID of the animation cycle that should be blended.
+  * @param id The ID of the animation action that should be blended.
   * @param delayIn The time in seconds until the animation action reaches the
   *                full weight from the beginning of its execution.
   * @param delayOut The time in seconds in which the animation action reaches
   *                 zero weight at the end of its execution.
-  * @param weightTarget No doxygen comment for this. FIXME.
+  * @param weightTarget The weight to interpolate the animation action to.
   * @param autoLock     This prevents the Action from being reset and removed
   *                     on the last keyframe if true.
   *
@@ -297,12 +297,6 @@ void CalMixer::destroy()
   *****************************************************************************/
 bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weightTarget, bool autoLock)
 {
-  if((id < 0) || (id >= (int)m_vectorAnimation.size()))
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
   // get the core animation
   CalCoreAnimation *pCoreAnimation;
   pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
@@ -340,7 +334,7 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   * This function removes an animation action from the blend list.  This is
   * particularly useful with auto-locked actions on their last frame.
   *
-  * @param id The ID of the animation cycle that should be removed.
+  * @param id The ID of the animation action that should be removed.
   *
   * @return One of the following values:
   *         \li \b true if successful
@@ -348,12 +342,6 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   *****************************************************************************/
 bool CalMixer::removeAction(int id)
 {
-  if((id < 0) || (id >= (int)m_vectorAnimation.size()))
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return false;
-  }
-
   // get the core animation
   CalCoreAnimation *pCoreAnimation;
   pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
