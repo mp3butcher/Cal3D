@@ -178,16 +178,7 @@ GLuint Viewer::loadTexture(const std::string& strFilename)
      //Flip texture
      int width = Tga->GetSizeX();
      int height = Tga->GetSizeY();
-     int depth = Tga->Bpp() / 8;
-
-     char* texData = new char[width * height * depth];
-
-     for (int y = 0; y < height; ++y)
-     {
-       memcpy(&texData[y * width * depth], 
-              &((char*)Tga->GetPointer())[(height - y - 1) * width * depth], width * depth);
-     }
-    
+     int depth = Tga->Bpp() / 8;    
 
      glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -199,11 +190,10 @@ GLuint Viewer::loadTexture(const std::string& strFilename)
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
      
-	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA , GL_UNSIGNED_BYTE, texData );
+	  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA , GL_UNSIGNED_BYTE, (char*)Tga->GetPointer() );
 
 	  Tga->Release();
 
-     delete [] texData;
 
   }
 
