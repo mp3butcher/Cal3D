@@ -272,7 +272,7 @@ bool CalPlatform::readString(void* input, std::string& strValue)
   strBuffer = new char[length];
 
   //offset the read by 4 bytes (skip over the length integer)
-  memcpy( (void*)strBuffer, input, length );
+  memcpy( (void*)strBuffer, input, length + 4 );
 
   //skip over the first 4 bytes
   char* strTemp = &strBuffer[4];
