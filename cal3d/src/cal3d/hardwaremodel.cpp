@@ -81,7 +81,7 @@ CalHardwareModel::~CalHardwareModel()
 
 bool CalHardwareModel::create(CalCoreModel *pCoreModel)
 {
-	if(m_pCoreModel == 0)
+	if(pCoreModel == 0)
 	{
 		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
 		return false;

@@ -67,7 +67,7 @@ public:
 	
 	// member functions
 public:
-	inline void operator=(const CalQuaternion& q);
+	void operator=(const CalQuaternion& q);
 	
 	inline void operator=(const CalMatrix& m)
 	{
