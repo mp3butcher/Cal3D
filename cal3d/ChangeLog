@@ -2,6 +2,58 @@ o-----------------------------------------------------------------------------o
 |                             C h a n g e L o g                               |
 o-----------------------------------------------------------------------------o
 
+o-----------------------------------------------------------------------------o
+| Version 0.9 (30. July 2003)                                                 |
+o-----------------------------------------------------------------------------o
+
+  - Experimental tangent/texture space support (from the idea of 'Josh' code)
+  - XML text file format
+  - Tiny Xml is used for parsing XML file format
+  - Update of the C wrapper
+  - A tutorial and a FAQ
+  - A better build system:
+    Put all of libtool's m4 macros into Cal3D's acinclude.m4. This change
+    allows us to be compatible with both older (2.13) and newer (2.5+)
+    versions of autoconf.
+    Added the autogen.sh script
+  - Removed building of the "dummy app" because there is no need for it.
+  - Added --with-cxx and --with-cc flags to force the use of a particular
+    C/C++ compiler
+  - Added functions to aid in dynamic motion programming :
+    CalBone::setCoreState() sets a bone's translation and rotation to be the
+    default values specified by the core bone.
+    CalBone::setCoreStateRecursive() performs the same operation, but applies
+    the function recursively to all of a bone's descendents as well.
+  - Added setRotation and setTranslation functions to the bone to use for
+    manual overriding of bone transforms.
+  - Added animation helper functions to CalCoreModel class
+  - Added a function to create bone "helpers" analogous to the animation
+    helpers.
+  - patch from aegis:
+    Changes the coretrack's map containing keyframes to a vector. This
+    prevents a crashing problem in Windows.
+    Quaternion inversion also enhanced.
+  - Added an == operator for the CalVector class for equality checking.
+  - FIX : CalSubmesh::Destroy() don't free the objects if springs system
+  - Functions ::disableInternalData, to disable internal data, this is
+    used also disable springs systems
+  - Correct all the warning with VS.NET
+  - Add a trick to avoid the little pause that can happen at the end of an animation.
+    This can also be used to modified an animation that don't loop perfectly
+    you just need to add some time with setDuration function, this extra time
+    will be used to blend between the last frame and the first frame.
+  - Added option to NOT normalize the normal vectors when updating the
+    physique.
+  - Big/Little endian things
+  - Added invert() function to CalQuaternion class.
+  - Added copy constructor for the CalRenderer class.
+    We need this in order to perform multi-pipe parallel rendering of a model.
+  - Small optimizations
+
+
+
+
+  
 
 o-----------------------------------------------------------------------------o
 | Version 0.8 (29. August 2002)                                               |
