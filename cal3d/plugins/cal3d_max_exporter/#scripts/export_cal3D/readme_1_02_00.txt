@@ -101,3 +101,5 @@ Each time the parameters are saved, the 'Save is required' state of the scene
 is activated, to remind you to save the scene so as to keep the fresh
 parameters.
 
+Implements a workaround that avoids the bug described at
+http://sourceforge.net/tracker/index.php?func=detail&aid=555376&group_id=26281&atid=386671
