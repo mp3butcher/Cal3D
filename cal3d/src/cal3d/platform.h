@@ -47,13 +47,15 @@
 // Endianness setup                                                           //
 //****************************************************************************//
 
-#if defined(__i386__) || \
-    defined(__alpha__) || \
-    defined(__FreeBSD__) || \
-    (defined(__mips__) && defined(MIPSEL)) || \
-    defined(__MIPSEL__) || \
-    (defined(__arm__) && defined(ARMEL)) || \
-    defined(__ARMEL__) || defined(_WIN32) || defined(__APPLE__)
+#if  defined(__i386__) || \
+     defined(__ia64__) || \ 
+     defined(WIN32) || \
+     defined(__alpha__) || defined(__alpha)) || \
+     defined(__arm__) || \
+    (defined(__mips__) && defined(__MIPSEL__)) || \
+     defined(__SYMBIAN32__) || \
+     defined(__x86_64__) || \
+     defined(__LITTLE_ENDIAN__)
 
 #define CAL3D_LITTLE_ENDIAN
 
