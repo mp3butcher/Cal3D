@@ -306,7 +306,7 @@ CBaseNode *CMilkInterface::GetSelectedNode(int nodeId)
 	}
 
   // handle bone and mesh nodes separately
-  if(nodeId < m_vectorRootBoneId.size())
+  if(nodeId < (int)m_vectorRootBoneId.size())
   {
 	  // allocate a new milk bone node instance
 	  CMilkBoneNode *pNode;

@@ -127,7 +127,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
 	// get bone candidate vector
 	std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
 
-	int boneCandidateId;
+	size_t boneCandidateId;
 	for(boneCandidateId = 0; boneCandidateId < vectorBoneCandidate.size(); boneCandidateId++)
 	{
 		// get the bone candidate
@@ -195,7 +195,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
   for(frame = 0,  outputFrame = 0; frame <= (endFrame + wrapFrame); frame++)
 	{
 		// update the progress info
-		m_pInterface->SetProgressInfo(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1));
+		m_pInterface->SetProgressInfo(int(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1)));
 
 		// calculate the time in seconds
 		float time;
@@ -393,8 +393,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
 	}
 
 	// load all maps
-	int mapId;
-	for(mapId = 0; mapId < vectorMap.size(); mapId++)
+	for(size_t mapId = 0; mapId < vectorMap.size(); mapId++)
 	{
 		CalCoreMaterial::Map map;
 
@@ -466,11 +465,11 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 	// start the progress info
 	m_pInterface->StartProgressInfo("Exporting to mesh file...");
 
-	int submeshCandidateId;
+	size_t submeshCandidateId;
 	for(submeshCandidateId = 0; submeshCandidateId < vectorSubmeshCandidate.size(); submeshCandidateId++)
 	{
 		// update the progress info
-		m_pInterface->SetProgressInfo(100.0f * (float)submeshCandidateId / (float)vectorSubmeshCandidate.size());
+		m_pInterface->SetProgressInfo(int(100.0f * (float)submeshCandidateId / (float)vectorSubmeshCandidate.size()));
 
 		// get the submesh candidate
 		CSubmeshCandidate *pSubmeshCandidate;
@@ -522,7 +521,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 				return false;
 			}
 
-			int vertexCandidateId;
+			size_t vertexCandidateId;
 			for(vertexCandidateId = 0; vertexCandidateId < vectorVertexCandidate.size(); vertexCandidateId++)
 			{
 				// get the vertex candidate
@@ -549,7 +548,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 				std::vector<CVertexCandidate::TextureCoordinate>& vectorTextureCoordinate = pVertexCandidate->GetVectorTextureCoordinate();
 
 				// set all texture coordinates
-				int textureCoordinateId;
+				size_t textureCoordinateId;
 				for(textureCoordinateId = 0; textureCoordinateId < vectorTextureCoordinate.size(); textureCoordinateId++)
 				{
 					CalCoreSubmesh::TextureCoordinate textureCoordinate;
@@ -568,7 +567,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 				vertex.vectorInfluence.resize(vectorInfluence.size());
 
 				// set all influences
-				int influenceId;
+				size_t influenceId;
 				for(influenceId = 0; influenceId < vectorInfluence.size(); influenceId++)
 				{
 					vertex.vectorInfluence[influenceId].boneId = vectorInfluence[influenceId].boneId;
@@ -594,7 +593,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 				}
 			}
 
-			int faceId;
+			size_t faceId;
 			for(faceId = 0; faceId < vectorFace.size(); faceId++)
 			{
 				CalCoreSubmesh::Face face;
@@ -608,7 +607,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 				pCoreSubmesh->setFace(vectorFace[faceId].lodId, face);
 			}
 
-			int springId;
+			size_t springId;
 			for(springId = 0; springId < vectorSpring.size(); springId++)
 			{
 				CalCoreSubmesh::Spring spring;
@@ -694,7 +693,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 	// start the progress info
 	m_pInterface->StartProgressInfo("Exporting to skeleton file...");
 
-	int boneCandidateId;
+	size_t boneCandidateId;
 	int selectedId;
 	for(boneCandidateId = 0, selectedId = 0; boneCandidateId < vectorBoneCandidate.size(); boneCandidateId++)
 	{
@@ -706,7 +705,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 		if(pBoneCandidate->IsSelected())
 		{
 			// update the progress info
-			m_pInterface->SetProgressInfo(100.0f * (selectedId + 1) / selectedCount);
+			m_pInterface->SetProgressInfo(int(100.0f * (selectedId + 1) / selectedCount));
 			selectedId++;
 
 			// allocate new core bone instance

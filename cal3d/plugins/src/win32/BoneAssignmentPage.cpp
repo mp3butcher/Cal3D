@@ -98,7 +98,7 @@ LRESULT CBoneAssignmentPage::EndPage()
 	m_maxBoneCount = atoi(strValue);
 
 	m_weightThresholdEdit.GetWindowText(strValue);
-	m_weightThreshold = atof(strValue);
+	m_weightThreshold = float(atof(strValue));
 
 	// create the mesh candidate
 	if(!m_pMeshCandidate->Create(m_pSkeletonCandidate, m_maxBoneCount, m_weightThreshold))

@@ -70,8 +70,7 @@ bool CVertexCandidate::operator==(CVertexCandidate& vertexCandidate)
 	// compare the texture coordinates
 	if(m_vectorTextureCoordinate.size() != vertexCandidate.m_vectorTextureCoordinate.size()) return false;
 
-	int textureCoordinateId;
-	for(textureCoordinateId = 0; textureCoordinateId < m_vectorTextureCoordinate.size(); textureCoordinateId++)
+	for(size_t textureCoordinateId = 0; textureCoordinateId < m_vectorTextureCoordinate.size(); textureCoordinateId++)
 	{
 		if((fabs(m_vectorTextureCoordinate[textureCoordinateId].u - vertexCandidate.m_vectorTextureCoordinate[textureCoordinateId].u) >= EPSILON)
 			|| (fabs(m_vectorTextureCoordinate[textureCoordinateId].v - vertexCandidate.m_vectorTextureCoordinate[textureCoordinateId].v) >= EPSILON)) return false;
@@ -98,8 +97,7 @@ bool CVertexCandidate::operator==(CVertexCandidate& vertexCandidate)
 void CVertexCandidate::AddInfluence(int boneId, float weight)
 {
 	// check if there is already an influence for this bone ( weird 3ds max behaviour =P )
-	int influenceId;
-	for(influenceId = 0; influenceId < m_vectorInfluence.size(); influenceId++)
+	for(size_t influenceId = 0; influenceId < m_vectorInfluence.size(); influenceId++)
 	{
 		// compare bone id
 		if(m_vectorInfluence[influenceId].boneId == boneId)
@@ -171,7 +169,7 @@ void CVertexCandidate::AdjustBoneAssignment(int maxBoneCount, float weightThresh
 	}
 
 	// erase all but the first few influences specified by max bone count
-	if(m_vectorInfluence.size() > maxBoneCount)
+	if(m_vectorInfluence.size() > size_t(maxBoneCount))
 	{
 		m_vectorInfluence.resize(maxBoneCount);
 	}
@@ -179,8 +177,8 @@ void CVertexCandidate::AdjustBoneAssignment(int maxBoneCount, float weightThresh
 	// get the total weight of the influence
 	float weight;
 	weight = 0.0f;
-
-	int influenceId;
+	
+        size_t influenceId;
 	for(influenceId = 0; influenceId < m_vectorInfluence.size(); influenceId++)
 	{
 		weight += m_vectorInfluence[influenceId].weight;

@@ -54,8 +54,7 @@ CMaterialLibraryCandidate::~CMaterialLibraryCandidate()
 void CMaterialLibraryCandidate::Clear()
 {
 	// destroy all material candidates stored in this mesh candidate
-	int materialCandidateId;
-	for(materialCandidateId = 0; materialCandidateId < m_vectorMaterialCandidate.size(); materialCandidateId++)
+	for(size_t materialCandidateId = 0; materialCandidateId < m_vectorMaterialCandidate.size(); materialCandidateId++)
 	{
 		delete m_vectorMaterialCandidate[materialCandidateId];
 	}

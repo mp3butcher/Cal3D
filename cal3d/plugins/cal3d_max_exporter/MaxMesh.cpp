@@ -300,7 +300,7 @@ int CMaxMesh::GetFaceMaterialId(int faceId)
 int CMaxMesh::GetSubmeshMapCount(int submeshId)
 {
 	// check if the submesh id is valid
-	if((submeshId < 0) || (submeshId >= m_vectorStdMat.size()))
+	if((submeshId < 0) || (submeshId >= (int)m_vectorStdMat.size()))
 	{
 		theExporter.SetLastError("Invalid handle.", __FILE__, __LINE__);
 		return -1;
@@ -342,7 +342,7 @@ int CMaxMesh::GetSubmeshMapCount(int submeshId)
 int CMaxMesh::GetSubmeshMaterialThreadId(int submeshId)
 {
 	// check if the submesh id is valid
-	if((submeshId < 0) || (submeshId >= m_vectorStdMat.size()))
+	if((submeshId < 0) || (submeshId >= (int)m_vectorStdMat.size()))
 	{
 		theExporter.SetLastError("Invalid handle.", __FILE__, __LINE__);
 		return -1;
@@ -465,7 +465,7 @@ CVertexCandidate *CMaxMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCand
 	// get the material id of the face
 	int materialId;
 	materialId = GetFaceMaterialId(faceId);
-	if((materialId < 0) || (materialId >= m_vectorStdMat.size()))
+	if((materialId < 0) || (materialId >= (int)m_vectorStdMat.size()))
 	{
 		delete pVertexCandidate;
 		theExporter.SetLastError("Invalid material id found.", __FILE__, __LINE__);

@@ -111,7 +111,7 @@ bool CLodder::CalculateLevels()
 	FreezeBorders();
 
 	// calculate the best edge collapse for every vertex
-	int vertexId;
+	size_t vertexId;
 	for(vertexId = 0; vertexId < m_vectorVertex.size(); vertexId++)
 	{
 		// calculate the best edge collapse for the vertex
@@ -160,9 +160,7 @@ bool CLodder::CalculateLevels()
 	}
 
 	// set all lod ids of the unassigned faces
-	int faceId;
-
-	for(faceId = 0; faceId < m_vectorFace.size(); faceId++)
+	for(size_t faceId = 0; faceId < m_vectorFace.size(); faceId++)
 	{
 		if(m_vectorFace[faceId].lodId == -1) m_vectorFace[faceId].lodId = m_nextFaceLodId++;
 	}
@@ -180,8 +178,7 @@ bool CLodder::CalculateLevels()
 void CLodder::CalculateAllQuadrics()
 {
 	// loop through all the faces
-	int faceId;
-	for(faceId = 0; faceId < m_vectorFace.size(); faceId++)
+	for(size_t faceId = 0; faceId < m_vectorFace.size(); faceId++)
 	{
 		// get the face
 		Face& face = m_vectorFace[faceId];
@@ -319,7 +316,7 @@ float CLodder::CalculateCollapseError(int collapsingVertexId, int targetVertexId
 	CQuadric q(collapsingVertex.quadric);
 	q.Add(targetVertex.quadric);
 
-	return q.Evaluate(targetVertex.x, targetVertex.y, targetVertex.z) / q.GetArea();
+	return float(q.Evaluate(targetVertex.x, targetVertex.y, targetVertex.z) / q.GetArea());
 }
 
 //----------------------------------------------------------------------------//
@@ -495,8 +492,7 @@ bool CLodder::Create(int vertexCount, int faceCount)
 void CLodder::FreezeBorders()
 {
 	// loop through all the vertices
-	int vertexId;
-	for(vertexId = 0; vertexId < m_vectorVertex.size(); vertexId++)
+	for(size_t vertexId = 0; vertexId < m_vectorVertex.size(); vertexId++)
 	{
 		// get the vertex
 		Vertex& vertex = m_vectorVertex[vertexId];
@@ -598,8 +594,7 @@ int CLodder::GetNextCollapsingVertexId()
 	collapsingVertexId = -1;
 
 	// loop through all the vertices
-	int vertexId;
-	for(vertexId = 0; vertexId < m_vectorVertex.size(); vertexId++)
+	for(size_t vertexId = 0; vertexId < m_vectorVertex.size(); vertexId++)
 	{
 		// check if we found a better edge collapse
 		if(!m_vectorVertex[vertexId].bCollapsed && !m_vectorVertex[vertexId].bFreezed && (m_vectorVertex[vertexId].error < error))

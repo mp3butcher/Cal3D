@@ -98,7 +98,7 @@ bool CSubmeshCandidate::AddSpring(int vertexId1, int vertexId2)
 	if((physicalProperty[0].weight == 0.0f) && (physicalProperty[1].weight == 0.0f)) return false;
 
 	// loop through the existing springs
-	for(int springId = 0; springId < m_vectorSpring.size(); springId++)
+	for(size_t springId = 0; springId < m_vectorSpring.size(); springId++)
 	{
 		// check if we have an equal spring
 		if((m_vectorSpring[springId].vertexId[0] == vertexId1) && (m_vectorSpring[springId].vertexId[1] == vertexId2))
@@ -181,8 +181,7 @@ int CSubmeshCandidate::AddVertexCandidate(CVertexCandidate *pVertexCandidate)
 void CSubmeshCandidate::AdjustBoneAssignment(int maxBoneCount, float weightThreshold)
 {
 	// adjust the bone assignments in all vertex candidates
-	int vertexCandidateId;
-	for(vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
+	for(size_t vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
 	{
 		m_vectorVertexCandidate[vertexCandidateId]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
 	}
@@ -224,7 +223,7 @@ bool CSubmeshCandidate::CalculateLOD()
 	if(!lodder.Create(m_vectorVertexCandidate.size(), m_vectorFace.size())) return false;
 
 	// add all vertices to the lodder
-	int vertexCandidateId;
+	size_t vertexCandidateId;
 	for(vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
 	{
 		// get the vertex candidate
@@ -253,7 +252,7 @@ bool CSubmeshCandidate::CalculateLOD()
 	}
 
 	// add all faces to the lodder
-	int faceId;
+	size_t faceId;
 	for(faceId = 0; faceId < m_vectorFace.size(); faceId++)
 	{
 		// get the face
@@ -316,10 +315,10 @@ bool CSubmeshCandidate::CalculateLOD()
 
 bool CSubmeshCandidate::CalculateSpringSystem()
 {
-	// loop through all the vertex candidates of the submesh candidate
-	int vertexId;
-	for(vertexId = 0; vertexId < m_vectorVertexCandidate.size(); vertexId++)
-	{
+  // loop through all the vertex candidates of the submesh candidate
+  size_t vertexId;
+  for(vertexId = 0; vertexId < m_vectorVertexCandidate.size(); vertexId++)
+  {
     // start from the current vertex candidate
     std::set<int> setNeighbour;
     setNeighbour.insert(vertexId);
@@ -377,8 +376,7 @@ bool CSubmeshCandidate::CalculateSpringSystem()
 		 bModified = false;
 
 		// loop through all the springs of the submesh candidate
-		int springId;
-		for(springId = 0; springId < m_vectorSpring.size(); springId++)
+		for(size_t springId = 0; springId < m_vectorSpring.size(); springId++)
 		{
 			// get the spring
 			Spring& spring = m_vectorSpring[springId];
@@ -390,8 +388,7 @@ bool CSubmeshCandidate::CalculateSpringSystem()
 	} while(bModified);
 
 	// loop through all the springs of the submesh candidate
-	int springId;
-	for(springId = 0; springId < m_vectorSpring.size(); springId++)
+	for(size_t springId = 0; springId < m_vectorSpring.size(); springId++)
 	{
 		// get the spring
 		Spring& spring = m_vectorSpring[springId];
@@ -429,8 +426,7 @@ for(springId = 0; springId < m_vectorSpring.size(); springId++)
 void CSubmeshCandidate::Clear()
 {
 	// destroy all vertex candidates stored in this submesh candidate
-	int vertexCandidateId;
-	for(vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
+	for(size_t vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
 	{
 		delete m_vectorVertexCandidate[vertexCandidateId];
 	}
@@ -459,8 +455,7 @@ bool CSubmeshCandidate::Create(int materialThreadId, int mapCount)
 bool CSubmeshCandidate::DisableLOD()
 {
 	// set the LOD id of all vertices to a disabled value
-	int vertexCandidateId;
-	for(vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
+	for(size_t vertexCandidateId = 0; vertexCandidateId < m_vectorVertexCandidate.size(); vertexCandidateId++)
 	{
 		// get the vertex candidate
 		CVertexCandidate *pVertexCandidate;
@@ -477,8 +472,7 @@ bool CSubmeshCandidate::DisableLOD()
 	}
 
 	// set the LOD id of all face vertices to a disabled value
-	int faceId;
-	for(faceId = 0; faceId < m_vectorFace.size(); faceId++)
+	for(size_t faceId = 0; faceId < m_vectorFace.size(); faceId++)
 	{
 		// get the face
 		Face& face = m_vectorFace[faceId];

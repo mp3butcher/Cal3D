@@ -57,8 +57,7 @@ CMeshCandidate::~CMeshCandidate()
 bool CMeshCandidate::CalculateLOD()
 {
 	// calculate the LOD for all the submesh candidates
-	int submeshCandidateId;
-	for(submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
+	for(size_t submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
 	{
 		// only handle non-empty submesh candidates
 		if(m_vectorSubmeshCandidate[submeshCandidateId]->GetFaceCount() > 0)
@@ -77,8 +76,7 @@ bool CMeshCandidate::CalculateLOD()
 bool CMeshCandidate::CalculateSpringSystem()
 {
 	// calculate the LOD for all the submesh candidates
-	int submeshCandidateId;
-	for(submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
+	for(size_t submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
 	{
 		// only handle non-empty submesh candidates
 		if(m_vectorSubmeshCandidate[submeshCandidateId]->GetFaceCount() > 0)
@@ -97,8 +95,7 @@ bool CMeshCandidate::CalculateSpringSystem()
 void CMeshCandidate::Clear()
 {
 	// destroy all submesh candidates stored in this mesh candidate
-	int submeshCandidateId;
-	for(submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
+	for(size_t submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
 	{
 		delete m_vectorSubmeshCandidate[submeshCandidateId];
 	}
@@ -196,7 +193,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
 	for(faceId = 0; faceId < faceCount; faceId++)
 	{
 		// update the progress info
-		theExporter.GetInterface()->SetProgressInfo(100.0f * (float)faceId / (float)faceCount);
+		theExporter.GetInterface()->SetProgressInfo(int(100.0f * (float)faceId / (float)faceCount));
 
 		// get the material id of the face
 		int materialId;
@@ -256,7 +253,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
 	theExporter.GetInterface()->StopProgressInfo();
 
 	// adjust all bone assignments in the submesh candidates
-	for(submeshId = 0; submeshId < m_vectorSubmeshCandidate.size(); submeshId++)
+	for(submeshId = 0; submeshId < int(m_vectorSubmeshCandidate.size()); submeshId++)
 	{
 		m_vectorSubmeshCandidate[submeshId]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
 	}
@@ -272,8 +269,7 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
 bool CMeshCandidate::DisableLOD()
 {
 	// disable the LOD for all the submesh candidates
-	int submeshCandidateId;
-	for(submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
+	for(size_t submeshCandidateId = 0; submeshCandidateId < m_vectorSubmeshCandidate.size(); submeshCandidateId++)
 	{
 		// only handle non-empty submesh candidates
 		if(m_vectorSubmeshCandidate[submeshCandidateId]->GetFaceCount() > 0)

@@ -166,7 +166,7 @@ void CSkeletonHierarchyPage::InsertBoneCandidate(int boneCandidateId, HTREEITEM 
 	std::vector<CBoneCandidate *>& vectorBoneCandidate = m_pSkeletonCandidate->GetVectorBoneCandidate();
 
 	// check if we have a valid bone candidate id
-	if((boneCandidateId < 0) || (boneCandidateId >= vectorBoneCandidate.size())) return;
+	if((boneCandidateId < 0) || (boneCandidateId >= (int)vectorBoneCandidate.size())) return;
 
 	// get bone candidate
 	CBoneCandidate *pBoneCandidate;

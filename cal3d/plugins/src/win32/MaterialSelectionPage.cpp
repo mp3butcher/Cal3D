@@ -73,8 +73,7 @@ BOOL CMaterialSelectionPage::BeginPage()
 		std::vector<CMaterialCandidate *>& vectorMaterialCandidate = m_pMaterialLibraryCandidate->GetVectorMaterialCandidate();
 
 		// loop through all material candidates
-		int materialCandidateId;
-		for(materialCandidateId = 0; materialCandidateId < vectorMaterialCandidate.size(); materialCandidateId++)
+		for(size_t materialCandidateId = 0; materialCandidateId < vectorMaterialCandidate.size(); materialCandidateId++)
 		{
 			// insert material candidate into the list control
 			int candidateIndex;

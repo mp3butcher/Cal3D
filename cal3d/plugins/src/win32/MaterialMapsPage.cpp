@@ -83,8 +83,7 @@ BOOL CMaterialMapsPage::BeginPage()
 	std::vector<CMaterialCandidate::Map>& vectorMap = pMaterialCandidate->GetVectorMap();
 
 	// loop through all maps of the material candidate
-	int mapId;
-	for(mapId = 0; mapId < vectorMap.size(); mapId++)
+	for(size_t mapId = 0; mapId < vectorMap.size(); mapId++)
 	{
 		CString strMap;
 		strMap.Format("Layer #%d", mapId);

@@ -176,7 +176,8 @@ std::string CMaxMaterial::GetName()
 	// check if the internal material is valid
 	if(m_pIStdMat == 0) return "<void>";
 
-	return m_pIStdMat->GetName();
+	const char* name = m_pIStdMat->GetName();
+	return name;
 }
 
 //----------------------------------------------------------------------------//

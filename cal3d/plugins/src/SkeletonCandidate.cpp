@@ -211,7 +211,7 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 int CSkeletonCandidate::BuildSelectedId()
 {
 	// destroy all bone candidates stored in this skeleton candidate
-	int boneCandidateId;
+	size_t boneCandidateId;
 	int selectedId;
 	for(boneCandidateId = 0, selectedId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
@@ -232,8 +232,7 @@ int CSkeletonCandidate::BuildSelectedId()
 void CSkeletonCandidate::Clear()
 {
 	// destroy all bone candidates stored in this skeleton candidate
-	int boneCandidateId;
-	for(boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
+	for(size_t boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
 		delete m_vectorBoneCandidate[boneCandidateId];
 	}
@@ -325,8 +324,7 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 int CSkeletonCandidate::GetBoneId(const std::string& strName)
 {
 	// loop through all bone candidates
-	int boneCandidateId;
-	for(boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
+	for(size_t boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
 		// check if the bone candidate is the one we are looking for
 		if(m_vectorBoneCandidate[boneCandidateId]->GetName() == strName) return boneCandidateId;
@@ -360,7 +358,7 @@ std::list<int> CSkeletonCandidate::GetListRootBoneCandidateId()
 int CSkeletonCandidate::GetParentSelectedId(int boneCandidateId)
 {
 	// check if the bone candidate id is valid
-	if((boneCandidateId < 0) || (boneCandidateId >= m_vectorBoneCandidate.size())) return -1;
+	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return -1;
 
 	// get the bone candidate
 	CBoneCandidate *pBoneCandidate;
@@ -394,7 +392,7 @@ int CSkeletonCandidate::GetParentSelectedId(int boneCandidateId)
 int CSkeletonCandidate::GetSelectedCount()
 {
 	// loop through all bone candidates
-	int boneCandidateId;
+	size_t boneCandidateId;
 	int selectedCount;
 	for(boneCandidateId = 0, selectedCount = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
@@ -416,7 +414,7 @@ void CSkeletonCandidate::GetTranslationAndRotation(int boneCandidateId, float ti
 	rotation.clear();
 
 	// check if the bone candidate id is valid
-	if((boneCandidateId < 0) || (boneCandidateId >= m_vectorBoneCandidate.size())) return;
+	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return;
 
 	// get the bone candidate
 	CBoneCandidate *pBoneCandidate;
@@ -456,7 +454,7 @@ void CSkeletonCandidate::GetTranslationAndRotationBoneSpace(int boneCandidateId,
 	rotation.clear();
 
 	// check if the bone candidate id is valid
-	if((boneCandidateId < 0) || (boneCandidateId >= m_vectorBoneCandidate.size())) return;
+	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return;
 
 	// get the bone candidate
 	CBoneCandidate *pBoneCandidate;

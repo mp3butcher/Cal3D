@@ -132,7 +132,7 @@ CBaseNode *CMilkBoneNode::GetChild(int childId)
 	if(m_pIBone == 0) return 0;
 
 	// check if the given node id is valid
-	if((childId < 0) || (childId >= m_vectorChildId.size()))
+	if((childId < 0) || (childId >= (int)m_vectorChildId.size()))
 	{
 		theExporter.SetLastError("Invalid handle.", __FILE__, __LINE__);
 		return 0;
