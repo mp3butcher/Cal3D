@@ -53,8 +53,7 @@ protected:
   CalQuaternion m_rotationAbsolute;
   CalVector m_translationBoneSpace;
   CalQuaternion m_rotationBoneSpace;
-  CalMatrix m_transformMatrix;
-  
+  CalMatrix m_transformMatrix;  
   CalBoundingBox m_boundingBox;
 
 

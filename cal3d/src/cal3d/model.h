@@ -16,6 +16,8 @@
 //****************************************************************************//
 
 #include "cal3d/global.h"
+#include "cal3d/vector.h"
+
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -51,6 +53,7 @@ protected:
   CalRenderer *m_pRenderer;
   Cal::UserData m_userData;
   std::vector<CalMesh *> m_vectorMesh;
+  CalBoundingBox m_boundingBox;
 
 // constructors/destructor
 public: 
@@ -71,6 +74,7 @@ public:
   CalRenderer *getRenderer();
   CalSkeleton *getSkeleton();
   CalSpringSystem *getSpringSystem();
+  CalBoundingBox & getBoundingBox();
   Cal::UserData getUserData();
   std::vector<CalMesh *>& getVectorMesh();
   void setLodLevel(float lodLevel);

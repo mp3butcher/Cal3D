@@ -544,6 +544,46 @@ CalSpringSystem *CalModel::getSpringSystem()
 }
 
  /*****************************************************************************/
+/** Returns an approximation of the global bounding box of the model.
+  *
+  * This function returns the global bounding box of the model.
+  *
+  * @return bounding box.
+  *****************************************************************************/
+
+
+CalBoundingBox & CalModel::getBoundingBox()
+{
+	
+	m_boundingBox.plane[0].setNormal(CalVector(1.0f,0.0f,0.0f));
+	m_boundingBox.plane[1].setNormal(CalVector(-1.0f,0.0f,0.0f));
+	m_boundingBox.plane[2].setNormal(CalVector(0.0f,-1.0f,0.0f));
+	m_boundingBox.plane[3].setNormal(CalVector(0.0f,1.0f,0.0f));
+	m_boundingBox.plane[4].setNormal(CalVector(0.0f,0.0f,1.0f));
+	m_boundingBox.plane[5].setNormal(CalVector(0.0f,0.0f,-1.0f));
+	
+	
+	std::vector<CalBone *> & vectorBone =  m_pSkeleton->getVectorBone();
+		
+	std::vector<CalBone *>::iterator iteratorBone;
+	for(iteratorBone = vectorBone.begin(); iteratorBone != vectorBone.end(); ++iteratorBone)
+	{
+		CalVector translation = (*iteratorBone)->getTranslationAbsolute();
+		
+		int planeId;
+		for(planeId = 0; planeId < 6; ++planeId)
+		{
+			if(m_boundingBox.plane[planeId].eval(translation) < 0.0f)
+			{
+				m_boundingBox.plane[planeId].setPosition(translation);
+			}
+		}
+	}
+	
+	return m_boundingBox;
+}
+
+ /*****************************************************************************/
 /** Provides access to the user data.
   *
   * This function returns the user data stored in the model instance.
