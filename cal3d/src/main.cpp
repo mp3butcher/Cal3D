@@ -26,7 +26,7 @@
 int main(int argc, char *argv[])
 {
 /*
-  std::cout << "Thanks for using Cal3D!" << std::endl;
+  std::cout << "Thank you for using Cal3D!" << std::endl;
 
   // create a core model instance
   CalCoreModel calCoreModel;
