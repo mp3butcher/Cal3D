@@ -20,13 +20,11 @@ AM_INIT_AUTOMAKE(cal3d,0.9devel)
 
 AC_ARG_WITH(cxx,[  --with-cxx=CXX          force the use of a particular C++ compiler ],
 [
-  AC_MSG_NOTICE(Forcing the use of C++ compiler: $withval)
   CXX="$withval"
 ],)
 
 AC_ARG_WITH(cc,[  --with-cc=CC            force the use of a particular C compiler ],
 [
-  AC_MSG_NOTICE(Forcing the use of C compiler: $withval)
   CC="$withval"
 ],)
 
@@ -66,31 +64,31 @@ AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefi
 
 dnl ************************************************************************
 
-AC_MSG_NOTICE(o-----------------------------------------------------------o)
-AC_MSG_NOTICE(| To build and install the Cal3D library type...            |)
-AC_MSG_NOTICE(|     make; make install                                    |)
+echo "o-----------------------------------------------------------o"
+echo "| To build and install the Cal3D library type...            |"
+echo "|     make; make install                                    |"
 
-AC_MSG_NOTICE(|                                                           |)
+echo "|                                                           |"
 
 if test "$DB2HTML" = false; then
-  AC_MSG_NOTICE(| To generate the Cal3D User's Guide you need to install    |)
-  AC_MSG_NOTICE(| the DocBook tools first. ('docbktls' package)             |)
+  echo "| To generate the Cal3D User's Guide you need to install    |"
+  echo "| the DocBook tools first. ('docbktls' package)             |"
 else
-  AC_MSG_NOTICE(| To generate the Cal3D User's Guide type...                |)
-  AC_MSG_NOTICE(|     cd docs; make doc-guide                               |)
+  echo "| To generate the Cal3D User's Guide type...                |"
+  echo "|     cd docs; make doc-guide                               |"
 fi
 
-AC_MSG_NOTICE(|                                                           |)
+echo "|                                                           |"
 
 if test "$DOXYGEN" = false; then
-  AC_MSG_NOTICE(| To generate the Cal3D API Reference you need to install   |)
-  AC_MSG_NOTICE(| the Doxygen tool first. (see http://www.doxygen.org)      |)
+  echo "| To generate the Cal3D API Reference you need to install   |"
+  echo "| the Doxygen tool first. (see http://www.doxygen.org)      |"
 else
-  AC_MSG_NOTICE(| To generate the Cal3D API Reference type...               |)
-  AC_MSG_NOTICE(|     cd docs; make doc-api                                 |)
+  echo "| To generate the Cal3D API Reference type...               |"
+  echo "|     cd docs; make doc-api                                 |"
 fi
 
-AC_MSG_NOTICE(o-----------------------------------------------------------o)
+echo "o-----------------------------------------------------------o"
 
 dnl ************************************************************************
 
