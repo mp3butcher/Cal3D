@@ -25,12 +25,12 @@
   *
   * This function is the default constructor of the vector instance.
   *****************************************************************************/
-
+/*
 CalVector::CalVector()
   : x(0.0f), y(0.0f), z(0.0f)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Constructs the vector instance.
   *
@@ -38,12 +38,12 @@ CalVector::CalVector()
   *
   * @param v The vector to construct this vector instance from.
   *****************************************************************************/
-
+/*
 CalVector::CalVector(const CalVector& v)
   : x(v.x), y(v.y), z(v.z)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Constructs the vector instance.
   *
@@ -53,22 +53,22 @@ CalVector::CalVector(const CalVector& v)
   * @param vy The y component.
   * @param vz The z component.
   *****************************************************************************/
-
+/*
 CalVector::CalVector(float vx, float vy, float vz)
   : x(vx), y(vy), z(vz)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Destructs the vector instance.
   *
   * This function is the destructor of the vector instance.
   *****************************************************************************/
-
+/*
 CalVector::~CalVector()
 {
 }
-
+*/
  /*****************************************************************************/
 /** Provides access to the components of the vector instance.
   *
@@ -79,12 +79,12 @@ CalVector::~CalVector()
   *
   * @return A reference to the specific component.
   *****************************************************************************/
-
+/*
 float& CalVector::operator[](unsigned int i)
 {
   return (&x)[i];
 }
-
+*/
  /*****************************************************************************/
 /** Provides access to the components of the vector instance.
   *
@@ -95,12 +95,12 @@ float& CalVector::operator[](unsigned int i)
   *
   * @return A constant reference to the specific component.
   *****************************************************************************/
-
+/*
 const float& CalVector::operator[](unsigned int i) const
 {
   return (&x)[i];
 }
-
+*/
  /*****************************************************************************/
 /** Equates the vector instance with another vector.
   *
@@ -108,14 +108,14 @@ const float& CalVector::operator[](unsigned int i) const
   *
   * @param v The vector to equate the vector instance with.
   *****************************************************************************/
-
+/*
 void CalVector::operator=(const CalVector& v)
 {
   x = v.x;
   y = v.y;
   z = v.z;
 }
-
+*/
  /*****************************************************************************/
 /** Adds another vector to the vector instance.
   *
@@ -123,14 +123,14 @@ void CalVector::operator=(const CalVector& v)
   *
   * @param v The vector to be added.
   *****************************************************************************/
-
+/*
 void CalVector::operator+=(const CalVector& v)
 {
   x += v.x;
   y += v.y;
   z += v.z;
 }
-
+*/
  /*****************************************************************************/
 /** Subtracts another vector from the vector instance.
   *
@@ -138,14 +138,14 @@ void CalVector::operator+=(const CalVector& v)
   *
   * @param v The vector to be subtracted.
   *****************************************************************************/
-
+/*
 void CalVector::operator-=(const CalVector& v)
 {
   x -= v.x;
   y -= v.y;
   z -= v.z;
 }
-
+*/
  /*****************************************************************************/
 /** Scales the vector instance.
   *
@@ -154,14 +154,14 @@ void CalVector::operator-=(const CalVector& v)
   *
   * @param d The factor to multiply the vector components by.
   *****************************************************************************/
-
+/*
 void CalVector::operator*=(const float d)
 {
   x *= d;
   y *= d;
   z *= d;
 }
-
+*/
  /*****************************************************************************/
 /** Transforms the vector instance by a quaternion.
   *
@@ -188,7 +188,7 @@ void CalVector::operator*=(const CalQuaternion& q)
   *
   * @param m The matrix to be used for the transformation.
   *****************************************************************************/
-
+/*
 void CalVector::operator*=(const CalMatrix& m)
 {
   float ox = x;
@@ -198,7 +198,7 @@ void CalVector::operator*=(const CalMatrix& m)
   y = m.dydx*ox + m.dydy*oy + m.dydz*oz;
   z = m.dzdx*ox + m.dzdy*oy + m.dzdz*oz;
 }
-
+*/
  /*****************************************************************************/
 /** Scales the vector instance.
   *
@@ -207,14 +207,14 @@ void CalVector::operator*=(const CalMatrix& m)
   *
   * @param d The factor to divide the vector components by.
   *****************************************************************************/
-
+/*
 void CalVector::operator/=(const float d)
 {
   x /= d;
   y /= d;
   z /= d;
 }
-
+*/
  /*****************************************************************************/
 /** Tests the equality of 2 vectors
   *
@@ -222,12 +222,12 @@ void CalVector::operator/=(const float d)
   *
   * @param v The vector to be tested against.
   *****************************************************************************/
-
+/*
 bool CalVector::operator==(const CalVector& v)
 {
   return ((x == v.x) && (y == v.y) && (z == v.z));
 }
-
+*/
  /*****************************************************************************/
 /** Calculates the sum of two vectors.
   *
@@ -238,12 +238,12 @@ bool CalVector::operator==(const CalVector& v)
   *
   * @return The sum of the two vectors.
   *****************************************************************************/
-
+/*
 CalVector operator+(const CalVector& v, const CalVector& u)
 {
   return CalVector(v.x + u.x, v.y + u.y, v.z + u.z);
 }
-
+*/
  /*****************************************************************************/
 /** Calculates the difference of two vectors.
   *
@@ -254,12 +254,12 @@ CalVector operator+(const CalVector& v, const CalVector& u)
   *
   * @return The difference of the two vectors.
   *****************************************************************************/
-
+/*
 CalVector operator-(const CalVector& v, const CalVector& u)
 {
   return CalVector(v.x - u.x, v.y - u.y, v.z - u.z);
 }
-
+*/
  /*****************************************************************************/
 /** Calculates a scaled vector.
   *
@@ -270,12 +270,12 @@ CalVector operator-(const CalVector& v, const CalVector& u)
   *
   * @return The scaled vector.
   *****************************************************************************/
-
+/*
 CalVector operator*(const CalVector& v, float d)
 {
   return CalVector(v.x * d, v.y * d, v.z * d);
 }
-
+*/
  /*****************************************************************************/
 /** Calculates a scaled vector.
   *
@@ -286,12 +286,12 @@ CalVector operator*(const CalVector& v, float d)
   *
   * @return The scaled vector.
   *****************************************************************************/
-
+/*
 CalVector operator*(float d, const CalVector& v)
 {
   return CalVector(v.x * d, v.y * d, v.z * d);
 }
-
+*/
  /*****************************************************************************/
 /** Calculates a scaled vector.
   *
@@ -302,12 +302,12 @@ CalVector operator*(float d, const CalVector& v)
   *
   * @return The scaled vector.
   *****************************************************************************/
-
+/*
 CalVector operator/(const CalVector& v, float d)
 {
   return CalVector(v.x / d, v.y / d, v.z / d);
 }
-
+*/
  /*****************************************************************************/
 /** Calculates the dot product of two vectors.
   *
@@ -318,12 +318,12 @@ CalVector operator/(const CalVector& v, float d)
   *
   * @return The dot product of the two vectors.
   *****************************************************************************/
-
+/*
 float operator*(const CalVector& v, const CalVector& u)
 {
   return v.x * u.x + v.y * u.y + v.z * u.z;
 }
-
+*/
  /*****************************************************************************/
 /** Calculates the vector product of two vectors.
   *
@@ -334,12 +334,12 @@ float operator*(const CalVector& v, const CalVector& u)
   *
   * @return The vector product of the two vectors.
   *****************************************************************************/
-
+/*
 CalVector operator%(const CalVector& v, const CalVector& u)
 {
   return CalVector(v.y * u.z - v.z * u.y, v.z * u.x - v.x * u.z, v.x * u.y - v.y * u.x);
 }
-
+*/
  /*****************************************************************************/
 /** Interpolates the vector instance to another vector.
   *
@@ -349,27 +349,27 @@ CalVector operator%(const CalVector& v, const CalVector& u)
   * @param d The blending factor in the range [0.0, 1.0].
   * @param v The vector to be interpolated to.
   *****************************************************************************/
-
+/*
 void CalVector::blend(float d, const CalVector& v)
 {
   x += d * (v.x - x);
   y += d * (v.y - y);
   z += d * (v.z - z);
 }
-
+*/
  /*****************************************************************************/
 /** Clears the vector instance.
   *
   * This function clears the vector instance.
   *****************************************************************************/
-
+/*
 void CalVector::clear()
 {
   x = 0.0f;
   y = 0.0f;
   z = 0.0f;
 }
-
+*/
  /*****************************************************************************/
 /** Returns the length of the vector instance.
   *
@@ -377,12 +377,12 @@ void CalVector::clear()
   *
   * @return The length of the vector instance.
   *****************************************************************************/
-
+/*
 float CalVector::length()
 {
   return (float)sqrt(x * x + y * y + z * z);
 }
-
+*/
  /*****************************************************************************/
 /** Normalizes the vector instance.
   *
@@ -390,7 +390,7 @@ float CalVector::length()
   *
   * @return The length of the vector instance before normalizing.
   *****************************************************************************/
-
+/*
 float CalVector::normalize()
 {
   // calculate the length of the vector
@@ -404,7 +404,7 @@ float CalVector::normalize()
 
   return length;
 }
-
+*/
  /*****************************************************************************/
 /** Sets new values.
   *
@@ -414,14 +414,14 @@ float CalVector::normalize()
   * @param y The y component.
   * @param z The z component.
   *****************************************************************************/
-
+/*
 void CalVector::set(float vx, float vy, float vz)
 {
   x = vx;
   y = vy;
   z = vz;
 }
-
+*/
  /*****************************************************************************
   *
   *   Functions for the plane class, they don't have real sense outside

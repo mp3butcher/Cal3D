@@ -25,36 +25,37 @@
   *
   * This function is the default constructor of the matrix instance.
   *****************************************************************************/
-
+/*
 CalMatrix::CalMatrix()
-  : dxdx(0.0), dxdy(0.0), dxdz(0.0), dydx(0.0), dydy(0.0), dydz(0.0), 
+  : dxdx(0.0), dxdy(0.0), dxdz(0.0),
+    dydx(0.0), dydy(0.0), dydz(0.0),
     dzdx(0.0), dzdy(0.0), dzdz(0.0)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Destructs the matrix instance.
   *
   * This function is the destructor of the matrix instance.
   *****************************************************************************/
-
+/*
 CalMatrix::~CalMatrix()
 {
 }
-
+*/
  /*****************************************************************************/
 /** Copying a Matrix
   *
   * This function copies one matrix into another.
   *****************************************************************************/
-
+/*
 void CalMatrix::operator =(const CalMatrix& m)
 {
   dxdx=m.dxdx; dxdy=m.dxdy; dxdz=m.dxdz;
   dydx=m.dydx; dydy=m.dydy; dydz=m.dydz;
   dzdx=m.dzdx; dzdy=m.dzdy; dzdz=m.dzdz;
 }
-
+*/
  /*****************************************************************************/
 /** Quaternion to Matrix Conversion Constructor
   *
@@ -93,7 +94,7 @@ void CalMatrix::operator =(const CalQuaternion& q)
   *
   * This function sets one matrix to a factor times another.
   *****************************************************************************/
-
+/*
 CalMatrix::CalMatrix(float factor, const CalMatrix& m)
 {
   dxdx = m.dxdx*factor;
@@ -106,13 +107,13 @@ CalMatrix::CalMatrix(float factor, const CalMatrix& m)
   dzdy = m.dzdy*factor;
   dzdz = m.dzdz*factor;
 }
-
+*/
  /*****************************************************************************/
 /** Matrix Blending
   *
   * This function adds a weight times another matrix to the current matrix.
   *****************************************************************************/
-
+/*
 void CalMatrix::blend(float factor, const CalMatrix& m)
 {
   dxdx += m.dxdx*factor;
@@ -125,13 +126,13 @@ void CalMatrix::blend(float factor, const CalMatrix& m)
   dzdy += m.dzdy*factor;
   dzdz += m.dzdz*factor;
 }
-
+*/
  /*****************************************************************************/
 /** Matrix Scaling
   *
   * This function multiplies every element in the matrix by the factor.
   *****************************************************************************/
-
+/*
 void CalMatrix::operator *=(float factor)
 {
   dxdx *= factor;
@@ -144,13 +145,13 @@ void CalMatrix::operator *=(float factor)
   dzdy *= factor;
   dzdz *= factor;
 }
-
+*/
  /*****************************************************************************/
 /** Matrix Multiplication
   *
   * This function multiplies two matrices.
   *****************************************************************************/
-
+/*
 void CalMatrix::operator *=(const CalMatrix &m)
 {
   float ndxdx=m.dxdx*dxdx+m.dxdy*dydx+m.dxdz*dzdx;
@@ -175,19 +176,19 @@ void CalMatrix::operator *=(const CalMatrix &m)
   dzdy=ndzdy;
   dzdz=ndzdz;
 }
-
+*/
 /*****************************************************************************/
 /** Matrix determinant
   *
   * This function compute the determinant of the matrix.
   *****************************************************************************/
 
-
+/*
 float CalMatrix::det()
 {
    return dxdx * (dydy*dzdz-dydz*dzdy)
             -dxdy* ( dydx*dzdz-dzdx*dydz)
 	    +dxdz* (dydx*dzdy-dzdx*dydy);
 }
-
+*/
 //****************************************************************************//

@@ -25,12 +25,12 @@
   *
   * This function is the default constructor of the quaternion instance.
   *****************************************************************************/
-
+/*
 CalQuaternion::CalQuaternion()
   : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Constructs the quaternion instance.
   *
@@ -38,12 +38,12 @@ CalQuaternion::CalQuaternion()
   *
   * @param q The quaternion to construct this quaternion instance from.
   *****************************************************************************/
-
+/*
 CalQuaternion::CalQuaternion(const CalQuaternion& q)
   : x(q.x), y(q.y), z(q.z), w(q.w)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Constructs the quaternion instance.
   *
@@ -54,22 +54,22 @@ CalQuaternion::CalQuaternion(const CalQuaternion& q)
   * @param qz The z component.
   * @param qw The w component.
   *****************************************************************************/
-
+/*
 CalQuaternion::CalQuaternion(float qx, float qy, float qz, float qw)
   : x(qx), y(qy), z(qz), w(qw)
 {
 }
-
+*/
  /*****************************************************************************/
 /** Destructs the quaternion instance.
   *
   * This function is the destructor of the quaternion instance.
   *****************************************************************************/
-
+/*
 CalQuaternion::~CalQuaternion()
 {
 }
-
+*/
  /*****************************************************************************/
 /** Provides access to the components of the quaternion instance.
   *
@@ -80,12 +80,12 @@ CalQuaternion::~CalQuaternion()
   *
   * @return A reference to the specific component.
   *****************************************************************************/
-
+/*
 float& CalQuaternion::operator[](unsigned int index)
 {
   return (&x)[index];
 }
-
+*/
  /*****************************************************************************/
 /** Provides access to the components of the quaternion instance.
   *
@@ -96,12 +96,12 @@ float& CalQuaternion::operator[](unsigned int index)
   *
   * @return A constant reference to the specific component.
   *****************************************************************************/
-
+/*
 const float& CalQuaternion::operator[](unsigned int index) const
 {
   return (&x)[index];
 }
-
+*/
  /*****************************************************************************/
 /** Equates the quaternion instance with another quaternion.
   *
@@ -109,7 +109,7 @@ const float& CalQuaternion::operator[](unsigned int index) const
   *
   * @param q The quaternion to equate the quaternion instance with.
   *****************************************************************************/
-
+/*
 void CalQuaternion::operator=(const CalQuaternion& q)
 {
   x = q.x;
@@ -117,7 +117,7 @@ void CalQuaternion::operator=(const CalQuaternion& q)
   z = q.z;
   w = q.w;
 }
-
+*/
  /*****************************************************************************/
 /** Multiplies another quaternion to the quaternion instance.
   *
@@ -125,7 +125,7 @@ void CalQuaternion::operator=(const CalQuaternion& q)
   *
   * @param q The quaternion to be multiplied.
   *****************************************************************************/
-
+/*
 void CalQuaternion::operator*=(const CalQuaternion& q)
 {
   float qx, qy, qz, qw;
@@ -139,7 +139,7 @@ void CalQuaternion::operator*=(const CalQuaternion& q)
   z = qw * q.z + qx * q.y - qy * q.x + qz * q.w;
   w = qw * q.w - qx * q.x - qy * q.y - qz * q.z;
 }
-
+*/
  /*****************************************************************************/
 /** Multiplies a vector to the quaternion instance.
   *
@@ -147,7 +147,7 @@ void CalQuaternion::operator*=(const CalQuaternion& q)
   *
   * @param v The vector to be multiplied.
   *****************************************************************************/
-
+/*
 void CalQuaternion::operator*=(const CalVector& v)
 {
   float qx, qy, qz, qw;
@@ -161,7 +161,7 @@ void CalQuaternion::operator*=(const CalVector& v)
   z = qw * v.z + qx * v.y - qy * v.x;
   w =          - qx * v.x - qy * v.y - qz * v.z;
 }
-
+*/
  /*****************************************************************************/
 /** Calculates the product of two quaternions.
   *
@@ -172,7 +172,7 @@ void CalQuaternion::operator*=(const CalVector& v)
   *
   * @return The product of the two quaternions.
   *****************************************************************************/
-
+/*
 CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r)
 {
   return CalQuaternion(
@@ -182,7 +182,7 @@ CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r)
     r.w * q.w - r.x * q.x - r.y * q.y - r.z * q.z
   );
 }
-
+*/
  /*****************************************************************************/
 /** Interpolates the quaternion instance to another quaternion.
   *
@@ -192,7 +192,7 @@ CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r)
   * @param d The blending factor in the range [0.0, 1.0].
   * @param v The quaternion to be interpolated to.
   *****************************************************************************/
-
+/*
 void CalQuaternion::blend(float d, const CalQuaternion& q)
 {
   float norm;
@@ -234,13 +234,13 @@ void CalQuaternion::blend(float d, const CalQuaternion& q)
   z = inv_d * z + d * q.z;
   w = inv_d * w + d * q.w;
 }
-
+*/
  /*****************************************************************************/
 /** Clears the quaternion instance.
   *
   * This function clears the quaternion instance.
   *****************************************************************************/
-
+/*
 void CalQuaternion::clear()
 {
   x = 0.0f;
@@ -248,26 +248,26 @@ void CalQuaternion::clear()
   z = 0.0f;
   w = 1.0f;
 }
-
+*/
  /*****************************************************************************/
 /** Conjugates the quaternion instance.
   *
   * This function conjugates the quaternion instance.
   *****************************************************************************/
-
+/*
 void CalQuaternion::conjugate()
 {
   x = -x;
   y = -y;
   z = -z;
 }
-
+*/
  /*****************************************************************************/
 /** Inverts the quaternion instance.
   *
   * This function inverts the quaternion instance.
   *****************************************************************************/
-
+/*
 void CalQuaternion::invert()
 {
   conjugate();
@@ -281,6 +281,7 @@ void CalQuaternion::invert()
   z *= inv_norm;
   w *= inv_norm;
 }
+*/
 
  /*****************************************************************************/
 /** Sets new values.
@@ -292,7 +293,7 @@ void CalQuaternion::invert()
   * @param qz The z component.
   * @param qw The w component.
   *****************************************************************************/
-
+/*
 void CalQuaternion::set(float qx, float qy, float qz, float qw)
 {
   x = qx;
@@ -300,7 +301,7 @@ void CalQuaternion::set(float qx, float qy, float qz, float qw)
   z = qz;
   w = qw;
 }
-
+*/
  /*****************************************************************************/
 /** Computes the shortest arc quaternion that will rotate one vector to another.
   *
@@ -310,7 +311,7 @@ void CalQuaternion::set(float qx, float qy, float qz, float qw)
   * @param from The original vector
   * @param to The target vector
   *****************************************************************************/
-
+/*
 CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
 {
    CalVector cross = from % to; //Compute vector cross product
@@ -325,5 +326,5 @@ CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
    return CalQuaternion( cross[0], cross[1], cross[2], -dot/2 ) ; 
 
 }
-
+*/
 //****************************************************************************//
