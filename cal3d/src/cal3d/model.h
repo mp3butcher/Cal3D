@@ -74,7 +74,7 @@ public:
   void setAbstractMixer(CalAbstractMixer* pMixer);
   CalMorphTargetMixer *getMorphTargetMixer();
   CalPhysique *getPhysique();
-  CalRenderer *getRenderer();
+  CalRenderer *getRenderer() const;
   CalSkeleton *getSkeleton();
   CalSpringSystem *getSpringSystem();
   CalBoundingBox & getBoundingBox(bool precision = false);

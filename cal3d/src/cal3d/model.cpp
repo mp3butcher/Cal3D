@@ -570,7 +570,7 @@ CalPhysique *CalModel::getPhysique()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalRenderer *CalModel::getRenderer()
+CalRenderer *CalModel::getRenderer() const
 {
   return m_pRenderer;
 }

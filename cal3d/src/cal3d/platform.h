@@ -31,10 +31,12 @@
 
 #if defined(_WIN32) && !defined(__MINGW32__)
 
+#ifndef CAL3D_API
 #ifdef CAL3D_EXPORTS
 #define CAL3D_API __declspec(dllexport)
 #else
 #define CAL3D_API __declspec(dllimport)
+#endif
 #endif
 
 #else

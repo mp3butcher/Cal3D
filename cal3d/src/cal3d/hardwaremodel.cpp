@@ -221,8 +221,7 @@ void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuff
 
 void CalHardwareModel::destroy()
 {
-	int hardwareMeshIndex;
-	for(hardwareMeshIndex = 0 ; hardwareMeshIndex < m_vectorHardwareMesh.size(); hardwareMeshIndex++)
+	for(size_t hardwareMeshIndex = 0 ; hardwareMeshIndex < m_vectorHardwareMesh.size(); hardwareMeshIndex++)
 	{
 		m_vectorHardwareMesh[hardwareMeshIndex]. m_vectorBonesIndices.clear();
 	}
