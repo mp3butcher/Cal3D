@@ -45,7 +45,3 @@ $AUTOMAKE
 
 echo "Running $AUTOCONF ..."
 $AUTOCONF
-
-echo "Running configure ..."
-./configure $@
-
