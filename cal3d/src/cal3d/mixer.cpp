@@ -90,7 +90,11 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
     CalCoreAnimation *pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
     if(pCoreAnimation == 0) return false;
 
-	CalCoreTrack *coreTrack = pCoreAnimation->getCoreTrack(0);
+	std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+
+    if(listCoreTrack.size() == 0) return false;
+    
+	CalCoreTrack *coreTrack = listCoreTrack.front();
     if(coreTrack == 0) return false;
 
 	CalCoreKeyframe *lastKeyframe = coreTrack->getCoreKeyframe(coreTrack->getCoreKeyframeCount()-1);
@@ -98,7 +102,6 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
 
 	if(lastKeyframe->getTime()<pCoreAnimation->getDuration())
 	{
-		std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 		std::list<CalCoreTrack *>::iterator itr;
 		for(itr=listCoreTrack.begin();itr!=listCoreTrack.end();++itr)
