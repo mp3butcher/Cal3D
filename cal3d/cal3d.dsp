@@ -175,6 +175,10 @@ SOURCE=.\src\cal3d\model.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\physique.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\platform.cpp
 # End Source File
 # Begin Source File
@@ -192,6 +196,10 @@ SOURCE=.\src\cal3d\saver.cpp
 # Begin Source File
 
 SOURCE=.\src\cal3d\skeleton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\springsystem.cpp
 # End Source File
 # Begin Source File
 
@@ -291,6 +299,10 @@ SOURCE=.\src\cal3d\model.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\physique.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\platform.h
 # End Source File
 # Begin Source File
@@ -303,11 +315,19 @@ SOURCE=.\src\cal3d\renderer.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\resource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\saver.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\cal3d\skeleton.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\springsystem.h
 # End Source File
 # Begin Source File
 
