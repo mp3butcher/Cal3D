@@ -41,7 +41,7 @@ protected:
   float m_delayTarget;
   float m_weightTarget;
 
-// constructors/destructor
+// constructor/destructor
 public:
   CalAnimationAction();
   virtual ~CalAnimationAction();
