@@ -124,7 +124,7 @@ public:
   bool setTextureCoordinate(int vertexId, int textureCoordinateId, const TextureCoordinate& textureCoordinate);
   bool setVertex(int vertexId, const Vertex& vertex);
 protected:
-  void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int channel);
+  void UpdateTangentVector(int v0, int v1, int v2, int channel);
 };
 
 #endif

@@ -528,8 +528,8 @@ public:
 	TiXmlAttribute( const char * _name, const char * _value ): name( _name ), value( _value ), prev( 0 ), next( 0 ) {}
 	const char*		Name()  const		{ return name.c_str (); }		///< Return the name of this attribute.
 	const char*		Value() const		{ return value.c_str (); }		///< Return the value of this attribute.
-	const int       IntValue() const;									///< Return the value of this attribute, converted to an integer.
-	const double	DoubleValue() const;								///< Return the value of this attribute, converted to a double.
+	int       		IntValue() const;									///< Return the value of this attribute, converted to an integer.
+	double			DoubleValue() const;								///< Return the value of this attribute, converted to a double.
 
 	void SetName( const char* _name )	{ name = _name; }				///< Set the name of this attribute.
 	void SetValue( const char* _value )	{ value = _value; }				///< Set the value.
@@ -823,7 +823,7 @@ public:
 #endif
 
 	/// Construct.
-	TiXmlDeclaration::TiXmlDeclaration( const char * _version,
+	TiXmlDeclaration( const char * _version,
 										const char * _encoding,
 										const char * _standalone );
 
@@ -956,7 +956,7 @@ public:
 	/** Generally, you probably want the error string ( ErrorDesc() ). But if you
 			prefer the ErrorId, this function will fetch it.
 		*/
-	const int ErrorId()	const				{ return errorId; }
+	int ErrorId()	const				{ return errorId; }
 
 	/// If you have handled the error, it can be reset with this call.
 	void ClearError()						{ error = false; errorId = 0; errorDesc = ""; }
