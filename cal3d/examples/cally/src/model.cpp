@@ -139,7 +139,7 @@ GLuint Model::loadTexture(const std::string& strFilename)
 
     // allocate a temporary buffer to load the texture to
     unsigned char *pBuffer;
-    pBuffer = new unsigned char[2 * width * height * depth];
+    pBuffer = new unsigned char[width * height * depth];
     if(pBuffer == 0)
     {
       std::cerr << "Memory allocation for texture '" << strFilename << "' failed." << std::endl;
@@ -152,13 +152,6 @@ GLuint Model::loadTexture(const std::string& strFilename)
     // explicitely close the file
     file.close();
 
-    // flip texture around y-axis (-> opengl-style)
-    int y;
-    for(y = 0; y < height; y++)
-    {
-      memcpy(&pBuffer[(height + y) * width * depth], &pBuffer[(height - y - 1) * width * depth], width * depth);
-    }
-
     // generate texture
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &pId);
@@ -167,7 +160,7 @@ GLuint Model::loadTexture(const std::string& strFilename)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, (depth == 3) ? GL_RGB : GL_RGBA, width, height, 0, (depth == 3) ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &pBuffer[width * height * depth]);
+    glTexImage2D(GL_TEXTURE_2D, 0, (depth == 3) ? GL_RGB : GL_RGBA, width, height, 0, (depth == 3) ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &pBuffer[0]);
   
     // free the allocated memory
     delete [] pBuffer;
@@ -186,19 +179,10 @@ GLuint Model::loadTexture(const std::string& strFilename)
       return false;
     }
 
-    //Flip texture
+    //Bind texture
     int width = Tga->GetSizeX();
     int height = Tga->GetSizeY();
     int depth = Tga->Bpp() / 8;
-
-    char* texData = new char[width * height * depth];
-
-    for (int y = 0; y < height; ++y)
-    {
-      memcpy(&texData[y * width * depth], 
-             &((char*)Tga->GetPointer())[(height - y - 1) * width * depth], width * depth);
-    }
-    
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -210,10 +194,9 @@ GLuint Model::loadTexture(const std::string& strFilename)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
      
-    glTexImage2D(GL_TEXTURE_2D, 0, ((depth == 3) ? GL_RGB : GL_RGBA), width, height, 0, ((depth == 3) ? GL_RGB : GL_RGBA) , GL_UNSIGNED_BYTE, texData );
+    glTexImage2D(GL_TEXTURE_2D, 0, ((depth == 3) ? GL_RGB : GL_RGBA), width, height, 0, ((depth == 3) ? GL_RGB : GL_RGBA) , GL_UNSIGNED_BYTE, (char*)Tga->GetPointer() );
 
 	 Tga->Release();
-    delete [] texData;
   }
 
 
