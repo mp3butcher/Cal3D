@@ -217,6 +217,20 @@ SOURCE=.\src\cal3d\submesh.cpp
 
 SOURCE=.\src\cal3d\vector.cpp
 # End Source File
+
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxml.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxmlerror.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxmlparser.cpp
+# End Source File
+
 # End Group
 # Begin Group "Header-Dateien"
 
@@ -354,23 +368,9 @@ SOURCE=.\src\cal3d\submesh.h
 SOURCE=.\src\cal3d\vector.h
 # End Source File
 
-# Begin Source File
-
-SOURCE=.\src\tinyxml\tinyxml.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\tinyxml\tinyxml.h
 # End Source File
 # Begin Source File
-
-SOURCE=.\src\tinyxml\tinyxmlerror.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\tinyxml\tinyxmlparser.cpp
-# End Source File
-
 
 # End Group
 # Begin Group "Ressourcendateien"
