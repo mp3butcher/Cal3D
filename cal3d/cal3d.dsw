@@ -45,7 +45,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "cal3D_miniviewer_gl_vs"=".\examples\miniviewer_gl_vp\cal3d_miniviewer_gl_vp.dsp" - Package Owner=<4>
+Project: "cal3D_miniviewer_gl_vp"=".\examples\miniviewer_gl_vp\cal3d_miniviewer_gl_vp.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
