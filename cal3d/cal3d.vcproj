@@ -140,6 +140,9 @@
 				RelativePath=".\src\cal3d\bone.cpp">
 			</File>
 			<File
+				RelativePath="src\cal3d\buffersource.cpp">
+			</File>
+			<File
 				RelativePath=".\src\cal3d\cal3d.rc">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -262,6 +265,9 @@
 			</File>
 			<File
 				RelativePath=".\src\cal3d\bone.h">
+			</File>
+			<File
+				RelativePath="src\cal3d\buffersource.h">
 			</File>
 			<File
 				RelativePath=".\src\cal3d\cal3d.h">

@@ -106,6 +106,10 @@ SOURCE=.\src\cal3d\bone.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\buffersource.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\cal3d.rc
 
 !IF  "$(CFG)" == "Cal3D - Win32 Release"
@@ -260,6 +264,10 @@ SOURCE=.\src\cal3d\animation_cycle.h
 # Begin Source File
 
 SOURCE=.\src\cal3d\bone.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\buffersource.h
 # End Source File
 # Begin Source File
 
