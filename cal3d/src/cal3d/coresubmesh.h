@@ -112,7 +112,7 @@ public:
   std::vector<std::vector<TextureCoordinate> >& getVectorVectorTextureCoordinate();
   std::vector<Vertex>& getVectorVertex();
   int getVertexCount();
-  bool tangentsEnabled(int mapId);
+  bool isTangentsEnabled(int mapId);
   bool enableTangents(int mapId, bool enabled);
   bool reserve(int vertexCount, int textureCoordinateCount, int faceCount, int springCount);
   void setCoreMaterialThreadId(int coreMaterialThreadId);

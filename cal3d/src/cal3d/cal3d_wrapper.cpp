@@ -982,9 +982,9 @@ Boolean CalCoreSubmesh_SetVertex(CalCoreSubmesh *self, int vertexId, CalCoreSubm
 }
 */
 
-Boolean CalCoreSubmesh_TangentsEnabled(CalCoreSubmesh *self, int mapId)
+Boolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
 {
-  return self->tangentsEnabled(mapId) ? True : False;
+  return self->isTangentsEnabled(mapId) ? True : False;
 }
 
 Boolean CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled)
@@ -1559,6 +1559,11 @@ int CalRenderer_GetVerticesNormalsAndTexCoords(CalRenderer *self, float *pVertex
 int CalRenderer_GetTangentSpaces(CalRenderer *self, int mapId, float *pTangentSpaceBuffer)
 {
   return self->getTangentSpaces(mapId, pTangentSpaceBuffer);
+}
+
+Boolean CalRenderer_IsTangentsEnabled(CalRenderer *self, int mapId)
+{
+  return self->isTangentsEnabled(mapId) ? True : False;
 }
 
 CalRenderer *CalRenderer_New()

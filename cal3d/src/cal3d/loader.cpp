@@ -1406,7 +1406,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
   }  
 
   int trackCount= atoi(animation->Attribute("NUMTRACKS"));
-  float duration=atof(animation->Attribute("DURATION"));
+  float duration= (float) atof(animation->Attribute("DURATION"));
     
   // allocate a new core animation instance
   CalCoreAnimation *pCoreAnimation;
@@ -1505,7 +1505,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 			  return false;
 		  }
 
-		  float time= atof(keyframe->Attribute("TIME"));
+		  float time= (float) atof(keyframe->Attribute("TIME"));
 
 		  TiXmlElement* translation = keyframe->FirstChildElement();
 		  if(!translation || stricmp(translation->Value(),"TRANSLATION")!=0)
@@ -2030,7 +2030,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 			  Vertex.vectorInfluence[influenceId].boneId = atoi(influence->Attribute("ID"));
 
-			  Vertex.vectorInfluence[influenceId].weight = atof(influencedata->Value());
+			  Vertex.vectorInfluence[influenceId].weight = (float) atof(influencedata->Value());
 
 			  influence=influence->NextSiblingElement();	  
 		  }
@@ -2077,7 +2077,7 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 				  return false;
 			  }
 
-			  physicalProperty.weight = atof(physiquedata->Value());
+			  physicalProperty.weight = (float) atof(physiquedata->Value());
 
 			  // set the physical property in the core submesh instance
 			  pCoreSubmesh->setPhysicalProperty(vertexId, physicalProperty);				  
@@ -2107,8 +2107,8 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		  str.clear();
 		  str << spring->Attribute("VERTEXID");
 		  str >> Spring.vertexId[0] >> Spring.vertexId[1];
-		  Spring.springCoefficient = atof(spring->Attribute("COEF"));
-		  Spring.idleLength = atof(spring->Attribute("LENGTH"));
+		  Spring.springCoefficient = (float) atof(spring->Attribute("COEF"));
+		  Spring.idleLength = (float) atof(spring->Attribute("LENGTH"));
 
 		  // set spring in the core submesh instance
 		  pCoreSubmesh->setSpring(springId, Spring);
@@ -2373,7 +2373,7 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
         delete pCoreMaterial;    
         return false;
   }
-  fshininess = atof(shininessdata->Value());
+  fshininess = (float)atof(shininessdata->Value());
 
   // set the colors and the shininess
   pCoreMaterial->setAmbientColor(ambientColor);

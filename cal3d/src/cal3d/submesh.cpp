@@ -284,9 +284,9 @@ bool CalSubmesh::hasInternalData()
   * @return True if tangent vectors are enabled.
   *****************************************************************************/
 
-bool CalSubmesh::tangentsEnabled(int mapId)
+bool CalSubmesh::isTangentsEnabled(int mapId)
 {
-	return m_pCoreSubmesh->tangentsEnabled(mapId);
+	return m_pCoreSubmesh->isTangentsEnabled(mapId);
 }
 
  /*****************************************************************************/

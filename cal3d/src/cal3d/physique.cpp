@@ -212,7 +212,7 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
     if (m_Normalize)
     {
       float scale;
-      scale = 1.0f / sqrt(tx * tx + ty * ty + tz * tz);
+      scale = (float)( 1.0f / sqrt(tx * tx + ty * ty + tz * tz));
 
       pTangentSpaceBuffer[0] = tx * scale;
       pTangentSpaceBuffer[1] = ty * scale;
@@ -298,7 +298,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer)
     if (m_Normalize)
     {
       float scale;
-      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+      scale = (float)( 1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
       pNormalBuffer[0] = nx * scale;
       pNormalBuffer[1] = ny * scale;
@@ -421,7 +421,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     if (m_Normalize)
     {
       float scale;
-      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+      scale = (float)( 1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
       pVertexBuffer[3] = nx * scale;
       pVertexBuffer[4] = ny * scale;
@@ -565,7 +565,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
     if (m_Normalize)
     {
       float scale;
-      scale = 1.0f / sqrt(nx * nx + ny * ny + nz * nz);
+      scale = (float) (1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
       pVertexBuffer[3] = nx * scale;
       pVertexBuffer[4] = ny * scale;
@@ -680,10 +680,10 @@ void CalPhysique::update()
         std::vector<CalVector>& vectorNormal = (*iteratorSubmesh)->getVectorNormal();
         calculateNormals(*iteratorSubmesh, (float *)&vectorNormal[0]);
 
-		int mapId;
+		unsigned mapId;
 		for(mapId=0;mapId< (*iteratorSubmesh)->getVectorVectorTangentSpace().size();mapId++)
 		{
-			if((*iteratorSubmesh)->tangentsEnabled(mapId))
+			if((*iteratorSubmesh)->isTangentsEnabled(mapId))
 			{
                 std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = (*iteratorSubmesh)->getVectorVectorTangentSpace()[mapId];
                 calculateTangentSpaces(*iteratorSubmesh, mapId,(float *)&vectorTangentSpace[0]);

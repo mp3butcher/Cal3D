@@ -329,7 +329,7 @@ int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
   std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& vectorvectorTangentSpace = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace();
   
   // check if the map id is valid
-  if((mapId < 0) || (mapId >= (int)vectorvectorTangentSpace.size()) || !m_pSelectedSubmesh->tangentsEnabled(mapId))
+  if((mapId < 0) || (mapId >= (int)vectorvectorTangentSpace.size()) || !m_pSelectedSubmesh->isTangentsEnabled(mapId))
   {    
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
     return -1;
@@ -516,6 +516,19 @@ int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffe
 int CalRenderer::getVertexCount()
 {
   return m_pSelectedSubmesh->getVertexCount();
+}
+
+ /*****************************************************************************/
+/** Returns if tangent are enabled.
+  *
+  * This function returns if tangent of the current submesh are enabled
+  *
+  * @return True is tangent is enabled.
+  *****************************************************************************/
+
+bool CalRenderer::isTangentsEnabled(int mapId)
+{
+	return m_pSelectedSubmesh->isTangentsEnabled(mapId);
 }
 
  /*****************************************************************************/

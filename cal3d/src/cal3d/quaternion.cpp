@@ -212,13 +212,13 @@ void CalQuaternion::blend(float d, const CalQuaternion& q)
   else
   {
     float theta;
-    theta = acos(norm);
+    theta = (float) acos(norm);
 
     float s;
-    s = 1.0f / sin(theta);
+    s = (float) (1.0f / sin(theta));
 
-    inv_d = sin((1.0f - d) * theta) * s;
-    d = sin(d * theta) * s;
+    inv_d = (float) sin((1.0f - d) * theta) * s;
+    d = (float) sin(d * theta) * s;
   }
 
   if(bFlip)
@@ -313,7 +313,7 @@ CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
    CalVector cross = from % to; //Compute vector cross product
    float dot = from * to ;      //Compute dot product
 
-   dot = sqrt( 2*(dot+1) ) ; //We will use this equation twice
+   dot = (float) sqrt( 2*(dot+1) ) ; //We will use this equation twice
 
    cross /= dot ; //Get the x, y, z components
 

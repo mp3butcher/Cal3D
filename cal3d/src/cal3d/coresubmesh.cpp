@@ -142,7 +142,7 @@ int CalCoreSubmesh::getSpringCount()
   * @return True if tangent vectors are enabled.
   *****************************************************************************/
 
-bool CalCoreSubmesh::tangentsEnabled(int mapId)
+bool CalCoreSubmesh::isTangentsEnabled(int mapId)
 {
   if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
 
@@ -176,11 +176,11 @@ void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
 
   CalVector vec1 = vvtx[v1].position - vvtx[v0].position;
   CalVector vec2 = vvtx[v2].position - vvtx[v0].position;
-  CalVector tangent = (vec1 * x) + (vec2 * y);
+  CalVector tangent = (vec1 * ((float)x)) + (vec2 * ((float)y));
   
   // Step 2. Orthonormalize the tangent.
   double component = (tangent * vvtx[v0].normal);
-  tangent -= (vvtx[v0].normal * component);
+  tangent -= (vvtx[v0].normal * ((float)component));
   tangent.normalize();
   
   // Step 3: Add the estimated tangent to the overall estimate for the vertex.

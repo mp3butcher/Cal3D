@@ -92,7 +92,7 @@ public:
   bool hasInternalData();
   void setCoreMaterialId(int coreMaterialId);
   void setLodLevel(float lodLevel);
-  bool tangentsEnabled(int mapId);
+  bool isTangentsEnabled(int mapId);
   bool enableTangents(int mapId, bool enabled);
 
 };

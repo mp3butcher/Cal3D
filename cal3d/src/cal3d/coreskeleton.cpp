@@ -212,7 +212,7 @@ int CalCoreSkeleton::getCoreBoneId(const std::string& strName)
 bool CalCoreSkeleton::mapCoreBoneName(int coreBoneId, const std::string& strName)
 {
    //Make sure the ID given is a valid corebone ID number
-   if ((coreBoneId < 0) || (coreBoneId >= m_vectorCoreBone.size()))
+   if ((coreBoneId < 0) || (coreBoneId >= (int)m_vectorCoreBone.size()))
    {
       return false;
    }

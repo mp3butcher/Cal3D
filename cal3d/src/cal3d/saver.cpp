@@ -718,7 +718,7 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   }
 
   // save all core keyframes
-  for(unsigned i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
+  for(int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
   {
     // save the core keyframe
     if(!saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i)))
@@ -920,7 +920,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 		track.SetAttribute("NUMKEYFRAMES",pCoreTrack->getCoreKeyframeCount());
 
 		// save all core keyframes
-        for (unsigned i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
+        for (int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
 		{
 			CalCoreKeyframe *pCoreKeyframe=pCoreTrack->getCoreKeyframe(i);
 

@@ -369,7 +369,7 @@ extern "C"
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetSpring(struct CalCoreSubmesh *self, int springId, struct CalCoreSubmesh::Spring *pSpring);
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetTextureCoordinate(struct CalCoreSubmesh *self, int vertexId, int textureCoordinateId, struct CalCoreSubmesh::TextureCoordinate *pTextureCoordinate);
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetVertex(struct CalCoreSubmesh *self, int vertexId, struct CalCoreSubmesh::Vertex *pVertex);
-CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_TangentsEnabled(struct CalCoreSubmesh *self, int mapId);
+CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_IsTangentsEnabled(struct CalCoreSubmesh *self, int mapId);
 CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled);
 
 //****************************************************************************//
@@ -547,6 +547,7 @@ CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubm
   CAL3D_WRAPPER_API int CalRenderer_GetVerticesAndNormals(struct CalRenderer *self, float *pVertexBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetVerticesNormalsAndTexCoords(struct CalRenderer *self, float *pVertexBuffer, int NumTexCoords);
   CAL3D_WRAPPER_API int CalRenderer_GetTangentSpaces(struct CalRenderer *self, int mapId, float *pTangentSpaceBuffer);
+  CAL3D_WRAPPER_API enum Boolean  CalRenderer_IsTangentsEnabled(struct CalRenderer *self, int mapId);
   CAL3D_WRAPPER_API struct CalRenderer *CalRenderer_New();
   CAL3D_WRAPPER_API enum Boolean CalRenderer_SelectMeshSubmesh(struct CalRenderer *self, int meshId, int submeshId);
 
