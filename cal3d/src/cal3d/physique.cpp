@@ -224,7 +224,8 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
 
     // blend together all vertex influences
     int influenceId;
-	int influenceCount=(int)vertex.vectorInfluence.size();
+    int influenceCount=(int)vertex.vectorInfluence.size();
+
     for(influenceId = 0; influenceId < influenceCount; influenceId++)
     {
       // get the influence
@@ -840,15 +841,16 @@ void CalPhysique::update()
         std::vector<CalVector>& vectorNormal = (*iteratorSubmesh)->getVectorNormal();
         calculateNormals(*iteratorSubmesh, (float *)&vectorNormal[0]);
 
-		unsigned mapId;
-		for(mapId=0;mapId< (*iteratorSubmesh)->getVectorVectorTangentSpace().size();mapId++)
-		{
-			if((*iteratorSubmesh)->isTangentsEnabled(mapId))
-			{
-                std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = (*iteratorSubmesh)->getVectorVectorTangentSpace()[mapId];
-                calculateTangentSpaces(*iteratorSubmesh, mapId,(float *)&vectorTangentSpace[0]);
-			}
-		}
+        unsigned mapId;
+        for(mapId=0;mapId< (*iteratorSubmesh)->getVectorVectorTangentSpace().size();mapId++)
+        {
+          if((*iteratorSubmesh)->isTangentsEnabled(mapId))
+          {
+            std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = (*iteratorSubmesh)->getVectorVectorTangentSpace()[mapId];
+            calculateTangentSpaces(*iteratorSubmesh, mapId,(float *)&vectorTangentSpace[0]);
+          }
+        }
+
       }
     }
   }
