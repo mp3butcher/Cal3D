@@ -1,63 +1,81 @@
-dnl without this order in this file, autoconf will not work!
-dnl the argument is a source file out of your sources. But
-dnl acinclude.m4 makes the job for all programs ;-)
-AC_INIT(acinclude.m4)
+dnl ************************************************************************
+dnl
+dnl This file is part of the Cal3D library/package
+dnl Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+dnl
+dnl This library is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU Lesser General Public License as published by
+dnl the Free Software Foundation; either version 2.1 of the License, or (at
+dnl your option) any later version.
+dnl
+dnl ************************************************************************
 
-dnl enable the following if you want to use autoconf/automake 
-dnl framework from a certain directory (like kde-common)
-dnl AC_CONFIG_AUX_DIR(admin)
+AC_INIT(src/cal3d/cal3d.h)
+
+AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
-AC_ARG_PROGRAM
 
 AM_INIT_AUTOMAKE(cal3d,0.8devel)
 
-AC_PREFIX_DEFAULT(/usr/local)
-if test "x$prefix" = "xNONE"; then
-  prefix=$ac_default_prefix
-  ac_configure_args="$ac_configure_args --prefix $prefix"
+dnl ************************************************************************
+
+CAL3D_CHECK_USER_CXX_FLAGS
+
+dnl ************************************************************************
+
+AC_PROG_CXX
+
+AC_DISABLE_STATIC
+AC_LIBTOOL_WIN32_DLL
+AC_PROG_LIBTOOL
+
+AC_PROG_INSTALL
+
+AC_CHECK_PROG(DOXYGEN, doxygen, true, false)
+if test "$DOXYGEN" = false; then
+  AC_MSG_WARN(["cannot find doxygen, unable to generate Cal3D API Reference!"])
 fi
 
-dnl without this order in this file, automake will be confused!
-dnl 
-AM_CONFIG_HEADER(config.h)
+AC_CHECK_PROG(DB2HTML, db2html, true, false)
+if test "$DB2HTML" = false; then
+  AC_MSG_WARN(["cannot find db2html, unable to generate Cal3D User's Guide!"])
+fi
 
-dnl checks for programs.
-dnl first check for c/c++ compilers
-AC_CHECK_COMPILERS
+dnl ************************************************************************
 
-dnl create only shared libtool-libraries
-AC_ENABLE_SHARED(yes)
+CAL3D_CHECK_BUILD
 
-dnl set the following to yes, if you want to create static
-dnl libtool-libraries
-AC_ENABLE_STATIC(no)
+dnl ************************************************************************
 
-dnl create a working libtool-script
-KDE_PROG_LIBTOOL
+AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile)
 
-dnl check for presence of dynamic-loading-library functions
-KDE_CHECK_LIBDL
+dnl ************************************************************************
 
-dnl activate the following for some additional tests
-dnl   (compat, crypt, socket, nsl, ...)
-dnl KDE_MISC_TESTS
+AC_MSG_NOTICE(o-----------------------------------------------------------o)
+AC_MSG_NOTICE(| To build and install the Cal3D library type...            |)
+AC_MSG_NOTICE(|     make; make install                                    |)
 
-dnl add --with-extra-includes and --with-extra-libs switch to ./configure
-dnl
-AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
-all_libraries="$all_libraries $USER_LDFLAGS"
-all_includes="$all_includes $USER_INCLUDES"
-AC_SUBST(all_includes)
-AC_SUBST(all_libraries)
+AC_MSG_NOTICE(|                                                           |)
 
-AC_SUBST(AUTODIRS)
+if test "$DB2HTML" = false; then
+AC_MSG_NOTICE(| To generate the Cal3D User's Guide you need to install    |)
+AC_MSG_NOTICE(| the DocBook tools first. ('docbktls' package)             |)
+else
+AC_MSG_NOTICE(| To generate the Cal3D User's Guide type...                |)
+AC_MSG_NOTICE(|     cd docs; make doc-guide                               |)
+fi
 
-dnl in this space add everything you want to check for
-dnl examples are specific headers, libraries, etc.
+AC_MSG_NOTICE(|                                                           |)
 
-dnl perform program name transformation
-AC_ARG_PROGRAM
+if test "$DOXYGEN" = false; then
+AC_MSG_NOTICE(| To generate the Cal3D API Reference you need to install   |)
+AC_MSG_NOTICE(| the Doxygen tool first. (see http://www.doxygen.org)      |)
+else
+AC_MSG_NOTICE(| To generate the Cal3D API Reference type...               |)
+AC_MSG_NOTICE(|     cd docs; make doc-api                                 |)
+fi
 
-dnl add here all your Makefiles. These will be created by configure
-AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/shared/Makefile )
+AC_MSG_NOTICE(o-----------------------------------------------------------o)
+
+dnl ************************************************************************

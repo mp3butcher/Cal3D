@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -10,7 +10,17 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-####### kdevelop will overwrite this part!!! (begin)##########
+# ************************************************************************
+#
+# This file is part of the Cal3D library/package
+# Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+#
+# This library is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or (at
+# your option) any later version.
+#
+# ************************************************************************
 
 
 SHELL = @SHELL@
@@ -66,141 +76,36 @@ host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
 AS = @AS@
-AUTODIRS = @AUTODIRS@
 CC = @CC@
-CPP = @CPP@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
-DCOPIDL = @DCOPIDL@
-DCOPIDL2CPP = @DCOPIDL2CPP@
-DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
+DB2HTML = @DB2HTML@
 DLLTOOL = @DLLTOOL@
-DPMSINC = @DPMSINC@
-DPMSLIB = @DPMSLIB@
+DOXYGEN = @DOXYGEN@
+ECHO = @ECHO@
 EXEEXT = @EXEEXT@
-GLINC = @GLINC@
-GLLIB = @GLLIB@
-GMSGFMT = @GMSGFMT@
-IDL = @IDL@
-IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
-KDE_CXXFLAGS = @KDE_CXXFLAGS@
-KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
-KDE_INCLUDES = @KDE_INCLUDES@
-KDE_LDFLAGS = @KDE_LDFLAGS@
-KDE_RPATH = @KDE_RPATH@
-KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
-KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
-KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
-KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
-LIBCOMPAT = @LIBCOMPAT@
-LIBCRYPT = @LIBCRYPT@
-LIBDL = @LIBDL@
-LIBJPEG = @LIBJPEG@
-LIBMICO = @LIBMICO@
-LIBOBJS = @LIBOBJS@
-LIBPNG = @LIBPNG@
-LIBPTHREAD = @LIBPTHREAD@
-LIBPYTHON = @LIBPYTHON@
-LIBQIMGIO = @LIBQIMGIO@
-LIBSM = @LIBSM@
-LIBSOCKET = @LIBSOCKET@
-LIBTIFF = @LIBTIFF@
 LIBTOOL = @LIBTOOL@
-LIBUCB = @LIBUCB@
-LIBZ = @LIBZ@
-LIB_KAB = @LIB_KAB@
-LIB_KDECORE = @LIB_KDECORE@
-LIB_KDEUI = @LIB_KDEUI@
-LIB_KFILE = @LIB_KFILE@
-LIB_KFM = @LIB_KFM@
-LIB_KFORMULA = @LIB_KFORMULA@
-LIB_KHTML = @LIB_KHTML@
-LIB_KIMGIO = @LIB_KIMGIO@
-LIB_KIO = @LIB_KIO@
-LIB_KPARTS = @LIB_KPARTS@
-LIB_KSPELL = @LIB_KSPELL@
-LIB_KSYCOCA = @LIB_KSYCOCA@
-LIB_MEDIATOOL = @LIB_MEDIATOOL@
-LIB_QT = @LIB_QT@
-LIB_SMB = @LIB_SMB@
-LIB_X11 = @LIB_X11@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
-MICO_INCLUDES = @MICO_INCLUDES@
-MICO_LDFLAGS = @MICO_LDFLAGS@
-MOC = @MOC@
-MSGFMT = @MSGFMT@
-NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
-NOREPO = @NOREPO@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
-PAMINC = @PAMINC@
-PAMLIBPATHS = @PAMLIBPATHS@
-PAMLIBS = @PAMLIBS@
-PYTHONINC = @PYTHONINC@
-PYTHONLIB = @PYTHONLIB@
-QT_INCLUDES = @QT_INCLUDES@
-QT_LDFLAGS = @QT_LDFLAGS@
 RANLIB = @RANLIB@
-REPO = @REPO@
 STRIP = @STRIP@
-TOPSUBDIRS = @TOPSUBDIRS@
-USER_INCLUDES = @USER_INCLUDES@
-USER_LDFLAGS = @USER_LDFLAGS@
-USE_EXCEPTIONS = @USE_EXCEPTIONS@
-USE_NLS = @USE_NLS@
-USE_RTTI = @USE_RTTI@
 VERSION = @VERSION@
-XGETTEXT = @XGETTEXT@
-XPMINC = @XPMINC@
-XPMLIB = @XPMLIB@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_INCLUDES = @X_INCLUDES@
-X_LDFLAGS = @X_LDFLAGS@
-X_PRE_LIBS = @X_PRE_LIBS@
-all_includes = @all_includes@
-all_libraries = @all_libraries@
-idldir = @idldir@
-kde_appsdir = @kde_appsdir@
-kde_bindir = @kde_bindir@
-kde_cgidir = @kde_cgidir@
-kde_confdir = @kde_confdir@
-kde_datadir = @kde_datadir@
-kde_htmldir = @kde_htmldir@
-kde_icondir = @kde_icondir@
-kde_includes = @kde_includes@
-kde_libraries = @kde_libraries@
-kde_locale = @kde_locale@
-kde_mimedir = @kde_mimedir@
-kde_minidir = @kde_minidir@
-kde_servicesdir = @kde_servicesdir@
-kde_servicetypesdir = @kde_servicetypesdir@
-kde_sounddir = @kde_sounddir@
-kde_toolbardir = @kde_toolbardir@
-kde_wallpaperdir = @kde_wallpaperdir@
-micodir = @micodir@
-qt_includes = @qt_includes@
-qt_libraries = @qt_libraries@
-x_includes = @x_includes@
-x_libraries = @x_libraries@
 
-SUBDIRS = src docs 
+EXTRA_DIST = cal3d.dsp cal3d.dsw cal3d.kdevprj cal3d.kdevses cal3d.opt
 
-EXTRA_DIST = cal3d.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO cal3d.opt cal3d.dsp cal3d.dsw cal3d.doxygen 
+AUTOMAKE_OPTIONS = foreign
 
-####### kdevelop will overwrite this part!!! (end)############
-# not a GNU package. You can remove this line, if
-# have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign 1.4
+SUBDIRS = src docs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in TODO acconfig.h acinclude.m4 aclocal.m4 \
-config.guess config.h.in config.sub configure configure.in install-sh \
-ltconfig ltmain.sh missing mkinstalldirs
+Makefile.am Makefile.in TODO acinclude.m4 aclocal.m4 config.guess \
+config.h.in config.sub configure configure.in install-sh ltmain.sh \
+missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -210,9 +115,9 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -239,7 +144,7 @@ $(srcdir)/config.h.in: $(srcdir)/stamp-h.in
 		rm -f $(srcdir)/stamp-h.in; \
 		$(MAKE) $(srcdir)/stamp-h.in; \
 	else :; fi
-$(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+$(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOHEADER)
 	@echo timestamp > $(srcdir)/stamp-h.in 2> /dev/null
 
@@ -288,7 +193,7 @@ maintainer-clean-recursive:
 	dot_seen=no; \
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
 	  rev="$$subdir $$rev"; \
-	  test "$$subdir" = "." && dot_seen=yes; \
+	  test "$$subdir" != "." || dot_seen=yes; \
 	done; \
 	test "$$dot_seen" = "no" && rev=". $$rev"; \
 	target=`echo $@ | sed s/-recursive//`; \
@@ -379,11 +284,6 @@ distdir: $(DISTFILES)
 	-rm -rf $(distdir)
 	mkdir $(distdir)
 	-chmod 777 $(distdir)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --foreign Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -478,6 +378,8 @@ install uninstall-am uninstall all-redirect all-am all installdirs-am \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+# ************************************************************************
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

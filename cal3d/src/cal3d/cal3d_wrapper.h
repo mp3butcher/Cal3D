@@ -12,10 +12,16 @@
 #define CAL_CAL3D_WRAPPER_H
 
 //****************************************************************************//
-// Defines Win32                                                              //
+// Defines for Win32 and MingW32                                              //
 //****************************************************************************//
 
 #ifdef _WIN32
+
+#ifdef __MINGW32__
+
+#define CAL3D_WRAPPER_API
+
+#else
 
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4786)
@@ -28,11 +34,13 @@
 
 #endif
 
+#endif
+
 //****************************************************************************//
-// Defines Linux and Cygwin                                                   //
+// Defines for Linux, Cygwin, Sun and Mips                                    //
 //****************************************************************************//
 
-#if defined(__linux__) || (__CYGWIN__)
+#if defined(__linux__) || (__CYGWIN__) || (sun) || (mips)
 
 #define CAL3D_WRAPPER_API
 

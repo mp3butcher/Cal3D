@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -10,7 +10,17 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-####### kdevelop will overwrite this part!!! (begin)##########
+# ************************************************************************
+#
+# This file is part of the Cal3D library/package
+# Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+#
+# This library is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or (at
+# your option) any later version.
+#
+# ************************************************************************
 
 
 SHELL = @SHELL@
@@ -66,128 +76,26 @@ host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
 AS = @AS@
-AUTODIRS = @AUTODIRS@
 CC = @CC@
-CPP = @CPP@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
-DCOPIDL = @DCOPIDL@
-DCOPIDL2CPP = @DCOPIDL2CPP@
-DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
+DB2HTML = @DB2HTML@
 DLLTOOL = @DLLTOOL@
-DPMSINC = @DPMSINC@
-DPMSLIB = @DPMSLIB@
+DOXYGEN = @DOXYGEN@
+ECHO = @ECHO@
 EXEEXT = @EXEEXT@
-GLINC = @GLINC@
-GLLIB = @GLLIB@
-GMSGFMT = @GMSGFMT@
-IDL = @IDL@
-IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
-KDE_CXXFLAGS = @KDE_CXXFLAGS@
-KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
-KDE_INCLUDES = @KDE_INCLUDES@
-KDE_LDFLAGS = @KDE_LDFLAGS@
-KDE_RPATH = @KDE_RPATH@
-KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
-KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
-KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
-KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
-LIBCOMPAT = @LIBCOMPAT@
-LIBCRYPT = @LIBCRYPT@
-LIBDL = @LIBDL@
-LIBJPEG = @LIBJPEG@
-LIBMICO = @LIBMICO@
-LIBOBJS = @LIBOBJS@
-LIBPNG = @LIBPNG@
-LIBPTHREAD = @LIBPTHREAD@
-LIBPYTHON = @LIBPYTHON@
-LIBQIMGIO = @LIBQIMGIO@
-LIBSM = @LIBSM@
-LIBSOCKET = @LIBSOCKET@
-LIBTIFF = @LIBTIFF@
 LIBTOOL = @LIBTOOL@
-LIBUCB = @LIBUCB@
-LIBZ = @LIBZ@
-LIB_KAB = @LIB_KAB@
-LIB_KDECORE = @LIB_KDECORE@
-LIB_KDEUI = @LIB_KDEUI@
-LIB_KFILE = @LIB_KFILE@
-LIB_KFM = @LIB_KFM@
-LIB_KFORMULA = @LIB_KFORMULA@
-LIB_KHTML = @LIB_KHTML@
-LIB_KIMGIO = @LIB_KIMGIO@
-LIB_KIO = @LIB_KIO@
-LIB_KPARTS = @LIB_KPARTS@
-LIB_KSPELL = @LIB_KSPELL@
-LIB_KSYCOCA = @LIB_KSYCOCA@
-LIB_MEDIATOOL = @LIB_MEDIATOOL@
-LIB_QT = @LIB_QT@
-LIB_SMB = @LIB_SMB@
-LIB_X11 = @LIB_X11@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
-MICO_INCLUDES = @MICO_INCLUDES@
-MICO_LDFLAGS = @MICO_LDFLAGS@
-MOC = @MOC@
-MSGFMT = @MSGFMT@
-NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
-NOREPO = @NOREPO@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
-PAMINC = @PAMINC@
-PAMLIBPATHS = @PAMLIBPATHS@
-PAMLIBS = @PAMLIBS@
-PYTHONINC = @PYTHONINC@
-PYTHONLIB = @PYTHONLIB@
-QT_INCLUDES = @QT_INCLUDES@
-QT_LDFLAGS = @QT_LDFLAGS@
 RANLIB = @RANLIB@
-REPO = @REPO@
 STRIP = @STRIP@
-TOPSUBDIRS = @TOPSUBDIRS@
-USER_INCLUDES = @USER_INCLUDES@
-USER_LDFLAGS = @USER_LDFLAGS@
-USE_EXCEPTIONS = @USE_EXCEPTIONS@
-USE_NLS = @USE_NLS@
-USE_RTTI = @USE_RTTI@
 VERSION = @VERSION@
-XGETTEXT = @XGETTEXT@
-XPMINC = @XPMINC@
-XPMLIB = @XPMLIB@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_INCLUDES = @X_INCLUDES@
-X_LDFLAGS = @X_LDFLAGS@
-X_PRE_LIBS = @X_PRE_LIBS@
-all_includes = @all_includes@
-all_libraries = @all_libraries@
-idldir = @idldir@
-kde_appsdir = @kde_appsdir@
-kde_bindir = @kde_bindir@
-kde_cgidir = @kde_cgidir@
-kde_confdir = @kde_confdir@
-kde_datadir = @kde_datadir@
-kde_htmldir = @kde_htmldir@
-kde_icondir = @kde_icondir@
-kde_includes = @kde_includes@
-kde_libraries = @kde_libraries@
-kde_locale = @kde_locale@
-kde_mimedir = @kde_mimedir@
-kde_minidir = @kde_minidir@
-kde_servicesdir = @kde_servicesdir@
-kde_servicetypesdir = @kde_servicetypesdir@
-kde_sounddir = @kde_sounddir@
-kde_toolbardir = @kde_toolbardir@
-kde_wallpaperdir = @kde_wallpaperdir@
-micodir = @micodir@
-qt_includes = @qt_includes@
-qt_libraries = @qt_libraries@
-x_includes = @x_includes@
-x_libraries = @x_libraries@
 
-SUBDIRS = shared 
+EXTRA_DIST = api_footer.html api_header.html cal3d.doxygen guide.dsl guide.sgml guide_apiref.sgml guide_architecture.sgml guide_classes_1.gif guide_classes_2.gif guide_classes_3.gif guide_decisions.sgml guide_gfdl.sgml guide_introduction.sgml guide_lgpl.sgml guide_phases.gif guide_pipeline.gif guide_setup.sgml guide_usage.sgml
 
-EXTRA_DIST = guide.sgml guide_introduction.sgml guide_architecture.sgml guide_decisions.sgml guide_setup.sgml api_footer.html api_header.html guide.dsl guide_gfdl.sgml guide_lgpl.sgml guide_apiref.sgml guide_usage.sgml guide_phases.gif guide_classes_1.gif guide_classes_2.gif guide_classes_3.gif 
+SUBDIRS = shared api
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -201,9 +109,9 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu docs/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps docs/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -244,7 +152,7 @@ maintainer-clean-recursive:
 	dot_seen=no; \
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
 	  rev="$$subdir $$rev"; \
-	  test "$$subdir" = "." && dot_seen=yes; \
+	  test "$$subdir" != "." || dot_seen=yes; \
 	done; \
 	test "$$dot_seen" = "no" && rev=". $$rev"; \
 	target=`echo $@ | sed s/-recursive//`; \
@@ -302,11 +210,6 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = docs
 
 distdir: $(DISTFILES)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(top_distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu docs/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -367,7 +270,7 @@ mostlyclean-am:  mostlyclean-tags mostlyclean-generic
 
 mostlyclean: mostlyclean-recursive
 
-clean-am:  clean-tags clean-generic mostlyclean-am
+clean-am:  clean-tags clean-generic mostlyclean-am clean-local
 
 clean: clean-recursive
 
@@ -397,7 +300,16 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-####### kdevelop will overwrite this part!!! (end)############
+doc-api:
+	doxygen cal3d.doxygen
+
+doc-guide:
+	db2html guide.sgml
+
+clean-local:
+	rm -rf guide guide.junk
+
+# ************************************************************************
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -92,8 +92,6 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
 VERSION = @VERSION@
-
-EXTRA_DIST = cal3d.gif
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
@@ -107,7 +105,7 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps docs/shared/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps docs/api/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -119,7 +117,7 @@ TAGS:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = docs/shared
+subdir = docs/api
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -171,7 +169,7 @@ mostlyclean-am:  mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-generic mostlyclean-am
+clean-am:  clean-generic mostlyclean-am clean-local
 
 clean: clean-am
 
@@ -193,6 +191,9 @@ all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
+
+clean-local:
+	rm -rf html
 
 # ************************************************************************
 

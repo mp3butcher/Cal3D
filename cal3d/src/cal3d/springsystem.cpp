@@ -81,6 +81,7 @@ void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
     // only take vertices with a weight > 0 into account
     if(corePhysicalProperty.weight > 0.0f)
     {
+//      physicalProperty.force.set(0.0f, 0.0f /*0.5f*/, corePhysicalProperty.weight * -98.1f);
       physicalProperty.force.set(0.0f, 0.5f, corePhysicalProperty.weight * -98.1f);
     }
   }
@@ -199,6 +200,44 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
       }
     }
   }
+/* DEBUG-CODE ********************
+  CalVector spherePosition(Sphere.x, Sphere.y, Sphere.z);
+  float sphereRadius = Sphere.radius;
+
+  // loop through all the vertices
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+  {
+    // get the vertex
+    CalVector& vertex = vectorVertex[vertexId];
+
+    // get the physical property of the vertex
+    CalSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
+
+    // get the physical property of the core vertex
+    CalCoreSubmesh::PhysicalProperty& corePhysicalProperty = vectorCorePhysicalProperty[vertexId];
+
+    // only take vertices with a weight > 0 into account
+    if(corePhysicalProperty.weight > 0.0f)
+    {
+      CalVector position;
+      position = physicalProperty.position;
+      position -= spherePosition;
+
+      float length;
+      length = position.normalize();
+
+      if(length < sphereRadius)
+      {
+        position *= sphereRadius;
+        position += spherePosition;
+
+        physicalProperty.position = position;
+        physicalProperty.positionOld = position;
+        vertex = physicalProperty.position;
+      }
+    }
+  }
+*********************************/
 }
 
  /*****************************************************************************/

@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 PROJECT_NAME           = Cal3D
 PROJECT_NUMBER         = 0.7
-OUTPUT_DIRECTORY       = docs/
+OUTPUT_DIRECTORY       = ./
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = NO
 EXTRACT_PRIVATE        = NO
@@ -52,7 +52,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = src/
+INPUT                  = ../src/
 FILE_PATTERNS          = *.h \
                          *.cpp
 RECURSIVE              = YES
@@ -74,8 +74,8 @@ IGNORE_PREFIX          =
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
 HTML_OUTPUT            = api/html
-HTML_HEADER            = /home/beosil/Projects/cal3d/docs/api_header.html
-HTML_FOOTER            = /home/beosil/Projects/cal3d/docs/api_footer.html
+HTML_HEADER            = api_header.html
+HTML_FOOTER            = api_footer.html
 HTML_STYLESHEET        = 
 HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = NO

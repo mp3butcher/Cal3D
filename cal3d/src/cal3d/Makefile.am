@@ -1,37 +1,29 @@
-####### kdevelop will overwrite this part!!! (begin)##########
-lib_LTLIBRARIES = libcal3d.la
+# ************************************************************************
+#
+# This file is part of the Cal3D library/package
+# Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+#
+# This library is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or (at
+# your option) any later version.
+#
+# ************************************************************************
 
+INCLUDES = $(all_includes)
 
-libcal3d_la_LDFLAGS = -version-info 0:0:0
+EXTRA_DIST = cal3d.rc
 
-libcal3d_la_SOURCES = cal3d_wrapper.cpp springsystem.cpp physique.cpp submesh.cpp corematerial.cpp mesh.cpp renderer.cpp coresubmesh.cpp saver.cpp animation_action.cpp coremesh.cpp loader.cpp vector.cpp platform.cpp model.cpp quaternion.cpp skeleton.cpp mixer.cpp global.cpp error.cpp coretrack.cpp coreskeleton.cpp coremodel.cpp corekeyframe.cpp corebone.cpp coreanimation.cpp bone.cpp animation_cycle.cpp animation.cpp 
-
-
-EXTRA_DIST = animation.cpp animation.h animation_cycle.cpp animation_cycle.h bone.cpp bone.h coreanimation.cpp coreanimation.h corebone.cpp corebone.h corekeyframe.cpp corekeyframe.h coremodel.cpp coremodel.h coreskeleton.cpp coreskeleton.h coretrack.cpp coretrack.h error.cpp error.h global.cpp global.h mixer.cpp vector.h skeleton.h skeleton.cpp quaternion.cpp quaternion.h mixer.h platform.h model.cpp model.h platform.cpp vector.cpp cal3d.h loader.h loader.cpp coremesh.cpp coremesh.h animation_action.h animation_action.cpp saver.h saver.cpp coresubmesh.h coresubmesh.cpp renderer.h renderer.cpp mesh.h mesh.cpp corematerial.h corematerial.cpp submesh.h submesh.cpp cal3d.rc resource.h physique.h physique.cpp springsystem.h springsystem.cpp cal3d_wrapper.h cal3d_wrapper.cpp 
-
-####### kdevelop will overwrite this part!!! (end)############
 SOMAJOR = 0
 SOMINOR = 0
 SOSUBMINOR = 0
 
-# here you should add all header files, which contains the functionality
-# of your shared lib (published for the users)
-pkginclude_HEADERS = cal3d.h animation.h animation_action.h animation_cycle.h bone.h coreanimation.h corebone.h corekeyframe.h corematerial.h coremesh.h coremodel.h coreskeleton.h coresubmesh.h coretrack.h loader.h mesh.h mixer.h model.h quaternion.h renderer.h saver.h skeleton.h submesh.h global.h platform.h vector.h error.h springsystem.h physique.h
+lib_LTLIBRARIES = libcal3d.la
 
-# here you should add all header files, which shouldn
-noinst_HEADERS =
-
+libcal3d_la_SOURCES = animation.cpp animation_action.cpp animation_cycle.cpp bone.cpp cal3d_wrapper.cpp coreanimation.cpp corebone.cpp corekeyframe.cpp corematerial.cpp coremesh.cpp coremodel.cpp coreskeleton.cpp coresubmesh.cpp coretrack.cpp error.cpp global.cpp loader.cpp mesh.cpp mixer.cpp model.cpp physique.cpp platform.cpp quaternion.cpp renderer.cpp saver.cpp skeleton.cpp springsystem.cpp submesh.cpp vector.cpp
 libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(SOMAJOR):$(SOMINOR):$(SOSUBMINOR) $(LDFLAGS)
 
-# add here the libraries which have to be include
-# for building the shared lib
-#
-#  please consider also the usage of the make environment variables
-#  like
-#  $(LIB_KDEUI), $(LIB_QT), $(LIB_HTML), etc.
-#  instead of the hardcoded entries, which have placed
-#  in here.
-#  The following line is only a suggestion!
-#
-libcal3d_la_LIBADD = 
+pkginclude_HEADERS = animation.h animation_action.h animation_cycle.h bone.h cal3d.h cal3d_wrapper.h coreanimation.h corebone.h corekeyframe.h corematerial.h coremesh.h coremodel.h coreskeleton.h coresubmesh.h coretrack.h error.h global.h loader.h mesh.h mixer.h model.h physique.h platform.h quaternion.h renderer.h resource.h saver.h skeleton.h springsystem.h submesh.h vector.h
+
+# ************************************************************************
 

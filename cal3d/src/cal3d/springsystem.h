@@ -50,6 +50,14 @@ public:
   bool create(CalModel *pModel);
   void destroy();
   void update(float deltaTime);
+
+  /* DEBUG CODE ********************
+  struct
+  {
+    float x, y, z, radius;
+  } Sphere;
+  void setSphere(float x, float y, float z, float radius) { Sphere.x = x; Sphere.y = y; Sphere.z = z; Sphere.radius = radius; };
+  *********************************/
 };
 
 #endif

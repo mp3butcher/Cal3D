@@ -20,6 +20,8 @@ o-----------------------------------------------------------------------------o
   - Sliding-Window VIPM? Predefined/prestored LOD levels?
   - how should we handle collision detection?
   - Allow loading of model data from memory?
+  - Make various functions (create, destroy, update,...) virtual to allow
+    subclassing?
 
 o-----------------------------------------------------------------------------o
 | Must have                                                                   |
@@ -46,6 +48,7 @@ o-----------------------------------------------------------------------------o
     LOD is not needed.
   - Implement a priority-system for the active animations.
   - Submesh material access? (e.g. eyebrows).
+  - Direct setting of bone transformations (e.g.for "point-at" etc.)
 
 o-----------------------------------------------------------------------------o
 | Nice to have                                                                |

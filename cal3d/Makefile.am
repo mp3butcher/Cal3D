@@ -1,12 +1,20 @@
-####### kdevelop will overwrite this part!!! (begin)##########
+# ************************************************************************
+#
+# This file is part of the Cal3D library/package
+# Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+#
+# This library is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or (at
+# your option) any later version.
+#
+# ************************************************************************
 
-SUBDIRS = src docs 
+EXTRA_DIST = cal3d.dsp cal3d.dsw cal3d.kdevprj cal3d.kdevses cal3d.opt
 
-EXTRA_DIST = cal3d.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO cal3d.opt cal3d.dsp cal3d.dsw cal3d.doxygen 
+AUTOMAKE_OPTIONS = foreign
 
-####### kdevelop will overwrite this part!!! (end)############
-# not a GNU package. You can remove this line, if
-# have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign 1.4
+SUBDIRS = src docs
 
+# ************************************************************************
 
