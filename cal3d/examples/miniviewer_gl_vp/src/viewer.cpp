@@ -559,7 +559,7 @@ bool Viewer::loadBufferObject()
   }	  
 
 
-  m_calHardwareModel.create(&m_calModel);
+  m_calHardwareModel.create(&m_calCoreModel);
 
 
   m_calHardwareModel.setVertexBuffer((char*)pVertexBuffer,3*sizeof(float));
@@ -1077,8 +1077,8 @@ void Viewer::renderModel()
 		int boneId;
 		for(boneId = 0; boneId < m_calHardwareModel.getBoneCount(); boneId++)
 		{
-			CalQuaternion rotationBoneSpace = m_calHardwareModel.getRotationBoneSpace(boneId);
-			CalVector translationBoneSpace = m_calHardwareModel.getTranslationBoneSpace(boneId);
+			CalQuaternion rotationBoneSpace = m_calHardwareModel.getRotationBoneSpace(boneId, m_calModel.getSkeleton());
+			CalVector translationBoneSpace = m_calHardwareModel.getTranslationBoneSpace(boneId, m_calModel.getSkeleton());
 
 			CalMatrix rotationMatrix = rotationBoneSpace;
 

@@ -573,7 +573,7 @@ bool Viewer::loadVertexBuffer()
   VERTEX* pVertex;
   CalIndex *pFace;
 
-  m_calHardwareModel.create(&m_calModel);  
+  m_calHardwareModel.create(&m_calCoreModel);  
 
   m_pVB->Lock(0, 0, (void**)&pVertex, D3DLOCK_DISCARD);
   m_pIB->Lock(0, 0, (void**)&pFace, D3DLOCK_DISCARD);
@@ -1230,11 +1230,13 @@ void Viewer::renderModel()
 	  {
 		  
 		  D3DXMATRIX transformation;
-		  D3DXMatrixRotationQuaternion(&transformation,(CONST D3DXQUATERNION*)&m_calHardwareModel.getRotationBoneSpace(boneId));
+		  D3DXMatrixRotationQuaternion(&transformation,(CONST D3DXQUATERNION*)&m_calHardwareModel.getRotationBoneSpace(boneId, m_calModel.getSkeleton()));
+
+		  CalVector translationBoneSpace = m_calHardwareModel.getTranslationBoneSpace(boneId, m_calModel.getSkeleton());
 				  
-		  transformation._14=m_calHardwareModel.getTranslationBoneSpace(boneId).x;
-		  transformation._24=m_calHardwareModel.getTranslationBoneSpace(boneId).y;
-		  transformation._34=m_calHardwareModel.getTranslationBoneSpace(boneId).z;
+		  transformation._14=translationBoneSpace.x;
+		  transformation._24=translationBoneSpace.y;
+		  transformation._34=translationBoneSpace.z;
 
 		  g_pD3DDevice->SetVertexShaderConstantF(7+boneId*3, (float*)&transformation, 3 );
 	  }

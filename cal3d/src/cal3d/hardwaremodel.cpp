@@ -60,6 +60,8 @@ CalHardwareModel::CalHardwareModel() : m_selectedHardwareMesh(-1)
 
 CalHardwareModel::~CalHardwareModel()
 {
+	m_vectorHardwareMesh.clear();
+	m_vectorVertexIndiceUsed.clear();
 	
 }
 
@@ -77,15 +79,15 @@ CalHardwareModel::~CalHardwareModel()
   *****************************************************************************/
 
 
-bool CalHardwareModel::create(CalModel *pModel)
+bool CalHardwareModel::create(CalCoreModel *pCoreModel)
 {
-	if(pModel == 0)
+	if(m_pCoreModel == 0)
 	{
 		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
 		return false;
 	}
 	
-	m_pModel = pModel;
+	m_pCoreModel = pCoreModel;
 	
 	return true;
 	
@@ -368,9 +370,9 @@ float CalHardwareModel::getShininess()
   * @return The rotation to bring a point into bone space.
   *****************************************************************************/
 
-const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId)
+const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton)
 {
-	std::vector<CalBone *> vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	std::vector<CalBone *> vectorBone = pSkeleton->getVectorBone();
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getRotationBoneSpace();
 }
 
@@ -385,9 +387,9 @@ const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId)
   *****************************************************************************/
 
 
-const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId)
+const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton)
 {
-	std::vector<CalBone *> vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	std::vector<CalBone *> vectorBone = pSkeleton->getVectorBone();
 	return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getTranslationBoneSpace();
 }
 
@@ -624,18 +626,15 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 	m_vectorVertexIndiceUsed.resize(50000);
 	int vertexCount=baseVertexIndex;
 	int faceIndexCount = startIndex;
-	
-	
-	CalCoreModel *pCoreModel=m_pModel->getCoreModel();
-		
-	CalCoreSkeleton * pCoreSkeleton = pCoreModel->getCoreSkeleton();
+				
+	CalCoreSkeleton * pCoreSkeleton = m_pCoreModel->getCoreSkeleton();
 	
 	std::vector< CalCoreBone *>& vectorBone = pCoreSkeleton->getVectorCoreBone();
 	
 	int meshId;
-	for(meshId = 0;meshId< pCoreModel->getCoreMeshCount();meshId++)
+	for(meshId = 0;meshId< m_pCoreModel->getCoreMeshCount();meshId++)
 	{
-		CalCoreMesh *pCoreMesh = pCoreModel->getCoreMesh(meshId);
+		CalCoreMesh *pCoreMesh = m_pCoreModel->getCoreMesh(meshId);
 		int submeshCount= pCoreMesh->getCoreSubmeshCount();
 		int submeshId;
 		for(submeshId = 0 ;submeshId<submeshCount;submeshId++)
@@ -646,7 +645,10 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 			std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
 			std::vector< std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorTex = pCoreSubmesh->getVectorVectorTextureCoordinate();
 			
-			CalHardwareMesh hardwareMesh;		  
+			CalHardwareMesh hardwareMesh;
+
+			hardwareMesh.meshId = meshId;
+			hardwareMesh.submeshId = submeshId;
 			
 			hardwareMesh.baseVertexIndex=vertexCount;		  
 			hardwareMesh.startIndex=faceIndexCount;
@@ -671,7 +673,7 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 				{
 					vertexCount+=hardwareMesh.vertexCount;
 					faceIndexCount+=hardwareMesh.faceCount*3;
-					hardwareMesh.pCoreMaterial= pCoreModel->getCoreMaterial(pCoreSubmesh->getCoreMaterialThreadId());
+					hardwareMesh.pCoreMaterial= m_pCoreModel->getCoreMaterial(pCoreSubmesh->getCoreMaterialThreadId());
 					
 					m_vectorHardwareMesh.push_back(hardwareMesh);
 					
@@ -693,7 +695,7 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 			
 			vertexCount+=hardwareMesh.vertexCount;
 			faceIndexCount+=hardwareMesh.faceCount*3;
-			hardwareMesh.pCoreMaterial= pCoreModel->getCoreMaterial(pCoreSubmesh->getCoreMaterialThreadId());
+			hardwareMesh.pCoreMaterial= m_pCoreModel->getCoreMaterial(pCoreSubmesh->getCoreMaterialThreadId());
 			
 			m_vectorHardwareMesh.push_back(hardwareMesh);
 			

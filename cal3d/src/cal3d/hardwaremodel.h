@@ -22,7 +22,8 @@
 // Forward declarations                                                       //
 //****************************************************************************//
 
-class CalModel;
+class CalCoreModel;
+class CalSkeleton;
 class CalCoreMaterial;
 
 
@@ -48,14 +49,16 @@ private:
 		int vertexCount;
 		int startIndex;
 		int faceCount;
-		CalCoreMaterial *pCoreMaterial;	
+		CalCoreMaterial *pCoreMaterial;
+
+		int meshId,submeshId;
 	};
 	
 	std::vector<CalHardwareMesh> m_vectorHardwareMesh;
 	std::vector<CalIndex> m_vectorVertexIndiceUsed;
 	int m_selectedHardwareMesh;
 	
-	CalModel *m_pModel;
+	CalCoreModel *m_pCoreModel;
 	
 	
 	char * m_pVertexBuffer;
@@ -84,7 +87,7 @@ private:
 		
 		// member functions	
 	public:
-		bool create(CalModel *pModel);
+		bool create(CalCoreModel *pCoreModel);
 		
 		void setVertexBuffer( char * pVertexBuffer, int stride); 
 		void setIndexBuffer( CalIndex * pIndexBuffer); 
@@ -102,8 +105,8 @@ private:
 		void getAmbientColor(unsigned char *pColorBuffer);
 		void getDiffuseColor(unsigned char *pColorBuffer);
 		void getSpecularColor(unsigned char *pColorBuffer);
-		const CalQuaternion & getRotationBoneSpace(int boneId);
-		const CalVector & getTranslationBoneSpace(int boneId);
+		const CalQuaternion & getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton);
+		const CalVector & getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton);
 
 		float getShininess();
 		
