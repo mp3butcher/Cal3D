@@ -49,21 +49,35 @@ AC_DEFUN(CAL3D_CHECK_BUILD,
       fi
     fi
 
+    AC_ARG_ENABLE(16bit-indices,[  --enable-16bit-indices       use 16-bit indices (default 32-bit)],
+    [
+      CXXFLAGS="$CXXFLAGS -DCAL_16BIT_INDICES"
+    ],)
+
     CAL3D_CHECK_CXX_FLAG(fno-exceptions,
     [
       CXXFLAGS="$CXXFLAGS -fno-exceptions"
     ])
 
-    CAL3D_CHECK_CXX_FLAG(fno-rtti,
-    [
-      CXXFLAGS="$CXXFLAGS -fno-rtti"
+    AC_ARG_ENABLE(rtti, [  --enable-rtti     allow runtime type identification (disabled by default)],
+    ,
+    [ 
+      CAL3D_CHECK_CXX_FLAG(fno-rtti,
+      [
+        CXXFLAGS="$CXXFLAGS -fno-rtti"
+      ])
     ])
+
 
     CAL3D_CHECK_CXX_FLAG(fno-check-new,
     [
       CXXFLAGS="$CXXFLAGS -fno-check-new"
     ])
+
   fi
+
+
+
 ])
 
 dnl ************************************************************************

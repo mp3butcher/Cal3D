@@ -68,11 +68,11 @@
 //****************************************************************************//
 
 // standard includes
-#include <cstdlib>
-#include <cmath>
+#include <stdlib.h>
+#include <math.h>
 
 // debug includes
-#include <cassert>
+#include <assert.h>
 
 // STL includes
 #include <iostream>
