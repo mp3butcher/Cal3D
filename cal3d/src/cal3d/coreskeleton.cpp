@@ -68,6 +68,9 @@ int CalCoreSkeleton::addCoreBone(CalCoreBone *pCoreBone)
     m_listRootCoreBoneId.push_back(boneId);
   }
 
+  // add a reference from the bone's name to its id
+  mapCoreBoneName( boneId, pCoreBone->getName() );
+
   return boneId;
 }
 
