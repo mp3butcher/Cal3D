@@ -207,7 +207,7 @@ std::vector<CalCoreKeyframe*>::iterator CalCoreTrack::getUpperBound(float time)
 	  }
   }
 
-  return &m_keyframes[upperBound];
+  return m_keyframes.begin() + upperBound;
 
 }
 
