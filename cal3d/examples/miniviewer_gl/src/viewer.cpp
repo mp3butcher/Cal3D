@@ -60,6 +60,7 @@ Viewer::Viewer()
   m_fpsFrames = 0;
   m_fps = 0;
 
+  m_timeScale = 1;
 }
 
 //----------------------------------------------------------------------------//
@@ -322,6 +323,7 @@ void Viewer::onIdle()
     m_fpsFrames = 0;
   }
 
+  elapsedSeconds *= m_timeScale;
 
   // update the model if not paused
   if(!m_bPaused)
@@ -450,6 +452,12 @@ void Viewer::onKey(unsigned char key, int x, int y)
     // test for pause event
     case ' ':
       m_bPaused = !m_bPaused;
+      break;
+    case '*':
+      m_timeScale *= 1.1f;
+      break;
+    case '/':
+      m_timeScale /= 1.1f;
       break;
     // test for the lod keys
     default:
@@ -903,7 +911,6 @@ void Viewer::renderModel()
     // end the rendering
     pCalRenderer->endRendering();
   }
-
 }
 
 inline void glVertex(const CalVector& v) {
