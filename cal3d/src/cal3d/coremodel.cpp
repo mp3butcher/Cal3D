@@ -558,6 +558,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
     }
     CalCoreAnimation *pCoreAnimation = CalLoader::loadCoreAnimation(strFilename);
     if(pCoreAnimation == NULL) return -1;
+    pCoreAnimation->setName(strAnimationName);
     m_vectorCoreAnimation[id] = pCoreAnimation;
   }
   else
@@ -699,6 +700,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
     }
     CalCoreMaterial *pCoreMaterial = CalLoader::loadCoreMaterial(strFilename);
     if(pCoreMaterial == NULL) return -1;
+    pCoreMaterial->setName(strMaterialName);
     m_vectorCoreMaterial[id] = pCoreMaterial;
   }
   else
@@ -840,6 +842,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
     }
     CalCoreMesh *pCoreMesh = CalLoader::loadCoreMesh(strFilename);
     if(pCoreMesh == NULL) return -1;
+    pCoreMesh->setName(strMeshName);
     m_vectorCoreMesh[id] = pCoreMesh;
   }
   else
