@@ -305,13 +305,15 @@ void CalMixer::destroy()
   *                full weight from the beginning of its execution.
   * @param delayOut The time in seconds in which the animation action reaches
   *                 zero weight at the end of its execution.
+  * @param weightTarget No doxygen comment for this. FIXME.
+  * @param autoLock     This prevents the Action from being reset and removed
+  *                     on the last keyframe if true.
   *
   * @return One of the following values:
   *         \li \b true if successful
   *         \li \b false if an error happend
   *****************************************************************************/
-
-bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weightTarget)
+bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weightTarget, bool autoLock)
 {
   if((id < 0) || (id >= (int)m_vectorAnimation.size()))
   {
@@ -347,7 +349,7 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   m_listAnimationAction.push_front(pAnimationAction);
 
   // execute the animation
-  return pAnimationAction->execute(delayIn, delayOut, weightTarget);
+  return pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock);
 }
 
  /*****************************************************************************/

@@ -50,7 +50,8 @@ public:
     STATE_ASYNC,
     STATE_IN,
     STATE_STEADY,
-    STATE_OUT
+    STATE_OUT,
+	STATE_STOPPED
   };
 
 // member variables

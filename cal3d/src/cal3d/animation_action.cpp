@@ -89,13 +89,16 @@ void CalAnimationAction::destroy()
   *                reaches the full weight from the beginning of its execution.
   * @param delayOut The time in seconds in which the animation action instance
   *                 reaches zero weight at the end of its execution.
+  * @param weightTarget No doxygen comment for this. FIXME.
+  * @param autoLock     This prevents the Action from being reset and removed
+  *                     on the last keyframe if true.
   *
   * @return One of the following values:
   *         \li \b true if successful
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget)
+bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget,bool autoLock)
 {
   m_state = STATE_IN;
   m_weight = 0.0f;
@@ -103,6 +106,7 @@ bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarg
   m_delayOut = delayOut;
   m_time = 0.0f;
   m_weightTarget = weightTarget;
+  m_autoLock = autoLock;
 
   return true;
 }
@@ -124,12 +128,16 @@ bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarg
 bool CalAnimationAction::update(float deltaTime)
 {
   // update animation action time
-  m_time += deltaTime * m_timeFactor;
+
+  if(m_state != STATE_STOPPED)
+  {
+	  m_time += deltaTime * m_timeFactor;
+  }
 
   // handle IN phase
   if(m_state == STATE_IN)
   {
-    // cehck if we are still in the IN phase
+    // check if we are still in the IN phase
     if(m_time < m_delayIn)
     {
       m_weight = m_time / m_delayIn * m_weightTarget;
@@ -146,10 +154,16 @@ bool CalAnimationAction::update(float deltaTime)
   if(m_state == STATE_STEADY)
   {
     // check if we reached OUT phase
-    if(m_time >= m_pCoreAnimation->getDuration() - m_delayOut)
+    if(!m_autoLock && m_time >= m_pCoreAnimation->getDuration() - m_delayOut)
     {
       m_state = STATE_OUT;
     }
+    // if the anim is supposed to stay locked on last keyframe, reset the time here.
+    else if (m_autoLock && m_time > m_pCoreAnimation->getDuration())
+	{
+	  m_state = STATE_STOPPED;
+	  m_time = m_pCoreAnimation->getDuration();
+	}      
   }
 
   // handle OUT phase
