@@ -17,6 +17,7 @@
  *
  *  <b>What DOESN'T Cal3D do?</b>
  *
+ *  <ul>
  *  Cal3D doesn't do graphics. The users are responsible for making a bridge
  *  between Cal3D and whatever graphics API they want to use. This includes
  *  things like loading textures, handling materials, and rendering the models
@@ -34,36 +35,43 @@
  *  Cal3D doesn't load configuration files. This is a responsibility left
  *  on the users' shoulders for another degree of flexibility. And again, an
  *  example of how to do this is contained in the miniviewer examples.
- *
+ *  </ul>
  *
  *  <b>Is Cal3D stable enough to use in a game?</b>
  *
+ *  <ul>
  *  Yes, Cal3D is quite stable and efficient enough for a lot of games. Several
  *  published games have used Cal3D successfully.
+ *  </ul>
  *
  *
  *  <b>Can I use Cal3D for a commercial product?</b>
  *
+ *  <ul>
  *  The short answer is yes. Cal3D is released under the Lesser GNU Public
  *  License (LGPL), which allows you to link in the Cal3D library for your 
  *  commercial game or simulator or whatever.
  *
  *  The catch, however, is that if you make <i>changes</i> to Cal3D and use
  *  them, you are obligated to release the source code under the same license. 
+ *  </ul>
  *
  * 
  *  <b>What operating systems does Cal3D work on?</b>
  *  
+ *  <ul>
  *  Cal3D is written to be cross-platform. It works on Windows, SGI Irix, 
  *  various flavors of Linux, Mac OS X, etc. 
  *
  *  Basically all you need is a decent C++ compiler with standard template
  *  library support. If you want to use the build system, you either need
  *  Visual Studio on Windows, or GNU's autotools on *nix systems.
+ *  </ul>
  *
  *
  *  <b>Can I use Cal3D with OpenGL?, Direct3D, etc?</b>
  *
+ *  <ul>
  *  Cal3D is designed to be independent of any graphics API such as OpenGL or
  *  DirectX. While this makes Cal3D more flexible, it does put a little more
  *  work on the users. 
@@ -75,48 +83,56 @@
  *  Keep in mind that these examples only show one way how to do it; you are 
  *  free to develop your own methods and techniques specific to your
  *  application. 
+ *  </ul>
  *
  *
  *  <b>Who else is using Cal3D?</b>
  *  
- *  Worldforge - http://www.worldforge.org - This is another open source project
+ *  <ul>
+ *  <b><i>Worldforge</i></b> - http://www.worldforge.org - This is an open source project
  *  aimed at developing tools for massive-multiplayer online games. Cal3D was 
  *  originally a part of Worldforge, but became a standalone tool.
  *
- *  A Tale in the Desert - http://www.atitd.com - ATITD is a very unique 
+ *  <b><i>A Tale in the Desert</b></i> - http://www.atitd.com - ATITD is a very unique 
  *  massive-multiplayer online roleplaying game where strategy and management 
  *  take precedence over traditional combat. eGenesis used a derivative of Cal3D
  *  that they developed, which is also available on their "download" page. 
  *
- *  Desert Rats - http://www.valusoft.com/products/desertrats.html - A WW2 
+ *  <b><i>Desert Rats</b></i> - http://www.valusoft.com/products/desertrats.html - A WW2 
  *  action game where you fight the Nazis in northern Africa from a heavily
  *  armed jeep.
  *
- *  Neverending ODC - http://ne-odc.sourceforge.net - Tools to design and edit
+ *  <b><i>Neverending ODC</b></i> - http://ne-odc.sourceforge.net - Tools to design and edit
  *  massive 3D fantasy worlds. 
  *
  *  If you know of anyone else using Cal3D, let us know!
+ *  </ul>
  *  
  *
  *  @section calmodeling Character Modeling
  *
  *  <b>How do I make new characters?</b>
  *
+ *  <ul>
  *  This is a job for an artist. Generally, one would create a mesh model of
  *  a character, create a skeletal system for it, animate it, and then export
  *  all of the pieces using the Cal3D exporters. (Skeleton, meshes, materials,
  *  and animations)
+ *  </ul>
  *
  *  <b>What modeling packages does Cal3D support?</b>
  *
+ *  <ul>
  *  We currently have exporters for 3D Studio MAX and Milkshape 3D.
  *
  *  3D Studio MAX - http://www.discreet.com/products/3dsmax<br>
  *  Milkshape 3D - http://www.swissquake.ch/chumbalum-soft
+ *  </ul>
  *
  *
  *  <b>How do I export a character from 3D Studio MAX to Cal3D?</b>
  *
+ *  <ul>
  *  1. First, export the skeleton.
  *
  *  The remaining steps can be performed in any order:
@@ -126,6 +142,7 @@
  *  3. Export the materials.
  * 
  *  4. Export the animations.
+ *  </ul>
  *
  *
  *  <b>How do I export a skeleton?</b>
@@ -137,6 +154,7 @@
  *
  *  <b>How do I export materials?</b>
  *
+ *  <ul>
  *  There are some tricks to this. The main thing is that the materials have to
  *  be named properly. Each material name that the character uses needs to end
  *  with a number enclosed in brackets, starting with 0 and going up.
@@ -148,6 +166,7 @@
  *  shirt [1]<br>
  *  face [2]<br>
  *  hat [3]<br>
+ *  </ul>
  *
  *
  *  <b>How do I export animations?</b>
@@ -158,32 +177,39 @@
  *
  *  <b>Is there an exporter for Maya or Blender?</b>
  *
+ *  <ul>
  *  There have been rumors of people working on Cal3D exporters for both Maya
  *  and Blender, but they have not been released yet.
+ *  </ul>
  *
  *
  *  <b>What's with these RAW image files?</b>
  *
+ *  <ul>
  *  Previous to version 0.9, the textures for the Paladin sample model were 
  *  contained in a RAW image file format. The current developers are not sure
  *  where they originated from, but they have (as of version 0.9) been converted
  *  to TGA files.
  *
  *  These old RAW files are no longer be supported or necessary.
+ *  </ul>
  *
  *
  *  @section calprogram Programming
  *
  *  <b>Are there Python bindings for Cal3D?</b>
  * 
+ *  <ul>
  *  Yes. The Py3D project has Python bindings for Cal3D. You can get them at
  *  the Py3D website:
  *
  *  http://www.py3d.org/pycal3d
+ *  </ul>
  *
  *
  *  <b>What coordinate system does Cal3D use?</b>
  *
+ *  <ul>
  *  Cal3D characters exported from a modeling package such as 3DSMax or 
  *  Milkshape will be in the same coordinate system as the package. For 
  *  instance, a model exported from MAX and loaded for use in an OpenGL
@@ -204,9 +230,11 @@
  *  curl around clockwise. So with positive rotation values in a left-handed
  *  system, you get a clockwise rotation. This is the opposite of the right-
  *  handed system.
+ *  </ul>
  *
  *  <b>Why are there classes and core classes?</b>
  *
+ *  <ul>
  *  In practical applications, there may be many different instances of a single
  *  type of character. For instance, your game might pit the hero against an
  *  army of robots. Some of these robots might look identical, and can then
@@ -219,10 +247,12 @@
  *  frequently change, such as the animation state and mesh data. This allows 
  *  the instances to share data and still be able to be animated independent of
  *  one another.
+ *  </ul>
  *
  *
  *  <b>Can I integrate Cal3D with a scenegraph like OSG or OpenSG?</b>
  *
+ *  <ul>
  *  There are a few ways to get your Cal3D characters working within an 
  *  application that uses a scene graph.
  *
@@ -243,12 +273,14 @@
  *  applications. Find it here:
  *
  *  http://osgcal.sourceforge.net
+ *  </ul>
  *
  *
  *  @section compexporters Compiling Cal3D and the Exporters
  * 
  *  <b>What do I need to compile the exporters in Windows?</b>
  * 
+ *  <ul>
  *  In order to compile the 3D Studio MAX exporter, you need the 3DSMax SDK
  *  (Software Development Kit) and the Character Studio SDK. When you install
  *  MAX and/or Character Studio, there will be an option to also install the
@@ -258,19 +290,23 @@
  *  available separately from their website:
  *
  *  http://www.swissquake.ch/chumbalum-soft/ms3d/download.html
+ *  </ul>
  *
  *
  *  <b>Where is the biped.h / bipexp.h / phyexp.h file?</b>
  *
+ *  <ul>
  *  You need to have the Character Studio SDK installed, which contains these
  *  header files.
+ *  </ul>
  *
  *
  *  <b>Do I need a specific version of 3D Studio MAX to use the exporters?</b>
  *
+ *  <ul>
  *  Cal3D's exporters are known to work with 3DSMax 3, 4, and 5. This includes
  *  Character Studio 4 as well.
- *  
+ *  </ul>
  *
  *
  */ 
