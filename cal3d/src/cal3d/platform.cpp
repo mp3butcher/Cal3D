@@ -74,6 +74,15 @@ bool CalPlatform::readBytes(std::ifstream& file, void *pBuffer, int length)
 bool CalPlatform::readFloat(std::ifstream& file, float& value)
 {
   file.read((char *)&value, 4);
+
+#ifdef CAL3D_BIG_ENDIAN
+  float x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;  
+#endif
+
   return !file ? false : true;
 }
 
@@ -95,7 +104,11 @@ bool CalPlatform::readInteger(std::ifstream& file, int& value)
   file.read((char *)&value, 4);
 
 #ifdef CAL3D_BIG_ENDIAN
-  value = (value << 24) | ((value << 8) & 0x00FF0000) | ((value >> 8) & 0x0000FF00) | (value >> 24);
+  int x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;
 #endif
 
   return !file ? false : true;
@@ -121,7 +134,11 @@ bool CalPlatform::readString(std::ifstream& file, std::string& strValue)
   file.read((char *)&length, 4);
 
 #ifdef CAL3D_BIG_ENDIAN
-  length = (length << 24) | ((length << 8) & 0x00FF0000) | ((length >> 8) & 0x0000FF00) | (length >> 24);
+  int x = length ;
+  ((char*)&length)[0] = ((char*)&x)[3] ;
+  ((char*)&length)[1] = ((char*)&x)[2] ;
+  ((char*)&length)[2] = ((char*)&x)[1] ;
+  ((char*)&length)[3] = ((char*)&x)[0] ;
 #endif
 
   if(length < 0) return false;
@@ -172,6 +189,15 @@ bool CalPlatform::writeBytes(std::ofstream& file, const void *pBuffer, int lengt
 
 bool CalPlatform::writeFloat(std::ofstream& file, float value)
 {
+
+#ifdef CAL3D_BIG_ENDIAN
+  float x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;  
+#endif
+
   file.write((char *)&value, 4);
   return !file ? false : true;
 }
@@ -191,12 +217,16 @@ bool CalPlatform::writeFloat(std::ofstream& file, float value)
 
 bool CalPlatform::writeInteger(std::ofstream& file, int value)
 {
+
 #ifdef CAL3D_BIG_ENDIAN
-  value = (value << 24) | ((value << 8) & 0x00FF0000) | ((value >> 8) & 0x0000FF00) | (value >> 24);
+  int x = value ;
+  ((char*)&value)[0] = ((char*)&x)[3] ;
+  ((char*)&value)[1] = ((char*)&x)[2] ;
+  ((char*)&value)[2] = ((char*)&x)[1] ;
+  ((char*)&value)[3] = ((char*)&x)[0] ;
 #endif
 
   file.write((char *)&value, 4);
-
   return !file ? false : true;
 }
 
@@ -220,7 +250,11 @@ bool CalPlatform::writeString(std::ofstream& file, const std::string& strValue)
   length = strValue.size() + 1;
 
 #ifdef CAL3D_BIG_ENDIAN
-  length = (length << 24) | ((length << 8) & 0x00FF0000) | ((length >> 8) & 0x0000FF00) | (length >> 24);
+  int x = length ;
+  ((char*)&length)[0] = ((char*)&x)[3] ;
+  ((char*)&length)[1] = ((char*)&x)[2] ;
+  ((char*)&length)[2] = ((char*)&x)[1] ;
+  ((char*)&length)[3] = ((char*)&x)[0] ;
 #endif
 
   file.write((char *)&length, 4);
