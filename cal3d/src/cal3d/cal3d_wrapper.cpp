@@ -1,6 +1,7 @@
 //****************************************************************************//
 // cal3d_wrapper.cpp                                                          //
 // Copyright (C) 2002 Bruno 'Beosil' Heidelberger                             //
+//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -1499,6 +1500,17 @@ int CalRenderer_GetVertices(CalRenderer *self, float *pVertexBuffer)
 {
   return self->getVertices(pVertexBuffer);
 }
+
+int CalRenderer_GetVerticesAndNormals(CalRenderer *self, float *pVertexBuffer)
+{
+  return self->getVerticesAndNormals(pVertexBuffer);
+}
+
+int CalRenderer_GetVerticesNormalsAndTexCoords(CalRenderer *self, float *pVertexBuffer, int NumTexCoords)
+{
+  return self->getVerticesNormalsAndTexCoords(pVertexBuffer,NumTexCoords);
+}
+
 
 CalRenderer *CalRenderer_New()
 {

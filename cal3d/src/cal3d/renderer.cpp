@@ -1,6 +1,7 @@
 //****************************************************************************//
 // renderer.cpp                                                               //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -490,6 +491,133 @@ int CalRenderer::getVertices(float *pVertexBuffer)
 
   // submesh does not handle the vertex data internally, so let the physique calculate it now
   return m_pModel->getPhysique()->calculateVertices(m_pSelectedSubmesh, pVertexBuffer);
+}
+
+ /*****************************************************************************/
+/** Provides access to the submesh data.
+  *
+  * This function returns the vertex and normal data of the selected mesh/submesh.
+  *
+  * @param pVertexBuffer A pointer to the user-provided buffer where the vertex
+  *                      and normal data is written to.
+  *
+  * @return The number of vertex written to the buffer.
+  *****************************************************************************/
+
+int CalRenderer::getVerticesAndNormals(float *pVertexBuffer)
+{
+  // check if the submesh handles vertex data internally
+  if(m_pSelectedSubmesh->hasInternalData())
+  {
+    // get the vertex vector of the submesh
+    std::vector<CalVector>& vectorVertex = m_pSelectedSubmesh->getVectorVertex();
+	// get the normal vector of the submesh
+    std::vector<CalVector>& vectorNormal = m_pSelectedSubmesh->getVectorNormal();
+
+
+    // get the number of vertices in the submesh
+    int vertexCount;
+    vertexCount = m_pSelectedSubmesh->getVertexCount();
+
+    // copy the internal vertex data to the provided vertex buffer
+	for(int i=0;i<vertexCount;i++)
+	{
+		memcpy(&pVertexBuffer[0], &vectorVertex[i], sizeof(CalVector));		
+		memcpy(&pVertexBuffer[3], &vectorNormal[i], sizeof(CalVector));
+		pVertexBuffer+=6;
+	}
+
+    return vertexCount;
+  }
+
+  // submesh does not handle the vertex data internally, so let the physique calculate it now
+  return m_pModel->getPhysique()->calculateVerticesAndNormals(m_pSelectedSubmesh, pVertexBuffer);
+}
+
+ /*****************************************************************************/
+/** Provides access to the submesh data.
+  *
+  * This function returns the vertex and normal data of the selected mesh/submesh.
+  *
+  * @param pVertexBuffer A pointer to the user-provided buffer where the vertex
+  *                      and normal data is written to.
+  *
+  * @return The number of vertex written to the buffer.
+  *****************************************************************************/
+
+
+int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords)
+{  
+
+  // check if the submesh handles vertex data internally
+  if(m_pSelectedSubmesh->hasInternalData())
+  {
+    // get the vertex vector of the submesh
+    std::vector<CalVector>& vectorVertex = m_pSelectedSubmesh->getVectorVertex();
+	// get the normal vector of the submesh
+    std::vector<CalVector>& vectorNormal = m_pSelectedSubmesh->getVectorNormal();	
+	// get the texture coordinate vector vector
+    std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTextureCoordinate();
+
+	int TextureCoordinateCount =(int)vectorvectorTextureCoordinate.size();
+	
+	// check if the map id is valid
+    if((NumTexCoords < 0) || (NumTexCoords > TextureCoordinateCount))
+	{
+	   if(TextureCoordinateCount!=0)
+	   {
+		   CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+		   return -1;
+	   }
+	}
+
+    // get the number of vertices in the submesh
+    int vertexCount;
+    vertexCount = m_pSelectedSubmesh->getVertexCount();
+
+    // copy the internal vertex data to the provided vertex buffer
+	
+	if(TextureCoordinateCount==0)
+	{
+		for(int vertexId=0;vertexId<vertexCount;vertexId++)
+		{
+			memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));
+			memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
+			pVertexBuffer+=6+2*NumTexCoords;			
+		}
+	}
+	else
+	{
+		if(NumTexCoords==1)
+		{
+			for(int vertexId=0;vertexId<vertexCount;vertexId++)
+			{
+				memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));
+				memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
+				memcpy(&pVertexBuffer[6], &vectorvectorTextureCoordinate[0][vertexId], sizeof(CalCoreSubmesh::TextureCoordinate));
+				pVertexBuffer+=8;
+			}
+		}
+	    else
+		{
+			for(int vertexId=0;vertexId<vertexCount;vertexId++)
+			{
+				memcpy(&pVertexBuffer[0], &vectorVertex[vertexId], sizeof(CalVector));			
+				memcpy(&pVertexBuffer[3], &vectorNormal[vertexId], sizeof(CalVector));
+			    pVertexBuffer+=6;
+				for(int mapId=0;mapId<NumTexCoords;mapId++)
+				{
+					memcpy(&pVertexBuffer[0], &vectorvectorTextureCoordinate[mapId][vertexId], sizeof(CalCoreSubmesh::TextureCoordinate));
+					pVertexBuffer+=2;
+				}
+			}
+		}		
+	}
+
+    return vertexCount;
+  }
+  // submesh does not handle the vertex data internally, so let the physique calculate it now
+  return m_pModel->getPhysique()->calculateVerticesNormalsAndTexCoords(m_pSelectedSubmesh, pVertexBuffer, NumTexCoords);
 }
 
  /*****************************************************************************/

@@ -1,6 +1,7 @@
 //****************************************************************************//
 // renderer.h                                                                 //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -23,6 +24,15 @@
 
 class CalModel;
 class CalSubmesh;
+
+//****************************************************************************//
+// VertexBuffer Format declarations                                           //
+//****************************************************************************//
+
+#define CAL3D_VF_XYZ 1
+#define CAL3D_VF_NORMAL 2
+#define CAL3D_VF_TEX1 4
+
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -64,6 +74,8 @@ public:
   int getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer);
   int getVertexCount();
   int getVertices(float *pVertexBuffer);
+  int getVerticesAndNormals(float *pVertexBuffer);
+  int getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords=1);
   bool selectMeshSubmesh(int meshId, int submeshId);
 };
 

@@ -1,6 +1,7 @@
 //****************************************************************************//
 // cal3d_wrapper.h                                                            //
 // Copyright (C) 2002 Bruno 'Beosil' Heidelberger                             //
+//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -468,6 +469,8 @@ extern "C"
 
   CAL3D_WRAPPER_API int CalPhysique_CalculateNormals(CalPhysique *self, CalSubmesh *pSubmesh, float *pNormalBuffer);
   CAL3D_WRAPPER_API int CalPhysique_CalculateVertices(CalPhysique *self, CalSubmesh *pSubmesh, float *pVertexBuffer);
+  CAL3D_WRAPPER_API int CalPhysique_CalculateVerticesAndNormals(CalPhysique *self, CalSubmesh *pSubmesh, float *pVertexBuffer);
+  CAL3D_WRAPPER_API int CalPhysique_CalculateVerticesNormalsAndTexCoords(CalPhysique *self, CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords);  
   CAL3D_WRAPPER_API Boolean CalPhysique_Create(CalPhysique *self, CalModel *pModel);
   CAL3D_WRAPPER_API void CalPhysique_Delete(CalPhysique *self);
   CAL3D_WRAPPER_API void CalPhysique_Destroy(CalPhysique *self);
@@ -517,6 +520,8 @@ extern "C"
   CAL3D_WRAPPER_API int CalRenderer_GetTextureCoordinates(CalRenderer *self, int mapId, float *pTextureCoordinateBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetVertexCount(CalRenderer *self);
   CAL3D_WRAPPER_API int CalRenderer_GetVertices(CalRenderer *self, float *pVertexBuffer);
+  CAL3D_WRAPPER_API int CalRenderer_GetVerticesAndNormals(CalRenderer *self, float *pVertexBuffer);
+  CAL3D_WRAPPER_API int CalRenderer_GetVerticesNormalsAndTexCoords(CalRenderer *self, float *pVertexBuffer, int NumTexCoords);
   CAL3D_WRAPPER_API CalRenderer *CalRenderer_New();
   CAL3D_WRAPPER_API Boolean CalRenderer_SelectMeshSubmesh(CalRenderer *self, int meshId, int submeshId);
 
