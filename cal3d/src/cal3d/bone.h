@@ -64,6 +64,8 @@ public:
   bool create(CalCoreBone *pCoreBone);
   void destroy();
   CalCoreBone *getCoreBone();
+  void setCoreState();
+  void setCoreStateRecursive();
   void setRotation(const CalQuaternion& rotation);
   const CalQuaternion& getRotation();
   const CalQuaternion& getRotationAbsolute();

@@ -208,6 +208,55 @@ CalCoreBone *CalBone::getCoreBone()
 }
 
  /*****************************************************************************/
+/** Resets the bone to its core state
+  *
+  * This function changes the state of the bone to its default non-animated
+  * position and orientation. Child bones are unaffected and may be animated
+  * independently. 
+  *****************************************************************************/
+
+void CalBone::setCoreState()
+{
+   // set the bone to the initial skeleton state
+   m_translation = m_pCoreBone->getTranslation();
+   m_rotation = m_pCoreBone->getRotation();
+
+   // set the appropriate weights
+   m_accumulatedWeightAbsolute = 1.0f;
+   m_accumulatedWeight = 1.0f ;
+
+   calculateState() ;
+}
+
+
+ /*****************************************************************************/
+/** Resets the bone and children to core states
+  *
+  * This function changes the state of the bone to its default non-animated
+  * position and orientation. All child bones are also set in this manner.
+  *****************************************************************************/
+
+void CalBone::setCoreStateRecursive()
+{
+  // set the bone to the initial skeleton state
+  m_translation = m_pCoreBone->getTranslation();
+  m_rotation = m_pCoreBone->getRotation();
+
+  // set the appropriate weights
+  m_accumulatedWeightAbsolute = 1.0f;
+  m_accumulatedWeight = 1.0f ;
+
+  // set core state for all child bones
+  std::list<int>::iterator iteratorChildId;
+  for(iteratorChildId = m_pCoreBone->getListChildId().begin(); iteratorChildId != m_pCoreBone->getListChildId().end(); ++iteratorChildId)
+  {
+    m_pSkeleton->getBone(*iteratorChildId)->setCoreStateRecursive();
+  }
+
+  calculateState() ;
+}
+
+ /*****************************************************************************/
 /** Sets the current rotation.
   *
   * This function sets the current relative rotation of the bone instance.
