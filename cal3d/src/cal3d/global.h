@@ -27,9 +27,11 @@
 // Define options
 //****************************************************************************//
 
-//Uncomment this if you want to use 16bit indices or configure the compiler
-
-//#define CAL_16BIT_INDICES
+// Comment this if you want to use 32bit indices under Windows
+// Under Linux/Unix configure the compiler
+#if defined(_WIN32) && !defined(__MINGW32__)
+#define CAL_16BIT_INDICES
+#endif
 
 #ifdef CAL_16BIT_INDICES 
 typedef unsigned short CalIndex; 
