@@ -142,7 +142,7 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		WeightThreshold				= arg_list[4]->to_float();
 		bUseLODCreation				= arg_list[5]->to_bool();
 		bUseSpringsystem			= arg_list[6]->to_bool();
-    bUseAxisGL       = (bool)transform->to_bool();
+    bUseAxisGL       = (transform->to_bool() != 0);
 
 
 		if (! strcmp(Filefullpathfilename,"")) return new Integer(1);

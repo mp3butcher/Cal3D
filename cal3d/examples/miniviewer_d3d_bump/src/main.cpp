@@ -18,6 +18,10 @@
 // Includes                                                                   //
 //----------------------------------------------------------------------------//
 
+#if defined(_MSC_VER) && _MSC_VER <= 0x0600
+#pragma warning(disable : 4786)
+#endif
+
 #include "global.h"
 #include "viewer.h"
 

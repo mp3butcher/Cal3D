@@ -159,7 +159,7 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 
 		//Get the elements of the bones array
 		int ArraySize;
-    bUseAxisGL       = (bool)transform->to_bool();
+    bUseAxisGL       = (transform->to_bool() != 0);
 
 		ArraySize = BonesArray->size;
 

@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 msModelLibd.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\msCal3D.dll" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\MilkShape 3D\SDK\msLib\lib"
+# ADD LINK32 msModelLib.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\msCal3D.dll" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\MilkShape 3D\SDK\msLib\lib"
 
 !ENDIF 
 

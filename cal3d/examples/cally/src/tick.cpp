@@ -18,6 +18,10 @@
 #include <sys/time.h>
 #endif
 
+#if defined(_MSC_VER) && _MSC_VER <= 0x0600
+#pragma warning(disable : 4786)
+#endif
+
 #include "tick.h"
 
 //----------------------------------------------------------------------------//

@@ -130,7 +130,7 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 	try
 	{
 		fullpathfilename	= arg_list[0]->to_string();
-    bUseAxisGL       = (bool)transform->to_bool();
+    bUseAxisGL       = (transform->to_bool() != 0);
 
 		//Get Array
 		Array* BonesArray	= static_cast<Array*>(arg_list[1]);

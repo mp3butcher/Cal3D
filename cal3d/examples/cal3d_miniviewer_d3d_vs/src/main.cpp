@@ -9,6 +9,10 @@
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
 
+#if defined(_MSC_VER) && _MSC_VER <= 0x0600
+#pragma warning(disable : 4786)
+#endif
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
