@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------//
 // MayaInterface.cpp                                                          //
-// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger, Thomas Cowell        //
+// Copyright (C) 2001-2004 Bruno 'Beosil' Heidelberger, Thomas Cowell         //
 //----------------------------------------------------------------------------//
 // This program is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU General Public License as published by the Free //
@@ -10,9 +10,6 @@
 #ifndef MAYA_INTERFACE_H
 #define MAYA_INTERFACE_H
 
-//----------------------------------------------------------------------------//
-// Includes                                                                   //
-//----------------------------------------------------------------------------//
 #include "BaseInterface.h"
 
 #include <maya/MGlobal.h>
@@ -29,18 +26,12 @@
 
 class CMayaMaterial;
 
-//----------------------------------------------------------------------------//
-// Class declaration                                                          //
-//----------------------------------------------------------------------------//
 class CMayaInterface : public CBaseInterface
 {
-	// constructors/destructor
 public:
 	CMayaInterface();
 	virtual ~CMayaInterface();
 
-// member functions
-public:
 	bool Create (bool bSelectedOnly);
 	bool Destroy ();
 	
@@ -70,7 +61,8 @@ public:
 private:
 	bool EnumMaterials ();
 
-	MSelectionList			m_selList;
+	MSelectionList m_selList;
+        MSelectionList m_entireList;
 	
 	std::vector<CMayaMaterial*>	m_materials;
 };

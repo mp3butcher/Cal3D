@@ -11,30 +11,18 @@
 #ifndef BASE_MESH_H
 #define BASE_MESH_H
 
-//----------------------------------------------------------------------------//
-// Forward declarations                                                       //
-//----------------------------------------------------------------------------//
 
 class CSkeletonCandidate;
 class CVertexCandidate;
 
-//----------------------------------------------------------------------------//
-// Class declaration                                                          //
-//----------------------------------------------------------------------------//
 
 class CBaseMesh
 {
-// member variables
-protected:
-
-// constructors/destructor
 protected:
 	CBaseMesh();
 public:
 	virtual ~CBaseMesh();
 
-// member functions
-public:
 	virtual int GetFaceCount() = 0;
 	virtual int GetMaterialCount() = 0;
 	virtual int GetFaceMaterialId(int faceId) = 0;

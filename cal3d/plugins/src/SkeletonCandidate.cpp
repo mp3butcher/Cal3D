@@ -143,7 +143,7 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 	CBaseNode *pNode = theExporter.GetInterface()->GetNode(pCoreBone->getName());
 	if(pNode == 0)
 	{
-		theExporter.SetLastError("Skeleton assignement failed!", __FILE__, __LINE__);
+		theExporter.SetLastError("Skeleton assignment failed!", __FILE__, __LINE__);
 		return false;
 	}
  

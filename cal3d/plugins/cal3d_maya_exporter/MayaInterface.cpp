@@ -171,18 +171,19 @@ bool CMayaInterface::Create (bool bSelectedOnly)
 	}
 	
 	// Walk the DAG
-	MDagPath dagPath;
-	MDagPath currentPath;
 	for (; !dagIterator.isDone (); dagIterator.next ())
 	{
 		// Retrieve the the current item pointed to by the iterator.
-		MObject currentNode = dagIterator.item (&stat);
-		stat = dagIterator.getPath (currentPath);
+	        MDagPath currentPath;
+                stat = dagIterator.getPath (currentPath);
 		if (!stat)
 		{
 			stat.perror ("MItDag::getPath");
 			continue;
 		}
+
+                if (m_entireList.add (currentPath, MObject::kNullObj, true) != MS::kSuccess)
+                        return false;
 
 		// Only process objects we have selected if we did export selection
 		if (bSelectedOnly && !isObjectSelected (currentPath))
@@ -385,11 +386,11 @@ CBaseNode *CMayaInterface::GetNode(const std::string& strName)
 {
 	MStatus			  status;
 	
-	for (unsigned int i = 0; i < m_selList.length(); i++)
+	for (unsigned int i = 0; i < m_entireList.length(); i++)
 	{
 		bool		 bFoundObj = false;
 		MDagPath	dagPath, foundDagPath;
-		if (m_selList.getDagPath (i, dagPath) != MS::kSuccess)
+		if (m_entireList.getDagPath (i, dagPath) != MS::kSuccess)
 			continue;;
 
 		if (dagPath.hasFn (MFn::kJoint))
