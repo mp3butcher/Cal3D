@@ -14,6 +14,7 @@ env.Library('cal3d', Split("""
     corematerial.cpp
     coremesh.cpp
     coremodel.cpp
+    coremorphanimation.cpp
     coreskeleton.cpp
     coresubmesh.cpp
     coresubmorphtarget.cpp

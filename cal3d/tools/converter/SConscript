@@ -1,0 +1,7 @@
+Import('*')
+env = env.Copy()
+env.Append(
+    CPPPATH=['#/src'],
+    LIBPATH=['#/src/cal3d'],
+    LIBS=['cal3d'])
+env.Program('converter', 'src/main.cpp')

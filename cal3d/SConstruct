@@ -3,4 +3,4 @@ if env['CXX'] == 'g++':
     env.Append(CXXFLAGS = ['-Wall'])
 
 Export('env')
-SConscript('src/cal3d/SConscript')
+SConscript(dirs=['src/cal3d', 'tools/converter'])
