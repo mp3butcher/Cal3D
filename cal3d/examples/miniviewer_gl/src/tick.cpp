@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------//
 // tick.cpp                                                                   //
-// Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+// Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
 //----------------------------------------------------------------------------//
 // This program is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU General Public License as published by the Free //
@@ -8,19 +8,13 @@
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 //----------------------------------------------------------------------------//
 // Includes                                                                   //
 //----------------------------------------------------------------------------//
 
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
-#ifdef __linux__
+#else
 #include <sys/time.h>
 #endif
 
@@ -50,9 +44,8 @@ unsigned int Tick::getTick()
 {
 #ifdef _WIN32
 	return GetTickCount();
-#endif
+#else
 
-#ifdef __linux__
   struct timeval now;
   gettimeofday(&now, 0);
   return now.tv_sec * 1000 + now.tv_usec / 1000;

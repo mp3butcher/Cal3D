@@ -14,9 +14,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#endif
-
-#ifdef __linux__
+#else
 #include <sys/time.h>
 #endif
 
@@ -46,9 +44,8 @@ unsigned int Tick::getTick()
 {
 #ifdef _WIN32
 	return GetTickCount();
-#endif
+#else
 
-#ifdef __linux__
   struct timeval now;
   gettimeofday(&now, 0);
   return now.tv_sec * 1000 + now.tv_usec / 1000;
