@@ -185,6 +185,9 @@
 				RelativePath=".\src\cal3d\coresubmesh.cpp">
 			</File>
 			<File
+				RelativePath="src\cal3d\coresubmorphtarget.cpp">
+			</File>
+			<File
 				RelativePath=".\src\cal3d\coretrack.cpp">
 			</File>
 			<File
@@ -207,6 +210,9 @@
 			</File>
 			<File
 				RelativePath=".\src\cal3d\model.cpp">
+			</File>
+			<File
+				RelativePath="src\cal3d\morphtargetmixer.cpp">
 			</File>
 			<File
 				RelativePath=".\src\cal3d\physique.cpp">
@@ -303,6 +309,9 @@
 				RelativePath=".\src\cal3d\coresubmesh.h">
 			</File>
 			<File
+				RelativePath="src\cal3d\coresubmorphtarget.h">
+			</File>
+			<File
 				RelativePath=".\src\cal3d\coretrack.h">
 			</File>
 			<File
@@ -328,6 +337,9 @@
 			</File>
 			<File
 				RelativePath=".\src\cal3d\model.h">
+			</File>
+			<File
+				RelativePath="src\cal3d\morphtargetmixer.h">
 			</File>
 			<File
 				RelativePath=".\src\cal3d\physique.h">

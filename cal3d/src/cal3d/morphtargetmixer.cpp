@@ -319,6 +319,8 @@ bool CalMorphTargetMixer::create(CalMesh *pMesh)
     ++iteratorEndWeight;
   }
   m_duration = 0.0f;
+
+  return true;
 }
 
  /*****************************************************************************/

@@ -159,6 +159,10 @@ SOURCE=.\src\cal3d\coresubmesh.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\coresubmorphtarget.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\coretrack.cpp
 # End Source File
 # Begin Source File
@@ -188,6 +192,10 @@ SOURCE=.\src\cal3d\mixer.cpp
 # Begin Source File
 
 SOURCE=.\src\cal3d\model.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\morphtargetmixer.cpp
 # End Source File
 # Begin Source File
 
@@ -315,6 +323,10 @@ SOURCE=.\src\cal3d\coresubmesh.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\coresubmorphtarget.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\coretrack.h
 # End Source File
 # Begin Source File
@@ -348,6 +360,10 @@ SOURCE=.\src\cal3d\mixer.h
 # Begin Source File
 
 SOURCE=.\src\cal3d\model.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\morphtargetmixer.h
 # End Source File
 # Begin Source File
 
