@@ -66,8 +66,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,1,0
- PRODUCTVERSION 0,9,1,0
+ FILEVERSION 0,10,0,0
+ PRODUCTVERSION 0,10,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -85,14 +85,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "\0"
             VALUE "FileDescription", "Cal3D Exporter Plugin\0"
-            VALUE "FileVersion", "0.9.1\0"
+            VALUE "FileVersion", "0.10.0\0"
             VALUE "InternalName", "cal3d_milk_exporter\0"
             VALUE "LegalCopyright", "Copyright © 2002 Bruno Heidelberger\0"
             VALUE "LegalTrademarks", "GNU General Public License\0"
             VALUE "OriginalFilename", "msCal3D.dll\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Cal3D Character Animation Library Exporter Plugin\0"
-            VALUE "ProductVersion", "0.9.1\0"
+            VALUE "ProductVersion", "0.10.0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -143,7 +143,7 @@ BEGIN
                     158,8
     CTEXT           "Copyright (C) 2002  Bruno Heidelberger",IDC_STATIC,68,
                     29,158,8
-    CTEXT           "MilkShape 3D Exporter Plugin 0.8devel",IDC_STATIC,68,18,
+    CTEXT           "MilkShape 3D Exporter Plugin 0.10.0",IDC_STATIC,68,18,
                     158,8
     PUSHBUTTON      "http://cal3d.sourceforge.net",IDC_URL,68,45,101,14,
                     BS_FLAT | WS_DISABLED

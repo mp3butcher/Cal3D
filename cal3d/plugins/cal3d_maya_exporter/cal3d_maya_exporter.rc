@@ -66,8 +66,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,8,0,0
- PRODUCTVERSION 0,8,0,0
+ FILEVERSION 0,10,0,0
+ PRODUCTVERSION 0,10,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -85,14 +85,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", " \0"
             VALUE "FileDescription", "Cal3D Exporter Plugin\0"
-            VALUE "FileVersion", "0.8\0"
+            VALUE "FileVersion", "0.10.0\0"
             VALUE "InternalName", "cal3d_max_exporter\0"
-            VALUE "LegalCopyright", "Copyright © 2001, 2002 Bruno Heidelberger\0"
+            VALUE "LegalCopyright", "Copyright © 2001-2005 Cal3D Team\0"
             VALUE "LegalTrademarks", "GNU General Public License\0"
             VALUE "OriginalFilename", "cal3d_max_exporter.dle\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Cal3D Character Animation Library Exporter Plugin\0"
-            VALUE "ProductVersion", "0.8\0"
+            VALUE "ProductVersion", "0.10.0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -115,16 +115,16 @@ STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE |
     WS_CAPTION
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Cal3D - About"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Close",IDOK,176,45,50,14
     CONTROL         IDI_TYPE_DUMMY,IDC_STATIC,"Static",SS_BITMAP | 
                     SS_REALSIZEIMAGE,7,7,56,52,WS_EX_CLIENTEDGE
     CTEXT           "Cal3D - Character Animation Library",IDC_STATIC,68,7,
                     158,8
-    CTEXT           "Copyright (C) 2001, 2002  Bruno Heidelberger, Thomas Cowell",
+    CTEXT           "Copyright (C) 2001-2005  Bruno Heidelberger, Thomas Cowell",
                     IDC_STATIC,68,25,158,15
-    CTEXT           "Alias|Wavefront Maya Exporter Plugin 0.8devel",
+    CTEXT           "Alias|Wavefront Maya Exporter Plugin 0.10.0",
                     IDC_STATIC,68,16,158,8
     PUSHBUTTON      "http://cal3d.sourceforge.net",IDC_URL,68,45,101,14,
                     BS_FLAT | WS_DISABLED

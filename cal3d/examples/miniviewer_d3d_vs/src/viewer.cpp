@@ -378,9 +378,9 @@ bool Viewer::onCreate(LPSTR lpCmdLine)
   // show some information
   
   std::cout << "o----------------------------------------------------------------o" << std::endl;
-  std::cout << "|                    Cal3D D3D VS MiniViewer 0.9.1               |" << std::endl;
+  std::cout << "|                    Cal3D D3D VS MiniViewer 0.10.0              |" << std::endl;
   std::cout << "|           (C) 2001, 2002 Bruno 'Beosil' Heidelberger           |" << std::endl;
-  std::cout << "|           (C) 2003; 2004  D3D version by Laurent Desmecht      |" << std::endl;
+  std::cout << "|           (C) 2003-2005  D3D version by Laurent Desmecht       |" << std::endl;
   std::cout << "o----------------------------------------------------------------o" << std::endl;
   std::cout << "| This program is free software; you can redistribute it and/or  |" << std::endl;
   std::cout << "| modify it under the terms of the GNU General Public License as |" << std::endl;

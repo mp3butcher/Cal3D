@@ -223,7 +223,7 @@ bool Viewer::onCreate(int argc, char *argv[])
 {
   // show some information
   std::cout << "o----------------------------------------------------------------o" << std::endl;
-  std::cout << "|                    Cal3D MiniViewer 0.9                        |" << std::endl;
+  std::cout << "|                    Cal3D MiniViewer 0.10.0                     |" << std::endl;
   std::cout << "|     (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger           |" << std::endl;
   std::cout << "o----------------------------------------------------------------o" << std::endl;
   std::cout << "| This program is free software; you can redistribute it and/or  |" << std::endl;

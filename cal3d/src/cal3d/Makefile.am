@@ -50,7 +50,7 @@ lib_LTLIBRARIES = libcal3d.la
 #     then set AGE to 0.
 # 
 #
-VERSION_INFO = 10:0:0
+VERSION_INFO = 11:0:0
 
 libcal3d_la_SOURCES = animation.cpp animation_action.cpp animation_cycle.cpp bone.cpp buffersource.cpp cal3d_wrapper.cpp coreanimation.cpp corebone.cpp corekeyframe.cpp corematerial.cpp coremesh.cpp coremodel.cpp coreskeleton.cpp coresubmesh.cpp coresubmorphtarget.cpp coretrack.cpp error.cpp global.cpp hardwaremodel.cpp loader.cpp matrix.cpp mesh.cpp mixer.cpp model.cpp morphtargetmixer.cpp physique.cpp platform.cpp quaternion.cpp renderer.cpp saver.cpp skeleton.cpp springsystem.cpp streamsource.cpp submesh.cpp vector.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp tinystr.cpp coremorphanimation.cpp
 libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(VERSION_INFO) $(AM_LDFLAGS)

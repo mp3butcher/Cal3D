@@ -240,7 +240,7 @@ bool Viewer::onCreate(LPSTR lpCmdLine)
   // show some information
   
   std::cout << "o----------------------------------------------------------------o" << std::endl;
-  std::cout << "|                      Cal3D D3D MiniViewer 0.9                  |" << std::endl;
+  std::cout << "|                      Cal3D D3D MiniViewer 0.10.0               |" << std::endl;
   std::cout << "|           (C) 2001, 2002 Bruno 'Beosil' Heidelberger           |" << std::endl;
   std::cout << "|           (C) 2002  D3D version by Laurent Desmecht            |" << std::endl;
   std::cout << "o----------------------------------------------------------------o" << std::endl;
