@@ -78,45 +78,9 @@
 #define __GLEXT_H_
 #define __gl_ATI_h_
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__CYGWIN__)
 
-/*
- * GLEW does not include <windows.h> to avoid name space pollution.
- * GL needs GLAPI and GLAPIENTRY, GLU needs APIENTRY, CALLBACK, and wchar_t
- * defined properly.
- */
-/* <windef.h> */
-#ifndef APIENTRY
-#define GLEW_APIENTRY_DEFINED
-#  if defined(__CYGWIN__) || defined(__MINGW32__)
-#    define APIENTRY __stdcall
-#  elif (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED)
-#    define APIENTRY __stdcall
-#  else
-#    define APIENTRY
-#  endif
-#endif
-#ifndef GLAPI
-#  if defined(__CYGWIN__) || defined(__MINGW32__)
-#    define GLAPI extern
-#  endif
-#endif
-/* <winnt.h> */
-#ifndef CALLBACK
-#define GLEW_CALLBACK_DEFINED
-#  if defined(__CYGWIN__) || defined(__MINGW32__)
-#    define CALLBACK __attribute__ ((__stdcall__))
-#  elif (defined(_M_MRX000) || defined(_M_IX86) || defined(_M_ALPHA) || defined(_M_PPC)) && !defined(MIDL_PASS)
-#    define CALLBACK __stdcall
-#  else
-#    define CALLBACK
-#  endif
-#endif
-/* <wingdi.h> and <winnt.h> */
-#ifndef WINGDIAPI
-#define GLEW_WINGDIAPI_DEFINED
-#define WINGDIAPI __declspec(dllimport)
-#endif
+#include <windows.h>
 /* <ctype.h> */
 #if !defined(__CYGWIN__) && !defined(__MINGW32__) && !defined(_WCHAR_T_DEFINED)
 #  ifndef _WCHAR_T_DEFINED
