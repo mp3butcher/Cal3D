@@ -49,6 +49,7 @@ o-----------------------------------------------------------------------------o
   - Implement a priority-system for the active animations.
   - Submesh material access? (e.g. eyebrows).
   - Direct setting of bone transformations (e.g.for "point-at" etc.)
+  - README in the docs directory
 
 o-----------------------------------------------------------------------------o
 | Nice to have                                                                |

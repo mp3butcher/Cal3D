@@ -34,12 +34,12 @@ AC_PROG_INSTALL
 
 AC_CHECK_PROG(DOXYGEN, doxygen, true, false)
 if test "$DOXYGEN" = false; then
-  AC_MSG_WARN(["cannot find doxygen, unable to generate Cal3D API Reference!"])
+  AC_MSG_WARN([cannot find doxygen, unable to generate Cal3D API Reference!])
 fi
 
 AC_CHECK_PROG(DB2HTML, db2html, true, false)
 if test "$DB2HTML" = false; then
-  AC_MSG_WARN(["cannot find db2html, unable to generate Cal3D User's Guide!"])
+  AC_MSG_WARN([cannot find db2html, unable to generate Cal3D User's Guide!])
 fi
 
 dnl ************************************************************************

@@ -7088,8 +7088,8 @@ echo "${ECHO_T}no" >&6
 fi
 
 if test "$DOXYGEN" = false; then
-  { echo "$as_me:7091: WARNING: \"cannot find doxygen, unable to generate Cal3D API Reference!\"" >&5
-echo "$as_me: WARNING: \"cannot find doxygen, unable to generate Cal3D API Reference!\"" >&2;}
+  { echo "$as_me:7091: WARNING: cannot find doxygen, unable to generate Cal3D API Reference!" >&5
+echo "$as_me: WARNING: cannot find doxygen, unable to generate Cal3D API Reference!" >&2;}
 fi
 
 # Extract the first word of "db2html", so it can be a program name with args.
@@ -7126,8 +7126,8 @@ echo "${ECHO_T}no" >&6
 fi
 
 if test "$DB2HTML" = false; then
-  { echo "$as_me:7129: WARNING: \"cannot find db2html, unable to generate Cal3D User's Guide!\"" >&5
-echo "$as_me: WARNING: \"cannot find db2html, unable to generate Cal3D User's Guide!\"" >&2;}
+  { echo "$as_me:7129: WARNING: cannot find db2html, unable to generate Cal3D User's Guide!" >&5
+echo "$as_me: WARNING: cannot find db2html, unable to generate Cal3D User's Guide!" >&2;}
 fi
 
   echo "$as_me:7133: checking whether to build Cal3D in debug mode" >&5

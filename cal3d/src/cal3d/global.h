@@ -23,22 +23,10 @@
 // platform dependent includes
 #include "platform.h"
 
-// standard includes
-#include <cstdlib>
-#include <cmath>
+//****************************************************************************//
+// Global Cal3D namespace for constants, ...                                  //
+//****************************************************************************//
 
-// debug includes
-#include <cassert>
-
-// STL includes
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-
-// global Cal3D constants
 namespace Cal
 {
   // global typedefs
@@ -51,11 +39,11 @@ namespace Cal
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
   // library version
-  const unsigned int LIBRARY_VERSION = 799;
+  const int LIBRARY_VERSION = 799;
 
   // file versions
-  const unsigned int CURRENT_FILE_VERSION = LIBRARY_VERSION;
-  const unsigned int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
+  const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
+  const int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
 
   // empty string
   const std::string strNull;

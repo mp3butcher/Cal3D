@@ -77,27 +77,21 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   }
 
   // write magic tag
-  file.write((char *)&Cal::ANIMATION_FILE_MAGIC, sizeof(Cal::ANIMATION_FILE_MAGIC));
-  if(!file)
+  if(!CalPlatform::writeBytes(file, &Cal::ANIMATION_FILE_MAGIC, sizeof(Cal::ANIMATION_FILE_MAGIC)))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write version info
-  file.write((char *)&Cal::CURRENT_FILE_VERSION, sizeof(Cal::CURRENT_FILE_VERSION));
-  if(!file)
+  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write the duration of the core animation
-  float duration;
-  duration = pCoreAnimation->getDuration();
-
-  file.write((char *)&duration, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, pCoreAnimation->getDuration()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -107,11 +101,7 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
   // write the number of tracks
-  int trackCount;
-  trackCount = listCoreTrack.size();
-
-  file.write((char *)&trackCount, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, listCoreTrack.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return 0;
@@ -157,11 +147,7 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   }
 
   // write the name of the bone
-  int len;
-  len = pCoreBone->getName().size() + 1;
-  file.write((char *)&len, 4);
-  file.write(pCoreBone->getName().c_str(), len);
-  if(!file)
+  if(!CalPlatform::writeString(file, pCoreBone->getName()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -169,37 +155,33 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
 
   // write the translation of the bone
   const CalVector& translation = pCoreBone->getTranslation();
-  file.write((char *)&translation[0], 4);
-  file.write((char *)&translation[1], 4);
-  file.write((char *)&translation[2], 4);
+  CalPlatform::writeFloat(file, translation[0]);
+  CalPlatform::writeFloat(file, translation[1]);
+  CalPlatform::writeFloat(file, translation[2]);
 
   // write the rotation of the bone
   const CalQuaternion& rotation = pCoreBone->getRotation();
-  file.write((char *)&rotation[0], 4);
-  file.write((char *)&rotation[1], 4);
-  file.write((char *)&rotation[2], 4);
-  file.write((char *)&rotation[3], 4);
+  CalPlatform::writeFloat(file, rotation[0]);
+  CalPlatform::writeFloat(file, rotation[1]);
+  CalPlatform::writeFloat(file, rotation[2]);
+  CalPlatform::writeFloat(file, rotation[3]);
 
   // write the translation of the bone
   const CalVector& translationBoneSpace = pCoreBone->getTranslationBoneSpace();
-  file.write((char *)&translationBoneSpace[0], 4);
-  file.write((char *)&translationBoneSpace[1], 4);
-  file.write((char *)&translationBoneSpace[2], 4);
+  CalPlatform::writeFloat(file, translationBoneSpace[0]);
+  CalPlatform::writeFloat(file, translationBoneSpace[1]);
+  CalPlatform::writeFloat(file, translationBoneSpace[2]);
+  CalPlatform::writeFloat(file, translationBoneSpace[3]);
 
   // write the rotation of the bone
   const CalQuaternion& rotationBoneSpace = pCoreBone->getRotationBoneSpace();
-  file.write((char *)&rotationBoneSpace[0], 4);
-  file.write((char *)&rotationBoneSpace[1], 4);
-  file.write((char *)&rotationBoneSpace[2], 4);
-  file.write((char *)&rotationBoneSpace[3], 4);
+  CalPlatform::writeFloat(file, rotationBoneSpace[0]);
+  CalPlatform::writeFloat(file, rotationBoneSpace[1]);
+  CalPlatform::writeFloat(file, rotationBoneSpace[2]);
+  CalPlatform::writeFloat(file, rotationBoneSpace[3]);
 
   // write the parent bone id
-  int parentId;
-  parentId = pCoreBone->getParentId();
-  file.write((char *)&parentId, 4);
-
-  // check if an error happend
-  if(!file)
+  if(!CalPlatform::writeInteger(file, pCoreBone->getParentId()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -209,11 +191,7 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   std::list<int>& listChildId = pCoreBone->getListChildId();
 
   // write the number of children
-  int childCount;
-  childCount = listChildId.size();
-
-  file.write((char *)&childCount, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, listChildId.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -223,13 +201,8 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   std::list<int>::iterator iteratorChildId;
   for(iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
   {
-    // get child id
-    int childId;
-    childId = *iteratorChildId;
-
-    // write child id
-    file.write((char *)&childId, 4);
-    if(!file)
+    // write the child id
+    if(!CalPlatform::writeInteger(file, *iteratorChildId))
     {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
@@ -263,22 +236,20 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
   }
 
   // write the time of the keyframe
-  float time;
-  time = pCoreKeyframe->getTime();
-  file.write((char *)&time, 4);
+  CalPlatform::writeFloat(file, pCoreKeyframe->getTime());
 
   // write the translation of the keyframe
   const CalVector& translation = pCoreKeyframe->getTranslation();
-  file.write((char *)&translation[0], 4);
-  file.write((char *)&translation[1], 4);
-  file.write((char *)&translation[2], 4);
+  CalPlatform::writeFloat(file, translation[0]);
+  CalPlatform::writeFloat(file, translation[1]);
+  CalPlatform::writeFloat(file, translation[2]);
 
   // write the rotation of the keyframe
   const CalQuaternion& rotation = pCoreKeyframe->getRotation();
-  file.write((char *)&rotation[0], 4);
-  file.write((char *)&rotation[1], 4);
-  file.write((char *)&rotation[2], 4);
-  file.write((char *)&rotation[3], 4);
+  CalPlatform::writeFloat(file, rotation[0]);
+  CalPlatform::writeFloat(file, rotation[1]);
+  CalPlatform::writeFloat(file, rotation[2]);
+  CalPlatform::writeFloat(file, rotation[3]);
 
   // check if an error happend
   if(!file)
@@ -317,16 +288,14 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   }
 
   // write magic tag
-  file.write((char *)&Cal::MATERIAL_FILE_MAGIC, sizeof(Cal::MATERIAL_FILE_MAGIC));
-  if(!file)
+  if(!CalPlatform::writeBytes(file, &Cal::MATERIAL_FILE_MAGIC, sizeof(Cal::MATERIAL_FILE_MAGIC)))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write version info
-  file.write((char *)&Cal::CURRENT_FILE_VERSION, sizeof(Cal::CURRENT_FILE_VERSION));
-  if(!file)
+  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -335,31 +304,20 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   // write the ambient color
   CalCoreMaterial::Color ambientColor;
   ambientColor = pCoreMaterial->getAmbientColor();
-  file.write((char *)&ambientColor.red, 1);
-  file.write((char *)&ambientColor.green, 1);
-  file.write((char *)&ambientColor.blue, 1);
-  file.write((char *)&ambientColor.alpha, 1);
+  CalPlatform::writeBytes(file, &ambientColor, sizeof(ambientColor));
 
   // write the diffuse color
   CalCoreMaterial::Color diffusetColor;
   diffusetColor = pCoreMaterial->getDiffuseColor();
-  file.write((char *)&diffusetColor.red, 1);
-  file.write((char *)&diffusetColor.green, 1);
-  file.write((char *)&diffusetColor.blue, 1);
-  file.write((char *)&diffusetColor.alpha, 1);
+  CalPlatform::writeBytes(file, &diffusetColor, sizeof(diffusetColor));
 
   // write the specular color
   CalCoreMaterial::Color specularColor;
   specularColor = pCoreMaterial->getSpecularColor();
-  file.write((char *)&specularColor.red, 1);
-  file.write((char *)&specularColor.green, 1);
-  file.write((char *)&specularColor.blue, 1);
-  file.write((char *)&specularColor.alpha, 1);
+  CalPlatform::writeBytes(file, &specularColor, sizeof(specularColor));
 
   // write the shininess factor
-  float shininess;
-  shininess = pCoreMaterial->getShininess();
-  file.write((char *)&shininess, 4);
+  CalPlatform::writeFloat(file, pCoreMaterial->getShininess());
 
   // check if an error happend
   if(!file)
@@ -372,11 +330,7 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
 
   // write the number of maps
-  int mapCount;
-  mapCount = vectorMap.size();
-  file.write((char *)&mapCount, 4);
-
-  if(!file)
+  if(!CalPlatform::writeInteger(file, vectorMap.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -384,18 +338,12 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
   // write all maps
   int mapId;
-  for(mapId = 0; mapId < mapCount; mapId++)
+  for(mapId = 0; mapId < (int)vectorMap.size(); mapId++)
   {
     CalCoreMaterial::Map& map = vectorMap[mapId];
 
     // write the filename of the map
-    int len;
-    len = map.strFilename.size() + 1;
-    file.write((char *)&len, 4);
-    file.write(map.strFilename.c_str(), len);
-
-    // check if an error happend
-    if(!file)
+    if(!CalPlatform::writeString(file, map.strFilename))
     {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
@@ -433,16 +381,14 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
   }
 
   // write magic tag
-  file.write((char *)&Cal::MESH_FILE_MAGIC, sizeof(Cal::MESH_FILE_MAGIC));
-  if(!file)
+  if(!CalPlatform::writeBytes(file, &Cal::MESH_FILE_MAGIC, sizeof(Cal::MESH_FILE_MAGIC)))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write version info
-  file.write((char *)&Cal::CURRENT_FILE_VERSION, sizeof(Cal::CURRENT_FILE_VERSION));
-  if(!file)
+  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -452,11 +398,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
   std::vector<CalCoreSubmesh *>& vectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
 
   // write the number of submeshes
-  int submeshCount;
-  submeshCount = vectorCoreSubmesh.size();
-
-  file.write((char *)&submeshCount, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, vectorCoreSubmesh.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -464,7 +406,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
   // write all core submeshes
   int submeshId;
-  for(submeshId = 0; submeshId < submeshCount; submeshId++)
+  for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); submeshId++)
   {
     // write the core submesh
     if(!saveCoreSubmesh(file, strFilename, vectorCoreSubmesh[submeshId]))
@@ -506,27 +448,21 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
   }
 
   // write magic tag
-  file.write((char *)&Cal::SKELETON_FILE_MAGIC, sizeof(Cal::SKELETON_FILE_MAGIC));
-  if(!file)
+  if(!CalPlatform::writeBytes(file, &Cal::SKELETON_FILE_MAGIC, sizeof(Cal::SKELETON_FILE_MAGIC)))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write version info
-  file.write((char *)&Cal::CURRENT_FILE_VERSION, sizeof(Cal::CURRENT_FILE_VERSION));
-  if(!file)
+  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write the number of bones
-  int boneCount;
-  boneCount = pCoreSkeleton->getVectorCoreBone().size();
-
-  file.write((char *)&boneCount, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, pCoreSkeleton->getVectorCoreBone().size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -534,7 +470,7 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
 
   // write all core bones
   int boneId;
-  for(boneId = 0; boneId < boneCount; boneId++)
+  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); boneId++)
   {
     // write the core bone
     if(!saveCoreBones(file, strFilename, pCoreSkeleton->getCoreBone(boneId)))
@@ -573,12 +509,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   }
 
   // write the core material thread id
-  int coreMaterialThreadId;
-  coreMaterialThreadId = pCoreSubmesh->getCoreMaterialThreadId();
-  file.write((char *)&coreMaterialThreadId, 4);
-
-  // check if an error happend
-  if(!file)
+  if(!CalPlatform::writeInteger(file, pCoreSubmesh->getCoreMaterialThreadId()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -591,29 +522,16 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   std::vector<CalCoreSubmesh::Spring>& vectorSpring = pCoreSubmesh->getVectorSpring();
 
   // write the number of vertices, faces, level-of-details and springs
-  int vertexCount;
-  vertexCount = vectorVertex.size();
-  file.write((char *)&vertexCount, 4);
-
-  int faceCount;
-  faceCount = vectorFace.size();
-  file.write((char *)&faceCount, 4);
-
-  int lodCount;
-  lodCount = pCoreSubmesh->getLodCount();
-  file.write((char *)&lodCount, 4);
-
-  int springCount;
-  springCount = pCoreSubmesh->getSpringCount();
-  file.write((char *)&springCount, 4);
+  CalPlatform::writeInteger(file, vectorVertex.size());
+  CalPlatform::writeInteger(file, vectorFace.size());
+  CalPlatform::writeInteger(file, pCoreSubmesh->getLodCount());
+  CalPlatform::writeInteger(file, pCoreSubmesh->getSpringCount());
 
   // get the texture coordinate vector vector
   std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
 
   // write the number of texture coordinates per vertex
-  int textureCoordinateCount;
-  textureCoordinateCount = vectorvectorTextureCoordinate.size();
-  file.write((char *)&textureCoordinateCount, 4);
+  CalPlatform::writeInteger(file, vectorvectorTextureCoordinate.size());
 
   // check if an error happend
   if(!file)
@@ -624,29 +542,29 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all vertices
   int vertexId;
-  for(vertexId = 0; vertexId < vertexCount; vertexId++)
+  for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
   {
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
 
     // write the vertex data
-    file.write((char *)&vertex.position.x, 4);
-    file.write((char *)&vertex.position.y, 4);
-    file.write((char *)&vertex.position.z, 4);
-    file.write((char *)&vertex.normal.x, 4);
-    file.write((char *)&vertex.normal.y, 4);
-    file.write((char *)&vertex.normal.z, 4);
-    file.write((char *)&vertex.collapseId, 4);
-    file.write((char *)&vertex.faceCollapseCount, 4);
+    CalPlatform::writeFloat(file, vertex.position.x);
+    CalPlatform::writeFloat(file, vertex.position.y);
+    CalPlatform::writeFloat(file, vertex.position.z);
+    CalPlatform::writeFloat(file, vertex.normal.x);
+    CalPlatform::writeFloat(file, vertex.normal.y);
+    CalPlatform::writeFloat(file, vertex.normal.z);
+    CalPlatform::writeInteger(file, vertex.collapseId);
+    CalPlatform::writeInteger(file, vertex.faceCollapseCount);
 
     // write all texture coordinates of this vertex
     int textureCoordinateId;
-    for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; textureCoordinateId++)
+    for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); textureCoordinateId++)
     {
       CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
       // write the influence data
-      file.write((char *)&textureCoordinate.u, 4);
-      file.write((char *)&textureCoordinate.v, 4);
+      CalPlatform::writeFloat(file, textureCoordinate.u);
+      CalPlatform::writeFloat(file, textureCoordinate.v);
 
       // check if an error happend
       if(!file)
@@ -657,12 +575,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
     }
 
     // write the number of influences
-    int influenceCount;
-    influenceCount = vertex.vectorInfluence.size();
-    file.write((char *)&influenceCount, 4);
-
-    // check if an error happend
-    if(!file)
+    if(!CalPlatform::writeInteger(file, vertex.vectorInfluence.size()))
     {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
@@ -670,13 +583,13 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
      // write all influences of this vertex
     int influenceId;
-    for(influenceId = 0; influenceId < influenceCount; influenceId++)
+    for(influenceId = 0; influenceId < (int)vertex.vectorInfluence.size(); influenceId++)
     {
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
 
       // write the influence data
-      file.write((char *)&influence.boneId, 4);
-      file.write((char *)&influence.weight, 4);
+      CalPlatform::writeInteger(file, influence.boneId);
+      CalPlatform::writeInteger(file, influence.weight);
 
       // check if an error happend
       if(!file)
@@ -687,13 +600,13 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
     }
 
     // save the physical property of the vertex if there are springs in the core submesh
-    if(springCount > 0)
+    if(pCoreSubmesh->getSpringCount() > 0)
     {
       // write the physical property of this vertex if there are springs in the core submesh
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
 
       // write the physical property data
-      file.write((char *)&physicalProperty.weight, 4);
+      CalPlatform::writeFloat(file, physicalProperty.weight);
 
       // check if an error happend
       if(!file)
@@ -706,15 +619,15 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all springs
   int springId;
-  for(springId = 0; springId < springCount; springId++)
+  for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); springId++)
   {
     CalCoreSubmesh::Spring& spring = vectorSpring[springId];
 
     // write the spring data
-    file.write((char *)&spring.vertexId[0], 4);
-    file.write((char *)&spring.vertexId[1], 4);
-    file.write((char *)&spring.springCoefficient, 4);
-    file.write((char *)&spring.idleLength, 4);
+    CalPlatform::writeInteger(file, spring.vertexId[0]);
+    CalPlatform::writeInteger(file, spring.vertexId[1]);
+    CalPlatform::writeFloat(file, spring.springCoefficient);
+    CalPlatform::writeFloat(file, spring.idleLength);
 
     // check if an error happend
     if(!file)
@@ -726,14 +639,14 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   // write all faces
   int faceId;
-  for(faceId = 0; faceId < faceCount; faceId++)
+  for(faceId = 0; faceId < (int)vectorFace.size(); faceId++)
   {
     CalCoreSubmesh::Face& face = vectorFace[faceId];
 
     // write the face data
-    file.write((char *)&face.vertexId[0], 4);
-    file.write((char *)&face.vertexId[1], 4);
-    file.write((char *)&face.vertexId[2], 4);
+    CalPlatform::writeInteger(file, face.vertexId[0]);
+    CalPlatform::writeInteger(file, face.vertexId[1]);
+    CalPlatform::writeInteger(file, face.vertexId[2]);
 
     // check if an error happend
     if(!file)
@@ -769,11 +682,7 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   }
 
   // write the bone id
-  int coreBoneId;
-  coreBoneId = pCoreTrack->getCoreBoneId();
-
-  file.write((char *)&coreBoneId, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreBoneId()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
@@ -783,11 +692,7 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   std::map<float, CalCoreKeyframe *>& mapCoreKeyframe = pCoreTrack->getMapCoreKeyframe();
 
   // read the number of keyframes
-  int keyframeCount;
-  keyframeCount = mapCoreKeyframe.size();
-
-  file.write((char *)&keyframeCount, 4);
-  if(!file)
+  if(!CalPlatform::writeInteger(file, mapCoreKeyframe.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;

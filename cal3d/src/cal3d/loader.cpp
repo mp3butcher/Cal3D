@@ -75,18 +75,16 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
   }
 
   // check if this is a valid file
-  unsigned int magic;
-  file.read((char *)&magic, sizeof(magic));
-  if(!file || (memcmp(&magic, Cal::ANIMATION_FILE_MAGIC, 4) != 0))
+  char magic[4];
+  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::ANIMATION_FILE_MAGIC, 4) != 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
   // check if the version is compatible with the library
-  unsigned int version;
-  file.read((char *)&version, sizeof(version));
-  if(!file || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  int version;
+  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
     return 0;
@@ -110,8 +108,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 
   // get the duration of the core animation
   float duration;
-  file.read((char *)&duration, 4);
-  if(!file)
+  if(!CalPlatform::readFloat(file, duration))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     pCoreAnimation->destroy();
@@ -133,8 +130,7 @@ CalCoreAnimation *CalLoader::loadCoreAnimation(const std::string& strFilename)
 
   // read the number of tracks
   int trackCount;
-  file.read((char *)&trackCount, 4);
-  if(!file || (trackCount <= 0))
+  if(!CalPlatform::readInteger(file, trackCount) || (trackCount <= 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -185,52 +181,39 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
     return 0;
   }
 
-  // get the name length of the bone
-  int len;
-  file.read((char *)&len, 4);
-  if(len < 1)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
   // read the name of the bone
-  char *strBuffer;
-  strBuffer = new char[len];
-  file.read(strBuffer, len);
   std::string strName;
-  strName = strBuffer;
-  delete [] strBuffer;
+  CalPlatform::readString(file, strName);
 
   // get the translation of the bone
   float tx, ty, tz;
-  file.read((char *)&tx, 4);
-  file.read((char *)&ty, 4);
-  file.read((char *)&tz, 4);
+  CalPlatform::readFloat(file, tx);
+  CalPlatform::readFloat(file, ty);
+  CalPlatform::readFloat(file, tz);
 
   // get the rotation of the bone
   float rx, ry, rz, rw;
-  file.read((char *)&rx, 4);
-  file.read((char *)&ry, 4);
-  file.read((char *)&rz, 4);
-  file.read((char *)&rw, 4);
+  CalPlatform::readFloat(file, rx);
+  CalPlatform::readFloat(file, ry);
+  CalPlatform::readFloat(file, rz);
+  CalPlatform::readFloat(file, rw);
 
   // get the bone space translation of the bone
   float txBoneSpace, tyBoneSpace, tzBoneSpace;
-  file.read((char *)&txBoneSpace, 4);
-  file.read((char *)&tyBoneSpace, 4);
-  file.read((char *)&tzBoneSpace, 4);
+  CalPlatform::readFloat(file, txBoneSpace);
+  CalPlatform::readFloat(file, tyBoneSpace);
+  CalPlatform::readFloat(file, tzBoneSpace);
 
   // get the bone space rotation of the bone
   float rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace;
-  file.read((char *)&rxBoneSpace, 4);
-  file.read((char *)&ryBoneSpace, 4);
-  file.read((char *)&rzBoneSpace, 4);
-  file.read((char *)&rwBoneSpace, 4);
+  CalPlatform::readFloat(file, rxBoneSpace);
+  CalPlatform::readFloat(file, ryBoneSpace);
+  CalPlatform::readFloat(file, rzBoneSpace);
+  CalPlatform::readFloat(file, rwBoneSpace);
 
   // get the parent bone id
   int parentId;
-  file.read((char *)&parentId, 4);
+  CalPlatform::readInteger(file, parentId);
 
   // check if an error happend
   if(!file)
@@ -266,8 +249,7 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
 
   // read the number of children
   int childCount;
-  file.read((char *)&childCount, 4);
-  if(!file || (childCount < 0))
+  if(!CalPlatform::readInteger(file, childCount) || (childCount < 0))
   {
     pCoreBone->destroy();
     delete pCoreBone;
@@ -279,8 +261,7 @@ CalCoreBone *CalLoader::loadCoreBones(std::ifstream& file, const std::string& st
   for(; childCount > 0; childCount--)
   {
     int childId;
-    file.read((char *)&childId, 4);
-    if(!file || (childId < 0))
+    if(!CalPlatform::readInteger(file, childId) || (childId < 0))
     {
       pCoreBone->destroy();
       delete pCoreBone;
@@ -317,20 +298,20 @@ CalCoreKeyframe *CalLoader::loadCoreKeyframe(std::ifstream& file, const std::str
 
   // get the time of the keyframe
   float time;
-  file.read((char *)&time, 4);
+  CalPlatform::readFloat(file, time);
 
   // get the translation of the bone
   float tx, ty, tz;
-  file.read((char *)&tx, 4);
-  file.read((char *)&ty, 4);
-  file.read((char *)&tz, 4);
+  CalPlatform::readFloat(file, tx);
+  CalPlatform::readFloat(file, ty);
+  CalPlatform::readFloat(file, tz);
 
   // get the rotation of the bone
   float rx, ry, rz, rw;
-  file.read((char *)&rx, 4);
-  file.read((char *)&ry, 4);
-  file.read((char *)&rz, 4);
-  file.read((char *)&rw, 4);
+  CalPlatform::readFloat(file, rx);
+  CalPlatform::readFloat(file, ry);
+  CalPlatform::readFloat(file, rz);
+  CalPlatform::readFloat(file, rw);
 
   // check if an error happend
   if(!file)
@@ -388,18 +369,16 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
   }
 
   // check if this is a valid file
-  unsigned int magic;
-  file.read((char *)&magic, sizeof(magic));
-  if(!file || (memcmp(&magic, Cal::MATERIAL_FILE_MAGIC, 4) != 0))
+  char magic[4];
+  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::MATERIAL_FILE_MAGIC, 4) != 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
   // check if the version is compatible with the library
-  unsigned int version;
-  file.read((char *)&version, sizeof(version));
-  if(!file || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  int version;
+  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
     return 0;
@@ -423,28 +402,19 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
 
   // get the ambient color of the core material
   CalCoreMaterial::Color ambientColor;
-  file.read((char *)&ambientColor.red, 1);
-  file.read((char *)&ambientColor.green, 1);
-  file.read((char *)&ambientColor.blue, 1);
-  file.read((char *)&ambientColor.alpha, 1);
+  CalPlatform::readBytes(file, &ambientColor, sizeof(ambientColor));
 
   // get the diffuse color of the core material
   CalCoreMaterial::Color diffuseColor;
-  file.read((char *)&diffuseColor.red, 1);
-  file.read((char *)&diffuseColor.green, 1);
-  file.read((char *)&diffuseColor.blue, 1);
-  file.read((char *)&diffuseColor.alpha, 1);
+  CalPlatform::readBytes(file, &diffuseColor, sizeof(diffuseColor));
 
   // get the specular color of the core material
   CalCoreMaterial::Color specularColor;
-  file.read((char *)&specularColor.red, 1);
-  file.read((char *)&specularColor.green, 1);
-  file.read((char *)&specularColor.blue, 1);
-  file.read((char *)&specularColor.alpha, 1);
+  CalPlatform::readBytes(file, &specularColor, sizeof(specularColor));
 
   // get the shininess factor of the core material
   float shininess;
-  file.read((char *)&shininess, 4);
+  CalPlatform::readFloat(file, shininess);
 
   // check if an error happend
   if(!file)
@@ -463,8 +433,7 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
 
   // read the number of maps
   int mapCount;
-  file.read((char *)&mapCount, 4);
-  if(!file)
+  if(!CalPlatform::readInteger(file, mapCount) || (mapCount < 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -485,23 +454,9 @@ CalCoreMaterial *CalLoader::loadCoreMaterial(const std::string& strFilename)
   {
     CalCoreMaterial::Map map;
 
-    // get the filename length of the map
-    int len;
-    file.read((char *)&len, 4);
-    if(len < 1)
-    {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      pCoreMaterial->destroy();
-      delete pCoreMaterial;
-      return 0;
-    }
-
     // read the filename of the map
-    char *strBuffer;
-    strBuffer = new char[len];
-    file.read(strBuffer, len);
-    map.strFilename = strBuffer;
-    delete [] strBuffer;
+    std::string strName;
+    CalPlatform::readString(file, map.strFilename);
 
     // initialize the user data
     map.userData = 0;
@@ -549,18 +504,16 @@ CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
   }
 
   // check if this is a valid file
-  unsigned int magic;
-  file.read((char *)&magic, sizeof(magic));
-  if(!file || (memcmp(&magic, Cal::MESH_FILE_MAGIC, 4) != 0))
+  char magic[4];
+  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::MESH_FILE_MAGIC, 4) != 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
   // check if the version is compatible with the library
-  unsigned int version;
-  file.read((char *)&version, sizeof(version));
-  if(!file || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  int version;
+  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
     return 0;
@@ -568,10 +521,7 @@ CalCoreMesh *CalLoader::loadCoreMesh(const std::string& strFilename)
 
   // get the number of submeshes
   int submeshCount;
-  file.read((char *)&submeshCount, 4);
-
-  // check if an error happend
-  if(!file)
+  if(!CalPlatform::readInteger(file, submeshCount))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -642,18 +592,16 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
   }
 
   // check if this is a valid file
-  unsigned int magic;
-  file.read((char *)&magic, sizeof(magic));
-  if(!file || (memcmp(&magic, Cal::SKELETON_FILE_MAGIC, 4) != 0))
+  char magic[4];
+  if(!CalPlatform::readBytes(file, &magic[0], 4) || (memcmp(&magic[0], Cal::SKELETON_FILE_MAGIC, 4) != 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
   // check if the version is compatible with the library
-  unsigned int version;
-  file.read((char *)&version, sizeof(version));
-  if(!file || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
+  int version;
+  if(!CalPlatform::readInteger(file, version) || (version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION) || (version > Cal::CURRENT_FILE_VERSION))
   {
     CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
     return 0;
@@ -661,8 +609,7 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
 
   // read the number of bones
   int boneCount;
-  file.read((char *)&boneCount, 4);
-  if(!file || (boneCount <= 0))
+  if(!CalPlatform::readInteger(file, boneCount) || (boneCount <= 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -737,21 +684,24 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
   // get the material thread id of the submesh
   int coreMaterialThreadId;
-  file.read((char *)&coreMaterialThreadId, 4);
+  CalPlatform::readInteger(file,coreMaterialThreadId );
 
   // get the number of vertices, faces, level-of-details and springs
   int vertexCount;
-  file.read((char *)&vertexCount, 4);
+  CalPlatform::readInteger(file,vertexCount);
+
   int faceCount;
-  file.read((char *)&faceCount, 4);
+  CalPlatform::readInteger(file, faceCount);
+
   int lodCount;
-  file.read((char *)&lodCount, 4);
+  CalPlatform::readInteger(file, lodCount);
+
   int springCount;
-  file.read((char *)&springCount, 4);
+  CalPlatform::readInteger(file, springCount);
 
   // get the number of texture coordinates per vertex
   int textureCoordinateCount;
-  file.read((char *)&textureCoordinateCount, 4);
+  CalPlatform::readInteger(file, textureCoordinateCount);
 
   // check if an error happend
   if(!file)
@@ -798,14 +748,14 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Vertex vertex;
 
     // load data of the vertex
-    file.read((char *)&vertex.position.x, 4);
-    file.read((char *)&vertex.position.y, 4);
-    file.read((char *)&vertex.position.z, 4);
-    file.read((char *)&vertex.normal.x, 4);
-    file.read((char *)&vertex.normal.y, 4);
-    file.read((char *)&vertex.normal.z, 4);
-    file.read((char *)&vertex.collapseId, 4);
-    file.read((char *)&vertex.faceCollapseCount, 4);
+    CalPlatform::readFloat(file, vertex.position.x);
+    CalPlatform::readFloat(file, vertex.position.y);
+    CalPlatform::readFloat(file, vertex.position.z);
+    CalPlatform::readFloat(file, vertex.normal.x);
+    CalPlatform::readFloat(file, vertex.normal.y);
+    CalPlatform::readFloat(file, vertex.normal.z);
+    CalPlatform::readInteger(file, vertex.collapseId);
+    CalPlatform::readInteger(file, vertex.faceCollapseCount);
 
     // check if an error happend
     if(!file)
@@ -823,8 +773,8 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
       CalCoreSubmesh::TextureCoordinate textureCoordinate;
 
       // load data of the influence
-      file.read((char *)&textureCoordinate.u, 4);
-      file.read((char *)&textureCoordinate.v, 4);
+      CalPlatform::readFloat(file, textureCoordinate.u);
+      CalPlatform::readFloat(file, textureCoordinate.v);
 
       // check if an error happend
       if(!file)
@@ -841,10 +791,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
 
     // get the number of influences
     int influenceCount;
-    file.read((char *)&influenceCount, 4);
-
-    // check if an error happend
-    if(!file)
+    if(!CalPlatform::readInteger(file, influenceCount) || (influenceCount < 0))
     {
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       pCoreSubmesh->destroy();
@@ -861,8 +808,8 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     for(influenceId = 0; influenceId < influenceCount; influenceId++)
     {
       // load data of the influence
-      file.read((char *)&vertex.vectorInfluence[influenceId].boneId, 4);
-      file.read((char *)&vertex.vectorInfluence[influenceId].weight, 4);
+      CalPlatform::readInteger(file, vertex.vectorInfluence[influenceId].boneId),
+      CalPlatform::readFloat(file, vertex.vectorInfluence[influenceId].weight);
 
       // check if an error happend
       if(!file)
@@ -883,7 +830,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
       CalCoreSubmesh::PhysicalProperty physicalProperty;
 
       // load data of the physical property
-      file.read((char *)&physicalProperty.weight, 4);
+      CalPlatform::readFloat(file, physicalProperty.weight);
 
       // check if an error happend
       if(!file)
@@ -906,10 +853,10 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Spring spring;
 
     // load data of the spring
-    file.read((char *)&spring.vertexId[0], 4);
-    file.read((char *)&spring.vertexId[1], 4);
-    file.read((char *)&spring.springCoefficient, 4);
-    file.read((char *)&spring.idleLength, 4);
+    CalPlatform::readInteger(file, spring.vertexId[0]);
+    CalPlatform::readInteger(file, spring.vertexId[1]);
+    CalPlatform::readFloat(file, spring.springCoefficient);
+    CalPlatform::readFloat(file, spring.idleLength);
 
     // check if an error happend
     if(!file)
@@ -931,9 +878,9 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(std::ifstream& file, const std::strin
     CalCoreSubmesh::Face face;
 
     // load data of the face
-    file.read((char *)&face.vertexId[0], 4);
-    file.read((char *)&face.vertexId[1], 4);
-    file.read((char *)&face.vertexId[2], 4);
+    CalPlatform::readInteger(file, face.vertexId[0]);
+    CalPlatform::readInteger(file, face.vertexId[1]);
+    CalPlatform::readInteger(file, face.vertexId[2]);
 
     // check if an error happend
     if(!file)
@@ -974,8 +921,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
 
   // read the bone id
   int coreBoneId;
-  file.read((char *)&coreBoneId, 4);
-  if(!file || (coreBoneId < 0))
+  if(!CalPlatform::readInteger(file, coreBoneId) || (coreBoneId < 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -1002,8 +948,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(std::ifstream& file, const std::string& s
 
   // read the number of keyframes
   int keyframeCount;
-  file.read((char *)&keyframeCount, 4);
-  if(!file || (keyframeCount <= 0))
+  if(!CalPlatform::readInteger(file, keyframeCount) || (keyframeCount <= 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
