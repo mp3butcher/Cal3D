@@ -10,11 +10,30 @@
  *
  *  <b>What is Cal3D?</b>
  *
+ *  
  *
  *  <b>What can I do with Cal3D?</b>
  *
  *
  *  <b>What DOESN'T Cal3D do?</b>
+ *
+ *  Cal3D doesn't do graphics. The users are responsible for making a bridge
+ *  between Cal3D and whatever graphics API they want to use. This includes
+ *  things like loading textures, handling materials, and rendering the models
+ *  to the screen.
+ *
+ *  The source code for the Cal3D miniviewers is a good place to start, as it
+ *  provides a full implementation for both OpenGL and Direct 3D graphics APIs
+ *  that you can adapt for your own purposes.
+ *
+ *  Cal3D can't help you make animated models. Making a decent character will
+ *  require the use of a modeling package like 3D Studio MAX, using the tools
+ *  that it provides. Making a really excellent character requires a talented 
+ *  artist. 
+ *
+ *  Cal3D doesn't load configuration files. This is a responsibility left
+ *  on the users' shoulders for another degree of flexibility. And again, an
+ *  example of how to do this is contained in the miniviewer examples.
  *
  *
  *  <b>Is Cal3D stable enough to use in a game?</b>
@@ -79,7 +98,7 @@
  *  If you know of anyone else using Cal3D, let us know!
  *  
  *
- *  @section Character Modeling
+ *  @section calmodeling Character Modeling
  *
  *  <b>How do I make new characters?</b>
  *
@@ -92,7 +111,7 @@
  *
  *  We currently have exporters for 3D Studio MAX and Milkshape 3D.
  *
- *  3D Studio MAX - http://www.discreet.com/products/3dsmax
+ *  3D Studio MAX - http://www.discreet.com/products/3dsmax<br>
  *  Milkshape 3D - http://www.swissquake.ch/chumbalum-soft
  *
  *
@@ -125,10 +144,10 @@
  *  For instance, if a character has materials for skin, shirt, face, and hat,
  *  them the materials should be named like this:
  *
- *  skin [0]
- *  shirt [1]
- *  face [2]
- *  hat [3]
+ *  skin [0]<br>
+ *  shirt [1]<br>
+ *  face [2]<br>
+ *  hat [3]<br>
  *
  *
  *  <b>How do I export animations?</b>
@@ -153,7 +172,7 @@
  *  These old RAW files are no longer be supported or necessary.
  *
  *
- *  @section Programming
+ *  @section calprogram Programming
  *
  *  <b>Are there Python bindings for Cal3D?</b>
  * 
@@ -188,6 +207,19 @@
  *
  *  <b>Why are there classes and core classes?</b>
  *
+ *  In practical applications, there may be many different instances of a single
+ *  type of character. For instance, your game might pit the hero against an
+ *  army of robots. Some of these robots might look identical, and can then
+ *  share data with each other rather than having a separate copy of it for each
+ *  robot. 
+ *
+ *  The core objects (skeleton, meshes, materials, bones, etc.) contain the data
+ *  that will not change at runtime and can therefore be shared between multiple
+ *  independent characters. The non-core classes contain data about things that
+ *  frequently change, such as the animation state and mesh data. This allows 
+ *  the instances to share data and still be able to be animated independent of
+ *  one another.
+ *
  *
  *  <b>Can I integrate Cal3D with a scenegraph like OSG or OpenSG?</b>
  *
@@ -213,7 +245,7 @@
  *  http://osgcal.sourceforge.net
  *
  *
- *  @section Compiling Cal3D and the exporters
+ *  @section compexporters Compiling Cal3D and the Exporters
  * 
  *  <b>What do I need to compile the exporters in Windows?</b>
  * 
@@ -239,7 +271,6 @@
  *  Cal3D's exporters are known to work with 3DSMax 3, 4, and 5. This includes
  *  Character Studio 4 as well.
  *  
- *
  *
  *
  */ 
