@@ -24,6 +24,9 @@ distribution.
 
 #include "tinyxml.h"
 
+namespace cal3d
+{
+
 // The goal of the seperate error file is to make the first
 // step towards localization. tinyxml (currently) only supports
 // latin-1, but at least the error messages could now be translated.
@@ -48,3 +51,5 @@ const char* TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =
 	"Error parsing Declaration.",
 	"Error document empty."
 };
+
+}

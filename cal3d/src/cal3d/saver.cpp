@@ -31,6 +31,8 @@
 #include "cal3d/corematerial.h"
 #include "cal3d/tinyxml.h"
 
+using namespace cal3d;
+
  /*****************************************************************************/
 /** Saves a core animation instance.
   *

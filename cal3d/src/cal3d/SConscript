@@ -36,7 +36,6 @@ sources = Split("""
     springsystem.cpp
     streamsource.cpp
     submesh.cpp
-    tinystr.cpp
     tinyxml.cpp
     tinyxmlerror.cpp
     tinyxmlparser.cpp

@@ -29,6 +29,9 @@ distribution.
 #include <sstream>
 #endif
 
+namespace cal3d
+{
+
 bool TiXmlBase::condenseWhiteSpace = true;
 
 void TiXmlBase::PutString( const TIXML_STRING& str, TIXML_OSTREAM* stream )
@@ -1255,4 +1258,6 @@ TiXmlHandle TiXmlHandle::ChildElement( const char* value, int count ) const
 			return TiXmlHandle( child );
 	}
 	return TiXmlHandle( 0 );
+}
+
 }
