@@ -60,6 +60,8 @@ CAL3D_CHECK_BUILD
 
 dnl ************************************************************************
 
+AC_DEFINE([CAL_USE_XML], [], [uses tinyxml to load XML cal3d files])
+
 AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile)
 
 dnl ************************************************************************
