@@ -29,12 +29,14 @@ public:
 	virtual ~CMayaNode();
 
 	bool	Create (MDagPath &path);
-	MDagPath &GetMayaDagPath () { return m_dagPath; }
+	MDagPath& GetMayaDagPath () { return m_dagPath; }
+        MDagPath& GetDagPath     () { return m_dagPath; }
 
 	CBaseNode *GetChild(int childId);
 	int GetChildCount();
 	std::string GetName();
 	Type GetType();
+        bool operator==(const CBaseNode& rhs) const;
 
 private:
 	MDagPath		m_dagPath;

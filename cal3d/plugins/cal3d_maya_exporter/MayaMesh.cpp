@@ -414,8 +414,7 @@ CVertexCandidate *CMayaMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCan
 	Triangle &face = m_Faces[faceId];
 	Vertex &vertex = face.v[faceVertexId];
 
-	CVertexCandidate *pVertexCandidate;
-	pVertexCandidate = new CVertexCandidate();
+	CVertexCandidate *pVertexCandidate = new CVertexCandidate();
 	if(pVertexCandidate == 0)
 	{
 		theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);

@@ -18,16 +18,6 @@
 #include "MilkInterface.h"
 
 //----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-//----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 
@@ -399,3 +389,12 @@ CBaseNode::Type CMilkBoneNode::GetType()
 }
 
 //----------------------------------------------------------------------------//
+
+bool CMilkBoneNode::operator==(const CBaseNode& rhs) const
+{
+    const CMilkBoneNode* milkbone = dynamic_cast<const CMilkBoneNode*>(&rhs);
+    if (!milkbone)
+        return false;
+
+    return m_pIBone == milkbone->m_pIBone;
+}

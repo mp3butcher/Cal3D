@@ -18,16 +18,6 @@
 #include "BaseInterface.h"
 
 //----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-//----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 
@@ -111,3 +101,12 @@ CBaseNode::Type CMilkMeshNode::GetType()
 }
 
 //----------------------------------------------------------------------------//
+
+bool CMilkMeshNode::operator==(const CBaseNode& rhs) const
+{
+    const CMilkMeshNode* milkmesh = dynamic_cast<const CMilkMeshNode*>(&rhs);
+    if (!milkmesh)
+        return false;
+
+    return m_pIMesh == milkmesh->m_pIMesh;
+}

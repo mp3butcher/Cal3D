@@ -40,6 +40,7 @@ public:
 	INode *GetINode();
 	std::string GetName();
 	Type GetType();
+        bool operator==(const CBaseNode& rhs) const;
 };
 
 #endif

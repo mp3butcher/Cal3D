@@ -23,26 +23,16 @@
 #include <maya/MItSelectionList.h>
 #include <maya/MItDag.h>
 #include <maya/MFnMesh.h>
+#include <maya/MFnIkJoint.h>
 #include <maya/MEulerRotation.h>
 
 #define PI 3.1415926535897f
-
-//----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
 CMayaInterface::CMayaInterface()
 {
-
 } 
 
 //----------------------------------------------------------------------------//
@@ -485,58 +475,63 @@ bool BoneGotParent (const MDagPath &bone)
 
 void CMayaInterface::GetTranslationAndRotationBoneSpace(CBaseNode *pNode, float time, CalVector& translation, CalQuaternion& rotation)
 {
+	// check for invalid nodes
+	if(pNode == 0) return;
+
+    MTime here(time, MTime::kSeconds);
+    MAnimControl::setCurrentTime(here);
+
+	// downcast the node to a Maya node
+	CMayaNode *pMayaNode;
+//	pMayaNode = dynamic_cast<CMayaNode *>(pNode);
+	pMayaNode = (CMayaNode *)(pNode);
+
+	MFnTransform fnTransform(pMayaNode->GetDagPath());
 	MStatus status;
+	MVector trans=fnTransform.translation( MSpace::kWorld, &status);
+	double qx,qy,qz,qw;
+	status=fnTransform.getRotationQuaternion(qx,qy,qz,qw, MSpace::kWorld);
 
-	if (!pNode)
-		return;
+	char str[100];
+	std::string name=pMayaNode->GetName();
+	sprintf(str,"%s / OTrans: %f %f %f, Rot: %f %f %f %f",name.c_str(),trans.x,trans.y,trans.z,qx,qy,qz,qw);
+	MGlobal::displayInfo(str);
 
-	CMayaNode *pMayaNode = dynamic_cast<CMayaNode*>(pNode);
-	if (!pMayaNode) return;
+	MTransformationMatrix TM1=fnTransform.transformation(&status);
+	MMatrix M1=TM1.asMatrixInverse();
+	MTransformationMatrix TM(M1);
+	trans=TM.translation(MSpace::kWorld,&status);
+	status=TM.getRotationQuaternion(qx,qy,qz,qw);
 
-	MDagPath path = pMayaNode->GetMayaDagPath ();
-	if (!path.hasFn (MFn::kTransform))
-		return;
-
-	MFnTransform fnJoint (path, &status);
-	if (status != MS::kSuccess)
-		return;
-
-	// get rotation/translation from the transformation matrix
-	MTransformationMatrix mat = fnJoint.transformationMatrix(&status);
-
-	// if this bone is the root bone, then we may need to rotate it around X axis
-	if (!BoneGotParent (path))
-	{
-		MEulerRotation rot;
-		rot.setValue(1.5707963267948966192313216916398, 0, 0);	
-		mat = mat.rotateBy ((const MEulerRotation &)rot, MSpace::kTransform, &status);
-		MGlobal::displayInfo ("Rotated bone\n");
-
-		if (!status) 
-		{
-			theExporter.SetLastError ("Unable to rotate matrix correctly", __FILE__, __LINE__);
-			return;
-		}
-	}
-
-	// Extract orientation
-	//MQuaternion mayaOrientQuat = mat.rotationOrientation ();
-	//MQuaternion mayaQuat = mat.rotation ();
-	MQuaternion mayaQuat; 
-	mayaQuat = mat.asMatrix ();
-
-	rotation.x = (float)mayaQuat.x;
-	rotation.y = (float)mayaQuat.y;
-	rotation.z = (float)mayaQuat.z;
-	rotation.w = (float)mayaQuat.w;
+	translation[0] = float(trans.x);
+	translation[1] = float(trans.y);
+	translation[2] = float(trans.z);
+	rotation[0] = float(qx);
+	rotation[1] = float(qy);
+	rotation[2] = float(qz);
+	rotation[3] = float(qw);
 
 
-	// Extract translation
-	MVector mayaTrans = mat.translation(MSpace::kTransform);
+	// calculate the relative transformation
+/*ø	Matrix3 tm;
+	tm = Inverse(GetNodeTM(pMayaNode, time));
 
-	translation.x = (float)mayaTrans.x;
-	translation.y = (float)mayaTrans.y;
-	translation.z = (float)mayaTrans.z;
+	// calculate the translation component
+	Point3 p;
+	p = tm.GetTrans();
+
+	translation[0] = p[0];
+	translation[1] = p[1];
+	translation[2] = p[2];
+
+	// calculate the rotation component
+	Quat q(tm);
+
+	rotation[0] = q[0];
+	rotation[1] = q[1];
+	rotation[2] = q[2];
+	rotation[3] = q[3];
+	*/
 }
 
 
@@ -568,47 +563,108 @@ void GetWorldTransform (const MDagPath &transformPath, MTransformationMatrix &ou
 //----------------------------------------------------------------------------------------------
 void CMayaInterface::GetTranslationAndRotation(CBaseNode *pNode, CBaseNode *pParentNode, float time, CalVector& translation, CalQuaternion& rotation)
 {
-	MStatus status;
-
-	if (!pNode)
-		return;
-
-	CMayaNode *pMayaNode = dynamic_cast<CMayaNode*>(pNode);
+	CMayaNode* pMayaNode = dynamic_cast<CMayaNode*>(pNode);
 	if (!pMayaNode) return;
 
-	MDagPath path = pMayaNode->GetMayaDagPath ();
-	if (!path.hasFn (MFn::kTransform))
-		return;
+        CMayaNode* pMayaParentNode = dynamic_cast<CMayaNode*>(pParentNode);
 
-	MFnTransform fnJoint (path, &status);
-	if (status != MS::kSuccess)
-		return;
+    MTime here(time, MTime::kSeconds);
+    MAnimControl::setCurrentTime(here);
 
-	// get rotation/translation from the transformation matrix
-	MTransformationMatrix mat = fnJoint.transformationMatrix ();
-	//GetWorldTransform(path, mat);
 
-	// Rotate this bone to be Y up
-	/*MEulerRotation rot;
-	rot.setValue(1.5707963267948966192313216916398, 0, 0);	
-	mat = mat.rotateBy ((const MEulerRotation &)rot, MSpace::kTransform, &status);*/
+	MFnTransform fnTransform(pMayaNode->GetDagPath());
 
-	// Extract orientation
-	//MQuaternion mayaOrientQuat = mat.rotationOrientation ();
-	MQuaternion mayaQuat; 
-	mayaQuat = mat.asMatrix ();
+	MFnIkJoint fnIkJoint(pMayaNode->GetDagPath());
 
-	rotation.x = (float)mayaQuat.x;
-	rotation.y = (float)mayaQuat.y;
-	rotation.z = (float)mayaQuat.z;
-	rotation.w = (float)mayaQuat.w;
+	char str[200];
+	std::string name=pMayaNode->GetName();
 
-	// Extract translation
-	MVector mayaTrans = mat.translation(MSpace::kTransform);
+	MStatus status;
+	MVector trans=fnTransform.translation( MSpace::kObject , &status);
+	sprintf(str,"%s / Translation: kObject(%f %f %f)",name.c_str(),trans.x,trans.y,trans.z);
+	MGlobal::displayInfo(str);
 
-	translation.x = (float)mayaTrans.x;
-	translation.y = (float)mayaTrans.y;
-	translation.z = (float)mayaTrans.z;
+	trans=fnTransform.translation( MSpace::kWorld, &status);
+	sprintf(str,"%s / Translation: kWorld(%f %f %f)",name.c_str(),trans.x,trans.y,trans.z);
+	MGlobal::displayInfo(str);
+
+	trans=fnTransform.translation( MSpace::kTransform , &status);
+	sprintf(str,"%s / Translation: kTransform(%f %f %f)",name.c_str(),trans.x,trans.y,trans.z);
+	MGlobal::displayInfo(str);
+
+	trans=fnTransform.translation( MSpace::kTransform , &status);
+	
+	MQuaternion quat;
+
+	status=fnIkJoint.getRotation(quat,MSpace::kObject);
+	sprintf(str,"%s / getRotation(kObject): %f %f %f %f",name.c_str(),quat[0],quat[1],quat[2],quat[3]);
+	MGlobal::displayInfo(str);
+
+	status=fnIkJoint.getRotation(quat,MSpace::kWorld);
+	sprintf(str,"%s / getRotation(kWorld): %f %f %f %f",name.c_str(),quat[0],quat[1],quat[2],quat[3]);
+	MGlobal::displayInfo(str);
+
+	status=fnIkJoint.getRotation(quat,MSpace::kTransform);
+	sprintf(str,"%s / getRotation(kTransform): %f %f %f %f",name.c_str(),quat[0],quat[1],quat[2],quat[3]);
+	MGlobal::displayInfo(str);
+
+	status=fnIkJoint.getRotation(quat,MSpace::kWorld);
+
+	double qx,qy,qz,qw;
+//	status=fnTransform.getRotationQuaternion(qx,qy,qz,qw, MSpace::kObject );
+
+//	status=fnIkJoint.getOrientation(quat);
+	qx=quat[0]; qy=quat[1]; qz=quat[2]; qw=quat[3];
+
+//	std::string str;
+
+	sprintf(str,"%s / WTrans: %f %f %f, Rot: %f %f %f %f",name.c_str(),trans.x,trans.y,trans.z,qx,qy,qz,qw);
+	MGlobal::displayInfo(str);
+
+	// calculate the relative transformation
+//	Matrix3 tm;
+//	tm = GetNodeTM(pMayaNode, time) * Inverse(GetNodeTM(pMayaParentNode, time));
+
+	// calculate the translation component
+//	Point3 p;
+//	p = tm.GetTrans();
+
+	MTransformationMatrix TM1=fnTransform.transformation(&status);
+	MMatrix M1=TM1.asMatrix();
+	MMatrix M;
+	if (pMayaParentNode) {
+		MFnTransform fnTransformParent(pMayaParentNode->GetDagPath());
+		MTransformationMatrix TMP=fnTransformParent.transformation(&status);
+		MMatrix MP=TMP.asMatrixInverse();
+		MGlobal::displayInfo("MAXhasparent\n");
+
+		//M=M1*MP;
+		M=M1;
+	} else
+		M=M1;
+
+	MTransformationMatrix TM(M);
+	trans=TM.translation(MSpace::kWorld,&status);
+	status=TM.getRotationQuaternion(qx,qy,qz,qw);
+	qx=-qx; qy=-qy; qz=-qz; // qw=qw;
+
+	sprintf(str,"%s / MAXTranslation: kObject(%f %f %f)",name.c_str(),trans.x,trans.y,trans.z);
+	MGlobal::displayInfo(str);
+	sprintf(str,"%s / MAXRotation(kObject): %f %f %f %f",name.c_str(),quat[0],quat[1],quat[2],quat[3]);
+	MGlobal::displayInfo(str);
+
+	translation[0] = float(trans.x);
+	translation[1] = float(trans.y);
+	translation[2] = float(trans.z);
+
+	// calculate the rotation component
+//	Quat q(tm);
+
+	rotation[0] = float(qx);
+	rotation[1] = float(qy);
+	rotation[2] = float(qz);
+	rotation[3] = float(qw);
+	
 }
 
 //void CMayaInterface::GetTranslationAndRotationBoneSpace(CBaseNode *pNode, float time, CalVector& translation, CalQuaternion& rotation)

@@ -43,6 +43,7 @@ public:
   CalVector GetRelativeTranslation(float time);
   CalQuaternion GetRelativeRotation(float time);
 	Type GetType();
+        bool operator==(const CBaseNode& rhs) const;
 
 protected:
   CalQuaternion CMilkBoneNode::ConvertToQuaternion(msVec3 euler);

@@ -19,16 +19,6 @@
 #include "BaseNode.h"
 
 //----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-//----------------------------------------------------------------------------//
 // Message mapping                                                            //
 //----------------------------------------------------------------------------//
 
@@ -67,7 +57,7 @@ BOOL CSkeletonHierarchyPage::BeginPage()
 	// initialize hierarchy tree control
 	m_hierarchyCtrl.DeleteAllItems();
 
-	if(m_pSkeletonCandidate != 0)
+	if(m_pSkeletonCandidate)
 	{
 		// get root bone candidate list
 		std::list<int>& listRootBoneCandidateId = m_pSkeletonCandidate->GetListRootBoneCandidateId();
@@ -169,12 +159,11 @@ void CSkeletonHierarchyPage::InsertBoneCandidate(int boneCandidateId, HTREEITEM 
 	if((boneCandidateId < 0) || (boneCandidateId >= (int)vectorBoneCandidate.size())) return;
 
 	// get bone candidate
-	CBoneCandidate *pBoneCandidate;
-	pBoneCandidate = vectorBoneCandidate[boneCandidateId];
+	CBoneCandidate *pBoneCandidate = vectorBoneCandidate[boneCandidateId];
 
 	// insert bone candidate into the tree control
-	HTREEITEM hItem;
-	hItem = m_hierarchyCtrl.InsertItem(TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_STATE,
+	HTREEITEM hItem = m_hierarchyCtrl.InsertItem(
+                TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_STATE,
 		pBoneCandidate->GetNode()->GetName().c_str(),
 		pBoneCandidate->GetNode()->GetType(), pBoneCandidate->GetNode()->GetType(),
 		TVIS_EXPANDED | INDEXTOSTATEIMAGEMASK(pBoneCandidate->IsSelected() ? 2 : 1), TVIS_EXPANDED | TVIS_STATEIMAGEMASK,
@@ -233,12 +222,10 @@ BOOL CSkeletonHierarchyPage::OnInitDialog()
 BOOL CSkeletonHierarchyPage::OnSetActive() 
 {
 	// get property sheet
-	CPropertySheet *pPropertySheet;
-	pPropertySheet = dynamic_cast<CPropertySheet *>(GetParent());
+	CPropertySheet *pPropertySheet = dynamic_cast<CPropertySheet *>(GetParent());
 
 	// set wizard buttons and text
-	DWORD buttons;
-	buttons = PSWIZB_NEXT;
+	DWORD buttons = PSWIZB_NEXT;
 
 	if(m_stepIndex == m_stepTotal) buttons |= PSWIZB_FINISH;
 	if(m_stepIndex > 1) buttons |= PSWIZB_BACK;

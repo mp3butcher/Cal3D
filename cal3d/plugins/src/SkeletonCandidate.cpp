@@ -8,26 +8,12 @@
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
 
-//----------------------------------------------------------------------------//
-// Includes                                                                   //
-//----------------------------------------------------------------------------//
-
 #include "StdAfx.h"
 #include "Exporter.h"
 #include "SkeletonCandidate.h"
 #include "BoneCandidate.h"
 #include "BaseInterface.h"
 #include "BaseNode.h"
-
-//----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -59,17 +45,25 @@ bool CSkeletonCandidate::AddNode(CBaseNode *pNode, int parentId)
 		return false;
 	}
 
+        // Don't add any nodes that have already been added.
+        for (size_t i = 0; i < m_vectorBoneCandidate.size(); ++i)
+        {
+            if (*m_vectorBoneCandidate[i]->GetNode() == *pNode)
+            {
+                delete pNode;
+                return true;
+            }
+        }
+
 	// if the node does not get used, we have to delete it!
-	bool bDeleteNode;
-	bDeleteNode = true;
+	bool bDeleteNode = true;
 
 	// Check if the node is a candidate
 	//We want to be able to export all type of nodes as bones...
 	//if(theExporter.GetInterface()->IsBone(pNode) || theExporter.GetInterface()->IsDummy(pNode))
 	{
 		// allocate a new bone candidate
-		CBoneCandidate *pBoneCandidate;
-		pBoneCandidate = new CBoneCandidate;
+		CBoneCandidate *pBoneCandidate = new CBoneCandidate;
 		if(pBoneCandidate == 0)
 		{
 			delete pNode;
@@ -109,8 +103,7 @@ bool CSkeletonCandidate::AddNode(CBaseNode *pNode, int parentId)
 	}
 
 	// handle all children of the node
-	int childId;
-	for(childId = 0; childId < pNode->GetChildCount(); childId++)
+	for(int childId = 0; childId < pNode->GetChildCount(); childId++)
 	{
 		if(!AddNode(pNode->GetChild(childId), parentId))
 		{
@@ -147,8 +140,7 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 	}
 
 	// find the node with the name of the core bone
-	CBaseNode *pNode;
-	pNode = theExporter.GetInterface()->GetNode(pCoreBone->getName());
+	CBaseNode *pNode = theExporter.GetInterface()->GetNode(pCoreBone->getName());
 	if(pNode == 0)
 	{
 		theExporter.SetLastError("Skeleton assignement failed!", __FILE__, __LINE__);
@@ -166,8 +158,7 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 	*/
 
 	// allocate a new bone candidate
-	CBoneCandidate *pBoneCandidate;
-	pBoneCandidate = new CBoneCandidate;
+	CBoneCandidate *pBoneCandidate = new CBoneCandidate;
 	if(pBoneCandidate == 0)
 	{
 		delete pNode;
@@ -217,9 +208,8 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 int CSkeletonCandidate::BuildSelectedId()
 {
 	// destroy all bone candidates stored in this skeleton candidate
-	size_t boneCandidateId;
-	int selectedId;
-	for(boneCandidateId = 0, selectedId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
+	int selectedId = 0;
+	for(size_t boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
 		if(m_vectorBoneCandidate[boneCandidateId]->IsSelected())
 		{
@@ -260,8 +250,7 @@ bool CSkeletonCandidate::CreateFromInterface()
 	Clear();
 
 	// loop through all selected nodes
-	int nodeId;
-	for(nodeId = 0; nodeId < theExporter.GetInterface()->GetSelectedNodeCount(); nodeId++)
+	for(int nodeId = 0; nodeId < theExporter.GetInterface()->GetSelectedNodeCount(); nodeId++)
 	{
 		// recursively add the node to the skeleton candidate
 		if(!AddNode(theExporter.GetInterface()->GetSelectedNode(nodeId), -1)) return false;
@@ -298,8 +287,7 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 	}
 
 	// get core skeleton
-	CalCoreSkeleton *pCoreSkeleton;
-	pCoreSkeleton = coreModel.getCoreSkeleton();
+	CalCoreSkeleton *pCoreSkeleton = coreModel.getCoreSkeleton();
 	
 	// get core bone vector
 	std::vector<CalCoreBone *>& vectorCoreBone = pCoreSkeleton->getVectorCoreBone();
@@ -367,12 +355,10 @@ int CSkeletonCandidate::GetParentSelectedId(int boneCandidateId)
 	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return -1;
 
 	// get the bone candidate
-	CBoneCandidate *pBoneCandidate;
-	pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
+	CBoneCandidate *pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
 
 	// get the parent id
-	int parentId;
-	parentId = pBoneCandidate->GetParentId();
+	int parentId = pBoneCandidate->GetParentId();
 
 	// loop until we found the selected parent
 	while(parentId != -1)
@@ -398,9 +384,8 @@ int CSkeletonCandidate::GetParentSelectedId(int boneCandidateId)
 int CSkeletonCandidate::GetSelectedCount()
 {
 	// loop through all bone candidates
-	size_t boneCandidateId;
-	int selectedCount;
-	for(boneCandidateId = 0, selectedCount = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
+	int selectedCount = 0;
+	for(size_t boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
 		// check if the bone candidate is selected
 		if(m_vectorBoneCandidate[boneCandidateId]->IsSelected()) selectedCount++;
@@ -423,25 +408,18 @@ void CSkeletonCandidate::GetTranslationAndRotation(int boneCandidateId, float ti
 	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return;
 
 	// get the bone candidate
-	CBoneCandidate *pBoneCandidate;
-	pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
+	CBoneCandidate *pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
 
 	// get the node of the bone candidate
-	CBaseNode *pNode;
-	pNode = pBoneCandidate->GetNode();
+	CBaseNode *pNode = pBoneCandidate->GetNode();
 
 	// get the parent id
-	int parentId;
-	parentId = pBoneCandidate->GetParentId();
+	int parentId = pBoneCandidate->GetParentId();
 
 	// get the node of the parent bone candidate
-	CBaseNode *pParentNode;
-	if(parentId == -1)
-	{
-		pParentNode = 0;
-	}
-	else
-	{
+	CBaseNode *pParentNode = 0;
+	if(parentId != -1)
+        {
 		pParentNode = m_vectorBoneCandidate[parentId]->GetNode();
 	}
 
@@ -463,12 +441,10 @@ void CSkeletonCandidate::GetTranslationAndRotationBoneSpace(int boneCandidateId,
 	if((boneCandidateId < 0) || (boneCandidateId >= (int)m_vectorBoneCandidate.size())) return;
 
 	// get the bone candidate
-	CBoneCandidate *pBoneCandidate;
-	pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
+	CBoneCandidate *pBoneCandidate = m_vectorBoneCandidate[boneCandidateId];
 
 	// get the node of the bone candidate
-	CBaseNode *pNode;
-	pNode = pBoneCandidate->GetNode();
+	CBaseNode *pNode = pBoneCandidate->GetNode();
 
   // get the bone space translation and rotation of the node
 	theExporter.GetInterface()->GetTranslationAndRotationBoneSpace(pNode, time, translation, rotation);
@@ -482,5 +458,3 @@ std::vector<CBoneCandidate *> CSkeletonCandidate::GetVectorBoneCandidate()
 {
 	return m_vectorBoneCandidate;
 }
-
-//----------------------------------------------------------------------------//

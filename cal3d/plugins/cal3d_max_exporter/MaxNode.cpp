@@ -144,3 +144,12 @@ CBaseNode::Type CMaxNode::GetType()
 }
 
 //----------------------------------------------------------------------------//
+
+bool CMaxNode::operator==(const CBaseNode& rhs) const
+{
+    const CMaxNode* mnode = dynamic_cast<const CMaxNode*>(&rhs);
+    if (!mnode)
+        return false;
+
+    return m_pINode == mnode->m_pINode;
+}

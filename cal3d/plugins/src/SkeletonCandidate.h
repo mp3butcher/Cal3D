@@ -27,15 +27,15 @@ class CalCoreBone;
 class CSkeletonCandidate
 {
 // member variables
-protected:
+private:
 	std::vector<CBoneCandidate *> m_vectorBoneCandidate;
 	std::list<int> m_listRootBoneCandidateId;
 	std::string m_strFilename;
 
 // constructors/destructor
 public:
-	CSkeletonCandidate();
-	virtual ~CSkeletonCandidate();
+        CSkeletonCandidate();
+        virtual ~CSkeletonCandidate();
 
 // member functions
 public:

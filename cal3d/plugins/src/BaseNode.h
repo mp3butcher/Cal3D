@@ -19,29 +19,26 @@ class CBaseNode
 {
 // misc
 public:
-	enum Type
-	{
-		TYPE_OTHER = 0,
-		TYPE_BONE,
-		TYPE_DUMMY,
-    TYPE_MESH
-	};
-
-// member variables
-protected:
+    enum Type
+    {
+        TYPE_OTHER,
+        TYPE_BONE,
+        TYPE_DUMMY,
+        TYPE_MESH
+    };
 
 // constructors/destructor
-protected:
-	CBaseNode();
 public:
-	virtual ~CBaseNode();
+    virtual ~CBaseNode() { }
 
 // member functions
 public:
-	virtual CBaseNode *GetChild(int childId) = 0;
-	virtual int GetChildCount() = 0;
-	virtual std::string GetName() = 0;
-	virtual Type GetType() = 0;
+    virtual bool operator==(const CBaseNode& rhs) const = 0;
+
+    virtual CBaseNode *GetChild(int childId) = 0;
+    virtual int GetChildCount() = 0;
+    virtual std::string GetName() = 0;
+    virtual Type GetType() = 0;
 };
 
 #endif

@@ -111,3 +111,12 @@ CBaseNode::Type CMayaNode::GetType()
 	else
 		return CBaseNode::TYPE_OTHER;
 }
+
+bool CMayaNode::operator==(const CBaseNode& rhs) const
+{
+    const CMayaNode* mnode = dynamic_cast<const CMayaNode*>(&rhs);
+    if (!mnode)
+        return false;
+
+    return m_dagPath == mnode->m_dagPath;
+}

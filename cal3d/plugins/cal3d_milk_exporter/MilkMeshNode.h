@@ -40,6 +40,7 @@ public:
   msMesh *GetIMesh();
 	std::string GetName();
 	Type GetType();
+        bool operator==(const CBaseNode& rhs) const;
 };
 
 #endif

@@ -1,7 +1,5 @@
 ; cal3d_max_importer.def
 
-LIBRARY     "cal3d_max_importer"
-DESCRIPTION "3d Studio MAX 3.1/4.2 Cal3D Importer"
 VERSION     0.9
 
 EXPORTS

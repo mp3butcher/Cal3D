@@ -11,23 +11,11 @@
 #ifndef CAL3D_MAX_EXPORTER_H
 #define CAL3D_MAX_EXPORTER_H
 
-//----------------------------------------------------------------------------//
-// Forward declarations                                                       //
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-// Class declaration                                                          //
-//----------------------------------------------------------------------------//
 class CMayaExporterApp : public CWinApp
 {
-// member variables
-protected:
-	
-// constructors/destructor
 public:
-	CMayaExporterApp();
+    CMayaExporterApp() { }
 
-// member functions
 public:
 	
 // MSVC++ stuff
