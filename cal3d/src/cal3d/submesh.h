@@ -48,11 +48,7 @@ public:
   /// The submesh Face.
   typedef struct
   {
-#ifdef CAL_16BIT_INDICES
-    unsigned short vertexId[3];
-#else
-    int vertexId[3];
-#endif
+    CalIndex vertexId[3];
   } Face;
 
 // member variables
@@ -79,12 +75,7 @@ public:
   CalCoreSubmesh *getCoreSubmesh();
   int getCoreMaterialId();
   int getFaceCount();
-#ifdef CAL_16BIT_INDICES
-  int getFaces(unsigned short *pFaceBuffer);
-#else
-  int getFaces(int *pFaceBuffer);
-#endif
-
+  int getFaces(CalIndex *pFaceBuffer);
   std::vector<CalVector>& getVectorNormal();
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
   std::vector<CalVector>& getVectorVertex();

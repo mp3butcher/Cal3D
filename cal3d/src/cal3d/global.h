@@ -11,11 +11,6 @@
 
 #ifndef CAL_GLOBAL_H
 #define CAL_GLOBAL_H
-//****************************************************************************//
-// define                                                                     //
-//****************************************************************************//
-
-//#define CAL_16BIT_INDICES
 
 //****************************************************************************//
 // Includes                                                                   //
@@ -30,11 +25,26 @@
 #include "platform.h"
 
 //****************************************************************************//
+// 16/32 bits indices stuff                                                                     //
+//****************************************************************************//
+
+//Uncomment this if you want to use 16bit indices or configure the compiler
+
+#define CAL_16BIT_INDICES
+
+#ifdef CAL_16BIT_INDICES 
+typedef unsigned short CalIndex; 
+#else 
+typedef int CalIndex; 
+#endif
+
+
+//****************************************************************************//
 // Global Cal3D namespace for constants, ...                                  //
 //****************************************************************************//
 
 namespace Cal
-{
+{  
   // global typedefs
   typedef void *UserData;
 

@@ -1446,11 +1446,7 @@ int CalRenderer_GetFaceCount(CalRenderer *self)
   return self->getFaceCount();
 }
 
-#ifdef CAL_16BIT_INDICES
-int CalRenderer_GetFaces(CalRenderer *self, unsigned short *pFaceBuffer)
-#else
-int CalRenderer_GetFaces(CalRenderer *self, int *pFaceBuffer)
-#endif
+int CalRenderer_GetFaces(CalRenderer *self, CalIndex *pFaceBuffer)
 {
   return self->getFaces(pFaceBuffer);
 }
@@ -1713,11 +1709,7 @@ int CalSubmesh_GetFaceCount(CalSubmesh *self)
   return self->getFaceCount();
 }
 
-#ifdef CAL_16BIT_INDICES
-int CalSubmesh_GetFaces(CalSubmesh *self, unsigned short *pFaceBuffer)
-#else
-int CalSubmesh_GetFaces(CalSubmesh *self, int *pFaceBuffer)
-#endif
+int CalSubmesh_GetFaces(CalSubmesh *self, CalIndex *pFaceBuffer)
 {
   return self->getFaces(pFaceBuffer);
 }

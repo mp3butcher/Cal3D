@@ -178,11 +178,7 @@ int CalSubmesh::getFaceCount()
   *
   * @return The number of faces written to the buffer.
   *****************************************************************************/
-#ifdef CAL_16BIT_INDICES
-int CalSubmesh::getFaces(unsigned short *pFaceBuffer)
-#else
-  int CalSubmesh::getFaces(int *pFaceBuffer)
-#endif
+int CalSubmesh::getFaces(CalIndex *pFaceBuffer)
 {
   // copy the face vector to the face buffer
   memcpy(pFaceBuffer, &m_vectorFace[0], m_faceCount * sizeof(Face));
@@ -321,11 +317,7 @@ void CalSubmesh::setLodLevel(float lodLevel)
     for(vertexId = 0; vertexId < 3; vertexId++)
     {
       // get the vertex id
-#ifdef CAL_16BIT_INDICES
-      unsigned short collapsedVertexId;
-#else
-      int collapsedVertexId;
-#endif      
+      CalIndex collapsedVertexId;
       collapsedVertexId = vectorFace[faceId].vertexId[vertexId];
 
       // collapse the vertex id until it fits into the current lod level

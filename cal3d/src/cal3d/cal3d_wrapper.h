@@ -509,11 +509,7 @@ extern "C"
   CAL3D_WRAPPER_API void CalRenderer_GetAmbientColor(CalRenderer *self, unsigned char *pColorBuffer);
   CAL3D_WRAPPER_API void CalRenderer_GetDiffuseColor(CalRenderer *self, unsigned char *pColorBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetFaceCount(CalRenderer *self);
-#ifdef CAL_16BIT_INDICES
-  CAL3D_WRAPPER_API int CalRenderer_GetFaces(CalRenderer *self, unsigned short *pFaceBuffer);
-#else
-  CAL3D_WRAPPER_API int CalRenderer_GetFaces(CalRenderer *self, int *pFaceBuffer);
-#endif
+  CAL3D_WRAPPER_API int CalRenderer_GetFaces(CalRenderer *self, CalIndex *pFaceBuffer);
   CAL3D_WRAPPER_API int CalRenderer_GetMapCount(CalRenderer *self);
   CAL3D_WRAPPER_API CalUserData CalRenderer_GetMapUserData(CalRenderer *self, int mapId);
   CAL3D_WRAPPER_API int CalRenderer_GetMeshCount(CalRenderer *self);
@@ -583,11 +579,7 @@ extern "C"
   CAL3D_WRAPPER_API CalCoreSubmesh *CalSubmesh_GetCoreSubmesh(CalSubmesh *self);
   CAL3D_WRAPPER_API int CalSubmesh_GetCoreMaterialId(CalSubmesh *self);
   CAL3D_WRAPPER_API int CalSubmesh_GetFaceCount(CalSubmesh *self);
-#ifdef CAL_16BIT_INDICES
-  CAL3D_WRAPPER_API int CalSubmesh_GetFaces(CalSubmesh *self, unsigned short *pFaceBuffer);
-#else
-  CAL3D_WRAPPER_API int CalSubmesh_GetFaces(CalSubmesh *self, int *pFaceBuffer);
-#endif
+  CAL3D_WRAPPER_API int CalSubmesh_GetFaces(CalSubmesh *self, CalIndex *pFaceBuffer);
 
 //  CAL3D_WRAPPER_API std::vector<CalVector>& CalSubmesh_GetVectorNormal(CalSubmesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalSubmesh::PhysicalProperty>& CalSubmesh_GetVectorPhysicalProperty(CalSubmesh *self);

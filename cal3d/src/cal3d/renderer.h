@@ -54,11 +54,7 @@ public:
   void getAmbientColor(unsigned char *pColorBuffer);
   void getDiffuseColor(unsigned char *pColorBuffer);
   int getFaceCount();
-#ifdef CAL_16BIT_INDICES
-  int getFaces(unsigned short *pFaceBuffer);
-#else
-  int getFaces(int *pFaceBuffer);
-#endif
+  int getFaces(CalIndex *pFaceBuffer);
   int getMapCount();
   Cal::UserData getMapUserData(int mapId);
   int getMeshCount();

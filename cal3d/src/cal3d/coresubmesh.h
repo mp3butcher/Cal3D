@@ -63,11 +63,7 @@ public:
   /// The core submesh Face.
   typedef struct
   {
-#ifdef CAL_16BIT_INDICES
-    unsigned short vertexId[3];
-#else
-    int vertexId[3];
-#endif
+	  CalIndex vertexId[3];
   } Face;
   
   /// The core submesh Spring.
