@@ -796,6 +796,16 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 	// destroy core skeleton instance
 	coreSkeleton.destroy();
 
+	
+	HKEY hk;
+	LONG lret=RegCreateKey(HKEY_CURRENT_USER, "Software\\Cal3D\\Exporter", &hk);
+	if(lret==ERROR_SUCCESS && NULL!=hk)
+	{
+		lret=RegSetValueEx(hk,"skeleton",NULL,REG_SZ,(unsigned char *)strFilename.c_str() ,strFilename.length());
+		RegCloseKey(hk);
+	}
+
+
 	return true;
 }
 

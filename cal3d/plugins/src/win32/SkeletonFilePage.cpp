@@ -64,6 +64,23 @@ CSkeletonFilePage::~CSkeletonFilePage()
 
 BOOL CSkeletonFilePage::BeginPage()
 {
+	HKEY hk; 
+	DWORD dwtype;
+	LONG lret=RegOpenKeyEx(HKEY_CURRENT_USER,"Software\\Cal3D\\Exporter",NULL,KEY_READ|KEY_WRITE|KEY_SET_VALUE,&hk);
+	if(lret==ERROR_SUCCESS && NULL!=hk)
+	{
+		unsigned char pbuf[256];
+        DWORD dwlen=sizeof(pbuf);
+
+		const char* valname="skeleton";
+        lret=RegQueryValueEx(hk,valname,NULL,&dwtype,pbuf,&dwlen);
+		if(lret==ERROR_SUCCESS)
+		{
+			m_lruCombo.SetWindowText((char*)pbuf);			
+		}		
+		RegCloseKey(hk);
+	}
+
 	return TRUE;
 }
 
@@ -140,6 +157,16 @@ void CSkeletonFilePage::OnBrowse()
 	// set new filename
 	strFilename = dlg.GetPathName();
 	m_lruCombo.SetWindowText(strFilename);
+	
+	HKEY hk;
+	LONG lret=RegCreateKey(HKEY_CURRENT_USER, "Software\\Cal3D\\Exporter", &hk);
+	if(lret==ERROR_SUCCESS && NULL!=hk)
+	{
+		lret=RegSetValueEx(hk,"skeleton",NULL,REG_SZ,(unsigned char *)strFilename.GetBuffer(1) ,strFilename.GetLength());
+		RegCloseKey(hk);
+	}
+
+
 }
 
 //----------------------------------------------------------------------------//

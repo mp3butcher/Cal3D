@@ -303,7 +303,7 @@ CalVector CMilkBoneNode::GetRelativeTranslation(float time)
 
 
   // Have to blend the two translations.
-  translationBefore = translationBefore + (translationAfter - translationBefore);
+  translationBefore = translationBefore + (translationAfter - translationBefore)*factor;
 
   return initial_translation + translationBefore;
 } 
