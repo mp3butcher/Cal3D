@@ -1,0 +1,229 @@
+o-----------------------------------------------------------------------------o
+|                             C h a n g e L o g                               |
+o-----------------------------------------------------------------------------o
+
+
+o-----------------------------------------------------------------------------o
+| 14. Nov. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - The skeleton pose is now set to the initial state when no active animation
+    exists. (Thanks to Brandon Ehle!)
+
+
+o-----------------------------------------------------------------------------o
+| 24. Oct. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Enhanced the CalVector and CalQuaternion class with a great number of
+    operators. (Thanks to Wolfgang Scheicher!)
+  - CalVector is now used as type of the vertex position and normal data in
+    the CalCoreSubmesh and CalSubmesh class.
+
+
+o-----------------------------------------------------------------------------o
+| 22. Oct. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Revamped the animation pipeline: Added a CalPhysique helper class and a
+    CalSpringSystem class.
+  - Experimental cloth animation system implemented in the CalSpringSystem
+    class.
+
+
+o-----------------------------------------------------------------------------o
+| 17. Oct. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Changed the whole bone influence system to a localized bone transformation
+    approach. This was needed for the planned cloth animation system and for a
+    better support for vertex shaders.
+
+
+o-----------------------------------------------------------------------------o
+| 10. Oct. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Moved the 'weight' member variable and its accessor from the derived
+    classes to the CalAnimation class.
+
+
+o-----------------------------------------------------------------------------o
+| 9. Oct. 2001 (Beosil)                                                       |
+o-----------------------------------------------------------------------------o
+
+  - Removed the unused 'duration' argument from the CalLoader::loadCoreTrack()
+    and CalSaver::saveCoreTrack() functions.
+
+
+o-----------------------------------------------------------------------------o
+| 17. Sep. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Moved the setMaterialSet() function from the CalModel class to the
+    CalRenderer class.
+
+
+o-----------------------------------------------------------------------------o
+| 18. Aug. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Relicensed the library under the LGPL (GNU Lesser General Public License).
+
+
+o-----------------------------------------------------------------------------o
+| 11. Aug. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - CalCoreSkeleton::addCoreBone() inserts root core bones automatically into
+    the root core bone list now. The function addRootCoreBoneId() was removed.
+
+
+o-----------------------------------------------------------------------------o
+| 4. Aug. 2001 (Beosil)                                                       |
+o-----------------------------------------------------------------------------o
+
+  - Fixed the bone/vertex/normal transformation pipeline. There was a bug in
+    the library and another in the exporter. Together they worked pretty much
+    correct, but there were those weird normals in some of the models.
+
+
+o-----------------------------------------------------------------------------o
+| 30. Jul. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Added a user-data member variable and accessors to the CalCoreBone,
+    CalCoreMaterial, CalCoreModel and CalModel classes.
+  - Finished the LOD handling in the CalRenderer, CalMesh and CalCoreMesh
+    classes.
+  - Implemented the whole material system with material-sets and -threads.
+
+
+o-----------------------------------------------------------------------------o
+| 29. Jun. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - I decided to implement a material class (CalCoreMaterial) and a new file
+    type for it (.crf). This should lead to a very flexible material handling.
+    (such as swapping materials on the fly on submeshes etc.).
+  - Texture coordinates are stored differently in the CalCoreSubmesh class to
+    optimize access from the CalRenderer interface.
+
+
+o-----------------------------------------------------------------------------o
+| 28. Jun. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - A new class CalRenderer was added that serves as a clean interface for
+    the external rendering loop.
+
+
+o-----------------------------------------------------------------------------o
+| 27. Jun. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Fixed all *.cpp files to include config.h if HAVE_CONFIG_H is set.
+  - Converted CalModel::getMeshVertices() and CalModel::getMeshNormals() to
+    CalModel::getSubmeshVertices() and CalModel::getSubmeshNormals().
+  - Created a little model viewer named 'MiniViewer' that can be run from the
+    command-line.
+
+
+o-----------------------------------------------------------------------------o
+| 22. Jun. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Complete redesign of the mesh handling. It is now much cleaner and ready
+    for LOD (level of detail).
+  - Changed the fileformats to include a version info field. Furthermore, the
+    magic file cookies were modified to reflect the incompatibility to the
+    old fileformat.
+
+
+o-----------------------------------------------------------------------------o
+| 18. Jun. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Fixed a bug in the calculation of the blending factor between two
+    keyframes that caused a visible crack in the animation.
+  - Added a few accessor functions that are used by the exporter framework.
+  - Polished the error class and its error messages a bit.
+
+
+o-----------------------------------------------------------------------------o
+| 3. Jun. 2001 (Beosil)                                                       |
+o-----------------------------------------------------------------------------o
+
+  - Added the CalSaver class which can be used to save skeleton, animation
+    and mesh files. This is useful for writing export plugins and storing
+    generic created data for later use.
+
+
+o-----------------------------------------------------------------------------o
+| 23. Apr. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Redesign of the core mesh class. It supports different materiels and
+    submeshes now. Unlimited (texture-)map channels are possible.
+  - 3d Studio Max exporter handles materials and maps.
+
+
+o-----------------------------------------------------------------------------o
+| 20. Apr. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Implemented the second animation type (named 'action').
+  - Reorganized the project directory and the workspaces of kdevelop and msvc..
+  - Created a little demo (called 'The Cally Demo') based on cal3d and OpenGL.
+  - Optimized the keyframe lookup and other STL performance issues.
+  - Mesh handling implemented. Vertices and normals are influenced by one or
+    more weighted bone states.
+  - Switched to simple binary file-formats. This gives a shorter loading time
+    and cal3d does not depend on another library.
+  - A first 3d Studio Max exporter plugin is born. It can export biped
+    animations and colored/textured meshes. It is not very stable though =)
+
+
+o-----------------------------------------------------------------------------o
+| 9. Mar. 2001 (Beosil)                                                       |
+o-----------------------------------------------------------------------------o
+
+  - Created a first version of an exporter-plugin for Milkshape 3D. This makes
+    it a lot easier to get animation files for testing =)
+  - Added linear blending between 2 keyframes, this gives smoother animations.
+
+
+o-----------------------------------------------------------------------------o
+| 4. Mar. 2001 (Beosil)                                                       |
+o-----------------------------------------------------------------------------o
+
+  - Implemented the core animation-track-keyframe structure and extended the
+    XML loader to load it.
+  - Added the CalMixer class that handles all the animation blending
+  - The first type of animation (named 'cycles') is available.
+  - Extended the CalVector and CalQuaternion classes with blending functions.
+  - A quick-and-dirty test-frontend was added (based on SDL and OpenGL) to see
+    the animations on screen.
+
+
+o-----------------------------------------------------------------------------o
+| 25. Feb. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Implemented the core model-skeleton-bone structure and a XML loader for
+    it (based on libxml2).
+  - The model-skeleton-bone structure that is cloned from the core versions
+    for every instance of a specific model was coded.
+  - An error handling mechanism is in place.
+  - A first port to Win32 was done. Several pieces of not-portable code was
+    fixed in the process.
+
+
+o-----------------------------------------------------------------------------o
+| 17. Feb. 2001 (Beosil)                                                      |
+o-----------------------------------------------------------------------------o
+
+  - Project kick off.
+
+
+o-----------------------------------------------------------------------------o
