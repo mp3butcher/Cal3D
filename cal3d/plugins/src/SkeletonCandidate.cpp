@@ -271,18 +271,12 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 	m_strFilename = strFilename;
 
 	// create a core model instance
-	CalCoreModel coreModel;
-	if(!coreModel.create("dummy"))
-	{
-		theExporter.SetLastErrorFromCal(__FILE__, __LINE__);
-		return false;
-	}
+	CalCoreModel coreModel("dummy");
 
 	// load the core skeleton instance
 	if(!coreModel.loadCoreSkeleton(m_strFilename))
 	{
 		theExporter.SetLastErrorFromCal(__FILE__, __LINE__);
-		coreModel.destroy();
 		return false;
 	}
 
@@ -299,13 +293,9 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 		// recursively add the core bone to the skeleton candidate
 		if(!AddNode(pCoreSkeleton, vectorCoreBone[*iteratorRootCoreBoneId], -1))
 		{
-			coreModel.destroy();
 			return false;
 		}
 	}
-
-	// destroy core model
-	coreModel.destroy();
 
 	return true;
 }

@@ -94,6 +94,11 @@ public:
 	void StartProgressInfo(const std::string& strText);
 	void StopProgressInfo();
 
+	bool ExportAnimationFromMaxscriptCall(const std::string& strFilename, void* AnimExportParams);
+	bool ExportMaterialFromMaxscriptCall(const std::string& strFilename);
+	bool ExportMeshFromMaxscriptCall(const std::string& strFilename, void* MeshExportParams);
+	bool ExportSkeletonFromMaxscriptCall(const std::string& strFilename, bool bShowUI);
+
 protected:
 	Matrix3 GetNodeTM(CMaxNode *pNode, float time);
 	bool IsBipedBone(INode *pNode);

@@ -36,64 +36,57 @@ class CMayaInterface;
 //----------------------------------------------------------------------------//
 class CMayaMesh : public CBaseMesh
 {
-// member variables
-	MDagPath		m_dagPath;
+  MDagPath        m_dagPath;
+  CMayaInterface* m_pInterface;
 
-	MObjectArray	m_shaderArray;
-	MIntArray		m_shaderIntArray;
+  MObjectArray m_shaderArray;
+  MIntArray    m_shaderIntArray;
 
-	int				m_numFaces;
+  std::vector<MFloatArray> m_VertexWeights;
+  MDagPathArray m_InfluenceObjects;
 
-	CMayaInterface	*m_pInterface;
+  struct UV
+  {
+    float u,v;
+  };
 
-	std::vector<MFloatArray>	m_VertexWeights;
-	MDagPathArray	m_InfluenceObjects;
+  struct VertexWeight
+  {
+    MString jointName;
+    float   weight;
+  };
 
-struct UV
-{
-	float u,v;
-};
+  struct Vertex 
+  {
+    MVector                   pos;
+    MVector                   normal;
+    std::vector<VertexWeight> weights;
+    std::vector<UV>           uvs;
+  };
 
-struct VertexWeight
-{
-	MString		jointName;
-	float		weight;
-};
+  struct Triangle
+  {
+    Vertex v[3];
+    int faceID; // which maya mesh face this triangle belongs to
+  };
 
-struct Vertex 
-{
-	MVector						pos;
-	MVector						normal;
-	std::vector<VertexWeight>	weights;
-	std::vector<UV>				uvs;
-};
-
-struct Triangle
-{
-	Vertex v[3];
-	int faceID; // which maya mesh face this triangle belongs to
-};
-
-std::vector<Triangle>	m_Faces;
+  std::vector<Triangle> m_Faces;
 
 public:
-	CMayaMesh();
-	virtual ~CMayaMesh();
-
-	int GetMayaFaceMaterialID (int faceID);
-	int GetMayaFaceMapCount (int faceID);
+  int GetMayaFaceMaterialID (int faceID);
+  int GetMayaFaceMapCount (int faceID);
 
 // member functions
 public:
-	bool	Create (const MDagPath &path, CMayaInterface *pInterface);
-	bool	GetShaderIndex (int index, MObject &obj);
-	
-	int GetFaceCount();
-	int GetMaterialCount();
-	int GetFaceMaterialId(int faceId);
-	int GetSubmeshMapCount(int submeshId);
-	int GetSubmeshMaterialThreadId(int submeshId);
-	CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId);
+  bool  Create (const MDagPath &path, CMayaInterface *pInterface);
+  bool  GetShaderIndex (int index, MObject &obj);
+  
+  int GetFaceCount();
+  int GetMaterialCount();
+  int GetFaceMaterialId(int faceId);
+  int GetSubmeshMapCount(int submeshId);
+  int GetSubmeshMaterialThreadId(int submeshId);
+  CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId);
 };
 
 #endif

@@ -8,9 +8,6 @@
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
 
-//----------------------------------------------------------------------------//
-// Includes                                                                   //
-//----------------------------------------------------------------------------//
 
 #include "StdAfx.h"
 #include "Exporter.h"
@@ -21,19 +18,11 @@
 #include "BaseNode.h"
 #include "VertexCandidate.h"
 
-//----------------------------------------------------------------------------//
-// Constructors                                                               //
-//----------------------------------------------------------------------------//
 
 CMeshCandidate::CMeshCandidate()
 {
-  m_pNode = 0;
-  m_pMesh = 0;
 }
 
-//----------------------------------------------------------------------------//
-// Destructor                                                                 //
-//----------------------------------------------------------------------------//
 
 CMeshCandidate::~CMeshCandidate()
 {
@@ -91,11 +80,11 @@ void CMeshCandidate::Clear()
   }
   m_vectorSubmeshCandidate.clear();
 
-  delete m_pNode;
-  m_pNode = 0;
-
-  delete m_pMesh;
-  m_pMesh = 0;
+  for (size_t i = 0; i < m_meshes.size(); ++i)
+  {
+    delete m_meshes[i];
+  }
+  m_meshes.clear();
 }
 
 //----------------------------------------------------------------------------//
@@ -107,134 +96,129 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
   // clear current content
   Clear();
 
-  int meshCount = 0;
-
   // loop through all the selected nodes
   for(int nodeId = 0; nodeId < theExporter.GetInterface()->GetSelectedNodeCount(); nodeId++)
   {
     // get the selected node
-    CBaseNode *pNode = theExporter.GetInterface()->GetSelectedNode(nodeId);
+    CBaseNode* node = theExporter.GetInterface()->GetSelectedNode(nodeId);
 
     // check if it is a mesh node
-    if(theExporter.GetInterface()->IsMesh(pNode))
+    if(theExporter.GetInterface()->IsMesh(node))
     {
-      if(meshCount == 0) m_pNode = pNode;
-      meshCount++;
+      CBaseMesh* mesh = theExporter.GetInterface()->GetMesh(node);
+      if (mesh)
+        m_meshes.push_back(mesh);
     }
-
-    // delete all nodes except the one that should be exported
-    if(pNode != m_pNode) delete pNode;
   }
 
-  // check if one (and only one!) node/mesh is selected
-  if(meshCount != 1)
+  // Check if any meshes are selected.
+  if(m_meshes.empty())
   {
-    char str[400];
-    sprintf(str, "Select one (and only one) mesh to export!  You have %d selected.", meshCount);
-    theExporter.SetLastError(str, __FILE__, __LINE__);
+    theExporter.SetLastError("No meshes were selected for export!", __FILE__, __LINE__);
     return false;
   }
 
-  // check if the node is a mesh candidate
-  if((m_pNode == 0) || !theExporter.GetInterface()->IsMesh(m_pNode))
+  for (size_t i = 0; i < m_meshes.size(); ++i)
   {
-    theExporter.SetLastError("No mesh selected!", __FILE__, __LINE__);
-    return false;
-  }
+    CBaseMesh* mesh = m_meshes[i];
 
-  // get the mesh
-  m_pMesh = theExporter.GetInterface()->GetMesh(m_pNode);
-  if(m_pMesh == 0) return false;
+    // Get the number of materials in this mesh.
+    int materialCount = mesh->GetMaterialCount();
 
-  // get the number of materials of the mesh
-  int materialCount = m_pMesh->GetMaterialCount();
-
-  // create all the submesh candidates
-  for(int submeshId = 0; submeshId < materialCount; submeshId++)
-  {
-    // allocate a new submesh candidate
-    CSubmeshCandidate *pSubmeshCandidate = new CSubmeshCandidate();
-    if(pSubmeshCandidate == 0)
+    // Create all of the submesh candidates.
+    for(int submeshId = 0; submeshId < materialCount; submeshId++)
     {
-      theExporter.SetLastError("Memory allocation failed!", __FILE__, __LINE__);
-      return false;
-    }
+      // allocate a new submesh candidate
+      CSubmeshCandidate *pSubmeshCandidate = new CSubmeshCandidate();
 
-    // create the new submesh candidate
-    if(!pSubmeshCandidate->Create(m_pMesh->GetSubmeshMaterialThreadId(submeshId), m_pMesh->GetSubmeshMapCount(submeshId))) return false;
+      // create the new submesh candidate
+      if(!pSubmeshCandidate->Create(mesh->GetSubmeshMaterialThreadId(submeshId), mesh->GetSubmeshMapCount(submeshId)))
+        return false;
 
-    // add submesh candidate to the submesh candidate vector
-    m_vectorSubmeshCandidate.push_back(pSubmeshCandidate);
-  }
-
-  // get the number of faces of the mesh
-  int faceCount = m_pMesh->GetFaceCount();
-
-  // start the progress info
-  theExporter.GetInterface()->StartProgressInfo("Analyzing the mesh...");
-
-  // loop through all faces of the mesh and put it into the corresponding submesh
-  for(int faceId = 0; faceId < faceCount; faceId++)
-  {
-    // update the progress info
-    theExporter.GetInterface()->SetProgressInfo(int(100.0f * (float)faceId / (float)faceCount));
-
-    // get the material id of the face
-    int materialId = m_pMesh->GetFaceMaterialId(faceId);
-    if(materialId == -1)
-    {
-      theExporter.GetInterface()->StopProgressInfo();
-      return false;
-    }
-
-    // check if the material id is valid
-    if((materialId < 0) || (materialId >= materialCount))
-    {
-      theExporter.GetInterface()->StopProgressInfo();
-      theExporter.SetLastError("Invalid material id found!", __FILE__, __LINE__);
-      return false;
-    }
-
-    // get the first vertex of the face
-    CVertexCandidate *pVertexCandidate = m_pMesh->GetVertexCandidate(pSkeletonCandidate, faceId, 0);
-    if(pVertexCandidate == 0) continue;
-
-    // add it to the corresponding submesh
-    int vertexId1 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
-
-    // get the second vertex of the face
-    pVertexCandidate = m_pMesh->GetVertexCandidate(pSkeletonCandidate, faceId, 1);
-
-    // add it to the corresponding submesh
-    int vertexId2 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
-
-    // get the third vertex of the face
-    pVertexCandidate = m_pMesh->GetVertexCandidate(pSkeletonCandidate, faceId, 2);
-
-    // add it to the corresponding submesh
-    int vertexId3 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
-
-    if((vertexId1 == -1) ||(vertexId2 == -1) ||(vertexId3 == -1))
-    {
-      theExporter.GetInterface()->StopProgressInfo();
-      return false;
-    }
-
-    // add the face to the corresponding submesh
-    if(!m_vectorSubmeshCandidate[materialId]->AddFace(vertexId1, vertexId2, vertexId3))
-    {
-      theExporter.GetInterface()->StopProgressInfo();
-      return false;
+      // add submesh candidate to the submesh candidate vector
+      m_vectorSubmeshCandidate.push_back(pSubmeshCandidate);
     }
   }
 
-  // stop the progress info
-  theExporter.GetInterface()->StopProgressInfo();
+  int baseSubmesh = 0;
+  for (size_t i = 0; i < m_meshes.size(); ++i)
+  {
+    CBaseMesh* mesh = m_meshes[i];
+    int materialCount = mesh->GetMaterialCount();
+
+    // start the progress info
+    theExporter.GetInterface()->StartProgressInfo("Analyzing the mesh...");
+
+    // loop through all faces of the mesh and put it into the corresponding submesh
+    int faceCount = mesh->GetFaceCount();
+    for(int faceId = 0; faceId < faceCount; faceId++)
+    {
+      // update the progress info
+      theExporter.GetInterface()->SetProgressInfo(int(100.0f * (float)faceId / (float)faceCount));
+
+      // get the material id of the face
+      int materialId = mesh->GetFaceMaterialId(faceId);
+      if(materialId == -1)
+      {
+        theExporter.GetInterface()->StopProgressInfo();
+        return false;
+      }
+
+      // check if the material id is valid
+      if((materialId < 0) || (materialId >= materialCount))
+      {
+        theExporter.GetInterface()->StopProgressInfo();
+        theExporter.SetLastError("Invalid material id found!", __FILE__, __LINE__);
+        return false;
+      }
+
+      CSubmeshCandidate* submeshCandidate = m_vectorSubmeshCandidate[materialId + baseSubmesh];
+
+      // get the first vertex of the face
+      CVertexCandidate *pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 0);
+      if(pVertexCandidate == 0) continue;
+
+      // add it to the corresponding submesh
+      int vertexId1 = submeshCandidate->AddVertexCandidate(pVertexCandidate);
+
+      // get the second vertex of the face
+      pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 1);
+      assert(pVertexCandidate);
+
+      // add it to the corresponding submesh
+      int vertexId2 = submeshCandidate->AddVertexCandidate(pVertexCandidate);
+
+      // get the third vertex of the face
+      pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 2);
+      assert(pVertexCandidate);
+
+      // add it to the corresponding submesh
+      int vertexId3 = submeshCandidate->AddVertexCandidate(pVertexCandidate);
+
+      if((vertexId1 == -1) ||(vertexId2 == -1) ||(vertexId3 == -1))
+      {
+        theExporter.GetInterface()->StopProgressInfo();
+        return false;
+      }
+
+      // add the face to the corresponding submesh
+      if(!submeshCandidate->AddFace(vertexId1, vertexId2, vertexId3))
+      {
+        theExporter.GetInterface()->StopProgressInfo();
+        return false;
+      }
+    }
+
+    // stop the progress info
+    theExporter.GetInterface()->StopProgressInfo();
+
+    baseSubmesh += materialCount;
+  }
 
   // adjust all bone assignments in the submesh candidates
-  for(int submeshId = 0; submeshId < int(m_vectorSubmeshCandidate.size()); submeshId++)
+  for(size_t i = 0; i < m_vectorSubmeshCandidate.size(); ++i)
   {
-    m_vectorSubmeshCandidate[submeshId]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
+    m_vectorSubmeshCandidate[i]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
   }
 
 
@@ -270,3 +254,123 @@ std::vector<CSubmeshCandidate *>& CMeshCandidate::GetVectorSubmeshCandidate()
 }
 
 //----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+// Create a mesh candidate                                                    //
+//----------------------------------------------------------------------------//
+bool CMeshCandidate::Create(CBaseNode* _basenode, CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold)
+{
+	// clear current content
+	Clear();
+
+	//Directly set the meshnode into the mesh candidate
+	// get the mesh
+	CBaseMesh* mesh = theExporter.GetInterface()->GetMesh(_basenode);
+	if(mesh == 0) return false;
+
+        m_meshes.push_back(mesh);
+
+	// get the number of materials of the mesh
+	int materialCount;
+	materialCount = mesh->GetMaterialCount();
+
+	// create all the submesh candidates
+	int submeshId;
+	for(submeshId = 0; submeshId < materialCount; submeshId++)
+	{
+		// allocate a new submesh candidate
+		CSubmeshCandidate *pSubmeshCandidate;
+		pSubmeshCandidate = new CSubmeshCandidate();
+		if(pSubmeshCandidate == 0)
+		{
+			theExporter.SetLastError("Memory allocation failed!", __FILE__, __LINE__);
+			return false;
+		}
+
+		// create the new submesh candidate
+		if(!pSubmeshCandidate->Create(mesh->GetSubmeshMaterialThreadId(submeshId), mesh->GetSubmeshMapCount(submeshId))) return false;
+
+		// add submesh candidate to the submesh candidate vector
+		m_vectorSubmeshCandidate.push_back(pSubmeshCandidate);
+	}
+
+	// get the number of faces of the mesh
+	int faceCount;
+	faceCount = mesh->GetFaceCount();
+
+	// start the progress info
+	theExporter.GetInterface()->StartProgressInfo("Analyzing the mesh...");
+
+	// loop through all faces of the mesh and put it into the corresponding submesh
+	int faceId;
+	for(faceId = 0; faceId < faceCount; faceId++)
+	{
+		// update the progress info
+		theExporter.GetInterface()->SetProgressInfo(int(100.0f * (float)faceId / (float)faceCount));
+
+		// get the material id of the face
+		int materialId;
+		materialId = mesh->GetFaceMaterialId(faceId);
+		if(materialId == -1)
+		{
+			theExporter.GetInterface()->StopProgressInfo();
+			return false;
+		}
+
+		// check if the material id is valid
+		if((materialId < 0) || (materialId >= materialCount))
+		{
+			theExporter.GetInterface()->StopProgressInfo();
+			theExporter.SetLastError("Invalid material id found!", __FILE__, __LINE__);
+			return false;
+		}
+
+		// get the first vertex of the face
+		CVertexCandidate *pVertexCandidate;
+		pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 0);
+    if(pVertexCandidate == 0) continue;
+
+		// add it to the corresponding submesh
+		int vertexId1;
+		vertexId1 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
+
+		// get the second vertex of the face
+		pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 1);
+
+		// add it to the corresponding submesh
+		int vertexId2;
+		vertexId2 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
+
+		// get the third vertex of the face
+		pVertexCandidate = mesh->GetVertexCandidate(pSkeletonCandidate, faceId, 2);
+
+		// add it to the corresponding submesh
+		int vertexId3;
+		vertexId3 = m_vectorSubmeshCandidate[materialId]->AddVertexCandidate(pVertexCandidate);
+
+		if((vertexId1 == -1) ||(vertexId2 == -1) ||(vertexId3 == -1))
+		{
+			theExporter.GetInterface()->StopProgressInfo();
+			return false;
+		}
+
+		// add the face to the corresponding submesh
+		if(!m_vectorSubmeshCandidate[materialId]->AddFace(vertexId1, vertexId2, vertexId3))
+		{
+			theExporter.GetInterface()->StopProgressInfo();
+			return false;
+		}
+	}
+
+	// stop the progress info
+	theExporter.GetInterface()->StopProgressInfo();
+
+	// adjust all bone assignments in the submesh candidates
+	for(submeshId = 0; submeshId < int(m_vectorSubmeshCandidate.size()); submeshId++)
+	{
+		m_vectorSubmeshCandidate[submeshId]->AdjustBoneAssignment(maxBoneCount, weightThreshold);
+	}
+
+
+	return true;
+}

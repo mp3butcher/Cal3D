@@ -43,17 +43,6 @@
 #include "MaxInterface.h"
 #include "SkeletonExportsheet.h"
 
-
-//----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 //----------------------------------------------------------------------------//
 // Create a skeleton candidate instance from the exporter interface           //
 //----------------------------------------------------------------------------//
@@ -83,15 +72,8 @@ bool CSkeletonCandidate::CreateFromInterfaceFromMaxScriptCall()
 //------------------------------------------------------------------------------//
 // Export the skeleton from a Maxscript call                                  --//
 //------------------------------------------------------------------------------//
-bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, bool bShowUI)
+bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, bool bShowUI)
 {
-	// check if a valid interface is set
-	if(m_pInterface == 0)
-	{
-		SetLastError("Invalid handle.", __FILE__, __LINE__);
-		return false;
-	}
-
 	// build a skeleton candidate
 	CSkeletonCandidate skeletonCandidate;
 	if(!skeletonCandidate.CreateFromInterfaceFromMaxScriptCall()) return false;
@@ -100,7 +82,7 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 	if (bShowUI)
 	{
 		// show export wizard sheet
-		CSkeletonExportSheet sheet("Cal3D Skeleton Export", m_pInterface->GetMainWnd());
+		CSkeletonExportSheet sheet("Cal3D Skeleton Export", GetMainWnd());
 		sheet.SetSkeletonCandidate(&skeletonCandidate);
 		sheet.SetWizardMode();
 		if(sheet.DoModal() != ID_WIZFINISH) return true;
@@ -111,23 +93,18 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 	selectedCount = skeletonCandidate.BuildSelectedId();
 	if(selectedCount == 0)
 	{
-		SetLastError("No bones selected to export.", __FILE__, __LINE__);
+		theExporter.SetLastError("No bones selected to export.", __FILE__, __LINE__);
 		return false;
 	}
 
 	// create the core skeleton instance
 	CalCoreSkeleton coreSkeleton;
-	if(!coreSkeleton.create())
-	{
-		SetLastError("Creation of core skeleton instance failed.", __FILE__, __LINE__);
-		return false;
-	}
 
-	// get bone candidate vector
+        // get bone candidate vector
 	std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
 
 	// start the progress info
-	m_pInterface->StartProgressInfo("Exporting to skeleton file...");
+	StartProgressInfo("Exporting to skeleton file...");
 
 	size_t boneCandidateId;
 	int selectedId;
@@ -141,29 +118,11 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 		if(pBoneCandidate->IsSelected())
 		{
 			// update the progress info
-			m_pInterface->SetProgressInfo(int(100.0f * (selectedId + 1) / selectedCount));
+			SetProgressInfo(int(100.0f * (selectedId + 1) / selectedCount));
 			selectedId++;
 
 			// allocate new core bone instance
-			CalCoreBone *pCoreBone;
-			pCoreBone = new CalCoreBone();
-			if(pCoreBone == 0)
-			{
-				SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-				coreSkeleton.destroy();
-				m_pInterface->StopProgressInfo();
-				return false;
-			}
-
-			// create the core bone instance
-			if(!pCoreBone->create(pBoneCandidate->GetNode()->GetName()))
-			{
-				SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-				delete pCoreBone;
-				coreSkeleton.destroy();
-				m_pInterface->StopProgressInfo();
-				return false;
-			}
+			CalCoreBone *pCoreBone = new CalCoreBone(pBoneCandidate->GetNode()->GetName());
 
 			// get the parent id of the bone candidate
 			int parentId;
@@ -206,10 +165,9 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 				pParentCoreBone = coreSkeleton.getCoreBone(parentId);
 				if(pParentCoreBone == 0)
 				{
-					SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
+					theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 					delete pCoreBone;
-					coreSkeleton.destroy();
-					m_pInterface->StopProgressInfo();
+					StopProgressInfo();
 					return false;
 				}
 
@@ -220,18 +178,14 @@ bool CExporter::ExportSkeletonFromMaxscriptCall(const std::string& strFilename, 
 	}
 
 	// stop the progress info
-	m_pInterface->StopProgressInfo();
+	StopProgressInfo();
 
 	// save core skeleton to the file
 	if(!CalSaver::saveCoreSkeleton(strFilename, &coreSkeleton))
 	{
-		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-		coreSkeleton.destroy();
+		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;
 	}
-
-	// destroy core skeleton instance
-	coreSkeleton.destroy();
 
 	return true;
 }

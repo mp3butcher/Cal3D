@@ -174,12 +174,12 @@ int CMaxMeshExport::ExportMeshFromMaxscriptCall(const TCHAR *name, const MeshMax
 		return 0;
 	}
 
-	// export the mesh
-	if(!theExporter.ExportMeshFromMaxscriptCall(name, (void*)&_param))
+        // export the mesh
+	if(!maxInterface.ExportMeshFromMaxscriptCall(name, (void*)&_param))
 	{
 		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
-	return 1;	
+        return 1;	
 }

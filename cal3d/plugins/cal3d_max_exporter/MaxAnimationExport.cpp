@@ -156,8 +156,8 @@ bool CMaxAnimationExport::ExportAnimationFromMaxscriptCall(const TCHAR *name, An
 		return 0;
 	}
 
-	// export the animation
-	if(! theExporter.ExportAnimationFromMaxscriptCall(name, (void*)_animexportparams))
+        // export the animation
+	if(! maxInterface.ExportAnimationFromMaxscriptCall(name, (void*)_animexportparams))
 	{
 		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;

@@ -34,9 +34,8 @@ public:
 	bool Create(CBaseNode* _basenode, CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold);
 
 private:
-	CBaseNode *m_pNode;
-	CBaseMesh *m_pMesh;
-	std::vector<CSubmeshCandidate *> m_vectorSubmeshCandidate;
+    std::vector<CBaseMesh*> m_meshes;
+    std::vector<CSubmeshCandidate *> m_vectorSubmeshCandidate;
 };
 
 #endif

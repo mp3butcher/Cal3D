@@ -67,4 +67,21 @@ private:
 	std::vector<CMayaMaterial*>	m_materials;
 };
 
+
+class CPushCurrentTime
+{
+public:
+  CPushCurrentTime() {
+    time = MAnimControl::currentTime();
+  }
+
+  ~CPushCurrentTime() {
+    MAnimControl::setCurrentTime(time);
+  }
+
+private:
+  MTime time;
+};
+
+
 #endif

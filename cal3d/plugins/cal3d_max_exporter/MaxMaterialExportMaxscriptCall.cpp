@@ -51,22 +51,12 @@
 #include "MaterialCandidate.h"
 #include "Maxinterface.h"
 
-//----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-bool CExporter::ExportMaterialFromMaxscriptCall	(const std::string& strFilename)
+bool CMaxInterface::ExportMaterialFromMaxscriptCall	(const std::string& strFilename)
 {
-	// check if a valid interface is set
+  	// check if a valid interface is set
 	if(m_pInterface == 0)
 	{
-		SetLastError("Invalid interface pointer.", __FILE__, __LINE__);
+		theExporter.SetLastError("Invalid interface pointer.", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -89,17 +79,12 @@ bool CExporter::ExportMaterialFromMaxscriptCall	(const std::string& strFilename)
 	pMaterialCandidate = materialLibraryCandidate.GetSelectedMaterialCandidate();
 	if(pMaterialCandidate == 0)
 	{
-		SetLastError("No material selected.", __FILE__, __LINE__);
+		theExporter.SetLastError("No material selected.", __FILE__, __LINE__);
 		return false;
 	}
 
 	// create the core material instance
 	CalCoreMaterial coreMaterial;
-	if(!coreMaterial.create())
-	{
-		SetLastError("Creation of core material instance failed.", __FILE__, __LINE__);
-		return false;
-	}
 
 	// set the ambient color
 	CalCoreMaterial::Color coreColor;
@@ -137,7 +122,7 @@ bool CExporter::ExportMaterialFromMaxscriptCall	(const std::string& strFilename)
 	// reserve memory for all the material data
 	if(!coreMaterial.reserve(vectorMap.size()))
 	{
-		SetLastError("Memory reservation for maps failed.", __FILE__, __LINE__);
+		theExporter.SetLastError("Memory reservation for maps failed.", __FILE__, __LINE__);
 		return false;
 	}
 
@@ -156,13 +141,9 @@ bool CExporter::ExportMaterialFromMaxscriptCall	(const std::string& strFilename)
 	// save core mesh to the file
 	if(!CalSaver::saveCoreMaterial(strFilename, &coreMaterial))
 	{
-		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-		coreMaterial.destroy();
+		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;
 	}
-
-	// destroy the core mesh
-	coreMaterial.destroy();
 
 	return true;
 }

@@ -35,7 +35,7 @@
 
 #include "StdAfx.h"
 #include "Exporter.h"
-#include "BaseInterface.h"
+#include "MaxInterface.h"
 #include "SkeletonCandidate.h"
 #include "BoneCandidate.h"
 #include "BaseNode.h"
@@ -50,33 +50,16 @@
 #include "MaterialCandidate.h"
 #include "MaxAnimationExport.h"
 
-//----------------------------------------------------------------------------//
-// Debug                                                                      //
-//----------------------------------------------------------------------------//
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename, void* _AnimExportParams)
+bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilename, void* _AnimExportParams)
 {
 	if (!_AnimExportParams)
 	{
-		SetLastError("_AnimExportParams pointer is null.", __FILE__, __LINE__);
+		theExporter.SetLastError("_AnimExportParams pointer is null.", __FILE__, __LINE__);
 		return false;
 	}
 
 	AnimExportParams*	param = reinterpret_cast<AnimExportParams*>(_AnimExportParams);
-
-
-	// check if a valid interface is set
-	if(m_pInterface == 0)
-	{
-		SetLastError("m_pInterface == 0.", __FILE__, __LINE__);
-		return false;
-	}
 
 
 	// build a skeleton candidate
@@ -84,9 +67,9 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 
 	//Remove user interface
 	/*// show export wizard sheet
-	CAnimationExportSheet sheet("Cal3D Animation Export", m_pInterface->GetMainWnd());
+	CAnimationExportSheet sheet("Cal3D Animation Export", GetMainWnd());
 	sheet.SetSkeletonCandidate(&skeletonCandidate);
-	sheet.SetAnimationTime(m_pInterface->GetStartFrame(), m_pInterface->GetEndFrame(), m_pInterface->GetCurrentFrame(), m_pInterface->GetFps());
+	sheet.SetAnimationTime(GetStartFrame(), GetEndFrame(), GetCurrentFrame(), GetFps());
 	sheet.SetWizardMode();
 	if(sheet.DoModal() != ID_WIZFINISH) return true;
 	*/
@@ -137,21 +120,16 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 	selectedCount = skeletonCandidate.GetSelectedCount();
 	if(selectedCount == 0)
 	{
-		SetLastError("No bones selected to export.", __FILE__, __LINE__);
+		theExporter.SetLastError("No bones selected to export.", __FILE__, __LINE__);
 		return false;
 	}
 
 	// create the core animation instance
 	CalCoreAnimation coreAnimation;
-	if(!coreAnimation.create())
-	{
-		SetLastError("Creation of core animation instance failed.", __FILE__, __LINE__);
-		return false;
-	}
 
 	// set the duration of the animation
 	float duration;
-	duration = (float)(param->m_endframe - param->m_startframe) / (float)m_pInterface->GetFps();
+	duration = (float)(param->m_endframe - param->m_startframe) / (float)GetFps();
 	coreAnimation.setDuration(duration);
 
 	// get bone candidate vector
@@ -172,19 +150,8 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 			pCoreTrack = new CalCoreTrack();
 			if(pCoreTrack == 0)
 			{
-				SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-				coreAnimation.destroy();
-				m_pInterface->StopProgressInfo();
-				return false;
-			}
-
-			// create the core track instance
-			if(!pCoreTrack->create())
-			{
-				SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-				delete pCoreTrack;
-				coreAnimation.destroy();
-				m_pInterface->StopProgressInfo();
+				theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+				StopProgressInfo();
 				return false;
 			}
 
@@ -192,19 +159,12 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 			pCoreTrack->setCoreBoneId(boneCandidateId);
 
 			// add the core track to the core animation instance
-			if(!coreAnimation.addCoreTrack(pCoreTrack))
-			{
-				SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-				delete pCoreTrack;
-				coreAnimation.destroy();
-				m_pInterface->StopProgressInfo();
-				return false;
-			}
+			coreAnimation.addCoreTrack(pCoreTrack);
 		}
 	}
 
 	// start the progress info
-	m_pInterface->StartProgressInfo("Exporting to animation file...");
+	StartProgressInfo("Exporting to animation file...");
 
 	// calculate the end frame
 	int endFrame;
@@ -212,7 +172,7 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
 
 	// calculate the displaced frame
   int displacedFrame;
-  displacedFrame = (int)(((float)param->m_frameoffset / (float)m_pInterface->GetFps()) * (float)param->m_framerate + 0.5f) % endFrame;
+  displacedFrame = (int)(((float)param->m_frameoffset / (float)GetFps()) * (float)param->m_framerate + 0.5f) % endFrame;
 
 	// calculate the possible wrap frame
   int wrapFrame;
@@ -225,11 +185,11 @@ bool CExporter::ExportAnimationFromMaxscriptCall(const std::string& strFilename,
   for(frame = 0,  outputFrame = 0; frame <= (endFrame + wrapFrame); frame++)
 	{
 		// update the progress info
-		m_pInterface->SetProgressInfo(int(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1)));
+		SetProgressInfo(int(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1)));
 
 		// calculate the time in seconds
 		float time;
-		time = (float)param->m_startframe / (float)m_pInterface->GetFps() + (float)displacedFrame / (float)param->m_framerate;
+		time = (float)param->m_startframe / (float)GetFps() + (float)displacedFrame / (float)param->m_framerate;
 
 /* DEBUG
 CString str;
@@ -251,19 +211,8 @@ OutputDebugString(str);
 				pCoreKeyframe = new CalCoreKeyframe();
 				if(pCoreKeyframe == 0)
 				{
-					SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-					coreAnimation.destroy();
-					m_pInterface->StopProgressInfo();
-					return false;
-				}
-
-				// create the core keyframe instance
-				if(!pCoreKeyframe->create())
-				{
-					SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-					delete pCoreKeyframe;
-					coreAnimation.destroy();
-					m_pInterface->StopProgressInfo();
+					theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+					StopProgressInfo();
 					return false;
 				}
 
@@ -284,10 +233,9 @@ OutputDebugString(str);
 				pCoreTrack = coreAnimation.getCoreTrack(pBoneCandidate->GetId());
 				if(pCoreTrack == 0)
 				{
-					SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
+					theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 					delete pCoreKeyframe;
-					coreAnimation.destroy();
-					m_pInterface->StopProgressInfo();
+					StopProgressInfo();
 					return false;
 				}
 
@@ -319,18 +267,14 @@ OutputDebugString(str);
 	}
 
 	// stop the progress info
-	m_pInterface->StopProgressInfo();
+	StopProgressInfo();
 
 	// save core animation to the file
 	if(!CalSaver::saveCoreAnimation(strFilename, &coreAnimation))
 	{
-		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-		coreAnimation.destroy();
+		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		return false;
 	}
-
-	// destroy the core animation
-	coreAnimation.destroy();
 
 	return true;
 }

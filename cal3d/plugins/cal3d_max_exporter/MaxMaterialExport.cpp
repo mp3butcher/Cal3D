@@ -159,8 +159,8 @@ bool CMaxMaterialExport::ExportMaterialFromMaxscriptCall(const char* fullpathfil
 		return 0;
 	}
 
-	// export the materials
-	if(!theExporter.ExportMaterialFromMaxscriptCall(fullpathfilename))
+        // export the materials
+	if(!maxInterface.ExportMaterialFromMaxscriptCall(fullpathfilename))
 	{
 		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;

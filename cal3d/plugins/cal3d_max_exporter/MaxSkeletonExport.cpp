@@ -105,8 +105,8 @@ int CMaxSkeletonExport::ExportSkeletonFromMaxscriptCall(const TCHAR *name, INode
 		return 0;
 	}
 
-	// export the skeleton
-	if(!theExporter.ExportSkeletonFromMaxscriptCall(name, bShowUI))
+        // export the skeleton
+	if(!maxInterface.ExportSkeletonFromMaxscriptCall(name, bShowUI))
 	{
 		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;

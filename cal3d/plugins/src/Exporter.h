@@ -55,11 +55,6 @@ public:
 	void SetLastError(const std::string& strText, const std::string& strFilename, int line);
 	void SetLastErrorFromCal(const std::string& strFilename, int line);
 
-	bool ExportAnimationFromMaxscriptCall	(const std::string& strFilename, void* AnimExportParams);
-	bool ExportMaterialFromMaxscriptCall	(const std::string& strFilename);
-	bool ExportMeshFromMaxscriptCall		(const std::string& strFilename, void* MeshExportParams);
-	bool ExportSkeletonFromMaxscriptCall	(const std::string& strFilename, bool bShowUI);
-
   void SetAxisGL(bool _useAxisGL) { m_useAxisGL=_useAxisGL;}
   bool GetAxisGL() { return m_useAxisGL;}
 };

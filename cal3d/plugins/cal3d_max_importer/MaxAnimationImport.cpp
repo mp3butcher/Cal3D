@@ -134,10 +134,8 @@ CMaxAnimationImport::DoImport(
   }
   
 
-  anim->destroy();
   delete anim;
 
-  skel->destroy();
   delete skel;
   
   return IMPEXP_SUCCESS;

@@ -19,18 +19,16 @@ class CVertexCandidate;
 class CBaseMesh
 {
 protected:
-	CBaseMesh();
+  CBaseMesh() { }
 public:
-	virtual ~CBaseMesh();
+  virtual ~CBaseMesh() { }
 
-	virtual int GetFaceCount() = 0;
-	virtual int GetMaterialCount() = 0;
-	virtual int GetFaceMaterialId(int faceId) = 0;
-	virtual int GetSubmeshMapCount(int submeshId) = 0;
-	virtual int GetSubmeshMaterialThreadId(int submeshId) = 0;
-	virtual CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId) = 0;
+  virtual int GetFaceCount() = 0;
+  virtual int GetMaterialCount() = 0;
+  virtual int GetFaceMaterialId(int faceId) = 0;
+  virtual int GetSubmeshMapCount(int submeshId) = 0;
+  virtual int GetSubmeshMaterialThreadId(int submeshId) = 0;
+  virtual CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId) = 0;
 };
 
 #endif
-
-//----------------------------------------------------------------------------//
