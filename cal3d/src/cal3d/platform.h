@@ -100,14 +100,14 @@ protected:
 
 // member functions	
 public:
-  static bool readBytes(std::istream& file, void *pBuffer, int length);
-  static bool readFloat(std::istream& file, float& value);
-  static bool readInteger(std::istream& file, int& value);
-  static bool readString(std::istream& file, std::string& strValue);
-  static bool writeBytes(std::ofstream& file, const void *pBuffer, int length);
-  static bool writeFloat(std::ofstream& file, float value);
-  static bool writeInteger(std::ofstream& file, int value);
-  static bool writeString(std::ofstream& file, const std::string& strValue);
+  static bool readBytes(std::istream& input, void *pBuffer, int length);
+  static bool readFloat(std::istream& input, float& value);
+  static bool readInteger(std::istream& input, int& value);
+  static bool readString(std::istream& input, std::string& strValue);
+  static bool writeBytes(std::ostream& output, const void *pBuffer, int length);
+  static bool writeFloat(std::ostream& output, float value);
+  static bool writeInteger(std::ostream& output, int value);
+  static bool writeString(std::ostream& output, const std::string& strValue);
 };
 
 #endif

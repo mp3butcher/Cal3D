@@ -41,9 +41,9 @@ CalPlatform::~CalPlatform()
  /*****************************************************************************/
 /** Reads a number of bytes.
   *
-  * This function reads a given number of bytes from a file stream.
+  * This function reads a given number of bytes from an input stream.
   *
-  * @param file The file stream to read the bytes from.
+  * @param input The stream to read the bytes from.
   * @param pBuffer A pointer to the buffer where the bytes are stored into.
   * @param length The number of bytes that should be read.
   *
@@ -52,18 +52,18 @@ CalPlatform::~CalPlatform()
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readBytes(std::istream& file, void *pBuffer, int length)
+bool CalPlatform::readBytes(std::istream& input, void *pBuffer, int length)
 {
-  file.read((char *)pBuffer, length);
-  return !file ? false : true;
+  input.read((char *)pBuffer, length);
+  return !input ? false : true;
 }
 
  /*****************************************************************************/
 /** Reads a float.
   *
-  * This function reads a float from a file stream.
+  * This function reads a float from an input stream.
   *
-  * @param file The file stream to read the float from.
+  * @param input The input stream to read the float from.
   * @param value A reference to the float into which the data is read.
   *
   * @return One of the following values:
@@ -71,9 +71,9 @@ bool CalPlatform::readBytes(std::istream& file, void *pBuffer, int length)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readFloat(std::istream& file, float& value)
+bool CalPlatform::readFloat(std::istream& input, float& value)
 {
-  file.read((char *)&value, 4);
+  input.read((char *)&value, 4);
 
 #ifdef CAL3D_BIG_ENDIAN
   float x = value ;
@@ -83,15 +83,15 @@ bool CalPlatform::readFloat(std::istream& file, float& value)
   ((char*)&value)[3] = ((char*)&x)[0] ;  
 #endif
 
-  return !file ? false : true;
+  return !input ? false : true;
 }
 
  /*****************************************************************************/
 /** Reads an integer.
   *
-  * This function reads an integer from a file stream.
+  * This function reads an integer from an input stream.
   *
-  * @param file The file stream to read the integer from.
+  * @param input The input stream to read the integer from.
   * @param value A reference to the integer into which the data is read.
   *
   * @return One of the following values:
@@ -99,9 +99,9 @@ bool CalPlatform::readFloat(std::istream& file, float& value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readInteger(std::istream& file, int& value)
+bool CalPlatform::readInteger(std::istream& input, int& value)
 {
-  file.read((char *)&value, 4);
+  input.read((char *)&value, 4);
 
 #ifdef CAL3D_BIG_ENDIAN
   int x = value ;
@@ -111,15 +111,15 @@ bool CalPlatform::readInteger(std::istream& file, int& value)
   ((char*)&value)[3] = ((char*)&x)[0] ;
 #endif
 
-  return !file ? false : true;
+  return !input ? false : true;
 }
 
  /*****************************************************************************/
 /** Reads a string.
   *
-  * This function reads a string from a file stream.
+  * This function reads a string from an input stream.
   *
-  * @param file The file stream to read the string from.
+  * @param input The input stream to read the string from.
   * @param value A reference to the string into which the data is read.
   *
   * @return One of the following values:
@@ -127,11 +127,11 @@ bool CalPlatform::readInteger(std::istream& file, int& value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readString(std::istream& file, std::string& strValue)
+bool CalPlatform::readString(std::istream& input, std::string& strValue)
 {
   // get the string length
   int length;
-  file.read((char *)&length, 4);
+  input.read((char *)&length, 4);
 
 #ifdef CAL3D_BIG_ENDIAN
   int x = length ;
@@ -146,7 +146,7 @@ bool CalPlatform::readString(std::istream& file, std::string& strValue)
   // read the string
   char *strBuffer;
   strBuffer = new char[length];
-  file.read(strBuffer, length);
+  input.read(strBuffer, length);
   strValue = strBuffer;
   delete [] strBuffer;
 
@@ -157,9 +157,9 @@ bool CalPlatform::readString(std::istream& file, std::string& strValue)
  /*****************************************************************************/
 /** Writes a number of bytes.
   *
-  * This function writes a given number of bytes to a file stream.
+  * This function writes a given number of bytes to an output stream.
   *
-  * @param file The file stream to write the bytes to.
+  * @param output The output stream to write the bytes to.
   * @param pBuffer A pointer to the byte buffer that should be written.
   * @param length The number of bytes that should be written.
   *
@@ -168,18 +168,18 @@ bool CalPlatform::readString(std::istream& file, std::string& strValue)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::writeBytes(std::ofstream& file, const void *pBuffer, int length)
+bool CalPlatform::writeBytes(std::ostream& output, const void *pBuffer, int length)
 {
-  file.write((char *)pBuffer, length);
-  return !file ? false : true;
+  output.write((char *)pBuffer, length);
+  return !output ? false : true;
 }
 
  /*****************************************************************************/
 /** Writes a float.
   *
-  * This function writes a float to a file stream.
+  * This function writes a float to an output stream.
   *
-  * @param file The file stream to write the float to.
+  * @param output The output stream to write the float to.
   * @param value The float that should be written..
   *
   * @return One of the following values:
@@ -187,7 +187,7 @@ bool CalPlatform::writeBytes(std::ofstream& file, const void *pBuffer, int lengt
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::writeFloat(std::ofstream& file, float value)
+bool CalPlatform::writeFloat(std::ostream& output, float value)
 {
 
 #ifdef CAL3D_BIG_ENDIAN
@@ -198,16 +198,16 @@ bool CalPlatform::writeFloat(std::ofstream& file, float value)
   ((char*)&value)[3] = ((char*)&x)[0] ;  
 #endif
 
-  file.write((char *)&value, 4);
-  return !file ? false : true;
+  output.write((char *)&value, 4);
+  return !output ? false : true;
 }
 
  /*****************************************************************************/
 /** Writes an integer.
   *
-  * This function writes an integer to a file stream.
+  * This function writes an integer to an output stream.
   *
-  * @param file The file stream to write the integer to.
+  * @param file The output stream to write the integer to.
   * @param value The integer that should be written.
   *
   * @return One of the following values:
@@ -215,7 +215,7 @@ bool CalPlatform::writeFloat(std::ofstream& file, float value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::writeInteger(std::ofstream& file, int value)
+bool CalPlatform::writeInteger(std::ostream& output, int value)
 {
 
 #ifdef CAL3D_BIG_ENDIAN
@@ -226,16 +226,16 @@ bool CalPlatform::writeInteger(std::ofstream& file, int value)
   ((char*)&value)[3] = ((char*)&x)[0] ;
 #endif
 
-  file.write((char *)&value, 4);
-  return !file ? false : true;
+  output.write((char *)&value, 4);
+  return !output ? false : true;
 }
 
  /*****************************************************************************/
 /** Writes a string.
   *
-  * This function writes a string to a file stream.
+  * This function writes a string to an output stream.
   *
-  * @param file The file stream to write the string to.
+  * @param file The output stream to write the string to.
   * @param value A reference to the string that should be written.
   *
   * @return One of the following values:
@@ -243,7 +243,7 @@ bool CalPlatform::writeInteger(std::ofstream& file, int value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::writeString(std::ofstream& file, const std::string& strValue)
+bool CalPlatform::writeString(std::ostream& output, const std::string& strValue)
 {
   // get the string length
   int length;
@@ -257,10 +257,10 @@ bool CalPlatform::writeString(std::ofstream& file, const std::string& strValue)
   ((char*)&length)[3] = ((char*)&x)[0] ;
 #endif
 
-  file.write((char *)&length, 4);
-  file.write(strValue.c_str(), strValue.size()+1);
+  output.write((char *)&length, 4);
+  output.write(strValue.c_str(), strValue.size()+1);
 
-  return !file ? false : true;
+  return !output ? false : true;
 }
 
 //****************************************************************************//
