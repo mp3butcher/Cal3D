@@ -42,6 +42,7 @@
 #include "maxscrpt/maxscrpt.h"
 #include "bipexp.h"
 #include "phyexp.h"
+#include "decomp.h"
 
 #if MAX_RELEASE >= 4000
 #include "iskin.h"

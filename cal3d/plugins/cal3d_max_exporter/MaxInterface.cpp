@@ -362,7 +362,13 @@ Matrix3 CMaxInterface::GetNodeTM(CMaxNode *pNode, float time)
 		tm = pNode->GetINode()->GetNodeTM(SecToTicks(time));
 
 		// make the transformation uniform
-		tm.NoScale();
+		//tm.NoScale();
+		
+		AffineParts parts;
+		decomp_affine(tm, &parts);
+		parts.q.MakeMatrix(tm);
+		tm.SetRow(3, parts.t);
+		
 	}
 
 	return tm;
