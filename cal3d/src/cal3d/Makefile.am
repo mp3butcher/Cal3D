@@ -134,6 +134,7 @@ pkginclude_HEADERS = \
 	submesh.h \
 	vector.h \
 	tinyxml.h \
+	transform.h \
 	coremorphanimation.h
 
 # *************************************************************************
