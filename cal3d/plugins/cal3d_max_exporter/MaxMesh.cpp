@@ -465,6 +465,7 @@ CVertexCandidate *CMaxMesh::GetVertexCandidate(CSkeletonCandidate *pSkeletonCand
 	// get the material id of the face
 	int materialId;
 	materialId = GetFaceMaterialId(faceId);
+
 	if((materialId < 0) || (materialId >= (int)m_vectorStdMat.size()))
 	{
 		delete pVertexCandidate;

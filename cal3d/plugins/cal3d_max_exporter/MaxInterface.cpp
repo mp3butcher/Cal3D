@@ -109,6 +109,51 @@ CWnd *CMaxInterface::GetMainWnd()
 // Get the material for a given id                                            //
 //----------------------------------------------------------------------------//
 
+CBaseMaterial *CMaxInterface::GetSubMaterial(int materialId, Mtl *pMtl,int & materialCount)
+{
+	
+	// check if we have a standard material
+	if(pMtl->ClassID() == Class_ID(DMTL_CLASS_ID, 0))
+	{
+		// check if we reached the wanted material
+		if(materialId == materialCount)
+		{
+			// allocate a new max material instance
+			CMaxMaterial *pMaxMaterial;
+			pMaxMaterial = new CMaxMaterial();
+			if(pMaxMaterial == 0)
+			{
+				theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+				return 0;
+			}
+			
+			// create the max material
+			if(!pMaxMaterial->Create((StdMat *)pMtl))
+			{
+				delete pMaxMaterial;
+				return 0;
+			}
+			
+			return pMaxMaterial;
+		}
+		
+		materialCount++;
+	}
+
+	if (pMtl->IsMultiMtl())
+	{
+		int subMatId;
+		for(subMatId = 0; subMatId < pMtl->NumSubMtls();subMatId++)
+		{
+			CBaseMaterial *pMaxMaterial = GetSubMaterial(materialId, pMtl->GetSubMtl(subMatId),materialCount);
+			if(pMaxMaterial != NULL)
+				return pMaxMaterial;			
+		}
+	}
+	return NULL;
+	
+}
+
 CBaseMaterial *CMaxInterface::GetMaterial(int materialId)
 {
 	int materialCount;
@@ -179,33 +224,9 @@ CBaseMaterial *CMaxInterface::GetMaterial(int materialId)
 			Mtl *pMtl;
 			pMtl = (Mtl *)pMtlBase;
 
-			// check if we have a standard material
-			if(pMtl->ClassID() == Class_ID(DMTL_CLASS_ID, 0))
-			{
-				// check if we reached the wanted material
-				if(materialId == materialCount)
-				{
-					// allocate a new max material instance
-					CMaxMaterial *pMaxMaterial;
-					pMaxMaterial = new CMaxMaterial();
-					if(pMaxMaterial == 0)
-					{
-						theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-						return 0;
-					}
-
-					// create the max material
-					if(!pMaxMaterial->Create((StdMat *)pMtl))
-					{
-						delete pMaxMaterial;
-						return 0;
-					}
-
-					return pMaxMaterial;
-				}
-
-				materialCount++;
-			}
+			CBaseMaterial *pMaxMaterial = GetSubMaterial( materialId, pMtl, materialCount);
+			if(pMaxMaterial != NULL)
+				return pMaxMaterial;			
 		}
 	}
 
@@ -216,6 +237,23 @@ CBaseMaterial *CMaxInterface::GetMaterial(int materialId)
 //----------------------------------------------------------------------------//
 // Get the number of materials in the scene                                   //
 //----------------------------------------------------------------------------//
+int CMaxInterface::GetSubMaterialCount(Mtl *pMtl)
+{
+	int materialCount=0;
+
+	if(pMtl->ClassID() == Class_ID(DMTL_CLASS_ID, 0)) 
+		return 1;
+
+	if (pMtl->IsMultiMtl())
+	{
+		int subMatId;
+		for(subMatId = 0; subMatId < pMtl->NumSubMtls();subMatId++)
+		{
+			materialCount+=GetSubMaterialCount(pMtl->GetSubMtl(subMatId));
+		}
+	}
+	return materialCount;
+}
 
 int CMaxInterface::GetMaterialCount()
 {
@@ -262,8 +300,8 @@ int CMaxInterface::GetMaterialCount()
 			Mtl *pMtl;
 			pMtl = (Mtl *)pMtlBase;
 
-			// check if we have a standard material
-			if(pMtl->ClassID() == Class_ID(DMTL_CLASS_ID, 0)) materialCount++;
+			materialCount+=GetSubMaterialCount(pMtl);
+
 		}
 	}
 
@@ -295,10 +333,27 @@ CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode)
 	ObjectState os;
 	os = pMaxNode->GetINode()->EvalWorldState(time);
 
-	Mesh *pMesh;
-	CMaxNullView maxNullView;
-	BOOL bDelete;
-	pMesh = ((TriObject *)os.obj)->GetRenderMesh(time, pMaxNode->GetINode(), maxNullView, bDelete);
+	TriObject *pTriObject = NULL;
+
+	if(!os.obj->CanConvertToType(triObjectClassID))
+	{
+		theExporter.SetLastError("Invalid Mesh Object.", __FILE__, __LINE__);
+		return 0;		
+	}
+	
+	pTriObject=(TriObject*)os.obj->ConvertToType(time, triObjectClassID);
+	if(pTriObject==NULL)
+	{
+		theExporter.SetLastError("Invalid Mesh Object.", __FILE__, __LINE__);
+		return 0;
+	}
+
+	Mesh *pMesh = &pTriObject->mesh;
+	
+	BOOL bDelete= false;
+
+	if(os.obj != pTriObject)
+		bDelete = true;
 
 	// allocate a new max mesh instance
 	CMaxMesh *pMaxMesh;
@@ -352,22 +407,42 @@ CBaseNode *CMaxInterface::GetNode(const std::string& strName)
 Matrix3 CMaxInterface::GetNodeTM(CMaxNode *pNode, float time)
 {
 	// initialize matrix with the identity
-	Matrix3 tm;
+	Matrix3 tm, tmParent;
 	tm.IdentityMatrix();
 
 	// only do this for valid nodes
 	if(pNode != 0)
 	{
+		bool isMirrored = false;
 		// get the node transformation
 		tm = pNode->GetINode()->GetNodeTM(SecToTicks(time));
+		
+		if(!pNode->GetINode()->IsRootNode())
+		{
+			tmParent = pNode->GetINode()->GetParentTM(SecToTicks(time));
+			
+			
+			// check if the matrix is right handed
+			
+			if(DotProd( CrossProd( tmParent.GetRow(0).Normalize(), 
+				tmParent.GetRow(1).Normalize() ).Normalize(), 
+				tmParent.GetRow(2).Normalize() ) < 0)
+			{
+				isMirrored = true;
+			}
+		}
 
 		// make the transformation uniform
-		//tm.NoScale();
+		tm.NoScale();
 		
 		AffineParts parts;
 		decomp_affine(tm, &parts);
 		parts.q.MakeMatrix(tm);
-		tm.SetRow(3, parts.t);
+
+		if(!isMirrored)
+			tm.SetRow(3, parts.t);
+		else
+			tm.SetRow(3, -parts.t);
 		
 	}
 

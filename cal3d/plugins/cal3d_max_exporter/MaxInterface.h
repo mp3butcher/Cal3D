@@ -81,6 +81,9 @@ public:
 protected:
 	Matrix3 GetNodeTM(CMaxNode *pNode, float time);
 	bool IsBipedBone(INode *pNode);
+private:
+	int GetSubMaterialCount(Mtl *pMtl);
+	CBaseMaterial *GetSubMaterial(int materialId, Mtl *pMtl,int & materialCount);
 };
 
 #endif
