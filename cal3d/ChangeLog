@@ -8,6 +8,8 @@ o-----------------------------------------------------------------------------o
   
   - CalModel::setAbstractMixer and CalAbstractMixer to enable third
     party mixers.
+  - Symbolic names for coreMaterial, coreMesh, coreAnimations loaded
+    by coremodel.{h,cpp}
   - Add functions to control force of the spring system
   - CalHardwareModel : a object to store and to compute information
     needed to do hardware vertex skinning.
