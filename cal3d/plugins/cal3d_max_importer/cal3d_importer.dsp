@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\cal3d\src" /D "NDEBUG" /D "_WINDLL" /D "_AFXDLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\src" /D "NDEBUG" /D "_WINDLL" /D "_AFXDLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 cal3d.lib core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"Release/cal3d_max_importer.dli" /libpath:"..\cal3d\Release"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"..\..\bin\Release/cal3d_max_importer.dli" /libpath:"..\cal3d\Release"
 
 !ELSEIF  "$(CFG)" == "cal3d_importer - Win32 Debug"
 
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /GX /ZI /Od /I "..\cal3d\src" /D "_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /GX /ZI /Od /I "..\..\src" /D "_DEBUG" /D "_WINDLL" /D "_AFXDLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CAL3D_IMPORTER_EXPORTS" /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 cal3d_d.lib core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"Debug/cal3d_max_importer.dli" /pdbtype:sept /libpath:"..\cal3d\Debug"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"..\..\bin\Debug/cal3d_max_importer.dli" /pdbtype:sept /libpath:"..\cal3d\Debug"
 
 !ENDIF 
 

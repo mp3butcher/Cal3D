@@ -47,7 +47,7 @@
 #include "iskin.h"
 #endif
 
-#include "cal3d.h"
+#include "cal3d/cal3d.h"
 
 #include "resource.h"
 

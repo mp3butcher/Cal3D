@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "C:\Programme\3dsmax4\Cstudio\Sdk" /I "..\src" /I "..\src\win32" /I "..\..\cal3d\src\cal3d" /I "C:\Programme\3dsmax4\Maxsdk\Include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O2 /I "..\src" /I "..\src\win32" /I "..\..\src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x807 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 cal3d.lib core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /machine:I386 /out:"Release\cal3d_max_exporter.dle" /libpath:"..\..\cal3d\Release" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /machine:I386 /out:"..\..\bin\Release\cal3d_max_exporter.dle" /libpath:"..\..\cal3d\Release" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
 
 !ELSEIF  "$(CFG)" == "cal3d_max_exporter - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "C:\Programme\3dsmax4\Cstudio\Sdk" /I "..\src" /I "..\src\win32" /I "..\..\cal3d\src\cal3d" /I "C:\Programme\3dsmax4\Maxsdk\Include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\src" /I "..\src\win32" /I "..\..\src" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x807 /d "_DEBUG" /d "_AFXDLL"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib cal3d_d.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"Debug\cal3d_max_exporter.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
+# ADD LINK32 core.lib geom.lib gfx.lib mesh.lib maxutil.lib maxscrpt.lib paramblk2.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\bin\Debug\cal3d_max_exporter.dle" /pdbtype:sept /libpath:"..\..\cal3d\Debug" /libpath:"C:\Programme\3dsmax4\Maxsdk\lib"
 
 !ENDIF 
 
