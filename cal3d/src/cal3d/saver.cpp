@@ -710,22 +710,18 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
     return false;
   }
 
-  // get core keyframe map
-  std::map<float, CalCoreKeyframe *>& mapCoreKeyframe = pCoreTrack->getMapCoreKeyframe();
-
   // read the number of keyframes
-  if(!CalPlatform::writeInteger(file, mapCoreKeyframe.size()))
+  if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreKeyframeCount()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // save all core keyframes
-  std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframe;
-  for(iteratorCoreKeyframe = mapCoreKeyframe.begin(); iteratorCoreKeyframe != mapCoreKeyframe.end(); ++iteratorCoreKeyframe)
+  for(unsigned i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
   {
     // save the core keyframe
-    if(!saveCoreKeyframe(file, strFilename, iteratorCoreKeyframe->second))
+    if(!saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i)))
     {
       return false;
     }
@@ -921,16 +917,12 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 		TiXmlElement track("TRACK");
 		track.SetAttribute("BONEID",pCoreTrack->getCoreBoneId());
 		
-		// get core keyframe map
-		std::map<float, CalCoreKeyframe *>& mapCoreKeyframe = pCoreTrack->getMapCoreKeyframe();
-
-		track.SetAttribute("NUMKEYFRAMES",mapCoreKeyframe.size());
+		track.SetAttribute("NUMKEYFRAMES",pCoreTrack->getCoreKeyframeCount());
 
 		// save all core keyframes
-		std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframe;
-		for(iteratorCoreKeyframe = mapCoreKeyframe.begin(); iteratorCoreKeyframe != mapCoreKeyframe.end(); ++iteratorCoreKeyframe)
+        for (unsigned i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
 		{
-			CalCoreKeyframe *pCoreKeyframe=iteratorCoreKeyframe->second;
+			CalCoreKeyframe *pCoreKeyframe=pCoreTrack->getCoreKeyframe(i);
 
 			TiXmlElement keyframe("KEYFRAME");
 

@@ -267,15 +267,16 @@ void CalQuaternion::conjugate()
 
 void CalQuaternion::invert()
 {
-   conjugate();
-   float norm = (x*x) + (y*y) + (z*z) + (w*w);
+  conjugate();
+  const float norm = (x*x) + (y*y) + (z*z) + (w*w);
 
-   if (norm == 0.0f) return;
-
-   x /= norm;
-   y /= norm;
-   z /= norm;
-   w /= norm;
+  if (norm == 0.0f) return;
+  
+  const float inv_norm = 1 / norm;
+  x *= inv_norm;
+  y *= inv_norm;
+  z *= inv_norm;
+  w *= inv_norm;
 }
 
  /*****************************************************************************/
@@ -309,7 +310,6 @@ void CalQuaternion::set(float qx, float qy, float qz, float qw)
 
 CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
 {
-
    CalVector cross = from % to; //Compute vector cross product
    float dot = from * to ;      //Compute dot product
 

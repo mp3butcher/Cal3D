@@ -31,31 +31,40 @@ class CalCoreKeyframe;
 // Class declaration                                                          //
 //****************************************************************************//
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** The core track class.
-  *****************************************************************************/
+/*****************************************************************************/
 
 class CAL3D_API CalCoreTrack
 {
 // member variables
 protected:
+  /// The index of the associated CoreBone in the CoreSkeleton.
   int m_coreBoneId;
-  std::map<float, CalCoreKeyframe *> m_mapCoreKeyframe;
+
+  /// List of keyframes, always sorted by time.
+  std::vector<CalCoreKeyframe*> m_keyframes;
 
 // constructors/destructor
 public:
   CalCoreTrack();
   virtual ~CalCoreTrack();
 
-// member functions	
-public:
-  bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
   bool create();
   void destroy();
-  int getCoreBoneId();
-  std::map<float, CalCoreKeyframe *>& getMapCoreKeyframe();
+
   bool getState(float time, CalVector& translation, CalQuaternion& rotation);
+
+  int getCoreBoneId();
   bool setCoreBoneId(int coreBoneId);
+  
+  int getCoreKeyframeCount();
+  CalCoreKeyframe* getCoreKeyframe(int idx);
+
+  bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
+
+private:
+  std::vector<CalCoreKeyframe*>::iterator getUpperBound(float time);
 };
 
 #endif

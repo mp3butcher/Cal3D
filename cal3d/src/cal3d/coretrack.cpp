@@ -39,7 +39,7 @@ CalCoreTrack::CalCoreTrack()
 
 CalCoreTrack::~CalCoreTrack()
 {
-  assert(m_mapCoreKeyframe.empty());
+  assert(m_keyframes.empty());
 }
 
  /*****************************************************************************/
@@ -56,7 +56,12 @@ CalCoreTrack::~CalCoreTrack()
 
 bool CalCoreTrack::addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe)
 {
-  m_mapCoreKeyframe.insert(std::make_pair(pCoreKeyframe->getTime(), pCoreKeyframe));
+  m_keyframes.push_back(pCoreKeyframe);
+  int idx = m_keyframes.size() - 1;
+  while (idx > 0 && m_keyframes[idx]->getTime() < m_keyframes[idx - 1]->getTime()) {
+    std::swap(m_keyframes[idx], m_keyframes[idx - 1]);
+    --idx;
+  }
 
   return true;
 }
@@ -86,18 +91,12 @@ bool CalCoreTrack::create()
 void CalCoreTrack::destroy()
 {
   // destroy all core keyframes
-  std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframe;
-
-  for(iteratorCoreKeyframe = m_mapCoreKeyframe.begin(); iteratorCoreKeyframe != m_mapCoreKeyframe.end(); ++iteratorCoreKeyframe)
+  for (unsigned i = 0; i < m_keyframes.size(); ++i)
   {
-    CalCoreKeyframe *pCoreKeyframe;
-    pCoreKeyframe = iteratorCoreKeyframe->second;
-
-    pCoreKeyframe->destroy();
-    delete pCoreKeyframe;
+    m_keyframes[i]->destroy();
+    delete m_keyframes[i];
   }
-
-  m_mapCoreKeyframe.clear();
+  m_keyframes.clear();
 
   m_coreBoneId = -1;
 }
@@ -119,20 +118,6 @@ int CalCoreTrack::getCoreBoneId()
 }
 
  /*****************************************************************************/
-/** Returns the core keyframe map.
-  *
-  * This function returns the map that contains all core keyframes of the core
-  * track instance.
-  *
-  * @return A reference to the core keyframe map.
-  *****************************************************************************/
-
-std::map<float, CalCoreKeyframe *>& CalCoreTrack::getMapCoreKeyframe()
-{
-  return m_mapCoreKeyframe;
-}
-
- /*****************************************************************************/
 /** Returns a specified state.
   *
   * This function returns the state (translation and rotation of the core bone)
@@ -151,29 +136,29 @@ std::map<float, CalCoreKeyframe *>& CalCoreTrack::getMapCoreKeyframe()
 
 bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& rotation)
 {
-  std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframeBefore;
-  std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframeAfter;
+  std::vector<CalCoreKeyframe*>::iterator iteratorCoreKeyframeBefore;
+  std::vector<CalCoreKeyframe*>::iterator iteratorCoreKeyframeAfter;
 
   // get the keyframe after the requested time
-  iteratorCoreKeyframeAfter = m_mapCoreKeyframe.upper_bound(time);
+  iteratorCoreKeyframeAfter = getUpperBound(time);
 
   // check if the time is after the last keyframe
-  if(iteratorCoreKeyframeAfter == m_mapCoreKeyframe.end())
+  if(iteratorCoreKeyframeAfter == m_keyframes.end())
   {
     // return the last keyframe state
     --iteratorCoreKeyframeAfter;
-    rotation = (iteratorCoreKeyframeAfter->second)->getRotation();
-    translation = (iteratorCoreKeyframeAfter->second)->getTranslation();
+    rotation = (*iteratorCoreKeyframeAfter)->getRotation();
+    translation = (*iteratorCoreKeyframeAfter)->getTranslation();
 
     return true;
   }
 
   // check if the time is before the first keyframe
-  if(iteratorCoreKeyframeAfter == m_mapCoreKeyframe.begin())
+  if(iteratorCoreKeyframeAfter == m_keyframes.begin())
   {
     // return the first keyframe state
-    rotation = (iteratorCoreKeyframeAfter->second)->getRotation();
-    translation = (iteratorCoreKeyframeAfter->second)->getTranslation();
+    rotation = (*iteratorCoreKeyframeAfter)->getRotation();
+    translation = (*iteratorCoreKeyframeAfter)->getTranslation();
 
     return true;
   }
@@ -184,9 +169,9 @@ bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& r
 
   // get the two keyframe pointers
   CalCoreKeyframe *pCoreKeyframeBefore;
-  pCoreKeyframeBefore = iteratorCoreKeyframeBefore->second;
+  pCoreKeyframeBefore = *iteratorCoreKeyframeBefore;
   CalCoreKeyframe *pCoreKeyframeAfter;
-  pCoreKeyframeAfter = iteratorCoreKeyframeAfter->second;
+  pCoreKeyframeAfter = *iteratorCoreKeyframeAfter;
 
   // calculate the blending factor between the two keyframe states
   float blendFactor;
@@ -200,6 +185,18 @@ bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& r
   rotation.blend(blendFactor, pCoreKeyframeAfter->getRotation());
 
   return true;
+}
+
+std::vector<CalCoreKeyframe*>::iterator CalCoreTrack::getUpperBound(float time)
+{
+  // Could be O(lg n) instead of O(n)
+
+  std::vector<CalCoreKeyframe*>::iterator itr = m_keyframes.begin();
+  while (itr != m_keyframes.end() && time >= (*itr)->getTime())
+  {
+    ++itr;
+  }
+  return itr;
 }
 
  /*****************************************************************************/
@@ -227,6 +224,18 @@ bool CalCoreTrack::setCoreBoneId(int coreBoneId)
   m_coreBoneId = coreBoneId;
 
   return true;
+}
+
+
+int CalCoreTrack::getCoreKeyframeCount()
+{
+  return m_keyframes.size();
+}
+
+
+CalCoreKeyframe* CalCoreTrack::getCoreKeyframe(int idx)
+{
+  return m_keyframes[idx];
 }
 
 //****************************************************************************//
