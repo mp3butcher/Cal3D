@@ -1,0 +1,164 @@
+dnl ************************************************************************
+dnl
+dnl This file is part of the Cal3D library/package
+dnl Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+dnl
+dnl This library is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU Lesser General Public License as published by
+dnl the Free Software Foundation; either version 2.1 of the License, or (at
+dnl your option) any later version.
+dnl
+dnl ************************************************************************
+
+AC_INIT(src/main.cpp)
+
+AM_CONFIG_HEADER(config.h)
+
+AC_CANONICAL_SYSTEM
+
+AM_INIT_AUTOMAKE(cal3d_miniviewer_gl_vp,0.9.1)
+
+dnl ************************************************************************
+
+CAL3D_CHECK_USER_CXX_FLAGS
+
+dnl ************************************************************************
+
+AC_ARG_WITH(cal3d,
+            [  --with-cal3d=<PATH>     Path to cal3d install directory
+                          (ie. parent of include and lib)],
+            CAL3D_ROOT=$withval, CAL3D_ROOT=none)
+
+AC_ARG_WITH(glut,
+            [  --with-glut=<PATH>     Path to glut install directory
+                          (ie. parent of include and lib)],
+            GLUT_ROOT=$withval, GLUT_ROOT=none)
+
+dnl ************************************************************************
+
+CAL3D_CHECK_BUILD
+
+dnl ************************************************************************
+
+AC_PROG_CXX
+AC_PROG_CC
+
+AC_PROG_INSTALL
+
+# Check to ensure that cal3d path is set correctly
+AC_MSG_CHECKING([if $CAL3D_ROOT/include/cal3d/cal3d.h is available])
+
+# If no cal3d root was specified...
+if test "x$CAL3D_ROOT" = "xnone"; then
+
+   # Check the default paths
+   if test -e "/usr/include/cal3d/cal3d.h" ; then
+      CAL3D_ROOT=/usr
+      AC_MSG_RESULT(yes)        
+   else
+
+      if test -e "/usr/local/include/cal3d/cal3d.h" ; then
+         CAL3D_ROOT=/usr/local
+         AC_MSG_RESULT(yes)        
+      else
+
+         AC_MSG_ERROR(*** Can't find Cal3D installation. Did you specify a path using --with-cal3d=<path> ***) 
+
+      fi
+
+
+   fi
+
+#If a cal3d root WAS specified...
+else
+   if test -e "$CAL3D_ROOT/include/cal3d/cal3d.h" ; then
+      AC_MSG_RESULT(yes)        
+   else
+   
+      AC_MSG_ERROR(*** Can't find Cal3D installation in $CAL3D_ROOT ***) 
+
+   fi
+
+fi
+
+
+# Check to ensure that glut path is set correctly
+AC_MSG_CHECKING([if glut.h is available])
+
+# If no glut root was specified...
+if test "x$GLUT_ROOT" = "xnone"; then
+
+   # Check the default paths
+   if test -e "/usr/include/glut.h" ; then
+      GLUT_ROOT=/usr
+      AC_MSG_RESULT(yes)        
+   else
+
+      if test -e "/usr/include/GL/glut.h" ; then
+         GLUT_ROOT=/usr
+         AC_MSG_RESULT(yes)
+      else
+
+         if test -e "/usr/local/include/glut.h" ; then
+            GLUT_ROOT=/usr/local
+            AC_MSG_RESULT(yes)        
+         else
+
+            if test -e "/usr/local/include/GL/glut.h" ; then
+               GLUT_ROOT=/usr/local
+               AC_MSG_RESULT(yes)        
+            else
+               AC_MSG_ERROR(*** Can't find glut. Did you specify a path using --with-glut=<path> ***) 
+            fi
+
+         fi
+
+
+      fi
+
+
+   fi
+
+#If a glut root WAS specified...
+else
+   if test -e "$GLUT_ROOT/include/glut.h" ; then
+      AC_MSG_RESULT(yes)        
+   else
+   
+      if test -e "$GLUT_ROOT/include/GL/glut.h" ; then
+         AC_MSG_RESULT(yes)
+      else
+         AC_MSG_ERROR(*** Can't find glut in $GLUT_ROOT ***) 
+      fi
+
+   fi
+
+fi
+
+
+AC_CHECK_LIB(GL, glBegin,,AC_MSG_ERROR(["cannot find required GL library."]))
+AC_CHECK_LIB(GLU, gluLookAt,,AC_MSG_ERROR(["cannot find required GLU library."]))
+AC_CHECK_LIB(glut, glutInit,,AC_MSG_ERROR(["cannot find required glut library."]))
+
+LDFLAGS="-L$GLUT_ROOT/lib -lglut -L$CAL3D_ROOT/lib -lcal3d $LDFLAGS -lm"
+CXXFLAGS="-O3 -ffast-math -funroll-all-loops $CXXFLAGS -I$GLUT_ROOT/include -I$CAL3D_ROOT/include"
+
+
+AC_LANG_CPLUSPLUS
+
+AC_CHECK_LIB(cal3d, CalModel_New,cal3d_default_lib_found=true,cal3d_default_lib_found=false,-lstdc++)
+if test $cal3d_default_lib_found = false; then
+ AC_MSG_ERROR([cal3d library was not found in the default installation path])
+fi
+
+AC_OUTPUT(Makefile src/Makefile)
+
+dnl ************************************************************************
+
+echo "o-----------------------------------------------------------o"
+echo "| To build and install the Cal3D miniviewer type...         |"
+echo "|     make; make install                                    |"
+echo "o-----------------------------------------------------------o"
+
+dnl ************************************************************************
+

@@ -21,6 +21,8 @@
 // Class declaration                                                          //
 //----------------------------------------------------------------------------//
 
+#define MAXBONESPERMESH 29
+
 class Viewer
 {
 // member variables
@@ -39,6 +41,7 @@ protected:
   bool m_bPaused;
   CalCoreModel m_calCoreModel;
   CalModel m_calModel;
+  CalHardwareModel m_calHardwareModel;
   float m_scale;
   int m_currentAnimationId;
   float m_leftAnimationTime;
@@ -47,10 +50,19 @@ protected:
   int m_vertexCount;
   int m_faceCount;
 
+  float m_vertexBuffer[30000][3];
+  float m_weightBuffer[30000][4];
+  float m_matrixIndexBuffer[30000][4];
+  float m_normalBuffer[30000][3];
+  float m_texCoordBuffer[30000][2];
+
+  CalIndex m_indexBuffer[50000*3];
+
+  unsigned int m_vertexProgramId;
+
   float m_fpsDuration;
   int m_fpsFrames;
   int m_fps;
-
 
 // constructors/destructor
 public:

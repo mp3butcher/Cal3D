@@ -26,6 +26,85 @@
 
 Viewer theViewer;
 
+
+
+char vertexProgramStr[]= 
+"!!ARBvp1.0\n"\
+"PARAM constant = { 1, 3, 0, 0 };\n"\
+"TEMP R0, R1, R2, R3, R4, R5;\n"\
+"ADDRESS A0;\n"\
+"ATTRIB texCoord = vertex.attrib[8];\n"\
+"ATTRIB normal = vertex.attrib[2];\n"\
+"ATTRIB index = vertex.attrib[3];\n"\
+"ATTRIB weight = vertex.attrib[1];\n"\
+"ATTRIB position = vertex.attrib[0];\n"\
+"PARAM worldViewProjMatrix[4] = { state.matrix.mvp };\n"\
+"PARAM diffuse = state.material.diffuse;\n"\
+"PARAM ambient = state.material.ambient;\n"\
+"PARAM lightDir = state.light[0].position;\n"\
+"PARAM matrix[87] = { program.local[0..86] };\n"\
+"\n"\
+"MOV result.texcoord[0].xy, texCoord.xyxx;	\n"\
+"\n"\
+"MUL R4, index, constant.y;	\n"\
+"\n"\
+"ARL A0.x, R4.y;\n"\
+"DP3 R0.x, matrix[A0.x].xyzx, normal.xyzx;\n"\
+"DP3 R0.y, matrix[A0.x + 1].xyzx, normal.xyzx;\n"\
+"DP3 R0.z, matrix[A0.x + 2].xyzx, normal.xyzx;\n"\
+"MUL R1.yzw, R0.xxyz, weight.y;\n"\
+"\n"\
+"ARL A0.x, R0.w;\n"\
+"DP3 R0.x, matrix[A0.x].xyzx, normal.xyzx;\n"\
+"DP3 R0.y, matrix[A0.x + 1].xyzx, normal.xyzx;\n"\
+"DP3 R0.z, matrix[A0.x + 2].xyzx, normal.xyzx;\n"\
+"MAD R1.yzw, R0.xxyz, weight.x, R1.yyzw;\n"\
+"\n"\
+"DP3 R0.x, R1.yzwy, R1.yzwy;\n"\
+"RSQ R0.x, R0.x;\n"\
+"MUL R0.xyz, R0.x, R1.yzwy;\n"\
+"DP3 R1.x, lightDir.xyzx, lightDir.xyzx;\n"\
+"RSQ R1.x, R1.x;\n"\
+"MUL R2.xyz, R1.x, lightDir.xyzx;\n"\
+"DP3 R0.x, R0.xyzx, R2.xyzx;\n"\
+"MAX R0.x, R0.x, constant.z;\n"\
+"ADD R2, R0.x, ambient;\n"\
+"MUL result.color.front.primary, R2, diffuse;\n"\
+"\n"\
+"ARL A0.x, R4.w;\n"\
+"DPH R0.x, position.xyzx, matrix[A0.x];\n"\
+"DPH R0.y, position.xyzx, matrix[A0.x + 1];\n"\
+"DPH R0.z, position.xyzx, matrix[A0.x + 2];\n"\
+"\n"\
+"ARL A0.x, R4.z;\n"\
+"DPH R3.x, position.xyzx, matrix[A0.x];\n"\
+"DPH R3.y, position.xyzx, matrix[A0.x + 1];\n"\
+"DPH R3.z, position.xyzx, matrix[A0.x + 2];\n"\
+"\n"\
+"ARL A0.x, R4.y;\n"\
+"DPH R1.y, position.xyzx, matrix[A0.x];\n"\
+"DPH R1.z, position.xyzx, matrix[A0.x + 1];\n"\
+"DPH R1.w, position.xyzx, matrix[A0.x + 2];\n"\
+"MUL R2.xyz, R1.yzwy, weight.y;\n"\
+"\n"\
+"ARL A0.x, R4.x;\n"\
+"DPH R1.x, position.xyzx, matrix[A0.x];\n"\
+"DPH R1.y, position.xyzx, matrix[A0.x + 1];\n"\
+"DPH R1.z, position.xyzx, matrix[A0.x + 2];\n"\
+"\n"\
+"MAD R1.xyz, R1.xyzx, weight.x, R2.xyzx;\n"\
+"MAD R1.xyz, R3.xyzx, weight.z, R1.xyzx;\n"\
+"MAD R0.xyz, R0.xyzx, weight.w, R1.xyzx;\n"\
+"\n"\
+"DPH result.position.x, R0.xyzx, worldViewProjMatrix[0];\n"\
+"DPH result.position.y, R0.xyzx, worldViewProjMatrix[1];\n"\
+"DPH result.position.z, R0.xyzx, worldViewProjMatrix[2];\n"\
+"DPH result.position.w, R0.xyzx, worldViewProjMatrix[3];\n"\
+"END\n";
+
+
+
+
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
 //----------------------------------------------------------------------------//
@@ -49,11 +128,11 @@ Viewer::Viewer()
   m_lodLevel = 1.0f;
   m_vertexCount = 0;
   m_faceCount = 0;
+  m_vertexProgramId=0;
 
   m_fpsDuration = 0.0f;
   m_fpsFrames = 0;
   m_fps = 0;
-
 }
 
 //----------------------------------------------------------------------------//
@@ -317,7 +396,6 @@ void Viewer::onIdle()
     m_fpsFrames = 0;
   }
 
-
   // update the model if not paused
   if(!m_bPaused)
   {
@@ -343,6 +421,8 @@ void Viewer::onIdle()
 
   // current tick will be last tick next round
   m_lastTick = tick;
+
+
 
   // update the screen
   glutPostRedisplay();
@@ -409,6 +489,10 @@ bool Viewer::onInit()
     m_leftAnimationTime = -1.0f;
   }
 
+
+  m_calModel.disableInternalData();
+
+
   // we're done
   std::cout << "Initialization done." << std::endl;
   std::cout << std::endl;
@@ -416,6 +500,54 @@ bool Viewer::onInit()
   std::cout << std::endl;
 
   m_lastTick = Tick::getTick();
+
+
+  m_calHardwareModel.create(&m_calModel);
+
+
+  m_calHardwareModel.setVertexBuffer((char*)&m_vertexBuffer[0][0],3*sizeof(float));
+  m_calHardwareModel.setNormalBuffer((char*)&m_normalBuffer[0][0],3*sizeof(float));
+  m_calHardwareModel.setWeightBuffer((char*)&m_weightBuffer[0][0],4*sizeof(float));
+  m_calHardwareModel.setMatrixIndexBuffer((char*)&m_matrixIndexBuffer[0][0],4*sizeof(float));
+  m_calHardwareModel.setTextureCoordNum(1);
+  m_calHardwareModel.setTextureCoordBuffer(0,(char*)&m_texCoordBuffer[0][0],2*sizeof(float));
+  m_calHardwareModel.setIndexBuffer(&m_indexBuffer[0]);
+
+  m_calHardwareModel.load( 0, 0, MAXBONESPERMESH);
+
+
+  GLenum err = glewInit();
+  if (GLEW_OK != err)
+  {
+	  /* problem: glewInit failed, something is seriously wrong */
+	  std::cerr <<  "Error: " << glewGetErrorString(err) << std::endl;
+  }
+  std::cout <<  "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+
+  
+  glGenProgramsARB( 1, &m_vertexProgramId );
+
+  glBindProgramARB( GL_VERTEX_PROGRAM_ARB, m_vertexProgramId );
+
+  glProgramStringARB( GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB,
+	  sizeof(vertexProgramStr), vertexProgramStr );
+  
+  if ( GL_INVALID_OPERATION == glGetError() )
+  {
+	  // Find the error position
+	  GLint errPos;
+	  glGetIntegerv( GL_PROGRAM_ERROR_POSITION_ARB,
+		  &errPos );
+	  // Print implementation-dependent program
+	  // errors and warnings string.
+	  const unsigned char *errString = glGetString( GL_PROGRAM_ERROR_STRING_ARB);
+	  fprintf( stderr, "error at position: %d\n%s\n",
+		  errPos, errString );
+  }
+  
+  
+  glBindProgramARB( GL_VERTEX_PROGRAM_ARB, 0 );
+  
 
   return true;
 }
@@ -573,7 +705,6 @@ void Viewer::onRender()
   glRotatef(m_twistAngle, 0.0f, 0.0f, 1.0f);
   glTranslatef(0.0f, 0.0f, -90.0f * m_scale);
 
-
   // render the model
   renderModel();
 
@@ -582,11 +713,12 @@ void Viewer::onRender()
 
   // swap the front- and back-buffer
   glutSwapBuffers();
-
+  
   // increase frame counter
   m_fpsFrames++;  
 
   //printf("%d\n",m_fps);
+
 }
 
 //----------------------------------------------------------------------------//
@@ -600,6 +732,8 @@ void Viewer::onShutdown()
 
   // destroy core model instance
   m_calCoreModel.destroy();
+
+  glDeleteProgramsARB(1, &m_vertexProgramId);
 
 }
 
@@ -768,138 +902,107 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
 
 void Viewer::renderModel()
 {
-  // get the renderer of the model
-  CalRenderer *pCalRenderer;
-  pCalRenderer = m_calModel.getRenderer();
+	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, m_vertexProgramId );
 
-  // begin the rendering loop
-  if(pCalRenderer->beginRendering())
-  {
-    // set global OpenGL states
-    glEnable(GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+	glEnableVertexAttribArrayARB(0);
+	glEnableVertexAttribArrayARB(1);
+    glEnableVertexAttribArrayARB(2);
+	glEnableVertexAttribArrayARB(3);
+    glEnableVertexAttribArrayARB(8);
+	
+	glEnable(GL_TEXTURE_2D);
+	// set global OpenGL states
+	glEnable(GL_DEPTH_TEST);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);		
+	glEnable(GL_VERTEX_PROGRAM_ARB);
+	
+	
+	int hardwareMeshId;
+	
+	for(hardwareMeshId=0;hardwareMeshId<m_calHardwareModel.getHardwareMeshCount() ; hardwareMeshId++)
+	{
+		m_calHardwareModel.selectHardwareMesh(hardwareMeshId);
 
-    // we will use vertex arrays, so enable them
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
+		unsigned char meshColor[4];	
+		float materialColor[4];
+		// set the material ambient color
+		m_calHardwareModel.getAmbientColor(&meshColor[0]);
+		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
+		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColor);
+		
+		// set the material diffuse color
+		m_calHardwareModel.getDiffuseColor(&meshColor[0]);
+		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColor);
+		
+		// set the material specular color
+		m_calHardwareModel.getSpecularColor(&meshColor[0]);
+		materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
+		glMaterialfv(GL_FRONT, GL_SPECULAR, materialColor);
+		
+		// set the material shininess factor
+		float shininess;
+		shininess = 50.0f; //m_calHardwareModel.getShininess();
+		glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
-    // get the number of meshes
-    int meshCount;
-    meshCount = pCalRenderer->getMeshCount();
+		int boneId;
+		for(boneId = 0; boneId < m_calHardwareModel.getBoneCount(); boneId++)
+		{
+			CalQuaternion rotationBoneSpace = m_calHardwareModel.getRotationBoneSpace(boneId);
+			CalVector translationBoneSpace = m_calHardwareModel.getTranslationBoneSpace(boneId);
 
-    // render all meshes of the model
-    int meshId;
-    for(meshId = 0; meshId < meshCount; meshId++)
-    {
-      // get the number of submeshes
-      int submeshCount;
-      submeshCount = pCalRenderer->getSubmeshCount(meshId);
+			CalMatrix rotationMatrix = rotationBoneSpace;
 
-      // render all submeshes of the mesh
-      int submeshId;
-      for(submeshId = 0; submeshId < submeshCount; submeshId++)
-      {
-        // select mesh and submesh for further data access
-        if(pCalRenderer->selectMeshSubmesh(meshId, submeshId))
-        {
-          unsigned char meshColor[4];
-          GLfloat materialColor[4];
+			float transformation[12];
 
-          // set the material ambient color
-          pCalRenderer->getAmbientColor(&meshColor[0]);
-          materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
-          glMaterialfv(GL_FRONT, GL_AMBIENT, materialColor);
+			transformation[0]=rotationMatrix.dxdx;transformation[1]=rotationMatrix.dxdy;transformation[2]=rotationMatrix.dxdz;transformation[3]=translationBoneSpace.x;
+			transformation[4]=rotationMatrix.dydx;transformation[5]=rotationMatrix.dydy;transformation[6]=rotationMatrix.dydz;transformation[7]=translationBoneSpace.y;
+			transformation[8]=rotationMatrix.dzdx;transformation[9]=rotationMatrix.dzdy;transformation[10]=rotationMatrix.dzdz;transformation[11]=translationBoneSpace.z;
 
-          // set the material diffuse color
-          pCalRenderer->getDiffuseColor(&meshColor[0]);
-          materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
-          glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColor);
+			
+			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3,&transformation[0]);
+			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+1,&transformation[4]);
+			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+2,&transformation[8]);			
+			
 
-          // set the material specular color
-          pCalRenderer->getSpecularColor(&meshColor[0]);
-          materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
-          glMaterialfv(GL_FRONT, GL_SPECULAR, materialColor);
-
-          // set the material shininess factor
-          float shininess;
-          shininess = 50.0f; //pCalRenderer->getShininess();
-          glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
-
-          // get the transformed vertices of the submesh
-          static float meshVertices[30000][3];
-          int vertexCount;
-          vertexCount = pCalRenderer->getVertices(&meshVertices[0][0]);
-
-          // get the transformed normals of the submesh
-          static float meshNormals[30000][3];
-          pCalRenderer->getNormals(&meshNormals[0][0]);
-
-          // get the texture coordinates of the submesh
-          static float meshTextureCoordinates[30000][2];
-          int textureCoordinateCount;
-          textureCoordinateCount = pCalRenderer->getTextureCoordinates(0, &meshTextureCoordinates[0][0]);
-
-          // get the faces of the submesh
-          static CalIndex meshFaces[50000][3];
-          int faceCount;
-          faceCount = pCalRenderer->getFaces(&meshFaces[0][0]);
-
-          // set the vertex and normal buffers
-          glVertexPointer(3, GL_FLOAT, 0, &meshVertices[0][0]);
-          glNormalPointer(GL_FLOAT, 0, &meshNormals[0][0]);
-
-          // set the texture coordinate buffer and state if necessary
-          if((pCalRenderer->getMapCount() > 0) && (textureCoordinateCount > 0))
-          {
-            glEnable(GL_TEXTURE_2D);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnable(GL_COLOR_MATERIAL);
-
+						  
             // set the texture id we stored in the map user data
-            glBindTexture(GL_TEXTURE_2D, (GLuint)pCalRenderer->getMapUserData(0));
+            glBindTexture(GL_TEXTURE_2D, (GLuint)m_calHardwareModel.getMapUserData(0));
+		}
 
-            // set the texture coordinate buffer
-            glTexCoordPointer(2, GL_FLOAT, 0, &meshTextureCoordinates[0][0]);
-            glColor3f(1.0f, 1.0f, 1.0f);
-          }
 
-          // draw the submesh
-		  
-		  if(sizeof(CalIndex)==2)
-			  glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_SHORT, &meshFaces[0][0]);
-		  else
-			  glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, &meshFaces[0][0]);
+		glVertexAttribPointerARB(0, 3 , GL_FLOAT, false, 0, (void *)&m_vertexBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
+		glVertexAttribPointerARB(1, 4 , GL_FLOAT, false, 0, (void *)&m_weightBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
+		glVertexAttribPointerARB(2, 3 , GL_FLOAT, false, 0, (void *)&m_normalBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);		
+		glVertexAttribPointerARB(3, 4 , GL_FLOAT, false, 0, (void *)&m_matrixIndexBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
+		glVertexAttribPointerARB(8, 2 , GL_FLOAT, false, 0, (void *)&m_texCoordBuffer[m_calHardwareModel.getBaseVertexIndex()][0]);
+		
+		if(sizeof(CalIndex)==2)
+			glDrawElements(GL_TRIANGLES, m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_SHORT, &m_indexBuffer[m_calHardwareModel.getStartIndex()]);
+		else
+			glDrawElements(GL_TRIANGLES, m_calHardwareModel.getFaceCount() * 3, GL_UNSIGNED_INT, &m_indexBuffer[m_calHardwareModel.getStartIndex()]);	
+		
 
-          // disable the texture coordinate state if necessary
-          if((pCalRenderer->getMapCount() > 0) && (textureCoordinateCount > 0))
-          {
-            glDisable(GL_COLOR_MATERIAL);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisable(GL_TEXTURE_2D);
-          }
+	}
 
-          // adjust the vertex and face counter
-          m_vertexCount += vertexCount;
-          m_faceCount += faceCount;
+    // clear vertex array state    
 
-        }
-      }
-    }
+	glDisableVertexAttribArrayARB(0);
+	glDisableVertexAttribArrayARB(1);
+    glDisableVertexAttribArrayARB(2);
+	glDisableVertexAttribArrayARB(3);
+    glDisableVertexAttribArrayARB(8);
 
-    // clear vertex array state
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
 
     // clear light
     glDisable(GL_LIGHTING);
     glDisable(GL_LIGHT0);
     glDisable(GL_DEPTH_TEST);
+	glDisable(GL_VERTEX_PROGRAM_ARB);
 
-    // end the rendering
-    pCalRenderer->endRendering();
-  }
+	glBindProgramARB( GL_VERTEX_PROGRAM_ARB, 0 );
 
 }
 

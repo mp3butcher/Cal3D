@@ -45,6 +45,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "cal3D_miniviewer_gl_vs"=".\examples\miniviewer_gl_vp\cal3d_miniviewer_gl_vp.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Cal3D
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "cal3d_converter"=".\tools\converter\cal3d_converter.dsp" - Package Owner=<4>
 
 Package=<5>
