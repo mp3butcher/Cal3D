@@ -292,8 +292,7 @@ OutputDebugString(str);
 	m_pInterface->StopProgressInfo();
 
 	// save core animation to the file
-	CalSaver saver;
-	if(!saver.saveCoreAnimation(strFilename, &coreAnimation))
+	if(!CalSaver::saveCoreAnimation(strFilename, &coreAnimation))
 	{
 		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		coreAnimation.destroy();
@@ -407,8 +406,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
 	}
 
 	// save core mesh to the file
-	CalSaver saver;
-	if(!saver.saveCoreMaterial(strFilename, &coreMaterial))
+	if(!CalSaver::saveCoreMaterial(strFilename, &coreMaterial))
 	{
 		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		coreMaterial.destroy();
@@ -637,8 +635,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 	m_pInterface->StopProgressInfo();
 
 	// save core mesh to the file
-	CalSaver saver;
-	if(!saver.saveCoreMesh(strFilename, &coreMesh))
+	if(!CalSaver::saveCoreMesh(strFilename, &coreMesh))
 	{
 		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		coreMesh.destroy();
@@ -790,8 +787,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 	m_pInterface->StopProgressInfo();
 
 	// save core skeleton to the file
-	CalSaver saver;
-	if(!saver.saveCoreSkeleton(strFilename, &coreSkeleton))
+	if(!CalSaver::saveCoreSkeleton(strFilename, &coreSkeleton))
 	{
 		SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
 		coreSkeleton.destroy();
