@@ -544,7 +544,6 @@ void CalModel::update(float deltaTime)
 {
   m_pMixer->updateAnimation(deltaTime);
   m_pMixer->updateSkeleton();
-  std::vector<CalMesh *>::iterator iteratorVectorMesh = m_vectorMesh.begin();
   // m_pMorpher->update(...);
   m_pMorphTargetMixer->update(deltaTime);
   m_pPhysique->update();
