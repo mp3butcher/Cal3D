@@ -52,7 +52,7 @@ CalPlatform::~CalPlatform()
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readBytes(std::ifstream& file, void *pBuffer, int length)
+bool CalPlatform::readBytes(std::istream& file, void *pBuffer, int length)
 {
   file.read((char *)pBuffer, length);
   return !file ? false : true;
@@ -71,7 +71,7 @@ bool CalPlatform::readBytes(std::ifstream& file, void *pBuffer, int length)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readFloat(std::ifstream& file, float& value)
+bool CalPlatform::readFloat(std::istream& file, float& value)
 {
   file.read((char *)&value, 4);
 
@@ -99,7 +99,7 @@ bool CalPlatform::readFloat(std::ifstream& file, float& value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readInteger(std::ifstream& file, int& value)
+bool CalPlatform::readInteger(std::istream& file, int& value)
 {
   file.read((char *)&value, 4);
 
@@ -127,7 +127,7 @@ bool CalPlatform::readInteger(std::ifstream& file, int& value)
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalPlatform::readString(std::ifstream& file, std::string& strValue)
+bool CalPlatform::readString(std::istream& file, std::string& strValue)
 {
   // get the string length
   int length;
