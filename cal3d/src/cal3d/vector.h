@@ -125,7 +125,7 @@ public:
 	  z=0.0f;		  
   }
 
-  inline float length()
+  inline float length() const
   {
 	  return (float)sqrt(x * x + y * y + z * z);
   }
