@@ -24,6 +24,7 @@
 
 #include "cal3d/cal3d.h"
 #include "cal3d/cal3d_wrapper.h"
+using namespace cal3d;
 
 //****************************************************************************//
 // CalAnimation wrapper functions definition                                  //

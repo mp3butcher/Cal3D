@@ -423,7 +423,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
 
   // allocate a new core animation instance
   CalCoreAnimationPtr pCoreAnimation(new CalCoreAnimation);
-  if(pCoreAnimation == 0)
+  if(!pCoreAnimation)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -507,7 +507,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(CalDataSource& dataSrc)
 
   // allocate a new core material instance
   CalCoreMaterialPtr pCoreMaterial = new CalCoreMaterial();
-  if(pCoreMaterial == 0)
+  if(!pCoreMaterial)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -625,7 +625,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(CalDataSource& dataSrc)
 
   // allocate a new core mesh instance
   CalCoreMeshPtr pCoreMesh = new CalCoreMesh();
-  if(pCoreMesh == 0)
+  if(!pCoreMesh)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -689,7 +689,7 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(CalDataSource& dataSrc)
 
   // allocate a new core skeleton instance
   CalCoreSkeletonPtr pCoreSkeleton = new CalCoreSkeleton();
-  if(pCoreSkeleton == 0)
+  if(!pCoreSkeleton)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -1353,7 +1353,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const std::string& strFilename
 
   // allocate a new core skeleton instance
   CalCoreSkeletonPtr pCoreSkeleton = new CalCoreSkeleton();
-  if(pCoreSkeleton == 0)
+  if(!pCoreSkeleton)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -1906,7 +1906,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
   // allocate a new core mesh instance
   CalCoreMeshPtr pCoreMesh = new CalCoreMesh;
-  if(pCoreMesh == 0)
+  if(!pCoreMesh)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -2364,7 +2364,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const std::string& strFilename
   }
 
   CalCoreMaterialPtr pCoreMaterial = new CalCoreMaterial();
-  if(pCoreMaterial == 0)
+  if(!pCoreMaterial)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;

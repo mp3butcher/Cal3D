@@ -25,20 +25,6 @@ namespace cal3d
             *this = ptr;
         }
 
-        /**
-         * This templated constructor allows you to do automatic conversions
-         * to smart pointers of base classes.
-         */
-        template<typename U>
-        RefPtr(const RefPtr<U>& ptr)
-        {
-            m_ptr = ptr.get();
-            if (m_ptr)
-            {
-                explicitIncRef(m_ptr);
-            }
-        }
-      
         ~RefPtr()
         {
             if (m_ptr)
