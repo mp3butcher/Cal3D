@@ -187,6 +187,14 @@
  *  ReplicantBody is a character animation toolkit released under the GNU LGPL, written in C++, 
  *  built upon Cal3D, ConfigScript and OpenSceneGraph.
  *
+ *  <b><i>Soya</i></b> - http://oomadness.nekeme.net/en/soya/features.html - Soya 3D is a 
+ *  high-level 3D engine for Python, designed with games in mind. Soya is written partly in Python
+ *  and partly in C. Slune is a game based on Soya http://oomadness.nekeme.net/en/slune/index.html.
+ *  Released under the GNU GPL.
+ *
+ *  <b><i>Genecys</i></b> - http://sourceforge.net/projects/genecys - Genecys is an online, multiplayer
+ *  third person 3D MMORPG similar to Final Fantasy Online, or Everquest. Released under the GNU GPL.
+ *
  *  If you know of anyone else using Cal3D, let us know!
  *  </ul>
  *  
