@@ -410,7 +410,24 @@
  *
  *  <a name="COMPILING"></a>
  *  @section compexporters Compiling Cal3D and the Exporters
+ *
+ *  <b>What's with these missing DLL errors when I run the Cally demo?</b>
+ *
+ *  <ul>
+ *  You may have gotten a message pop-up saying that the MSVCP70.dll file could 
+ *  not be found when trying to run the Cally demo.
  * 
+ *  The Windows binaries for the 0.9 version of Cal3d (and the demo) were compiled
+ *  with Visual Studio .NET (VC70). Non-XP versions of Windows may not have the
+ *  right C/C++ runtime DLLs that are needed. 
+ *  
+ *  These are available as part of Microsoft's .NET Framework package, which can
+ *  be downloaded from here:
+ *
+ *  http://msdn.microsoft.com/netframework/downloads/howtoget.aspx
+ *  </ul> 
+ * 
+ *
  *  <b>What do I need to compile the exporters in Windows?</b>
  * 
  *  <ul>
