@@ -169,29 +169,29 @@ void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
 {
   std::vector<CalCoreSubmesh::Vertex> &vvtx = getVectorVertex();
   std::vector<CalCoreSubmesh::TextureCoordinate> &vtex = m_vectorvectorTextureCoordinate[mapId];
-  
+
   // Step 1. Compute the approximate tangent vector.
   double du1 = vtex[v1].u - vtex[v0].u;
   double dv1 = vtex[v1].v - vtex[v0].v;
   double du2 = vtex[v2].u - vtex[v0].u;
   double dv2 = vtex[v2].v - vtex[v0].v;
-  
+
   double prod1 = (du1*dv2-dv1*du2);
   double prod2 = (du2*dv1-dv2*du1);
   if ((fabs(prod1) < 0.000001)||(fabs(prod2) < 0.000001)) return;
-  
+
   double x = dv2/prod1;
   double y = dv1/prod2;
 
   CalVector vec1 = vvtx[v1].position - vvtx[v0].position;
   CalVector vec2 = vvtx[v2].position - vvtx[v0].position;
   CalVector tangent = (vec1 * ((float)x)) + (vec2 * ((float)y));
-  
+
   // Step 2. Orthonormalize the tangent.
   double component = (tangent * vvtx[v0].normal);
   tangent -= (vvtx[v0].normal * ((float)component));
   tangent.normalize();
-  
+
   // Step 3: Add the estimated tangent to the overall estimate for the vertex.
 
   m_vectorvectorTangentSpace[mapId][v0].tangent+=tangent;
@@ -212,8 +212,8 @@ bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
 
   if(!enabled)
   {
-	  m_vectorvectorTangentSpace[mapId].clear();
-	  return true;
+    m_vectorvectorTangentSpace[mapId].clear();
+    return true;
   }
 
   m_vectorvectorTangentSpace[mapId].reserve(m_vectorVertex.size());
@@ -222,8 +222,8 @@ bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
   int tangentId;
   for(tangentId=0;tangentId< (int)m_vectorvectorTangentSpace[mapId].size();tangentId++)
   {
-      m_vectorvectorTangentSpace[mapId][tangentId].tangent= CalVector(0.0f,0.0f,0.0f);
-	  m_vectorvectorTangentSpace[mapId][tangentId].crossFactor=1;
+    m_vectorvectorTangentSpace[mapId][tangentId].tangent= CalVector(0.0f,0.0f,0.0f);
+    m_vectorvectorTangentSpace[mapId][tangentId].crossFactor=1;
 
   }
 
@@ -231,14 +231,14 @@ bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
   int faceId;
   for(faceId=0;faceId<(int)m_vectorFace.size();faceId++)
   {
-	  UpdateTangentVector(m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],mapId);
-	  UpdateTangentVector(m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],mapId);
-	  UpdateTangentVector(m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],mapId);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],mapId);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],mapId);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],mapId);
   }
 
   for(tangentId=0;tangentId< (int)m_vectorvectorTangentSpace[mapId].size();tangentId++)
   {
-      m_vectorvectorTangentSpace[mapId][tangentId].tangent.normalize();
+    m_vectorvectorTangentSpace[mapId][tangentId].tangent.normalize();
   }
   
   return true;
@@ -386,7 +386,7 @@ bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int fa
     m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
     m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
 	
-	if (m_vectorTangentsEnabled[textureCoordinateId])
+    if (m_vectorTangentsEnabled[textureCoordinateId])
     {
       m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
       m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);

@@ -339,7 +339,7 @@ int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer)
   if(m_pSelectedSubmesh->hasInternalData())
   {
     // get the normal vector of the submesh
-	std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = m_pSelectedSubmesh->getVectorVectorTangentSpace()[mapId];
+    std::vector<CalSubmesh::TangentSpace>& vectorTangentSpace = m_pSelectedSubmesh->getVectorVectorTangentSpace()[mapId];
 
     // get the number of normals (= number of vertices) in the submesh
     int tangentSpaceCount;

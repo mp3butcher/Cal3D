@@ -92,8 +92,8 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
     m_vectorNormal.reserve(m_pCoreSubmesh->getVertexCount());
     m_vectorNormal.resize(m_pCoreSubmesh->getVertexCount());
 
-	m_vectorvectorTangentSpace.reserve(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
-	m_vectorvectorTangentSpace.resize(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
+    m_vectorvectorTangentSpace.reserve(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
+    m_vectorvectorTangentSpace.resize(m_pCoreSubmesh->getVectorVectorTangentSpace().size());
 
     m_vectorPhysicalProperty.reserve(m_pCoreSubmesh->getVertexCount());
     m_vectorPhysicalProperty.resize(m_pCoreSubmesh->getVertexCount());
@@ -133,15 +133,15 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
 
 void CalSubmesh::destroy()
 {
-	m_vectorFace.clear();
+  m_vectorFace.clear();
 
-	if(m_bInternalData)
-	{
-		m_vectorVertex.clear();
-		m_vectorNormal.clear();
-		m_vectorvectorTangentSpace.clear();
-		m_vectorPhysicalProperty.clear();
-	}
+  if(m_bInternalData)
+  {
+    m_vectorVertex.clear();
+    m_vectorNormal.clear();
+    m_vectorvectorTangentSpace.clear();
+    m_vectorPhysicalProperty.clear();
+  }
 
   m_pCoreSubmesh = 0;
 }
@@ -303,14 +303,14 @@ bool CalSubmesh::hasInternalData()
 
 void CalSubmesh::disableInternalData()
 {
-	if(m_bInternalData)
-	{
-		m_vectorVertex.clear();
-		m_vectorNormal.clear();
-		m_vectorvectorTangentSpace.clear();
-		m_vectorPhysicalProperty.clear();
-		m_bInternalData=false;
-	}
+  if(m_bInternalData)
+  {
+    m_vectorVertex.clear();
+    m_vectorNormal.clear();
+    m_vectorvectorTangentSpace.clear();
+    m_vectorPhysicalProperty.clear();
+    m_bInternalData=false;
+  }
 
 }
 
@@ -335,34 +335,34 @@ bool CalSubmesh::isTangentsEnabled(int mapId)
 
 bool CalSubmesh::enableTangents(int mapId, bool enabled)
 {
-	if(!m_pCoreSubmesh->enableTangents(mapId,enabled))
-        return false;
+  if(!m_pCoreSubmesh->enableTangents(mapId,enabled))
+    return false;
 
-	if(!m_bInternalData)
-		return true;
+  if(!m_bInternalData)
+    return true;
 
-    if(!enabled)
-	{
-		m_vectorvectorTangentSpace[mapId].clear();
-		return true;
-	}
+  if(!enabled)
+  {
+    m_vectorvectorTangentSpace[mapId].clear();
+    return true;
+  }
 
-	m_vectorvectorTangentSpace[mapId].reserve(m_pCoreSubmesh->getVertexCount());
-    m_vectorvectorTangentSpace[mapId].resize(m_pCoreSubmesh->getVertexCount());
+  m_vectorvectorTangentSpace[mapId].reserve(m_pCoreSubmesh->getVertexCount());
+  m_vectorvectorTangentSpace[mapId].resize(m_pCoreSubmesh->getVertexCount());
 	
-    // get the tangent space vector of the core submesh
-    std::vector<CalCoreSubmesh::TangentSpace >& vectorTangentSpace = m_pCoreSubmesh->getVectorVectorTangentSpace()[mapId];
+  // get the tangent space vector of the core submesh
+  std::vector<CalCoreSubmesh::TangentSpace >& vectorTangentSpace = m_pCoreSubmesh->getVectorVectorTangentSpace()[mapId];
 
-    // copy the data from the core submesh as default values
-    int vertexId;
-    for(vertexId = 0; vertexId < m_pCoreSubmesh->getVertexCount(); vertexId++)
-    {      
-      // copy the tangent space data
-	  m_vectorvectorTangentSpace[mapId][vertexId].tangent=vectorTangentSpace[vertexId].tangent;
-	  m_vectorvectorTangentSpace[mapId][vertexId].crossFactor=vectorTangentSpace[vertexId].crossFactor;
-    }
+  // copy the data from the core submesh as default values
+  int vertexId;
+  for(vertexId = 0; vertexId < m_pCoreSubmesh->getVertexCount(); vertexId++)
+  {      
+    // copy the tangent space data
+    m_vectorvectorTangentSpace[mapId][vertexId].tangent=vectorTangentSpace[vertexId].tangent;
+    m_vectorvectorTangentSpace[mapId][vertexId].crossFactor=vectorTangentSpace[vertexId].crossFactor;
+  }
 
-	return true;    
+  return true;    
 }
 
 
