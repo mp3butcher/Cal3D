@@ -1,7 +1,7 @@
 #!BPY
 
 """
-Name: 'Cal3D Exporter V0.8'
+Name: 'Cal3D Exporter 2 V1.0'
 Blender: 234
 Group: 'Export'
 Tip: 'Export armature/bone data to the Cal3D library.'
@@ -9,7 +9,7 @@ Tip: 'Export armature/bone data to the Cal3D library.'
 
 __author__ = ["Jean-Baptiste Lamy (Jiba)", "Chris Montijin", "Damien McGinnes"]
 __url__ = ("blender", "elysiun", "Cal3D, http://cal3d.sf.net")
-__version__ = "0.8"
+__version__ = "1.0"
 
 __bpydoc__ = """\
 This script exports armature / bone data to the well known open source Cal3D
@@ -30,11 +30,7 @@ root bone (should be fixed in cal3d0.9.1);<br>
 (something with KeyError). Just save your work and reload the model. This is
 usually caused by deleted items hanging around;<br>
     Cloth export only works reliably on a planar mesh (like a cape, or a
-ribbon), not on a connected mesh (like a ball).  The mesh should have no
-disconnects like multiple tex coords applied to the same vertex, as this will
-create a gap in the mesh, that the springs will accentuate. The exporter 
-will, however, handle this case but it just looks bad. 
-
+ribbon), not on a connected mesh (like a ball).
 
 Notes:<br>
     Objects/bones/actions whose names start by "_" are not exported so call IK
@@ -75,6 +71,12 @@ is a good weight. For now all springs have a coeff of 1000<br>
 # This script was written by Jiba, modified by Chris and later modified by Damien
 
 # Changes:
+# 1.0 Damien McGinnes <mcginnes at netspeed.com.au>
+#     Forked from blender2cal3d because we have had 2
+#       independant efforts working on the same script
+#     Fixed springs so now you can have uv discontinuities
+#       or multiple textures on a cloth mesh - this
+#       requires a patch to cal3d to work properly
 #
 # 0.8 Damien McGinnes <mcginnes at netspeed.com.au>
 #    Added Cloth export
@@ -122,10 +124,7 @@ is a good weight. For now all springs have a coeff of 1000<br>
 #   the mesh that act as anchors - give them 0 weight in this group. 
 #   Otherwise 0.01 is a good weight. For now all springs have a coeff of 1000
 # - Cloth export only works reliably on a planar mesh (like a cape, or a
-#   ribbon), not on a connected mesh (like a ball).  The mesh should have no
-#   disconnects like multiple tex coords applied to the same vertex, as this will
-#   create a gap in the mesh, that the springs will accentuate. The exporter 
-#   will, however, handle this case but it just looks bad. 
+#   ribbon), not on a connected mesh (like a ball). 
 
 # BUGS / TODO :
 # - Cal3d has a bug in that a cycle that doesnt have as rootbone channel
@@ -140,7 +139,7 @@ is a good weight. For now all springs have a coeff of 1000<br>
 # 2. If a vertex is assigned to one or more bones, but is has a for each
 #    bone a weight of zero, there was a subdivision by zero somewhere
 #    Made a workaround (if sum is 0.0 then sum becomes 1.0).
-#    Generally vertices with no weight, simply dont deform at all - regardless
+#    Generally vertices with no weight simply dont deform at all - regardless
 #    of what you do with the skeleton - it is generally undesirable for this to
 #    happen
 
@@ -152,12 +151,10 @@ SAVE_TO_DIR = "/tmp/tutorial/"
 # Delete all existing Cal3D files in directory?
 DELETE_ALL_FILES = 0
 
-# What do you wanna export? If all are true then a .cfg file is created,
-# otherwise no .cfg file is made. You have to make one by hand.
 EXPORT_SKELETON = 1
-EXPORT_ANIMATION = 0
+EXPORT_ANIMATION = 1
 EXPORT_MESH = 1
-EXPORT_MATERIAL = 0
+EXPORT_MATERIAL = 1
 
 # Prefix for all created files
 FILE_PREFIX = "Test"
@@ -171,7 +168,7 @@ REMOVE_PATH_FROM_IMAGE = 0
 IMAGE_PREFIX = "textures/"
 
 # Export to new (>= 900) Cal3D XML-format
-EXPORT_TO_XML = 0
+EXPORT_TO_XML = 1
 
 # Set scalefactor for model
 SCALE = 0.5
@@ -179,8 +176,6 @@ SCALE = 0.5
 # frames per second - used to convert blender frames to times
 FPS = 25
 
-# Use this dictionary to rename animations, as their name is lost at the 
-# exportation.
 RENAME_ANIMATIONS = {
   # "OldName" : "NewName",
   
@@ -192,7 +187,7 @@ RENAME_ANIMATIONS = {
 EXPORT_FOR_SOYA = 0
 
 # See also BASE_MATRIX below, if you want to rotate/scale/translate the model at
-# the exportation.
+# the export.
 
 
 # Enables LODs computation. LODs computation is quite slow, and the algo is 
@@ -205,9 +200,7 @@ REMOVE_BAKED = 1
 
 ################################################################################
 # Code starts here.
-# The script should be quite re-useable for writing another Blender animation 
-# exporter. Most of the hell of it is to deal with Blender's head-tail-roll 
-# bone's definition.
+# 
 
 import sys, os, os.path, struct, math, string
 import Blender
@@ -977,6 +970,7 @@ def generateSprings(mesh):
       return
 
     springlist = []
+    clonesprings = []
     clothmesh = mesh.submeshes[0]
 
     faces = clothmesh.faces
@@ -1028,33 +1022,30 @@ def generateSprings(mesh):
             sp.sort()
             springlist.append(sp)
 
-            #an attempt to get cloned vertices to work in cloth.
-            #you still see gaps in the mesh due to the approximations
-            #used, but it is almost ok
+            #this should get cloned vertices to work.
+            #requires a patch to cal3d0.9.1 for this to work
+            #with no gaps appearing to the mesh
             for c in springvert.clones:
-              sp = [v.id, c.id]
-              sp.sort()
-              springlist.append(sp)
-              for cc in v.clones:
-                sp = [cc.id, c.id]
-                sp.sort()
-                springlist.append(sp)
+               sp = [springvert.id, c.id]
+               clonesprings.append(sp)
             for c in v.clones:
-              sp = [springvert.id, c.id]
-              sp.sort()
-              springlist.append(sp)
-              for cc in springvert.clones:
-                sp = [cc.id, c.id]
-                sp.sort()
-                springlist.append(sp)
+               sp = [v.id, c.id]
+               clonesprings.append(sp)
             
     springlist = elimdup(springlist)
+    clonesprings = elimdup(clonesprings)
     springlist.sort()
 
     for sp in springlist:
       spring = Spring(clothmesh.vertices[sp[0]], clothmesh.vertices[sp[1]])
       spring.spring_coefficient = 1000
       spring.idlelength = point_distance(spring.vertex1.loc, spring.vertex2.loc)
+      clothmesh.springs.append(spring)
+
+    for sp in clonesprings:
+      spring = Spring(clothmesh.vertices[sp[0]], clothmesh.vertices[sp[1]])
+      spring.spring_coefficient = 0
+      spring.idlelength = 0.0
       clothmesh.springs.append(spring)
 
     STATUS = oldstatus
@@ -1164,10 +1155,6 @@ def export():
 
           if mesh.name[0:6] == 'Cloth_' or mesh.name[0:6] == 'cloth_':
             ##### This item uses a Spring System
-            ## default weight is 0.01
-            #for v in data.verts:
-            #  clothweightmap[v.index] = 0.01
-					 
             clothenabled = 1
             clothweights = data.getVertsFromGroup("_cloth_weight",1)
             for v, w in clothweights:

@@ -226,31 +226,39 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 
       if(length > 0.0f)
       {
-        float factor[2];
-        factor[0] = (length - spring.idleLength) / length;
-        factor[1] = factor[0];
+      	/*if (spring.springCoefficient == 0)
+      	{ 
+      	 	vectorVertex[spring.vertexId[1]] = vectorVertex[spring.vertexId[0]];  
+      	 	vectorPhysicalProperty[spring.vertexId[1]].position = vectorVertex[spring.vertexId[0]]; 
+      	} 
+      	else
+	{*/
+	   float factor[2];
+	   factor[0] = (length - spring.idleLength) / length;
+	   factor[1] = factor[0];
+	   
+	   if(vectorCorePhysicalProperty[spring.vertexId[0]].weight > 0.0f)
+	   {
+              factor[0] /= 2.0f;
+              factor[1] /= 2.0f;
+           }
+           else
+           {
+             factor[0] = 0.0f;
+           }
+           
+           if(vectorCorePhysicalProperty[spring.vertexId[1]].weight <= 0.0f)
+           {
+              factor[0] *= 2.0f;
+              factor[1] = 0.0f;
+           }
 
-        if(vectorCorePhysicalProperty[spring.vertexId[0]].weight > 0.0f)
-        {
-          factor[0] /= 2.0f;
-          factor[1] /= 2.0f;
-        }
-        else
-        {
-          factor[0] = 0.0f;
-        }
+           vectorVertex[spring.vertexId[0]] += distance * factor[0];
+           vectorPhysicalProperty[spring.vertexId[0]].position = vectorVertex[spring.vertexId[0]];
 
-        if(vectorCorePhysicalProperty[spring.vertexId[1]].weight <= 0.0f)
-        {
-          factor[0] *= 2.0f;
-          factor[1] = 0.0f;
-        }
-
-        vectorVertex[spring.vertexId[0]] += distance * factor[0];
-        vectorPhysicalProperty[spring.vertexId[0]].position = vectorVertex[spring.vertexId[0]];
-
-        vectorVertex[spring.vertexId[1]] -= distance * factor[1];
-        vectorPhysicalProperty[spring.vertexId[1]].position = vectorVertex[spring.vertexId[1]];
+           vectorVertex[spring.vertexId[1]] -= distance * factor[1];
+           vectorPhysicalProperty[spring.vertexId[1]].position = vectorVertex[spring.vertexId[1]];
+        //}
       }
     }
   }
