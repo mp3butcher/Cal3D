@@ -26,7 +26,7 @@
   * This function is the default constructor of the animation cycle instance.
   *****************************************************************************/
 
-CalAnimationCycle::CalAnimationCycle()
+CalAnimationCycle::CalAnimationCycle() : CalAnimation()
 {
   m_type = TYPE_CYCLE;
   m_state = STATE_SYNC;

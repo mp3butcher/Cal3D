@@ -28,9 +28,8 @@
   *****************************************************************************/
 
 CalBufferSource::CalBufferSource(void* inputBuffer)
+  : mInputBuffer(inputBuffer), mOffset(0)
 {
-   mInputBuffer = inputBuffer;
-   mOffset = 0;
 }
 
 

@@ -26,7 +26,8 @@
   * This function is the default constructor of the quaternion instance.
   *****************************************************************************/
 
-CalQuaternion::CalQuaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
+CalQuaternion::CalQuaternion()
+  : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
 {
 }
 
@@ -38,7 +39,8 @@ CalQuaternion::CalQuaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
   * @param q The quaternion to construct this quaternion instance from.
   *****************************************************************************/
 
-CalQuaternion::CalQuaternion(const CalQuaternion& q) : x(q.x), y(q.y), z(q.z), w(q.w)
+CalQuaternion::CalQuaternion(const CalQuaternion& q)
+  : x(q.x), y(q.y), z(q.z), w(q.w)
 {
 }
 
@@ -53,7 +55,8 @@ CalQuaternion::CalQuaternion(const CalQuaternion& q) : x(q.x), y(q.y), z(q.z), w
   * @param qw The w component.
   *****************************************************************************/
 
-CalQuaternion::CalQuaternion(float qx, float qy, float qz, float qw) : x(qx), y(qy), z(qz), w(qw)
+CalQuaternion::CalQuaternion(float qx, float qy, float qz, float qw)
+  : x(qx), y(qy), z(qz), w(qw)
 {
 }
 

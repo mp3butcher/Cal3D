@@ -30,8 +30,8 @@
   *****************************************************************************/
 
 CalStreamSource::CalStreamSource(std::istream& inputStream)
+  : mInputStream(&inputStream)
 {
-   mInputStream = &inputStream;
 }
 
 

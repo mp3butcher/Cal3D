@@ -38,14 +38,9 @@
   *****************************************************************************/
 
 CalModel::CalModel()
+  :  m_pCoreModel(0), m_pSkeleton(0), m_pMixer(0), m_pPhysique(0), 
+     m_pSpringSystem(0), m_pRenderer(0), m_userData(0)
 {
-  m_pCoreModel = 0;
-  m_pSkeleton = 0;
-  m_pMixer = 0;
-  m_pPhysique = 0;
-  m_pSpringSystem = 0;
-  m_pRenderer = 0;
-  m_userData = 0;
 }
 
  /*****************************************************************************/

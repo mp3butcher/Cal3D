@@ -26,7 +26,7 @@
   * This function is the default constructor of the animation action instance.
   *****************************************************************************/
 
-CalAnimationAction::CalAnimationAction()
+CalAnimationAction::CalAnimationAction() : CalAnimation()
 {
   m_type = TYPE_ACTION;
 }

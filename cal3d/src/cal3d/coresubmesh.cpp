@@ -26,9 +26,8 @@
   *****************************************************************************/
 
 CalCoreSubmesh::CalCoreSubmesh()
+  : m_coreMaterialThreadId(0), m_lodCount(0)
 {
-  m_coreMaterialThreadId = 0;
-  m_lodCount = 0;
 }
 
  /*****************************************************************************/

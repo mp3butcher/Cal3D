@@ -26,7 +26,8 @@
   * This function is the default constructor of the vector instance.
   *****************************************************************************/
 
-CalVector::CalVector() : x(0.0f), y(0.0f), z(0.0f)
+CalVector::CalVector()
+  : x(0.0f), y(0.0f), z(0.0f)
 {
 }
 
@@ -38,7 +39,8 @@ CalVector::CalVector() : x(0.0f), y(0.0f), z(0.0f)
   * @param v The vector to construct this vector instance from.
   *****************************************************************************/
 
-CalVector::CalVector(const CalVector& v) : x(v.x), y(v.y), z(v.z)
+CalVector::CalVector(const CalVector& v)
+  : x(v.x), y(v.y), z(v.z)
 {
 }
 
@@ -52,7 +54,8 @@ CalVector::CalVector(const CalVector& v) : x(v.x), y(v.y), z(v.z)
   * @param vz The z component.
   *****************************************************************************/
 
-CalVector::CalVector(float vx, float vy, float vz) : x(vx), y(vy), z(vz)
+CalVector::CalVector(float vx, float vy, float vz)
+  : x(vx), y(vy), z(vz)
 {
 }
 

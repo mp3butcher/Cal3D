@@ -27,16 +27,13 @@
   *****************************************************************************/
 
 CalAnimation::CalAnimation()
+   : m_pCoreAnimation(0), m_type(TYPE_NONE), m_state(STATE_NONE),
+     m_time(0.0f), m_timeFactor(1.0f), m_weight(0.0f)
 {
-  m_pCoreAnimation = 0;
-  m_type = TYPE_NONE;
-  m_state = STATE_NONE;
-  m_time = 0.0f;
-  m_timeFactor = 1.0f;
-  m_weight = 0.0f;
+   //Member variables use initializer list
 }
 
- /*****************************************************************************/
+/******************************************************************************/
 /** Destructs the animation instance.
   *
   * This function is the destructor of the animation instance.
