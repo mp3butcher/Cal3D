@@ -228,6 +228,15 @@
 				RelativePath=".\src\cal3d\submesh.cpp">
 			</File>
 			<File
+				RelativePath="src\cal3d\tinyxml.cpp">
+			</File>
+			<File
+				RelativePath="src\cal3d\tinyxmlerror.cpp">
+			</File>
+			<File
+				RelativePath="src\cal3d\tinyxmlparser.cpp">
+			</File>
+			<File
 				RelativePath=".\src\cal3d\vector.cpp">
 			</File>
 		</Filter>
@@ -331,16 +340,7 @@
 				RelativePath=".\src\cal3d\submesh.h">
 			</File>
 			<File
-				RelativePath=".\src\tinyxml\tinyxml.cpp">
-			</File>
-			<File
-				RelativePath=".\src\tinyxml\tinyxml.h">
-			</File>
-			<File
-				RelativePath=".\src\tinyxml\tinyxmlerror.cpp">
-			</File>
-			<File
-				RelativePath=".\src\tinyxml\tinyxmlparser.cpp">
+				RelativePath="src\cal3d\tinyxml.h">
 			</File>
 			<File
 				RelativePath=".\src\cal3d\vector.h">
