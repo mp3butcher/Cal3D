@@ -22,9 +22,14 @@
 //----------------------------------------------------------------------------//
 
 // this is the class for all biped controllers except the root and the footsteps
-#define BIPSLAVE_CONTROL_CLASS_ID Class_ID(0x9154,0)
+#ifndef BIPSLAVE_CONTROL_CLASS_ID
+#define BIPSLAVE_CONTROL_CLASS_ID Class_ID(0x9154,0)                                   5
+#endif
+
 // this is the class for the center of mass, biped root controller ("Bip01")
+#ifndef BIPBODY_CONTROL_CLASS_ID
 #define BIPBODY_CONTROL_CLASS_ID  Class_ID(0x9156,0) 
+#endif
 
 //----------------------------------------------------------------------------//
 // Forward declarations                                                       //
