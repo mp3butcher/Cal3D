@@ -25,7 +25,7 @@
   * This function is the default constructor of the core animation instance.
   *****************************************************************************/
 
-CalCoreAnimation::CalCoreAnimation()
+CalCoreAnimation::CalCoreAnimation() : m_referenceCount(0)
 {
 }
 
@@ -239,5 +239,33 @@ const std::string& CalCoreAnimation::getName(void)
 {
   return m_name;
 }
+
+/*****************************************************************************/
+/** 
+  * Increment the reference counter the core animation.
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::incRef()
+{
+  m_referenceCount++;
+}
+
+ /*****************************************************************************/
+/** 
+  * Decrement the reference counter the core animation.
+  *
+  * @return One of the following values:
+  *         \li \b true if there are nomore reference
+  *         \li \b false if there are another reference
+  *
+  *****************************************************************************/
+
+bool CalCoreAnimation::decRef()
+{
+  m_referenceCount--;
+  return (m_referenceCount <= 0);
+}
+
 
 //****************************************************************************//

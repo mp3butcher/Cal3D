@@ -70,6 +70,7 @@ int CalCoreModel::addCoreAnimation(CalCoreAnimation *pCoreAnimation)
   animationId = m_vectorCoreAnimation.size();
 
   m_vectorCoreAnimation.push_back(pCoreAnimation);
+  pCoreAnimation->incRef();
 
   return animationId;
 }
@@ -117,6 +118,7 @@ int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
   materialId = m_vectorCoreMaterial.size();
 
   m_vectorCoreMaterial.push_back(pCoreMaterial);
+  pCoreMaterial->incRef();
 
   return materialId;
 }
@@ -140,6 +142,7 @@ int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
   meshId = m_vectorCoreMesh.size();
 
   m_vectorCoreMesh.push_back(pCoreMesh);
+  pCoreMesh->incRef();
 
   return meshId;
 }
@@ -199,10 +202,14 @@ void CalCoreModel::destroy()
   std::vector<CalCoreMaterial *>::iterator iteratorCoreMaterial;
   for(iteratorCoreMaterial = m_vectorCoreMaterial.begin(); iteratorCoreMaterial != m_vectorCoreMaterial.end(); ++iteratorCoreMaterial)
   {
-    if(*iteratorCoreMaterial) {
-      (*iteratorCoreMaterial)->destroy();
-      delete (*iteratorCoreMaterial);
-    }
+	  if(*iteratorCoreMaterial) 
+	  {
+		  if((*iteratorCoreMaterial)->decRef())
+		  {
+			  (*iteratorCoreMaterial)->destroy();
+			  delete (*iteratorCoreMaterial);
+		  }
+	  }
   }
   m_vectorCoreMaterial.clear();
 
@@ -210,10 +217,14 @@ void CalCoreModel::destroy()
   std::vector<CalCoreMesh *>::iterator iteratorCoreMesh;
   for(iteratorCoreMesh = m_vectorCoreMesh.begin(); iteratorCoreMesh != m_vectorCoreMesh.end(); ++iteratorCoreMesh)
   {
-    if(*iteratorCoreMesh) {
-      (*iteratorCoreMesh)->destroy();
-      delete (*iteratorCoreMesh);
-    }
+	  if(*iteratorCoreMesh) 
+	  {
+		  if((*iteratorCoreMesh)->decRef())
+		  {
+			  (*iteratorCoreMesh)->destroy();
+			  delete (*iteratorCoreMesh);
+		  }
+	  }
   }
   m_vectorCoreMesh.clear();
 
@@ -221,10 +232,14 @@ void CalCoreModel::destroy()
   std::vector<CalCoreAnimation *>::iterator iteratorCoreAnimation;
   for(iteratorCoreAnimation = m_vectorCoreAnimation.begin(); iteratorCoreAnimation != m_vectorCoreAnimation.end(); ++iteratorCoreAnimation)
   {
-    if(*iteratorCoreAnimation) {
-      (*iteratorCoreAnimation)->destroy();
-      delete (*iteratorCoreAnimation);
-    }
+	  if(*iteratorCoreAnimation) 
+	  {
+		  if((*iteratorCoreAnimation)->decRef())
+		  {
+			  (*iteratorCoreAnimation)->destroy();
+			  delete (*iteratorCoreAnimation);
+		  }
+	  }
   }
   m_vectorCoreAnimation.clear();
 
@@ -240,9 +255,12 @@ void CalCoreModel::destroy()
 
   if(m_pCoreSkeleton != 0)
   {
-    m_pCoreSkeleton->destroy();
-    delete m_pCoreSkeleton;
-    m_pCoreSkeleton = 0;
+    if(m_pCoreSkeleton->decRef())
+	{
+		m_pCoreSkeleton->destroy();
+		delete m_pCoreSkeleton;
+	}
+	m_pCoreSkeleton = 0;	
   }
 
   m_strName.erase();
@@ -595,7 +613,11 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
     return -1;
   }
 
-  delete m_vectorCoreAnimation[coreAnimationId];
+  if(m_vectorCoreAnimation[coreAnimationId]->decRef())
+  {
+	  m_vectorCoreAnimation[coreAnimationId]->destroy();
+	  delete m_vectorCoreAnimation[coreAnimationId];	  
+  }
   m_vectorCoreAnimation[coreAnimationId] = 0;
 
   return coreAnimationId;
@@ -732,7 +754,11 @@ int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
     return -1;
   }
 
-  delete m_vectorCoreMaterial[coreMaterialId];
+  if(m_vectorCoreMaterial[coreMaterialId]->decRef())
+  {
+	  m_vectorCoreMaterial[coreMaterialId]->destroy();
+	  delete m_vectorCoreMaterial[coreMaterialId];	  
+  }
   m_vectorCoreMaterial[coreMaterialId] = 0;
 
   return coreMaterialId;
@@ -870,8 +896,11 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
     return -1;
   }
 
-  m_vectorCoreMesh[coreMeshId]->destroy();
-  delete m_vectorCoreMesh[coreMeshId];
+  if(m_vectorCoreMesh[coreMeshId]->decRef())
+  {
+	  m_vectorCoreMesh[coreMeshId]->destroy();
+	  delete m_vectorCoreMesh[coreMeshId];	  
+  }
   m_vectorCoreMesh[coreMeshId] = 0;
 
   return coreMeshId;
@@ -1081,8 +1110,11 @@ void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
   // destroy a possible existing core skeleton
   if(m_pCoreSkeleton != 0)
   {
-    m_pCoreSkeleton->destroy();
-    delete m_pCoreSkeleton;
+	if(m_pCoreSkeleton->decRef())
+	{
+		m_pCoreSkeleton->destroy();
+		delete m_pCoreSkeleton;
+	}
   }
 
   m_pCoreSkeleton = pCoreSkeleton;

@@ -26,7 +26,7 @@
   *****************************************************************************/
 
 CalCoreMaterial::CalCoreMaterial()
-  : m_userData(0)
+  : m_userData(0), m_referenceCount(0)
 {
 }
 
@@ -393,6 +393,33 @@ const std::string& CalCoreMaterial::getName(void)
 void CalCoreMaterial::setUserData(Cal::UserData userData)
 {
   m_userData = userData;
+}
+
+ /*****************************************************************************/
+/** 
+  * Increment the reference counter the core material.
+  *
+  *****************************************************************************/
+
+void CalCoreMaterial::incRef()
+{
+  m_referenceCount++;
+}
+
+ /*****************************************************************************/
+/** 
+  * Decrement the reference counter the core material.
+  *
+  * @return One of the following values:
+  *         \li \b true if there are nomore reference
+  *         \li \b false if there are another reference
+  *
+  *****************************************************************************/
+
+bool CalCoreMaterial::decRef()
+{
+  m_referenceCount--;
+  return (m_referenceCount <= 0); 
 }
 
 //****************************************************************************//

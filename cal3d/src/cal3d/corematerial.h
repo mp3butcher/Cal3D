@@ -56,6 +56,8 @@ protected:
   std::string m_name;
   std::string m_filename;
 
+  int m_referenceCount;
+
 // constructors/destructor
 public:
   CalCoreMaterial();
@@ -86,6 +88,8 @@ public:
   void setName(const std::string& name);
   const std::string& getName(void);
   void setUserData(Cal::UserData userData);
+  void incRef();
+  bool decRef();  
 };
 
 #endif

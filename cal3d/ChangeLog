@@ -19,6 +19,8 @@ o-----------------------------------------------------------------------------o
   - Fix in the XML loader
   - Add a function to compute the global bounding box of the model.
   - Rename calculateBoundingBox to calculateBoundingBoxes.
+  - Add reference counting. Core* objects can be
+    now shared between several coremodel correctly.
 
 o-----------------------------------------------------------------------------o
 | Version 0.9.1 ( 29. November 2003) 

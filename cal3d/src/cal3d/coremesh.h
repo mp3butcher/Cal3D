@@ -38,6 +38,7 @@ protected:
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
   std::string m_name;
   std::string m_filename;
+  int m_referenceCount;
 
 // constructors/destructor
 public:
@@ -58,6 +59,8 @@ public:
   const std::string& getFilename(void);
   void setName(const std::string& name);
   const std::string& getName(void);
+  void incRef();
+  bool decRef();  
 };
 
 #endif

@@ -39,6 +39,7 @@ protected:
   std::vector<CalCoreBone *> m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
   std::list<int> m_listRootCoreBoneId;  
+  int m_referenceCount;
 
 // constructors/destructor
 public:
@@ -59,7 +60,8 @@ public:
   std::vector<CalCoreBone *>& getVectorCoreBone();
   void calculateBoundingBoxes(CalCoreModel * pCoreModel);
   void scale(float factor);
-  
+  void incRef();
+  bool decRef();    
 };
 
 #endif
