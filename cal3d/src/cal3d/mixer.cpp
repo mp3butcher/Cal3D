@@ -594,4 +594,52 @@ float CalMixer::getTimeFactor()
     return m_timeFactor;
 }
 
+/*****************************************************************************/
+/** Get the model.
+  * 
+  * This function return the CalModel of the mixer instance.
+  *
+  *****************************************************************************/
+
+CalModel *CalMixer::getCalModel() 
+{ 
+    return m_pModel; 
+} 
+
+/*****************************************************************************/
+/** Get the animation vector.
+  * 
+  * This function return the animation vector of the mixer instance.
+  *
+  *****************************************************************************/
+
+std::vector<CalAnimation *> & CalMixer::getAnimationVector() 
+{ 
+    return m_vectorAnimation; 
+} 
+
+/*****************************************************************************/
+/** Get the list of the action animation.
+  * 
+  * This function return the list of the action animation of the mixer instance.
+  *
+  *****************************************************************************/
+
+std::list<CalAnimationAction *> & CalMixer::getAnimationActionList() 
+{ 
+    return m_listAnimationAction; 
+}
+
+/*****************************************************************************/
+/** Get the list of the cycle animation.
+  * 
+  * This function return the list of the cycle animation of the mixer instance.
+  *
+  *****************************************************************************/
+
+std::list<CalAnimationCycle *> & CalMixer::getAnimationCycle() 
+{ 
+    return m_listAnimationCycle; 
+} 
+
 //****************************************************************************//

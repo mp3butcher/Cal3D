@@ -31,7 +31,7 @@ class CAL3D_API CalModel : Cal::noncopyable
 {
 public: 
   CalModel(CalCoreModel* pCoreModel);
-  ~CalModel();
+  virtual ~CalModel();
 
   bool attachMesh(int coreMeshId);
   bool detachMesh(int coreMeshId);
