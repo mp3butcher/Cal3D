@@ -74,6 +74,7 @@ public:
   void setMaterialSet(int setId);
   void setUserData(Cal::UserData userData);
   void update(float deltaTime);
+  void disableInternalData();
 };
 
 #endif

@@ -57,6 +57,7 @@ public:
   void setLodLevel(float lodLevel);
   void setMaterialSet(int setId);
   void setModel(CalModel *pModel);
+  void disableInternalData();
 };
 
 #endif

@@ -615,4 +615,20 @@ void CalModel::update(float deltaTime)
   m_pSpringSystem->update(deltaTime);
 }
 
+/*****************************************************************************/
+/** Disable internal data (and thus springs system)
+  *
+  *****************************************************************************/
+
+void CalModel::disableInternalData()
+{
+  // Disable internal data in all meshes
+  std::vector<CalMesh *>::iterator iteratorMesh;
+  for(iteratorMesh = m_vectorMesh.begin(); iteratorMesh != m_vectorMesh.end(); ++iteratorMesh)
+  {
+    // Disable internal data in the mesh
+    (*iteratorMesh)->disableInternalData();
+  }
+}
+
 //****************************************************************************//

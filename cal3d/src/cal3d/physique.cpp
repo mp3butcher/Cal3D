@@ -113,7 +113,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
     }
 
     // save vertex position
-    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0)
+    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
     {
       // get the pgysical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
@@ -397,7 +397,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     }
 
     // save vertex position
-    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0)
+    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
     {
       // get the pgysical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
@@ -541,7 +541,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
     }
 
     // save vertex position
-    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0)
+    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
     {
       // get the pgysical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];

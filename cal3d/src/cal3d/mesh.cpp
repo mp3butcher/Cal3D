@@ -251,4 +251,22 @@ void CalMesh::setModel(CalModel *pModel)
   m_pModel = pModel;
 }
 
+/*****************************************************************************/
+/** Disable internal data (and thus springs system)
+  *
+  *****************************************************************************/
+
+
+void CalMesh::disableInternalData()
+{
+  // disable internal data of every submesh
+  int submeshId;
+  for(submeshId = 0; submeshId < (int)m_vectorSubmesh.size(); ++submeshId)
+  {
+    // disable internal data of the submesh
+    m_vectorSubmesh[submeshId]->disableInternalData();
+  }
+}
+
+
 //****************************************************************************//

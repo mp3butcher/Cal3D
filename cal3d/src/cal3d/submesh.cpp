@@ -39,6 +39,7 @@ CalSubmesh::CalSubmesh()
 
 CalSubmesh::~CalSubmesh()
 {
+
 }
 
  /*****************************************************************************/
@@ -123,6 +124,16 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
 
 void CalSubmesh::destroy()
 {
+	m_vectorFace.clear();
+
+	if(m_bInternalData)
+	{
+		m_vectorVertex.clear();
+		m_vectorNormal.clear();
+		m_vectorvectorTangentSpace.clear();
+		m_vectorPhysicalProperty.clear();
+	}
+
   m_pCoreSubmesh = 0;
 }
 
@@ -274,6 +285,24 @@ int CalSubmesh::getVertexCount()
 bool CalSubmesh::hasInternalData()
 {
   return m_bInternalData;
+}
+
+/*****************************************************************************/
+/** Disable internal data (and thus springs system)
+  *
+  *****************************************************************************/
+
+void CalSubmesh::disableInternalData()
+{
+	if(m_bInternalData)
+	{
+		m_vectorVertex.clear();
+		m_vectorNormal.clear();
+		m_vectorvectorTangentSpace.clear();
+		m_vectorPhysicalProperty.clear();
+		m_bInternalData=false;
+	}
+
 }
 
  /*****************************************************************************/

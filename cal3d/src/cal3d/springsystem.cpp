@@ -309,7 +309,7 @@ void CalSpringSystem::update(float deltaTime)
     for(iteratorSubmesh = vectorSubmesh.begin(); iteratorSubmesh != vectorSubmesh.end(); ++iteratorSubmesh)
     {
       // check if the submesh contains a spring system
-      if((*iteratorSubmesh)->getCoreSubmesh()->getSpringCount() > 0)
+      if((*iteratorSubmesh)->getCoreSubmesh()->getSpringCount() > 0 && (*iteratorSubmesh)->hasInternalData())
       {
         // calculate the new forces on each unbound vertex
         calculateForces(*iteratorSubmesh, deltaTime);
