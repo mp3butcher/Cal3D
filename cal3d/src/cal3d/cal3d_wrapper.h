@@ -45,7 +45,12 @@
 // Defines for Linux, Cygwin, FreeBSD Sun and Mips                            //
 //****************************************************************************//
 
-#if defined(__linux__) || (__CYGWIN__) || (sun) || (mips) || (__FreeBSD__)
+#if defined(__linux__)  \
+	|| (__CYGWIN__) \
+	|| (sun) \
+	|| (mips) \
+	|| (__FreeBSD__) \
+	|| defined(__APPLE__)
 
 #define CAL3D_WRAPPER_API
 

@@ -2414,7 +2414,7 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
 
 
 
-  for(int mapId=0;mapId<MatFileName.size();mapId++)
+  for(unsigned int mapId=0;mapId<MatFileName.size();mapId++)
   {
 	  CalCoreMaterial::Map Map;
 	  // initialize the user data
