@@ -95,4 +95,10 @@ SClass_ID CMaxSkeletonExportDesc::SuperClassID()
 	return SCENE_EXPORT_CLASS_ID;
 }
 
+char * CMaxSkeletonExportDesc::GetRsrcString(long n)
+{
+	return NULL;
+}
+
+
 //----------------------------------------------------------------------------//

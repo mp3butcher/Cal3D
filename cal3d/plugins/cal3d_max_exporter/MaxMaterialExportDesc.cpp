@@ -95,4 +95,10 @@ SClass_ID CMaxMaterialExportDesc::SuperClassID()
 	return SCENE_EXPORT_CLASS_ID;
 }
 
+char * CMaxMaterialExportDesc::GetRsrcString(long n)
+{
+	return NULL;
+}
+
+
 //----------------------------------------------------------------------------//

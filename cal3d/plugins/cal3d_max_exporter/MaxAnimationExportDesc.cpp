@@ -95,4 +95,11 @@ SClass_ID CMaxAnimationExportDesc::SuperClassID()
 	return SCENE_EXPORT_CLASS_ID;
 }
 
+
+char * CMaxAnimationExportDesc::GetRsrcString(long n)
+{
+	return NULL;
+}
+
+
 //----------------------------------------------------------------------------//
