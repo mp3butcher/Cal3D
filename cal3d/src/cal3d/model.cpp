@@ -407,26 +407,42 @@ CalCoreModel *CalModel::getCoreModel()
 }
 
  /*****************************************************************************/
-/** Provides access to a mesh.
+/** Provides access to an attached mesh.
   *
-  * This function returns the mesh with the given ID.
+  * This function returns the attached mesh with the given core mesh ID.
   *
-  * @param coreMeshId The ID of the mesh that should be returned.
+  * @param coreMeshId The core mesh ID of the mesh that should be returned.
   *
   * @return One of the following values:
   *         \li a pointer to the mesh
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalMesh *CalModel::getMesh(int meshId)
+CalMesh *CalModel::getMesh(int coreMeshId)
 {
-  if((meshId < 0) || (meshId >= (int)m_vectorMesh.size()))
+  // check if the id is valid
+  if((coreMeshId < 0) ||(coreMeshId >= m_pCoreModel->getCoreMeshCount()))
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return 0;
+    return false;
   }
 
-  return m_vectorMesh[meshId];
+  // get the core mesh
+  CalCoreMesh *pCoreMesh;
+  pCoreMesh = m_pCoreModel->getCoreMesh(coreMeshId);
+
+  // search the mesh
+  int meshId;
+  for(meshId = 0; meshId < (int)m_vectorMesh.size(); meshId++)
+  {
+    // check if we found the matching mesh
+    if(m_vectorMesh[meshId]->getCoreMesh() == pCoreMesh)
+    {
+      return m_vectorMesh[meshId];
+    }
+  }
+
+  return 0;
 }
 
  /*****************************************************************************/
