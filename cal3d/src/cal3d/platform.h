@@ -20,6 +20,11 @@
 #pragma warning(disable : 4786)
 #endif
 
+#if !defined(_WIN32) || defined(__MINGW32__)
+#define stricmp strcasecmp
+#endif
+
+
 //****************************************************************************//
 // Dynamic library export setup                                               //
 //****************************************************************************//
@@ -44,6 +49,7 @@
 
 #if defined(__i386__) || \
     defined(__alpha__) || \
+    defined(__FreeBSD__) || \
     (defined(__mips__) && defined(MIPSEL)) || \
     defined(__MIPSEL__) || \
     (defined(__arm__) && defined(ARMEL)) || \
@@ -71,6 +77,7 @@
 // STL includes
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <list>

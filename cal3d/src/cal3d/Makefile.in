@@ -82,7 +82,6 @@ DB2HTML = @DB2HTML@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DOXYGEN = @DOXYGEN@
-ECHO = @ECHO@
 EXEEXT = @EXEEXT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LIBTOOL = @LIBTOOL@
@@ -91,7 +90,6 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
-STRIP = @STRIP@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
@@ -107,10 +105,10 @@ SOSUBMINOR = 0
 
 lib_LTLIBRARIES = libcal3d.la
 
-libcal3d_la_SOURCES = animation.cpp animation_action.cpp animation_cycle.cpp bone.cpp cal3d_wrapper.cpp coreanimation.cpp corebone.cpp corekeyframe.cpp corematerial.cpp coremesh.cpp coremodel.cpp coreskeleton.cpp coresubmesh.cpp coretrack.cpp error.cpp global.cpp loader.cpp matrix.cpp mesh.cpp mixer.cpp model.cpp physique.cpp platform.cpp quaternion.cpp renderer.cpp saver.cpp skeleton.cpp springsystem.cpp submesh.cpp vector.cpp
+libcal3d_la_SOURCES = animation.cpp animation_action.cpp animation_cycle.cpp bone.cpp cal3d_wrapper.cpp coreanimation.cpp corebone.cpp corekeyframe.cpp corematerial.cpp coremesh.cpp coremodel.cpp coreskeleton.cpp coresubmesh.cpp coretrack.cpp error.cpp global.cpp loader.cpp matrix.cpp mesh.cpp mixer.cpp model.cpp physique.cpp platform.cpp quaternion.cpp renderer.cpp saver.cpp skeleton.cpp springsystem.cpp submesh.cpp vector.cpp $(top_srcdir)/src/tinyxml/tinyxml.cpp $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
 libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(SOMAJOR):$(SOMINOR):$(SOSUBMINOR) $(LDFLAGS)
 
-pkginclude_HEADERS = animation.h animation_action.h animation_cycle.h bone.h cal3d.h cal3d_wrapper.h coreanimation.h corebone.h corekeyframe.h corematerial.h coremesh.h coremodel.h coreskeleton.h coresubmesh.h coretrack.h error.h global.h loader.h matrix.h mesh.h mixer.h model.h physique.h platform.h quaternion.h renderer.h resource.h saver.h skeleton.h springsystem.h submesh.h vector.h
+pkginclude_HEADERS = animation.h animation_action.h animation_cycle.h bone.h cal3d.h cal3d_wrapper.h coreanimation.h corebone.h corekeyframe.h corematerial.h coremesh.h coremodel.h coreskeleton.h coresubmesh.h coretrack.h error.h global.h loader.h matrix.h mesh.h mixer.h model.h physique.h platform.h quaternion.h renderer.h resource.h saver.h skeleton.h springsystem.h submesh.h vector.h $(top_srcdir)/src/tinyxml/tinyxml.h
 subdir = src/cal3d
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -124,7 +122,8 @@ am_libcal3d_la_OBJECTS = animation.lo animation_action.lo \
 	coremodel.lo coreskeleton.lo coresubmesh.lo coretrack.lo \
 	error.lo global.lo loader.lo matrix.lo mesh.lo mixer.lo \
 	model.lo physique.lo platform.lo quaternion.lo renderer.lo \
-	saver.lo skeleton.lo springsystem.lo submesh.lo vector.lo
+	saver.lo skeleton.lo springsystem.lo submesh.lo vector.lo \
+	tinyxml.lo tinyxmlerror.lo tinyxmlparser.lo
 libcal3d_la_OBJECTS = $(am_libcal3d_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -149,7 +148,9 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/platform.Plo $(DEPDIR)/quaternion.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/renderer.Plo $(DEPDIR)/saver.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/skeleton.Plo $(DEPDIR)/springsystem.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/submesh.Plo $(DEPDIR)/vector.Plo
+@AMDEP_TRUE@	$(DEPDIR)/submesh.Plo $(DEPDIR)/tinyxml.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/tinyxmlerror.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/tinyxmlparser.Plo $(DEPDIR)/vector.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -180,7 +181,7 @@ distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/cal3d/Makefile
+	  $(AUTOMAKE) --gnu  src/cal3d/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -204,6 +205,9 @@ uninstall-libLTLIBRARIES:
 
 clean-libLTLIBRARIES:
 	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+tinyxml.lo: $(top_srcdir)/src/tinyxml/tinyxml.cpp
+tinyxmlerror.lo: $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+tinyxmlparser.lo: $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
 libcal3d.la: $(libcal3d_la_OBJECTS) $(libcal3d_la_DEPENDENCIES) 
 	$(CXXLINK) -rpath $(libdir) $(libcal3d_la_LDFLAGS) $(libcal3d_la_OBJECTS) $(libcal3d_la_LIBADD) $(LIBS)
 
@@ -242,6 +246,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/skeleton.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/springsystem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/submesh.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tinyxml.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tinyxmlerror.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tinyxmlparser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/vector.Plo@am__quote@
 
 distclean-depend:
@@ -264,6 +271,60 @@ distclean-depend:
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+tinyxml.o: $(top_srcdir)/src/tinyxml/tinyxml.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxml.cpp' object='tinyxml.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxml.Po' tmpdepfile='$(DEPDIR)/tinyxml.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.o `test -f $(top_srcdir)/src/tinyxml/tinyxml.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxml.cpp
+
+tinyxml.obj: $(top_srcdir)/src/tinyxml/tinyxml.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxml.cpp' object='tinyxml.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxml.Po' tmpdepfile='$(DEPDIR)/tinyxml.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.obj `cygpath -w $(top_srcdir)/src/tinyxml/tinyxml.cpp`
+
+tinyxml.lo: $(top_srcdir)/src/tinyxml/tinyxml.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxml.cpp' object='tinyxml.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxml.Plo' tmpdepfile='$(DEPDIR)/tinyxml.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxml.lo `test -f $(top_srcdir)/src/tinyxml/tinyxml.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxml.cpp
+
+tinyxmlerror.o: $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlerror.Po' tmpdepfile='$(DEPDIR)/tinyxmlerror.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.o `test -f $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+
+tinyxmlerror.obj: $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlerror.Po' tmpdepfile='$(DEPDIR)/tinyxmlerror.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.obj `cygpath -w $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp`
+
+tinyxmlerror.lo: $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlerror.cpp' object='tinyxmlerror.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlerror.Plo' tmpdepfile='$(DEPDIR)/tinyxmlerror.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlerror.lo `test -f $(top_srcdir)/src/tinyxml/tinyxmlerror.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxmlerror.cpp
+
+tinyxmlparser.o: $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlparser.Po' tmpdepfile='$(DEPDIR)/tinyxmlparser.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.o `test -f $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
+
+tinyxmlparser.obj: $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlparser.Po' tmpdepfile='$(DEPDIR)/tinyxmlparser.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.obj `cygpath -w $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp`
+
+tinyxmlparser.lo: $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
+@AMDEP_TRUE@	source='$(top_srcdir)/src/tinyxml/tinyxmlparser.cpp' object='tinyxmlparser.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/tinyxmlparser.Plo' tmpdepfile='$(DEPDIR)/tinyxmlparser.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tinyxmlparser.lo `test -f $(top_srcdir)/src/tinyxml/tinyxmlparser.cpp || echo '$(srcdir)/'`$(top_srcdir)/src/tinyxml/tinyxmlparser.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 install-pkgincludeHEADERS: $(pkginclude_HEADERS)
@@ -322,6 +383,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/tinyxml
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -421,7 +483,7 @@ uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
 	uninstall-libLTLIBRARIES uninstall-pkgincludeHEADERS
 
 
-# ************************************************************************
+# *************************************************************************
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

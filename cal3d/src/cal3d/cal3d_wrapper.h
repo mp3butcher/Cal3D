@@ -11,6 +11,10 @@
 #ifndef CAL_CAL3D_WRAPPER_H
 #define CAL_CAL3D_WRAPPER_H
 
+#ifdef __cplusplus
+#include "global.h"
+#endif
+
 //****************************************************************************//
 // Defines for Win32 and MingW32                                              //
 //****************************************************************************//
@@ -38,10 +42,10 @@
 #endif
 
 //****************************************************************************//
-// Defines for Linux, Cygwin, Sun and Mips                                    //
+// Defines for Linux, Cygwin, FreeBSD Sun and Mips                            //
 //****************************************************************************//
 
-#if defined(__linux__) || (__CYGWIN__) || (sun) || (mips)
+#if defined(__linux__) || (__CYGWIN__) || (sun) || (mips) || (__FreeBSD__)
 
 #define CAL3D_WRAPPER_API
 
@@ -81,9 +85,7 @@ struct CalSpringSystem;
 struct CalSubmesh;
 struct CalVector;
 
-#ifdef CAL_16BIT_INDICES 
-typedef unsigned short CalIndex; 
-#else 
+#ifndef __cplusplus
 typedef int CalIndex; 
 #endif
 

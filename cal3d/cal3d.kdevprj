@@ -40,7 +40,7 @@ project_name=cal3d
 project_type=normal_empty
 short_info=
 sub_dir=
-version=0.8devel
+version=0.9devel
 version_control=None
 workspace=1
 
@@ -175,6 +175,38 @@ sharedlib_LDFLAGS=-version-info 0:0:1
 sharedlib_rootname=cal3d
 sub_dirs=
 type=static_library
+
+[src/tinyxml/Makefile.am]
+files=src/tinyxml/tinyxml.cpp,src/tinyxml/tinyxml.h,src/tinyxml/tinyxmlparser.cpp,src/tinyxml/tinyxmlerror.cpp
+sharedlib_LDFLAGS=-version-info 0:0:1
+sharedlib_rootname=tinyxml
+sub_dirs=
+type=static_library
+
+[src/tinyxml/tinyxml.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[src/tinyxml/tinyxml.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[src/tinyxml/tinyxmlparser.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[src/tinyxml/tinyxmlerror.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
 
 [src/cal3d/animation.cpp]
 dist=true
@@ -554,8 +586,11 @@ install=false
 install_location=
 type=HEADER
 
+
 [src/main.cpp]
 dist=true
 install=false
 install_location=
 type=SOURCE
+
+

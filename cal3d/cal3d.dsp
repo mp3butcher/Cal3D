@@ -353,8 +353,28 @@ SOURCE=.\src\cal3d\submesh.h
 
 SOURCE=.\src\cal3d\vector.h
 # End Source File
+
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxml.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxml.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxmlerror.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tinyxml\tinyxmlparser.cpp
+# End Source File
+
+
 # End Group
 # Begin Group "Ressourcendateien"
+
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group

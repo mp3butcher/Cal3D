@@ -58,6 +58,14 @@ protected:
   CalCoreKeyframe *loadCoreKeyframe(std::ifstream& file, const std::string& strFilename);
   CalCoreSubmesh *loadCoreSubmesh(std::ifstream& file, const std::string& strFilename);
   CalCoreTrack *loadCoreTrack(std::ifstream& file, const std::string& strFilename);
+
+#ifdef CAL_USE_XML  
+  CalCoreAnimation *loadXmlCoreAnimation(const std::string& strFilename);
+  CalCoreSkeleton *loadXmlCoreSkeleton(const std::string& strFilename);
+  CalCoreMesh *loadXmlCoreMesh(const std::string& strFilename);
+  CalCoreMaterial *loadXmlCoreMaterial(const std::string& strFilename);
+#endif
+
 };
 
 #endif

@@ -30,6 +30,9 @@
 #include "coresubmesh.h"
 #include "corematerial.h"
 
+#ifdef CAL_USE_XML
+#include "../tinyxml/tinyxml.h"
+#endif
  /*****************************************************************************/
 /** Constructs the saver instance.
   *
@@ -67,6 +70,11 @@ CalSaver::~CalSaver()
 
 bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
 {
+#ifdef CAL_USE_XML
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
+	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);	
+#endif
+
   // open the file
   std::ofstream file;
   file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
@@ -277,6 +285,11 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
 
 bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
 {
+#ifdef CAL_USE_XML
+	if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
+	 return saveXmlCoreMaterial(strFilename, pCoreMaterial);	
+#endif
+
   // open the file
   std::ofstream file;
   file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
@@ -370,6 +383,11 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
 bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
 {
+#ifdef CAL_USE_XML
+  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
+	 return saveXmlCoreMesh(strFilename, pCoreMesh);
+#endif
+
   // open the file
   std::ofstream file;
   file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
@@ -437,6 +455,11 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
 bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
+#ifdef CAL_USE_XML
+	if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
+	 return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);	
+#endif
+
   // open the file
   std::ofstream file;
   file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
@@ -711,4 +734,593 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   return true;
 }
 
+#ifdef CAL_USE_XML
+ /*****************************************************************************/
+/** Saves a core skeleton instance to a XML file
+  *
+  * This function saves a core skeleton instance to a XML file.
+  *
+  * @param strFilename The name of the file to save the core skeleton instance
+  *                    to.
+  * @param pCoreSkeleton A pointer to the core skeleton instance that should be
+  *                      saved.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
+{
+  std::stringstream str;
+
+  TiXmlDocument doc(strFilename);  
+  
+  TiXmlElement header("HEADER");
+  header.SetAttribute("MAGIC",Cal::SKELETON_XMLFILE_MAGIC);
+  header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+  
+  doc.InsertEndChild(header);
+
+  TiXmlElement skeleton("SKELETON");
+  skeleton.SetAttribute("NUMBONES",pCoreSkeleton->getVectorCoreBone().size());
+  
+
+
+  int boneId;
+  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); boneId++)
+  {
+	  CalCoreBone* pCoreBone=pCoreSkeleton->getCoreBone(boneId);
+
+	  TiXmlElement bone("BONE");	  
+	  bone.SetAttribute("ID",boneId);
+	  bone.SetAttribute("NAME",pCoreBone->getName());
+	  bone.SetAttribute("NUMCHILDS",pCoreBone->getListChildId().size());
+
+	  TiXmlElement translation("TRANSLATION");
+	  const CalVector& translationVector = pCoreBone->getTranslation();
+      
+
+      str.str("");
+      str << translationVector.x << " " 
+    	  << translationVector.y << " "
+	      << translationVector.z;
+  
+      TiXmlText translationdata(str.str());  
+
+      translation.InsertEndChild(translationdata);
+      bone.InsertEndChild(translation);
+
+
+	  TiXmlElement rotation("ROTATION");
+	  const CalQuaternion& rotationQuad = pCoreBone->getRotation();  
+      
+
+      str.str("");
+      str << rotationQuad.x << " " 
+    	  << rotationQuad.y << " "
+		  << rotationQuad.z << " "
+	      << rotationQuad.w;
+  
+      TiXmlText rotationdata(str.str());
+      rotation.InsertEndChild(rotationdata);
+      bone.InsertEndChild(rotation);
+
+
+	  TiXmlElement localtranslation("LOCALTRANSLATION");
+	  const CalVector& localtranslationVector = pCoreBone->getTranslationBoneSpace();      
+
+      str.str("");
+      str << localtranslationVector.x << " " 
+    	  << localtranslationVector.y << " "
+	      << localtranslationVector.z;
+  
+      TiXmlText localtranslationdata(str.str()); 
+
+      localtranslation.InsertEndChild(localtranslationdata);
+      bone.InsertEndChild(localtranslation);
+
+
+	  TiXmlElement localrotation("LOCALROTATION");
+	  const CalQuaternion& localrotationQuad = pCoreBone->getRotationBoneSpace();        
+
+      str.str("");
+      str << localrotationQuad.x << " " 
+    	  << localrotationQuad.y << " "
+		  << localrotationQuad.z << " "
+	      << localrotationQuad.w;
+  
+      TiXmlText localrotationdata(str.str());
+      localrotation.InsertEndChild(localrotationdata);
+      bone.InsertEndChild(localrotation);
+
+
+	  TiXmlElement parent("PARENTID");
+	  str.str("");
+      str << pCoreBone->getParentId();
+	  TiXmlText parentid(str.str());
+	  parent.InsertEndChild(parentid);
+      bone.InsertEndChild(parent);
+
+
+	  // get children list
+      std::list<int>& listChildId = pCoreBone->getListChildId();
+
+
+	  // write all children ids
+      std::list<int>::iterator iteratorChildId;
+      for(iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
+	  {
+		  TiXmlElement child("CHILDID");
+		  str.str("");
+		  //int id=*iteratorChildId;
+          str << *iteratorChildId;
+	      TiXmlText childid(str.str());
+		  child.InsertEndChild(childid);
+          bone.InsertEndChild(child);
+	  }
+	  skeleton.InsertEndChild(bone);
+
+  }
+  doc.InsertEndChild(skeleton);
+  
+  if(!doc.SaveFile())
+  {
+	CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return false;
+  }
+  return true;
+}
+
+ /*****************************************************************************/
+/** Saves a core animation instance in a XML file.
+  *
+  * This function saves a core animation instance to a XML file.
+  *
+  * @param strFilename The name of the file to save the core animation instance
+  *                    to.
+  * @param pCoreAnimation A pointer to the core animation instance that should
+  *                       be saved.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
+{
+
+    std::stringstream str;
+
+    TiXmlDocument doc(strFilename);
+  
+    TiXmlElement animation("ANIMATION");
+
+	TiXmlElement header("HEADER");
+	header.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
+	header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+
+	doc.InsertEndChild(header);
+
+	str.str("");
+    str << pCoreAnimation->getDuration();	
+	animation.SetAttribute("DURATION",str.str());
+	
+	// get core track list
+    std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+
+	animation.SetAttribute("NUMTRACKS",listCoreTrack.size());
+  
+
+    // write all core bones
+    std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+    for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+	{
+		CalCoreTrack *pCoreTrack=*iteratorCoreTrack;
+
+		TiXmlElement track("TRACK");
+		track.SetAttribute("BONEID",pCoreTrack->getCoreBoneId());
+		
+		// get core keyframe map
+		std::map<float, CalCoreKeyframe *>& mapCoreKeyframe = pCoreTrack->getMapCoreKeyframe();
+
+		track.SetAttribute("NUMKEYFRAMES",mapCoreKeyframe.size());
+
+		// save all core keyframes
+		std::map<float, CalCoreKeyframe *>::iterator iteratorCoreKeyframe;
+		for(iteratorCoreKeyframe = mapCoreKeyframe.begin(); iteratorCoreKeyframe != mapCoreKeyframe.end(); ++iteratorCoreKeyframe)
+		{
+			CalCoreKeyframe *pCoreKeyframe=iteratorCoreKeyframe->second;
+
+			TiXmlElement keyframe("KEYFRAME");
+
+			str.str("");
+            str << pCoreKeyframe->getTime();	        
+			keyframe.SetAttribute("TIME",str.str());
+			
+			TiXmlElement translation("TRANSLATION");
+			const CalVector& translationVector = pCoreKeyframe->getTranslation();
+
+			str.str("");
+			str << translationVector.x << " "
+				<< translationVector.y << " "
+				<< translationVector.z;
+
+			TiXmlText translationdata(str.str());  
+
+			translation.InsertEndChild(translationdata);
+			keyframe.InsertEndChild(translation);
+
+			TiXmlElement rotation("ROTATION");
+			const CalQuaternion& rotationQuad = pCoreKeyframe->getRotation();  
+
+			str.str("");
+			str << rotationQuad.x << " " 
+				<< rotationQuad.y << " "
+				<< rotationQuad.z << " "
+				<< rotationQuad.w;
+
+			TiXmlText rotationdata(str.str());
+			rotation.InsertEndChild(rotationdata);
+			keyframe.InsertEndChild(rotation);
+
+			track.InsertEndChild(keyframe);
+		}
+
+		animation.InsertEndChild(track);
+	}
+
+	doc.InsertEndChild(animation);
+	
+    if(!doc.SaveFile())
+	{
+	  CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+      return false;
+	} 
+
+  return true;
+}
+
+
+ /*****************************************************************************/
+/** Saves a core mesh instance in a XML file.
+  *
+  * This function saves a core mesh instance to a XML file.
+  *
+  * @param strFilename The name of the file to save the core mesh instance to.
+  * @param pCoreMesh A pointer to the core mesh instance that should be saved.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
+{
+
+	std::stringstream str;
+
+    TiXmlDocument doc(strFilename);    
+	
+	TiXmlElement header("HEADER");
+	header.SetAttribute("MAGIC",Cal::MESH_XMLFILE_MAGIC);
+	header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+
+    doc.InsertEndChild(header);
+
+	TiXmlElement mesh("MESH");
+	mesh.SetAttribute("NUMSUBMESH",pCoreMesh->getCoreSubmeshCount());
+
+	// get the submesh vector
+	std::vector<CalCoreSubmesh *>& vectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
+
+	// write all core submeshes
+	int submeshId;
+	for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); submeshId++)
+	{
+		CalCoreSubmesh *pCoreSubmesh=vectorCoreSubmesh[submeshId];
+
+		TiXmlElement submesh("SUBMESH");
+
+		submesh.SetAttribute("NUMVERTICES",pCoreSubmesh->getVertexCount());
+		submesh.SetAttribute("NUMFACES",pCoreSubmesh->getFaceCount());		
+		submesh.SetAttribute("MATERIAL",pCoreSubmesh->getCoreMaterialThreadId());
+		submesh.SetAttribute("NUMLODSTEPS",pCoreSubmesh->getLodCount());
+		submesh.SetAttribute("NUMSPRINGS",pCoreSubmesh->getSpringCount());
+		
+		submesh.SetAttribute("NUMTEXCOORDS",pCoreSubmesh->getVectorVectorTextureCoordinate().size());
+
+		
+		// get the vertex, face, physical property and spring vector
+		std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
+		std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
+		std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pCoreSubmesh->getVectorPhysicalProperty();
+		std::vector<CalCoreSubmesh::Spring>& vectorSpring = pCoreSubmesh->getVectorSpring();
+
+		// get the texture coordinate vector vector
+        std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
+
+		// write all vertices
+		int vertexId;
+		for(vertexId = 0; vertexId < (int)vectorVertex.size(); vertexId++)
+		{
+			CalCoreSubmesh::Vertex& Vertex = vectorVertex[vertexId];
+
+			TiXmlElement vertex("VERTEX");
+			vertex.SetAttribute("ID",vertexId);
+			vertex.SetAttribute("NUMINFLUENCES",Vertex.vectorInfluence.size());
+
+			// write the vertex data
+
+			TiXmlElement position("POS");
+			
+			str.str("");
+			str << Vertex.position.x << " "
+				<< Vertex.position.y << " "
+				<< Vertex.position.z;
+
+			TiXmlText positiondata(str.str());  
+
+			position.InsertEndChild(positiondata);
+			vertex.InsertEndChild(position);
+
+			TiXmlElement normal("NORM");
+			
+			str.str("");
+			str << Vertex.normal.x << " "
+				<< Vertex.normal.y << " "
+				<< Vertex.normal.z;
+
+			TiXmlText normaldata(str.str());  
+
+			normal.InsertEndChild(normaldata);
+			vertex.InsertEndChild(normal);
+
+			if(Vertex.collapseId!=-1)
+			{
+				TiXmlElement collapse("COLLAPSEID");
+				str.str("");
+				str << Vertex.collapseId;
+				TiXmlText collapseid(str.str());
+				collapse.InsertEndChild(collapseid);
+				vertex.InsertEndChild(collapse);
+
+				TiXmlElement collapsecount("COLLAPSECOUNT");
+				str.str("");
+				str << Vertex.faceCollapseCount;
+				TiXmlText collapsecountdata(str.str());
+				collapsecount.InsertEndChild(collapsecountdata);
+				vertex.InsertEndChild(collapsecount);
+			}
+
+			// write all texture coordinates of this vertex
+			int textureCoordinateId;
+			for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); textureCoordinateId++)
+			{
+				CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
+
+				TiXmlElement tex("TEXCOORD");
+				
+				str.str("");
+				str << textureCoordinate.u << " "
+					<< textureCoordinate.v;
+
+				TiXmlText texdata(str.str());
+
+				tex.InsertEndChild(texdata);
+
+				vertex.InsertEndChild(tex);
+			}
+
+			// write all influences of this vertex
+			int influenceId;
+			for(influenceId = 0; influenceId < (int)Vertex.vectorInfluence.size(); influenceId++)
+			{
+				CalCoreSubmesh::Influence& Influence = Vertex.vectorInfluence[influenceId];
+
+				TiXmlElement influence("INFLUENCE");
+
+				influence.SetAttribute("ID",Influence.boneId);
+
+				str.str("");
+				str << Influence.weight;
+
+				TiXmlText influencedata(str.str());
+
+				influence.InsertEndChild(influencedata);
+				vertex.InsertEndChild(influence);
+			}
+
+			// save the physical property of the vertex if there are springs in the core submesh
+			if(pCoreSubmesh->getSpringCount() > 0)
+			{
+				// write the physical property of this vertex if there are springs in the core submesh
+				CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
+
+				TiXmlElement physique("PHYSIQUE");
+
+				str.str("");
+				str << physicalProperty.weight;
+				TiXmlText physiquedata(str.str());
+				physique.InsertEndChild(physiquedata);
+				vertex.InsertEndChild(physique);
+			}
+
+			submesh.InsertEndChild(vertex);
+		}
+
+		// write all springs
+        int springId;
+        for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); springId++)
+		{
+            CalCoreSubmesh::Spring& Spring = vectorSpring[springId];
+			
+			TiXmlElement spring("SPRING");			
+
+			str.str("");
+			str << Spring.vertexId[0]<< " "
+				<< Spring.vertexId[1];
+			spring.SetAttribute("VERTEXID",str.str());
+
+			
+			str.str("");
+			str << Spring.springCoefficient;
+			spring.SetAttribute("COEF",str.str());	
+			
+			str.str("");
+			str << Spring.idleLength;				
+			spring.SetAttribute("LENGTH",str.str());
+			
+			submesh.InsertEndChild(spring);
+		}
+
+		// write all faces
+		int faceId;
+		for(faceId = 0; faceId < (int)vectorFace.size(); faceId++)
+		{
+			CalCoreSubmesh::Face& Face = vectorFace[faceId];
+
+			TiXmlElement face("FACE");
+
+			str.str("");
+			str << Face.vertexId[0]<< " "
+				<< Face.vertexId[1]<< " "
+				<< Face.vertexId[2];
+			face.SetAttribute("VERTEXID",str.str());
+			submesh.InsertEndChild(face);
+		}
+
+		mesh.InsertEndChild(submesh);
+		
+     }
+	 doc.InsertEndChild(mesh);
+
+
+	 if(!doc.SaveFile())
+	 {
+		 CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+         return false;
+	 }
+
+  return true;
+}
+
+
+
+ /*****************************************************************************/
+/** Saves a core material instance to a XML file.
+  *
+  * This function saves a core material instance to a XML file.
+  *
+  * @param strFilename The name of the file to save the core material instance
+  *                    to.
+  * @param pCoreMaterial A pointer to the core material instance that should
+  *                      be saved.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
+{
+  std::stringstream str;
+
+  TiXmlDocument doc(strFilename);
+  
+  
+  
+  TiXmlElement header("HEADER");
+  header.SetAttribute("MAGIC",Cal::MATERIAL_XMLFILE_MAGIC);
+  header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+
+  doc.InsertEndChild(header);
+
+  TiXmlElement material("MATERIAL");
+  material.SetAttribute("NUMMAPS",pCoreMaterial->getVectorMap().size());
+  
+  TiXmlElement ambient("AMBIENT");
+
+  CalCoreMaterial::Color ambientColor;
+  ambientColor = pCoreMaterial->getAmbientColor();
+
+
+  str.str("");
+  str << (int)ambientColor.red << " " 
+	  << (int)ambientColor.green << " "
+	  << (int)ambientColor.blue << " "
+	  << (int)ambientColor.alpha;
+  
+  TiXmlText ambientdata(str.str());
+  
+
+  ambient.InsertEndChild(ambientdata);
+  material.InsertEndChild(ambient);
+
+  TiXmlElement diffuse("DIFFUSE");
+
+  CalCoreMaterial::Color diffuseColor;
+  diffuseColor = pCoreMaterial->getDiffuseColor();
+  
+  str.str("");
+  str << (int)diffuseColor.red << " " 
+	  << (int)diffuseColor.green << " "
+	  << (int)diffuseColor.blue << " "
+	  << (int)diffuseColor.alpha;
+  
+  TiXmlText diffusedata(str.str());
+
+  
+  diffuse.InsertEndChild(diffusedata);
+  material.InsertEndChild(diffuse);
+
+  TiXmlElement specular("SPECULAR");
+
+  CalCoreMaterial::Color specularColor;
+  specularColor = pCoreMaterial->getSpecularColor();
+
+  str.str("");
+  str << (int)specularColor.red << " " 
+	  << (int)specularColor.green << " "
+	  << (int)specularColor.blue << " "
+	  << (int)specularColor.alpha;
+  
+  TiXmlText speculardata(str.str());
+
+  specular.InsertEndChild(speculardata);
+  material.InsertEndChild(specular);
+
+  TiXmlElement shininess("SHININESS");
+
+  str.str("");
+  str << pCoreMaterial->getShininess();    
+
+  TiXmlText shininessdata(str.str());
+
+  shininess.InsertEndChild(shininessdata);
+  material.InsertEndChild(shininess);  
+
+  std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
+  
+  int mapId;
+  for(mapId = 0; mapId < (int)vectorMap.size(); mapId++)
+  {
+	  TiXmlElement map("MAP");
+	  TiXmlText mapdata(vectorMap[mapId].strFilename);
+	  map.InsertEndChild(mapdata);
+      material.InsertEndChild(map);
+  }
+
+  doc.InsertEndChild(material);
+
+  if(!doc.SaveFile())
+  {
+	CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return false;
+  }
+
+  return true;
+
+}
+#endif
 //****************************************************************************//
