@@ -31,7 +31,7 @@
 #include "corematerial.h"
 
 #ifdef CAL_USE_XML
-#include "../tinyxml/tinyxml.h"
+#include "tinyxml.h"
 #endif
  /*****************************************************************************/
 /** Constructs the saver instance.
