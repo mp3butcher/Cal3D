@@ -15,12 +15,12 @@
 // Compiler configuration                                                     //
 //****************************************************************************//
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4786)
 #endif
 
-#if !defined(_WIN32) || defined(__MINGW32__)
+#if !defined(_WIN32) || defined(__MINGW32__) || defined(__CYGWIN__)
 #define stricmp strcasecmp
 #endif
 
@@ -29,7 +29,7 @@
 // Dynamic library export setup                                               //
 //****************************************************************************//
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
 
 #ifndef CAL3D_API
 #ifdef CAL3D_EXPORTS

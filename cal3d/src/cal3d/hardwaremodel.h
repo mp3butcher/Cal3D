@@ -128,7 +128,7 @@ private:
 	
 		Cal::UserData getMapUserData(int mapId);
 		
-		bool selectHardwareMesh(int meshId);  
+		bool selectHardwareMesh(size_t meshId);
 		
 	private:
 		bool canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face,std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh);

@@ -178,7 +178,7 @@ void CalSkeleton::destroy()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalBone *CalSkeleton::getBone(int boneId)
+CalBone *CalSkeleton::getBone(int boneId) const
 {
   return m_vectorBone[boneId];
 }
@@ -194,7 +194,7 @@ CalBone *CalSkeleton::getBone(int boneId)
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalCoreSkeleton *CalSkeleton::getCoreSkeleton()
+CalCoreSkeleton *CalSkeleton::getCoreSkeleton() const
 {
   return m_pCoreSkeleton;
 }

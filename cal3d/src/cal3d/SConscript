@@ -20,6 +20,7 @@ sources = Split("""
     coretrack.cpp
     error.cpp
     global.cpp
+    hardwaremodel.cpp
     loader.cpp
     matrix.cpp
     mesh.cpp

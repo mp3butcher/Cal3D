@@ -52,8 +52,8 @@ public:
   void clearState();
   bool create(CalCoreSkeleton *pCoreSkeleton);
   void destroy();
-  CalBone *getBone(int boneId);
-  CalCoreSkeleton *getCoreSkeleton();
+  CalBone *getBone(int boneId) const;
+  CalCoreSkeleton *getCoreSkeleton() const;
   std::vector<CalBone *>& getVectorBone();
   void lockState();
   void getBoneBoundingBox(float *min, float *max);

@@ -422,7 +422,7 @@ bool CalModel::detachMesh(int coreMeshId)
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalCoreModel *CalModel::getCoreModel()
+CalCoreModel *CalModel::getCoreModel() const
 {
   return m_pCoreModel;
 }
@@ -439,7 +439,7 @@ CalCoreModel *CalModel::getCoreModel()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalMesh *CalModel::getMesh(int coreMeshId)
+CalMesh *CalModel::getMesh(int coreMeshId) const
 {
   // check if the id is valid
   if((coreMeshId < 0) ||(coreMeshId >= m_pCoreModel->getCoreMeshCount()))
@@ -449,12 +449,10 @@ CalMesh *CalModel::getMesh(int coreMeshId)
   }
 
   // get the core mesh
-  CalCoreMesh *pCoreMesh;
-  pCoreMesh = m_pCoreModel->getCoreMesh(coreMeshId);
+  CalCoreMesh *pCoreMesh = m_pCoreModel->getCoreMesh(coreMeshId);
 
   // search the mesh
-  int meshId;
-  for(meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
+  for(int meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
   {
     // check if we found the matching mesh
     if(m_vectorMesh[meshId]->getCoreMesh() == pCoreMesh)
@@ -477,7 +475,7 @@ CalMesh *CalModel::getMesh(int coreMeshId)
  *         \li \b 0 if an error happend
  *****************************************************************************/
 
-CalMixer *CalModel::getMixer()
+CalMixer *CalModel::getMixer() const
 {
   if(m_pMixer == 0)
     return 0;
@@ -497,7 +495,7 @@ CalMixer *CalModel::getMixer()
  *         \li \b 0 if no mixer was set
  *****************************************************************************/
 
-CalAbstractMixer *CalModel::getAbstractMixer()
+CalAbstractMixer *CalModel::getAbstractMixer() const
 {
   return m_pMixer;
 }
@@ -546,7 +544,7 @@ void CalModel::setAbstractMixer(CalAbstractMixer* pMixer)
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalMorphTargetMixer *CalModel::getMorphTargetMixer()
+CalMorphTargetMixer *CalModel::getMorphTargetMixer() const
 {
   return m_pMorphTargetMixer;
 }
@@ -561,7 +559,7 @@ CalMorphTargetMixer *CalModel::getMorphTargetMixer()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalPhysique *CalModel::getPhysique()
+CalPhysique *CalModel::getPhysique() const
 {
   return m_pPhysique;
 }
@@ -591,7 +589,7 @@ CalRenderer *CalModel::getRenderer() const
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalSkeleton *CalModel::getSkeleton()
+CalSkeleton *CalModel::getSkeleton() const
 {
   return m_pSkeleton;
 }
@@ -606,7 +604,7 @@ CalSkeleton *CalModel::getSkeleton()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalSpringSystem *CalModel::getSpringSystem()
+CalSpringSystem *CalModel::getSpringSystem() const
 {
   return m_pSpringSystem;
 }
@@ -696,7 +694,7 @@ CalBoundingBox & CalModel::getBoundingBox(bool precision)
   * @return The user data stored in the model instance.
   *****************************************************************************/
 
-Cal::UserData CalModel::getUserData()
+Cal::UserData CalModel::getUserData() const
 {
   return m_userData;
 }
