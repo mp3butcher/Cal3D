@@ -294,29 +294,31 @@ bool CalMorphTargetMixer::create(CalMesh *pMesh)
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
     return false;
   }
-  
   m_pMesh = pMesh;
-
-  CalCoreSubmesh *coreSubmesh = pMesh->getCoreMesh()->getCoreSubmesh(0);
-  if (coreSubmesh == 0) 
+  
+  if(pMesh->getCoreMesh()->getCoreSubmeshCount() != 0)
   {
-    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);//HMMM
-    return false;
-  }
-  int subMorphTargetCount = coreSubmesh->getCoreSubMorphTargetCount();
-  // reserve the space needed in all the vectors
-  m_vectorCurrentWeight.reserve(subMorphTargetCount);
-  m_vectorCurrentWeight.resize(subMorphTargetCount);
-  m_vectorEndWeight.reserve(subMorphTargetCount);
-  m_vectorEndWeight.resize(subMorphTargetCount);
-  std::vector<float>::iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
-  std::vector<float>::iterator iteratorEndWeight = m_vectorEndWeight.begin();
-  while(iteratorCurrentWeight!=m_vectorCurrentWeight.end())
-  {
-    (*iteratorCurrentWeight) = 0.0f;
-    (*iteratorEndWeight) = 0.0f;
-    ++iteratorCurrentWeight;
-    ++iteratorEndWeight;
+    CalCoreSubmesh *coreSubmesh = pMesh->getCoreMesh()->getCoreSubmesh(0);
+    if (coreSubmesh == 0) 
+    {
+      CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);//HMMM
+      return false;
+    }
+    int subMorphTargetCount = coreSubmesh->getCoreSubMorphTargetCount();
+    // reserve the space needed in all the vectors
+    m_vectorCurrentWeight.reserve(subMorphTargetCount);
+    m_vectorCurrentWeight.resize(subMorphTargetCount);
+    m_vectorEndWeight.reserve(subMorphTargetCount);
+    m_vectorEndWeight.resize(subMorphTargetCount);
+    std::vector<float>::iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
+    std::vector<float>::iterator iteratorEndWeight = m_vectorEndWeight.begin();
+    while(iteratorCurrentWeight!=m_vectorCurrentWeight.end())
+    {
+      (*iteratorCurrentWeight) = 0.0f;
+      (*iteratorEndWeight) = 0.0f;
+      ++iteratorCurrentWeight;
+      ++iteratorEndWeight;
+    }
   }
   m_duration = 0.0f;
 
