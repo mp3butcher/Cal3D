@@ -669,27 +669,26 @@ std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarge
 
 void CalCoreSubmesh::scale(float factor)
 {
-	// rescale all vertices
+  // rescale all vertices
 
-	int vertexId;
-	for(vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
-	{
-		m_vectorVertex[vertexId].position*=factor;		
-	}
+  for(size_t vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
+  {
+    m_vectorVertex[vertexId].position*=factor;		
+  }
 
-	if(m_vectorSpring.size()>0)
-	{
+  if(!m_vectorSpring.empty())
+  {
 
-		// There is a problem when we resize and that there is
-		// a spring system, I was unable to solve this
-		// problem, so I disable the spring system
-		// if the scale are too big
+    // There is a problem when we resize and that there is
+    // a spring system, I was unable to solve this
+    // problem, so I disable the spring system
+    // if the scale are too big
 
-		if( fabs(factor - 1.0f) > 0.10)
-		{
-			m_vectorSpring.clear();
-			m_vectorPhysicalProperty.clear();
-		}
+    if( fabs(factor - 1.0f) > 0.10)
+    {
+      m_vectorSpring.clear();
+      m_vectorPhysicalProperty.clear();
+    }
 
 
 /*		
@@ -711,7 +710,7 @@ void CalCoreSubmesh::scale(float factor)
 		}
 
    */
-	}
+  }
 
 	
 

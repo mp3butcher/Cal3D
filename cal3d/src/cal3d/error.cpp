@@ -12,39 +12,14 @@
 #include "config.h"
 #endif
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/error.h"
 
-//****************************************************************************//
-// Static member variables initialization                                     //
-//****************************************************************************//
-
-CalError::Code CalError::m_lastErrorCode = CalError::OK;
-std::string CalError::m_strLastErrorFile;
-int CalError::m_lastErrorLine = -1;
-std::string CalError::m_strLastErrorText;
-
- /*****************************************************************************/
-/** Constructs the error instance.
-  *
-  * This function is the default constructor of the error instance.
-  *****************************************************************************/
-
-CalError::CalError()
+namespace
 {
-}
-
- /*****************************************************************************/
-/** Destructs the error instance.
-  *
-  * This function is the destructor of the error instance.
-  *****************************************************************************/
-
-CalError::~CalError()
-{
+    CalError::Code m_lastErrorCode = CalError::OK;
+    std::string m_strLastErrorFile;
+    int m_lastErrorLine = -1;
+    std::string m_strLastErrorText;
 }
 
  /*****************************************************************************/
@@ -70,78 +45,33 @@ CalError::Code CalError::getLastErrorCode()
   * @return The description of the last error.
   *****************************************************************************/
 
-std::string CalError::getLastErrorDescription()
+std::string CalError::getErrorDescription(Code code)
 {
-  switch(m_lastErrorCode)
+  switch(code)
   {
-    case OK:
-      return "No error found";
-      break;
-    case INTERNAL:
-      return "Internal error";
-      break;
-    case INVALID_HANDLE:
-      return "Invalid handle as argument";
-      break;
-    case MEMORY_ALLOCATION_FAILED:
-      return "Memory allocation failed";
-      break;
-    case FILE_NOT_FOUND:
-      return "File not found";
-      break;
-    case INVALID_FILE_FORMAT:
-      return "Invalid file format";
-      break;
-    case FILE_PARSER_FAILED:
-      return "Parser failed to process file";
-      break;
-    case INDEX_BUILD_FAILED:
-      return "Building of the index failed";
-      break;
-    case NO_PARSER_DOCUMENT:
-      return "There is no document to parse";
-      break;
-    case INVALID_ANIMATION_DURATION:
-      return "The duration of the animation is invalid";
-      break;
-    case BONE_NOT_FOUND:
-      return "Bone not found";
-      break;
-    case INVALID_ATTRIBUTE_VALUE:
-      return "Invalid attribute value";
-      break;
-    case INVALID_KEYFRAME_COUNT:
-      return "Invalid number of keyframes";
-      break;
-    case INVALID_ANIMATION_TYPE:
-      return "Invalid animation type";
-      break;
-    case FILE_CREATION_FAILED:
-      return "Failed to create file";
-      break;
-    case FILE_WRITING_FAILED:
-      return "Failed to write to file";
-      break;
-    case INCOMPATIBLE_FILE_VERSION:
-      return "Incompatible file version";
-      break;
-    case NO_MESH_IN_MODEL:
-      return "No mesh attached to the model";
-      break;
-    case BAD_DATA_SOURCE:
-      return "Cannot read from data source";
-      break;
-    case NULL_BUFFER:
-      return "Memory buffer is null";
-      break;
-    case INVALID_MIXER_TYPE:
-      return "The CalModel mixer is not a CalMixer instance";
-      break;
-    default:
-      break;
+    case OK:                         return "No error found";
+    case INTERNAL:                   return "Internal error";
+    case INVALID_HANDLE:             return "Invalid handle as argument";
+    case MEMORY_ALLOCATION_FAILED:   return "Memory allocation failed";
+    case FILE_NOT_FOUND:             return "File not found";
+    case INVALID_FILE_FORMAT:        return "Invalid file format";
+    case FILE_PARSER_FAILED:         return "Parser failed to process file";
+    case INDEX_BUILD_FAILED:         return "Building of the index failed";
+    case NO_PARSER_DOCUMENT:         return "There is no document to parse";
+    case INVALID_ANIMATION_DURATION: return "The duration of the animation is invalid";
+    case BONE_NOT_FOUND:             return "Bone not found";
+    case INVALID_ATTRIBUTE_VALUE:    return "Invalid attribute value";
+    case INVALID_KEYFRAME_COUNT:     return "Invalid number of keyframes";
+    case INVALID_ANIMATION_TYPE:     return "Invalid animation type";
+    case FILE_CREATION_FAILED:       return "Failed to create file";
+    case FILE_WRITING_FAILED:        return "Failed to write to file";
+    case INCOMPATIBLE_FILE_VERSION:  return "Incompatible file version";
+    case NO_MESH_IN_MODEL:           return "No mesh attached to the model";
+    case BAD_DATA_SOURCE:            return "Cannot read from data source";
+    case NULL_BUFFER:                return "Memory buffer is null";
+    case INVALID_MIXER_TYPE:         return "The CalModel mixer is not a CalMixer instance";
+    default:                         return "Unknown error";
   }
-
-  return "Unknown error";
 }
 
  /*****************************************************************************/

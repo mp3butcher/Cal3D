@@ -38,7 +38,7 @@ class CalCoreMaterial;
 class CAL3D_API CalCoreModel
 {
 // member variables
-protected:
+private:
   std::string m_strName;
   CalCoreSkeleton *m_pCoreSkeleton;
   std::vector<CalCoreAnimation *> m_vectorCoreAnimation;

@@ -126,9 +126,8 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
     z = 0.0f;
 
     // blend together all vertex influences
-    int influenceId;
-	int influenceCount=(int)vertex.vectorInfluence.size();
-    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+    size_t influenceCount=vertex.vectorInfluence.size();
+    for(size_t influenceId = 0; influenceId < influenceCount; ++influenceId)
     {
       // get the influence
       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
@@ -197,7 +196,7 @@ CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
 
   // get physical property vector of the core submesh
-  std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pSubmesh->getCoreSubmesh()->getVectorPhysicalProperty();
+  //std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pSubmesh->getCoreSubmesh()->getVectorPhysicalProperty();
 
   // get the sub morph target vector from the core sub mesh
   std::vector<CalCoreSubMorphTarget*>& vectorSubMorphTarget =

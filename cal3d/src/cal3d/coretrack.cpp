@@ -262,13 +262,12 @@ CalCoreKeyframe* CalCoreTrack::getCoreKeyframe(int idx)
 
 void CalCoreTrack::scale(float factor)
 {
-	int keyframeId;
-	for(keyframeId = 0; keyframeId < m_keyframes.size(); keyframeId++)
-	{
-		CalVector translation = m_keyframes[keyframeId]->getTranslation();
-		translation*=factor;
-		m_keyframes[keyframeId]->setTranslation(translation);
-	}
+  for(size_t keyframeId = 0; keyframeId < m_keyframes.size(); keyframeId++)
+  {
+    CalVector translation = m_keyframes[keyframeId]->getTranslation();
+    translation*=factor;
+    m_keyframes[keyframeId]->setTranslation(translation);
+  }
 
 }
 

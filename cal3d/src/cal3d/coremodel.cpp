@@ -881,19 +881,17 @@ int CalCoreModel::getAnimId(const std::string& strAnimName)
 
 void CalCoreModel::scale(float factor)
 {
-	m_pCoreSkeleton->scale(factor);
+  m_pCoreSkeleton->scale(factor);
 
-	int animationId;
-	for(animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
-	{
-		m_vectorCoreAnimation[animationId]->scale(factor);
-	}
+  for(size_t animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
+  {
+    m_vectorCoreAnimation[animationId]->scale(factor);
+  }
 
-	int meshId;
-	for(meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
-	{
-		m_vectorCoreMesh[meshId]->scale(factor);
-	}
+  for(size_t meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
+  {
+    m_vectorCoreMesh[meshId]->scale(factor);
+  }
 
 }
 

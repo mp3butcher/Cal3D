@@ -11,24 +11,11 @@
 #ifndef CAL_ERROR_H
 #define CAL_ERROR_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
 
- /*****************************************************************************/
-/** The error class.
-  *****************************************************************************/
-
-class CAL3D_API CalError
+namespace CalError
 {
-// misc
-public:
   enum Code
   {
     OK = 0,
@@ -55,29 +42,18 @@ public:
     MAX_ERROR_CODE
   };
 
-// member variables
-protected:
-  static Code m_lastErrorCode;
-  static std::string m_strLastErrorFile;
-  static int m_lastErrorLine;
-  static std::string m_strLastErrorText;
+  CAL3D_API Code getLastErrorCode();
+  CAL3D_API const std::string& getLastErrorFile();
+  CAL3D_API int getLastErrorLine();
+  CAL3D_API const std::string& getLastErrorText();
+  CAL3D_API void printLastError();
+  CAL3D_API void setLastError(Code code, const std::string& strFile, int line, const std::string& strText = "");
 
-// constructors/destructor
-protected:
-  CalError();
-  virtual ~CalError();
+  CAL3D_API std::string getErrorDescription(Code code);
 
-// member functions	
-public:
-  static Code getLastErrorCode();
-  static std::string getLastErrorDescription();
-  static const std::string& getLastErrorFile();
-  static int getLastErrorLine();
-  static const std::string& getLastErrorText();
-  static void printLastError();
-  static void setLastError(Code code, const std::string& strFile, int line, const std::string& strText = "");
-};
+  inline std::string getLastErrorDescription() {
+      return getErrorDescription(getLastErrorCode());
+  }
+}
 
 #endif
-
-//****************************************************************************//
