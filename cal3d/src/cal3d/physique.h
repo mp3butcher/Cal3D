@@ -23,6 +23,7 @@
 
 class CalModel;
 class CalSubmesh;
+class CalVector;
 
 //****************************************************************************//
 // Class declaration                                                          //
@@ -49,6 +50,7 @@ public:
   int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer);
   int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer);
   int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer);
+  CalVector calculateVertex(CalSubmesh *pSubmesh, int vertexId);
   int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer);
   int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
   bool create(CalModel *pModel);

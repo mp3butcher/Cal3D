@@ -176,6 +176,121 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer)
 }
 
  /*****************************************************************************/
+/** Calculates one transformed vertex.
+  *
+  * This function calculates and returns a transformed vertex of a
+  * specific submesh.
+  *
+  * @param pSubmesh A pointer to the submesh from which the vertex should
+  *                 be calculated and returned.
+  * @param vertexId The id of the vertex that should be transformed.
+  *
+  * @return The number of vertices written to the buffer.
+  *****************************************************************************/
+
+CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
+{
+  // get bone vector of the skeleton
+  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+
+  // get vertex of the core submesh
+  std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
+
+  // get physical property vector of the core submesh
+  std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pSubmesh->getCoreSubmesh()->getVectorPhysicalProperty();
+
+  // get the sub morph target vector from the core sub mesh
+  std::vector<CalCoreSubMorphTarget*>& vectorSubMorphTarget =
+  pSubmesh->getCoreSubmesh()->getVectorCoreSubMorphTarget();
+
+  // calculate the base weight
+  float baseWeight = pSubmesh->getBaseWeight();
+
+  // get the number of morph targets
+  int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
+
+  // get the vertex
+  CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+
+  // blend the morph targets
+  CalVector position(0,0,0);
+  if(baseWeight == 1.0f)
+  {
+    position.x = vertex.position.x;
+    position.y = vertex.position.y;
+    position.z = vertex.position.z;
+  }
+  else
+  {
+    position.x = baseWeight*vertex.position.x;
+    position.y = baseWeight*vertex.position.y;
+    position.z = baseWeight*vertex.position.z;
+    int morphTargetId;
+    for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
+    {
+      CalCoreSubMorphTarget::BlendVertex& blendVertex =
+	vectorSubMorphTarget[morphTargetId]->getVectorBlendVertex()[vertexId];
+      float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
+      position.x += currentWeight*blendVertex.position.x;
+      position.y += currentWeight*blendVertex.position.y;
+      position.z += currentWeight*blendVertex.position.z;
+    }
+  }
+
+  // initialize vertex
+  float x, y, z;
+  x = 0.0f;
+  y = 0.0f;
+  z = 0.0f;
+
+  // blend together all vertex influences
+  int influenceId;
+  int influenceCount=(int)vertex.vectorInfluence.size();
+  for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+  {
+    // get the influence
+    CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+
+    // get the bone of the influence vertex
+    CalBone *pBone;
+    pBone = vectorBone[influence.boneId];
+
+    // transform vertex with current state of the bone
+    CalVector v(position);
+    v *= pBone->getTransformMatrix();
+    v += pBone->getTranslationBoneSpace();
+
+    x += influence.weight * v.x;
+    y += influence.weight * v.y;
+    z += influence.weight * v.z;
+  }
+  
+  /*
+  // save vertex position
+  if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
+  {
+    // get the pgysical property of the vertex
+    CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
+
+    // assign new vertex position if there is no vertex weight
+    if(physicalProperty.weight == 0.0f)
+    {
+      pVertexBuffer[0] = x;
+      pVertexBuffer[1] = y;
+      pVertexBuffer[2] = z;
+    }
+  }
+  else
+  {
+    pVertexBuffer[0] = x;
+    pVertexBuffer[1] = y;
+    pVertexBuffer[2] = z;
+  }
+  */
+  // return the vertex
+  return CalVector(x,y,z);
+}
+ /*****************************************************************************/
 /** Calculates the transformed tangent space data.
   *
   * This function calculates and returns the transformed tangent space data of a
