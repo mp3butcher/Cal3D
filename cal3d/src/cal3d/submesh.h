@@ -65,7 +65,7 @@ protected:
 // constructors/destructor
 public:
   CalSubmesh();
-	virtual ~CalSubmesh();
+  virtual ~CalSubmesh();
 
 // member functions	
 public:

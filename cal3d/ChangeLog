@@ -7,10 +7,14 @@ o-----------------------------------------------------------------------------o
 | Version 0.8 (in development)                                                |
 o-----------------------------------------------------------------------------o
 
+  - Added a pure C wrapper to Cal3D. This should allow non C++ applications to
+    link with it now. (Thanks to Tomek Grudziski!)
+  - Changed the error codes in CalError and the type and state codes in
+    CalAnimation to an enum structure.
   - Changed the interpolation calculations in CalCoretrack::getState() so that
     the motion wraps are handled like in the 3d modellers.
   - Tagged some forgotten friend functions of the CalVector and CalQuaternion
-    classes as exported..
+    classes as exported.
 
 
 o-----------------------------------------------------------------------------o

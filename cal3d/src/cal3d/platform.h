@@ -50,8 +50,8 @@ class CAL3D_API CalPlatform
 {
 // constructors/destructor
 protected:
-	CalPlatform();
-	virtual ~CalPlatform();
+  CalPlatform();
+  virtual ~CalPlatform();
 
 // member functions	
 public:

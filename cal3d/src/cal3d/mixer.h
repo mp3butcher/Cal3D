@@ -48,7 +48,7 @@ public:
 // constructors/destructor
 public:
   CalMixer();
-	virtual ~CalMixer();
+  virtual ~CalMixer();
 
 // member functions	
 public:

@@ -41,7 +41,7 @@ public:
 // constructors/destructor
 public:
   CalSpringSystem();
-	virtual ~CalSpringSystem();
+  virtual ~CalSpringSystem();
 
 // member functions	
 public:

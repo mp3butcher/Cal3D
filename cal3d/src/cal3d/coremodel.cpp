@@ -700,6 +700,26 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
 }
 
  /*****************************************************************************/
+/** Sets the core skeleton.
+  *
+  * This function sets the core skeleton of the core model instance..
+  *
+  * @param pCoreSkeleton The core skeleton that should be set.
+  *****************************************************************************/
+
+void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
+{
+  // destroy a possible existing core skeleton
+  if(m_pCoreSkeleton != 0)
+  {
+    m_pCoreSkeleton->destroy();
+    delete m_pCoreSkeleton;
+  }
+
+  m_pCoreSkeleton = pCoreSkeleton;
+}
+
+ /*****************************************************************************/
 /** Stores user data.
   *
   * This function stores user data in the core model instance.

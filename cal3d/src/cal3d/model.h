@@ -52,9 +52,9 @@ protected:
 
 // constructors/destructor
 public: 
-	CalModel();
-	virtual ~CalModel();
-	
+  CalModel();
+  virtual ~CalModel();
+
 // member functions
 public:
   bool attachMesh(int coreMeshId);

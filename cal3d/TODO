@@ -19,6 +19,7 @@ o-----------------------------------------------------------------------------o
     allocation/deallocation nature of different classes?
   - Sliding-Window VIPM? Predefined/prestored LOD levels?
   - how should we handle collision detection?
+  - Allow loading of model data from memory?
 
 o-----------------------------------------------------------------------------o
 | Must have                                                                   |

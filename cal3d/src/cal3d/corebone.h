@@ -51,9 +51,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalCoreBone();
-	virtual ~CalCoreBone();
-	
+  CalCoreBone();
+  virtual ~CalCoreBone();
+
 // member functions
 public:
   bool addChildId(int childId);

@@ -16,7 +16,8 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "cal3d/cal3d.h"
+//#include "cal3d/cal3d.h"
+#include "cal3d/cal3d_wrapper.h"
 
 //****************************************************************************//
 // This is just a dummy application for compiling the library                 //
@@ -24,6 +25,7 @@
 
 int main(int argc, char *argv[])
 {
+/*
   std::cout << "Thanks for using Cal3D!" << std::endl;
 
   // create a core model instance
@@ -72,6 +74,10 @@ int main(int argc, char *argv[])
 
   // destroy core model instance
   calCoreModel.destroy();
+*/
+
+//  void *pCoreModel;
+//  pCoreModel = CalCoreModel_New();
 
   return 0;
 }

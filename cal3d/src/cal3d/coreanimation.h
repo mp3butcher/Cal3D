@@ -41,7 +41,7 @@ protected:
 // constructors/destructor
 public:
   CalCoreAnimation();
-	virtual ~CalCoreAnimation();
+  virtual ~CalCoreAnimation();
 
 // member functions	
 public:

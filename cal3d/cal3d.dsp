@@ -115,6 +115,10 @@ SOURCE=.\src\cal3d\cal3d.rc
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\cal3d\cal3d_wrapper.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\cal3d\coreanimation.cpp
 # End Source File
 # Begin Source File
@@ -232,6 +236,10 @@ SOURCE=.\src\cal3d\bone.h
 # Begin Source File
 
 SOURCE=.\src\cal3d\cal3d.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\cal3d\cal3d_wrapper.h
 # End Source File
 # Begin Source File
 

@@ -48,9 +48,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalCoreModel();
-	virtual ~CalCoreModel();
-	
+  CalCoreModel();
+  virtual ~CalCoreModel();
+
 // member functions
 public:
   int addCoreAnimation(CalCoreAnimation *pCoreAnimation);
@@ -77,6 +77,7 @@ public:
   bool saveCoreMesh(const std::string& strFilename, int coreMeshId);
   bool saveCoreSkeleton(const std::string& strFilename);
   bool setCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId);
+  void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void setUserData(Cal::UserData userData);
 };
 

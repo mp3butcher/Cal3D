@@ -56,6 +56,9 @@ namespace Cal
   // file versions
   const unsigned int CURRENT_FILE_VERSION = LIBRARY_VERSION;
   const unsigned int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
+
+  // empty string
+  const std::string strNull;
 };
 
 #endif

@@ -28,8 +28,8 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,7,0,0
- PRODUCTVERSION 0,7,0,0
+ FILEVERSION 0,7,9,9
+ PRODUCTVERSION 0,7,9,9
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -47,14 +47,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", " \0"
             VALUE "FileDescription", "Cal3D - 3d character animation library\0"
-            VALUE "FileVersion", "0.7\0"
+            VALUE "FileVersion", "0.8devel\0"
             VALUE "InternalName", "Cal3D\0"
             VALUE "LegalCopyright", "Copyright © 2001, 2002 Bruno Heidelberger\0"
             VALUE "LegalTrademarks", "GNU Lesser General Public License\0"
             VALUE "OriginalFilename", "cal3d.dll\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Cal3D\0"
-            VALUE "ProductVersion", "0.7\0"
+            VALUE "ProductVersion", "0.8devel\0"
             VALUE "SpecialBuild", "\0"
         END
     END

@@ -41,9 +41,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalSkeleton();
-	virtual ~CalSkeleton();
-	
+  CalSkeleton();
+  virtual ~CalSkeleton();
+
 // member functions
 public:
   void calculateState();
@@ -55,10 +55,11 @@ public:
   std::vector<CalBone *>& getVectorBone();
   void lockState();
 
-  int getBonePoints(float *pPoints); // DEBUG-CODE
-  int getBonePointsStatic(float *pPoints); // DEBUG-CODE
-  int getBoneLines(float *pLines); // DEBUG-CODE
-  int getBoneLinesStatic(float *pLines); // DEBUG-CODE
+// DEBUG-CODE
+  int getBonePoints(float *pPoints);
+  int getBonePointsStatic(float *pPoints);
+  int getBoneLines(float *pLines);
+  int getBoneLinesStatic(float *pLines);
 };
 
 #endif

@@ -44,7 +44,7 @@ protected:
 // constructors/destructor
 public:
   CalCoreTrack();
-	virtual ~CalCoreTrack();
+  virtual ~CalCoreTrack();
 
 // member functions	
 public:

@@ -43,7 +43,7 @@ protected:
 // constructors/destructor
 public:
   CalAnimationAction();
-	virtual ~CalAnimationAction();
+  virtual ~CalAnimationAction();
 
 // member functions	
 public:

@@ -35,23 +35,29 @@ class CAL3D_API CalAnimation
 {
 // misc
 public:
-  static const unsigned int TYPE_NONE;
-  static const unsigned int TYPE_CYCLE;
-  static const unsigned int TYPE_POSE;
-  static const unsigned int TYPE_ACTION;
+  enum Type
+  {
+    TYPE_NONE = 0,
+    TYPE_CYCLE,
+    TYPE_POSE,
+    TYPE_ACTION
+  };
 
-  static const unsigned int STATE_NONE;
-  static const unsigned int STATE_SYNC;
-  static const unsigned int STATE_ASYNC;
-  static const unsigned int STATE_IN;
-  static const unsigned int STATE_STEADY;
-  static const unsigned int STATE_OUT;
+  enum State
+  {
+    STATE_NONE = 0,
+    STATE_SYNC,
+    STATE_ASYNC,
+    STATE_IN,
+    STATE_STEADY,
+    STATE_OUT
+  };
 
 // member variables
 protected:
   CalCoreAnimation *m_pCoreAnimation;
-  unsigned int m_type;
-  unsigned int m_state;
+  Type m_type;
+  State m_state;
   float m_time;
   float m_timeFactor;
   float m_weight;
@@ -59,6 +65,7 @@ protected:
 // constructors/destructor
 protected:
   CalAnimation();
+public:
   virtual ~CalAnimation();
 
 // member functions	
@@ -66,9 +73,9 @@ public:
   virtual bool create(CalCoreAnimation *pCoreAnimation) = 0;
   virtual void destroy();
   CalCoreAnimation *getCoreAnimation();
-  unsigned int getState();
+  State getState();
   float getTime();
-  unsigned int getType();
+  Type getType();
   float getWeight();
 };
 

@@ -187,9 +187,11 @@ x_libraries = @x_libraries@
 
 lib_LTLIBRARIES = libcal3d.la
 
-libcal3d_la_SOURCES = springsystem.cpp physique.cpp submesh.cpp corematerial.cpp mesh.cpp renderer.cpp coresubmesh.cpp saver.cpp animation_action.cpp coremesh.cpp loader.cpp vector.cpp platform.cpp model.cpp quaternion.cpp skeleton.cpp mixer.cpp global.cpp error.cpp coretrack.cpp coreskeleton.cpp coremodel.cpp corekeyframe.cpp corebone.cpp coreanimation.cpp bone.cpp animation_cycle.cpp animation.cpp 
+libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(SOMAJOR):$(SOMINOR):$(SOSUBMINOR) $(LDFLAGS)
 
-EXTRA_DIST = animation.cpp animation.h animation_cycle.cpp animation_cycle.h bone.cpp bone.h coreanimation.cpp coreanimation.h corebone.cpp corebone.h corekeyframe.cpp corekeyframe.h coremodel.cpp coremodel.h coreskeleton.cpp coreskeleton.h coretrack.cpp coretrack.h error.cpp error.h global.cpp global.h mixer.cpp vector.h skeleton.h skeleton.cpp quaternion.cpp quaternion.h mixer.h platform.h model.cpp model.h platform.cpp vector.cpp cal3d.h loader.h loader.cpp coremesh.cpp coremesh.h animation_action.h animation_action.cpp saver.h saver.cpp coresubmesh.h coresubmesh.cpp renderer.h renderer.cpp mesh.h mesh.cpp corematerial.h corematerial.cpp submesh.h submesh.cpp cal3d.rc resource.h physique.h physique.cpp springsystem.h springsystem.cpp 
+libcal3d_la_SOURCES = cal3d_wrapper.cpp springsystem.cpp physique.cpp submesh.cpp corematerial.cpp mesh.cpp renderer.cpp coresubmesh.cpp saver.cpp animation_action.cpp coremesh.cpp loader.cpp vector.cpp platform.cpp model.cpp quaternion.cpp skeleton.cpp mixer.cpp global.cpp error.cpp coretrack.cpp coreskeleton.cpp coremodel.cpp corekeyframe.cpp corebone.cpp coreanimation.cpp bone.cpp animation_cycle.cpp animation.cpp 
+
+EXTRA_DIST = animation.cpp animation.h animation_cycle.cpp animation_cycle.h bone.cpp bone.h coreanimation.cpp coreanimation.h corebone.cpp corebone.h corekeyframe.cpp corekeyframe.h coremodel.cpp coremodel.h coreskeleton.cpp coreskeleton.h coretrack.cpp coretrack.h error.cpp error.h global.cpp global.h mixer.cpp vector.h skeleton.h skeleton.cpp quaternion.cpp quaternion.h mixer.h platform.h model.cpp model.h platform.cpp vector.cpp cal3d.h loader.h loader.cpp coremesh.cpp coremesh.h animation_action.h animation_action.cpp saver.h saver.cpp coresubmesh.h coresubmesh.cpp renderer.h renderer.cpp mesh.h mesh.cpp corematerial.h corematerial.cpp submesh.h submesh.cpp cal3d.rc resource.h physique.h physique.cpp springsystem.h springsystem.cpp cal3d_wrapper.h cal3d_wrapper.cpp 
 
 ####### kdevelop will overwrite this part!!! (end)############
 SOMAJOR = 0
@@ -202,8 +204,6 @@ pkginclude_HEADERS = cal3d.h animation.h animation_action.h animation_cycle.h bo
 
 # here you should add all header files, which shouldn
 noinst_HEADERS = 
-
-libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(SOMAJOR):$(SOMINOR):$(SOSUBMINOR) $(LDFLAGS)
 
 # add here the libraries which have to be include
 # for building the shared lib
@@ -227,8 +227,8 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libcal3d_la_DEPENDENCIES = 
-libcal3d_la_OBJECTS =  springsystem.lo physique.lo submesh.lo \
-corematerial.lo mesh.lo renderer.lo coresubmesh.lo saver.lo \
+libcal3d_la_OBJECTS =  cal3d_wrapper.lo springsystem.lo physique.lo \
+submesh.lo corematerial.lo mesh.lo renderer.lo coresubmesh.lo saver.lo \
 animation_action.lo coremesh.lo loader.lo vector.lo platform.lo \
 model.lo quaternion.lo skeleton.lo mixer.lo global.lo error.lo \
 coretrack.lo coreskeleton.lo coremodel.lo corekeyframe.lo corebone.lo \
@@ -248,14 +248,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/animation.P .deps/animation_action.P \
-.deps/animation_cycle.P .deps/bone.P .deps/coreanimation.P \
-.deps/corebone.P .deps/corekeyframe.P .deps/corematerial.P \
-.deps/coremesh.P .deps/coremodel.P .deps/coreskeleton.P \
-.deps/coresubmesh.P .deps/coretrack.P .deps/error.P .deps/global.P \
-.deps/loader.P .deps/mesh.P .deps/mixer.P .deps/model.P \
-.deps/physique.P .deps/platform.P .deps/quaternion.P .deps/renderer.P \
-.deps/saver.P .deps/skeleton.P .deps/springsystem.P .deps/submesh.P \
-.deps/vector.P
+.deps/animation_cycle.P .deps/bone.P .deps/cal3d_wrapper.P \
+.deps/coreanimation.P .deps/corebone.P .deps/corekeyframe.P \
+.deps/corematerial.P .deps/coremesh.P .deps/coremodel.P \
+.deps/coreskeleton.P .deps/coresubmesh.P .deps/coretrack.P \
+.deps/error.P .deps/global.P .deps/loader.P .deps/mesh.P .deps/mixer.P \
+.deps/model.P .deps/physique.P .deps/platform.P .deps/quaternion.P \
+.deps/renderer.P .deps/saver.P .deps/skeleton.P .deps/springsystem.P \
+.deps/submesh.P .deps/vector.P
 SOURCES = $(libcal3d_la_SOURCES)
 OBJECTS = $(libcal3d_la_OBJECTS)
 

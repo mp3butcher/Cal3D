@@ -41,7 +41,7 @@ public:
 // constructors/destructor
 public:
   CalPhysique();
-	virtual ~CalPhysique();
+  virtual ~CalPhysique();
 
 // member functions	
 public:

@@ -37,9 +37,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalCoreKeyframe();
-	virtual ~CalCoreKeyframe();
-	
+  CalCoreKeyframe();
+  virtual ~CalCoreKeyframe();
+
 // member functions
 public:
   bool create();

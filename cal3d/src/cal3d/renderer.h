@@ -42,7 +42,7 @@ public:
 // constructors/destructor
 public:
   CalRenderer();
-	virtual ~CalRenderer();
+  virtual ~CalRenderer();
 
 // member functions	
 public:

@@ -22,27 +22,7 @@
 // Static member variables initialization                                     //
 //****************************************************************************//
 
-const unsigned int CalError::OK = 0;
-const unsigned int CalError::INTERNAL = 1;
-const unsigned int CalError::INVALID_HANDLE = 2;
-const unsigned int CalError::MEMORY_ALLOCATION_FAILED = 3;
-const unsigned int CalError::FILE_NOT_FOUND = 4;
-const unsigned int CalError::INVALID_FILE_FORMAT = 5;
-const unsigned int CalError::FILE_PARSER_FAILED = 6;
-const unsigned int CalError::INDEX_BUILD_FAILED = 7;
-const unsigned int CalError::NO_PARSER_DOCUMENT = 8;
-const unsigned int CalError::INVALID_ANIMATION_DURATION = 9;
-const unsigned int CalError::BONE_NOT_FOUND = 10;
-const unsigned int CalError::INVALID_ATTRIBUTE_VALUE = 11;
-const unsigned int CalError::INVALID_KEYFRAME_COUNT = 12;
-const unsigned int CalError::INVALID_ANIMATION_TYPE = 13;
-const unsigned int CalError::FILE_CREATION_FAILED = 14;
-const unsigned int CalError::FILE_WRITING_FAILED = 15;
-const unsigned int CalError::INCOMPATIBLE_FILE_VERSION = 16;
-const unsigned int CalError::NO_MESH_IN_MODEL = 17;
-const unsigned int CalError::MAX_ERROR_CODE = 18;
-
-unsigned int CalError::m_lastErrorCode = CalError::OK;
+CalError::Code CalError::m_lastErrorCode = CalError::OK;
 std::string CalError::m_strLastErrorFile;
 int CalError::m_lastErrorLine = -1;
 std::string CalError::m_strLastErrorText;
@@ -76,7 +56,7 @@ CalError::~CalError()
   * @return The code of the last error.
   *****************************************************************************/
 
-unsigned int CalError::getLastErrorCode()
+CalError::Code CalError::getLastErrorCode()
 {
   return m_lastErrorCode;
 }
@@ -221,13 +201,13 @@ void CalError::printLastError()
   * This function sets all the information about the last error that occured
   * inside the library.
   *
-  * @param code  The code of the last error.
-  * @param strFile  The file where the last error occured.
-  * @param line  The line number where the last error occured.
-  * @param strText  The supplementary text of the last error.
+  * @param code The code of the last error.
+  * @param strFile The file where the last error occured.
+  * @param line The line number where the last error occured.
+  * @param strText The supplementary text of the last error.
   *****************************************************************************/
 
-void CalError::setLastError(unsigned int code, const std::string& strFile, int line, const std::string& strText)
+void CalError::setLastError(Code code, const std::string& strFile, int line, const std::string& strText)
 {
   if(code >= MAX_ERROR_CODE) code = INTERNAL;
 

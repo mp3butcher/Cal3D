@@ -40,9 +40,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalCoreSkeleton();
-	virtual ~CalCoreSkeleton();
-	
+  CalCoreSkeleton();
+  virtual ~CalCoreSkeleton();
+
 // member functions
 public:
   int addCoreBone(CalCoreBone *pCoreBone);

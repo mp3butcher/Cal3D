@@ -105,7 +105,7 @@ o-----------------------------------------------------------------------------o
   - unified exporter plugin framework (3D Studio Max, MilkShape 3D and others
     following)
   - highly portable and modular design (only depends on C++ and STL)
-  - simple and clean API
+  - simple and clean API (both in C++ and "pure" C)
   - did I mention that it is free? (see the LGPL license)
 
 

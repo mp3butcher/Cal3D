@@ -56,9 +56,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalCoreMaterial();
-	virtual ~CalCoreMaterial();
-	
+  CalCoreMaterial();
+  virtual ~CalCoreMaterial();
+
 // member functions
 public:
   bool create();
@@ -66,7 +66,7 @@ public:
   Color& getAmbientColor();
   Color& getDiffuseColor();
   int getMapCount();
-  std::string getMapFilename(int mapId);
+  const std::string& getMapFilename(int mapId);
   Cal::UserData getMapUserData(int mapId);
   float getShininess();
   Color& getSpecularColor();

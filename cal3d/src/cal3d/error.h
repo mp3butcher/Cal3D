@@ -29,47 +29,50 @@ class CAL3D_API CalError
 {
 // misc
 public:
-  static const unsigned int OK;
-  static const unsigned int INTERNAL;
-  static const unsigned int INVALID_HANDLE;
-  static const unsigned int MEMORY_ALLOCATION_FAILED;
-  static const unsigned int FILE_NOT_FOUND;
-  static const unsigned int INVALID_FILE_FORMAT;
-  static const unsigned int FILE_PARSER_FAILED;
-  static const unsigned int INDEX_BUILD_FAILED;
-  static const unsigned int NO_PARSER_DOCUMENT;
-  static const unsigned int INVALID_ANIMATION_DURATION;
-  static const unsigned int BONE_NOT_FOUND;
-  static const unsigned int INVALID_ATTRIBUTE_VALUE;
-  static const unsigned int INVALID_KEYFRAME_COUNT;
-  static const unsigned int INVALID_ANIMATION_TYPE;
-  static const unsigned int FILE_CREATION_FAILED;
-  static const unsigned int FILE_WRITING_FAILED;
-  static const unsigned int INCOMPATIBLE_FILE_VERSION;
-  static const unsigned int NO_MESH_IN_MODEL;
-  static const unsigned int MAX_ERROR_CODE;
+  enum Code
+  {
+    OK = 0,
+    INTERNAL,
+    INVALID_HANDLE,
+    MEMORY_ALLOCATION_FAILED,
+    FILE_NOT_FOUND,
+    INVALID_FILE_FORMAT,
+    FILE_PARSER_FAILED,
+    INDEX_BUILD_FAILED,
+    NO_PARSER_DOCUMENT,
+    INVALID_ANIMATION_DURATION,
+    BONE_NOT_FOUND,
+    INVALID_ATTRIBUTE_VALUE,
+    INVALID_KEYFRAME_COUNT,
+    INVALID_ANIMATION_TYPE,
+    FILE_CREATION_FAILED,
+    FILE_WRITING_FAILED,
+    INCOMPATIBLE_FILE_VERSION,
+    NO_MESH_IN_MODEL,
+    MAX_ERROR_CODE
+  };
 
 // member variables
 protected:
-  static unsigned int m_lastErrorCode;
+  static Code m_lastErrorCode;
   static std::string m_strLastErrorFile;
   static int m_lastErrorLine;
   static std::string m_strLastErrorText;
 
 // constructors/destructor
 protected:
-	CalError();
-	virtual ~CalError();
+  CalError();
+  virtual ~CalError();
 
 // member functions	
 public:
-  static unsigned int getLastErrorCode();
-	static std::string getLastErrorDescription();
+  static Code getLastErrorCode();
+  static std::string getLastErrorDescription();
   static const std::string& getLastErrorFile();
   static int getLastErrorLine();
   static const std::string& getLastErrorText();
   static void printLastError();
-	static void setLastError(unsigned int code, const std::string& strFile, int line, const std::string& strText = "");
+  static void setLastError(Code code, const std::string& strFile, int line, const std::string& strText = "");
 };
 
 #endif

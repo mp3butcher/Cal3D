@@ -118,13 +118,13 @@ int CalCoreMaterial::getMapCount()
   *         \li an empty string if an error happend
   *****************************************************************************/
 
-std::string CalCoreMaterial::getMapFilename(int mapId)
+const std::string& CalCoreMaterial::getMapFilename(int mapId)
 {
   // check if the map id is valid
   if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return "";
+    return Cal::strNull;
   }
 
   return m_vectorMap[mapId].strFilename;

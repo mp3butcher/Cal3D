@@ -43,9 +43,9 @@ class CAL3D_API CalSaver
 {
 // constructors/destructor
 public:
-	CalSaver();
-	virtual ~CalSaver();
-	
+  CalSaver();
+  virtual ~CalSaver();
+
 // member functions
 public:
   bool saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation);

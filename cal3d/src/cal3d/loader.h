@@ -43,9 +43,9 @@ class CAL3D_API CalLoader
 {
 // constructors/destructor
 public:
-	CalLoader();
-	virtual ~CalLoader();
-	
+  CalLoader();
+  virtual ~CalLoader();
+
 // member functions
 public:
   CalCoreAnimation *loadCoreAnimation(const std::string& strFilename);

@@ -42,7 +42,7 @@ protected:
 // constructors/destructor
 public:
   CalAnimationCycle();
-	virtual ~CalAnimationCycle();
+  virtual ~CalAnimationCycle();
 
 // member functions	
 public:

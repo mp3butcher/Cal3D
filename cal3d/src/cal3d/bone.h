@@ -51,9 +51,9 @@ protected:
 
 // constructors/destructor
 public:
-	CalBone();
-	virtual ~CalBone();
-	
+  CalBone();
+  virtual ~CalBone();
+
 // member functions
 public:
   void blendState(float weight, const CalVector& translation, const CalQuaternion& rotation);

@@ -20,22 +20,6 @@
 #include "error.h"
 #include "coreanimation.h"
 
-//****************************************************************************//
-// Static member variables initialization                                     //
-//****************************************************************************//
-
-const unsigned int CalAnimation::TYPE_NONE = 0;
-const unsigned int CalAnimation::TYPE_CYCLE = 1;
-const unsigned int CalAnimation::TYPE_POSE = 2;
-const unsigned int CalAnimation::TYPE_ACTION = 3;
-
-const unsigned int CalAnimation::STATE_NONE = 0;
-const unsigned int CalAnimation::STATE_SYNC = 1;
-const unsigned int CalAnimation::STATE_ASYNC = 2;
-const unsigned int CalAnimation::STATE_IN = 3;
-const unsigned int CalAnimation::STATE_STEADY = 4;
-const unsigned int CalAnimation::STATE_OUT = 5;
-
  /*****************************************************************************/
 /** Constructs the animation instance.
   *
@@ -95,7 +79,7 @@ CalCoreAnimation *CalAnimation::getCoreAnimation()
   *
   * This function returns the state of the animation instance.
   *
-  * @return One of the following values:
+  * @return One of the following states:
   *         \li \b STATE_NONE
   *         \li \b STATE_SYNC
   *         \li \b STATE_ASYNC
@@ -104,7 +88,7 @@ CalCoreAnimation *CalAnimation::getCoreAnimation()
   *         \li \b STATE_OUT
   *****************************************************************************/
 
-unsigned int CalAnimation::getState()
+CalAnimation::State CalAnimation::getState()
 {
   return m_state;
 }
@@ -127,14 +111,14 @@ float CalAnimation::getTime()
   *
   * This function returns the type of the animation instance.
   *
-  * @return One of the following values:
+  * @return One of the following types:
   *         \li \b TYPE_NONE
   *         \li \b TYPE_CYCLE
   *         \li \b TYPE_POSE
   *         \li \b TYPE_ACTION
   *****************************************************************************/
 
-unsigned int CalAnimation::getType()
+CalAnimation::Type CalAnimation::getType()
 {
   return m_type;
 }

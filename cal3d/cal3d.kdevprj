@@ -24,7 +24,7 @@ ldadd=
 ldflags=
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Bruno 'Beosil' Heidelberger
 configure_args=
 email=beosil@swileys.com
@@ -228,7 +228,9 @@ sub_dirs=cal3d
 type=prog_main
 
 [src/cal3d/Makefile.am]
-files=src/cal3d/animation.cpp,src/cal3d/animation.h,src/cal3d/animation_cycle.cpp,src/cal3d/animation_cycle.h,src/cal3d/bone.cpp,src/cal3d/bone.h,src/cal3d/coreanimation.cpp,src/cal3d/coreanimation.h,src/cal3d/corebone.cpp,src/cal3d/corebone.h,src/cal3d/corekeyframe.cpp,src/cal3d/corekeyframe.h,src/cal3d/coremodel.cpp,src/cal3d/coremodel.h,src/cal3d/coreskeleton.cpp,src/cal3d/coreskeleton.h,src/cal3d/coretrack.cpp,src/cal3d/coretrack.h,src/cal3d/error.cpp,src/cal3d/error.h,src/cal3d/global.cpp,src/cal3d/global.h,src/cal3d/mixer.cpp,src/cal3d/vector.h,src/cal3d/skeleton.h,src/cal3d/skeleton.cpp,src/cal3d/quaternion.cpp,src/cal3d/quaternion.h,src/cal3d/mixer.h,src/cal3d/platform.h,src/cal3d/model.cpp,src/cal3d/model.h,src/cal3d/platform.cpp,src/cal3d/vector.cpp,src/cal3d/cal3d.h,src/cal3d/loader.h,src/cal3d/loader.cpp,src/cal3d/coremesh.cpp,src/cal3d/coremesh.h,src/cal3d/animation_action.h,src/cal3d/animation_action.cpp,src/cal3d/saver.h,src/cal3d/saver.cpp,src/cal3d/coresubmesh.h,src/cal3d/coresubmesh.cpp,src/cal3d/renderer.h,src/cal3d/renderer.cpp,src/cal3d/mesh.h,src/cal3d/mesh.cpp,src/cal3d/corematerial.h,src/cal3d/corematerial.cpp,src/cal3d/submesh.h,src/cal3d/submesh.cpp,src/cal3d/cal3d.rc,src/cal3d/resource.h,src/cal3d/physique.h,src/cal3d/physique.cpp,src/cal3d/springsystem.h,src/cal3d/springsystem.cpp
+files=src/cal3d/animation.cpp,src/cal3d/animation.h,src/cal3d/animation_cycle.cpp,src/cal3d/animation_cycle.h,src/cal3d/bone.cpp,src/cal3d/bone.h,src/cal3d/coreanimation.cpp,src/cal3d/coreanimation.h,src/cal3d/corebone.cpp,src/cal3d/corebone.h,src/cal3d/corekeyframe.cpp,src/cal3d/corekeyframe.h,src/cal3d/coremodel.cpp,src/cal3d/coremodel.h,src/cal3d/coreskeleton.cpp,src/cal3d/coreskeleton.h,src/cal3d/coretrack.cpp,src/cal3d/coretrack.h,src/cal3d/error.cpp,src/cal3d/error.h,src/cal3d/global.cpp,src/cal3d/global.h,src/cal3d/mixer.cpp,src/cal3d/vector.h,src/cal3d/skeleton.h,src/cal3d/skeleton.cpp,src/cal3d/quaternion.cpp,src/cal3d/quaternion.h,src/cal3d/mixer.h,src/cal3d/platform.h,src/cal3d/model.cpp,src/cal3d/model.h,src/cal3d/platform.cpp,src/cal3d/vector.cpp,src/cal3d/cal3d.h,src/cal3d/loader.h,src/cal3d/loader.cpp,src/cal3d/coremesh.cpp,src/cal3d/coremesh.h,src/cal3d/animation_action.h,src/cal3d/animation_action.cpp,src/cal3d/saver.h,src/cal3d/saver.cpp,src/cal3d/coresubmesh.h,src/cal3d/coresubmesh.cpp,src/cal3d/renderer.h,src/cal3d/renderer.cpp,src/cal3d/mesh.h,src/cal3d/mesh.cpp,src/cal3d/corematerial.h,src/cal3d/corematerial.cpp,src/cal3d/submesh.h,src/cal3d/submesh.cpp,src/cal3d/cal3d.rc,src/cal3d/resource.h,src/cal3d/physique.h,src/cal3d/physique.cpp,src/cal3d/springsystem.h,src/cal3d/springsystem.cpp,src/cal3d/cal3d_wrapper.h,src/cal3d/cal3d_wrapper.cpp
+sharedlib_LDFLAGS=-version-info 0:0:0
+sharedlib_rootname=cal3d
 sub_dirs=
 type=shared_library
 
@@ -291,6 +293,18 @@ dist=true
 install=false
 install_location=
 type=DATA
+
+[src/cal3d/cal3d_wrapper.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[src/cal3d/cal3d_wrapper.h]
+dist=true
+install=false
+install_location=
+type=HEADER
 
 [src/cal3d/coreanimation.cpp]
 dist=true
