@@ -19,6 +19,7 @@
 #include "cal3d/coremesh.h"
 #include "cal3d/error.h"
 #include "cal3d/coresubmesh.h"
+#include "cal3d/coresubmorphtarget.h"
 
  /*****************************************************************************/
 /** Constructs the core mesh instance.
@@ -148,6 +149,72 @@ int CalCoreMesh::getCoreSubmeshCount()
 std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh()
 {
   return m_vectorCoreSubmesh;
+}
+
+ /*****************************************************************************/
+/** Adds a core submesh.
+  *
+  * This function adds a core mesh as a blend target.
+  * It adds appropriate CalCoreSubMorphTargets to each of the core sub meshes.
+  *
+  * @param pCoreMesh A pointer to the core mesh that shoulb become a blend target.
+  *
+  * @return One of the following values:
+  *         \li the assigned morph target \b ID of the added blend target
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
+{
+  //Check if the numbers of vertices allow a blending
+  std::vector<CalCoreSubmesh *>& otherVectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
+  if (m_vectorCoreSubmesh.size() != otherVectorCoreSubmesh.size())
+  {
+    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+    return -1;
+  }
+  if (m_vectorCoreSubmesh.size() == 0)
+  {
+    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+    return -1;
+  }
+  std::vector<CalCoreSubmesh *>::iterator iteratorCoreSubmesh = m_vectorCoreSubmesh.begin();
+  std::vector<CalCoreSubmesh *>::iterator otherIteratorCoreSubmesh = otherVectorCoreSubmesh.begin();
+  int subMorphTargetID = (*iteratorCoreSubmesh)->getCoreSubMorphTargetCount();
+  while(iteratorCoreSubmesh != m_vectorCoreSubmesh.end())
+  {
+    if((*iteratorCoreSubmesh)->getVertexCount() != (*otherIteratorCoreSubmesh)->getVertexCount())
+    {
+      CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+      return -1;
+    }
+    ++iteratorCoreSubmesh;
+    ++otherIteratorCoreSubmesh;
+  }
+  //Adding the blend targets to each of the core sub meshes
+  iteratorCoreSubmesh = m_vectorCoreSubmesh.begin();
+  otherIteratorCoreSubmesh = otherVectorCoreSubmesh.begin();
+  while(iteratorCoreSubmesh != m_vectorCoreSubmesh.end())
+  {
+    int vertexCount = (*otherIteratorCoreSubmesh)->getVertexCount();
+    CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new CalCoreSubMorphTarget();
+    if(!pCalCoreSubMorphTarget->create()) return -1;
+    if(!pCalCoreSubMorphTarget->reserve(vertexCount)) return -1;
+    std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
+    std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();
+    for(int i = 0;i<vertexCount;++i)
+    {
+      CalCoreSubMorphTarget::BlendVertex blendVertex;
+      blendVertex.position = (*iteratorVectorVertex).position;
+      blendVertex.normal = (*iteratorVectorVertex).normal;
+      if(!pCalCoreSubMorphTarget->setBlendVertex(i,blendVertex)) return -1;
+      ++iteratorVectorVertex;
+    }
+    (*iteratorCoreSubmesh)->addCoreSubMorphTarget(pCalCoreSubMorphTarget);
+    ++iteratorCoreSubmesh;
+    ++otherIteratorCoreSubmesh;
+  }
+  return subMorphTargetID;
 }
 
 //****************************************************************************//

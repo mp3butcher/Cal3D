@@ -27,6 +27,7 @@
 #include "cal3d/coremesh.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/mesh.h"
+#include "cal3d/morphtargetmixer.h"
 #include "cal3d/physique.h"
 #include "cal3d/springsystem.h"
 
@@ -610,6 +611,12 @@ void CalModel::update(float deltaTime)
 {
   m_pMixer->updateAnimation(deltaTime);
   m_pMixer->updateSkeleton();
+  std::vector<CalMesh *>::iterator iteratorVectorMesh = m_vectorMesh.begin();
+  while(iteratorVectorMesh != m_vectorMesh.end())
+  {
+    (*iteratorVectorMesh)->getMorphTargetMixer()->update(deltaTime);
+    ++iteratorVectorMesh;
+  }
   // m_pMorpher->update(...);
   m_pPhysique->update();
   m_pSpringSystem->update(deltaTime);

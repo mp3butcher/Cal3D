@@ -61,6 +61,7 @@ public:
 // member variables
 protected:
   CalCoreSubmesh *m_pCoreSubmesh;
+  std::vector<float> m_vectorMorphTargetWeight;
   std::vector<CalVector> m_vectorVertex;
   std::vector<CalVector> m_vectorNormal;
   std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
@@ -95,7 +96,12 @@ public:
   void setLodLevel(float lodLevel);
   bool isTangentsEnabled(int mapId);
   bool enableTangents(int mapId, bool enabled);
-
+  std::vector<float>& getVectorWeight();
+  void setMorphTargetWeight(int blendId,float weight);
+  float getMorphTargetWeight(int blendId);
+  float getBaseWeight();
+  int getMorphTargetWeightCount();
+  std::vector<float>& getVectorMorphTargetWeight();
 
 };
 

@@ -17,6 +17,7 @@
 //****************************************************************************//
 
 #include "cal3d/coresubmesh.h"
+#include "cal3d/coresubmorphtarget.h"
 
  /*****************************************************************************/
 /** Constructs the core submesh instance.
@@ -45,6 +46,7 @@ CalCoreSubmesh::~CalCoreSubmesh()
   assert(m_vectorSpring.empty());
   assert(m_vectorTangentsEnabled.empty());
   assert(m_vectorvectorTangentSpace.empty());
+  assert(m_vectorCoreSubMorphTarget.empty());
 }
 
  /*****************************************************************************/
@@ -79,6 +81,14 @@ void CalCoreSubmesh::destroy()
   m_vectorSpring.clear();
   m_vectorTangentsEnabled.clear();
   m_vectorvectorTangentSpace.clear();
+  // destroy all core sub morph targets
+  std::vector<CalCoreSubMorphTarget *>::iterator iteratorCoreSubMorphTarget;
+  for(iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); ++iteratorCoreSubMorphTarget)
+  {
+    (*iteratorCoreSubMorphTarget)->destroy();
+    delete (*iteratorCoreSubMorphTarget);
+  }
+  m_vectorCoreSubMorphTarget.clear();
 }
 
  /*****************************************************************************/
@@ -572,6 +582,79 @@ bool CalCoreSubmesh::setVertex(int vertexId, const Vertex& vertex)
   m_vectorVertex[vertexId] = vertex;
 
   return true;
+}
+
+ /*****************************************************************************/
+/** Adds a core sub morph target.
+  *
+  * This function adds a core sub morph target to the core sub mesh instance.
+  *
+  * @param pCoreSubMorphTarget A pointer to the core sub morph target that should be added.
+  *
+  * @return One of the following values:
+  *         \li the assigned sub morph target \b ID of the added core sub morph target
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget)
+{
+  // get next sub morph target id
+  int subMorphTargetId;
+  subMorphTargetId = m_vectorCoreSubMorphTarget.size();
+
+  m_vectorCoreSubMorphTarget.push_back(pCoreSubMorphTarget);
+
+  return subMorphTargetId;
+}
+
+ /*****************************************************************************/
+/** Provides access to a core sub morph target.
+  *
+  * This function returns the core sub morph target with the given ID.
+  *
+  * @param id The ID of the core sub morph target that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core sub morph target
+  *         \li \b 0 if an error happend
+  *****************************************************************************/
+
+CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorCoreSubMorphTarget.size()))
+  {
+    return 0;
+  }
+
+  return m_vectorCoreSubMorphTarget[id];
+}
+
+ /*****************************************************************************/
+/** Returns the number of core sub morph targets.
+  *
+  * This function returns the number of core sub morph targets in the core sub mesh
+  * instance.
+  *
+  * @return The number of core sub morph targets.
+  *****************************************************************************/
+
+int CalCoreSubmesh::getCoreSubMorphTargetCount()
+{
+  return m_vectorCoreSubMorphTarget.size();
+}
+
+ /*****************************************************************************/
+/** Returns the core sub morph target vector.
+  *
+  * This function returns the vector that contains all core sub morph target
+  *  of the core submesh instance.
+  *
+  * @return A reference to the core sub morph target vector.
+  *****************************************************************************/
+
+std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarget()
+{
+  return m_vectorCoreSubMorphTarget;
 }
 
 //****************************************************************************//

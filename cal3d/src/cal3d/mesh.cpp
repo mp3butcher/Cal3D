@@ -23,6 +23,7 @@
 #include "cal3d/submesh.h"
 #include "cal3d/coremodel.h"
 #include "cal3d/model.h"
+#include "cal3d/morphtargetmixer.h"
 
  /*****************************************************************************/
 /** Constructs the mesh instance.
@@ -34,6 +35,7 @@ CalMesh::CalMesh()
 {
   m_pModel = 0;
   m_pCoreMesh = 0;
+  m_pMorphTargetMixer = 0;
 }
 
  /*****************************************************************************/
@@ -102,7 +104,8 @@ bool CalMesh::create(CalCoreMesh *pCoreMesh)
     // insert submesh into submesh vector
     m_vectorSubmesh.push_back(pSubmesh);
   }
-
+  m_pMorphTargetMixer = new CalMorphTargetMixer();
+  if(!m_pMorphTargetMixer->create(this)) return false;
   return true;
 }
 
@@ -125,6 +128,9 @@ void CalMesh::destroy()
   m_vectorSubmesh.clear();
 
   m_pCoreMesh = 0;
+
+  m_pMorphTargetMixer->destroy();
+  delete m_pMorphTargetMixer;
 }
 
  /*****************************************************************************/
@@ -268,5 +274,17 @@ void CalMesh::disableInternalData()
   }
 }
 
+/*****************************************************************************/
+/** Returns the morph target mixer.
+  *
+  * This function returns the morph target mixer of the mesh
+  * instance.
+  *
+  * @return A reference to the morph target mixer.
+  *****************************************************************************/
+CalMorphTargetMixer *CalMesh::getMorphTargetMixer()
+{
+  return m_pMorphTargetMixer;
+}
 
 //****************************************************************************//

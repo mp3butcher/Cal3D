@@ -1,5 +1,5 @@
 //****************************************************************************//
-// mesh.h                                                                     //
+// coresubmorphtarget.h                                                       //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
@@ -8,61 +8,52 @@
 // your option) any later version.                                            //
 //****************************************************************************//
 
-#ifndef CAL_MESH_H
-#define CAL_MESH_H
+#ifndef CAL_CORESUBMORPHTARGET_H
+#define CAL_CORESUBMORPHTARGET_H
 
 //****************************************************************************//
 // Includes                                                                   //
 //****************************************************************************//
 
 #include "cal3d/global.h"
-
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
-
-class CalModel;
-class CalCoreMesh;
-class CalSubmesh;
-class CalMorphTargetMixer;
+#include "cal3d/vector.h"
 
 //****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
  /*****************************************************************************/
-/** The mesh class.
+/** The core sub morph target class.
   *****************************************************************************/
 
-class CAL3D_API CalMesh
+class CAL3D_API CalCoreSubMorphTarget
 {
+// misc
+public:
+  /// The core sub morph target BlendVertex.
+  typedef struct
+  {
+     CalVector position;
+     CalVector normal;
+  } BlendVertex;
+  
 // member variables
 protected:
-  CalModel *m_pModel;
-  CalCoreMesh *m_pCoreMesh;
-  CalMorphTargetMixer *m_pMorphTargetMixer;
-  std::vector<CalSubmesh *> m_vectorSubmesh;
+  std::vector<BlendVertex> m_vectorBlendVertex;
 
 // constructors/destructor
 public:
-  CalMesh();
-  virtual ~CalMesh();
+  CalCoreSubMorphTarget();
+  virtual ~CalCoreSubMorphTarget();
 
-// member functions	
+// member functions
 public:
-  bool create(CalCoreMesh *pCoreMesh);
+  bool create();
   void destroy();
-  CalCoreMesh *getCoreMesh();
-  CalSubmesh *getSubmesh(int id);
-  int getSubmeshCount();
-  std::vector<CalSubmesh *>& getVectorSubmesh();
-  void setLodLevel(float lodLevel);
-  void setMaterialSet(int setId);
-  void setModel(CalModel *pModel);
-  void disableInternalData();
-  CalMorphTargetMixer *getMorphTargetMixer();
+  int getBlendVertexCount();
+  std::vector<BlendVertex>& getVectorBlendVertex();
+  bool reserve(int blendVertexCount);
+  bool setBlendVertex(int vertexId, const BlendVertex& vertex);
 };
-
 #endif
-
 //****************************************************************************//

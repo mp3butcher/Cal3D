@@ -1,5 +1,5 @@
 //****************************************************************************//
-// mesh.h                                                                     //
+// morphtargetmixer.h                                                         //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
@@ -8,8 +8,8 @@
 // your option) any later version.                                            //
 //****************************************************************************//
 
-#ifndef CAL_MESH_H
-#define CAL_MESH_H
+#ifndef CAL_MORPHTARGETMIXER_H
+#define CAL_MORPHTARGETMIXER_H
 
 //****************************************************************************//
 // Includes                                                                   //
@@ -21,46 +21,41 @@
 // Forward declarations                                                       //
 //****************************************************************************//
 
-class CalModel;
-class CalCoreMesh;
-class CalSubmesh;
-class CalMorphTargetMixer;
+class CalMesh;
 
 //****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
  /*****************************************************************************/
-/** The mesh class.
+/** The morph target mixer class.
   *****************************************************************************/
-
-class CAL3D_API CalMesh
+class CAL3D_API CalMorphTargetMixer
 {
 // member variables
 protected:
-  CalModel *m_pModel;
-  CalCoreMesh *m_pCoreMesh;
-  CalMorphTargetMixer *m_pMorphTargetMixer;
-  std::vector<CalSubmesh *> m_vectorSubmesh;
+  std::vector<float> m_vectorCurrentWeight;
+  std::vector<float> m_vectorEndWeight;
+  float m_duration;
+  CalMesh *m_pMesh;
 
 // constructors/destructor
 public:
-  CalMesh();
-  virtual ~CalMesh();
+  CalMorphTargetMixer();
+  virtual ~CalMorphTargetMixer();
 
-// member functions	
+// member functions
 public:
-  bool create(CalCoreMesh *pCoreMesh);
+  bool blend(int id, float weight, float delay);
+  bool blendBase(float weight, float delay);
+  bool clear(int id, float delay);
+  bool clearBase(float delay);
+  float getCurrentWeight(int id);
+  float getCurrentWeightBase();
+  int getMorphTargetCount();
+  bool create(CalMesh *pMesh);
   void destroy();
-  CalCoreMesh *getCoreMesh();
-  CalSubmesh *getSubmesh(int id);
-  int getSubmeshCount();
-  std::vector<CalSubmesh *>& getVectorSubmesh();
-  void setLodLevel(float lodLevel);
-  void setMaterialSet(int setId);
-  void setModel(CalModel *pModel);
-  void disableInternalData();
-  CalMorphTargetMixer *getMorphTargetMixer();
+  void update(float deltaTime);
 };
 
 #endif

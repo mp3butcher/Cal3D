@@ -50,6 +50,7 @@ public:
   CalCoreSubmesh *getCoreSubmesh(int id);
   int getCoreSubmeshCount();
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
+  int addAsMorphTarget(CalCoreMesh *pCoreMesh);
 };
 
 #endif

@@ -74,6 +74,15 @@ bool CalSubmesh::create(CalCoreSubmesh *pCoreSubmesh)
 
   // set the initial material id
   m_coreMaterialId = -1;
+  
+  //Setting the morph target weights
+  m_vectorMorphTargetWeight.reserve(m_pCoreSubmesh->getCoreSubMorphTargetCount());
+  m_vectorMorphTargetWeight.resize(m_pCoreSubmesh->getCoreSubMorphTargetCount());
+  int morphTargetId;
+  for(morphTargetId = 0; morphTargetId<m_pCoreSubmesh->getCoreSubMorphTargetCount();++morphTargetId)
+  {
+    m_vectorMorphTargetWeight[morphTargetId] = 0.0f;
+  }
 
   // check if the submesh instance must handle the vertex and normal data internally
   if(m_pCoreSubmesh->getSpringCount() > 0)
@@ -428,6 +437,74 @@ void CalSubmesh::setLodLevel(float lodLevel)
       m_vectorFace[faceId].vertexId[vertexId] = collapsedVertexId;
     }
   }
+}
+
+ /*****************************************************************************/
+/** Sets weight of a morph target with the given id.
+  *
+  * @param blendId The morph target id.
+  * @param weight The weight to be set.
+  *****************************************************************************/
+
+void CalSubmesh::setMorphTargetWeight(int blendId,float weight)
+{
+  m_vectorMorphTargetWeight[blendId] = weight;
+}
+
+ /*****************************************************************************/
+/** Gets weight of a morph target with the given id.
+  *
+  * @param blendId The morph target id.
+  * @return The weight of the morph target.
+  *****************************************************************************/
+
+float CalSubmesh::getMorphTargetWeight(int blendId)
+{
+  return m_vectorMorphTargetWeight[blendId];
+}
+
+ /*****************************************************************************/
+/** Gets weight of the base vertices.
+  *
+  * @return The weight of the base vertices.
+  *****************************************************************************/
+
+float CalSubmesh::getBaseWeight()
+{
+  float baseWeight = 1.0f;
+  int morphTargetCount = getMorphTargetWeightCount();
+  int morphTargetId;
+  for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
+  {
+    baseWeight -= m_vectorMorphTargetWeight[morphTargetId];
+  }
+  return baseWeight;
+}
+
+ /*****************************************************************************/
+/** Returns the morph target weight vector.
+  *
+  * This function returns the vector that contains all weights for
+  * each morph target instance.
+  *
+  * @return A reference to the weight vector.
+  *****************************************************************************/
+std::vector<float>& CalSubmesh::getVectorMorphTargetWeight()
+{
+  return m_vectorMorphTargetWeight;
+}
+
+ /*****************************************************************************/
+/** Returns the number of weights.
+  *
+  * This function returns the number of weights.
+  *
+  * @return The number of weights.
+  *****************************************************************************/
+
+int CalSubmesh::getMorphTargetWeightCount()
+{
+  return m_vectorMorphTargetWeight.size();
 }
 
 //****************************************************************************//

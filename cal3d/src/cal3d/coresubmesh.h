@@ -19,6 +19,12 @@
 #include "cal3d/vector.h"
 
 //****************************************************************************//
+// Forward declarations                                                       //
+//****************************************************************************//
+
+class CalCoreSubMorphTarget;
+
+//****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
@@ -89,6 +95,7 @@ protected:
   std::vector<PhysicalProperty> m_vectorPhysicalProperty;
   std::vector<Face> m_vectorFace;
   std::vector<Spring> m_vectorSpring;
+  std::vector<CalCoreSubMorphTarget *> m_vectorCoreSubMorphTarget;
   int m_coreMaterialThreadId;
   int m_lodCount;
 
@@ -123,6 +130,10 @@ public:
   bool setTangentSpace(int vertexId, int textureCoordinateId, const CalVector& tangent, float crossFactor);
   bool setTextureCoordinate(int vertexId, int textureCoordinateId, const TextureCoordinate& textureCoordinate);
   bool setVertex(int vertexId, const Vertex& vertex);
+  int addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget);
+  CalCoreSubMorphTarget *getCoreSubMorphTarget(int id);
+  int getCoreSubMorphTargetCount();
+  std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
 protected:
   void UpdateTangentVector(int v0, int v1, int v2, int channel);
 };
