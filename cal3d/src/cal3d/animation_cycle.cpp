@@ -185,6 +185,9 @@ bool CalAnimationCycle::update(float deltaTime)
     {
       m_time = (float) fmod(m_time, m_pCoreAnimation->getDuration());
     }
+	if (m_time < 0)
+      m_time += m_pCoreAnimation->getDuration();
+
   }
 
   return true;

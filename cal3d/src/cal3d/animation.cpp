@@ -145,4 +145,30 @@ void CalAnimation::setTime(float time)
     m_time = time;
 }
 
+/*****************************************************************************/
+/** Set the time factor.
+  * 
+  * This function sets the time factor of the animation instance.
+  * this time factor affect only sync animation
+  *
+  *****************************************************************************/
+
+void CalAnimation::setTimeFactor(float timeFactor)
+{
+    m_timeFactor = timeFactor;
+}
+
+/*****************************************************************************/
+/** Get the time factor.
+  * 
+  * This function return the time factor of the animation instance.
+  *
+  *****************************************************************************/
+
+float CalAnimation::getTimeFactor()
+{
+    return m_timeFactor;
+}
+
+
 //****************************************************************************//

@@ -142,10 +142,10 @@ bool CalAnimationAction::update(float deltaTime)
     }
   }
 
-  // hanbdle STEADY
+  // handle STEADY
   if(m_state == STATE_STEADY)
   {
-    // cehck if we reached OUT phase
+    // check if we reached OUT phase
     if(m_time >= m_pCoreAnimation->getDuration() - m_delayOut)
     {
       m_state = STATE_OUT;
@@ -155,7 +155,7 @@ bool CalAnimationAction::update(float deltaTime)
   // handle OUT phase
   if(m_state == STATE_OUT)
   {
-    // cehck if we are still in the OUT phase
+    // check if we are still in the OUT phase
     if(m_time < m_pCoreAnimation->getDuration())
     {
       m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut * m_weightTarget;
