@@ -54,6 +54,8 @@ public:
   CalCoreSkeleton *getCoreSkeleton();
   std::vector<CalBone *>& getVectorBone();
   void lockState();
+  void getBoneBoundingBox(float *min, float *max);
+
 
 // DEBUG-CODE
   int getBonePoints(float *pPoints);

@@ -95,13 +95,14 @@ void CalAnimationAction::destroy()
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalAnimationAction::execute(float delayIn, float delayOut)
+bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget)
 {
   m_state = STATE_IN;
   m_weight = 0.0f;
   m_delayIn = delayIn;
   m_delayOut = delayOut;
   m_time = 0.0f;
+  m_weightTarget = weightTarget;
 
   return true;
 }
@@ -131,12 +132,13 @@ bool CalAnimationAction::update(float deltaTime)
     // cehck if we are still in the IN phase
     if(m_time < m_delayIn)
     {
-      m_weight = m_time / m_delayIn;
+      m_weight = m_time / m_delayIn * m_weightTarget;
+      //m_weight = m_time / m_delayIn;
     }
     else
     {
       m_state = STATE_STEADY;
-      m_weight = 1.0f;
+      m_weight = m_weightTarget;
     }
   }
 
@@ -156,7 +158,8 @@ bool CalAnimationAction::update(float deltaTime)
     // cehck if we are still in the OUT phase
     if(m_time < m_pCoreAnimation->getDuration())
     {
-      m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut;
+      m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut * m_weightTarget;
+//      m_weight = (m_pCoreAnimation->getDuration() - m_time) / m_delayOut;
     }
     else
     {
@@ -167,6 +170,7 @@ bool CalAnimationAction::update(float deltaTime)
   }
 
   return true;
+
 }
 
 //****************************************************************************//

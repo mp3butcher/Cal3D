@@ -1211,7 +1211,7 @@ void CalMixer_Destroy(CalMixer *self)
 
 Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut)
 {
-  return self->executeAction(id, delayIn, delayOut) ? True : False;
+  return self->executeAction(id, delayIn, delayOut, 1.0f) ? True : False;
 }
 
 CalMixer *CalMixer_New()

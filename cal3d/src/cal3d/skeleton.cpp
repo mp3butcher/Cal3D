@@ -227,6 +227,52 @@ void CalSkeleton::lockState()
   }
 }
 
+/*****************************************************************************/
+/** Calculates axis aligned bounding box of skeleton bones
+  *
+  * @param min The vector where the min values of bb are stored.
+  * @param man The vector where the max values of bb are stored.
+  *
+  *****************************************************************************/
+
+void CalSkeleton::getBoneBoundingBox(float *min, float *max)
+{
+
+  std::vector<CalBone *>::iterator iteratorBone;
+
+  if ((iteratorBone = m_vectorBone.begin()) != m_vectorBone.end()) {
+    const CalVector& translation = (*iteratorBone)->getTranslationAbsolute();
+
+    min[0] = max[0] = translation[0];
+    min[1] = max[1] = translation[1];
+    min[2] = max[2] = translation[2];
+
+    ++iteratorBone;
+  }
+
+  for(; iteratorBone != m_vectorBone.end(); ++iteratorBone) {
+    const CalVector& translation = (*iteratorBone)->getTranslationAbsolute();
+
+    if (translation[0] > max[0])
+      max[0] = translation[0];
+    else if (translation[0] < min[0])
+      min[0] = translation[0];
+
+    if (translation[1] > max[1])
+      max[1] = translation[1];
+    else if (translation[1] < min[1])
+      min[1] = translation[1];
+
+    if (translation[2] > max[2])
+      max[2] = translation[2];
+    else if (translation[2] < min[2])
+      min[2] = translation[2];
+
+  }
+
+}
+
+
 //****************************************************************************//
 
 

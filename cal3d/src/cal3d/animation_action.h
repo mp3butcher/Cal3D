@@ -39,6 +39,7 @@ protected:
   float m_delayIn;
   float m_delayOut;
   float m_delayTarget;
+  float m_weightTarget;
 
 // constructors/destructor
 public:
@@ -49,7 +50,7 @@ public:
 public:
   bool create(CalCoreAnimation *pCoreAnimation);
   void destroy();
-  bool execute(float delayIn, float delayOut);
+  bool execute(float delayIn, float delayOut, float weightTarget = 1.0f);
   bool update(float deltaTime);
 };
 

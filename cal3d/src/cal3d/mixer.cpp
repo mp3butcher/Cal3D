@@ -310,7 +310,7 @@ void CalMixer::destroy()
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalMixer::executeAction(int id, float delayIn, float delayOut)
+bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weightTarget)
 {
   if((id < 0) || (id >= (int)m_vectorAnimation.size()))
   {
@@ -346,7 +346,7 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut)
   m_listAnimationAction.push_front(pAnimationAction);
 
   // execute the animation
-  return pAnimationAction->execute(delayIn, delayOut);
+  return pAnimationAction->execute(delayIn, delayOut, weightTarget);
 }
 
  /*****************************************************************************/

@@ -70,6 +70,8 @@ public:
   int getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords=1);
   bool isTangentsEnabled(int mapId);
   bool selectMeshSubmesh(int meshId, int submeshId);
+  void setNormalization(bool normalize);
+
 };
 
 #endif

@@ -725,4 +725,19 @@ bool CalRenderer::selectMeshSubmesh(int meshId, int submeshId)
   return true;
 }
 
+ /*****************************************************************************/
+/** Sets the normalization flag to true or false.
+  *
+  * This function sets the normalization flag on or off. If off, the normals
+  * calculated by Cal3D will not be normalized. Instead, this transform is left
+  * up to the user.
+  *****************************************************************************/
+
+void CalRenderer::setNormalization(bool normalize)
+{ 
+	m_pModel->getPhysique()->setNormalization(normalize); 
+}
+
+
 //****************************************************************************//
+
