@@ -4,9 +4,13 @@ o-----------------------------------------------------------------------------o
 
 
 o-----------------------------------------------------------------------------o
-| Version 0.8 (in development)                                                |
+| Version 0.8 (29. August 2002)                                               |
 o-----------------------------------------------------------------------------o
 
+  - Optional support for 16-bit indices (default 32-bit)
+  - Added support for file loading on big endian computers
+  - Optimized bone transformations with CalMatrix
+  - New CalMatrix class (Thanks to 'josh'!)
   - Completely revamped the automake/autoconf setup.
   - Moved the 'cal3d.doxygen' file into the 'docs' subdirectory where it
     actually belongs.
