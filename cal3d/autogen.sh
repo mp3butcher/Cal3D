@@ -51,7 +51,7 @@ echo "Running $AUTOHEADER..."
 $AUTOHEADER
 
 echo "Running $AUTOMAKE ..."
-$AUTOMAKE --add-missing --copy --force
+$AUTOMAKE --add-missing --copy --force-missing
 
 echo "Running $AUTOCONF ..."
 $AUTOCONF
