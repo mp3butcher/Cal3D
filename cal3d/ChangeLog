@@ -3,7 +3,7 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
 
 o-----------------------------------------------------------------------------o
-| Post - Version 0.9 
+| Version 0.9.1 ( 26. November 2003) 
 o-----------------------------------------------------------------------------o
 
   - Implemented loading from generic "data sources", which will allow the
@@ -11,6 +11,7 @@ o-----------------------------------------------------------------------------o
   - Implementation of mesh morph targets from old_belge
   - Switched object constructors to use initializer lists for performance
     optimization
+  - Implementation of Bounding Box calculations
 
 o-----------------------------------------------------------------------------o
 | Version 0.9 ( 6. August 2003)                                                 |

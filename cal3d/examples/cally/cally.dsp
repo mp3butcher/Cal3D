@@ -106,6 +106,10 @@ SOURCE=.\src\model.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\tga.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\tick.cpp
 # End Source File
 # End Group
@@ -131,10 +135,6 @@ SOURCE=.\src\menu.h
 # Begin Source File
 
 SOURCE=.\src\model.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\tga.cpp
 # End Source File
 # Begin Source File
 

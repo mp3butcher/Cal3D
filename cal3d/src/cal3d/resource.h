@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by cal3d.rc
+// Microsoft Developer Studio generated include file.
+// Used by Cal3D.rc
 //
 
 // Next default values for new objects
