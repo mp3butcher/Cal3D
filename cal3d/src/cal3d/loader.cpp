@@ -651,6 +651,10 @@ CalCoreSkeleton *CalLoader::loadCoreSkeleton(const std::string& strFilename)
 
     // add the core bone to the core skeleton instance
     pCoreSkeleton->addCoreBone(pCoreBone);
+
+    // add a core skeleton mapping of the bone's name for quick reference later
+    pCoreSkeleton->mapCoreBoneName(boneId, pCoreBone->getName());
+
   }
 
   // explicitly close the file
