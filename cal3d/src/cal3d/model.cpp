@@ -554,14 +554,19 @@ CalSpringSystem *CalModel::getSpringSystem()
 
 CalBoundingBox & CalModel::getBoundingBox()
 {
-	
-	m_boundingBox.plane[0].setNormal(CalVector(1.0f,0.0f,0.0f));
-	m_boundingBox.plane[1].setNormal(CalVector(-1.0f,0.0f,0.0f));
-	m_boundingBox.plane[2].setNormal(CalVector(0.0f,-1.0f,0.0f));
-	m_boundingBox.plane[3].setNormal(CalVector(0.0f,1.0f,0.0f));
-	m_boundingBox.plane[4].setNormal(CalVector(0.0f,0.0f,1.0f));
-	m_boundingBox.plane[5].setNormal(CalVector(0.0f,0.0f,-1.0f));
-	
+	CalVector v;
+	v = CalVector(1.0f,0.0f,0.0f);	
+	m_boundingBox.plane[0].setNormal(v);
+	v = CalVector(-1.0f,0.0f,0.0f);	
+	m_boundingBox.plane[1].setNormal(v);
+	v = CalVector(0.0f,1.0f,0.0f);	
+	m_boundingBox.plane[2].setNormal(v);
+	v = CalVector(0.0f,-1.0f,0.0f);	
+	m_boundingBox.plane[3].setNormal(v);
+	v = CalVector(0.0f,0.0f,1.0f);	
+	m_boundingBox.plane[4].setNormal(v);
+	v = CalVector(0.0f,0.0f,-1.0f);	
+	m_boundingBox.plane[5].setNormal(v);
 	
 	std::vector<CalBone *> & vectorBone =  m_pSkeleton->getVectorBone();
 		
