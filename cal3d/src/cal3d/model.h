@@ -27,11 +27,11 @@ class CalRenderer;
 class CalMesh;
 
 
-class CAL3D_API CalModel : Cal::noncopyable
+class CAL3D_API CalModel : cal3d::noncopyable
 {
 public: 
   CalModel(CalCoreModel* pCoreModel);
-  virtual ~CalModel();
+  ~CalModel();
 
   bool attachMesh(int coreMeshId);
   bool detachMesh(int coreMeshId);
