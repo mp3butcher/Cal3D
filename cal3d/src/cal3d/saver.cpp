@@ -726,14 +726,12 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
   std::stringstream str;
 
   TiXmlDocument doc(strFilename);  
-  
-  TiXmlElement header("HEADER");
-  header.SetAttribute("MAGIC",Cal::SKELETON_XMLFILE_MAGIC);
-  header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-  
-  doc.InsertEndChild(header);
+
 
   TiXmlElement skeleton("SKELETON");
+  //skeleton.SetAttribute("MAGIC",Cal::SKELETON_XMLFILE_MAGIC);
+  skeleton.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+
   skeleton.SetAttribute("NUMBONES",pCoreSkeleton->getVectorCoreBone().size());
   
 
@@ -864,14 +862,11 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
     std::stringstream str;
 
     TiXmlDocument doc(strFilename);
-  
+
     TiXmlElement animation("ANIMATION");
+    //animation.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
+    animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 
-	TiXmlElement header("HEADER");
-	header.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
-	header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-
-	doc.InsertEndChild(header);
 
 	str.str("");
     str << pCoreAnimation->getDuration();	
@@ -969,13 +964,10 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
     TiXmlDocument doc(strFilename);    
 	
-	TiXmlElement header("HEADER");
-	header.SetAttribute("MAGIC",Cal::MESH_XMLFILE_MAGIC);
-	header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-
-    doc.InsertEndChild(header);
 
 	TiXmlElement mesh("MESH");
+	//mesh.SetAttribute("MAGIC",Cal::MESH_XMLFILE_MAGIC);
+	mesh.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 	mesh.SetAttribute("NUMSUBMESH",pCoreMesh->getCoreSubmeshCount());
 
 	// get the submesh vector
@@ -1194,16 +1186,11 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   std::stringstream str;
 
   TiXmlDocument doc(strFilename);
-  
-  
-  
-  TiXmlElement header("HEADER");
-  header.SetAttribute("MAGIC",Cal::MATERIAL_XMLFILE_MAGIC);
-  header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-
-  doc.InsertEndChild(header);
 
   TiXmlElement material("MATERIAL");
+  //material.SetAttribute("MAGIC",Cal::MATERIAL_XMLFILE_MAGIC);
+  material.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+
   material.SetAttribute("NUMMAPS",pCoreMaterial->getVectorMap().size());
   
   TiXmlElement ambient("AMBIENT");

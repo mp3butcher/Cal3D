@@ -1386,8 +1386,8 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
   *****************************************************************************/
 
 CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
-{	
-  
+{
+
   std::stringstream str;
   TiXmlDocument doc(strFilename);
   if(!doc.LoadFile())
@@ -1397,32 +1397,49 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
   }
 
   TiXmlNode* node;
-  TiXmlElement*header = doc.FirstChildElement();
-  if(!header || stricmp(header->Value(),"HEADER")!=0)
+  TiXmlElement*skeleton = doc.FirstChildElement();
+  if(!skeleton)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return 0;
-  }  
-  
-  if(stricmp(header->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
-  {
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        return false;
-  }    
-  
-  if(atoi(header->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-  {
-		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-        return false;
   }
 
-  TiXmlElement*skeleton = header->NextSiblingElement();
+  if(stricmp(skeleton->Value(),"HEADER")==0)
+  {
+  	if(stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
+	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+
+	if(atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+	{
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+        	return false;
+	}
+
+	skeleton = skeleton->NextSiblingElement();
+  }
+
   if(!skeleton || stricmp(skeleton->Value(),"SKELETON")!=0)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-  }  
-  
+      	return false;
+  }
+
+  if(skeleton->Attribute("MAGIC")!=NULL && stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
+  {
+	CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+	return false;
+  }
+
+  if(skeleton->Attribute("VERSION")!=NULL && atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  {
+	CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+       	return false;
+  }
+
+
   // allocate a new core skeleton instance
   CalCoreSkeleton *pCoreSkeleton;
   pCoreSkeleton = new CalCoreSkeleton();
@@ -1471,7 +1488,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  {
 		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
 		pCoreSkeleton->destroy();
-        delete pCoreSkeleton;    
+        delete pCoreSkeleton;
         return false;
 	  }	  
 	  TiXmlText* translationdata = node->ToText();
@@ -1498,13 +1515,13 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  }
 
 	  float rx, ry, rz, rw;
-	  
+
 	  node = rotation->FirstChild();
 	  if(!node)
 	  {
 		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
 		pCoreSkeleton->destroy();
-        delete pCoreSkeleton;    
+        delete pCoreSkeleton;
         return false;
 	  }
 	  TiXmlText* rotationdata = node->ToText();
@@ -1518,7 +1535,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  str.clear();
 	  str << rotationdata->Value();
 	  str >> rx >> ry >> rz >> rw;	  
-	  
+
 	  // get the bone space translation of the bone
       
 	  
@@ -1546,7 +1563,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  {
 		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
 		pCoreSkeleton->destroy();
-        delete pCoreSkeleton;    
+        delete pCoreSkeleton;
         return false;
 	  }
 	  str.clear();
@@ -1560,7 +1577,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  {
 		  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
 		  pCoreSkeleton->destroy();
-          delete pCoreSkeleton;      
+          delete pCoreSkeleton;
 		  return false;
 	  }
 
@@ -1585,7 +1602,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  str.clear();
 	  str << rotationBoneSpacedata->Value();
 	  str >> rxBoneSpace >> ryBoneSpace >> rzBoneSpace >> rwBoneSpace;
-	  
+
 	  // get the parent bone id
 
 	  TiXmlElement* parent = rotationBoneSpace->NextSiblingElement();
@@ -1624,7 +1641,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 	  if(pCoreBone == 0)
 	  {
 		  pCoreSkeleton->destroy();
-          delete pCoreSkeleton;    
+          delete pCoreSkeleton;
 		  CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
 		  return 0;
 	  }
@@ -1700,7 +1717,7 @@ CalCoreSkeleton *CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
 		  }
 		  
 		  int childId = atoi(childid->Value());
-		  
+
 		  pCoreBone->addChildId(childId);
 	  }
 
@@ -1744,36 +1761,51 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 
   TiXmlNode* node;
 
-  TiXmlElement*header = doc.FirstChildElement();
-  if(!header || stricmp(header->Value(),"HEADER")!=0)
+  TiXmlElement*animation = doc.FirstChildElement();
+  if(!animation)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
   }
-  
-  
-  if(stricmp(header->Attribute("MAGIC"),Cal::ANIMATION_XMLFILE_MAGIC)!=0)
+
+  if(stricmp(animation->Value(),"HEADER")==0)
+  {
+  	if(stricmp(animation->Attribute("MAGIC"),Cal::ANIMATION_XMLFILE_MAGIC)!=0)
+	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        	return false;
+	}
+
+	if(atoi(animation->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+	{
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+
+	animation = animation->NextSiblingElement();
+  }
+
+  if(!animation || stricmp(animation->Value(),"ANIMATION")!=0)
+  {
+	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+      return false;
+  }
+
+  if(animation->Attribute("MAGIC") !=NULL && stricmp(animation->Attribute("MAGIC"),Cal::ANIMATION_XMLFILE_MAGIC)!=0)
   {
 		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-  }    
-  
-  if(atoi(header->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  }
+
+  if(animation->Attribute("VERSION")!=NULL && atoi(animation->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
   {
 		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
         return false;
   }
 
-  TiXmlElement*animation = header->NextSiblingElement();
-  if(!animation || stricmp(animation->Value(),"ANIMATION")!=0)
-  {
-	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-  }  
-
   int trackCount= atoi(animation->Attribute("NUMTRACKS"));
   float duration= (float) atof(animation->Attribute("DURATION"));
-    
+
   // allocate a new core animation instance
   CalCoreAnimation *pCoreAnimation;
   pCoreAnimation = new CalCoreAnimation();
@@ -1909,7 +1941,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 		  }
 		  str.clear();
 		  str << translationdata->Value();
-		  str >> tx >> ty >> tz;  
+		  str >> tx >> ty >> tz;
 
 		  TiXmlElement* rotation = translation->NextSiblingElement();
 		  if(!rotation || stricmp(rotation->Value(),"ROTATION")!=0)
@@ -1993,7 +2025,7 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 				  trans *= x_axis_90;
 				  pCoreKeyframe->setTranslation(trans);
 			  }
-		  }    
+		  }
 		  
 		  
 		  // add the core keyframe to the core track instance
@@ -2002,8 +2034,8 @@ CalCoreAnimation *CalLoader::loadXmlCoreAnimation(const std::string& strFilename
 		 keyframe = keyframe->NextSiblingElement();
 
 	  }
-      
-	  pCoreAnimation->addCoreTrack(pCoreTrack);	  
+
+	  pCoreAnimation->addCoreTrack(pCoreTrack);
 	  track=track->NextSiblingElement();
   }
 
@@ -2038,36 +2070,50 @@ CalCoreMesh *CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
   TiXmlNode* node;
 
-  TiXmlElement*header = doc.FirstChildElement();
-  if(!header || stricmp(header->Value(),"HEADER")!=0)
+  TiXmlElement*mesh = doc.FirstChildElement();
+  if(!mesh)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
   }
-  
-  
-  if(stricmp(header->Attribute("MAGIC"),Cal::MESH_XMLFILE_MAGIC)!=0)
-  {
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        return false;
-  }    
-  
-  if(atoi(header->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-  {
-		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-        return false;
-  }
 
-  TiXmlElement*mesh = header->NextSiblingElement();
+  if(stricmp(mesh->Value(),"HEADER")==0)
+  {
+  	if(stricmp(mesh->Attribute("MAGIC"),Cal::MESH_XMLFILE_MAGIC)!=0)
+  	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        	return false;
+	}
+
+	if(atoi(mesh->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+	{
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+        	return false;
+	}
+
+	mesh = mesh->NextSiblingElement();
+  }
   if(!mesh || stricmp(mesh->Value(),"MESH")!=0)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return false;
   }
 
+  if(mesh->Attribute("MAGIC")!=NULL && stricmp(mesh->Attribute("MAGIC"),Cal::MESH_XMLFILE_MAGIC)!=0)
+  {
+  	CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+       	return false;
+  }
+
+  if(mesh->Attribute("VERSION")!=NULL && atoi(mesh->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  {
+	CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+       	return false;
+  }
+
   // get the number of submeshes
   int submeshCount = atoi(mesh->Attribute("NUMSUBMESH"));
-  
+
   // allocate a new core mesh instance
   CalCoreMesh *pCoreMesh;
   pCoreMesh = new CalCoreMesh();
@@ -2592,33 +2638,47 @@ CalCoreMaterial *CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
 
   TiXmlNode* node;
 
-  TiXmlElement*header = doc.FirstChildElement();
-  if(!header || stricmp(header->Value(),"HEADER")!=0)
+  TiXmlElement*material = doc.FirstChildElement();
+  if(!material)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
   }
-  
-  
-  if(stricmp(header->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
+
+  if(stricmp(material->Value(),"HEADER")==0)
   {
+  	if(stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
+	{
 		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        return false;
-  }    
-  
-  if(atoi(header->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-  {
+        	return false;
+  	}
+
+  	if(atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  	{
 		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-        return false;
+        	return false;
+  	}
+
+  	material = material->NextSiblingElement();
   }
 
-  TiXmlElement*material = header->NextSiblingElement();
   if(!material||stricmp(material->Value(),"MATERIAL")!=0)
   {
 	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return false;
   }
-  
+
+  if(material->Attribute("MAGIC")!=NULL && stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+        return false;
+  }
+
+  if(material->Attribute("VERSION") != NULL && atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  {
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+        return false;
+  }
 
   CalCoreMaterial *pCoreMaterial;
   pCoreMaterial = new CalCoreMaterial();

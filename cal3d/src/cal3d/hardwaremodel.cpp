@@ -814,7 +814,8 @@ int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice, CalCo
 	memcpy(&m_pNormalBuffer[(hardwareMesh.baseVertexIndex+i)*m_normalStride],&vectorVertex[indice].normal,sizeof(CalVector));
 
 	/// @todo change m_textureCoordName to size_t?
-        for(size_t mapId = 0; int(mapId) < m_textureCoordNum; mapId++)
+	size_t mapId;
+        for(mapId = 0; int(mapId) < m_textureCoordNum; mapId++)
 	{
 		if( vectorvectorTextureCoordinate.size() > mapId)
 			memcpy(&m_pTextureCoordBuffer[mapId][(hardwareMesh.baseVertexIndex+i)*m_textureCoordStride[mapId]],&vectorvectorTextureCoordinate[mapId][indice],sizeof(CalCoreSubmesh::TextureCoordinate));
@@ -823,7 +824,7 @@ int CalHardwareModel::addVertex(CalHardwareMesh &hardwareMesh, int indice, CalCo
 		
 	}
 
-	for(size_t mapId = 0; mapId < 8 ; mapId++)
+	for(mapId = 0; mapId < 8 ; mapId++)
 	{
 		if(m_pTangentSpaceBuffer[mapId] != NULL)
 		{
