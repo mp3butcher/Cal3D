@@ -124,4 +124,3 @@ void CMaterialLibraryCandidate::SetSelectedMaterialCandidate(CMaterialCandidate 
 	m_pSelectedMaterialCandidate = pSelectedMaterialCandidate;
 }
 
-//----------------------------------------------------------------------------//

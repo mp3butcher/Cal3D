@@ -63,8 +63,9 @@ bool CSkeletonCandidate::AddNode(CBaseNode *pNode, int parentId)
 	bool bDeleteNode;
 	bDeleteNode = true;
 
-	// check if the node is a candidate
-	if(theExporter.GetInterface()->IsBone(pNode) || theExporter.GetInterface()->IsDummy(pNode))
+	// Check if the node is a candidate
+	//We want to be able to export all type of nodes as bones...
+	//if(theExporter.GetInterface()->IsBone(pNode) || theExporter.GetInterface()->IsDummy(pNode))
 	{
 		// allocate a new bone candidate
 		CBoneCandidate *pBoneCandidate;
@@ -82,6 +83,9 @@ bool CSkeletonCandidate::AddNode(CBaseNode *pNode, int parentId)
 			delete pBoneCandidate;
 			return false;
 		}
+
+		//when the node is a dummy, it's not selected, so select it anyway...
+		pBoneCandidate->SetSelected(true);
 
 		// insert node element into hierarchy
 		m_vectorBoneCandidate.push_back(pBoneCandidate);
@@ -150,14 +154,16 @@ bool CSkeletonCandidate::AddNode(CalCoreSkeleton *pCoreSkeleton, CalCoreBone *pC
 		theExporter.SetLastError("Skeleton assignement failed!", __FILE__, __LINE__);
 		return false;
 	}
-
-	// check if the node is a candidate
-	if(!theExporter.GetInterface()->IsBone(pNode) && !theExporter.GetInterface()->IsDummy(pNode))
+ 
+	// check if  the node is a candidate
+	//we want to export all types of nodes as bones
+	/*if(!theExporter.GetInterface()->IsBone(pNode) && !theExporter.GetInterface()->IsDummy(pNode))
 	{
 		delete pNode;
 		theExporter.SetLastError("Invalid node types in skeleton!", __FILE__, __LINE__);
 		return false;
 	}
+	*/
 
 	// allocate a new bone candidate
 	CBoneCandidate *pBoneCandidate;

@@ -40,6 +40,8 @@ public:
 	CMaterialCandidate *GetSelectedMaterialCandidate();
 	std::vector<CMaterialCandidate *>& GetVectorMaterialCandidate();
 	void SetSelectedMaterialCandidate(CMaterialCandidate *pSelectedMaterialCandidate);
+
+	bool CreateFromInterfaceFromMaxscriptCall();
 };
 
 #endif

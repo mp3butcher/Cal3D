@@ -42,6 +42,9 @@ public:
 	int BuildSelectedId();
 	void Clear();
 	bool CreateFromInterface();
+
+	bool CreateFromInterfaceFromMaxScriptCall();
+
 	bool CreateFromSkeletonFile(const std::string& strFilename);
 	int GetBoneId(const std::string& strName);
 	const std::string& GetFilename();

@@ -45,6 +45,8 @@ public:
 	bool Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold);
 	bool DisableLOD();
 	std::vector<CSubmeshCandidate *>& GetVectorSubmeshCandidate();
+
+	bool Create(CBaseNode* _basenode, CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold);
 };
 
 #endif
