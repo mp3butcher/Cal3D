@@ -80,7 +80,12 @@ struct CalSkeleton;
 struct CalSpringSystem;
 struct CalSubmesh;
 struct CalVector;
-typedef CalIndex;
+
+#ifdef CAL_16BIT_INDICES 
+typedef unsigned short CalIndex; 
+#else 
+typedef int CalIndex; 
+#endif
 
 #endif
 
