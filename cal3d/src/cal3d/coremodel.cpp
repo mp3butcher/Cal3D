@@ -931,13 +931,17 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   // destroy the current core skeleton
   if(m_pCoreSkeleton != 0)
   {
-    m_pCoreSkeleton->destroy();
-    delete m_pCoreSkeleton;
+    if(m_pCoreSkeleton->decRef())
+    {
+        m_pCoreSkeleton->destroy();
+        delete m_pCoreSkeleton;
+    }        
   }
 
   // load a new core skeleton
   m_pCoreSkeleton = CalLoader::loadCoreSkeleton(strFilename);
   if(m_pCoreSkeleton == 0) return false;
+  m_pCoreSkeleton->incRef();
 
   return true;
 }
@@ -1113,6 +1117,12 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
 
 void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
 {
+  if(pCoreSkeleton == 0)
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return;
+  }
+
   // destroy a possible existing core skeleton
   if(m_pCoreSkeleton != 0)
   {
@@ -1121,9 +1131,9 @@ void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
 		m_pCoreSkeleton->destroy();
 		delete m_pCoreSkeleton;
 	}
-  }
-
-  m_pCoreSkeleton = pCoreSkeleton;
+  }  
+  m_pCoreSkeleton = pCoreSkeleton;  
+  m_pCoreSkeleton->incRef();
 }
 
  /*****************************************************************************/
