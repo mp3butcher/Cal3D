@@ -44,6 +44,7 @@ public:
   std::list<CalAnimationCycle *> m_listAnimationCycle;
   float m_animationTime;
   float m_animationDuration;
+  float m_timeFactor;
 
 // constructors/destructor
 public:
@@ -62,6 +63,8 @@ public:
   float getAnimationTime();
   float getAnimationDuration();
   void setAnimationTime(float animationTime);
+  void setTimeFactor(float timeFactor);
+  float getTimeFactor();
   
 
 };

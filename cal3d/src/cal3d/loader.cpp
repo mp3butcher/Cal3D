@@ -834,7 +834,8 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
       CalQuaternion x_axis_90(temp,0.0f,0.0f,temp);
       rot *= x_axis_90;
       // Root bone must have translation rotated also
-      trans.set(tx,tz,ty);
+      trans.set(tx,ty,tz);
+      trans *= x_axis_90;
     }
   }
   
@@ -1355,9 +1356,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
         pCoreKeyframe->setRotation(rot);
         // rotate root bone displacement
         CalVector vec = pCoreKeyframe->getTranslation();
-        temp = vec.y;
-        vec.y = vec.z;
-        vec.z = temp;
+	    vec *= x_axis_90;
         pCoreKeyframe->setTranslation(vec);
       }
     }    
