@@ -1,7 +1,6 @@
 //****************************************************************************//
 // physique.h                                                                 //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
-//           (C) 2002 Laurent 'Maxun' Desmecht                                //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //

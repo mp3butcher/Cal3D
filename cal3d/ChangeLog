@@ -8,6 +8,7 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
 
   - Optional support for 16-bit indices (default 32-bit)
+  - Added functions, Cal3D is now "D3D friendly"
   - Added support for file loading on big endian computers
   - Optimized bone transformations with CalMatrix
   - New CalMatrix class (Thanks to 'josh'!)
