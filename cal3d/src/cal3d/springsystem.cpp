@@ -34,6 +34,11 @@
 CalSpringSystem::CalSpringSystem()
   : m_pModel(0)
 {
+	m_vGravity = CalVector(0.0f, 0.0f, -98.1f);
+
+	// We add this force to simulate some movement
+
+	m_vForce = CalVector(0.0f, 1.5f, 5.0f);
 }
 
  /*****************************************************************************/
@@ -81,8 +86,7 @@ void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
     // only take vertices with a weight > 0 into account
     if(corePhysicalProperty.weight > 0.0f)
     {
-//      physicalProperty.force.set(0.0f, 0.0f /*0.5f*/, corePhysicalProperty.weight * -98.1f);
-      physicalProperty.force.set(0.0f, 0.5f, corePhysicalProperty.weight * -98.1f);
+		physicalProperty.force = m_vForce + m_vGravity * corePhysicalProperty.weight;		
     }
   }
 }
@@ -319,6 +323,60 @@ void CalSpringSystem::update(float deltaTime)
       }
     }
   }
+}
+
+
+ /*****************************************************************************/
+/** Returns the gravity vector.
+  *
+  * This function returns the gravity vector of the spring system instance.
+  *
+  * @return the gravity vector as vector.
+  *****************************************************************************/
+
+CalVector & CalSpringSystem::getGravityVector()
+{
+	return m_vGravity;
+}
+
+ /*****************************************************************************/
+/** Returns the force vector.
+  *
+  * This function returns the force vector of the spring system instance.
+  *
+  * @return the force vector as vector.
+  *****************************************************************************/
+
+
+CalVector & CalSpringSystem::getForceVector()
+{
+	return m_vForce;
+}
+
+ /*****************************************************************************/
+/** Sets the gravity vector.
+  *
+  * This function sets the gravity vector of the spring system instance.
+  *
+  * @param vGravity the gravity vector as vector.
+  *****************************************************************************/
+
+void CalSpringSystem::setGravityVector(const CalVector & vGravity)
+{
+	m_vGravity = vGravity;
+}
+
+ /*****************************************************************************/
+/** Sets the force vector.
+  *
+  * This function sets the force vector of the spring system instance.
+  *
+  * @param vForce the force vector as vector.
+  *****************************************************************************/
+
+void CalSpringSystem::setForceVector(const CalVector & vForce)
+{
+	m_vForce = vForce;
 }
 
 //****************************************************************************//

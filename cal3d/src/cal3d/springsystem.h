@@ -16,6 +16,7 @@
 //****************************************************************************//
 
 #include "cal3d/global.h"
+#include "cal3d/vector.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -35,6 +36,10 @@ class CalSubmesh;
 class CAL3D_API CalSpringSystem
 {
 // member variables
+protected:
+  CalVector m_vGravity;  
+  CalVector m_vForce;  
+
 public:
   CalModel *m_pModel;
 
@@ -50,6 +55,12 @@ public:
   bool create(CalModel *pModel);
   void destroy();
   void update(float deltaTime);
+  
+  CalVector & getGravityVector();
+  void setGravityVector(const CalVector & vGravity);
+  CalVector & getForceVector();
+  void setForceVector(const CalVector & vForce);
+
 
   /* DEBUG CODE ********************
   struct
