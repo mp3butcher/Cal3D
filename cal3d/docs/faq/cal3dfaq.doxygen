@@ -168,6 +168,11 @@
  *  <b><i>Neverending ODC</i></b> - http://ne-odc.sourceforge.net - Tools to design and edit
  *  massive 3D fantasy worlds. 
  *
+ *  <b><i>The Nebula Device</i></b> - http://nebuladevice.sourceforge.net/cgi-bin/twiki/view/Nebula/NCal3DPackage
+ *  -  An open source 3D game/visualization engine designed to be highly scriptable. 
+ *  Their package, nCal3D, allows Nebula users to easily integrate Cal3D into their
+ *  own applications.
+ * 
  *  <b><i>Project FY</i></b> - http://fysoftware.com - A game still in development
  *  featuring a 3D engine capable of handling both indoor and outdoor environments
  *  and transitioning seamlessly between them.
