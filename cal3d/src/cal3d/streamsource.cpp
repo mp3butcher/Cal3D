@@ -17,6 +17,8 @@
 //****************************************************************************//
 
 #include "cal3d/streamsource.h"
+#include "cal3d/error.h"
+#include "cal3d/platform.h"
 
  /*****************************************************************************/
 /** Constructs a stream source instance from an existing istream.
@@ -52,7 +54,7 @@ CalStreamSource::~CalStreamSource()
   *         \li \b false if not
   *****************************************************************************/
 
-bool CalStreamSource::ok()
+bool CalStreamSource::ok() const
 {
    if (!mInputStream)
       return false;
@@ -65,7 +67,7 @@ bool CalStreamSource::ok()
   *
   *****************************************************************************/
 
-void CalStreamSource::setError()
+void CalStreamSource::setError() const
 {
    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
 }
@@ -88,8 +90,8 @@ bool CalStreamSource::readBytes(void* pBuffer, int length)
 {
    //Check that the stream is usable
    if (!ok()) return false;
-   
-   return CalPlatform::readBytes( mInputStream, pBuffer, length );
+
+   return CalPlatform::readBytes( *mInputStream, pBuffer, length );
 
 }
 
@@ -110,7 +112,7 @@ bool CalStreamSource::readFloat(float& value)
    //Check that the stream is usable
    if (!ok()) return false;
 
-   return CalPlatform::readFloat( mInputStream, value );
+   return CalPlatform::readFloat( *mInputStream, value );
 }
 
  /*****************************************************************************/
@@ -130,7 +132,7 @@ bool CalStreamSource::readInteger(int& value)
    //Check that the stream is usable
    if (!ok()) return false;
 
-   return CalPlatform::readInteger( mInputStream, value );
+   return CalPlatform::readInteger( *mInputStream, value );
 }
 
  /*****************************************************************************/
@@ -150,5 +152,5 @@ bool CalStreamSource::readString(std::string& strValue)
    //Check that the stream is usable
    if (!ok()) return false;
 
-   return CalPlatform::readString( mInputStream, strValue );
+   return CalPlatform::readString( *mInputStream, strValue );
 }

@@ -37,10 +37,13 @@ public:
 
    virtual bool ok() const = 0;
    virtual void setError() const = 0;
-   virtual bool readBytes(void* pBuffer, int length) const = 0;
-   virtual bool readFloat(float& value) const = 0;
-   virtual bool readInteger(int& value) const = 0; 
-   virtual bool readString(std::string& strValue) const = 0;
+   virtual bool readBytes(void* pBuffer, int length) = 0;
+   virtual bool readFloat(float& value) = 0;
+   virtual bool readInteger(int& value) = 0;
+   virtual bool readString(std::string& strValue) = 0;
+
+
+
 
 };
 

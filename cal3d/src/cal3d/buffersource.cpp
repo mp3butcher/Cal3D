@@ -17,6 +17,7 @@
 //****************************************************************************//
 
 #include "cal3d/buffersource.h"
+#include "cal3d/error.h"
 
  /*****************************************************************************/
 /** Constructs a buffer source instance from an existing memory buffer.
@@ -53,7 +54,7 @@ CalBufferSource::~CalBufferSource()
   *         \li \b false if not
   *****************************************************************************/
 
-bool CalBufferSource::ok()
+bool CalBufferSource::ok() const
 {
    if (mInputBuffer == NULL)
       return false;
@@ -66,7 +67,7 @@ bool CalBufferSource::ok()
   *
   *****************************************************************************/
 
-void CalBufferSource::setError()
+void CalBufferSource::setError() const
 {
    CalError::setLastError(CalError::NULL_BUFFER, __FILE__, __LINE__);
 }
@@ -89,7 +90,7 @@ bool CalBufferSource::readBytes(void* pBuffer, int length)
    //Check that the buffer and the target are usable
    if (!ok() || (pBuffer == NULL)) return false;
    
-   bool result = CalPlatform::readBytes( (void*)((char*)mInputBuffer+mOffset), pBuffer, length );
+   bool result = CalPlatform::readBytes( ((char*)mInputBuffer+mOffset), pBuffer, length );
    mOffset += length;
 
    return result;
@@ -112,7 +113,7 @@ bool CalBufferSource::readFloat(float& value)
    //Check that the buffer is usable
    if (!ok()) return false;
 
-   bool result = CalPlatform::readFloat( (void*)((char*)mInputBuffer+mOffset), value );
+   bool result = CalPlatform::readFloat( ((char*)mInputBuffer+mOffset), value );
    mOffset += 4;
 
    return result;
@@ -135,7 +136,7 @@ bool CalBufferSource::readInteger(int& value)
    //Check that the buffer is usable
    if (!ok()) return false;
 
-   bool result = CalPlatform::readInteger( (void*)((char*)mInputBuffer+mOffset), value );
+   bool result = CalPlatform::readInteger( ((char*)mInputBuffer+mOffset), value );
    mOffset += 4;
 
    return result;
@@ -158,7 +159,7 @@ bool CalBufferSource::readString(std::string& strValue)
    //Check that the buffer is usable
    if (!ok()) return false;
 
-   bool result = CalPlatform::readString( (void*)((char*)mInputBuffer+mOffset), strValue );
+   bool result = CalPlatform::readString( ((char*)mInputBuffer+mOffset), strValue );
 
    mOffset += (strValue.length() + 4);
    

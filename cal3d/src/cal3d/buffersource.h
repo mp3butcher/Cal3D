@@ -33,8 +33,8 @@ public:
    CalBufferSource(void* inputBuffer);
    virtual ~CalBufferSource();
 
-   virtual bool ok();
-   virtual void setError();
+   virtual bool ok() const;
+   virtual void setError() const;
    virtual bool readBytes(void* pBuffer, int length);
    virtual bool readFloat(float& value);
    virtual bool readInteger(int& value);
