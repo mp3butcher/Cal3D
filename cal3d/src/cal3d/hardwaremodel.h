@@ -37,10 +37,7 @@ class CalCoreMaterial;
 
 class CAL3D_API CalHardwareModel
 {
-	
-	// member variables
-private:
-	
+public:
 	struct CalHardwareMesh
 	{
 		std::vector<int> m_vectorBonesIndices;
@@ -53,6 +50,10 @@ private:
 
 		int meshId,submeshId;
 	};
+	
+
+	// member variables
+private:
 	
 	std::vector<CalHardwareMesh> m_vectorHardwareMesh;
 	std::vector<CalIndex> m_vectorVertexIndiceUsed;
