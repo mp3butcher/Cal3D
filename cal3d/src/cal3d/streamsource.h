@@ -33,6 +33,7 @@ public:
    CalStreamSource(std::istream& inputStream);
    virtual ~CalStreamSource();
 
+   virtual bool ok();
    virtual bool readBytes(void* pBuffer, int length);
    virtual bool readFloat(float& value);
    virtual bool readInteger(int& value);

@@ -35,6 +35,7 @@ class CAL3D_API CalDataSource
 {
 public:
 
+   virtual bool ok() const = 0;
    virtual bool readBytes(void* pBuffer, int length) const = 0;
    virtual bool readFloat(float& value) const = 0;
    virtual bool readInteger(int& value) const = 0; 

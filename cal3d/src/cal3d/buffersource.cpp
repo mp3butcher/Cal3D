@@ -44,6 +44,24 @@ CalBufferSource::~CalBufferSource()
 
 
  /*****************************************************************************/
+/** Checks whether the data source is in a good state.
+  *
+  * This function checks if the buffer is NULL or not.
+  *
+  * @return One of the following values:
+  *         \li \b true if data source is in a good state
+  *         \li \b false if not
+  *****************************************************************************/
+
+bool CalBufferSource::ok()
+{
+   if (mInputBuffer == NULL)
+      return false;
+
+   return true;
+}
+
+ /*****************************************************************************/
 /** Reads a number of bytes.
   *
   * This function reads a given number of bytes from this data source.
@@ -59,7 +77,7 @@ CalBufferSource::~CalBufferSource()
 bool CalBufferSource::readBytes(void* pBuffer, int length)
 {
    //Check that the buffer and the target are usable
-   if ((mInputBuffer == NULL) || (pBuffer == NULL)) return false;
+   if (!ok() || (pBuffer == NULL)) return false;
    
    bool result = CalPlatform::readBytes( (void*)((char*)mInputBuffer+mOffset), pBuffer, length );
    mOffset += length;
@@ -82,7 +100,7 @@ bool CalBufferSource::readBytes(void* pBuffer, int length)
 bool CalBufferSource::readFloat(float& value)
 {
    //Check that the buffer is usable
-   if (mInputBuffer == NULL) return false;
+   if (!ok()) return false;
 
    bool result = CalPlatform::readFloat( (void*)((char*)mInputBuffer+mOffset), value );
    mOffset += 4;
@@ -105,7 +123,7 @@ bool CalBufferSource::readFloat(float& value)
 bool CalBufferSource::readInteger(int& value)
 {
    //Check that the buffer is usable
-   if (mInputBuffer == NULL) return false;
+   if (!ok()) return false;
 
    bool result = CalPlatform::readInteger( (void*)((char*)mInputBuffer+mOffset), value );
    mOffset += 4;
@@ -128,7 +146,7 @@ bool CalBufferSource::readInteger(int& value)
 bool CalBufferSource::readString(std::string& strValue)
 {
    //Check that the buffer is usable
-   if (mInputBuffer == NULL) return false;
+   if (!ok()) return false;
 
    bool result = CalPlatform::readString( (void*)((char*)mInputBuffer+mOffset), strValue );
 

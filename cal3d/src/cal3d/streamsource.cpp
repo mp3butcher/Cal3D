@@ -42,6 +42,23 @@ CalStreamSource::~CalStreamSource()
 {
 }
 
+ /*****************************************************************************/
+/** Checks whether the data source is in a good state.
+  *
+  * This function checks if the istream can be used.
+  *
+  * @return One of the following values:
+  *         \li \b true if data source is in a good state
+  *         \li \b false if not
+  *****************************************************************************/
+
+bool CalStreamSource::ok()
+{
+   if (!mInputStream)
+      return false;
+
+   return true;
+}
 
  /*****************************************************************************/
 /** Reads a number of bytes.
@@ -59,7 +76,7 @@ CalStreamSource::~CalStreamSource()
 bool CalStreamSource::readBytes(void* pBuffer, int length)
 {
    //Check that the stream is usable
-   if (!mInputStream) return false;
+   if (!ok()) return false;
    
    return CalPlatform::readBytes( mInputStream, pBuffer, length );
 
@@ -80,7 +97,7 @@ bool CalStreamSource::readBytes(void* pBuffer, int length)
 bool CalStreamSource::readFloat(float& value)
 {
    //Check that the stream is usable
-   if (!mInputStream) return false;
+   if (!ok()) return false;
 
    return CalPlatform::readFloat( mInputStream, value );
 }
@@ -100,7 +117,7 @@ bool CalStreamSource::readFloat(float& value)
 bool CalStreamSource::readInteger(int& value)
 {
    //Check that the stream is usable
-   if (!mInputStream) return false;
+   if (!ok()) return false;
 
    return CalPlatform::readInteger( mInputStream, value );
 }
@@ -120,7 +137,7 @@ bool CalStreamSource::readInteger(int& value)
 bool CalStreamSource::readString(std::string& strValue)
 {
    //Check that the stream is usable
-   if (!mInputStream) return false;
+   if (!ok()) return false;
 
    return CalPlatform::readString( mInputStream, strValue );
 }
