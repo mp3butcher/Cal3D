@@ -106,9 +106,14 @@ public:
 	  z /= d;
   }
 
-  inline bool operator==(const CalVector& v)
+  inline bool operator==(const CalVector& v) const
   {
 	  return ((x == v.x) && (y == v.y) && (z == v.z));
+  }
+
+  inline bool operator!=(const CalVector& v) const
+  {
+    return !operator==(v);
   }
 
   inline void blend(float d, const CalVector& v)

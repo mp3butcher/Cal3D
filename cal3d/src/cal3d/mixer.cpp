@@ -86,6 +86,51 @@ CalMixer::~CalMixer()
   m_pModel = 0;
 }
 
+///
+/// Examines the given animation and if the first and last poses do not match
+/// up, the first key frame is duplicated and added to the end of the animation
+/// to ensure smooth looping.
+///
+static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
+{
+  unsigned num_poses = anim->getPoses().size() / anim->getTrackCount();
+
+  // Get the first pose
+  std::vector<CalTransform> first_pose;
+  first_pose.resize(anim->getTrackCount());
+  anim->getPose(0.0f, first_pose);
+
+  // Get the last pose
+  std::vector<CalTransform> last_pose;
+  last_pose.resize(anim->getTrackCount());
+  anim->getPose(anim->getDuration(), last_pose);
+
+  // Check if the first and last keyframes do not match
+  bool needs_extra_keyframe = false;
+  unsigned last_pose_start = (num_poses * anim->getTrackCount()) + anim->getTrackCount() - 1;
+  for (unsigned track = 0; track < anim->getTrackCount(); ++track)
+  {
+    if (first_pose[track] != last_pose[track])
+    {
+      needs_extra_keyframe = true;
+      break;
+    }
+  }
+
+  // Add the first key frame on as a new end key frame if necessary to make the
+  // looping smooth.
+  if (needs_extra_keyframe)
+  {
+    std::vector<CalTransform> poses = anim->getPoses();
+    for (unsigned track = 0; track < anim->getTrackCount(); ++track)
+    {
+      poses.push_back(first_pose[track]);
+    }
+
+    anim->setPoses(poses, anim->getTrackCount());
+  }
+}
+
  /*****************************************************************************/
 /** Interpolates the weight of an animation cycle.
   *
@@ -122,6 +167,10 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
     // get the core animation
     CalCoreAnimation *pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(id);
     if(pCoreAnimation == 0) return false;
+
+    // Ensure that the animation's first and last key frame match for proper
+    // looping.
+    ::addExtraKeyframeForLoopedAnim(pCoreAnimation);
 
     // allocate a new animation cycle instance
     CalAnimationCycle *pAnimationCycle = new CalAnimationCycle(pCoreAnimation);

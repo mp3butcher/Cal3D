@@ -77,6 +77,17 @@ namespace cal3d
       m_rotation.blend(t, end.getRotation());
     }
 
+    bool operator==(const Transform& rhs) const
+    {
+      return m_translation == rhs.m_translation &&
+             m_rotation == rhs.m_rotation;
+    }
+
+    bool operator!=(const Transform& rhs) const
+    {
+      return !operator==(rhs);
+    }
+
   private:
      CalVector m_translation;
      CalQuaternion m_rotation;

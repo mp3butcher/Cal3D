@@ -95,6 +95,19 @@ public:
 		z = qw * v.z + qx * v.y - qy * v.x;
 		w =          - qx * v.x - qy * v.y - qz * v.z;
 	}
+
+  inline bool operator==(const CalQuaternion& rhs) const
+  {
+    return x == rhs.x &&
+           y == rhs.y &&
+           z == rhs.z &&
+           w == rhs.w;
+  }
+
+  inline bool operator!=(const CalQuaternion& rhs) const
+  {
+    return !operator==(rhs);
+  }
 /*	
 	static inline CalQuaternion operator*(const CalQuaternion& q, const CalQuaternion& r)
 	{
