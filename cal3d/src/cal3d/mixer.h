@@ -59,6 +59,11 @@ public:
   bool executeAction(int id, float delayIn, float delayOut, float weightTarget);
   void updateAnimation(float deltaTime);
   void updateSkeleton();
+  float getAnimationTime();
+  float getAnimationDuration();
+  void setAnimationTime(float animationTime);
+  
+
 };
 
 #endif

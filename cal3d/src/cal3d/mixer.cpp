@@ -543,4 +543,46 @@ void CalMixer::updateSkeleton()
   pSkeleton->calculateState();
 }
 
+/*****************************************************************************/
+/** Returns the animation time.
+  *
+  * This function returns the animation time of the mixer instance.
+  *
+  * @return The animation time in seconds.
+  *****************************************************************************/
+
+
+float CalMixer::getAnimationTime()
+{
+	return m_animationTime;
+}
+
+/*****************************************************************************/
+/** Returns the animation duration.
+  *
+  * This function returns the animation duration of the mixer instance.
+  *
+  * @return The animation duration in seconds.
+  *****************************************************************************/
+
+
+float CalMixer::getAnimationDuration()
+{
+	return m_animationDuration;
+}
+
+
+/*****************************************************************************/
+/** Sets the animation time.
+  *
+  * This function sets the animation time of the mixer instance.
+  *
+  *****************************************************************************/
+
+
+void CalMixer::setAnimationTime(float animationTime)
+{
+	m_animationTime=animationTime;
+}
+
 //****************************************************************************//
