@@ -28,6 +28,7 @@
 #include "cal3d/coreskeleton.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/coretrack.h"
+#include "cal3d/datasource.h"
 #include "cal3d/error.h"
 #include "cal3d/loader.h"
 #include "cal3d/matrix.h"
@@ -40,6 +41,7 @@
 #include "cal3d/saver.h"
 #include "cal3d/skeleton.h"
 #include "cal3d/springsystem.h"
+#include "cal3d/streamsource.h"
 #include "cal3d/submesh.h"
 #include "cal3d/vector.h"
 
