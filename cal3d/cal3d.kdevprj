@@ -24,7 +24,7 @@ ldadd=
 ldflags=
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Bruno 'Beosil' Heidelberger
 configure_args=
 email=beosil@swileys.com

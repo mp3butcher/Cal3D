@@ -62,6 +62,7 @@ public:
   void destroy();
   bool detachMesh(int coreMeshId);
   CalCoreModel *getCoreModel();
+  CalMesh *getMesh(int meshId);
   CalMixer *getMixer();
   CalPhysique *getPhysique();
   CalRenderer *getRenderer();

@@ -690,6 +690,9 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
   // get the core material thread
   std::map<int, int>& coreMaterialThread = (*iteratorCoreMaterialThread).second;
 
+  // remove a possible entry in the core material thread
+  coreMaterialThread.erase(coreMaterialSetId);
+
   // set the given set id in the core material thread to the given core material id
   coreMaterialThread.insert(std::make_pair(coreMaterialSetId, coreMaterialId));
 

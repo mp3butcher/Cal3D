@@ -49,6 +49,7 @@ o-----------------------------------------------------------------------------o
   - Implement a "no-LOD"-flag to save memory in the CalModel structure when
     LOD is not needed.
   - Implement a priority-system for the active animations.
+  - Submesh material access? (e.g. eyebrows).
 
 o-----------------------------------------------------------------------------o
 | Nice to have                                                                |

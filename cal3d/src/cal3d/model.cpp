@@ -407,6 +407,29 @@ CalCoreModel *CalModel::getCoreModel()
 }
 
  /*****************************************************************************/
+/** Provides access to a mesh.
+  *
+  * This function returns the mesh with the given ID.
+  *
+  * @param coreMeshId The ID of the mesh that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the mesh
+  *         \li \b 0 if an error happend
+  *****************************************************************************/
+
+CalMesh *CalModel::getMesh(int meshId)
+{
+  if((meshId < 0) || (meshId >= (int)m_vectorMesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorMesh[meshId];
+}
+
+ /*****************************************************************************/
 /** Provides access to the mixer.
   *
   * This function returns the mixer.
