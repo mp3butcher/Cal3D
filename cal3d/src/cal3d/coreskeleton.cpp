@@ -122,6 +122,9 @@ void CalCoreSkeleton::destroy()
 
   m_vectorCoreBone.clear();
 
+  // clear the bone name mapping
+  m_mapCoreBoneNames.clear();
+
   // clear root bone id list
   m_listRootCoreBoneId.clear();
 }
@@ -150,6 +153,23 @@ CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
 }
 
  /*****************************************************************************/
+/** Provides access to a core bone.
+  *
+  * This function returns the core bone with the given name.
+  *
+  * @param strName The name of the core bone that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core bone
+  *         \li \b 0 if an error happend
+  *****************************************************************************/
+
+CalCoreBone* CalCoreSkeleton::getCoreBone(const std::string& strName)
+{
+   return getCoreBone( getCoreBoneId( strName ));
+}
+
+ /*****************************************************************************/
 /** Returns the ID of a specified core bone.
   *
   * This function returns the ID of a specified core bone.
@@ -163,13 +183,44 @@ CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
 
 int CalCoreSkeleton::getCoreBoneId(const std::string& strName)
 {
-  int boneId;
-  for(boneId = 0; boneId < (int)m_vectorCoreBone.size(); boneId++)
+  //Check to make sure the mapping exists
+  if (m_mapCoreBoneNames.count(strName) <= 0)
   {
-    if(m_vectorCoreBone[boneId]->getName() == strName) return boneId;
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
   }
 
-  return -1;
+  return m_mapCoreBoneNames[strName];
+
+}
+
+ /*****************************************************************************/
+/** Maps the name of a bone to a specific bone id
+  *
+  * This function returns true or false depending on whether the mapping
+  * was successful or not. Note that it is possible to overwrite and existing
+  * mapping and no error will be given.
+  *
+  * @param coreBoneId The id of the core bone to be associated with the name.
+  * @param strName The name of the core bone that will be associated with the id.
+  *
+  * @return One of the following values:
+  *         \li true if the mapping was successful
+  *         \li false if an invalid ID was given
+  *****************************************************************************/
+
+bool CalCoreSkeleton::mapCoreBoneName(int coreBoneId, const std::string& strName)
+{
+   //Make sure the ID given is a valid corebone ID number
+   if ((coreBoneId < 0) || (coreBoneId >= m_vectorCoreBone.size()))
+   {
+      return false;
+   }
+
+   //Add the mapping or overwrite an existing mapping
+   m_mapCoreBoneNames[strName] = coreBoneId;
+
+   return true;
 }
 
  /*****************************************************************************/

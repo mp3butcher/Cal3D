@@ -36,6 +36,7 @@ class CAL3D_API CalCoreSkeleton
 // member variables
 protected:
   std::vector<CalCoreBone *> m_vectorCoreBone;
+  std::map< std::string, int > m_mapCoreBoneNames;
   std::list<int> m_listRootCoreBoneId;
 
 // constructors/destructor
@@ -49,8 +50,10 @@ public:
   void calculateState();
   bool create();
   void destroy();
-  CalCoreBone *getCoreBone(int coreBoneId);
+  CalCoreBone* getCoreBone(int coreBoneId);
+  CalCoreBone* getCoreBone(const std::string& strName);
   int getCoreBoneId(const std::string& strName);
+  bool mapCoreBoneName(int coreBoneId, const std::string& strName);
   std::list<int>& getListRootCoreBoneId();
   std::vector<CalCoreBone *>& getVectorCoreBone();
 };
