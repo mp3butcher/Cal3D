@@ -59,23 +59,24 @@ AC_MSG_NOTICE(|     make; make install                                    |)
 AC_MSG_NOTICE(|                                                           |)
 
 if test "$DB2HTML" = false; then
-AC_MSG_NOTICE(| To generate the Cal3D User's Guide you need to install    |)
-AC_MSG_NOTICE(| the DocBook tools first. ('docbktls' package)             |)
+  AC_MSG_NOTICE(| To generate the Cal3D User's Guide you need to install    |)
+  AC_MSG_NOTICE(| the DocBook tools first. ('docbktls' package)             |)
 else
-AC_MSG_NOTICE(| To generate the Cal3D User's Guide type...                |)
-AC_MSG_NOTICE(|     cd docs; make doc-guide                               |)
+  AC_MSG_NOTICE(| To generate the Cal3D User's Guide type...                |)
+  AC_MSG_NOTICE(|     cd docs; make doc-guide                               |)
 fi
 
 AC_MSG_NOTICE(|                                                           |)
 
 if test "$DOXYGEN" = false; then
-AC_MSG_NOTICE(| To generate the Cal3D API Reference you need to install   |)
-AC_MSG_NOTICE(| the Doxygen tool first. (see http://www.doxygen.org)      |)
+  AC_MSG_NOTICE(| To generate the Cal3D API Reference you need to install   |)
+  AC_MSG_NOTICE(| the Doxygen tool first. (see http://www.doxygen.org)      |)
 else
-AC_MSG_NOTICE(| To generate the Cal3D API Reference type...               |)
-AC_MSG_NOTICE(|     cd docs; make doc-api                                 |)
+  AC_MSG_NOTICE(| To generate the Cal3D API Reference type...               |)
+  AC_MSG_NOTICE(|     cd docs; make doc-api                                 |)
 fi
 
 AC_MSG_NOTICE(o-----------------------------------------------------------o)
 
 dnl ************************************************************************
+

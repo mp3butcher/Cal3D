@@ -45,7 +45,7 @@ AC_DEFUN(CAL3D_CHECK_BUILD,
       fi
     else
       if test "$GXX" = "yes"; then
-         CXXFLAGS="-O2"
+        CXXFLAGS="-O2"
       fi
     fi
 

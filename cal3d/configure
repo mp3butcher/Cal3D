@@ -7157,7 +7157,7 @@ echo "${ECHO_T}$cal3d_debug_mode" >&6
       fi
     else
       if test "$GXX" = "yes"; then
-         CXXFLAGS="-O2"
+        CXXFLAGS="-O2"
       fi
     fi
 
@@ -8151,14 +8151,14 @@ echo "$as_me: |     make; make install                                    |" >&6
 echo "$as_me: |                                                           |" >&6;}
 
 if test "$DB2HTML" = false; then
-{ echo "$as_me:8154: | To generate the Cal3D User's Guide you need to install    |" >&5
+  { echo "$as_me:8154: | To generate the Cal3D User's Guide you need to install    |" >&5
 echo "$as_me: | To generate the Cal3D User's Guide you need to install    |" >&6;}
-{ echo "$as_me:8156: | the DocBook tools first. ('docbktls' package)             |" >&5
+  { echo "$as_me:8156: | the DocBook tools first. ('docbktls' package)             |" >&5
 echo "$as_me: | the DocBook tools first. ('docbktls' package)             |" >&6;}
 else
-{ echo "$as_me:8159: | To generate the Cal3D User's Guide type...                |" >&5
+  { echo "$as_me:8159: | To generate the Cal3D User's Guide type...                |" >&5
 echo "$as_me: | To generate the Cal3D User's Guide type...                |" >&6;}
-{ echo "$as_me:8161: |     cd docs; make doc-guide                               |" >&5
+  { echo "$as_me:8161: |     cd docs; make doc-guide                               |" >&5
 echo "$as_me: |     cd docs; make doc-guide                               |" >&6;}
 fi
 
@@ -8166,14 +8166,14 @@ fi
 echo "$as_me: |                                                           |" >&6;}
 
 if test "$DOXYGEN" = false; then
-{ echo "$as_me:8169: | To generate the Cal3D API Reference you need to install   |" >&5
+  { echo "$as_me:8169: | To generate the Cal3D API Reference you need to install   |" >&5
 echo "$as_me: | To generate the Cal3D API Reference you need to install   |" >&6;}
-{ echo "$as_me:8171: | the Doxygen tool first. (see http://www.doxygen.org)      |" >&5
+  { echo "$as_me:8171: | the Doxygen tool first. (see http://www.doxygen.org)      |" >&5
 echo "$as_me: | the Doxygen tool first. (see http://www.doxygen.org)      |" >&6;}
 else
-{ echo "$as_me:8174: | To generate the Cal3D API Reference type...               |" >&5
+  { echo "$as_me:8174: | To generate the Cal3D API Reference type...               |" >&5
 echo "$as_me: | To generate the Cal3D API Reference type...               |" >&6;}
-{ echo "$as_me:8176: |     cd docs; make doc-api                                 |" >&5
+  { echo "$as_me:8176: |     cd docs; make doc-api                                 |" >&5
 echo "$as_me: |     cd docs; make doc-api                                 |" >&6;}
 fi
 

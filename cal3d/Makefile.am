@@ -10,9 +10,9 @@
 #
 # ************************************************************************
 
-EXTRA_DIST = cal3d.dsp cal3d.dsw cal3d.kdevprj cal3d.kdevses cal3d.opt
-
 AUTOMAKE_OPTIONS = foreign
+
+EXTRA_DIST = cal3d.dsp cal3d.dsw cal3d.kdevprj cal3d.kdevses cal3d.opt
 
 SUBDIRS = src docs
 
