@@ -5,7 +5,14 @@
 /** @page cal3dfaq Cal3D FAQ
  *  Welcome to the Cal3D frequently asked questions list.
  *
+ *  <ul>
+ *  <li><a href="#GENERAL">General Questions</a></li>
+ *  <li><a href="#MODELING">Character Modeling and Exporting</a></li>
+ *  <li><a href="#PROGRAMMING">Programming</a></li>
+ *  <li><a href="#COMPILING">Compiling and Building</a></li>
+ *  </ul>
  *
+ *  <a name="GENERAL"></a>
  *  @section faqgeneral General Questions about Cal3D
  *
  *  <b>What is Cal3D?</b>
@@ -87,6 +94,19 @@
  *  published games have used Cal3D successfully.
  *  </ul>
  *
+ *  <b>How fast is Cal3D?</b>
+ *  <ul>
+ *  This is a fairly subjective question, as Cal3D's speed is highly dependent
+ *  on things not controlled by Cal3D. Developer choices like which graphics API
+ *  to use can impact the speed, as well as using GPU programming languages. The
+ *  complexity of the models plays a big role in this as well - not only the
+ *  polygon count, but also the complexity of the underlying skeletal structure.
+ *
+ *  Cal3D is certainly capable of operating fast enough for many practical
+ *  applications and games. While we don't have an official benchmark, tests
+ *  have been done in the past involving 20-30 characters at a time and
+ *  reasonable framerates were achieved.
+ *  </ul>
  *
  *  <b>Can I use Cal3D for a commercial product?</b>
  *
@@ -163,6 +183,7 @@
  *  characters will typically have a variety of animations to choose from. 
  *  </ul>
  *
+ *  <a name="MODELING"></a>
  *  @section calmodeling Character Modeling
  *
  *  <b>How do I make new characters?</b>
@@ -201,9 +222,26 @@
  *
  *  <b>How do I export a skeleton?</b>
  *
+ *  <ul>
+ *  First, you need to select the skeleton (and ONLY the skeleton). Then go to
+ *  File->Export and select the Cal3D Skeleton exporter. You will be asked to
+ *  choose from a list of bones. It's possible for each bone to appear more than
+ *  once in the list, so make sure you only select each bone ONCE.
+ *  </ul>
  *  
  *
  *  <b>How do I export meshes?</b>
+ *
+ *  <ul>
+ *  Before exporting your mesh(es), make sure you've already exported your
+ *  skeleton. And if your character has more than one mesh, you'll need to 
+ *  export each mesh separately. Be sure to select just one mesh at a time.
+ *
+ *  Once you're got your mesh selected, go to File->Export and choose the Cal3D
+ *  Mesh exporter. You will be asked to locate a skeleton file. Pick the
+ *  skeleton file (.csf) that was exported based on the same character as your
+ *  mesh.
+ *  </ul>
  *
  *
  *  <b>How do I export materials?</b>
@@ -225,9 +263,28 @@
  *
  *  <b>How do I export animations?</b>
  *
+ *  <ul>
+ *  Before exporting your animations, make sure you've already exported your
+ *  skeleton.
+ * 
+ *  Once you've got your character animated, take your character out of Figure
+ *  Mode, go to File->Export and choose the Cal3D Animation exporter. You'll
+ *  have the option of a number of frames per second and the selection of 
+ *  individual keyframes to use in the animation.
  *
+ *  Like mesh exporting, you'll be asked to find the Cal3D skeleton file (.csf)
+ *  that the character is based on. 
+ *  </ul>
+ *
+ * 
  *  <b>Why does the exporter crash?</b>
  *
+ *  <ul>
+ *  Usually this is a result of having things selected that you shouldn't have.
+ *  There can also be crashes caused by mis-named materials or failing to 
+ *  collapse the modifer stack before exporting.
+ *  </ul>
+ *  
  *
  *  <b>Is there an exporter for Maya or Blender?</b>
  *
@@ -249,6 +306,7 @@
  *  </ul>
  *
  *
+ *  <a name="PROGRAMMING"></a>
  *  @section calprogram Programming
  *
  *  <b>Are there Python bindings for Cal3D?</b>
@@ -330,6 +388,7 @@
  *  </ul>
  *
  *
+ *  <a name="COMPILING"></a>
  *  @section compexporters Compiling Cal3D and the Exporters
  * 
  *  <b>What do I need to compile the exporters in Windows?</b>
