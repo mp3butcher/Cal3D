@@ -249,7 +249,7 @@ CalVector operator*(float d, const CalVector& v)
   * @return The scaled vector.
   *****************************************************************************/
 
-CalVector operator/(const CalVector& v, double d)
+CalVector operator/(const CalVector& v, float d)
 {
   return CalVector(v.x / d, v.y / d, v.z / d);
 }
