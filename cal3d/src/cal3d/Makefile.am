@@ -61,14 +61,12 @@ libcal3d_la_SOURCES = \
 	cal3d_wrapper.cpp \
 	coreanimation.cpp \
 	corebone.cpp \
-	corekeyframe.cpp \
 	corematerial.cpp \
 	coremesh.cpp \
 	coremodel.cpp \
 	coreskeleton.cpp \
 	coresubmesh.cpp \
 	coresubmorphtarget.cpp \
-	coretrack.cpp \
 	error.cpp \
 	global.cpp \
 	hardwaremodel.cpp \
@@ -106,14 +104,12 @@ pkginclude_HEADERS = \
 	cal3d_wrapper.h \
 	coreanimation.h \
 	corebone.h \
-	corekeyframe.h \
 	corematerial.h \
 	coremesh.h \
 	coremodel.h \
 	coreskeleton.h \
 	coresubmesh.h \
 	coresubmorphtarget.h \
-	coretrack.h \
 	datasource.h \
 	error.h \
 	global.h \

@@ -14,72 +14,16 @@
 
 
 #include "cal3d/coreanimation.h"
-#include "cal3d/coretrack.h"
 
 
 CalCoreAnimation::CalCoreAnimation()
+  : m_numBoneTracks(0)
 {
 }
 
 
 CalCoreAnimation::~CalCoreAnimation()
 {
-  // destroy all core tracks
-  while(!m_listCoreTrack.empty())
-  {
-    CalCoreTrack *pCoreTrack = m_listCoreTrack.front();
-    m_listCoreTrack.pop_front();
-
-    delete pCoreTrack;
-  }
-}
-
-
- /*****************************************************************************/
-/** Adds a core track.
-  *
-  * This function adds a core track to the core animation instance.
-  *
-  * @param pCoreTrack A pointer to the core track that should be added.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-void CalCoreAnimation::addCoreTrack(CalCoreTrack *pCoreTrack)
-{
-  m_listCoreTrack.push_back(pCoreTrack);
-}
-
-/*****************************************************************************/
-/** Provides access to a core track.
-  *
-  * This function returns the core track for a given bone ID.
-  *
-  * @param coreBoneId The core bone ID of the core track that should be
-  *                   returned.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core track
-  *         \li \b 0 if an error happend
-  *****************************************************************************/
-
-CalCoreTrack *CalCoreAnimation::getCoreTrack(int coreBoneId)
-{
-  // loop through all core track
-  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-  for(iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
-  {
-    // get the core bone
-    CalCoreTrack *pCoreTrack = *iteratorCoreTrack;
-
-    // check if we found the matching core bone
-    if(pCoreTrack->getCoreBoneId() == coreBoneId) return pCoreTrack;
-  }
-
-  // no match found
-  return 0;
 }
 
  /*****************************************************************************/
@@ -90,23 +34,9 @@ CalCoreTrack *CalCoreAnimation::getCoreTrack(int coreBoneId)
   * @return The duration in seconds.
   *****************************************************************************/
 
-float CalCoreAnimation::getDuration()
+float CalCoreAnimation::getDuration() const
 {
   return m_duration;
-}
-
- /*****************************************************************************/
-/** Returns the core track list.
-  *
-  * This function returns the list that contains all core tracks of the core
-  * animation instance.
-  *
-  * @return A reference to the core track list.
-  *****************************************************************************/
-
-std::list<CalCoreTrack *>& CalCoreAnimation::getListCoreTrack()
-{
-  return m_listCoreTrack;
 }
 
  /*****************************************************************************/
@@ -133,11 +63,12 @@ void CalCoreAnimation::setDuration(float duration)
 
 void CalCoreAnimation::scale(float factor)
 {
-  // loop through all core track
-  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-  for(iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
+  // Scale the translation of every bone by the given factor
+  for (unsigned index = 0; index < m_poses.size(); ++index)
   {
-    (*iteratorCoreTrack)->scale(factor);
+    CalVector translation = m_poses[index].getTranslation();
+    translation *= factor;
+    m_poses[index].setTranslation(translation);
   }
 }
 
@@ -164,7 +95,7 @@ void CalCoreAnimation::setFilename(const std::string& filename)
   *
   *****************************************************************************/
 
-const std::string& CalCoreAnimation::getFilename(void)
+const std::string& CalCoreAnimation::getFilename(void) const
 {
   return m_filename;
 }
@@ -191,7 +122,7 @@ void CalCoreAnimation::setName(const std::string& name)
   *
   *****************************************************************************/
 
-const std::string& CalCoreAnimation::getName(void)
+const std::string& CalCoreAnimation::getName(void) const
 {
   return m_name;
 }
@@ -237,5 +168,113 @@ void CalCoreAnimation::removeCallback(CalAnimationCallback *callback)
   }
 }
 
+/*****************************************************************************/
+/** 
+  * Sets the pose data for this animation.
+  *
+  * @param  poses       list of interleaved coordinate transforms for each bone track.
+  * @param  numTracks   the number of bone tracks stored in the pose array.
+  *
+  *****************************************************************************/
+void CalCoreAnimation::setPoses(const std::vector<CalTransform>& poses, unsigned int numTracks)
+{
+  m_poses.resize(poses.size());
+  for (unsigned pose_index = 0; pose_index < poses.size(); ++pose_index)
+  {
+    m_poses[pose_index] = poses[pose_index];
+  }
+
+  m_numBoneTracks = numTracks;
+}
+
+/*****************************************************************************/
+/** 
+  * Gets the pose data for this animation.
+  *
+  *****************************************************************************/
+
+const std::vector<CalTransform>& CalCoreAnimation::getPoses() const
+{
+  return m_poses;
+}
+
+/*****************************************************************************/
+/** 
+  * Gets the number of tracks in the animation.
+  *
+  *****************************************************************************/
+unsigned int CalCoreAnimation::getTrackCount() const
+{
+  return m_numBoneTracks;
+}
+
+/*****************************************************************************/
+/** 
+  * Sets the track assignments for this animation. This maps each track in the
+  * animation to a specific bone in the target skeleton.
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::setTrackAssignments(const std::vector<int>& trackAssignments)
+{
+  m_skeletonMapping.resize(trackAssignments.size());
+  for (unsigned index = 0; index < trackAssignments.size(); ++index)
+  {
+    m_skeletonMapping[index] = trackAssignments[index];
+  }
+}
+
+
+/*****************************************************************************/
+/** 
+  * Queries this animation for the pose of the skeleton at the given time in
+  * the animation.
+  *
+  * @param  time      a time value in seconds within the animation's period
+  * @param  pose      filled with the local transforms for the bones
+  *
+  *****************************************************************************/
+
+void CalCoreAnimation::getPose(float time, std::vector<CalTransform>& pose) const
+{
+  assert(time >= 0.0f && "time must be > 0");
+  assert(pose.size() >= m_numBoneTracks && "Pose does not have enough capacity.");
+
+  const unsigned frame_width = m_numBoneTracks;
+
+  // If the time is within the duration, interpolate between the nearest keyframes
+  if (time < m_duration)
+  {
+    const unsigned num_poses = m_poses.size() / m_numBoneTracks;
+    float time_per_frame = m_duration / (num_poses - 1);
+
+    // Init the pose to the previous keyframe
+    int previous_frame = static_cast<int>(time / time_per_frame);
+    for (unsigned index = 0; index < m_numBoneTracks; ++index)
+    {
+      pose[index] = m_poses[(frame_width * previous_frame) + index];
+    }
+
+    // Compute the distance between frames
+    float lerp_distance = (time / time_per_frame) - previous_frame;
+
+    // Blend in the next frame
+    int next_frame = previous_frame + 1;
+    for (unsigned index = 0; index < m_numBoneTracks; ++index)
+    {
+      pose[index].blend(lerp_distance, m_poses[(frame_width * next_frame) + index]);
+    }
+  }
+
+  // Hold the last frame if past the end of the animation's last frame
+  else
+  {
+    unsigned last_frame = m_poses.size() / frame_width;
+    for (unsigned index = 0; index < m_numBoneTracks; ++index)
+    {
+      pose[index] = m_poses[(frame_width * last_frame) + index];
+    }
+  }
+}
 
 //****************************************************************************//

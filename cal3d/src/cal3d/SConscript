@@ -9,7 +9,6 @@ sources = Split("""
     cal3d_wrapper.cpp
     coreanimation.cpp
     corebone.cpp
-    corekeyframe.cpp
     corematerial.cpp
     coremesh.cpp
     coremodel.cpp
@@ -17,7 +16,6 @@ sources = Split("""
     coreskeleton.cpp
     coresubmesh.cpp
     coresubmorphtarget.cpp
-    coretrack.cpp
     error.cpp
     global.cpp
     hardwaremodel.cpp

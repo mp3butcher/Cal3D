@@ -61,13 +61,11 @@ struct CalAnimationCycle;
 struct CalBone;
 struct CalCoreAnimation;
 struct CalCoreBone;
-struct CalCoreKeyframe;
 struct CalCoreMaterial;
 struct CalCoreMesh;
 struct CalCoreModel;
 struct CalCoreSkeleton;
 struct CalCoreSubmesh;
-struct CalCoreTrack;
 struct CalLoader;
 struct CalMatrix;
 struct CalMesh;
@@ -191,10 +189,7 @@ extern "C"
   CAL3D_WRAPPER_API struct CalCoreAnimation *CalCoreAnimation_New();
   CAL3D_WRAPPER_API void CalCoreAnimation_Delete(CalCoreAnimation* self);
 
-  CAL3D_WRAPPER_API void CalCoreAnimation_AddCoreTrack(struct CalCoreAnimation *self, struct CalCoreTrack *pCoreTrack);
-  CAL3D_WRAPPER_API struct CalCoreTrack *CalCoreAnimation_GetCoreTrack(struct CalCoreAnimation *self, int coreBoneId);
   CAL3D_WRAPPER_API float CalCoreAnimation_GetDuration(struct CalCoreAnimation *self);
-//  CAL3D_WRAPPER_API std::list<CalCoreTrack *>& CalCoreAnimation_GetListCoreTrack(struct CalCoreAnimation *self);
   CAL3D_WRAPPER_API void CalCoreAnimation_SetDuration(struct CalCoreAnimation *self, float duration);
 
 //****************************************************************************//
@@ -222,19 +217,6 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreBone_SetTranslation(struct CalCoreBone *self, struct CalVector *pTranslation);
   CAL3D_WRAPPER_API void CalCoreBone_SetTranslationBoneSpace(struct CalCoreBone *self, struct CalVector *pTranslation);
   CAL3D_WRAPPER_API void CalCoreBone_SetUserData(struct CalCoreBone *self, CalUserData userData);
-
-//****************************************************************************//
-// CalCoreKeyframe wrapper functions declaration                              //
-//****************************************************************************//
-
-  CAL3D_WRAPPER_API void CalCoreKeyframe_Delete(struct CalCoreKeyframe *self);
-  CAL3D_WRAPPER_API struct CalQuaternion *CalCoreKeyframe_GetRotation(struct CalCoreKeyframe *self);
-  CAL3D_WRAPPER_API float CalCoreKeyframe_GetTime(struct CalCoreKeyframe *self);
-  CAL3D_WRAPPER_API struct CalVector *CalCoreKeyframe_GetTranslation(struct CalCoreKeyframe *self);
-  CAL3D_WRAPPER_API struct CalCoreKeyframe *CalCoreKeyframe_New();
-  CAL3D_WRAPPER_API void CalCoreKeyframe_SetRotation(struct CalCoreKeyframe *self, struct CalQuaternion *pRotation);
-  CAL3D_WRAPPER_API void CalCoreKeyframe_SetTime(struct CalCoreKeyframe *self, float time);
-  CAL3D_WRAPPER_API void CalCoreKeyframe_SetTranslation(struct CalCoreKeyframe *self, struct CalVector *pTranslation);
 
 //****************************************************************************//
 // CalCoreMaterial wrapper functions declaration                              //
@@ -345,18 +327,6 @@ extern "C"
 //  CAL3D_WRAPPER_API enum Boolean CalCoreSubmesh_SetVertex(struct CalCoreSubmesh *self, int vertexId, struct CalCoreSubmesh::Vertex *pVertex);
 CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_IsTangentsEnabled(struct CalCoreSubmesh *self, int mapId);
 CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled);
-
-//****************************************************************************//
-// CalCoreTrack wrapper functions declaration                                 //
-//****************************************************************************//
-
-  CAL3D_WRAPPER_API enum Boolean CalCoreTrack_AddCoreKeyframe(struct CalCoreTrack *self, struct CalCoreKeyframe *pCoreKeyframe);
-  CAL3D_WRAPPER_API void CalCoreTrack_Delete(struct CalCoreTrack *self);
-  CAL3D_WRAPPER_API int CalCoreTrack_GetCoreBoneId(struct CalCoreTrack *self);
-//  CAL3D_WRAPPER_API std::map<float, CalCoreKeyframe *>& CalCoreTrack_GetMapCoreKeyframe(struct CalCoreTrack *self);
-  CAL3D_WRAPPER_API enum Boolean CalCoreTrack_GetState(struct CalCoreTrack *self, float time, struct CalVector *pTranslation, struct CalQuaternion *pRotation);
-  CAL3D_WRAPPER_API struct CalCoreTrack *CalCoreTrack_New();
-  CAL3D_WRAPPER_API enum Boolean CalCoreTrack_SetCoreBoneId(struct CalCoreTrack *self, int coreBoneId);
 
 //****************************************************************************//
 // CalError wrapper functions declaration                                     //

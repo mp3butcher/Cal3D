@@ -115,159 +115,17 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 		}
 	}
 
-	// get the number of selected bone candidates
-	int selectedCount;
-	selectedCount = skeletonCandidate.GetSelectedCount();
-	if(selectedCount == 0)
-	{
-		theExporter.SetLastError("No bones selected to export.", __FILE__, __LINE__);
-		return false;
-	}
+  CalCoreAnimationPtr coreAnimation = theExporter.ExtractAnimation(skeletonCandidate,
+                                                                   param->m_startframe,
+                                                                   param->m_endframe,
+                                                                   param->m_frameoffset,
+                                                                   GetFps(), param->m_framerate);
+  if (!coreAnimation)
+  {
+    return false;
+  }
 
-	// create the core animation instance
-	CalCoreAnimationPtr coreAnimation = new CalCoreAnimation;
-
-	// set the duration of the animation
-	float duration = (float)(param->m_endframe - param->m_startframe) / (float)GetFps();
-	coreAnimation->setDuration(duration);
-
-	// get bone candidate vector
-	std::vector<CBoneCandidate *>& vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
-
-	size_t boneCandidateId;
-	for(boneCandidateId = 0; boneCandidateId < vectorBoneCandidate.size(); boneCandidateId++)
-	{
-		// get the bone candidate
-		CBoneCandidate *pBoneCandidate;
-		pBoneCandidate = vectorBoneCandidate[boneCandidateId];
-
-		// only create tracks for the selected bone candidates
-		if(pBoneCandidate->IsSelected())
-		{
-			// allocate new core track instance
-			CalCoreTrack *pCoreTrack;
-			pCoreTrack = new CalCoreTrack();
-			if(pCoreTrack == 0)
-			{
-				theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-				StopProgressInfo();
-				return false;
-			}
-
-			// set the core bone id
-			pCoreTrack->setCoreBoneId(boneCandidateId);
-
-			// add the core track to the core animation instance
-			coreAnimation->addCoreTrack(pCoreTrack);
-		}
-	}
-
-	// start the progress info
-	StartProgressInfo("Exporting to animation file...");
-
-	// calculate the end frame
-	int endFrame = (int)(duration * (float)param->m_framerate + 0.5f);
-
-	// calculate the displaced frame
-  int displacedFrame;
-  displacedFrame = (int)(((float)param->m_frameoffset / (float)GetFps()) * (float)param->m_framerate + 0.5f) % endFrame;
-
-	// calculate the possible wrap frame
-  int wrapFrame;
-  wrapFrame = (displacedFrame > 0) ? 1 : 0;
-  float wrapTime;
-  wrapTime = 0.0f;
-
-  int frame;
-  int outputFrame;
-  for(frame = 0,  outputFrame = 0; frame <= (endFrame + wrapFrame); frame++)
-	{
-		// update the progress info
-		SetProgressInfo(int(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1)));
-
-		// calculate the time in seconds
-		float time;
-		time = (float)param->m_startframe / (float)GetFps() + (float)displacedFrame / (float)param->m_framerate;
-
-/* DEBUG
-CString str;
-str.Format("frame=%d, endframe=%d, disframe=%d, ouputFrame=%d (%f), time=%f\n", frame, endFrame, displacedFrame, outputFrame, (float)outputFrame / (float)param->m_framerate + wrapTime, time);
-OutputDebugString(str);
-*/
-
-		for(boneCandidateId = 0; boneCandidateId < vectorBoneCandidate.size(); boneCandidateId++)
-		{
-			// get the bone candidate
-			CBoneCandidate *pBoneCandidate;
-			pBoneCandidate = vectorBoneCandidate[boneCandidateId];
-
-			// only export keyframes for the selected bone candidates
-			if(pBoneCandidate->IsSelected())
-			{
-				// allocate new core keyframe instance
-				CalCoreKeyframe *pCoreKeyframe;
-				pCoreKeyframe = new CalCoreKeyframe();
-				if(pCoreKeyframe == 0)
-				{
-					theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-					StopProgressInfo();
-					return false;
-				}
-
-				// set the frame time
-				pCoreKeyframe->setTime((float)outputFrame / (float)param->m_framerate + wrapTime);
-
-				// get the translation and the rotation of the bone candidate
-				CalVector translation;
-				CalQuaternion rotation;
-				skeletonCandidate.GetTranslationAndRotation(boneCandidateId, time, translation, rotation);
-
-				// set the translation and rotation
-				pCoreKeyframe->setTranslation(translation);
-				pCoreKeyframe->setRotation(rotation);
-
-				// get the core track for this bone candidate
-				CalCoreTrack *pCoreTrack;
-				pCoreTrack = coreAnimation->getCoreTrack(pBoneCandidate->GetId());
-				if(pCoreTrack == 0)
-				{
-					theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-					delete pCoreKeyframe;
-					StopProgressInfo();
-					return false;
-				}
-
-				// add this core keyframe to the core track
-				pCoreTrack->addCoreKeyframe(pCoreKeyframe);
-			}
-		}
-
-    // calculate the next displaced frame and its frame time
-    if(wrapFrame > 0)
-    {
-      if(displacedFrame == endFrame)
-      {
-        wrapTime = 0.0001f;
-        displacedFrame = 0;
-      }
-      else
-      {
-        wrapTime = 0.0f;
-        outputFrame++;
-        displacedFrame++;
-      }
-    }
-    else
-    {
-      outputFrame++;
-      displacedFrame++;
-   }
-	}
-
-	// stop the progress info
-	StopProgressInfo();
-
-	// save core animation to the file
+  // save core animation to the file
 	if(!CalSaver::saveCoreAnimation(strFilename, coreAnimation.get()))
 	{
 		theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);

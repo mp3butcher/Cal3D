@@ -24,6 +24,7 @@
 //----------------------------------------------------------------------------//
 
 class CBaseInterface;
+class CSkeletonCandidate;
 
 //----------------------------------------------------------------------------//
 // Class declaration                                                          //
@@ -57,6 +58,14 @@ public:
 
   void SetAxisGL(bool _useAxisGL) { m_useAxisGL=_useAxisGL;}
   bool GetAxisGL() { return m_useAxisGL;}
+
+  /// Extracts an animation from the given skeleton and time region.
+  CalCoreAnimation* ExtractAnimation(CSkeletonCandidate& skeletonCandidate,
+                                     int animationStartFrame,
+                                     int animationEndFrame,
+                                     int animationCurrentFrame,
+                                     int animationFps,
+                                     int sampleRate);
 };
 
 extern CExporter theExporter;

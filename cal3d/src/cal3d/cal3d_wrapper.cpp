@@ -222,27 +222,10 @@ void CalCoreAnimation_Delete(CalCoreAnimation* self)
     explicitDecRef(self);
 }
 
-void CalCoreAnimation_AddCoreTrack(CalCoreAnimation *self, CalCoreTrack *pCoreTrack)
-{
-  self->addCoreTrack(pCoreTrack);
-}
-
-CalCoreTrack *CalCoreAnimation_GetCoreTrack(CalCoreAnimation *self, int coreBoneId)
-{
-  return self->getCoreTrack(coreBoneId);
-}
-
 float CalCoreAnimation_GetDuration(CalCoreAnimation *self)
 {
   return self->getDuration();
 }
-
-/*
-std::list<CalCoreTrack *>& CalCoreAnimation_GetListCoreTrack(CalCoreAnimation *self)
-{
-  return self->getListCoreTrack();
-}
-*/
 
 void CalCoreAnimation_SetDuration(CalCoreAnimation *self, float duration)
 {
@@ -358,50 +341,6 @@ void CalCoreBone_SetTranslationBoneSpace(CalCoreBone *self, CalVector *pTranslat
 void CalCoreBone_SetUserData(CalCoreBone *self, CalUserData userData)
 {
   self->setUserData(userData);
-}
-
-//****************************************************************************//
-// CalCoreKeyframe wrapper functions definition                               //
-//****************************************************************************//
-
-void CalCoreKeyframe_Delete(CalCoreKeyframe *self)
-{
-  delete self;
-}
-
-CalQuaternion *CalCoreKeyframe_GetRotation(CalCoreKeyframe *self)
-{
-  return &(const_cast<CalQuaternion&>(self->getRotation()));
-}
-
-float CalCoreKeyframe_GetTime(CalCoreKeyframe *self)
-{
-  return self->getTime();
-}
-
-CalVector *CalCoreKeyframe_GetTranslation(CalCoreKeyframe *self)
-{
-  return &(const_cast<CalVector&>(self->getTranslation()));
-}
-
-CalCoreKeyframe *CalCoreKeyframe_New()
-{
-  return new CalCoreKeyframe();
-}
-
-void CalCoreKeyframe_SetRotation(CalCoreKeyframe *self, CalQuaternion *pRotation)
-{
-  self->setRotation(*pRotation);
-}
-
-void CalCoreKeyframe_SetTime(CalCoreKeyframe *self, float time)
-{
-  self->setTime(time);
-}
-
-void CalCoreKeyframe_SetTranslation(CalCoreKeyframe *self, CalVector *pTranslation)
-{
-  self->setTranslation(*pTranslation);
 }
 
 //****************************************************************************//
@@ -872,47 +811,6 @@ Boolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
 Boolean CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled)
 {
   return self->enableTangents(mapId, enabled) ? True : False;
-}
-
-//****************************************************************************//
-// CalCoreTrack wrapper functions definition                                  //
-//****************************************************************************//
-
-Boolean CalCoreTrack_AddCoreKeyframe(CalCoreTrack *self, CalCoreKeyframe *pCoreKeyframe)
-{
-  return self->addCoreKeyframe(pCoreKeyframe) ? True : False;
-}
-
-void CalCoreTrack_Delete(CalCoreTrack *self)
-{
-  delete self;
-}
-
-int CalCoreTrack_GetCoreBoneId(CalCoreTrack *self)
-{
-  return self->getCoreBoneId();
-}
-
-/*
-std::map<float, CalCoreKeyframe *>& CalCoreTrack_GetMapCoreKeyframe(CalCoreTrack *self)
-{
-  return self->getMapCoreKeyframe();
-}
-*/
-
-Boolean CalCoreTrack_GetState(CalCoreTrack *self, float time, CalVector *pTranslation, CalQuaternion *pRotation)
-{
-  return self->getState(time, *pTranslation, *pRotation) ? True : False;
-}
-
-CalCoreTrack *CalCoreTrack_New()
-{
-  return new CalCoreTrack();
-}
-
-Boolean CalCoreTrack_SetCoreBoneId(CalCoreTrack *self, int coreBoneId)
-{
-  return self->setCoreBoneId(coreBoneId) ? True : False;
 }
 
 //****************************************************************************//

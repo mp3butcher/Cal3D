@@ -16,6 +16,7 @@
 //****************************************************************************//
 
 #include "cal3d/global.h"
+#include "cal3d/transform.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -25,8 +26,6 @@ class CalCoreModel;
 class CalCoreSkeleton;
 class CalCoreBone;
 class CalCoreAnimation;
-class CalCoreTrack;
-class CalCoreKeyframe;
 class CalCoreMesh;
 class CalCoreSubmesh;
 class CalCoreMaterial;
@@ -49,9 +48,9 @@ public:
 
 protected:
   static bool saveCoreBones(std::ofstream& file, const std::string& strFilename, CalCoreBone *pCoreBone);
-  static bool saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe);
+  static bool saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, const CalTransform& boneCoordSys, float time);
   static bool saveCoreSubmesh(std::ofstream& file, const std::string& strFilename, CalCoreSubmesh *pCoreSubmesh);
-  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack);
+  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, const std::vector<CalTransform>& trackData, int boneId, float time_per_frame);
 
   static bool saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton);
   static bool saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation);

@@ -25,8 +25,6 @@
 #include "cal3d/coreskeleton.h"
 #include "cal3d/corebone.h"
 #include "cal3d/coreanimation.h"
-#include "cal3d/coretrack.h"
-#include "cal3d/corekeyframe.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/corematerial.h"
@@ -455,20 +453,47 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
     return 0;
   }
 
+  std::vector<CalTransform> poses;
+  std::vector<int> track_assignments;
+  if (skel)
+  {
+    track_assignments.resize(skel->getVectorCoreBone().size(), -1);
+  }
+
   // load all core bones
   int trackId;
   for(trackId = 0; trackId < trackCount; ++trackId)
   {
-    // load the core track
-    CalCoreTrack *pCoreTrack = loadCoreTrack(dataSrc,skel);
-    if(pCoreTrack == 0)
+    // Load the track
+    std::vector<CalTransform> track_data;
+    int bone_id = loadCoreTrack(dataSrc, skel, track_data);
+    if (-1 == bone_id)
     {
+      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
       return 0;
     }
 
-    // add the core track to the core animation instance
-    pCoreAnimation->addCoreTrack(pCoreTrack);
+    // Make the track assignment
+    if ((int)track_assignments.size() <= bone_id)
+    {
+      track_assignments.resize(bone_id + 1, -1);
+    }
+    track_assignments[bone_id] = trackId;
+
+    // Ensure the poses array has enough room
+    if (poses.size() < track_data.size() * trackCount)
+    {
+      poses.resize(track_data.size() * trackCount);
+    }
+    // Interleave the track data into the poses
+    for (unsigned pose_index = 0; pose_index < track_data.size(); ++pose_index)
+    {
+      poses[(pose_index * trackCount) + trackId] = track_data[pose_index];
+    }
   }
+
+  pCoreAnimation->setPoses(poses, trackCount);
+  pCoreAnimation->setTrackAssignments(track_assignments);
 
   return pCoreAnimation;
 }
@@ -858,12 +883,12 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreKeyframe *CalLoader::loadCoreKeyframe(CalDataSource& dataSrc)
+bool CalLoader::loadCoreKeyframe(CalDataSource& dataSrc, CalTransform& coordSys)
 {
   if(!dataSrc.ok())
   {
     dataSrc.setError();
-    return 0;
+    return false;
   }
 
   // get the time of the keyframe
@@ -887,24 +912,14 @@ CalCoreKeyframe *CalLoader::loadCoreKeyframe(CalDataSource& dataSrc)
   if(!dataSrc.ok())
   {
     dataSrc.setError();
-    return 0;
+    return false;
   }
 
-  // allocate a new core keyframe instance
-  CalCoreKeyframe *pCoreKeyframe;
-  pCoreKeyframe = new CalCoreKeyframe();
-  if(pCoreKeyframe == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
+  // Fill in the passed-in coord sys
+  coordSys.setTranslation(CalVector(tx, ty, tz));
+  coordSys.setRotation(CalQuaternion(rx, ry, rz, rw));
 
-  // set all attributes of the keyframe
-  pCoreKeyframe->setTime(time);
-  pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
-  pCoreKeyframe->setRotation(CalQuaternion(rx, ry, rz, rw));
-
-  return pCoreKeyframe;
+  return true;
 }
 
  /*****************************************************************************/
@@ -1210,12 +1225,12 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel)
+int CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, std::vector<CalTransform>& trackOut)
 {
   if(!dataSrc.ok())
   {
     dataSrc.setError();
-    return 0;
+    return -1;
   }
 
   // read the bone id
@@ -1223,62 +1238,49 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
   if(!dataSrc.readInteger(coreBoneId) || (coreBoneId < 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-    return 0;
+    return -1;
   }
-
-  // allocate a new core track instance
-  CalCoreTrack *pCoreTrack;
-  pCoreTrack = new CalCoreTrack();
-  if(pCoreTrack == 0)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
-
-  // link the core track to the appropriate core bone instance
-  pCoreTrack->setCoreBoneId(coreBoneId);
 
   // read the number of keyframes
   int keyframeCount;
   if(!dataSrc.readInteger(keyframeCount) || (keyframeCount <= 0))
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-    return 0;
+    return -1;
   }
+
+  trackOut.resize(keyframeCount);
 
   // load all core keyframes
   int keyframeId;
   for(keyframeId = 0; keyframeId < keyframeCount; ++keyframeId)
   {
     // load the core keyframe
-    CalCoreKeyframe *pCoreKeyframe = loadCoreKeyframe(dataSrc);
-    if(pCoreKeyframe == 0)
+    if (!loadCoreKeyframe(dataSrc, trackOut[keyframeId]))
     {
-      delete pCoreTrack;
-      return 0;
+      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+      return -1;
     }
+
     if (loadingMode & LOADER_ROTATE_X_AXIS)
     {
       // Check for anim rotation
       if (skel && skel->getCoreBone(coreBoneId)->getParentId() == -1)  // root bone
       {
         // rotate root bone quaternion
-        CalQuaternion rot = pCoreKeyframe->getRotation();
+        CalQuaternion rot = trackOut[keyframeId].getRotation();
         CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
         rot *= x_axis_90;
-        pCoreKeyframe->setRotation(rot);
+        trackOut[keyframeId].setRotation(rot);
         // rotate root bone displacement
-        CalVector vec = pCoreKeyframe->getTranslation();
-      vec *= x_axis_90;
-        pCoreKeyframe->setTranslation(vec);
+        CalVector vec = trackOut[keyframeId].getTranslation();
+        vec *= x_axis_90;
+        trackOut[keyframeId].setTranslation(vec);
       }
     }    
-
-    // add the core keyframe to the core track instance
-    pCoreTrack->addCoreKeyframe(pCoreKeyframe);
   }
 
-  return pCoreTrack;
+  return coreBoneId;
 }
 
 
@@ -1674,7 +1676,26 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
 
   // set the duration in the core animation instance
   pCoreAnimation->setDuration(duration);
-  TiXmlElement* track=animation->FirstChildElement();
+
+  // Figure out how many keyframes are in each animation track
+  TiXmlElement* track = animation->FirstChildElement();
+  if (!track || 0 != stricmp(track->Value(), "TRACK"))
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+    return false;
+  }
+  int num_keyframes = atoi(track->Attribute("NUMKEYFRAMES"));
+
+  // Allocate space for all the poses in the animation
+  std::vector<CalTransform> poses;
+  poses.resize(num_keyframes * trackCount);
+
+  // Allocate space for the bone to track mapping
+  std::vector<int> track_assignments;
+  if (skel)
+  {
+    track_assignments.resize(skel->getVectorCoreBone().size(), -1);
+  }
 
   // load all core bones
   int trackId;
@@ -1686,26 +1707,20 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       return false;
     }
 
-    CalCoreTrack *pCoreTrack;
-
-    pCoreTrack = new CalCoreTrack();
-    if(pCoreTrack == 0)
-    {
-      CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-      return 0;
-    }
-
+    // Get the boneID for this track and assign the mapping
     int coreBoneId = atoi(track->Attribute("BONEID"));
 
-    // link the core track to the appropriate core bone instance
-    pCoreTrack->setCoreBoneId(coreBoneId);
+    if ((int)track_assignments.size() <= coreBoneId)
+    {
+      track_assignments.resize(coreBoneId + 1, -1);
+    }
+    track_assignments[coreBoneId] = trackId;
 
     // read the number of keyframes
     int keyframeCount= atoi(track->Attribute("NUMKEYFRAMES"));
 
     if(keyframeCount <= 0)
     {
-      delete pCoreTrack;
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return 0;
     }
@@ -1720,7 +1735,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!keyframe|| stricmp(keyframe->Value(),"KEYFRAME")!=0)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
 
@@ -1730,7 +1744,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!translation || stricmp(translation->Value(),"TRANSLATION")!=0)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
 
@@ -1740,7 +1753,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!node)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
 
@@ -1748,7 +1760,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!translationdata)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
       str.clear();
@@ -1759,7 +1770,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!rotation || stricmp(rotation->Value(),"ROTATION")!=0)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
 
@@ -1769,65 +1779,49 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
       if(!node)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
       TiXmlText* rotationdata = node->ToText();
       if(!rotationdata)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        delete pCoreTrack;
         return false;
       }
       str.clear();
       str << rotationdata->Value();
-      str >> rx >> ry >> rz >> rw;  
-      
-      // allocate a new core keyframe instance
+      str >> rx >> ry >> rz >> rw;
 
-      CalCoreKeyframe *pCoreKeyframe;
-      pCoreKeyframe = new CalCoreKeyframe();
-      if(pCoreKeyframe == 0)
-      {
-        delete pCoreTrack;        
-        CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-        return 0;
-      }
+      // Create the pose
+      CalTransform& pose_coord_sys = poses[(keyframeId * trackCount) + trackId];
+      pose_coord_sys.setTranslation(CalVector(tx, ty, tz));
+      pose_coord_sys.setRotation(CalQuaternion(rx, ry, rz, rw));
 
-      // set all attributes of the keyframe
-      pCoreKeyframe->setTime(time);
-      pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
-      pCoreKeyframe->setRotation(CalQuaternion(rx, ry, rz, rw));
-
-      
       if (loadingMode & LOADER_ROTATE_X_AXIS)
       {
         // Check for anim rotation
         if (skel && skel->getCoreBone(coreBoneId)->getParentId() == -1)  // root bone
         {
           // rotate root bone quaternion
-          CalQuaternion rot = pCoreKeyframe->getRotation();
+          CalQuaternion rot = pose_coord_sys.getRotation();
           CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
           rot *= x_axis_90;
-          pCoreKeyframe->setRotation(rot);
+          pose_coord_sys.setRotation(rot);
           // rotate root bone displacement
-          CalVector trans = pCoreKeyframe->getTranslation();
+          CalVector trans = pose_coord_sys.getTranslation();
           trans *= x_axis_90;
-          pCoreKeyframe->setTranslation(trans);
+          pose_coord_sys.setTranslation(trans);
         }
       }
       
-      
-      // add the core keyframe to the core track instance
-         pCoreTrack->addCoreKeyframe(pCoreKeyframe);
-
      keyframe = keyframe->NextSiblingElement();
-
     }
 
-    pCoreAnimation->addCoreTrack(pCoreTrack);
     track=track->NextSiblingElement();
   }
+
+  // Set the pose on the animation
+  pCoreAnimation->setPoses(poses, trackCount);
+  pCoreAnimation->setTrackAssignments(track_assignments);
 
   // explicitly close the file
   doc.Clear();

@@ -24,6 +24,7 @@
 #include "cal3d/corematerial.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/coreskeleton.h"
+#include "cal3d/transform.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -31,8 +32,6 @@
 
 class CalCoreModel;
 class CalCoreBone;
-class CalCoreTrack;
-class CalCoreKeyframe;
 class CalCoreSubmesh;
 
 enum
@@ -77,9 +76,9 @@ public:
 
 private:
   static CalCoreBone *loadCoreBones(CalDataSource& dataSrc);
-  static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc);
+  static bool loadCoreKeyframe(CalDataSource& dataSrc, CalTransform& coordSys);
   static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc);
-  static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel);
+  static int loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, std::vector<CalTransform>& trackOut);
 
   static CalCoreAnimationPtr loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(const std::string& strFilename);
