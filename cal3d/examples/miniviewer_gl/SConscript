@@ -1,0 +1,12 @@
+Import('*')
+env = env.Copy(tools=['glut'], toolpath=['../../toolspec'])
+env.Append(
+    CPPPATH=['#/src'],
+    LIBPATH=['#/src/cal3d'],
+    LIBS=['cal3d'])
+env.Program('miniviewer_gl', [
+    'src/main.cpp',
+    'src/tga.cpp',
+    'src/tick.cpp',
+    'src/viewer.cpp'])
+

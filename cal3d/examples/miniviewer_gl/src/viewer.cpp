@@ -187,7 +187,7 @@ GLuint Viewer::loadTexture(const std::string& strFilename)
      //Flip texture
      int width = Tga->GetSizeX();
      int height = Tga->GetSizeY();
-     int depth = Tga->Bpp() / 8;    
+     //int depth = Tga->Bpp() / 8;    
 
      glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 

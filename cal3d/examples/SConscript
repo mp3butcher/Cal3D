@@ -1,0 +1,5 @@
+SConscript(dirs=[
+    #'cally',
+    'miniviewer_gl',
+    #'miniviewer_gl_vp'
+    ])
