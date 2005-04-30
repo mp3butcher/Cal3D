@@ -352,6 +352,8 @@ void CalCoreBone::setUserData(Cal::UserData userData)
 void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 {
    int boneId =  m_pCoreSkeleton->getCoreBoneId(m_strName);
+   bool bBoundsComputed=false;
+   int planeId;
    
    CalQuaternion rot;
    rot=m_rotationBoneSpace;   
@@ -401,14 +403,14 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 				   for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
 				   {
 					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId && vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
-					   {
-						   int planeId;
+					   {						   
 						   for(planeId = 0; planeId < 6; ++planeId)
 						   {
 							   if(m_boundingBox.plane[planeId].eval(vectorVertex[vertexId].position) < 0.0f)
 							   {
 								   m_boundingBox.plane[planeId].setPosition(vectorVertex[vertexId].position);
-								   m_boundingPosition[planeId]=vectorVertex[vertexId].position;		          
+								   m_boundingPosition[planeId]=vectorVertex[vertexId].position;
+								   bBoundsComputed=true;
 							   }
 						   }
 					   }
@@ -417,6 +419,17 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 		   }
 	   }
    }
+
+   // To handle bones with no vertices assigned 
+   if(!bBoundsComputed) 
+   { 
+	   for(planeId = 0; planeId < 6; ++planeId) 
+	   { 
+		   m_boundingBox.plane[planeId].setPosition(m_translation); 
+		   m_boundingPosition[planeId] = m_translation; 
+	   } 
+   } 
+   
    m_boundingBoxPrecomputed = true;
 }
 
