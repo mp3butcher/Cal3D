@@ -388,6 +388,27 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(void* inputBuffer)
    return loadCoreSkeleton(bufferSrc);
 }
 
+// Compute least common multiple
+static size_t lcm (size_t a, size_t b)
+{
+  size_t m = a, n = b;
+  do
+  {
+    size_t t;
+    if (m < n)
+    {
+      t = m;
+      m = n;
+      n = t;
+    }
+    size_t r = m - n;
+    m = n; n = r;
+    if (r == 0) break;
+  }
+  while (1);
+  return (a/m)*b;
+}
+
  /*****************************************************************************/
 /** Loads a core animation instance.
   *
@@ -460,18 +481,26 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
     track_assignments.resize(skel->getVectorCoreBone().size(), -1);
   }
 
+  std::vector<std::vector<CalTransform> > track_data;
+  track_data.resize (trackCount);
+  size_t framesRequired = 0;
   // load all core bones
   int trackId;
   for(trackId = 0; trackId < trackCount; ++trackId)
   {
     // Load the track
-    std::vector<CalTransform> track_data;
-    int bone_id = loadCoreTrack(dataSrc, skel, track_data);
+    std::vector<CalTransform>& track = track_data[trackId];
+    int bone_id = loadCoreTrack(dataSrc, skel, track);
     if (-1 == bone_id)
     {
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
       return 0;
     }
+
+    if (framesRequired == 0)
+      framesRequired = track.size();
+    else if (framesRequired != track.size())
+      framesRequired = lcm (framesRequired, track.size());
 
     // Make the track assignment
     if ((int)track_assignments.size() <= bone_id)
@@ -479,16 +508,45 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
       track_assignments.resize(bone_id + 1, -1);
     }
     track_assignments[bone_id] = trackId;
-
-    // Ensure the poses array has enough room
-    if (poses.size() < track_data.size() * trackCount)
+  }
+  poses.resize(framesRequired * trackCount);
+  for(trackId = 0; trackId < trackCount; ++trackId)
+  {
+    const std::vector<CalTransform>& track = track_data[trackId];
+    if (track.size() == framesRequired)
     {
-      poses.resize(track_data.size() * trackCount);
+      // Interleave the track data into the poses
+      for (unsigned pose_index = 0; pose_index < framesRequired; ++pose_index)
+      {
+        poses[(pose_index * trackCount) + trackId] = track[pose_index];
+      }
     }
-    // Interleave the track data into the poses
-    for (unsigned pose_index = 0; pose_index < track_data.size(); ++pose_index)
+    else if (track.size() == 1)
     {
-      poses[(pose_index * trackCount) + trackId] = track_data[pose_index];
+      // Interleave the track data into the poses
+      for (unsigned pose_index = 0; pose_index < framesRequired; ++pose_index)
+      {
+        poses[(pose_index * trackCount) + trackId] = track[0];
+      }
+    }
+    else
+    {
+      // "Upsample" the track data into the poses
+      float frame = 0.0f;
+      float delta = ((float)track.size()-1) / (float)(framesRequired-1);
+      size_t destFrame = 0;
+      while (destFrame < framesRequired)
+      {
+        CalTransform& pose = poses[(destFrame * trackCount) + trackId];
+
+        size_t curFrame = (size_t)frame;
+        float lerp_dist = frame - (float)curFrame;
+        pose = track[curFrame];
+        if (curFrame+1 < track.size()) pose.blend (lerp_dist, track[curFrame + 1]);
+
+        frame += delta;
+        destFrame++;
+      }
     }
   }
 
