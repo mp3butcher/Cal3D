@@ -215,7 +215,7 @@ unsigned int CalCoreAnimation::getTrackCount() const
   *
   *****************************************************************************/
 
-void CalCoreAnimation::setTrackAssignments(const std::vector<int>& trackAssignments)
+void CalCoreAnimation::setTrackAssignments(const std::vector<intptr_t>& trackAssignments)
 {
   m_skeletonMapping.resize(trackAssignments.size());
   for (unsigned index = 0; index < trackAssignments.size(); ++index)

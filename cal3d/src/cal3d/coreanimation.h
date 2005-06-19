@@ -50,7 +50,7 @@ public:
   unsigned int getTrackCount() const;
 
   /// Sets the track assignments for this animation.
-  void setTrackAssignments(const std::vector<int>& trackAssignments);
+  void setTrackAssignments(const std::vector<intptr_t>& trackAssignments);
 
   /// Gets the pose of the bone tracks in the animation at the given time.
   void getPose(float time, std::vector<CalTransform>& pose) const;
@@ -99,7 +99,7 @@ private:
 
   /// Mapping of the skeleton bone IDs to the bone tracks in the animation.
   /// Non-mapped bones are have a -1 assignment.
-  std::vector<int> m_skeletonMapping;
+  std::vector<intptr_t> m_skeletonMapping;
 
   std::vector<CallbackRecord> m_listCallbacks;
 
