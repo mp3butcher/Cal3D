@@ -97,7 +97,8 @@ bool CVertexCandidate::operator==(CVertexCandidate& vertexCandidate)
 void CVertexCandidate::AddInfluence(int boneId, float weight)
 {
 	// check if there is already an influence for this bone ( weird 3ds max behaviour =P )
-	for(size_t influenceId = 0; influenceId < m_vectorInfluence.size(); influenceId++)
+	size_t influenceId;
+	for(influenceId = 0; influenceId < m_vectorInfluence.size(); influenceId++)
 	{
 		// compare bone id
 		if(m_vectorInfluence[influenceId].boneId == boneId)

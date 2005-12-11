@@ -437,7 +437,9 @@ Matrix3 CMaxInterface::GetNodeTM(CMaxNode *pNode, float time)
     // get the node transformation
     tm = pNode->GetINode()->GetNodeTM(SecToTicks(time));
     
-    if(!pNode->GetINode()->IsRootNode())
+	// This code seems to corrupt some models
+
+    /*if(!pNode->GetINode()->IsRootNode())
     {
       tmParent = pNode->GetINode()->GetParentTM(SecToTicks(time));
       
@@ -446,11 +448,11 @@ Matrix3 CMaxInterface::GetNodeTM(CMaxNode *pNode, float time)
       
       if(DotProd( CrossProd( tmParent.GetRow(0).Normalize(), 
         tmParent.GetRow(1).Normalize() ).Normalize(), 
-        tmParent.GetRow(2).Normalize() ) < 0)
+        tmParent.GetRow(2).Normalize() ) < -0.1)
       {
         isMirrored = true;
       }
-    }
+    }*/
 
     // make the transformation uniform
     tm.NoScale();
