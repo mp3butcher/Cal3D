@@ -74,7 +74,7 @@ Boolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, floa
   return self->execute(delayIn, delayOut) ? True : False;
 }
 
-CalAnimationAction *CalAnimationAction_New(struct CalCoreAnimation *pCoreAnimation)
+CalAnimationAction *CalAnimationAction_New(CalCoreAnimation *pCoreAnimation)
 {
   return new CalAnimationAction(pCoreAnimation);
 }
@@ -83,6 +83,12 @@ Boolean CalAnimationAction_Update(CalAnimationAction *self, float deltaTime)
 {
   return self->update(deltaTime) ? True : False;
 }
+
+void CalCoreAnimation_Scale(CalCoreAnimation *self, float factor)
+{
+  self->scale(factor);
+}
+
 
 //****************************************************************************//
 // CalAnimationCycle wrapper functions definition                             //
@@ -494,6 +500,10 @@ std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(CalCoreMesh *sel
 }
 */
 
+void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
+{
+  self->scale(factor);
+}
 
 //****************************************************************************//
 // CalCoreModel wrapper functions definition                                  //
@@ -679,6 +689,21 @@ std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(CalCoreSkeleton *s
 }
 */
 
+void CalCoreSkeleton_Scale(CalCoreSkeleton *self,float factor)
+{
+	self->scale(factor);
+}
+
+void CalSkeleton_GetBoneBoundingBox(CalSkeleton *self, float *min, float *max)
+{
+	self->getBoneBoundingBox(min, max);
+}
+
+void CalSkeleton_CalculateBoundingBoxes(CalSkeleton *self)
+{
+	self->calculateBoundingBoxes();
+}
+
 //****************************************************************************//
 // CalCoreSubmesh wrapper functions definition                                //
 //****************************************************************************//
@@ -808,7 +833,7 @@ Boolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
   return self->isTangentsEnabled(mapId) ? True : False;
 }
 
-Boolean CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, bool enabled)
+Boolean CalCoreSubmesh_EnableTangents(CalCoreSubmesh *self, int mapId, bool enabled)
 {
   return self->enableTangents(mapId, enabled) ? True : False;
 }
@@ -959,9 +984,9 @@ void CalMixer_Delete(CalMixer *self)
   delete self;
 }
 
-Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut)
+Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut, enum Boolean autoLock)
 {
-  return self->executeAction(id, delayIn, delayOut, 1.0f) ? True : False;
+  return self->executeAction(id, delayIn, delayOut, 1.0f,  autoLock) ? True : False;
 }
 
 CalMixer *CalMixer_New(CalModel* pModel)
@@ -977,6 +1002,11 @@ void CalMixer_UpdateAnimation(CalMixer *self, float deltaTime)
 void CalMixer_UpdateSkeleton(CalMixer *self)
 {
   self->updateSkeleton();
+}
+
+void CalMixer_RemoveAction(CalMixer *self,int id)
+{
+  self->removeAction(id);
 }
 
 //****************************************************************************//
