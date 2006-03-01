@@ -110,6 +110,22 @@ int Viewer::getWidth()
 }
 
 //----------------------------------------------------------------------------//
+// Read a int from file stream (to avoid Little/Big endian issue)
+//----------------------------------------------------------------------------//
+
+int readInt( std::ifstream *file ) 
+{
+	int x = 0;
+	for ( int i = 0; i < 32; i+=8 ) 
+	{
+		char c;
+		file->read ( &c, 1 );
+		x += c << i;
+ 	}
+ 	return x;
+ }
+
+//----------------------------------------------------------------------------//
 // Load and create a texture from a given file                                //
 //----------------------------------------------------------------------------//
 
@@ -129,12 +145,9 @@ GLuint Viewer::loadTexture(const std::string& strFilename)
      }
 
      // load the dimension of the texture
-     int width;
-     file.read((char *)&width, 4);
-     int height;
-     file.read((char *)&height, 4);
-     int depth;
-     file.read((char *)&depth, 4);
+     int width = readInt(&file);     
+     int height = readInt(&file);     
+     int depth = readInt(&file);     
 
      // allocate a temporary buffer to load the texture to
      unsigned char *pBuffer;
