@@ -1257,11 +1257,18 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
       justOnce = 1;
     }
 
+	// flip the winding order if the loading flags request it
+    if (loadingMode & LOADER_FLIP_WINDING)
+	{
+      flipModel = !flipModel;
+	}    
+
     // flip if needed
-    if (flipModel) {
+    if (flipModel) 
+	{
       tmp[3] = face.vertexId[1];
       face.vertexId[1]=face.vertexId[2];
-    face.vertexId[2]=tmp[3];
+	  face.vertexId[2]=tmp[3];
     }
 
     // set face in the core submesh instance

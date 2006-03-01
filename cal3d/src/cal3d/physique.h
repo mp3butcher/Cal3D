@@ -33,10 +33,16 @@ public:
   int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
   void update();
   void setNormalization(bool normalize);
+  void setAxisFactorX(float factor);
+  void setAxisFactorY(float factor);
+  void setAxisFactorZ(float factor);
 
 private:
   CalModel *m_pModel;
   bool m_Normalize;
+  float m_axisFactorX;
+  float m_axisFactorY;
+  float m_axisFactorZ;
 };
 
 #endif

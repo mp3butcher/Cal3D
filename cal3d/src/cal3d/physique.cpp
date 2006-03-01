@@ -39,6 +39,9 @@ CalPhysique::CalPhysique(CalModel* pModel)
 {
   assert(pModel);
   m_pModel = pModel;
+  m_axisFactorX = 1.0f;
+  m_axisFactorY = 1.0f;
+  m_axisFactorZ = 1.0f;
 }
 
  /*****************************************************************************/
@@ -162,16 +165,16 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
       // assign new vertex position if there is no vertex weight
       if(physicalProperty.weight == 0.0f)
       {
-        pVertexBuffer[0] = x;
-        pVertexBuffer[1] = y;
-        pVertexBuffer[2] = z;
+        pVertexBuffer[0] = x * m_axisFactorX;
+        pVertexBuffer[1] = y * m_axisFactorY;
+        pVertexBuffer[2] = z * m_axisFactorZ;
       }
     }
     else
     {
-      pVertexBuffer[0] = x;
-      pVertexBuffer[1] = y;
-      pVertexBuffer[2] = z;
+      pVertexBuffer[0] = x * m_axisFactorX;
+      pVertexBuffer[1] = y * m_axisFactorY;
+      pVertexBuffer[2] = z * m_axisFactorZ;
     }
 
     // next vertex position in buffer
@@ -302,7 +305,8 @@ CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
   }
   */
   // return the vertex
-  return CalVector(x,y,z);
+  //return CalVector(x, y, z);
+  return CalVector(x*m_axisFactorX,y*m_axisFactorY,z*m_axisFactorZ);
 }
  /*****************************************************************************/
 /** Calculates the transformed tangent space data.
@@ -381,6 +385,10 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
     if (m_Normalize)
     {
       float scale;
+	  tx/= m_axisFactorX;
+	  ty/= m_axisFactorY;
+	  tz/= m_axisFactorZ;
+
       scale = (float)( 1.0f / sqrt(tx * tx + ty * ty + tz * tz));
 
       pTangentSpaceBuffer[0] = tx * scale;
@@ -515,6 +523,10 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
     // re-normalize normal if necessary
     if (m_Normalize)
     {
+	  nx/= m_axisFactorX;
+	  ny/= m_axisFactorY;
+	  nz/= m_axisFactorZ;
+
       float scale;
       scale = (float)( 1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
@@ -685,21 +697,25 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
       // assign new vertex position if there is no vertex weight
       if(physicalProperty.weight == 0.0f)
       {
-        pVertexBuffer[0] = x;
-        pVertexBuffer[1] = y;
-        pVertexBuffer[2] = z;
+        pVertexBuffer[0] = x * m_axisFactorX;
+        pVertexBuffer[1] = y * m_axisFactorY;
+        pVertexBuffer[2] = z * m_axisFactorZ;
       }
     }
     else
     {
-      pVertexBuffer[0] = x;
-      pVertexBuffer[1] = y;
-      pVertexBuffer[2] = z;
+      pVertexBuffer[0] = x * m_axisFactorX;
+      pVertexBuffer[1] = y * m_axisFactorY;
+      pVertexBuffer[2] = z * m_axisFactorZ;
     }
     
     // re-normalize normal if necessary
     if (m_Normalize)
     {
+	  nx/= m_axisFactorX;
+	  ny/= m_axisFactorY;
+	  nz/= m_axisFactorZ;
+
       float scale;
       scale = (float)( 1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
@@ -885,21 +901,25 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
       // assign new vertex position if there is no vertex weight
       if(physicalProperty.weight == 0.0f)
       {
-        pVertexBuffer[0] = x;
-        pVertexBuffer[1] = y;
-        pVertexBuffer[2] = z;
+        pVertexBuffer[0] = x * m_axisFactorX;
+        pVertexBuffer[1] = y * m_axisFactorY;
+        pVertexBuffer[2] = z * m_axisFactorZ;
       }
     }
     else
     {
-      pVertexBuffer[0] = x;
-      pVertexBuffer[1] = y;
-      pVertexBuffer[2] = z;
+      pVertexBuffer[0] = x * m_axisFactorX;
+      pVertexBuffer[1] = y * m_axisFactorY;
+      pVertexBuffer[2] = z * m_axisFactorZ;
     }
     
 	 // re-normalize normal if necessary
     if (m_Normalize)
     {
+	  nx/= m_axisFactorX;
+	  ny/= m_axisFactorY;
+	  nz/= m_axisFactorZ;
+
       float scale;
       scale = (float) (1.0f / sqrt(nx * nx + ny * ny + nz * nz));
 
@@ -997,4 +1017,22 @@ void CalPhysique::setNormalization(bool normalize)
   m_Normalize = normalize;
 }
 
+
+void CalPhysique::setAxisFactorX(float factor)
+{
+	m_axisFactorX = factor;
+	m_Normalize = true;	
+}
+
+void CalPhysique::setAxisFactorY(float factor)
+{
+	m_axisFactorY = factor;
+	m_Normalize = true;	
+}
+
+void CalPhysique::setAxisFactorZ(float factor)
+{
+	m_axisFactorZ = factor;
+	m_Normalize = true;	
+}
 //****************************************************************************//
