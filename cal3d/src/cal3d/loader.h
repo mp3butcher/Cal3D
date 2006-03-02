@@ -38,7 +38,7 @@ enum
 {
     LOADER_ROTATE_X_AXIS = 1,
     LOADER_INVERT_V_COORD = 2,
-    LOADER_FLIP_WINDING = 3
+    LOADER_FLIP_WINDING = 4
 };
 
 //****************************************************************************//
