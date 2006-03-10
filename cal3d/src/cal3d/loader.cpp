@@ -1252,16 +1252,15 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
       // if the two vectors point to the same direction then the poly needs flipping
       // so if the dot product > 0 it needs flipping
       if (faceNormal*maxNorm>0)
-      flipModel = true;
+          flipModel = true;
+
+      // flip the winding order if the loading flags request it
+      if (loadingMode & LOADER_FLIP_WINDING)
+          flipModel = !flipModel;
 
       justOnce = 1;
     }
 
-	// flip the winding order if the loading flags request it
-    if (loadingMode & LOADER_FLIP_WINDING)
-	{
-      flipModel = !flipModel;
-	}    
 
     // flip if needed
     if (flipModel) 
