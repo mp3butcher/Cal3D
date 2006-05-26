@@ -12,7 +12,7 @@
 
 INCLUDES = $(all_includes) -I$(top_srcdir)/src
 
-all_libraries = @all_libraries@
+all_libraries = @LIBS@
 AM_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = cal3d.rc cal3d.dsp SConscript
