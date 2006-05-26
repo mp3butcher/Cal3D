@@ -48,11 +48,19 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
         CXXFLAGS="-O2"
       fi
     fi
+  fi
 
+    CAL_INDICES_SIZE=""
     AC_ARG_ENABLE(16bit-indices,[  --enable-16bit-indices       use 16-bit indices (default 32-bit)],
     [
-      CXXFLAGS="$CXXFLAGS -DCAL_16BIT_INDICES"
+	if test $enableval = "no"; then
+      	   CAL_INDICES_SIZE=""
+        else
+      	   CAL_INDICES_SIZE=-DCAL_16BIT_INDICES
+	   CXXFLAGS="$CXXFLAGS -DCAL_16BIT_INDICES"
+        fi
     ],)
+    AC_SUBST(CAL_INDICES_SIZE)
 
     AC_ARG_ENABLE(profile,[  --enable-profile        enable profile building (disabled by default)],
     [
@@ -72,9 +80,6 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
     if test "x$CXX" = "xCC"; then
       CXXFLAGS="$CXXFLAGS -LANG:std -n32 -mips3"
     fi
-
-  fi
-
 
 
 ])
