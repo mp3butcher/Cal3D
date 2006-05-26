@@ -54,7 +54,7 @@ platforms.
 
 The simplest way to compile this package is:
 
-  1. In the top-level directory of the cal3d package, run `./autogen.sh'
+  1. In the top-level directory of the cal3d package, run `./autoreconf --install --force'
      to automatically generate the configuration scripting files.
  
   2. Type `./configure' to configure the package for your system. 
