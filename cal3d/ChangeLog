@@ -10,7 +10,9 @@ o-----------------------------------------------------------------------------o
     which resuilted in anim times like -32 instead of between 0 and 2 seconds, 
     for example.  This threw the bone extrapolations way off and made the model
     look like garbage until the anim time got back in the right zone. (Keith Fulton)
-
+  - GNU/Linux compilation / packaging fixes (-DCAL_16BIT_INDICES is included if
+    relevant in the .pc)
+	
 o-----------------------------------------------------------------------------o
 | Version 0.10.0 ( 12 january 2005) 
 o-----------------------------------------------------------------------------o
