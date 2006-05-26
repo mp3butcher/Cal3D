@@ -8,4 +8,4 @@ Description: The character animation library
 Version: @VERSION@
 Requires: 
 Libs: -L${libdir} -lcal3d
-Cflags: -I${includedir}
+Cflags: -I${includedir} @CAL_INDICES_SIZE@
