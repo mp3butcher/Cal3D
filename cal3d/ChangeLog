@@ -2,6 +2,31 @@ o-----------------------------------------------------------------------------o
 |                             C h a n g e L o g                               |
 o-----------------------------------------------------------------------------o
 
+  - Add some missing function to access to private variables.
+  - The destructor of CalModel is now virtual.
+  - Made CalModel noncopyable to prevent shallow pointer copying bugs.
+  - Use a RefCounted base class and RefPtr smart pointers to hold RefCounted objects.
+  - Make CalModel destructor nonvirtual 
+  - Improve bounding boxes calculation performance.
+  - Update the C wrapper.
+  - Add some function to rotate around axis during the loading.
+  - When a cycle animation is played, ensure that the last post equals the first pose.
+  - Change the way animation are stored in memory: removing the concept of keyframe. 
+    The keyframe are nowin an interleaved array of poses in the coreAnimation class.
+    (See http://sourceforge.net/mailarchive/forum.php?thread_id=6757629&forum_id=34895)
+  - Extended callback mechanism to pass user data directly instead of making
+    the callback query for it.  This means the callback executable does not have
+    to link with cal3d.lib and makes many things simpler in CS context.
+    Also worked around a bug (feature?) in the mixer which thinks that
+    m_AnimDuration is always 0 for AnimActions.  Now the callback uses the
+    internal time counter of the animation, which is probably more consistent
+    anyway.
+  - VC6 and automake fixes.
+  - 64bit compatibility fixes.
+  - Patch for reading correctly raw texture on a Big endian cpu (for Mac).
+  - Fixed bug in updating current anim time when time factor is set to negative.
+  - Correction in max exporters.
+  - Update the glew (The OpenGL Extension Wrangler Library).
   - Made the refcounted classes derive from RefCounted, and manage
     their lifetimes with RefPtr smart pointers.
   - Put TinyXML into the cal3d namespace so it doesn't conflict with other
@@ -100,11 +125,7 @@ o-----------------------------------------------------------------------------o
   - Added copy constructor for the CalRenderer class.
     We need this in order to perform multi-pipe parallel rendering of a model.
   - Small optimizations
-
-
-
-
-  
+ 
 
 o-----------------------------------------------------------------------------o
 | Version 0.8 (29. August 2002)                                               |
