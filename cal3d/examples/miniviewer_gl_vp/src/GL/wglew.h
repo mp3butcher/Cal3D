@@ -1,8 +1,8 @@
 /*
 ** The OpenGL Extension Wrangler Library
-** Copyright (C) 2003, 2002, Milan Ikits <milan.ikits@ieee.org>
-** Copyright (C) 2003, 2002, Marcelo E. Magallon <mmagallo@debian.org>
-** Copyright (C) 2002, Lev Povalahev <levp@gmx.net>
+** Copyright (C) 2002-2006, Milan Ikits <milan ikits[]ieee org>
+** Copyright (C) 2002-2006, Marcelo E. Magallon <mmagallo[]debian org>
+** Copyright (C) 2002, Lev Povalahev
 ** All rights reserved.
 ** 
 ** Redistribution and use in source and binary forms, with or without 
@@ -29,35 +29,6 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*
-** License Applicability. Except to the extent portions of this file are
-** made subject to an alternative license as permitted in the SGI Free
-** Software License B, Version 1.1 (the "License"), the contents of this
-** file are subject only to the provisions of the License. You may not use
-** this file except in compliance with the License. You may obtain a copy
-** of the License at Silicon Graphics, Inc., attn: Legal Services, 1600
-** Amphitheatre Parkway, Mountain View, CA 94043-1351, or at:
-** 
-** http://oss.sgi.com/projects/FreeB
-** 
-** Note that, as provided in the License, the Software is distributed on an
-** "AS IS" basis, with ALL EXPRESS AND IMPLIED WARRANTIES AND CONDITIONS
-** DISCLAIMED, INCLUDING, WITHOUT LIMITATION, ANY IMPLIED WARRANTIES AND
-** CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A
-** PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
-** 
-** Original Code. The Original Code is: OpenGL Sample Implementation,
-** Version 1.2.1, released January 26, 2000, developed by Silicon Graphics,
-** Inc. The Original Code is Copyright (c) 1991-2000 Silicon Graphics, Inc.
-** Copyright in any portions created by third parties is as indicated
-** elsewhere herein. All Rights Reserved.
-** 
-** Additional Notice Provisions: This software was created using the
-** OpenGL(R) version 1.2.1 Sample Implementation published by SGI, but has
-** not been independently verified as being compliant with the OpenGL(R)
-** version 1.2.1 Specification.
-*/
-
 #ifndef __wglew_h__
 #define __wglew_h__
 #define __WGLEW_H__
@@ -69,7 +40,9 @@
 #define __wglext_h_
 
 #if !defined(APIENTRY) && !defined(__CYGWIN__)
-#define WIN32_LEAN_AND_MEAN 1
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN 1
+#  endif
 #include <windows.h>
 #endif
 
@@ -99,9 +72,27 @@ extern "C" {
 #define WGL_SAMPLE_BUFFERS_3DFX 0x2060
 #define WGL_SAMPLES_3DFX 0x2061
 
-GLEWAPI GLboolean WGLEW_3DFX_multisample;
+#define WGLEW_3DFX_multisample WGLEW_GET_VAR(__WGLEW_3DFX_multisample)
 
 #endif /* WGL_3DFX_multisample */
+
+/* ------------------------- WGL_3DL_stereo_control ------------------------ */
+
+#ifndef WGL_3DL_stereo_control
+#define WGL_3DL_stereo_control 1
+
+#define WGL_STEREO_EMITTER_ENABLE_3DL 0x2055
+#define WGL_STEREO_EMITTER_DISABLE_3DL 0x2056
+#define WGL_STEREO_POLARITY_NORMAL_3DL 0x2057
+#define WGL_STEREO_POLARITY_INVERT_3DL 0x2058
+
+typedef BOOL (WINAPI * PFNWGLSETSTEREOEMITTERSTATE3DLPROC) (HDC hDC, UINT uState);
+
+#define wglSetStereoEmitterState3DL WGLEW_GET_FUN(__wglewSetStereoEmitterState3DL)
+
+#define WGLEW_3DL_stereo_control WGLEW_GET_VAR(__WGLEW_3DL_stereo_control)
+
+#endif /* WGL_3DL_stereo_control */
 
 /* ------------------------- WGL_ARB_buffer_region ------------------------- */
 
@@ -118,17 +109,12 @@ typedef VOID (WINAPI * PFNWGLDELETEBUFFERREGIONARBPROC) (HANDLE hRegion);
 typedef BOOL (WINAPI * PFNWGLRESTOREBUFFERREGIONARBPROC) (HANDLE hRegion, int x, int y, int width, int height, int xSrc, int ySrc);
 typedef BOOL (WINAPI * PFNWGLSAVEBUFFERREGIONARBPROC) (HANDLE hRegion, int x, int y, int width, int height);
 
-GLEWAPI PFNWGLCREATEBUFFERREGIONARBPROC wglewCreateBufferRegionARB;
-GLEWAPI PFNWGLDELETEBUFFERREGIONARBPROC wglewDeleteBufferRegionARB;
-GLEWAPI PFNWGLRESTOREBUFFERREGIONARBPROC wglewRestoreBufferRegionARB;
-GLEWAPI PFNWGLSAVEBUFFERREGIONARBPROC wglewSaveBufferRegionARB;
+#define wglCreateBufferRegionARB WGLEW_GET_FUN(__wglewCreateBufferRegionARB)
+#define wglDeleteBufferRegionARB WGLEW_GET_FUN(__wglewDeleteBufferRegionARB)
+#define wglRestoreBufferRegionARB WGLEW_GET_FUN(__wglewRestoreBufferRegionARB)
+#define wglSaveBufferRegionARB WGLEW_GET_FUN(__wglewSaveBufferRegionARB)
 
-#define wglCreateBufferRegionARB wglewCreateBufferRegionARB
-#define wglDeleteBufferRegionARB wglewDeleteBufferRegionARB
-#define wglRestoreBufferRegionARB wglewRestoreBufferRegionARB
-#define wglSaveBufferRegionARB wglewSaveBufferRegionARB
-
-GLEWAPI GLboolean WGLEW_ARB_buffer_region;
+#define WGLEW_ARB_buffer_region WGLEW_GET_VAR(__WGLEW_ARB_buffer_region)
 
 #endif /* WGL_ARB_buffer_region */
 
@@ -139,11 +125,9 @@ GLEWAPI GLboolean WGLEW_ARB_buffer_region;
 
 typedef const char* (WINAPI * PFNWGLGETEXTENSIONSSTRINGARBPROC) (HDC hdc);
 
-GLEWAPI PFNWGLGETEXTENSIONSSTRINGARBPROC wglewGetExtensionsStringARB;
+#define wglGetExtensionsStringARB WGLEW_GET_FUN(__wglewGetExtensionsStringARB)
 
-#define wglGetExtensionsStringARB wglewGetExtensionsStringARB
-
-GLEWAPI GLboolean WGLEW_ARB_extensions_string;
+#define WGLEW_ARB_extensions_string WGLEW_GET_VAR(__WGLEW_ARB_extensions_string)
 
 #endif /* WGL_ARB_extensions_string */
 
@@ -155,13 +139,10 @@ GLEWAPI GLboolean WGLEW_ARB_extensions_string;
 typedef HDC (WINAPI * PFNWGLGETCURRENTREADDCARBPROC) (VOID);
 typedef BOOL (WINAPI * PFNWGLMAKECONTEXTCURRENTARBPROC) (HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
 
-GLEWAPI PFNWGLGETCURRENTREADDCARBPROC wglewGetCurrentReadDCARB;
-GLEWAPI PFNWGLMAKECONTEXTCURRENTARBPROC wglewMakeContextCurrentARB;
+#define wglGetCurrentReadDCARB WGLEW_GET_FUN(__wglewGetCurrentReadDCARB)
+#define wglMakeContextCurrentARB WGLEW_GET_FUN(__wglewMakeContextCurrentARB)
 
-#define wglGetCurrentReadDCARB wglewGetCurrentReadDCARB
-#define wglMakeContextCurrentARB wglewMakeContextCurrentARB
-
-GLEWAPI GLboolean WGLEW_ARB_make_current_read;
+#define WGLEW_ARB_make_current_read WGLEW_GET_VAR(__WGLEW_ARB_make_current_read)
 
 #endif /* WGL_ARB_make_current_read */
 
@@ -173,7 +154,7 @@ GLEWAPI GLboolean WGLEW_ARB_make_current_read;
 #define WGL_SAMPLE_BUFFERS_ARB 0x2041
 #define WGL_SAMPLES_ARB 0x2042
 
-GLEWAPI GLboolean WGLEW_ARB_multisample;
+#define WGLEW_ARB_multisample WGLEW_GET_VAR(__WGLEW_ARB_multisample)
 
 #endif /* WGL_ARB_multisample */
 
@@ -199,19 +180,13 @@ typedef HDC (WINAPI * PFNWGLGETPBUFFERDCARBPROC) (HPBUFFERARB hPbuffer);
 typedef BOOL (WINAPI * PFNWGLQUERYPBUFFERARBPROC) (HPBUFFERARB hPbuffer, int iAttribute, int* piValue);
 typedef int (WINAPI * PFNWGLRELEASEPBUFFERDCARBPROC) (HPBUFFERARB hPbuffer, HDC hDC);
 
-GLEWAPI PFNWGLCREATEPBUFFERARBPROC wglewCreatePbufferARB;
-GLEWAPI PFNWGLDESTROYPBUFFERARBPROC wglewDestroyPbufferARB;
-GLEWAPI PFNWGLGETPBUFFERDCARBPROC wglewGetPbufferDCARB;
-GLEWAPI PFNWGLQUERYPBUFFERARBPROC wglewQueryPbufferARB;
-GLEWAPI PFNWGLRELEASEPBUFFERDCARBPROC wglewReleasePbufferDCARB;
+#define wglCreatePbufferARB WGLEW_GET_FUN(__wglewCreatePbufferARB)
+#define wglDestroyPbufferARB WGLEW_GET_FUN(__wglewDestroyPbufferARB)
+#define wglGetPbufferDCARB WGLEW_GET_FUN(__wglewGetPbufferDCARB)
+#define wglQueryPbufferARB WGLEW_GET_FUN(__wglewQueryPbufferARB)
+#define wglReleasePbufferDCARB WGLEW_GET_FUN(__wglewReleasePbufferDCARB)
 
-#define wglCreatePbufferARB wglewCreatePbufferARB
-#define wglDestroyPbufferARB wglewDestroyPbufferARB
-#define wglGetPbufferDCARB wglewGetPbufferDCARB
-#define wglQueryPbufferARB wglewQueryPbufferARB
-#define wglReleasePbufferDCARB wglewReleasePbufferDCARB
-
-GLEWAPI GLboolean WGLEW_ARB_pbuffer;
+#define WGLEW_ARB_pbuffer WGLEW_GET_VAR(__WGLEW_ARB_pbuffer)
 
 #endif /* WGL_ARB_pbuffer */
 
@@ -274,17 +249,24 @@ typedef BOOL (WINAPI * PFNWGLCHOOSEPIXELFORMATARBPROC) (HDC hdc, const int* piAt
 typedef BOOL (WINAPI * PFNWGLGETPIXELFORMATATTRIBFVARBPROC) (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int* piAttributes, FLOAT *pfValues);
 typedef BOOL (WINAPI * PFNWGLGETPIXELFORMATATTRIBIVARBPROC) (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int* piAttributes, int *piValues);
 
-GLEWAPI PFNWGLCHOOSEPIXELFORMATARBPROC wglewChoosePixelFormatARB;
-GLEWAPI PFNWGLGETPIXELFORMATATTRIBFVARBPROC wglewGetPixelFormatAttribfvARB;
-GLEWAPI PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglewGetPixelFormatAttribivARB;
+#define wglChoosePixelFormatARB WGLEW_GET_FUN(__wglewChoosePixelFormatARB)
+#define wglGetPixelFormatAttribfvARB WGLEW_GET_FUN(__wglewGetPixelFormatAttribfvARB)
+#define wglGetPixelFormatAttribivARB WGLEW_GET_FUN(__wglewGetPixelFormatAttribivARB)
 
-#define wglChoosePixelFormatARB wglewChoosePixelFormatARB
-#define wglGetPixelFormatAttribfvARB wglewGetPixelFormatAttribfvARB
-#define wglGetPixelFormatAttribivARB wglewGetPixelFormatAttribivARB
-
-GLEWAPI GLboolean WGLEW_ARB_pixel_format;
+#define WGLEW_ARB_pixel_format WGLEW_GET_VAR(__WGLEW_ARB_pixel_format)
 
 #endif /* WGL_ARB_pixel_format */
+
+/* ----------------------- WGL_ARB_pixel_format_float ---------------------- */
+
+#ifndef WGL_ARB_pixel_format_float
+#define WGL_ARB_pixel_format_float 1
+
+#define WGL_TYPE_RGBA_FLOAT_ARB 0x21A0
+
+#define WGLEW_ARB_pixel_format_float WGLEW_GET_VAR(__WGLEW_ARB_pixel_format_float)
+
+#endif /* WGL_ARB_pixel_format_float */
 
 /* ------------------------- WGL_ARB_render_texture ------------------------ */
 
@@ -329,15 +311,11 @@ typedef BOOL (WINAPI * PFNWGLBINDTEXIMAGEARBPROC) (HPBUFFERARB hPbuffer, int iBu
 typedef BOOL (WINAPI * PFNWGLRELEASETEXIMAGEARBPROC) (HPBUFFERARB hPbuffer, int iBuffer);
 typedef BOOL (WINAPI * PFNWGLSETPBUFFERATTRIBARBPROC) (HPBUFFERARB hPbuffer, const int* piAttribList);
 
-GLEWAPI PFNWGLBINDTEXIMAGEARBPROC wglewBindTexImageARB;
-GLEWAPI PFNWGLRELEASETEXIMAGEARBPROC wglewReleaseTexImageARB;
-GLEWAPI PFNWGLSETPBUFFERATTRIBARBPROC wglewSetPbufferAttribARB;
+#define wglBindTexImageARB WGLEW_GET_FUN(__wglewBindTexImageARB)
+#define wglReleaseTexImageARB WGLEW_GET_FUN(__wglewReleaseTexImageARB)
+#define wglSetPbufferAttribARB WGLEW_GET_FUN(__wglewSetPbufferAttribARB)
 
-#define wglBindTexImageARB wglewBindTexImageARB
-#define wglReleaseTexImageARB wglewReleaseTexImageARB
-#define wglSetPbufferAttribARB wglewSetPbufferAttribARB
-
-GLEWAPI GLboolean WGLEW_ARB_render_texture;
+#define WGLEW_ARB_render_texture WGLEW_GET_VAR(__WGLEW_ARB_render_texture)
 
 #endif /* WGL_ARB_render_texture */
 
@@ -350,9 +328,20 @@ GLEWAPI GLboolean WGLEW_ARB_render_texture;
 #define GL_RGBA_FLOAT_MODE_ATI 0x8820
 #define GL_COLOR_CLEAR_UNCLAMPED_VALUE_ATI 0x8835
 
-GLEWAPI GLboolean WGLEW_ATI_pixel_format_float;
+#define WGLEW_ATI_pixel_format_float WGLEW_GET_VAR(__WGLEW_ATI_pixel_format_float)
 
 #endif /* WGL_ATI_pixel_format_float */
+
+/* -------------------- WGL_ATI_render_texture_rectangle ------------------- */
+
+#ifndef WGL_ATI_render_texture_rectangle
+#define WGL_ATI_render_texture_rectangle 1
+
+#define WGL_TEXTURE_RECTANGLE_ATI 0x21A5
+
+#define WGLEW_ATI_render_texture_rectangle WGLEW_GET_VAR(__WGLEW_ATI_render_texture_rectangle)
+
+#endif /* WGL_ATI_render_texture_rectangle */
 
 /* -------------------------- WGL_EXT_depth_float -------------------------- */
 
@@ -361,7 +350,7 @@ GLEWAPI GLboolean WGLEW_ATI_pixel_format_float;
 
 #define WGL_DEPTH_FLOAT_EXT 0x2040
 
-GLEWAPI GLboolean WGLEW_EXT_depth_float;
+#define WGLEW_EXT_depth_float WGLEW_GET_VAR(__WGLEW_EXT_depth_float)
 
 #endif /* WGL_EXT_depth_float */
 
@@ -375,17 +364,12 @@ typedef GLboolean (WINAPI * PFNWGLCREATEDISPLAYCOLORTABLEEXTPROC) (GLushort id);
 typedef void (WINAPI * PFNWGLDESTROYDISPLAYCOLORTABLEEXTPROC) (GLushort id);
 typedef GLboolean (WINAPI * PFNWGLLOADDISPLAYCOLORTABLEEXTPROC) (GLushort* table, GLuint length);
 
-GLEWAPI PFNWGLBINDDISPLAYCOLORTABLEEXTPROC wglewBindDisplayColorTableEXT;
-GLEWAPI PFNWGLCREATEDISPLAYCOLORTABLEEXTPROC wglewCreateDisplayColorTableEXT;
-GLEWAPI PFNWGLDESTROYDISPLAYCOLORTABLEEXTPROC wglewDestroyDisplayColorTableEXT;
-GLEWAPI PFNWGLLOADDISPLAYCOLORTABLEEXTPROC wglewLoadDisplayColorTableEXT;
+#define wglBindDisplayColorTableEXT WGLEW_GET_FUN(__wglewBindDisplayColorTableEXT)
+#define wglCreateDisplayColorTableEXT WGLEW_GET_FUN(__wglewCreateDisplayColorTableEXT)
+#define wglDestroyDisplayColorTableEXT WGLEW_GET_FUN(__wglewDestroyDisplayColorTableEXT)
+#define wglLoadDisplayColorTableEXT WGLEW_GET_FUN(__wglewLoadDisplayColorTableEXT)
 
-#define wglBindDisplayColorTableEXT wglewBindDisplayColorTableEXT
-#define wglCreateDisplayColorTableEXT wglewCreateDisplayColorTableEXT
-#define wglDestroyDisplayColorTableEXT wglewDestroyDisplayColorTableEXT
-#define wglLoadDisplayColorTableEXT wglewLoadDisplayColorTableEXT
-
-GLEWAPI GLboolean WGLEW_EXT_display_color_table;
+#define WGLEW_EXT_display_color_table WGLEW_GET_VAR(__WGLEW_EXT_display_color_table)
 
 #endif /* WGL_EXT_display_color_table */
 
@@ -396,11 +380,9 @@ GLEWAPI GLboolean WGLEW_EXT_display_color_table;
 
 typedef const char* (WINAPI * PFNWGLGETEXTENSIONSSTRINGEXTPROC) (void);
 
-GLEWAPI PFNWGLGETEXTENSIONSSTRINGEXTPROC wglewGetExtensionsStringEXT;
+#define wglGetExtensionsStringEXT WGLEW_GET_FUN(__wglewGetExtensionsStringEXT)
 
-#define wglGetExtensionsStringEXT wglewGetExtensionsStringEXT
-
-GLEWAPI GLboolean WGLEW_EXT_extensions_string;
+#define WGLEW_EXT_extensions_string WGLEW_GET_VAR(__WGLEW_EXT_extensions_string)
 
 #endif /* WGL_EXT_extensions_string */
 
@@ -412,13 +394,10 @@ GLEWAPI GLboolean WGLEW_EXT_extensions_string;
 typedef HDC (WINAPI * PFNWGLGETCURRENTREADDCEXTPROC) (VOID);
 typedef BOOL (WINAPI * PFNWGLMAKECONTEXTCURRENTEXTPROC) (HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
 
-GLEWAPI PFNWGLGETCURRENTREADDCEXTPROC wglewGetCurrentReadDCEXT;
-GLEWAPI PFNWGLMAKECONTEXTCURRENTEXTPROC wglewMakeContextCurrentEXT;
+#define wglGetCurrentReadDCEXT WGLEW_GET_FUN(__wglewGetCurrentReadDCEXT)
+#define wglMakeContextCurrentEXT WGLEW_GET_FUN(__wglewMakeContextCurrentEXT)
 
-#define wglGetCurrentReadDCEXT wglewGetCurrentReadDCEXT
-#define wglMakeContextCurrentEXT wglewMakeContextCurrentEXT
-
-GLEWAPI GLboolean WGLEW_EXT_make_current_read;
+#define WGLEW_EXT_make_current_read WGLEW_GET_VAR(__WGLEW_EXT_make_current_read)
 
 #endif /* WGL_EXT_make_current_read */
 
@@ -430,7 +409,7 @@ GLEWAPI GLboolean WGLEW_EXT_make_current_read;
 #define WGL_SAMPLE_BUFFERS_EXT 0x2041
 #define WGL_SAMPLES_EXT 0x2042
 
-GLEWAPI GLboolean WGLEW_EXT_multisample;
+#define WGLEW_EXT_multisample WGLEW_GET_VAR(__WGLEW_EXT_multisample)
 
 #endif /* WGL_EXT_multisample */
 
@@ -457,19 +436,13 @@ typedef HDC (WINAPI * PFNWGLGETPBUFFERDCEXTPROC) (HPBUFFEREXT hPbuffer);
 typedef BOOL (WINAPI * PFNWGLQUERYPBUFFEREXTPROC) (HPBUFFEREXT hPbuffer, int iAttribute, int* piValue);
 typedef int (WINAPI * PFNWGLRELEASEPBUFFERDCEXTPROC) (HPBUFFEREXT hPbuffer, HDC hDC);
 
-GLEWAPI PFNWGLCREATEPBUFFEREXTPROC wglewCreatePbufferEXT;
-GLEWAPI PFNWGLDESTROYPBUFFEREXTPROC wglewDestroyPbufferEXT;
-GLEWAPI PFNWGLGETPBUFFERDCEXTPROC wglewGetPbufferDCEXT;
-GLEWAPI PFNWGLQUERYPBUFFEREXTPROC wglewQueryPbufferEXT;
-GLEWAPI PFNWGLRELEASEPBUFFERDCEXTPROC wglewReleasePbufferDCEXT;
+#define wglCreatePbufferEXT WGLEW_GET_FUN(__wglewCreatePbufferEXT)
+#define wglDestroyPbufferEXT WGLEW_GET_FUN(__wglewDestroyPbufferEXT)
+#define wglGetPbufferDCEXT WGLEW_GET_FUN(__wglewGetPbufferDCEXT)
+#define wglQueryPbufferEXT WGLEW_GET_FUN(__wglewQueryPbufferEXT)
+#define wglReleasePbufferDCEXT WGLEW_GET_FUN(__wglewReleasePbufferDCEXT)
 
-#define wglCreatePbufferEXT wglewCreatePbufferEXT
-#define wglDestroyPbufferEXT wglewDestroyPbufferEXT
-#define wglGetPbufferDCEXT wglewGetPbufferDCEXT
-#define wglQueryPbufferEXT wglewQueryPbufferEXT
-#define wglReleasePbufferDCEXT wglewReleasePbufferDCEXT
-
-GLEWAPI GLboolean WGLEW_EXT_pbuffer;
+#define WGLEW_EXT_pbuffer WGLEW_GET_VAR(__WGLEW_EXT_pbuffer)
 
 #endif /* WGL_EXT_pbuffer */
 
@@ -528,15 +501,11 @@ typedef BOOL (WINAPI * PFNWGLCHOOSEPIXELFORMATEXTPROC) (HDC hdc, const int* piAt
 typedef BOOL (WINAPI * PFNWGLGETPIXELFORMATATTRIBFVEXTPROC) (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int* piAttributes, FLOAT *pfValues);
 typedef BOOL (WINAPI * PFNWGLGETPIXELFORMATATTRIBIVEXTPROC) (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int* piAttributes, int *piValues);
 
-GLEWAPI PFNWGLCHOOSEPIXELFORMATEXTPROC wglewChoosePixelFormatEXT;
-GLEWAPI PFNWGLGETPIXELFORMATATTRIBFVEXTPROC wglewGetPixelFormatAttribfvEXT;
-GLEWAPI PFNWGLGETPIXELFORMATATTRIBIVEXTPROC wglewGetPixelFormatAttribivEXT;
+#define wglChoosePixelFormatEXT WGLEW_GET_FUN(__wglewChoosePixelFormatEXT)
+#define wglGetPixelFormatAttribfvEXT WGLEW_GET_FUN(__wglewGetPixelFormatAttribfvEXT)
+#define wglGetPixelFormatAttribivEXT WGLEW_GET_FUN(__wglewGetPixelFormatAttribivEXT)
 
-#define wglChoosePixelFormatEXT wglewChoosePixelFormatEXT
-#define wglGetPixelFormatAttribfvEXT wglewGetPixelFormatAttribfvEXT
-#define wglGetPixelFormatAttribivEXT wglewGetPixelFormatAttribivEXT
-
-GLEWAPI GLboolean WGLEW_EXT_pixel_format;
+#define WGLEW_EXT_pixel_format WGLEW_GET_VAR(__WGLEW_EXT_pixel_format)
 
 #endif /* WGL_EXT_pixel_format */
 
@@ -548,13 +517,10 @@ GLEWAPI GLboolean WGLEW_EXT_pixel_format;
 typedef int (WINAPI * PFNWGLGETSWAPINTERVALEXTPROC) (void);
 typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
 
-GLEWAPI PFNWGLGETSWAPINTERVALEXTPROC wglewGetSwapIntervalEXT;
-GLEWAPI PFNWGLSWAPINTERVALEXTPROC wglewSwapIntervalEXT;
+#define wglGetSwapIntervalEXT WGLEW_GET_FUN(__wglewGetSwapIntervalEXT)
+#define wglSwapIntervalEXT WGLEW_GET_FUN(__wglewSwapIntervalEXT)
 
-#define wglGetSwapIntervalEXT wglewGetSwapIntervalEXT
-#define wglSwapIntervalEXT wglewSwapIntervalEXT
-
-GLEWAPI GLboolean WGLEW_EXT_swap_control;
+#define WGLEW_EXT_swap_control WGLEW_GET_VAR(__WGLEW_EXT_swap_control)
 
 #endif /* WGL_EXT_swap_control */
 
@@ -571,13 +537,10 @@ GLEWAPI GLboolean WGLEW_EXT_swap_control;
 typedef BOOL (WINAPI * PFNWGLGETDIGITALVIDEOPARAMETERSI3DPROC) (HDC hDC, int iAttribute, int* piValue);
 typedef BOOL (WINAPI * PFNWGLSETDIGITALVIDEOPARAMETERSI3DPROC) (HDC hDC, int iAttribute, const int* piValue);
 
-GLEWAPI PFNWGLGETDIGITALVIDEOPARAMETERSI3DPROC wglewGetDigitalVideoParametersI3D;
-GLEWAPI PFNWGLSETDIGITALVIDEOPARAMETERSI3DPROC wglewSetDigitalVideoParametersI3D;
+#define wglGetDigitalVideoParametersI3D WGLEW_GET_FUN(__wglewGetDigitalVideoParametersI3D)
+#define wglSetDigitalVideoParametersI3D WGLEW_GET_FUN(__wglewSetDigitalVideoParametersI3D)
 
-#define wglGetDigitalVideoParametersI3D wglewGetDigitalVideoParametersI3D
-#define wglSetDigitalVideoParametersI3D wglewSetDigitalVideoParametersI3D
-
-GLEWAPI GLboolean WGLEW_I3D_digital_video_control;
+#define WGLEW_I3D_digital_video_control WGLEW_GET_VAR(__WGLEW_I3D_digital_video_control)
 
 #endif /* WGL_I3D_digital_video_control */
 
@@ -594,17 +557,12 @@ typedef BOOL (WINAPI * PFNWGLGETGAMMATABLEPARAMETERSI3DPROC) (HDC hDC, int iAttr
 typedef BOOL (WINAPI * PFNWGLSETGAMMATABLEI3DPROC) (HDC hDC, int iEntries, const USHORT* puRed, const USHORT *puGreen, const USHORT *puBlue);
 typedef BOOL (WINAPI * PFNWGLSETGAMMATABLEPARAMETERSI3DPROC) (HDC hDC, int iAttribute, const int* piValue);
 
-GLEWAPI PFNWGLGETGAMMATABLEI3DPROC wglewGetGammaTableI3D;
-GLEWAPI PFNWGLGETGAMMATABLEPARAMETERSI3DPROC wglewGetGammaTableParametersI3D;
-GLEWAPI PFNWGLSETGAMMATABLEI3DPROC wglewSetGammaTableI3D;
-GLEWAPI PFNWGLSETGAMMATABLEPARAMETERSI3DPROC wglewSetGammaTableParametersI3D;
+#define wglGetGammaTableI3D WGLEW_GET_FUN(__wglewGetGammaTableI3D)
+#define wglGetGammaTableParametersI3D WGLEW_GET_FUN(__wglewGetGammaTableParametersI3D)
+#define wglSetGammaTableI3D WGLEW_GET_FUN(__wglewSetGammaTableI3D)
+#define wglSetGammaTableParametersI3D WGLEW_GET_FUN(__wglewSetGammaTableParametersI3D)
 
-#define wglGetGammaTableI3D wglewGetGammaTableI3D
-#define wglGetGammaTableParametersI3D wglewGetGammaTableParametersI3D
-#define wglSetGammaTableI3D wglewSetGammaTableI3D
-#define wglSetGammaTableParametersI3D wglewSetGammaTableParametersI3D
-
-GLEWAPI GLboolean WGLEW_I3D_gamma;
+#define WGLEW_I3D_gamma WGLEW_GET_VAR(__WGLEW_I3D_gamma)
 
 #endif /* WGL_I3D_gamma */
 
@@ -636,33 +594,20 @@ typedef BOOL (WINAPI * PFNWGLGETGENLOCKSOURCEI3DPROC) (HDC hDC, UINT* uSource);
 typedef BOOL (WINAPI * PFNWGLISENABLEDGENLOCKI3DPROC) (HDC hDC, BOOL* pFlag);
 typedef BOOL (WINAPI * PFNWGLQUERYGENLOCKMAXSOURCEDELAYI3DPROC) (HDC hDC, UINT* uMaxLineDelay, UINT *uMaxPixelDelay);
 
-GLEWAPI PFNWGLDISABLEGENLOCKI3DPROC wglewDisableGenlockI3D;
-GLEWAPI PFNWGLENABLEGENLOCKI3DPROC wglewEnableGenlockI3D;
-GLEWAPI PFNWGLGENLOCKSAMPLERATEI3DPROC wglewGenlockSampleRateI3D;
-GLEWAPI PFNWGLGENLOCKSOURCEDELAYI3DPROC wglewGenlockSourceDelayI3D;
-GLEWAPI PFNWGLGENLOCKSOURCEEDGEI3DPROC wglewGenlockSourceEdgeI3D;
-GLEWAPI PFNWGLGENLOCKSOURCEI3DPROC wglewGenlockSourceI3D;
-GLEWAPI PFNWGLGETGENLOCKSAMPLERATEI3DPROC wglewGetGenlockSampleRateI3D;
-GLEWAPI PFNWGLGETGENLOCKSOURCEDELAYI3DPROC wglewGetGenlockSourceDelayI3D;
-GLEWAPI PFNWGLGETGENLOCKSOURCEEDGEI3DPROC wglewGetGenlockSourceEdgeI3D;
-GLEWAPI PFNWGLGETGENLOCKSOURCEI3DPROC wglewGetGenlockSourceI3D;
-GLEWAPI PFNWGLISENABLEDGENLOCKI3DPROC wglewIsEnabledGenlockI3D;
-GLEWAPI PFNWGLQUERYGENLOCKMAXSOURCEDELAYI3DPROC wglewQueryGenlockMaxSourceDelayI3D;
+#define wglDisableGenlockI3D WGLEW_GET_FUN(__wglewDisableGenlockI3D)
+#define wglEnableGenlockI3D WGLEW_GET_FUN(__wglewEnableGenlockI3D)
+#define wglGenlockSampleRateI3D WGLEW_GET_FUN(__wglewGenlockSampleRateI3D)
+#define wglGenlockSourceDelayI3D WGLEW_GET_FUN(__wglewGenlockSourceDelayI3D)
+#define wglGenlockSourceEdgeI3D WGLEW_GET_FUN(__wglewGenlockSourceEdgeI3D)
+#define wglGenlockSourceI3D WGLEW_GET_FUN(__wglewGenlockSourceI3D)
+#define wglGetGenlockSampleRateI3D WGLEW_GET_FUN(__wglewGetGenlockSampleRateI3D)
+#define wglGetGenlockSourceDelayI3D WGLEW_GET_FUN(__wglewGetGenlockSourceDelayI3D)
+#define wglGetGenlockSourceEdgeI3D WGLEW_GET_FUN(__wglewGetGenlockSourceEdgeI3D)
+#define wglGetGenlockSourceI3D WGLEW_GET_FUN(__wglewGetGenlockSourceI3D)
+#define wglIsEnabledGenlockI3D WGLEW_GET_FUN(__wglewIsEnabledGenlockI3D)
+#define wglQueryGenlockMaxSourceDelayI3D WGLEW_GET_FUN(__wglewQueryGenlockMaxSourceDelayI3D)
 
-#define wglDisableGenlockI3D wglewDisableGenlockI3D
-#define wglEnableGenlockI3D wglewEnableGenlockI3D
-#define wglGenlockSampleRateI3D wglewGenlockSampleRateI3D
-#define wglGenlockSourceDelayI3D wglewGenlockSourceDelayI3D
-#define wglGenlockSourceEdgeI3D wglewGenlockSourceEdgeI3D
-#define wglGenlockSourceI3D wglewGenlockSourceI3D
-#define wglGetGenlockSampleRateI3D wglewGetGenlockSampleRateI3D
-#define wglGetGenlockSourceDelayI3D wglewGetGenlockSourceDelayI3D
-#define wglGetGenlockSourceEdgeI3D wglewGetGenlockSourceEdgeI3D
-#define wglGetGenlockSourceI3D wglewGetGenlockSourceI3D
-#define wglIsEnabledGenlockI3D wglewIsEnabledGenlockI3D
-#define wglQueryGenlockMaxSourceDelayI3D wglewQueryGenlockMaxSourceDelayI3D
-
-GLEWAPI GLboolean WGLEW_I3D_genlock;
+#define WGLEW_I3D_genlock WGLEW_GET_VAR(__WGLEW_I3D_genlock)
 
 #endif /* WGL_I3D_genlock */
 
@@ -679,17 +624,12 @@ typedef LPVOID (WINAPI * PFNWGLCREATEIMAGEBUFFERI3DPROC) (HDC hDC, DWORD dwSize,
 typedef BOOL (WINAPI * PFNWGLDESTROYIMAGEBUFFERI3DPROC) (HDC hDC, LPVOID pAddress);
 typedef BOOL (WINAPI * PFNWGLRELEASEIMAGEBUFFEREVENTSI3DPROC) (HDC hdc, LPVOID* pAddress, UINT count);
 
-GLEWAPI PFNWGLASSOCIATEIMAGEBUFFEREVENTSI3DPROC wglewAssociateImageBufferEventsI3D;
-GLEWAPI PFNWGLCREATEIMAGEBUFFERI3DPROC wglewCreateImageBufferI3D;
-GLEWAPI PFNWGLDESTROYIMAGEBUFFERI3DPROC wglewDestroyImageBufferI3D;
-GLEWAPI PFNWGLRELEASEIMAGEBUFFEREVENTSI3DPROC wglewReleaseImageBufferEventsI3D;
+#define wglAssociateImageBufferEventsI3D WGLEW_GET_FUN(__wglewAssociateImageBufferEventsI3D)
+#define wglCreateImageBufferI3D WGLEW_GET_FUN(__wglewCreateImageBufferI3D)
+#define wglDestroyImageBufferI3D WGLEW_GET_FUN(__wglewDestroyImageBufferI3D)
+#define wglReleaseImageBufferEventsI3D WGLEW_GET_FUN(__wglewReleaseImageBufferEventsI3D)
 
-#define wglAssociateImageBufferEventsI3D wglewAssociateImageBufferEventsI3D
-#define wglCreateImageBufferI3D wglewCreateImageBufferI3D
-#define wglDestroyImageBufferI3D wglewDestroyImageBufferI3D
-#define wglReleaseImageBufferEventsI3D wglewReleaseImageBufferEventsI3D
-
-GLEWAPI GLboolean WGLEW_I3D_image_buffer;
+#define WGLEW_I3D_image_buffer WGLEW_GET_VAR(__WGLEW_I3D_image_buffer)
 
 #endif /* WGL_I3D_image_buffer */
 
@@ -703,17 +643,12 @@ typedef BOOL (WINAPI * PFNWGLENABLEFRAMELOCKI3DPROC) (VOID);
 typedef BOOL (WINAPI * PFNWGLISENABLEDFRAMELOCKI3DPROC) (BOOL* pFlag);
 typedef BOOL (WINAPI * PFNWGLQUERYFRAMELOCKMASTERI3DPROC) (BOOL* pFlag);
 
-GLEWAPI PFNWGLDISABLEFRAMELOCKI3DPROC wglewDisableFrameLockI3D;
-GLEWAPI PFNWGLENABLEFRAMELOCKI3DPROC wglewEnableFrameLockI3D;
-GLEWAPI PFNWGLISENABLEDFRAMELOCKI3DPROC wglewIsEnabledFrameLockI3D;
-GLEWAPI PFNWGLQUERYFRAMELOCKMASTERI3DPROC wglewQueryFrameLockMasterI3D;
+#define wglDisableFrameLockI3D WGLEW_GET_FUN(__wglewDisableFrameLockI3D)
+#define wglEnableFrameLockI3D WGLEW_GET_FUN(__wglewEnableFrameLockI3D)
+#define wglIsEnabledFrameLockI3D WGLEW_GET_FUN(__wglewIsEnabledFrameLockI3D)
+#define wglQueryFrameLockMasterI3D WGLEW_GET_FUN(__wglewQueryFrameLockMasterI3D)
 
-#define wglDisableFrameLockI3D wglewDisableFrameLockI3D
-#define wglEnableFrameLockI3D wglewEnableFrameLockI3D
-#define wglIsEnabledFrameLockI3D wglewIsEnabledFrameLockI3D
-#define wglQueryFrameLockMasterI3D wglewQueryFrameLockMasterI3D
-
-GLEWAPI GLboolean WGLEW_I3D_swap_frame_lock;
+#define WGLEW_I3D_swap_frame_lock WGLEW_GET_VAR(__WGLEW_I3D_swap_frame_lock)
 
 #endif /* WGL_I3D_swap_frame_lock */
 
@@ -727,17 +662,12 @@ typedef BOOL (WINAPI * PFNWGLENDFRAMETRACKINGI3DPROC) (void);
 typedef BOOL (WINAPI * PFNWGLGETFRAMEUSAGEI3DPROC) (float* pUsage);
 typedef BOOL (WINAPI * PFNWGLQUERYFRAMETRACKINGI3DPROC) (DWORD* pFrameCount, DWORD *pMissedFrames, float *pLastMissedUsage);
 
-GLEWAPI PFNWGLBEGINFRAMETRACKINGI3DPROC wglewBeginFrameTrackingI3D;
-GLEWAPI PFNWGLENDFRAMETRACKINGI3DPROC wglewEndFrameTrackingI3D;
-GLEWAPI PFNWGLGETFRAMEUSAGEI3DPROC wglewGetFrameUsageI3D;
-GLEWAPI PFNWGLQUERYFRAMETRACKINGI3DPROC wglewQueryFrameTrackingI3D;
+#define wglBeginFrameTrackingI3D WGLEW_GET_FUN(__wglewBeginFrameTrackingI3D)
+#define wglEndFrameTrackingI3D WGLEW_GET_FUN(__wglewEndFrameTrackingI3D)
+#define wglGetFrameUsageI3D WGLEW_GET_FUN(__wglewGetFrameUsageI3D)
+#define wglQueryFrameTrackingI3D WGLEW_GET_FUN(__wglewQueryFrameTrackingI3D)
 
-#define wglBeginFrameTrackingI3D wglewBeginFrameTrackingI3D
-#define wglEndFrameTrackingI3D wglewEndFrameTrackingI3D
-#define wglGetFrameUsageI3D wglewGetFrameUsageI3D
-#define wglQueryFrameTrackingI3D wglewQueryFrameTrackingI3D
-
-GLEWAPI GLboolean WGLEW_I3D_swap_frame_usage;
+#define WGLEW_I3D_swap_frame_usage WGLEW_GET_VAR(__WGLEW_I3D_swap_frame_usage)
 
 #endif /* WGL_I3D_swap_frame_usage */
 
@@ -756,7 +686,7 @@ GLEWAPI GLboolean WGLEW_I3D_swap_frame_usage;
 #define WGL_TEXTURE_FLOAT_RGB_NV 0x20B7
 #define WGL_TEXTURE_FLOAT_RGBA_NV 0x20B8
 
-GLEWAPI GLboolean WGLEW_NV_float_buffer;
+#define WGLEW_NV_float_buffer WGLEW_GET_VAR(__WGLEW_NV_float_buffer)
 
 #endif /* WGL_NV_float_buffer */
 
@@ -772,7 +702,7 @@ GLEWAPI GLboolean WGLEW_NV_float_buffer;
 #define WGL_TEXTURE_DEPTH_COMPONENT_NV 0x20A6
 #define WGL_DEPTH_COMPONENT_NV 0x20A7
 
-GLEWAPI GLboolean WGLEW_NV_render_depth_texture;
+#define WGLEW_NV_render_depth_texture WGLEW_GET_VAR(__WGLEW_NV_render_depth_texture)
 
 #endif /* WGL_NV_render_depth_texture */
 
@@ -785,7 +715,7 @@ GLEWAPI GLboolean WGLEW_NV_render_depth_texture;
 #define WGL_BIND_TO_TEXTURE_RECTANGLE_RGBA_NV 0x20A1
 #define WGL_TEXTURE_RECTANGLE_NV 0x20A2
 
-GLEWAPI GLboolean WGLEW_NV_render_texture_rectangle;
+#define WGLEW_NV_render_texture_rectangle WGLEW_GET_VAR(__WGLEW_NV_render_texture_rectangle)
 
 #endif /* WGL_NV_render_texture_rectangle */
 
@@ -797,13 +727,10 @@ GLEWAPI GLboolean WGLEW_NV_render_texture_rectangle;
 typedef void * (WINAPI * PFNWGLALLOCATEMEMORYNVPROC) (GLsizei size, GLfloat readFrequency, GLfloat writeFrequency, GLfloat priority);
 typedef void (WINAPI * PFNWGLFREEMEMORYNVPROC) (void *pointer);
 
-GLEWAPI PFNWGLALLOCATEMEMORYNVPROC wglewAllocateMemoryNV;
-GLEWAPI PFNWGLFREEMEMORYNVPROC wglewFreeMemoryNV;
+#define wglAllocateMemoryNV WGLEW_GET_FUN(__wglewAllocateMemoryNV)
+#define wglFreeMemoryNV WGLEW_GET_FUN(__wglewFreeMemoryNV)
 
-#define wglAllocateMemoryNV wglewAllocateMemoryNV
-#define wglFreeMemoryNV wglewFreeMemoryNV
-
-GLEWAPI GLboolean WGLEW_NV_vertex_array_range;
+#define WGLEW_NV_vertex_array_range WGLEW_GET_VAR(__WGLEW_NV_vertex_array_range)
 
 #endif /* WGL_NV_vertex_array_range */
 
@@ -819,27 +746,184 @@ typedef INT64 (WINAPI * PFNWGLSWAPLAYERBUFFERSMSCOMLPROC) (HDC hdc, INT fuPlanes
 typedef BOOL (WINAPI * PFNWGLWAITFORMSCOMLPROC) (HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder, INT64* ust, INT64 *msc, INT64 *sbc);
 typedef BOOL (WINAPI * PFNWGLWAITFORSBCOMLPROC) (HDC hdc, INT64 target_sbc, INT64* ust, INT64 *msc, INT64 *sbc);
 
-GLEWAPI PFNWGLGETMSCRATEOMLPROC wglewGetMscRateOML;
-GLEWAPI PFNWGLGETSYNCVALUESOMLPROC wglewGetSyncValuesOML;
-GLEWAPI PFNWGLSWAPBUFFERSMSCOMLPROC wglewSwapBuffersMscOML;
-GLEWAPI PFNWGLSWAPLAYERBUFFERSMSCOMLPROC wglewSwapLayerBuffersMscOML;
-GLEWAPI PFNWGLWAITFORMSCOMLPROC wglewWaitForMscOML;
-GLEWAPI PFNWGLWAITFORSBCOMLPROC wglewWaitForSbcOML;
+#define wglGetMscRateOML WGLEW_GET_FUN(__wglewGetMscRateOML)
+#define wglGetSyncValuesOML WGLEW_GET_FUN(__wglewGetSyncValuesOML)
+#define wglSwapBuffersMscOML WGLEW_GET_FUN(__wglewSwapBuffersMscOML)
+#define wglSwapLayerBuffersMscOML WGLEW_GET_FUN(__wglewSwapLayerBuffersMscOML)
+#define wglWaitForMscOML WGLEW_GET_FUN(__wglewWaitForMscOML)
+#define wglWaitForSbcOML WGLEW_GET_FUN(__wglewWaitForSbcOML)
 
-#define wglGetMscRateOML wglewGetMscRateOML
-#define wglGetSyncValuesOML wglewGetSyncValuesOML
-#define wglSwapBuffersMscOML wglewSwapBuffersMscOML
-#define wglSwapLayerBuffersMscOML wglewSwapLayerBuffersMscOML
-#define wglWaitForMscOML wglewWaitForMscOML
-#define wglWaitForSbcOML wglewWaitForSbcOML
-
-GLEWAPI GLboolean WGLEW_OML_sync_control;
+#define WGLEW_OML_sync_control WGLEW_GET_VAR(__WGLEW_OML_sync_control)
 
 #endif /* WGL_OML_sync_control */
 
 /* ------------------------------------------------------------------------- */
 
-GLEWAPI GLboolean wglewGetExtension (const GLubyte* name);
+#ifdef GLEW_MX
+#define WGLEW_EXPORT
+#else
+#define WGLEW_EXPORT GLEWAPI
+#endif /* GLEW_MX */
+
+#ifdef GLEW_MX
+struct WGLEWContextStruct
+{
+#endif /* GLEW_MX */
+
+WGLEW_EXPORT PFNWGLSETSTEREOEMITTERSTATE3DLPROC __wglewSetStereoEmitterState3DL;
+
+WGLEW_EXPORT PFNWGLCREATEBUFFERREGIONARBPROC __wglewCreateBufferRegionARB;
+WGLEW_EXPORT PFNWGLDELETEBUFFERREGIONARBPROC __wglewDeleteBufferRegionARB;
+WGLEW_EXPORT PFNWGLRESTOREBUFFERREGIONARBPROC __wglewRestoreBufferRegionARB;
+WGLEW_EXPORT PFNWGLSAVEBUFFERREGIONARBPROC __wglewSaveBufferRegionARB;
+
+WGLEW_EXPORT PFNWGLGETEXTENSIONSSTRINGARBPROC __wglewGetExtensionsStringARB;
+
+WGLEW_EXPORT PFNWGLGETCURRENTREADDCARBPROC __wglewGetCurrentReadDCARB;
+WGLEW_EXPORT PFNWGLMAKECONTEXTCURRENTARBPROC __wglewMakeContextCurrentARB;
+
+WGLEW_EXPORT PFNWGLCREATEPBUFFERARBPROC __wglewCreatePbufferARB;
+WGLEW_EXPORT PFNWGLDESTROYPBUFFERARBPROC __wglewDestroyPbufferARB;
+WGLEW_EXPORT PFNWGLGETPBUFFERDCARBPROC __wglewGetPbufferDCARB;
+WGLEW_EXPORT PFNWGLQUERYPBUFFERARBPROC __wglewQueryPbufferARB;
+WGLEW_EXPORT PFNWGLRELEASEPBUFFERDCARBPROC __wglewReleasePbufferDCARB;
+
+WGLEW_EXPORT PFNWGLCHOOSEPIXELFORMATARBPROC __wglewChoosePixelFormatARB;
+WGLEW_EXPORT PFNWGLGETPIXELFORMATATTRIBFVARBPROC __wglewGetPixelFormatAttribfvARB;
+WGLEW_EXPORT PFNWGLGETPIXELFORMATATTRIBIVARBPROC __wglewGetPixelFormatAttribivARB;
+
+WGLEW_EXPORT PFNWGLBINDTEXIMAGEARBPROC __wglewBindTexImageARB;
+WGLEW_EXPORT PFNWGLRELEASETEXIMAGEARBPROC __wglewReleaseTexImageARB;
+WGLEW_EXPORT PFNWGLSETPBUFFERATTRIBARBPROC __wglewSetPbufferAttribARB;
+
+WGLEW_EXPORT PFNWGLBINDDISPLAYCOLORTABLEEXTPROC __wglewBindDisplayColorTableEXT;
+WGLEW_EXPORT PFNWGLCREATEDISPLAYCOLORTABLEEXTPROC __wglewCreateDisplayColorTableEXT;
+WGLEW_EXPORT PFNWGLDESTROYDISPLAYCOLORTABLEEXTPROC __wglewDestroyDisplayColorTableEXT;
+WGLEW_EXPORT PFNWGLLOADDISPLAYCOLORTABLEEXTPROC __wglewLoadDisplayColorTableEXT;
+
+WGLEW_EXPORT PFNWGLGETEXTENSIONSSTRINGEXTPROC __wglewGetExtensionsStringEXT;
+
+WGLEW_EXPORT PFNWGLGETCURRENTREADDCEXTPROC __wglewGetCurrentReadDCEXT;
+WGLEW_EXPORT PFNWGLMAKECONTEXTCURRENTEXTPROC __wglewMakeContextCurrentEXT;
+
+WGLEW_EXPORT PFNWGLCREATEPBUFFEREXTPROC __wglewCreatePbufferEXT;
+WGLEW_EXPORT PFNWGLDESTROYPBUFFEREXTPROC __wglewDestroyPbufferEXT;
+WGLEW_EXPORT PFNWGLGETPBUFFERDCEXTPROC __wglewGetPbufferDCEXT;
+WGLEW_EXPORT PFNWGLQUERYPBUFFEREXTPROC __wglewQueryPbufferEXT;
+WGLEW_EXPORT PFNWGLRELEASEPBUFFERDCEXTPROC __wglewReleasePbufferDCEXT;
+
+WGLEW_EXPORT PFNWGLCHOOSEPIXELFORMATEXTPROC __wglewChoosePixelFormatEXT;
+WGLEW_EXPORT PFNWGLGETPIXELFORMATATTRIBFVEXTPROC __wglewGetPixelFormatAttribfvEXT;
+WGLEW_EXPORT PFNWGLGETPIXELFORMATATTRIBIVEXTPROC __wglewGetPixelFormatAttribivEXT;
+
+WGLEW_EXPORT PFNWGLGETSWAPINTERVALEXTPROC __wglewGetSwapIntervalEXT;
+WGLEW_EXPORT PFNWGLSWAPINTERVALEXTPROC __wglewSwapIntervalEXT;
+
+WGLEW_EXPORT PFNWGLGETDIGITALVIDEOPARAMETERSI3DPROC __wglewGetDigitalVideoParametersI3D;
+WGLEW_EXPORT PFNWGLSETDIGITALVIDEOPARAMETERSI3DPROC __wglewSetDigitalVideoParametersI3D;
+
+WGLEW_EXPORT PFNWGLGETGAMMATABLEI3DPROC __wglewGetGammaTableI3D;
+WGLEW_EXPORT PFNWGLGETGAMMATABLEPARAMETERSI3DPROC __wglewGetGammaTableParametersI3D;
+WGLEW_EXPORT PFNWGLSETGAMMATABLEI3DPROC __wglewSetGammaTableI3D;
+WGLEW_EXPORT PFNWGLSETGAMMATABLEPARAMETERSI3DPROC __wglewSetGammaTableParametersI3D;
+
+WGLEW_EXPORT PFNWGLDISABLEGENLOCKI3DPROC __wglewDisableGenlockI3D;
+WGLEW_EXPORT PFNWGLENABLEGENLOCKI3DPROC __wglewEnableGenlockI3D;
+WGLEW_EXPORT PFNWGLGENLOCKSAMPLERATEI3DPROC __wglewGenlockSampleRateI3D;
+WGLEW_EXPORT PFNWGLGENLOCKSOURCEDELAYI3DPROC __wglewGenlockSourceDelayI3D;
+WGLEW_EXPORT PFNWGLGENLOCKSOURCEEDGEI3DPROC __wglewGenlockSourceEdgeI3D;
+WGLEW_EXPORT PFNWGLGENLOCKSOURCEI3DPROC __wglewGenlockSourceI3D;
+WGLEW_EXPORT PFNWGLGETGENLOCKSAMPLERATEI3DPROC __wglewGetGenlockSampleRateI3D;
+WGLEW_EXPORT PFNWGLGETGENLOCKSOURCEDELAYI3DPROC __wglewGetGenlockSourceDelayI3D;
+WGLEW_EXPORT PFNWGLGETGENLOCKSOURCEEDGEI3DPROC __wglewGetGenlockSourceEdgeI3D;
+WGLEW_EXPORT PFNWGLGETGENLOCKSOURCEI3DPROC __wglewGetGenlockSourceI3D;
+WGLEW_EXPORT PFNWGLISENABLEDGENLOCKI3DPROC __wglewIsEnabledGenlockI3D;
+WGLEW_EXPORT PFNWGLQUERYGENLOCKMAXSOURCEDELAYI3DPROC __wglewQueryGenlockMaxSourceDelayI3D;
+
+WGLEW_EXPORT PFNWGLASSOCIATEIMAGEBUFFEREVENTSI3DPROC __wglewAssociateImageBufferEventsI3D;
+WGLEW_EXPORT PFNWGLCREATEIMAGEBUFFERI3DPROC __wglewCreateImageBufferI3D;
+WGLEW_EXPORT PFNWGLDESTROYIMAGEBUFFERI3DPROC __wglewDestroyImageBufferI3D;
+WGLEW_EXPORT PFNWGLRELEASEIMAGEBUFFEREVENTSI3DPROC __wglewReleaseImageBufferEventsI3D;
+
+WGLEW_EXPORT PFNWGLDISABLEFRAMELOCKI3DPROC __wglewDisableFrameLockI3D;
+WGLEW_EXPORT PFNWGLENABLEFRAMELOCKI3DPROC __wglewEnableFrameLockI3D;
+WGLEW_EXPORT PFNWGLISENABLEDFRAMELOCKI3DPROC __wglewIsEnabledFrameLockI3D;
+WGLEW_EXPORT PFNWGLQUERYFRAMELOCKMASTERI3DPROC __wglewQueryFrameLockMasterI3D;
+
+WGLEW_EXPORT PFNWGLBEGINFRAMETRACKINGI3DPROC __wglewBeginFrameTrackingI3D;
+WGLEW_EXPORT PFNWGLENDFRAMETRACKINGI3DPROC __wglewEndFrameTrackingI3D;
+WGLEW_EXPORT PFNWGLGETFRAMEUSAGEI3DPROC __wglewGetFrameUsageI3D;
+WGLEW_EXPORT PFNWGLQUERYFRAMETRACKINGI3DPROC __wglewQueryFrameTrackingI3D;
+
+WGLEW_EXPORT PFNWGLALLOCATEMEMORYNVPROC __wglewAllocateMemoryNV;
+WGLEW_EXPORT PFNWGLFREEMEMORYNVPROC __wglewFreeMemoryNV;
+
+WGLEW_EXPORT PFNWGLGETMSCRATEOMLPROC __wglewGetMscRateOML;
+WGLEW_EXPORT PFNWGLGETSYNCVALUESOMLPROC __wglewGetSyncValuesOML;
+WGLEW_EXPORT PFNWGLSWAPBUFFERSMSCOMLPROC __wglewSwapBuffersMscOML;
+WGLEW_EXPORT PFNWGLSWAPLAYERBUFFERSMSCOMLPROC __wglewSwapLayerBuffersMscOML;
+WGLEW_EXPORT PFNWGLWAITFORMSCOMLPROC __wglewWaitForMscOML;
+WGLEW_EXPORT PFNWGLWAITFORSBCOMLPROC __wglewWaitForSbcOML;
+WGLEW_EXPORT GLboolean __WGLEW_3DFX_multisample;
+WGLEW_EXPORT GLboolean __WGLEW_3DL_stereo_control;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_buffer_region;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_extensions_string;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_make_current_read;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_multisample;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_pbuffer;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_pixel_format;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_pixel_format_float;
+WGLEW_EXPORT GLboolean __WGLEW_ARB_render_texture;
+WGLEW_EXPORT GLboolean __WGLEW_ATI_pixel_format_float;
+WGLEW_EXPORT GLboolean __WGLEW_ATI_render_texture_rectangle;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_depth_float;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_display_color_table;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_extensions_string;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_make_current_read;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_multisample;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_pbuffer;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_pixel_format;
+WGLEW_EXPORT GLboolean __WGLEW_EXT_swap_control;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_digital_video_control;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_gamma;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_genlock;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_image_buffer;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_swap_frame_lock;
+WGLEW_EXPORT GLboolean __WGLEW_I3D_swap_frame_usage;
+WGLEW_EXPORT GLboolean __WGLEW_NV_float_buffer;
+WGLEW_EXPORT GLboolean __WGLEW_NV_render_depth_texture;
+WGLEW_EXPORT GLboolean __WGLEW_NV_render_texture_rectangle;
+WGLEW_EXPORT GLboolean __WGLEW_NV_vertex_array_range;
+WGLEW_EXPORT GLboolean __WGLEW_OML_sync_control;
+
+#ifdef GLEW_MX
+}; /* WGLEWContextStruct */
+#endif /* GLEW_MX */
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef GLEW_MX
+
+typedef struct WGLEWContextStruct WGLEWContext;
+GLEWAPI GLenum wglewContextInit (WGLEWContext* ctx);
+GLEWAPI GLboolean wglewContextIsSupported (WGLEWContext* ctx, const char* name);
+
+#define wglewInit() wglewContextInit(wglewGetContext())
+#define wglewIsSupported(x) wglewContextIsSupported(wglewGetContext(), x)
+
+#define WGLEW_GET_VAR(x) wglewGetContext()->x
+#define WGLEW_GET_FUN(x) wglewGetContext()->x
+
+#else /* GLEW_MX */
+
+#define WGLEW_GET_VAR(x) x
+#define WGLEW_GET_FUN(x) x
+
+GLEWAPI GLboolean wglewIsSupported (const char* name);
+
+#endif /* GLEW_MX */
+
+GLEWAPI GLboolean wglewGetExtension (const char* name);
 
 #ifdef __cplusplus
 }
