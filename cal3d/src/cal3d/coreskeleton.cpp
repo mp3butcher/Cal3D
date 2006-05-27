@@ -56,7 +56,7 @@ int CalCoreSkeleton::addCoreBone(CalCoreBone *pCoreBone)
   // if necessary, add the core bone to the root bone list
   if(pCoreBone->getParentId() == -1)
   {
-    m_listRootCoreBoneId.push_back(boneId);
+    m_vectorRootCoreBoneId.push_back(boneId);
   }
 
   // add a reference from the bone's name to its id
@@ -75,8 +75,8 @@ int CalCoreSkeleton::addCoreBone(CalCoreBone *pCoreBone)
 void CalCoreSkeleton::calculateState()
 {
   // calculate all bone states of the skeleton
-  std::list<int>::iterator iteratorRootCoreBoneId;
-  for(iteratorRootCoreBoneId = m_listRootCoreBoneId.begin(); iteratorRootCoreBoneId != m_listRootCoreBoneId.end(); ++iteratorRootCoreBoneId)
+  std::vector<int>::iterator iteratorRootCoreBoneId;
+  for(iteratorRootCoreBoneId = m_vectorRootCoreBoneId.begin(); iteratorRootCoreBoneId != m_vectorRootCoreBoneId.end(); ++iteratorRootCoreBoneId)
   {
     m_vectorCoreBone[*iteratorRootCoreBoneId]->calculateState();
   }
@@ -185,9 +185,9 @@ bool CalCoreSkeleton::mapCoreBoneName(int coreBoneId, const std::string& strName
   * @return A reference to the root core bone id list.
   *****************************************************************************/
 
-std::list<int>& CalCoreSkeleton::getListRootCoreBoneId()
+std::vector<int>& CalCoreSkeleton::getVectorRootCoreBoneId()
 {
-  return m_listRootCoreBoneId;
+  return m_vectorRootCoreBoneId;
 }
 
  /*****************************************************************************/
@@ -235,8 +235,8 @@ void CalCoreSkeleton::calculateBoundingBoxes(CalCoreModel * pCoreModel)
 
 void CalCoreSkeleton::scale(float factor)
 {
-  std::list<int>::iterator iteratorRootCoreBoneId;
-  for(iteratorRootCoreBoneId = m_listRootCoreBoneId.begin(); iteratorRootCoreBoneId != m_listRootCoreBoneId.end(); ++iteratorRootCoreBoneId)
+  std::vector<int>::iterator iteratorRootCoreBoneId;
+  for(iteratorRootCoreBoneId = m_vectorRootCoreBoneId.begin(); iteratorRootCoreBoneId != m_vectorRootCoreBoneId.end(); ++iteratorRootCoreBoneId)
   {
     m_vectorCoreBone[*iteratorRootCoreBoneId]->scale(factor);
   }

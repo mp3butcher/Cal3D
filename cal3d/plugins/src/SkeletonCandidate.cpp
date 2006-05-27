@@ -287,8 +287,8 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 	std::vector<CalCoreBone *>& vectorCoreBone = pCoreSkeleton->getVectorCoreBone();
 
 	// loop through all root core bones
-	std::list<int>::iterator iteratorRootCoreBoneId;
-	for(iteratorRootCoreBoneId = pCoreSkeleton->getListRootCoreBoneId().begin(); iteratorRootCoreBoneId != pCoreSkeleton->getListRootCoreBoneId().end(); ++iteratorRootCoreBoneId)
+	std::vector<int>::iterator iteratorRootCoreBoneId;
+	for(iteratorRootCoreBoneId = pCoreSkeleton->getVectorRootCoreBoneId().begin(); iteratorRootCoreBoneId != pCoreSkeleton->getVectorRootCoreBoneId().end(); ++iteratorRootCoreBoneId)
 	{
 		// recursively add the core bone to the skeleton candidate
 		if(!AddNode(pCoreSkeleton, vectorCoreBone[*iteratorRootCoreBoneId], -1))

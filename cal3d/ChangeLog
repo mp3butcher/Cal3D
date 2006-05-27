@@ -2,6 +2,8 @@ o-----------------------------------------------------------------------------o
 |                             C h a n g e L o g                               |
 o-----------------------------------------------------------------------------o
 
+  - Make the list of the root bones a vector. So the root bones can be acceded 
+    in C wrapper.
   - Add some missing function to access to private variables.
   - The destructor of CalModel is now virtual.
   - Made CalModel noncopyable to prevent shallow pointer copying bugs.

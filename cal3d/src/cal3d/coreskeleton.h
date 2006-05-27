@@ -34,7 +34,7 @@ public:
   CalCoreBone* getCoreBone(const std::string& strName);
   int getCoreBoneId(const std::string& strName);
   bool mapCoreBoneName(int coreBoneId, const std::string& strName);
-  std::list<int>& getListRootCoreBoneId();
+  std::vector<int>& getVectorRootCoreBoneId();
   std::vector<CalCoreBone *>& getVectorCoreBone();
   void calculateBoundingBoxes(CalCoreModel * pCoreModel);
   void scale(float factor);
@@ -42,7 +42,7 @@ public:
 private:
   std::vector<CalCoreBone *> m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
-  std::list<int> m_listRootCoreBoneId;  
+  std::vector<int> m_vectorRootCoreBoneId;  
 };
 typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 
