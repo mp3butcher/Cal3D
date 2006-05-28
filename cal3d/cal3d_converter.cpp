@@ -1,6 +1,7 @@
 //****************************************************************************//
 // Cal3DFormatConv.cpp                                                        //
 // Copyright (C) 2002 Laurent Desmecht                                        //
+// Copyright (C) 2006 Loic Dachary <loic@gnu.org>                             //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //

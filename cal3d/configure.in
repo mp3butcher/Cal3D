@@ -54,13 +54,15 @@ if test "$DB2HTML" = false; then
   AC_MSG_WARN([cannot find db2html, unable to generate Cal3D User's Guide!])
 fi
 
+CPPFLAGS="$CPPFLAGS"' -I${top_srcdir}/src'
+
 dnl ************************************************************************
 
 CAL3D_CHECK_BUILD
 
 dnl ************************************************************************
 
-AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile cal3d.pc)
+AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile cal3d.pc cal3d_converter.1 fileformats.txt)
 
 dnl ************************************************************************
 

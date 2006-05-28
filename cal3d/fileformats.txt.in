@@ -2,10 +2,10 @@ o------------------------------------------------------------------------------o
 |                                                                              |
 |                       cal3d fileformat description                           |
 |                                                                              |
-|                                Version 0.10.0                                |
-|                             (12. january 2005)                               |
+|                                Version @VERSION@                                |
 |                                                                              |
 |        Copyright (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger            |
+|        Copyright (C) 2006 Loic Dachary <loic@gnu.org>                        |
 |                                                                              |
 o------------------------------------------------------------------------------o
 
@@ -31,7 +31,7 @@ o------------------------------------------------------------------------------o
 o------------------------------------------------------------------------------o
 
 This document describes the format of the different files used in the cal3d
-character animation library version 0.10.0.
+character animation library version @VERSION@
 
 ********************************************************************************
 ********************************************************************************

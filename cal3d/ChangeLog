@@ -9,6 +9,8 @@ o-----------------------------------------------------------------------------o
   - Make the list of the root bones a vector. So the root bones can be acceded 
     in C wrapper.
   - Add some missing function to access to private variables.
+  - Add cal3d_converter to the default distribution with manual page and file format
+    description (tools subdirectory is therefore removed)
   - The destructor of CalModel is now virtual.
   - Made CalModel noncopyable to prevent shallow pointer copying bugs.
   - Use a RefCounted base class and RefPtr smart pointers to hold RefCounted objects.

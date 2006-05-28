@@ -2,6 +2,7 @@
 #
 # This file is part of the Cal3D library/package
 # Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+# Copyright (C) 2006 Loic Dachary <loic@gnu.org>
 #
 # This library is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License as published by
@@ -38,6 +39,11 @@ SUBDIRS = src docs
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cal3d.pc
 
+bin_PROGRAMS = cal3d_converter
+man_MANS = cal3d_converter.1
+
+cal3d_converter_SOURCES = cal3d_converter.cpp
+cal3d_converter_LDFLAGS = src/cal3d/libcal3d.la
 
 # ************************************************************************
 
