@@ -16,7 +16,7 @@ AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(cal3d,0.10.0)
+AM_INIT_AUTOMAKE(cal3d,0.11.0)
 
 AC_ARG_WITH(cxx,[  --with-cxx=CXX          force the use of a particular C++ compiler ],
 [
