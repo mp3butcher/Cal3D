@@ -1,0 +1,58 @@
+'''
+''' Copyright (C) 2006 Mekensleep
+'''
+''' Mekensleep
+''' 24 rue vieille du temple
+''' 75004 Paris
+'''       licensing@mekensleep.com
+'''
+''' This program is free software; you can redistribute it and/or modify
+''' it under the terms of the GNU General Public License as published by
+''' the Free Software Foundation; either version 2 of the License, or
+''' (at your option) any later version.
+'''
+''' This program is distributed in the hope that it will be useful,
+''' but WITHOUT ANY WARRANTY; without even the implied warranty of
+''' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+''' GNU General Public License for more details.
+'''
+''' You should have received a copy of the GNU General Public License
+''' along with this program; if not, write to the Free Software
+''' Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
+'''
+''' Authors:
+'''  Loic Dachary <loic@gnu.org>
+'''
+.TH cal3d_converter 1 local
+.SH NAME
+cal3d_converter \- convert cal3d files from / to binary and XML (version @VERSION@)
+
+.SH SYNOPSIS
+cal3d_converter source destination
+
+.SH DESCRIPTION
+
+A source or destination cal3d file is either a skeleton (.xsf or .csf), a mesh (.xmf
+or .cmf), an animation (.xaf or .caf) or a material (.xrf or .crf). The files with an
+extension starting with an
+.B x
+denote XML files (.xsf, .xmf, .xaf, xrf) and the files with an extension starting with a
+.B c
+denot binary files (.csf, .cmf, .caf, .crf). 
+
+If the 
+.I source
+is a file of a given type, the 
+.I destination 
+is expected to be a file of the same type. 
+
+.SH EXAMPLES
+
+.TP
+.B cal3d_converter skeleton.csf skeleton.xsf
+Convert the skeleton.csf skeleton file from binary format to XML format.
+
+
+.SH AUTHORS
+
+Loic Dachary <loic@gnu.org>

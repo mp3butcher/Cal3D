@@ -34,7 +34,7 @@ MAINTAINERCLEANFILES = \
 	missing \
 	mkinstalldirs
 
-SUBDIRS = src docs
+SUBDIRS = src docs tests
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cal3d.pc
