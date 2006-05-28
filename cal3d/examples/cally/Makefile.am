@@ -14,6 +14,25 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = cally.dsp data/*.raw data/*.cfg ChangeLog README TODO
 
+MAINTAINERCLEANFILES = \
+	Makefile.in \
+	docs/Makefile.in \
+	docs/api/Makefile.in \
+	docs/shared/Makefile.in \
+	src/Makefile.in \
+	src/cal3d/Makefile.in \
+	aclocal.m4 \
+	config.guess \
+	config.rpath \
+	config.h.in \
+	config.sub \
+	configure \
+	depcomp \
+	install-sh \
+	ltmain.sh \
+	missing \
+	mkinstalldirs
+
 SUBDIRS = src
 
 # ************************************************************************

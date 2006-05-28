@@ -33,8 +33,9 @@ platforms.
 
 The simplest way to compile this package is:
 
-  1. In the top-level directory of the cal3d_cally package, run `./autogen.sh'
-     to automatically generate the configuration scripting files.
+  1. In the top-level directory of the cal3d_cally package, run 
+     `autoreconf --install --force' to automatically generate the 
+     configuration scripting files.
  
   2. Type `./configure' to configure the package for your system. 
 
@@ -51,7 +52,7 @@ The simplest way to compile this package is:
      source code directory by typing `make clean'.  
 
 
-   The `autogen.sh' script will run the autotools for you and create
+   The `autoreconf' script will run the autotools for you and create
 the configure script and Makefile.in files, which will be used during 
 the build process.
    The `configure' shell script attempts to guess correct values for
