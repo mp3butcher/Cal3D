@@ -350,6 +350,31 @@ void CalCoreBone_SetUserData(CalCoreBone *self, CalUserData userData)
 }
 
 //****************************************************************************//
+// CalCoreMorphAnimation wrapper functions definition                         //
+//****************************************************************************//
+
+CalCoreMorphAnimation *CalCoreMorphAnimation_New()
+{
+    std::cout << "DEBUG: Inside CalCoreMorphAnimation_New" << std::endl;
+
+    return new CalCoreMorphAnimation();
+}
+
+void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
+{
+    std::cout << "DEBUG: Inside CalCoreMorphAnimation_Delete" << std::endl;
+    
+    delete self;
+}
+
+Boolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
+{
+    std::cout << "DEBUG: Inside CalCoreMorphAnimation_AddMorphTarget" << std::endl;
+    
+    return self->addMorphTarget(meshID, morphID) ? True : False;
+}
+
+//****************************************************************************//
 // CalCoreMaterial wrapper functions definition                               //
 //****************************************************************************//
 
@@ -505,6 +530,13 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
   self->scale(factor);
 }
 
+CAL3D_WRAPPER_API int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
+{
+  std::cout << "DEBUG: Inside CalCoreMesh_AddAsMorphTarget" << std::endl;
+  
+  self->addAsMorphTarget(target);
+}
+
 //****************************************************************************//
 // CalCoreModel wrapper functions definition                                  //
 //****************************************************************************//
@@ -512,6 +544,11 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
 int CalCoreModel_AddCoreAnimation(CalCoreModel *self, CalCoreAnimation *pCoreAnimation)
 {
   return self->addCoreAnimation(pCoreAnimation);
+}
+
+int CalCoreModel_AddCoreMorphAnimation(CalCoreModel *self, CalCoreMorphAnimation *pCoreMorphAnimation)
+{
+  return self->addCoreMorphAnimation(pCoreMorphAnimation);
 }
 
 int CalCoreModel_AddCoreMaterial(CalCoreModel *self, CalCoreMaterial *pCoreMaterial)

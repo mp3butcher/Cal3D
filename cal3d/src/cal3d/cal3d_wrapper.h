@@ -60,6 +60,7 @@ struct CalAnimationAction;
 struct CalAnimationCycle;
 struct CalBone;
 struct CalCoreAnimation;
+struct CalCoreMorphAnimation;
 struct CalCoreBone;
 struct CalCoreKeyframe;
 struct CalCoreMaterial;
@@ -200,6 +201,14 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreAnimation_Scale(struct CalCoreAnimation *self, float factor);
 
 //****************************************************************************//
+// CalCoreMorphAnimation wrapper functions declaration                             //
+//****************************************************************************//
+
+  CAL3D_WRAPPER_API struct CalCoreMorphAnimation *CalCoreMorphAnimation_New();
+  CAL3D_WRAPPER_API void CalCoreMorphAnimation_Delete(struct CalCoreMorphAnimation* self);
+  CAL3D_WRAPPER_API enum Boolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID);
+  
+//****************************************************************************//
 // CalCoreBone wrapper functions declaration                                  //
 //****************************************************************************//
 
@@ -262,12 +271,14 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreMesh_GetCoreSubmeshCount(struct CalCoreMesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(struct CalCoreMesh *self);
   CAL3D_WRAPPER_API void CalCoreMesh_Scale(struct CalCoreMesh *self,float factor);
-
+  CAL3D_WRAPPER_API int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target);
+  
 //****************************************************************************//
 // CalCoreModel wrapper functions declaration                                 //
 //****************************************************************************//
 
   CAL3D_WRAPPER_API int CalCoreModel_AddCoreAnimation(struct CalCoreModel *self, struct  CalCoreAnimation *pCoreAnimation);
+  CAL3D_WRAPPER_API int CalCoreModel_AddCoreMorphAnimation(struct CalCoreModel *self, struct  CalCoreMorphAnimation *pCoreAnimation);
   CAL3D_WRAPPER_API int CalCoreModel_AddCoreMaterial(struct CalCoreModel *self, struct CalCoreMaterial *pCoreMaterial);
   CAL3D_WRAPPER_API int CalCoreModel_AddCoreMesh(struct CalCoreModel *self, struct CalCoreMesh *pCoreMesh);
   CAL3D_WRAPPER_API enum Boolean CalCoreModel_CreateCoreMaterialThread(struct CalCoreModel *self, int coreMaterialThreadId);
