@@ -65,7 +65,7 @@ CAL3D_CHECK_BUILD
 
 dnl ************************************************************************
 
-AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile tests/Makefile tests/run cal3d.pc cal3d_converter.1 fileformats.txt)
+AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile tests/Makefile tests/run cal3d.pc src/cal3d_converter.1 fileformats.txt)
 
 dnl ************************************************************************
 

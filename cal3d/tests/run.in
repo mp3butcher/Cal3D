@@ -44,11 +44,11 @@ case "$1" in
                 ;;
         esac
         $VERBOSE cal3d_converter ${srcdir}/cal3d_converter/base.x$ext
-        ../cal3d_converter ${srcdir}/cal3d_converter/base.x$ext base.c$ext
-        ../cal3d_converter base.c$ext 01.x$ext
-        ../cal3d_converter 01.x$ext 01.c$ext
-        ../cal3d_converter 01.c$ext 02.x$ext
-        ../cal3d_converter 02.x$ext 02.c$ext
+        ../src/cal3d_converter ${srcdir}/cal3d_converter/base.x$ext base.c$ext
+        ../src/cal3d_converter base.c$ext 01.x$ext
+        ../src/cal3d_converter 01.x$ext 01.c$ext
+        ../src/cal3d_converter 01.c$ext 02.x$ext
+        ../src/cal3d_converter 02.x$ext 02.c$ext
         diff 0[12].x$ext
         cmp 0[12].c$ext
         rm -f {base,01,02}.?$ext

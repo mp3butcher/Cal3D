@@ -39,11 +39,5 @@ SUBDIRS = src docs tests
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cal3d.pc
 
-bin_PROGRAMS = cal3d_converter
-man_MANS = cal3d_converter.1
-
-cal3d_converter_SOURCES = cal3d_converter.cpp
-cal3d_converter_LDFLAGS = src/cal3d/libcal3d.la
-
 # ************************************************************************
 

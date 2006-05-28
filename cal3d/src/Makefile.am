@@ -10,15 +10,13 @@
 #
 # ************************************************************************
 
-INCLUDES = $(all_includes)
-
-# bin_PROGRAMS = cal3d_dummy_app
-
-# cal3d_dummy_app_SOURCES = main.cpp
-# cal3d_dummy_app_LDADD = ./cal3d/libcal3d.la
-# cal3d_dummy_app_LDFLAGS = $(all_libraries) $(LDFLAGS)
-
 SUBDIRS = cal3d
+
+bin_PROGRAMS = cal3d_converter
+man_MANS = cal3d_converter.1
+
+cal3d_converter_SOURCES = cal3d_converter.cpp
+cal3d_converter_LDFLAGS = cal3d/libcal3d.la
 
 # ************************************************************************
 

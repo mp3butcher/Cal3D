@@ -12,7 +12,7 @@
 MAINTAINERCLEANFILES = Makefile.in
 
 EXTRA_DIST = \
-	$(wildcard cal3d_convert/*.?{s,m,r,a}f)
+	$(wildcard cal3d_converter/base.??f)
 
 TESTS_ENVIRONMENT = sh ./run
 TESTS = converter/skeleton converter/mesh converter/material converter/animation
