@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# Copyright (C) 2006 Mekensleep
+#
+# Mekensleep
+# 24 rue vieille du temple
+# 75004 Paris
+#       licensing@mekensleep.com
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# Authors:
+#  Loic Dachary <loic@gnu.org>
+# 
+set -e
+
+: ${srcdir:=.}
+: ${VERBOSE:=:}
+
+case "$1" in 
+
+*converter/*) 
+        what=$(basename $1)
+        case $what in
+            skeleton) ext=sf ;;
+            mesh) ext=mf ;;
+            material) ext=rf ;;
+            animation) ext=af ;;
+            *) 
+                echo "unknown test $1"
+                exit 1
+                ;;
+        esac
+        $VERBOSE cal3d_converter ${srcdir}/cal3d_converter/base.x$ext
+        ../cal3d_converter ${srcdir}/cal3d_converter/base.x$ext base.c$ext
+        ../cal3d_converter base.c$ext 01.x$ext
+        ../cal3d_converter 01.x$ext 01.c$ext
+        ../cal3d_converter 01.c$ext 02.x$ext
+        ../cal3d_converter 02.x$ext 02.c$ext
+        diff 0[12].x$ext
+        cmp 0[12].c$ext
+        rm -f {base,01,02}.?$ext
+        ;;  
+
+*) 
+        echo unknown test $1
+        exit 1
+        ;;
+esac
+exit 0
