@@ -50,7 +50,7 @@ lib_LTLIBRARIES = libcal3d.la
 #     then set AGE to 0.
 # 
 #
-VERSION_INFO = 11:0:0
+VERSION_INFO = 12:0:0
 
 libcal3d_la_SOURCES = \
 	animation.cpp \
