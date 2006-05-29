@@ -73,6 +73,7 @@ struct CalLoader;
 struct CalMatrix;
 struct CalMesh;
 struct CalMixer;
+struct CalMorphTargetMixer;
 struct CalModel;
 struct CalPhysique;
 struct CalPlatform;
@@ -292,6 +293,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreMeshCount(struct CalCoreModel *self);
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalCoreModel_GetCoreSkeleton(struct CalCoreModel *self);
   CAL3D_WRAPPER_API CalUserData CalCoreModel_GetUserData(struct CalCoreModel *self);
+  CAL3D_WRAPPER_API int CalCoreModel_GetCoreMorphAnimationCount(struct CalCoreModel *self);
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreAnimation(struct CalCoreModel *self, char *strFilename);
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMaterial(struct CalCoreModel *self, char *strFilename);
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMesh(struct CalCoreModel *self, char *strFilename);
@@ -424,6 +426,17 @@ CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubm
   CAL3D_WRAPPER_API void CalMixer_RemoveAction(struct CalMixer *self,int id);
 
 //****************************************************************************//
+// CalMorphTargetMixer wrapper functions declaration                          //
+//****************************************************************************//
+
+  CAL3D_WRAPPER_API enum Boolean CalMorphTargetMixer_Blend(struct CalMorphTargetMixer *self, int id, float weight, float delay);
+  CAL3D_WRAPPER_API enum Boolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay);
+  CAL3D_WRAPPER_API void CalMorphTargetMixer_Delete(struct CalMorphTargetMixer *self);
+  CAL3D_WRAPPER_API struct CalMorphTargetMixer *CalMorphTargetMixer_New(struct CalModel *pModel);
+  CAL3D_WRAPPER_API void CalMorphTargetMixer_Update(struct CalMorphTargetMixer *self, float deltaTime);
+  CAL3D_WRAPPER_API int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self);
+
+//****************************************************************************//
 // CalModel wrapper functions declaration                                     //
 //****************************************************************************//
 
@@ -433,6 +446,7 @@ CAL3D_WRAPPER_API enum Boolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubm
   CAL3D_WRAPPER_API struct CalCoreModel *CalModel_GetCoreModel(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalMesh *CalModel_GetMesh(struct CalModel *self, int coreMeshId);
   CAL3D_WRAPPER_API struct CalMixer *CalModel_GetMixer(struct CalModel *self);
+  CAL3D_WRAPPER_API struct CalMorphTargetMixer *CalModel_GetMorphTargetMixer(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalPhysique *CalModel_GetPhysique(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalRenderer *CalModel_GetRenderer(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalSkeleton *CalModel_GetSkeleton(struct CalModel *self);

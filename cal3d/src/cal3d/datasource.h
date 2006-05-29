@@ -41,10 +41,8 @@ public:
    virtual bool readFloat(float& value) = 0;
    virtual bool readInteger(int& value) = 0;
    virtual bool readString(std::string& strValue) = 0;
-
-
-
-
+   virtual ~CalDataSource() {};
+   
 };
 
 #endif

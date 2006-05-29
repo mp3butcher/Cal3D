@@ -355,22 +355,16 @@ void CalCoreBone_SetUserData(CalCoreBone *self, CalUserData userData)
 
 CalCoreMorphAnimation *CalCoreMorphAnimation_New()
 {
-    std::cout << "DEBUG: Inside CalCoreMorphAnimation_New" << std::endl;
-
     return new CalCoreMorphAnimation();
 }
 
 void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
 {
-    std::cout << "DEBUG: Inside CalCoreMorphAnimation_Delete" << std::endl;
-    
     delete self;
 }
 
 Boolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
 {
-    std::cout << "DEBUG: Inside CalCoreMorphAnimation_AddMorphTarget" << std::endl;
-    
     return self->addMorphTarget(meshID, morphID) ? True : False;
 }
 
@@ -532,8 +526,6 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
 
 CAL3D_WRAPPER_API int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
 {
-  std::cout << "DEBUG: Inside CalCoreMesh_AddAsMorphTarget" << std::endl;
-  
   self->addAsMorphTarget(target);
 }
 
@@ -614,6 +606,11 @@ CalCoreSkeleton *CalCoreModel_GetCoreSkeleton(CalCoreModel *self)
 CalUserData CalCoreModel_GetUserData(CalCoreModel *self)
 {
   return self->getUserData();
+}
+
+int CalCoreModel_GetCoreMorphAnimationCount(CalCoreModel *self)
+{
+  return self->getCoreMorphAnimationCount();
 }
 
 int CalCoreModel_LoadCoreAnimation(CalCoreModel *self, char *strFilename)
@@ -1047,6 +1044,40 @@ void CalMixer_RemoveAction(CalMixer *self,int id)
 }
 
 //****************************************************************************//
+// CalMorphTargetMixer wrapper functions definition                           //
+//****************************************************************************//
+
+Boolean CalMorphTargetMixer_Blend(struct CalMorphTargetMixer *self, int id, float weight, float delay)
+{
+  return self->blend(id, weight, delay) ? True : False;
+}
+
+Boolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay)
+{
+  return self->clear(id, delay) ? True : False;
+}
+
+void CalMorphTargetMixer_Delete(struct CalMorphTargetMixer *self)
+{
+  delete self;
+}
+
+struct CalMorphTargetMixer *CalMorphTargetMixer_New(struct CalModel *pModel)
+{
+  return new CalMorphTargetMixer(pModel);
+}
+
+void CalMorphTargetMixer_Update(struct CalMorphTargetMixer *self, float deltaTime)
+{
+  self->update(deltaTime);
+}
+
+int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self)
+{
+  return self->getMorphTargetCount();
+}
+
+//****************************************************************************//
 // CalModel wrapper functions definition                                      //
 //****************************************************************************//
 
@@ -1078,6 +1109,11 @@ CalMesh *CalModel_GetMesh(CalModel *self, int coreMeshId)
 CalMixer *CalModel_GetMixer(CalModel *self)
 {
   return self->getMixer();
+}
+
+CalMorphTargetMixer *CalModel_GetMorphTargetMixer(CalModel *self)
+{
+  return self->getMorphTargetMixer();
 }
 
 CalPhysique *CalModel_GetPhysique(CalModel *self)
