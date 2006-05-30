@@ -524,7 +524,7 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
   self->scale(factor);
 }
 
-CAL3D_WRAPPER_API int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
+int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
 {
   self->addAsMorphTarget(target);
 }
