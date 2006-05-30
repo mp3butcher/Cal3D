@@ -34,6 +34,7 @@ public:
 // member functions
 public:
   static unsigned int getTick();
+	static double getTime();
 };
 
 #endif

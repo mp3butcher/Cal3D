@@ -54,6 +54,7 @@ Demo::Demo() : m_strDatapath("data/"), m_strCal3D_Datapath("")
   m_lastTick = Tick::getTick();
   m_currentModel = 0;
   m_bPaused = false;
+	m_bOutputAverageCPUTimeAtExit = false;
 }
 
 //----------------------------------------------------------------------------//
@@ -262,6 +263,10 @@ bool Demo::onCreate(int argc, char *argv[])
     {
        m_strCal3D_Datapath = argv[++arg];
     }
+    else if((strcmp(argv[arg], "--bench") == 0))
+		{
+			 m_bOutputAverageCPUTimeAtExit = true;
+		}
     else
     {
       std::cerr << "Usage: " << argv[0] << " [--fullscreen] [--window] [--dimension width height] [--data path_to_cal3d_data]" << std::endl;
@@ -295,11 +300,42 @@ void Demo::onIdle()
     m_fpsFrames = 0;
   }
 
+	static double start;
+	static double firstTime, lastTime;
+	start = Tick::getTime();
+
+	static bool bFirst = true;
+	if (bFirst) {
+		firstTime = start;
+	}
+	else {
+		lastTime = start;
+	}
+
   // update the current model
   if(!m_bPaused)
   {
-    m_vectorModel[m_currentModel]->onUpdate(elapsedSeconds);
+		//for (int i = 0; i < 10; i++)
+			m_vectorModel[m_currentModel]->onUpdate(elapsedSeconds);
   }
+
+	double stop = Tick::getTime();
+
+	stop -= start;
+	static double cumul = 0;
+	cumul += stop;
+//	static int count = 0;
+	//count++;
+
+	//char str[200];
+
+	if (!bFirst) {
+		m_averageCPUTime = cumul / float(lastTime - firstTime) * 100;
+		char str[200];
+		sprintf(str, "%.2f\n", m_averageCPUTime);
+		OutputDebugString(str);
+	}
+	bFirst = false;
 
   // update the menu
   theMenu.onUpdate(elapsedSeconds);
@@ -661,6 +697,9 @@ void Demo::onShutdown()
     m_vectorModel[modelId]->onShutdown();
     delete m_vectorModel[modelId];
   }
+
+	if (m_bOutputAverageCPUTimeAtExit)
+		std::cout << m_averageCPUTime;
 }
 
 //----------------------------------------------------------------------------//

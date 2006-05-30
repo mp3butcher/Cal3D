@@ -53,6 +53,8 @@ protected:
   std::vector<Model *> m_vectorModel;
   unsigned int m_currentModel;
   bool m_bPaused;
+	float m_averageCPUTime;
+	bool m_bOutputAverageCPUTimeAtExit;
 
 // constructors/destructor
 public:
