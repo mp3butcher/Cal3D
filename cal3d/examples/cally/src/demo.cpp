@@ -324,16 +324,9 @@ void Demo::onIdle()
 	stop -= start;
 	static double cumul = 0;
 	cumul += stop;
-//	static int count = 0;
-	//count++;
-
-	//char str[200];
 
 	if (!bFirst) {
 		m_averageCPUTime = cumul / float(lastTime - firstTime) * 100;
-		char str[200];
-		sprintf(str, "%.2f\n", m_averageCPUTime);
-		OutputDebugString(str);
 	}
 	bFirst = false;
 
