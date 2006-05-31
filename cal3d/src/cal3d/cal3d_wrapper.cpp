@@ -526,7 +526,7 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
 
 int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
 {
-  self->addAsMorphTarget(target);
+  return self->addAsMorphTarget(target);
 }
 
 //****************************************************************************//
