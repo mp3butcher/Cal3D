@@ -114,7 +114,7 @@ static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
 
 		float last_time = last_kf->getTime();
 
-		if (first_quat != last_quat || first_translation != last_translation && last_time != duration) {
+		if ((first_quat != last_quat || first_translation != last_translation) && last_time != duration) {
 			CalCoreKeyframe *add_kf = new CalCoreKeyframe();
 			add_kf->setTranslation(first_translation);
 			add_kf->setRotation(first_quat);
