@@ -95,6 +95,8 @@ CalMixer::~CalMixer()
 ///
 static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
 {
+	float duration = anim->getDuration();
+
 	unsigned tracksCount = anim->getTrackCount();
 	for (unsigned i = 0; i < tracksCount; i++) {
 		CalCoreTrack *track = anim->getCoreTrack(i);
@@ -110,17 +112,16 @@ static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
 		const CalVector &first_translation = first_kf->getTranslation();
 		const CalVector &last_translation = last_kf->getTranslation();
 
-		if (first_quat != last_quat || first_translation != last_translation) {
+		float last_time = last_kf->getTime();
+
+		if (first_quat != last_quat || first_translation != last_translation && last_time != duration) {
 			CalCoreKeyframe *add_kf = new CalCoreKeyframe();
-			float last_time = last_kf->getTime();
 			add_kf->setTranslation(first_translation);
 			add_kf->setRotation(first_quat);
 			add_kf->setTime(last_time + 0.02f); // ensure a smooth blend to the first keyframe in 50ms
 			track->addCoreKeyframe(add_kf);
 		}
 	}
-
-	anim->setDuration( anim->getDuration() + 0.02f );
 }
 
  /*****************************************************************************/
