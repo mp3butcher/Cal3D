@@ -21,6 +21,8 @@
 #include "cal3d/coremodel.h"
 #include "cal3d/corebone.h"
 #include "cal3d/coreanimation.h"
+#include "cal3d/coretrack.h"
+#include "cal3d/corekeyframe.h"
 #include "cal3d/model.h"
 #include "cal3d/skeleton.h"
 #include "cal3d/bone.h"
@@ -87,48 +89,38 @@ CalMixer::~CalMixer()
 }
 
 ///
-/// Examines the given animation and if the first and last poses do not match
-/// up, the first key frame is duplicated and added to the end of the animation
+/// Examines the given animation and if the first and last keyframe of a given track
+/// do not match up, the first key frame is duplicated and added to the end of the track
 /// to ensure smooth looping.
 ///
 static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
 {
-  unsigned num_poses = anim->getPoses().size() / anim->getTrackCount();
+	unsigned tracksCount = anim->getTrackCount();
+	for (unsigned i = 0; i < tracksCount; i++) {
+		CalCoreTrack *track = anim->getCoreTrack(i);
+		int nb_kf = track->getCoreKeyframeCount();
+		if (nb_kf == 1)
+			continue;
+		CalCoreKeyframe *first_kf = track->getCoreKeyframe(0);
+		CalCoreKeyframe *last_kf = track->getCoreKeyframe(nb_kf-1);
 
-  // Get the first pose
-  std::vector<CalTransform> first_pose;
-  first_pose.resize(anim->getTrackCount());
-  anim->getPose(0.0f, first_pose);
+		const CalQuaternion &first_quat = first_kf->getRotation();
+		const CalQuaternion &last_quat = last_kf->getRotation();
 
-  // Get the last pose
-  std::vector<CalTransform> last_pose;
-  last_pose.resize(anim->getTrackCount());
-  anim->getPose(anim->getDuration(), last_pose);
+		const CalVector &first_translation = first_kf->getTranslation();
+		const CalVector &last_translation = last_kf->getTranslation();
 
-  // Check if the first and last keyframes do not match
-  bool needs_extra_keyframe = false;
-  unsigned last_pose_start = (num_poses * anim->getTrackCount()) + anim->getTrackCount() - 1;
-  for (unsigned track = 0; track < anim->getTrackCount(); ++track)
-  {
-    if (first_pose[track] != last_pose[track])
-    {
-      needs_extra_keyframe = true;
-      break;
-    }
-  }
+		if (first_quat != last_quat || first_translation != last_translation) {
+			CalCoreKeyframe *add_kf = new CalCoreKeyframe();
+			float last_time = last_kf->getTime();
+			add_kf->setTranslation(first_translation);
+			add_kf->setRotation(first_quat);
+			add_kf->setTime(last_time + 0.02f); // ensure a smooth blend to the first keyframe in 50ms
+			track->addCoreKeyframe(add_kf);
+		}
+	}
 
-  // Add the first key frame on as a new end key frame if necessary to make the
-  // looping smooth.
-  if (needs_extra_keyframe)
-  {
-    std::vector<CalTransform> poses = anim->getPoses();
-    for (unsigned track = 0; track < anim->getTrackCount(); ++track)
-    {
-      poses.push_back(first_pose[track]);
-    }
-
-    anim->setPoses(poses, anim->getTrackCount());
-  }
+	anim->setDuration( anim->getDuration() + 0.02f );
 }
 
  /*****************************************************************************/
@@ -466,25 +458,24 @@ void CalMixer::updateSkeleton()
     CalCoreAnimation *pCoreAnimation;
     pCoreAnimation = (*iteratorAnimationAction)->getCoreAnimation();
 
-    // Ask the animation for the pose at the given time
-    std::vector<CalTransform> pose;
-    pose.resize(pCoreAnimation->getTrackCount());
-    pCoreAnimation->getPose((*iteratorAnimationAction)->getTime(), pose);
+    // get the list of core tracks of above core animation
+    std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-    // Blend the pose into the current bone states
-    for (unsigned bone_id = 0; bone_id < pSkeleton->getCoreSkeleton()->getVectorCoreBone().size(); ++bone_id)
+    // loop through all core tracks of the core animation
+    std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+    for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
     {
-      int track_number = pCoreAnimation->getTrackAssignment(bone_id);
+      // get the appropriate bone of the track
+      CalBone *pBone;
+      pBone = vectorBone[(*iteratorCoreTrack)->getCoreBoneId()];
 
-      // Skip this bone if the bone does not have a track assigned in the animation
-      if (track_number == -1)
-      {
-        continue;
-      }
+      // get the current translation and rotation
+      CalVector translation;
+      CalQuaternion rotation;
+      (*iteratorCoreTrack)->getState((*iteratorAnimationAction)->getTime(), translation, rotation);
 
-      // Blend the animation pose with the skeleton
-      CalBone* pBone = vectorBone[bone_id];
-      pBone->blendState((*iteratorAnimationAction)->getWeight(), pose[track_number].getTranslation(), pose[track_number].getRotation());
+      // blend the bone state with the new state
+      pBone->blendState((*iteratorAnimationAction)->getWeight(), translation, rotation);
     }
   }
 
@@ -517,24 +508,24 @@ void CalMixer::updateSkeleton()
       animationTime = (*iteratorAnimationCycle)->getTime();
     }
 
-    // Ask the animation for the pose at the given time
-    std::vector<CalTransform> pose;
-    pose.resize(pCoreAnimation->getTrackCount());
-    pCoreAnimation->getPose(animationTime, pose);
+    // get the list of core tracks of above core animation
+    std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-    // Blend the pose into the current bone states
-    for (unsigned index = 0; index < pose.size(); ++index)
+    // loop through all core tracks of the core animation
+    std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+    for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
     {
-      int track_number = pCoreAnimation->getTrackAssignment(index);
+      // get the appropriate bone of the track
+      CalBone *pBone;
+      pBone = vectorBone[(*iteratorCoreTrack)->getCoreBoneId()];
 
-      // Skip this bone if the bone does not have a track assigned in the animation
-      if (track_number == -1)
-      {
-        continue;
-      }
+      // get the current translation and rotation
+      CalVector translation;
+      CalQuaternion rotation;
+      (*iteratorCoreTrack)->getState(animationTime, translation, rotation);
 
-      CalBone* pBone = vectorBone[index];
-      pBone->blendState((*iteratorAnimationCycle)->getWeight(), pose[track_number].getTranslation(), pose[track_number].getRotation());
+      // blend the bone state with the new state
+      pBone->blendState((*iteratorAnimationCycle)->getWeight(), translation, rotation);
     }
   }
 
@@ -553,7 +544,6 @@ void CalMixer::updateSkeleton()
   * @return The animation time in seconds.
   *****************************************************************************/
 
-
 float CalMixer::getAnimationTime()
 {
 	return m_animationTime;
@@ -567,12 +557,10 @@ float CalMixer::getAnimationTime()
   * @return The animation duration in seconds.
   *****************************************************************************/
 
-
 float CalMixer::getAnimationDuration()
 {
 	return m_animationDuration;
 }
-
 
 /*****************************************************************************/
 /** Sets the animation time.
@@ -580,7 +568,6 @@ float CalMixer::getAnimationDuration()
   * This function sets the animation time of the mixer instance.
   *
   *****************************************************************************/
-
 
 void CalMixer::setAnimationTime(float animationTime)
 {
@@ -594,7 +581,6 @@ void CalMixer::setAnimationTime(float animationTime)
   * this time factor affect only sync animation
   *
   *****************************************************************************/
-
 
 void CalMixer::setTimeFactor(float timeFactor)
 {

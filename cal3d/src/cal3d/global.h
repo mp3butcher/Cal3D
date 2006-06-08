@@ -58,8 +58,8 @@ namespace cal3d
   const char MESH_XMLFILE_MAGIC[4]  = { 'X', 'M', 'F', '\0' };
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
-  // library version       // 0.10.0
-  const int LIBRARY_VERSION = 1000;
+  // library version       // 0.11.0
+  const int LIBRARY_VERSION = 1100;
 
   // file versions
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;

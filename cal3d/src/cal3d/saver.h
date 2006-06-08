@@ -16,7 +16,7 @@
 //****************************************************************************//
 
 #include "cal3d/global.h"
-#include "cal3d/transform.h"
+#include "cal3d/vector.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -29,13 +29,15 @@ class CalCoreAnimation;
 class CalCoreMesh;
 class CalCoreSubmesh;
 class CalCoreMaterial;
+class CalCoreKeyframe;
+class CalCoreTrack;
 
 //****************************************************************************//
 // Class declaration                                                          //
 //****************************************************************************//
 
  /*****************************************************************************/
-/** The loader class.
+/** The saver class.
   *****************************************************************************/
 
 class CAL3D_API CalSaver
@@ -48,9 +50,9 @@ public:
 
 protected:
   static bool saveCoreBones(std::ofstream& file, const std::string& strFilename, CalCoreBone *pCoreBone);
-  static bool saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, const CalTransform& boneCoordSys, float time);
+  static bool saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe);
   static bool saveCoreSubmesh(std::ofstream& file, const std::string& strFilename, CalCoreSubmesh *pCoreSubmesh);
-  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, const std::vector<CalTransform>& trackData, int boneId, float time_per_frame);
+  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack);
 
   static bool saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton);
   static bool saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation);

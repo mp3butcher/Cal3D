@@ -27,6 +27,8 @@
 #include "cal3d/coremesh.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/corematerial.h"
+#include "cal3d/corekeyframe.h"
+#include "cal3d/coretrack.h"
 #include "cal3d/tinyxml.h"
 
 using namespace cal3d;
@@ -88,28 +90,22 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
     return 0;
   }
 
-  // Get the pose data from the animation
-  const std::vector<CalTransform> &poses = pCoreAnimation->getPoses();
-  unsigned int num_poses = poses.size() / pCoreAnimation->getTrackCount();
+  // get core track list
+  std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-  // Calculate the time_per_frame incorrectly since the duration for animations
-  // is stored incorrectly.
-  float time_per_frame = pCoreAnimation->getDuration() / num_poses;
-
-  // write each track
-  for (unsigned track_index = 0; track_index < pCoreAnimation->getTrackCount(); ++track_index)
+  // write the number of tracks
+  if(!CalPlatform::writeInteger(file, listCoreTrack.size()))
   {
-    int bone_id = pCoreAnimation->getBoneAssignment(track_index);
+    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
 
-    // Make a non-interleaved bone track
-    std::vector<CalTransform> track_data;
-    track_data.resize(num_poses);
-    for (unsigned index = 0; index < num_poses; ++index)
-    {
-      track_data[index] = poses[(index * pCoreAnimation->getTrackCount()) + track_index];
-    }
-
-    if (!saveCoreTrack(file, strFilename, track_data, bone_id, time_per_frame))
+  // write all core bones
+  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+  for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+  {
+    // save core track
+    if(!saveCoreTrack(file, strFilename, *iteratorCoreTrack))
     {
       return false;
     }
@@ -225,7 +221,7 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, const CalTransform& boneCoordSys, float time)
+bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe)
 {
   if(!file)
   {
@@ -234,16 +230,16 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
   }
 
   // write the time of the keyframe
-  CalPlatform::writeFloat(file, time);
+  CalPlatform::writeFloat(file, pCoreKeyframe->getTime());
 
   // write the translation of the keyframe
-  const CalVector& translation = boneCoordSys.getTranslation();
+  const CalVector& translation = pCoreKeyframe->getTranslation();
   CalPlatform::writeFloat(file, translation[0]);
   CalPlatform::writeFloat(file, translation[1]);
   CalPlatform::writeFloat(file, translation[2]);
 
   // write the rotation of the keyframe
-  const CalQuaternion& rotation = boneCoordSys.getRotation();
+  const CalQuaternion& rotation = pCoreKeyframe->getRotation();
   CalPlatform::writeFloat(file, rotation[0]);
   CalPlatform::writeFloat(file, rotation[1]);
   CalPlatform::writeFloat(file, rotation[2]);
@@ -684,7 +680,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, const std::vector<CalTransform>& trackData, int boneId, float time_per_frame)
+bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack)
 {
   if(!file)
   {
@@ -693,30 +689,28 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   }
 
   // write the bone id
-  if(!CalPlatform::writeInteger(file, boneId))
+  if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreBoneId()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // write the number of keyframes
-  if(!CalPlatform::writeInteger(file, trackData.size()))
+  if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreKeyframeCount()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return false;
   }
 
   // save all core keyframes
-  float current_time = 0.0f;
-  for(unsigned i = 0; i < trackData.size(); ++i)
+  for(int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
   {
     // save the core keyframe
-    if(!saveCoreKeyframe(file, strFilename, trackData[i], current_time))
-    {
+		bool res = saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i));
+
+		if (!res) {
       return false;
     }
-
-    current_time += time_per_frame;
   }
 
   return true;
@@ -874,56 +868,52 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 
 bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
 {
+	std::stringstream str;
 
-    std::stringstream str;
+	TiXmlDocument doc(strFilename);
 
-    TiXmlDocument doc(strFilename);
-
-    TiXmlElement animation("ANIMATION");
-    //animation.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
-    animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+	TiXmlElement animation("ANIMATION");
+	//animation.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
+	animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 
 
 	str.str("");
-    str << pCoreAnimation->getDuration();	
+	str << pCoreAnimation->getDuration();	
 	animation.SetAttribute("DURATION",str.str());
-  animation.SetAttribute("NUMTRACKS", pCoreAnimation->getTrackCount());
+	animation.SetAttribute("NUMTRACKS", pCoreAnimation->getTrackCount());
 
-  // Get the pose data from the animation
-  const std::vector<CalTransform> &poses = pCoreAnimation->getPoses();
-  unsigned int num_poses = poses.size() / pCoreAnimation->getTrackCount();
+	// get core track list
+	std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-  // Calculate the time_per_frame incorrectly since the duration for animations
-  // is stored incorrectly.
-  float time_per_frame = pCoreAnimation->getDuration() / num_poses;
+	// write all core bones
+	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+	for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+	{
+		CalCoreTrack *pCoreTrack=*iteratorCoreTrack;
 
-  // write each track
-  for (unsigned track_index = 0; track_index < pCoreAnimation->getTrackCount(); ++track_index)
-  {
-    int bone_id = pCoreAnimation->getBoneAssignment(track_index);
+		TiXmlElement track("TRACK");
+		track.SetAttribute("BONEID",pCoreTrack->getCoreBoneId());
 
-    TiXmlElement track("TRACK");
-    track.SetAttribute("BONEID", bone_id);
-    track.SetAttribute("NUMKEYFRAMES", num_poses);
+		track.SetAttribute("NUMKEYFRAMES",pCoreTrack->getCoreKeyframeCount());
 
-    // write the key frames for each track
-    float current_time = 0.0f;
-    for (unsigned keyframe_index = 0; keyframe_index < num_poses; ++keyframe_index)
-    {
-      const CalTransform& bone_coord_sys = poses[(keyframe_index * pCoreAnimation->getTrackCount()) + track_index];
+		// save all core keyframes
+		for (int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
+		{
+			CalCoreKeyframe *pCoreKeyframe=pCoreTrack->getCoreKeyframe(i);
 
-      TiXmlElement keyframe("KEYFRAME");
-      str.str("");
-      str << current_time;
-      keyframe.SetAttribute("TIME", str.str());
+			TiXmlElement keyframe("KEYFRAME");
+
+			str.str("");
+			str << pCoreKeyframe->getTime();	        
+			keyframe.SetAttribute("TIME",str.str());
 
 			TiXmlElement translation("TRANSLATION");
-			const CalVector& translationVector = bone_coord_sys.getTranslation();
+			const CalVector& translationVector = pCoreKeyframe->getTranslation();
 
 			str.str("");
 			str << translationVector.x << " "
-				  << translationVector.y << " "
-				  << translationVector.z;
+				<< translationVector.y << " "
+				<< translationVector.z;
 
 			TiXmlText translationdata(str.str());  
 
@@ -931,7 +921,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 			keyframe.InsertEndChild(translation);
 
 			TiXmlElement rotation("ROTATION");
-			const CalQuaternion& rotationQuad = bone_coord_sys.getRotation();  
+			const CalQuaternion& rotationQuad = pCoreKeyframe->getRotation();  
 
 			str.str("");
 			str << rotationQuad.x << " " 
@@ -944,23 +934,20 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 			keyframe.InsertEndChild(rotation);
 
 			track.InsertEndChild(keyframe);
-
-      // Advance the time for the next key frame
-      current_time += time_per_frame;
-    }
+		}
 
 		animation.InsertEndChild(track);
-  }
+	}
 
-  doc.InsertEndChild(animation);
-	
-  if(!doc.SaveFile())
+	doc.InsertEndChild(animation);
+
+	if(!doc.SaveFile())
 	{
-	  CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
 	} 
 
-  return true;
+	return true;
 }
 
 
