@@ -93,33 +93,36 @@ CalMixer::~CalMixer()
 /// do not match up, the first key frame is duplicated and added to the end of the track
 /// to ensure smooth looping.
 ///
-static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* anim)
+static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* pCoreAnimation)
 {
-	float duration = anim->getDuration();
+	std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-	unsigned tracksCount = anim->getTrackCount();
-	for (unsigned i = 0; i < tracksCount; i++) {
-		CalCoreTrack *track = anim->getCoreTrack(i);
-		int nb_kf = track->getCoreKeyframeCount();
-		if (nb_kf == 1)
-			continue;
-		CalCoreKeyframe *first_kf = track->getCoreKeyframe(0);
-		CalCoreKeyframe *last_kf = track->getCoreKeyframe(nb_kf-1);
+   if(listCoreTrack.size() == 0)
+		 return;
 
-		const CalQuaternion &first_quat = first_kf->getRotation();
-		const CalQuaternion &last_quat = last_kf->getRotation();
+	CalCoreTrack *coreTrack = listCoreTrack.front();
+  if(coreTrack == 0)
+		 return;
 
-		const CalVector &first_translation = first_kf->getTranslation();
-		const CalVector &last_translation = last_kf->getTranslation();
+	CalCoreKeyframe *lastKeyframe = coreTrack->getCoreKeyframe(coreTrack->getCoreKeyframeCount()-1);
+	if(lastKeyframe == 0)
+		 return;
 
-		float last_time = last_kf->getTime();
+	if(lastKeyframe->getTime() < pCoreAnimation->getDuration())
+	{
+		std::list<CalCoreTrack *>::iterator itr;
+    for(itr=listCoreTrack.begin();itr!=listCoreTrack.end();++itr)
+		{
+			coreTrack = *itr;
 
-		if ((first_quat != last_quat || first_translation != last_translation) && last_time != duration) {
-			CalCoreKeyframe *add_kf = new CalCoreKeyframe();
-			add_kf->setTranslation(first_translation);
-			add_kf->setRotation(first_quat);
-			add_kf->setTime(last_time + 0.02f); // ensure a smooth blend to the first keyframe in 50ms
-			track->addCoreKeyframe(add_kf);
+			CalCoreKeyframe *firstKeyframe = coreTrack->getCoreKeyframe(0);
+      CalCoreKeyframe *newKeyframe = new CalCoreKeyframe();
+
+      newKeyframe->setTranslation(firstKeyframe->getTranslation());
+      newKeyframe->setRotation(firstKeyframe->getRotation());
+      newKeyframe->setTime(pCoreAnimation->getDuration());
+
+      coreTrack->addCoreKeyframe(newKeyframe);
 		}
 	}
 }
