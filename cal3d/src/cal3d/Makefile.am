@@ -106,7 +106,7 @@ pkginclude_HEADERS = \
 	cal3d_wrapper.h \
 	coreanimation.h \
 	corebone.h \
-	corekeyframe.cpp \
+	corekeyframe.h \
 	corematerial.h \
 	coremesh.h \
 	coremodel.h \
