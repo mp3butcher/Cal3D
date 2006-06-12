@@ -113,7 +113,7 @@ pkginclude_HEADERS = \
 	coreskeleton.h \
 	coresubmesh.h \
 	coresubmorphtarget.h \
-	coretrack.cpp \
+	coretrack.h \
 	datasource.h \
 	error.h \
 	global.h \
