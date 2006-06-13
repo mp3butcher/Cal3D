@@ -93,13 +93,6 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   // get core track list
   std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-  // write the number of tracks
-  if(!CalPlatform::writeInteger(file, listCoreTrack.size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
   // write all core bones
   std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
   for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
@@ -875,7 +868,6 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 	TiXmlElement animation("ANIMATION");
 	//animation.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
 	animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-
 
 	str.str("");
 	str << pCoreAnimation->getDuration();	
