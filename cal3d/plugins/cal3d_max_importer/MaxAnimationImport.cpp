@@ -1,5 +1,9 @@
+
 #include <afxdlgs.h>
 #include <cal3d/cal3d.h>
+#include <cal3d/coretrack.h>
+#include <cal3d/corekeyframe.h>
+
 #include "MaxAnimationImport.h"
 
 
@@ -34,7 +38,7 @@ CMaxAnimationImport::DoImport(
 
   CString skeleton = fileDialog.GetPathName();
   
-  CalCoreSkeletonPtr skel = CalLoader::loadCoreSkeleton(std::string(skeleton));
+	cal3d::RefPtr<CalCoreSkeleton> skel = CalLoader::loadCoreSkeleton(std::string(skeleton));
   if (!skel) {
     MessageBox(
       window, "Loading skeleton file failed",
@@ -42,7 +46,7 @@ CMaxAnimationImport::DoImport(
     return IMPEXP_FAIL;
   }
 
-  CalCoreAnimationPtr anim = CalLoader::loadCoreAnimation(name);
+	cal3d::RefPtr<CalCoreAnimation> anim = CalLoader::loadCoreAnimation(name);
   if (!anim) {
     MessageBox(
       window, "Loading animation file failed",
@@ -50,58 +54,40 @@ CMaxAnimationImport::DoImport(
     return IMPEXP_FAIL;
   }
 
-  // Get the pose information in the animation
-  const std::vector<CalTransform>& poses = anim->getPoses();
-  unsigned int num_poses = poses.size() / anim->getTrackCount();
+  typedef std::list<CalCoreTrack*> CoreTrackList;
+  CoreTrackList& trackList = anim->getListCoreTrack();
+  for (CoreTrackList::iterator itr = trackList.begin(); itr != trackList.end(); ++itr) {
+    CalCoreTrack* track = *itr;
 
-  // Calculate the time_per_frame incorrectly since the duration for animations
-  // is stored incorrectly.
-  float time_per_frame = anim->getDuration() / num_poses;
-
-  // Import each track
-  for (unsigned track_id = 0; track_id < anim->getTrackCount(); ++track_id)
-  {
-    // Get the core bone mapped to the animation
-    int bone_id = anim->getBoneAssignment(track_id);
-    CalCoreBone* bone = skel->getCoreBone(bone_id);
+    int boneId = track->getCoreBoneId();
+    CalCoreBone* bone = skel->getCoreBone(boneId);
     if (!bone) continue;
 
-    // Get the max node for the bone
     INode* node = i->GetINodeByName(bone->getName().c_str());
     if (!node) continue;
 
+    unsigned kfCount = track->getCoreKeyframeCount();
+
     SuspendAnimate();
     AnimateOn();
+    for (unsigned i = 0; i < kfCount; ++i) {
+      CalCoreKeyframe* kf = track->getCoreKeyframe(i);
+      CalQuaternion kf_q = kf->getRotation();
+      CalVector     kf_v = kf->getTranslation();
+      TimeValue     time = SecToTicks(kf->getTime());
 
-    // Add each pose keyframe in the track
-    float keyframe_time = 0.0f;
-    for (unsigned keyframe_index = 0; keyframe_index < num_poses; ++keyframe_index)
-    {
-      // Get the keyframe data
-      const CalTransform& pose_coord_sys = poses[(keyframe_index * anim->getTrackCount()) + track_id];
-      const CalVector     &kf_v = pose_coord_sys.getTranslation();
-      const CalQuaternion &kf_q = pose_coord_sys.getRotation();
-      TimeValue time = SecToTicks(keyframe_time);
-
-      // Convert to Max math
       Matrix3 tm;
       tm.IdentityMatrix();
       Quat(kf_q.x, kf_q.y, kf_q.z, kf_q.w).MakeMatrix(tm);
       tm.SetTrans(Point3(kf_v.x, kf_v.y, kf_v.z));
 
-      // Convert the transform to world space
       INode* parent = node->GetParentNode();
-      if (parent)
-      {
+      if (parent) {
         tm *= parent->GetNodeTM(time);
       }
 
-      // Set the new transform on the node
       node->SetNodeTM(time, tm);
-
-      keyframe_time += time_per_frame;
     }
-
     ResumeAnimate();
 
 /*
@@ -150,8 +136,7 @@ CMaxAnimationImport::DoImport(
     kc->SortKeys();
 */
   }
-  
-
+ 
   return IMPEXP_SUCCESS;
 }
 
