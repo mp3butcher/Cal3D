@@ -26,7 +26,7 @@ o-----------------------------------------------------------------------------o
     m_AnimDuration is always 0 for AnimActions.  Now the callback uses the
     internal time counter of the animation, which is probably more consistent
     anyway.
-  - VC6 and automake fixes.
+  - VC6 and automake fixes. Removed old variables from src/cal3d/Makefile.am.
   - 64bit compatibility fixes.
   - Patch for reading correctly raw texture on a Big endian cpu (for Mac).
   - Fixed bug in updating current anim time when time factor is set to negative.
