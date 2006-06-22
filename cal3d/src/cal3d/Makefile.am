@@ -10,10 +10,7 @@
 #
 # ************************************************************************
 
-INCLUDES = $(all_includes) -I$(top_srcdir)/src
-
-all_libraries = @LIBS@
-AM_LDFLAGS = @LDFLAGS@
+INCLUDES = -I$(top_srcdir)/src
 
 EXTRA_DIST = cal3d.rc cal3d.dsp SConscript
 
@@ -93,7 +90,7 @@ libcal3d_la_SOURCES = \
 	tinyxmlparser.cpp \
 	coremorphanimation.cpp
 
-libcal3d_la_LDFLAGS = $(all_libraries) -no-undefined -version-info $(VERSION_INFO) $(AM_LDFLAGS)
+libcal3d_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) 
 
 pkginclude_HEADERS = \
 	animation.h \
