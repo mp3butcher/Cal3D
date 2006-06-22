@@ -35,8 +35,8 @@ Build System Dependencies
 
    To configure and build the Cal3D library, you need the following tools:
    
-   GNU Autoconf 2.13 or newer
-   GNU Automake 1.4 or newer
+   GNU Autoconf 2.50 or newer
+   GNU Automake 1.9 or newer
 
    The source packages can be found at:
 
