@@ -296,6 +296,10 @@ NODEP_CPP_COREB=\
 # End Source File
 # Begin Source File
 
+SOURCE=.\corekeyframe.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\corematerial.cpp
 DEP_CPP_COREM=\
 	".\corematerial.h"\
@@ -414,6 +418,10 @@ DEP_CPP_CORESUB=\
 NODEP_CPP_CORESUB=\
 	".\config.h"\
 	
+# End Source File
+# Begin Source File
+
+SOURCE=.\coretrack.cpp
 # End Source File
 # Begin Source File
 
