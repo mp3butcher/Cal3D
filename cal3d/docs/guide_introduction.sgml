@@ -60,7 +60,7 @@
       <title><xref linkend="architecture"></title>
       <para>
         This chapter illustrates the architecture of the Cal3D library. All the components
-        and terminologies are explaind in every detail.
+        and terminologies are explained in every detail.
       </para>
     </formalpara>
 
@@ -81,7 +81,8 @@
     </para>
 
     <para>
-      Douglas Walsh, Nick Edgington, Marco Heidelberger, Wolfgang Wester, Brandon Ehle,
+      Laurent Desmecht, Loic Dachary, Douglas Walsh, Nick Edgington, Marco Heidelberger, 
+      Wolfgang Wester, Brandon Ehle, Igor Kravtchenko, Jeremy Moles,
       Wolfgang Scheicher, Stephan Stapel, Steve Cordon, Tomek Grudzinski and Ladislav Stefun.
     </para>
 
@@ -90,7 +91,7 @@
     </para>
 
     <para>
-      <ulink url="mailto:beosil@swileys.com">Bruno 'Beosil' Heidelberger</ulink> - Creator and lead developer of Cal3D
+      <ulink url="https://mail.gna.org/listinfo/cal3d-devel/">The cal3d developers</ulink>
     </para>
 
   </sect1>
@@ -137,12 +138,6 @@
             Provide feedback to the Cal3D project to help us enhance it.
           </para>
         </listitem>
-        <listitem>
-          <para>
-            If you make millions with your project, donate some bucks to the Cal3D
-            project to fund its future development =)
-          </para>
-        </listitem>
       </orderedlist>
     </para>
 
@@ -159,7 +154,7 @@
         <listitem>
           <para>
             Sponsoring and donations can definitively help the project, just contact
-            <ulink url="mailto:beosil@swileys.com">us</ulink>.
+            <ulink url="https://mail.gna.org/listinfo/cal3d-devel/">us</ulink>.
           </para>
         </listitem>
         <listitem>
@@ -170,11 +165,6 @@
           </para>
         </listitem>
       </orderedlist>
-    </para>
-
-    <para>
-      <emphasis>The Cal3D team thanks you for your support and wishes you success with all
-      your projects!</emphasis>
     </para>
 
   </sect1>

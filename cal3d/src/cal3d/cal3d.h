@@ -53,9 +53,8 @@
  /*****************************************************************************/
 /** \mainpage Cal3D API Reference
   * <center>
-  *   \image html ../../shared/cal3d.gif
   *   <p>
-  *   &copy; 2001 - 2003 Bruno Heidelberger
+  *   &copy; 2001 - 2006 Laurent Desmecht, Loic Dachary, Bruno Heidelberger
   *   <p>
   *     Answers to many frequently asked questions about Cal3D can be found
   *     in the <a href="./cal3dfaq.html">Cal3D FAQ</a>.

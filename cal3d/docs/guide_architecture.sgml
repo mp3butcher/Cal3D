@@ -3,7 +3,7 @@
 
   <para>
     This chapter illustrates the architecture of the Cal3D library. All the components
-    and terminologies are explaind in every detail.
+    and terminologies are explained in every detail.
   </para>
 
 
@@ -21,7 +21,7 @@
       referred to as 'core model') that represents one type of model and that stores all the
       shared data. Each set of <link linkend="instanceclasses">Instance Classes</link>
       (also referred to as 'model' or 'model instance') is constructed from the
-      <link linkend="coreclasses">Core Classes</link> and represents one specfic instance
+      <link linkend="coreclasses">Core Classes</link> and represents one specific instance
       of the model type.
     </para>
 
@@ -32,7 +32,7 @@
         There will be 2 different core models, namely the one for the warriors and
         the other for the dragons. The core model of the warriors contains all the
         animations, materials and meshes of all possible warrior instances. The
-        same holds for the dragon core model. Now, everytime a warrior or dragon is
+        same holds for the dragon core model. Now, every time a warrior or dragon is
         born, a new model instance will be created based on its core model. The
         individual appearance is done by selecting specific meshes and materials
         from the core model. This allows us to have epic battles with numerous different
@@ -133,12 +133,12 @@
           </listitem>
           <listitem>
             <para>
-              The skinning stage (Phyique).
+              The skinning stage (Physique).
             </para>
           </listitem>
           <listitem>
             <para>
-              The (experimental) cloth animation layer (SpringSystem).
+              The (experimental) cloth animation layer (Spring-System).
             </para>
           </listitem>
           <listitem>
@@ -237,7 +237,7 @@
           </listitem>
           <listitem>
             <para>
-              The simulation of the cloth parts of the model in the "SpringSystem"
+              The simulation of the cloth parts of the model in the "Spring-System"
               (experimental feature).
             </para>
           </listitem>
@@ -390,7 +390,7 @@
     </para>
 
     <para>
-      When triggering a new animation you can choose between different behaviours.
+      When triggering a new animation you can choose between different behaviors.
       Currently implemented are the cycle and the action types. Once started, a cycle
       animation will loop until you explicitly stop it. This is well-suited for
       motions such as walking or swimming. The action type is a one-time animation
@@ -402,7 +402,7 @@
 
     <para>
       Each active animation has a weight associated with it. This makes it possible
-      to finetune the amount of influence each animation has on the model. Furthermore
+      to fine tune the amount of influence each animation has on the model. Furthermore
       each animation type has a different priority in the blending process. In the
       current version of the Cal3D library, the action type has a higher priority than
       the cycle one. This is necessary to make actions completely overlay the ongoing
@@ -451,7 +451,7 @@
       A simple mechanism for material handling is implemented, which provides an easy
       way to change materials and therefore the look of a model instance. For each
       core model there exists one or more material sets. Materials in the same set
-      share a common look, as example 'skin', 'leather' or 'chainmail'. Additionally
+      share a common look, as example 'skin', 'leather' or 'chain-mail'. Additionally
       there are one or more material threads in the core model. These material threads
       contain the same materials but grouped by a specific part of the model, as
       example 'left foot', 'torso' or 'helmet'. Together they build a material grid
@@ -470,19 +470,19 @@
     <example>
       <title>The legendary paladin goes shopping</title>
       <para>
-        After uncountable battles against evil creatures, our paladin's suit of armour
+        After uncountable battles against evil creatures, our paladin's suit of armor
         has a scratch here and there. In other words, it is time for a visit at the
         local smith for a new outfit. For simplicity let's assume that the paladin model
         is built from two pieces only, the upper body and the lower body. Each of them
-        has a different material thread assigned. The smith sells two types of armour,
-        the first is chainmail, the other platemail. There is an upper body piece and a
-        lower body piece for both armour types. All the pieces of the same armour type
+        has a different material thread assigned. The smith sells two types of armor,
+        the first is chain-mail, the other plate-mail. There is an upper body piece and a
+        lower body piece for both armor types. All the pieces of the same armor type
         are in the same material set. The material grid for this example has therefore
-        4 entries (2 sets x 2 threads) filled with the materials: upper body chainmail,
-        lower body chainmail, upper body platemail, lower body platemail. Now, when the
-        paladin tries on the pieces of armour, you can simple select the appropriate
+        4 entries (2 sets x 2 threads) filled with the materials: upper body chain-mail,
+        lower body chain-mail, upper body plate-mail, lower body plate-mail. Now, when the
+        paladin tries on the pieces of armor, you can simple select the appropriate
         material set for the body part to change the look of the model. As example, in
-        pseudo-code 'change upper body to platemail'.
+        pseudo-code 'change upper body to plate-mail'.
       </para>
     </example>
 
@@ -588,7 +588,7 @@
     <title id="errorhandlingTITLE">Error Handling</title>
     <para>
       If a return-code of a Cal3D library function indicates an error, you can get a more
-      detailed information about it from a set of error handling functions. Thie information
+      detailed information about it from a set of error handling functions. The information
       contain data such as the individual error code, a description and the file and
       line-number where the error was noticed.
     </para>

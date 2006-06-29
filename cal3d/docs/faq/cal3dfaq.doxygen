@@ -78,7 +78,7 @@
  *  that you can adapt for your own purposes.
  *
  *  Cal3D can't help you make animated models. Making a decent character will
- *  require the use of a modeling package like 3D Studio MAX, using the tools
+ *  require the use of a modeling package like Blender, using the tools
  *  that it provides. Making a really excellent character requires a talented 
  *  artist. 
  *
@@ -104,7 +104,7 @@
  *
  *  Cal3D is certainly capable of operating fast enough for many practical
  *  applications and games. While we don't have an official benchmark, tests
- *  have been done in the past involving 20-30 characters at a time and
+ *  have been done in the past involving hundreds of characters at a time and
  *  reasonable framerates were achieved.
  *  </ul>
  *
@@ -118,13 +118,12 @@
  *  The catch, however, is that if you make <i>changes</i> to Cal3D and use
  *  them, you are obligated to release the source code under the same license. 
  *  </ul>
- *
  * 
  *  <b>What operating systems does Cal3D work on?</b>
  *  
  *  <ul>
  *  Cal3D is written to be cross-platform. It works on Windows, SGI Irix, 
- *  various flavors of Linux, Mac OS X, etc. 
+ *  various flavors of GNU/Linux, Mac OS X, etc. 
  *
  *  Basically all you need is a decent C++ compiler with standard template
  *  library support. If you want to use the build system, you either need
@@ -180,20 +179,22 @@
  *  <b><i>Poker3d</i></b> - http://freshmeat.net/projects/poker3d/ - Poker 3D client and server
  *  released under the GNU GPL (pre-Alpha stage).
  *
- *  <b><i>osgCal</i></b> - http://osgcal.sourceforge.net/ - OpenSceneGraph adapter for cal3d
- *  released under the GNU LGPL (Beta stage).
+ *  <b><i>osgCal</i></b> - http://gna.org/projects/underware - OpenSceneGraph adapter for cal3d
+ *  released under the GNU GPL.
  *
  *  <b><i>ReplicantBody</i></b> - http://www.vrlab.umu.se/research/replicants/rbody.html - 
  *  ReplicantBody is a character animation toolkit released under the GNU LGPL, written in C++, 
  *  built upon Cal3D, ConfigScript and OpenSceneGraph.
  *
- *  <b><i>Soya</i></b> - http://oomadness.nekeme.net/en/soya/features.html - Soya 3D is a 
+ *  <b><i>Soya</i></b> - http://oomadness.gna.org/ - Soya 3D is a 
  *  high-level 3D engine for Python, designed with games in mind. Soya is written partly in Python
  *  and partly in C. Slune is a game based on Soya http://oomadness.nekeme.net/en/slune/index.html.
  *  Released under the GNU GPL.
  *
  *  <b><i>Genecys</i></b> - http://sourceforge.net/projects/genecys - Genecys is an online, multiplayer
  *  third person 3D MMORPG similar to Final Fantasy Online, or Everquest. Released under the GNU GPL.
+ *
+ *  <b><i>Pok3d</i></b> - http://pok3d.com/ - A 3D online poker room, released under the GNU GPL.
  *
  *  If you know of anyone else using Cal3D, let us know!
  *  </ul>
@@ -225,8 +226,9 @@
  *  <b>What modeling packages does Cal3D support?</b>
  *
  *  <ul>
- *  We currently have exporters for 3D Studio MAX and Milkshape 3D.
+ *  We currently have exporters for Blender, 3D Studio MAX and Milkshape 3D.
  *
+ *  Blender - http://www.blender3d.org/<br>
  *  3D Studio MAX - http://www.discreet.com/products/3dsmax<br>
  *  Milkshape 3D - http://www.swissquake.ch/chumbalum-soft
  *  </ul>
@@ -422,7 +424,7 @@
  *  called osgCal that provides an adapter to put Cal3D models into OSG
  *  applications. Find it here:
  *
- *  http://osgcal.sourceforge.net
+ *  http://gna.org/projects/underware/
  *  </ul>
  *
  *
@@ -435,7 +437,7 @@
  *  You may have gotten a message pop-up saying that the MSVCP70.dll file could 
  *  not be found when trying to run the Cally demo.
  * 
- *  The Windows binaries for the 0.9 version of Cal3d (and the demo) were compiled
+ *  The Windows binaries for the 0.11 version of Cal3d (and the demo) were compiled
  *  with Visual Studio .NET (VC70). Non-XP versions of Windows may not have the
  *  right C/C++ runtime DLLs that are needed. 
  *  
@@ -472,8 +474,7 @@
  *  <b>Do I need a specific version of 3D Studio MAX to use the exporters?</b>
  *
  *  <ul>
- *  Cal3D's exporters are known to work with 3DSMax 3, 4, and 5. This includes
- *  Character Studio 4 as well.
+ *  Cal3D's exporters are known to work with 3DSMax 6, and 7.
  *  </ul>
  *
  *

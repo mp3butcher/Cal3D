@@ -45,10 +45,9 @@
     </para>
 
     <para>
-      The setup was tested on
-      <ulink url="http://www.suse.com">SuSE Linux</ulink> (with the
-      <ulink url="http://www.gnu.org">GNU</ulink> C++ compiler)
-      and Windows 2000 (with the MS Visual C++ compiler).
+      The setup was tested on most GNU/Linux distributions and native
+      packages exist for most of them. It also works on all known windows
+      or macos flavors.
     </para>
     <para>
       Note that you will need additional programs and libraries to compile and
@@ -76,8 +75,8 @@
         <para>
           The names of all the Cal3D packages are tagged with their version number. After
           unpacking the Cal3D library package, you have to strip the version number from
-          the directory name. As example, unpacking Cal3D version 0.7 will result in a
-          directory named <filename class="directory">cal3d-0.7</filename> and should
+          the directory name. As example, unpacking Cal3D version 0.11 will result in a
+          directory named <filename class="directory">cal3d-0.11</filename> and should
           be renamed to <filename class="directory">cal3d</filename>. A symbolic link
           under *nix systems works too. All the packages depending on the Cal3D library
           fail to compile if this is not properly done!
@@ -86,7 +85,7 @@
       <listitem>
         <para>
           The same procedure needs to be done for the example data package. As example,
-          rename <filename class="directory">cal3d_data-0.7</filename> to
+          rename <filename class="directory">cal3d_data-0.11</filename> to
           <filename class="directory">cal3d_data</filename>.
         </para>
       </listitem>
@@ -106,8 +105,8 @@
   <filename class="directory">    cal3d/</filename>
   <filename class="directory">    cal3d_cally-2.0/</filename>
   <filename class="directory">    cal3d_data/</filename>
-  <filename class="directory">    cal3d_exporter-0.7/</filename>
-  <filename class="directory">    cal3d_miniviewer-0.7/</filename>
+  <filename class="directory">    cal3d_exporter-0.3/</filename>
+  <filename class="directory">    cal3d_miniviewer-0.9/</filename>
   <filename class="directory">    ...</filename>
     </programlisting>
   </sect1>
@@ -115,8 +114,7 @@
   <sect1 id="compilation">
     <title id="compilationTITLE">Compilation</title>
     <para>
-      The Cal3D project comes with automake/autoconf scripts and workspaces for
-      <ulink url="http://www.kdevelop.org">kdevelop</ulink> and MS Visual C++ for
+      The Cal3D project comes with automake/autoconf scripts and MS Visual C++ for
       easy compilation.
     </para>
 
@@ -134,38 +132,6 @@
   ./configure
   make
       </programlisting>
-      <para>
-        This should build the Cal3D library without any warning or error.
-      </para>
-    </sect2>
-
-    <sect2>
-      <title>kdevelop</title>
-      <para>
-        Start up kdevelop and execute the following steps:
-      </para>
-      <orderedlist>
-        <listitem>
-          <para>
-            Open the <filename>cal3d.kdevprj</filename> project file.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Execute <guimenu>Build</guimenu> -> <guimenuitem>Autoconf and automake</guimenuitem>.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Execute <guimenu>Build</guimenu> -> <guimenuitem>Configure...</guimenuitem> without arguments.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Execute <guimenu>Build</guimenu> -> <guimenuitem>Make</guimenuitem>.
-          </para>
-        </listitem>
-      </orderedlist>
       <para>
         This should build the Cal3D library without any warning or error.
       </para>

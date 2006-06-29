@@ -42,6 +42,7 @@ o-----------------------------------------------------------------------------o
     look like garbage until the anim time got back in the right zone. (Keith Fulton)
   - GNU/Linux compilation / packaging fixes (-DCAL_16BIT_INDICES is included if
     relevant in the .pc)
+  - Upgraded the guide
 	
 o-----------------------------------------------------------------------------o
 | Version 0.10.0 ( 12 january 2005) 
