@@ -145,7 +145,7 @@ BEGIN
                     29,158,8
     CTEXT           "MilkShape 3D Exporter Plugin 0.10.0",IDC_STATIC,68,18,
                     158,8
-    PUSHBUTTON      "http://cal3d.sourceforge.net",IDC_URL,68,45,101,14,
+    PUSHBUTTON      "http://gna.org/projects/cal3d/",IDC_URL,68,45,101,14,
                     BS_FLAT | WS_DISABLED
 END
 

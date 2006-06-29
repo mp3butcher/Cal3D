@@ -59,7 +59,7 @@
 
   <abstract>
     <para>
-      This documentation describes <ulink url="http://cal3d.sourceforge.net">Cal3D</ulink>,
+      This documentation describes <ulink url="http://gna.org/projects/cal3d/">Cal3D</ulink>,
       a free 3d character animation library.
       <important>
         <para>

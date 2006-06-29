@@ -126,7 +126,7 @@ BEGIN
                     IDC_STATIC,68,25,158,15
     CTEXT           "Alias|Wavefront Maya Exporter Plugin 0.10.0",
                     IDC_STATIC,68,16,158,8
-    PUSHBUTTON      "http://cal3d.sourceforge.net",IDC_URL,68,45,101,14,
+    PUSHBUTTON      "http://gna.org/projects/cal3d/",IDC_URL,68,45,101,14,
                     BS_FLAT | WS_DISABLED
 END
 

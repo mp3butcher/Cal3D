@@ -2,6 +2,7 @@ dnl ************************************************************************
 dnl
 dnl This file is part of the Cal3D library/package
 dnl Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
+dnl Copyright (C) 2006 Loic Dachary <loic@dachary.org>
 dnl
 dnl This library is free software; you can redistribute it and/or modify it
 dnl under the terms of the GNU Lesser General Public License as published by
@@ -16,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(cal3d,0.10.0+0.11.0+rc2)
+AM_INIT_AUTOMAKE(cal3d,0.11.0)
 
 AC_ARG_WITH(cxx,[  --with-cxx=CXX          force the use of a particular C++ compiler ],
 [
