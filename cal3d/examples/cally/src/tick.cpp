@@ -1,5 +1,6 @@
 //----------------------------------------------------------------------------//
 // tick.cpp                                                                   //
+// Copyright (C) 2006 Loic Dachary <loic@dachary.org>                         //
 // Copyright (C) 2001 Bruno 'Beosil' Heidelberger                             //
 //----------------------------------------------------------------------------//
 // This program is free software; you can redistribute it and/or modify it    //
@@ -13,14 +14,21 @@
 //----------------------------------------------------------------------------//
 
 #ifdef _WIN32
-#include <windows.h>
+# include <windows.h>
 #else
-#include <sys/time.h>
-#include <inttypes.h>
+# ifdef HAVE_CONFIG_H
+#  include <config.h>
+# endif // HAVE_CONFIG_H
+# include <sys/time.h>
+# include <inttypes.h>
 #endif
 
+#ifdef HAVE_SDL_H
+# include <SDL.h>
+#endif // HAVE_SDL_H
+
 #if defined(_MSC_VER) && _MSC_VER <= 0x0600
-#pragma warning(disable : 4786)
+# pragma warning(disable : 4786)
 #endif
 
 #include "tick.h"
@@ -48,11 +56,15 @@ Tick::~Tick()
 unsigned int Tick::getTick()
 {
 #ifdef _WIN32
-	return GetTickCount();
+  return GetTickCount();
 #else
+# ifdef HAVE_SDL_H
+  return GetTicks();
+# else
   struct timeval now;
   gettimeofday(&now, 0);
   return now.tv_sec * 1000 + now.tv_usec / 1000;
+# endif
 #endif
 }
 
@@ -89,7 +101,7 @@ double Tick::getTime()
 
 #else 
 
-#if defined(__i386__) || defined(__ia64__)
+# if defined(__i386__) || defined(__ia64__)
 
 inline uint64_t TimerGetCycle() {
   uint64_t x;
@@ -121,10 +133,17 @@ double Tick::getTime()
   return SCALE_COUNTER*(double)TimerGetCycle() ;
 }
 
-#else
+# else
+#  ifdef HAVE_SDL_H
 
-#error "no timer implemented for your plateform"
-#endif
+double Tick::getTime()
+{
+  return SDL_GetTicks();
+}
+#  else
+#   error "no timer implemented for your plateform"
+#  endif
+# endif
 #endif
 
 //----------------------------------------------------------------------------//

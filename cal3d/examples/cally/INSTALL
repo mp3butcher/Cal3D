@@ -2,7 +2,7 @@
          Building the Cally Demo
 ====================================================
 
-      The Cal3D Team  (June 2003)
+      The Cal3D Team  (June 2006)
 
 ----------------------------------------------------
 
@@ -13,8 +13,8 @@ Build System Dependencies
 
    To configure and build the Cally demo, you need the following tools:
    
-   GNU Autoconf 2.13 or newer
-   GNU Automake 1.4 or newer
+   GNU Autoconf 2.50 or newer
+   GNU Automake 1.7 or newer
 
    The source packages can be found at:
 

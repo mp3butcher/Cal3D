@@ -1,6 +1,7 @@
 # ************************************************************************
 #
 # This file is part of the Cal3D library/package
+# Copyright (C) 2006 Loic Dachary <loic@dachary.org>
 # Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
 #
 # This library is free software; you can redistribute it and/or modify it
@@ -10,12 +11,9 @@
 #
 # ************************************************************************
 
-INCLUDES = $(all_includes)
-
 bin_PROGRAMS = cal3d_cally
 
 cal3d_cally_SOURCES = main.cpp demo.cpp model.cpp menu.cpp tick.cpp tga.cpp
-cal3d_cally_LDFLAGS = $(all_libraries)
 
 noinst_HEADERS = global.h demo.h model.h menu.h tick.h tga.h
 

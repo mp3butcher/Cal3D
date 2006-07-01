@@ -12,26 +12,22 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = cally.dsp data/*.raw data/*.cfg ChangeLog README TODO
+EXTRA_DIST = cally.dsp \
+	$(wildcard data/*.raw) \
+	$(wildcard data/*.cfg) \
+	$(wildcard data/cally/*.??f) \
+	$(wildcard data/paladin/*.??f) \
+	$(wildcard data/skeleton/*.??f) \
+	ChangeLog README TODO
+
+ACLOCAL_AMFLAGS = -I config
 
 MAINTAINERCLEANFILES = \
 	Makefile.in \
-	docs/Makefile.in \
-	docs/api/Makefile.in \
-	docs/shared/Makefile.in \
 	src/Makefile.in \
-	src/cal3d/Makefile.in \
-	aclocal.m4 \
-	config.guess \
-	config.rpath \
-	config.h.in \
-	config.sub \
 	configure \
-	depcomp \
-	install-sh \
-	ltmain.sh \
-	missing \
-	mkinstalldirs
+	config.h.in \
+	aclocal.m4
 
 SUBDIRS = src
 

@@ -1,6 +1,7 @@
 dnl ************************************************************************
 dnl
 dnl This file is part of the Cal3D library/package
+dnl Copyright (C) 2006 Loic Dachary <loic@dachary.org>
 dnl Copyright (C) 2002 Bruno 'Beosil' Heidelberger (beosil@swileys.com)
 dnl
 dnl This library is free software; you can redistribute it and/or modify it
@@ -14,9 +15,11 @@ AC_INIT(src/main.cpp)
 
 AM_CONFIG_HEADER(config.h)
 
+AC_CONFIG_AUX_DIR(config)
+
 AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(cally,2.10.0)
+AM_INIT_AUTOMAKE(cally,2.11.0)
 
 dnl ************************************************************************
 
@@ -142,6 +145,11 @@ AC_CHECK_LIB(glut, glutInit,,AC_MSG_ERROR(["cannot find required glut library."]
 LDFLAGS="-L$GLUT_ROOT/lib -lglut -L$CAL3D_ROOT/lib -lcal3d $LDFLAGS -lm"
 CXXFLAGS="-O3 -ffast-math -funroll-all-loops $CXXFLAGS -I$GLUT_ROOT/include -I$CAL3D_ROOT/include"
 
+# Check for SDL
+AM_PATH_SDL(1.2.0)
+LDFLAGS="$LDFLAGS $SDL_LIBS"
+CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
+AC_CHECK_HEADERS([SDL.h])
 
 AC_LANG_CPLUSPLUS
 
@@ -155,8 +163,9 @@ AC_OUTPUT(Makefile src/Makefile)
 dnl ************************************************************************
 
 echo "o-----------------------------------------------------------o"
-echo "| To build and install the Cal3D cally demo type...         |"
-echo "|     make; make install                                    |"
+echo "| To build and run the Cal3D cally demo type...             |"
+echo "|     make                                                  |"
+echo "|     src/cal3d_cally                                       |"
 echo "o-----------------------------------------------------------o"
 
 dnl ************************************************************************
