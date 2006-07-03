@@ -7,6 +7,7 @@ o-----------------------------------------------------------------------------o
 o-----------------------------------------------------------------------------o
 
   - MacOSX framework in macosx directory (courtesy Derek Arndt <deekpyro@charter.net>)
+  - Add missing docs/modeling directory
 	
 o-----------------------------------------------------------------------------o
 | Version 0.11.0 ( 29 june 2006) 
