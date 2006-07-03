@@ -24,6 +24,7 @@ ACLOCAL_AMFLAGS = -I config
 
 MAINTAINERCLEANFILES = \
 	Makefile.in \
+	$(wildcard config/*) \
 	src/Makefile.in \
 	configure \
 	config.h.in \
