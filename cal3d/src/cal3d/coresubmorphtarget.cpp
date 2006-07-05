@@ -39,7 +39,7 @@ std::vector<CalCoreSubMorphTarget::BlendVertex>& CalCoreSubMorphTarget::getVecto
   * @return The number of blend vertices.
   *****************************************************************************/
 
-int CalCoreSubMorphTarget::getBlendVertexCount()
+int CalCoreSubMorphTarget::getBlendVertexCount() const
 {
   return m_vectorBlendVertex.size();
 }

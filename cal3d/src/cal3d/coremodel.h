@@ -36,7 +36,7 @@ public:
   // animations
   int addCoreAnimation(CalCoreAnimation *pCoreAnimation);
   CalCoreAnimation *getCoreAnimation(int coreAnimationId);
-  int getCoreAnimationCount();
+  int getCoreAnimationCount() const;
   int loadCoreAnimation(const std::string& strFilename);
   int loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName);
   int unloadCoreAnimation(const std::string& name);
@@ -48,13 +48,13 @@ public:
   // morph animations
   int addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimation);
   CalCoreMorphAnimation *getCoreMorphAnimation(int coreMorphAnimationId);
-  int getCoreMorphAnimationCount();
+  int getCoreMorphAnimationCount() const;
 
   // materials
   int addCoreMaterial(CalCoreMaterial *pCoreMaterial);
   bool createCoreMaterialThread(int coreMaterialThreadId);
   CalCoreMaterial *getCoreMaterial(int coreMaterialId);
-  int getCoreMaterialCount();
+  int getCoreMaterialCount() const;
   int getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId);
   int loadCoreMaterial(const std::string& strFilename);
   int loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName);
@@ -68,7 +68,7 @@ public:
   // meshes
   int addCoreMesh(CalCoreMesh *pCoreMesh);
   CalCoreMesh *getCoreMesh(int coreMeshId);
-  int getCoreMeshCount();
+  int getCoreMeshCount() const;
   int loadCoreMesh(const std::string& strFilename);
   int loadCoreMesh(const std::string& strFilename, const std::string& strMeshName);
   int unloadCoreMesh(const std::string& name);
@@ -83,7 +83,7 @@ public:
   bool saveCoreSkeleton(const std::string& strFilename);
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void addBoneName(const std::string& strBoneName, int boneId);
-  int getBoneId(const std::string& strBoneName);
+  int getBoneId(const std::string& strBoneName) const;
 
 // member variables
 private:

@@ -119,7 +119,7 @@ bool CalMorphTargetMixer::clear(int id, float delay)
   *
   * @return The weight of the morph target with the given id.
   *****************************************************************************/
-float CalMorphTargetMixer::getCurrentWeight(int id)
+float CalMorphTargetMixer::getCurrentWeight(int id) const
 {
   if((id < 0) || (id >= (int)m_vectorCurrentWeight.size()))
   {
@@ -208,7 +208,7 @@ void CalMorphTargetMixer::update(float deltaTime)
   * @return The number of morph targets this morph target mixer mixes.
   *****************************************************************************/
 
-int CalMorphTargetMixer::getMorphTargetCount()
+int CalMorphTargetMixer::getMorphTargetCount() const
 {
   return m_vectorCurrentWeight.size();
 }

@@ -46,13 +46,13 @@ public:
     virtual ~CalAnimation() {  }
 
   CalCoreAnimation *getCoreAnimation();
-  State getState();
-  float getTime();
-  Type getType();
-  float getWeight();
+  State getState() const;
+  float getTime() const;
+  Type getType() const;
+  float getWeight() const;
   void setTime(float time);
   void setTimeFactor(float timeFactor);
-  float getTimeFactor();
+  float getTimeFactor() const;
 
   void checkCallbacks(float animationTime,CalModel *model);
   void completeCallbacks(CalModel *model);

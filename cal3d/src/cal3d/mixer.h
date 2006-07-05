@@ -108,7 +108,7 @@ public:
    *         \li \b false if not an instance of CalMixer
    *
    *****************************************************************************/
-  virtual bool isDefaultMixer() { return false; }
+  virtual bool isDefaultMixer() const { return false; }
 
   /*****************************************************************************/
   /** 
@@ -155,18 +155,18 @@ public:
   CalMixer(CalModel* pModel);
   virtual ~CalMixer();
 
-  virtual bool isDefaultMixer() { return true; }
+  virtual bool isDefaultMixer() const { return true; }
   bool blendCycle(int id, float weight, float delay);
   bool clearCycle(int id, float delay);
   bool executeAction(int id, float delayIn, float delayOut, float weightTarget = 1.0f, bool autoLock=false);
   bool removeAction(int id);
   virtual void updateAnimation(float deltaTime);
   virtual void updateSkeleton();
-  float getAnimationTime();
-  float getAnimationDuration();
+  float getAnimationTime() const;
+  float getAnimationDuration() const;
   void setAnimationTime(float animationTime);
   void setTimeFactor(float timeFactor);
-  float getTimeFactor();
+  float getTimeFactor() const;
   CalModel *getCalModel();  
   std::vector<CalAnimation *> &getAnimationVector();
   std::list<CalAnimationAction *> &getAnimationActionList();

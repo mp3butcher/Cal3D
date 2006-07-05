@@ -70,18 +70,18 @@ public:
   CalCoreSubmesh();
   ~CalCoreSubmesh();
 
-  int getCoreMaterialThreadId();
-  int getFaceCount();
-  int getLodCount();
-  int getSpringCount();
+  int getCoreMaterialThreadId() const;
+  int getFaceCount() const;
+  int getLodCount() const;
+  int getSpringCount() const;
   std::vector<Face>& getVectorFace();
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
   std::vector<Spring>& getVectorSpring();
   std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
   std::vector<std::vector<TextureCoordinate> >& getVectorVectorTextureCoordinate();
   std::vector<Vertex>& getVectorVertex();
-  int getVertexCount();
-  bool isTangentsEnabled(int mapId);
+  int getVertexCount() const;
+  bool isTangentsEnabled(int mapId) const;
   bool enableTangents(int mapId, bool enabled);
   bool reserve(int vertexCount, int textureCoordinateCount, int faceCount, int springCount);
   void setCoreMaterialThreadId(int coreMaterialThreadId);
@@ -94,7 +94,7 @@ public:
   bool setVertex(int vertexId, const Vertex& vertex);
   int addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget);
   CalCoreSubMorphTarget *getCoreSubMorphTarget(int id);
-  int getCoreSubMorphTargetCount();
+  int getCoreSubMorphTargetCount() const;
   std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
   void scale(float factor);
 

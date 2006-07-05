@@ -230,7 +230,7 @@ void CalBone::setRotation(const CalQuaternion& rotation)
   * @return The relative rotation to the parent as quaternion.
   *****************************************************************************/
 
-const CalQuaternion& CalBone::getRotation()
+const CalQuaternion& CalBone::getRotation() const
 {
   return m_rotation;
 }
@@ -243,7 +243,7 @@ const CalQuaternion& CalBone::getRotation()
   * @return The absolute rotation to the parent as quaternion.
   *****************************************************************************/
 
-const CalQuaternion& CalBone::getRotationAbsolute()
+const CalQuaternion& CalBone::getRotationAbsolute() const
 {
   return m_rotationAbsolute;
 }
@@ -257,7 +257,7 @@ const CalQuaternion& CalBone::getRotationAbsolute()
   * @return The rotation to bring a point into bone space.
   *****************************************************************************/
 
-const CalQuaternion& CalBone::getRotationBoneSpace()
+const CalQuaternion& CalBone::getRotationBoneSpace() const
 {
   return m_rotationBoneSpace;
 }
@@ -285,7 +285,7 @@ void CalBone::setTranslation(const CalVector& translation)
   * @return The relative translation to the parent as quaternion.
   *****************************************************************************/
 
-const CalVector& CalBone::getTranslation()
+const CalVector& CalBone::getTranslation() const
 {
   return m_translation;
 }
@@ -298,7 +298,7 @@ const CalVector& CalBone::getTranslation()
   * @return The absolute translation to the parent as quaternion.
   *****************************************************************************/
 
-const CalVector& CalBone::getTranslationAbsolute()
+const CalVector& CalBone::getTranslationAbsolute() const
 {
   return m_translationAbsolute;
 }
@@ -312,7 +312,7 @@ const CalVector& CalBone::getTranslationAbsolute()
   * @return The translation to bring a point into bone space.
   *****************************************************************************/
 
-const CalVector& CalBone::getTranslationBoneSpace()
+const CalVector& CalBone::getTranslationBoneSpace() const
 {
   return m_translationBoneSpace;
 }
@@ -326,7 +326,7 @@ const CalVector& CalBone::getTranslationBoneSpace()
   * @return The translation to bring a point into bone space.
   *****************************************************************************/
 
-const CalMatrix& CalBone::getTransformMatrix()
+const CalMatrix& CalBone::getTransformMatrix() const
 {
   return m_transformMatrix;
 }

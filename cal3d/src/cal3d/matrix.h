@@ -125,7 +125,7 @@ public:
 		dzdz += m.dzdz*factor;
 	}
 	
-	inline float det()
+	inline float det() const
 	{
 		return dxdx * (dydy*dzdz-dydz*dzdy)
             -dxdy* ( dydx*dzdz-dzdx*dydz)

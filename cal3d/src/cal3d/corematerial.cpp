@@ -57,7 +57,7 @@ CalCoreMaterial::Color& CalCoreMaterial::getDiffuseColor()
   * @return The number of maps.
   *****************************************************************************/
 
-int CalCoreMaterial::getMapCount()
+int CalCoreMaterial::getMapCount() const
 {
   return m_vectorMap.size();
 }
@@ -75,7 +75,7 @@ int CalCoreMaterial::getMapCount()
   *         \li an empty string if an error happend
   *****************************************************************************/
 
-const std::string& CalCoreMaterial::getMapFilename(int mapId)
+const std::string& CalCoreMaterial::getMapFilename(int mapId) const
 {
   // check if the map id is valid
   if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
@@ -121,7 +121,7 @@ Cal::UserData CalCoreMaterial::getMapUserData(int mapId)
   * @return The shininess factor.
   *****************************************************************************/
 
-float CalCoreMaterial::getShininess()
+float CalCoreMaterial::getShininess() const
 {
   return m_shininess;
 }
@@ -308,7 +308,7 @@ void CalCoreMaterial::setFilename(const std::string& filename)
   *
   *****************************************************************************/
 
-const std::string& CalCoreMaterial::getFilename(void)
+const std::string& CalCoreMaterial::getFilename(void) const
 {
   return m_filename;
 }
@@ -335,7 +335,7 @@ void CalCoreMaterial::setName(const std::string& name)
   *
   *****************************************************************************/
 
-const std::string& CalCoreMaterial::getName(void)
+const std::string& CalCoreMaterial::getName(void) const
 {
   return m_name;
 }

@@ -29,7 +29,7 @@ public:
 
   CalCoreMesh *getCoreMesh();
   CalSubmesh *getSubmesh(int id);
-  int getSubmeshCount();
+  int getSubmeshCount() const;
   std::vector<CalSubmesh *>& getVectorSubmesh();
   void setLodLevel(float lodLevel);
   void setMaterialSet(int setId);

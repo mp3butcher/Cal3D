@@ -30,14 +30,14 @@ public:
 
   int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
   CalCoreSubmesh *getCoreSubmesh(int id);
-  int getCoreSubmeshCount();
+  int getCoreSubmeshCount() const;
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   int addAsMorphTarget(CalCoreMesh *pCoreMesh);
   void scale(float factor);
   void setFilename(const std::string& filename);
-  const std::string& getFilename(void);
+  const std::string& getFilename(void) const;
   void setName(const std::string& name);
-  const std::string& getName(void);
+  const std::string& getName(void) const;
 
 private:
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;

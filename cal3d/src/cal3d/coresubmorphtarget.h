@@ -29,7 +29,7 @@ public:
   CalCoreSubMorphTarget()  { }
   ~CalCoreSubMorphTarget() { }
 
-  int getBlendVertexCount();
+  int getBlendVertexCount() const;
   std::vector<BlendVertex>& getVectorBlendVertex();
   bool reserve(int blendVertexCount);
   bool setBlendVertex(int vertexId, const BlendVertex& vertex);

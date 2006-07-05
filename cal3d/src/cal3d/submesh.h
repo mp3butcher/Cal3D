@@ -45,25 +45,25 @@ public:
   ~CalSubmesh() { }
 
   CalCoreSubmesh *getCoreSubmesh();
-  int getCoreMaterialId();
-  int getFaceCount();
+  int getCoreMaterialId() const;
+  int getFaceCount() const;
   int getFaces(CalIndex *pFaceBuffer);
   std::vector<CalVector>& getVectorNormal();
   std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
   std::vector<CalVector>& getVectorVertex();
-  int getVertexCount();
-  bool hasInternalData();
+  int getVertexCount() const;
+  bool hasInternalData() const;
   void disableInternalData();
   void setCoreMaterialId(int coreMaterialId);
   void setLodLevel(float lodLevel);
-  bool isTangentsEnabled(int mapId);
+  bool isTangentsEnabled(int mapId) const;
   bool enableTangents(int mapId, bool enabled);
   std::vector<float>& getVectorWeight();
   void setMorphTargetWeight(int blendId,float weight);
-  float getMorphTargetWeight(int blendId);
-  float getBaseWeight();
-  int getMorphTargetWeightCount();
+  float getMorphTargetWeight(int blendId) const;
+  float getBaseWeight() const;
+  int getMorphTargetWeightCount() const;
   std::vector<float>& getVectorMorphTargetWeight();
 
 private:

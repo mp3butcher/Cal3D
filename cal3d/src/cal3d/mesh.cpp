@@ -119,7 +119,7 @@ CalSubmesh *CalMesh::getSubmesh(int id)
   * @return The number of submeshes.
   *****************************************************************************/
 
-int CalMesh::getSubmeshCount()
+int CalMesh::getSubmeshCount() const
 {
   return m_vectorSubmesh.size();
 }

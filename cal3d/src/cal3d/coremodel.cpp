@@ -217,7 +217,7 @@ CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimatio
   * @return The number of core animations.
   *****************************************************************************/
 
-int CalCoreModel::getCoreAnimationCount()
+int CalCoreModel::getCoreAnimationCount() const
 {
   return m_vectorCoreAnimation.size();
 }
@@ -231,7 +231,7 @@ int CalCoreModel::getCoreAnimationCount()
   * @return The number of core morph animations.
   *****************************************************************************/
 
-int CalCoreModel::getCoreMorphAnimationCount()
+int CalCoreModel::getCoreMorphAnimationCount() const
 {
   return m_vectorCoreMorphAnimation.size();
 }
@@ -269,7 +269,7 @@ CalCoreMaterial *CalCoreModel::getCoreMaterial(int coreMaterialId)
   * @return The number of core materials.
   *****************************************************************************/
 
-int CalCoreModel::getCoreMaterialCount()
+int CalCoreModel::getCoreMaterialCount() const
 {
   return m_vectorCoreMaterial.size();
 }
@@ -345,7 +345,7 @@ CalCoreMesh *CalCoreModel::getCoreMesh(int coreMeshId)
   * @return The number of core meshes.
   *****************************************************************************/
 
-int CalCoreModel::getCoreMeshCount()
+int CalCoreModel::getCoreMeshCount() const
 {
   return m_vectorCoreMesh.size();
 }
@@ -997,7 +997,7 @@ void CalCoreModel::addBoneName(const std::string& strBoneName, int boneId)
   *         \li \b the ID number of the bone asssociated with the input string
   *****************************************************************************/
 
-int CalCoreModel::getBoneId(const std::string& strBoneName)
+int CalCoreModel::getBoneId(const std::string& strBoneName) const
 {
   if (m_pCoreSkeleton)
   {

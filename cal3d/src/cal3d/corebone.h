@@ -31,15 +31,15 @@ public:
   bool addChildId(int childId);
   void calculateState();
   std::list<int>& getListChildId();
-  const std::string& getName();
-  int getParentId();
+  const std::string& getName() const;
+  int getParentId() const;
   CalCoreSkeleton *getCoreSkeleton();
-  const CalQuaternion& getRotation();
-  const CalQuaternion& getRotationAbsolute();
-  const CalQuaternion& getRotationBoneSpace();
-  const CalVector& getTranslation();
-  const CalVector& getTranslationAbsolute();
-  const CalVector& getTranslationBoneSpace();
+  const CalQuaternion& getRotation() const;
+  const CalQuaternion& getRotationAbsolute() const;
+  const CalQuaternion& getRotationBoneSpace() const;
+  const CalVector& getTranslation() const;
+  const CalVector& getTranslationAbsolute() const;
+  const CalVector& getTranslationBoneSpace() const;
   Cal::UserData getUserData();
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void setParentId(int parentId);
@@ -52,7 +52,7 @@ public:
   void calculateBoundingBox(CalCoreModel * pCoreModel);
   CalBoundingBox & getBoundingBox();
   void getBoundingData(int planeId,CalVector & position); 
-  bool isBoundingBoxPrecomputed();
+  bool isBoundingBoxPrecomputed() const;
   void scale(float factor);
   
 private:

@@ -64,7 +64,7 @@ CalCoreSubmesh::~CalCoreSubmesh()
   * @return The ID of the core material thread.
   *****************************************************************************/
 
-int CalCoreSubmesh::getCoreMaterialThreadId()
+int CalCoreSubmesh::getCoreMaterialThreadId() const
 {
   return m_coreMaterialThreadId;
 }
@@ -77,7 +77,7 @@ int CalCoreSubmesh::getCoreMaterialThreadId()
   * @return The number of faces.
   *****************************************************************************/
 
-int CalCoreSubmesh::getFaceCount()
+int CalCoreSubmesh::getFaceCount() const
 {
   return m_vectorFace.size();
 }
@@ -90,7 +90,7 @@ int CalCoreSubmesh::getFaceCount()
   * @return The number of LOD steps.
   *****************************************************************************/
 
-int CalCoreSubmesh::getLodCount()
+int CalCoreSubmesh::getLodCount() const
 {
   return m_lodCount;
 }
@@ -103,7 +103,7 @@ int CalCoreSubmesh::getLodCount()
   * @return The number of springs.
   *****************************************************************************/
 
-int CalCoreSubmesh::getSpringCount()
+int CalCoreSubmesh::getSpringCount() const
 {
   return m_vectorSpring.size();
 }
@@ -116,7 +116,7 @@ int CalCoreSubmesh::getSpringCount()
   * @return True if tangent vectors are enabled.
   *****************************************************************************/
 
-bool CalCoreSubmesh::isTangentsEnabled(int mapId)
+bool CalCoreSubmesh::isTangentsEnabled(int mapId) const
 {
   if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
 
@@ -306,7 +306,7 @@ std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex()
   * @return The number of vertices.
   *****************************************************************************/
 
-int CalCoreSubmesh::getVertexCount()
+int CalCoreSubmesh::getVertexCount() const
 {
   return m_vectorVertex.size();
 }
@@ -603,7 +603,7 @@ CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id)
   * @return The number of core sub morph targets.
   *****************************************************************************/
 
-int CalCoreSubmesh::getCoreSubMorphTargetCount()
+int CalCoreSubmesh::getCoreSubMorphTargetCount() const
 {
   return m_vectorCoreSubMorphTarget.size();
 }

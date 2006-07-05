@@ -26,9 +26,9 @@ public:
 
   bool blend(int id, float weight, float delay);
   bool clear(int id, float delay);
-  float getCurrentWeight(int id);
+  float getCurrentWeight(int id) const;
   float getCurrentWeightBase();
-  int getMorphTargetCount();
+  int getMorphTargetCount() const;
   void update(float deltaTime);
 
 private:

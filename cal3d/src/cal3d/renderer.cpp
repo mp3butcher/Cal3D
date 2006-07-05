@@ -175,7 +175,7 @@ void CalRenderer::getDiffuseColor(unsigned char *pColorBuffer)
   * @return The number of faces.
   *****************************************************************************/
 
-int CalRenderer::getFaceCount()
+int CalRenderer::getFaceCount() const
 {
   return m_pSelectedSubmesh->getFaceCount();
 }
@@ -191,7 +191,7 @@ int CalRenderer::getFaceCount()
   *
   * @return The number of faces written to the buffer.
   *****************************************************************************/
-int CalRenderer::getFaces(CalIndex *pFaceBuffer)
+int CalRenderer::getFaces(CalIndex *pFaceBuffer) const
 {
   return m_pSelectedSubmesh->getFaces(pFaceBuffer);
 }
@@ -204,7 +204,7 @@ int CalRenderer::getFaces(CalIndex *pFaceBuffer)
   * @return The number of maps.
   *****************************************************************************/
 
-int CalRenderer::getMapCount()
+int CalRenderer::getMapCount() const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -256,7 +256,7 @@ Cal::UserData CalRenderer::getMapUserData(int mapId)
   * @return The number of attached meshes.
   *****************************************************************************/
 
-int CalRenderer::getMeshCount()
+int CalRenderer::getMeshCount() const
 {
   // get the attached meshes vector
   std::vector<CalMesh *>& vectorMesh = m_pModel->getVectorMesh();
@@ -380,7 +380,7 @@ int CalRenderer::getNormals(float *pNormalBuffer, int stride)
   * @return The shininess factor.
   *****************************************************************************/
 
-float CalRenderer::getShininess()
+float CalRenderer::getShininess() const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -437,7 +437,7 @@ void CalRenderer::getSpecularColor(unsigned char *pColorBuffer)
   * @return The number of submeshes.
   *****************************************************************************/
 
-int CalRenderer::getSubmeshCount(int meshId)
+int CalRenderer::getSubmeshCount(int meshId) const
 {
   // get the attached meshes vector
   std::vector<CalMesh *>& vectorMesh = m_pModel->getVectorMesh();
@@ -509,7 +509,7 @@ int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffe
   * @return The number of vertices.
   *****************************************************************************/
 
-int CalRenderer::getVertexCount()
+int CalRenderer::getVertexCount() const
 {
   return m_pSelectedSubmesh->getVertexCount();
 }
@@ -522,7 +522,7 @@ int CalRenderer::getVertexCount()
   * @return True is tangent is enabled.
   *****************************************************************************/
 
-bool CalRenderer::isTangentsEnabled(int mapId)
+bool CalRenderer::isTangentsEnabled(int mapId) const
 {
 	return m_pSelectedSubmesh->isTangentsEnabled(mapId);
 }

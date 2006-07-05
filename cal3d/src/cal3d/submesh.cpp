@@ -90,7 +90,7 @@ CalSubmesh::CalSubmesh(CalCoreSubmesh* coreSubmesh)
   *         \li \b -1 if an error happend
   *****************************************************************************/
 
-int CalSubmesh::getCoreMaterialId()
+int CalSubmesh::getCoreMaterialId() const
 {
   return m_coreMaterialId;
 }
@@ -119,7 +119,7 @@ CalCoreSubmesh *CalSubmesh::getCoreSubmesh()
   * @return The number of faces.
   *****************************************************************************/
 
-int CalSubmesh::getFaceCount()
+int CalSubmesh::getFaceCount() const
 {
   return m_faceCount;
 }
@@ -209,7 +209,7 @@ std::vector<CalVector>& CalSubmesh::getVectorVertex()
   * @return The number of vertices.
   *****************************************************************************/
 
-int CalSubmesh::getVertexCount()
+int CalSubmesh::getVertexCount() const
 {
   return m_vertexCount;
 }
@@ -225,7 +225,7 @@ int CalSubmesh::getVertexCount()
   *         \li \b false if not
   *****************************************************************************/
 
-bool CalSubmesh::hasInternalData()
+bool CalSubmesh::hasInternalData() const
 {
   return m_bInternalData;
 }
@@ -256,7 +256,7 @@ void CalSubmesh::disableInternalData()
   * @return True if tangent vectors are enabled.
   *****************************************************************************/
 
-bool CalSubmesh::isTangentsEnabled(int mapId)
+bool CalSubmesh::isTangentsEnabled(int mapId) const
 {
 	return m_pCoreSubmesh->isTangentsEnabled(mapId);
 }
@@ -392,7 +392,7 @@ void CalSubmesh::setMorphTargetWeight(int blendId,float weight)
   * @return The weight of the morph target.
   *****************************************************************************/
 
-float CalSubmesh::getMorphTargetWeight(int blendId)
+float CalSubmesh::getMorphTargetWeight(int blendId) const
 {
   return m_vectorMorphTargetWeight[blendId];
 }
@@ -403,7 +403,7 @@ float CalSubmesh::getMorphTargetWeight(int blendId)
   * @return The weight of the base vertices.
   *****************************************************************************/
 
-float CalSubmesh::getBaseWeight()
+float CalSubmesh::getBaseWeight() const
 {
   float baseWeight = 1.0f;
   int morphTargetCount = getMorphTargetWeightCount();
@@ -436,7 +436,7 @@ std::vector<float>& CalSubmesh::getVectorMorphTargetWeight()
   * @return The number of weights.
   *****************************************************************************/
 
-int CalSubmesh::getMorphTargetWeightCount()
+int CalSubmesh::getMorphTargetWeightCount() const
 {
   return m_vectorMorphTargetWeight.size();
 }

@@ -65,7 +65,7 @@ CalCoreAnimation *CalAnimation::getCoreAnimation()
   *         \li \b STATE_OUT
   *****************************************************************************/
 
-CalAnimation::State CalAnimation::getState()
+CalAnimation::State CalAnimation::getState() const
 {
   return m_state;
 }
@@ -78,7 +78,7 @@ CalAnimation::State CalAnimation::getState()
   * @return The time in seconds.
   *****************************************************************************/
 
-float CalAnimation::getTime()
+float CalAnimation::getTime() const
 {
   return m_time;
 }
@@ -95,7 +95,7 @@ float CalAnimation::getTime()
   *         \li \b TYPE_ACTION
   *****************************************************************************/
 
-CalAnimation::Type CalAnimation::getType()
+CalAnimation::Type CalAnimation::getType() const
 {
   return m_type;
 }
@@ -108,7 +108,7 @@ CalAnimation::Type CalAnimation::getType()
   * @return The weight.
   *****************************************************************************/
 
-float CalAnimation::getWeight()
+float CalAnimation::getWeight() const
 {
   return m_weight;
 }
@@ -145,7 +145,7 @@ void CalAnimation::setTimeFactor(float timeFactor)
   *
   *****************************************************************************/
 
-float CalAnimation::getTimeFactor()
+float CalAnimation::getTimeFactor() const
 {
     return m_timeFactor;
 }

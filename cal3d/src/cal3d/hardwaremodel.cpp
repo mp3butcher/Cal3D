@@ -326,7 +326,7 @@ void CalHardwareModel::getSpecularColor(unsigned char *pColorBuffer)
   *****************************************************************************/
 
 
-float CalHardwareModel::getShininess()
+float CalHardwareModel::getShininess() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size())
     && m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial!=0)
@@ -383,7 +383,7 @@ const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId, CalSkele
 
 
 
-int CalHardwareModel::getHardwareMeshCount()
+int CalHardwareModel::getHardwareMeshCount() const
 {
   return m_vectorHardwareMesh.size();
 }
@@ -397,7 +397,7 @@ int CalHardwareModel::getHardwareMeshCount()
   *****************************************************************************/
 
 
-int CalHardwareModel::getFaceCount()
+int CalHardwareModel::getFaceCount() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
@@ -414,7 +414,7 @@ int CalHardwareModel::getFaceCount()
   * @return The number of vertex.
   *****************************************************************************/
 
-int CalHardwareModel::getVertexCount()
+int CalHardwareModel::getVertexCount() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
@@ -432,7 +432,7 @@ int CalHardwareModel::getVertexCount()
   *****************************************************************************/
 
 
-int CalHardwareModel::getBoneCount()
+int CalHardwareModel::getBoneCount() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
@@ -450,7 +450,7 @@ int CalHardwareModel::getBoneCount()
   *****************************************************************************/
 
 
-int CalHardwareModel::getBaseVertexIndex()
+int CalHardwareModel::getBaseVertexIndex() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
@@ -468,7 +468,7 @@ int CalHardwareModel::getBaseVertexIndex()
   *****************************************************************************/
 
 
-int CalHardwareModel::getStartIndex()
+int CalHardwareModel::getStartIndex() const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
@@ -511,7 +511,7 @@ bool CalHardwareModel::selectHardwareMesh(size_t meshId)
   *****************************************************************************/
 
 
-int CalHardwareModel::getTotalFaceCount()
+int CalHardwareModel::getTotalFaceCount() const
 {
   return m_totalFaceCount;
 }
@@ -525,7 +525,7 @@ int CalHardwareModel::getTotalFaceCount()
   *****************************************************************************/
 
 
-int CalHardwareModel::getTotalVertexCount()
+int CalHardwareModel::getTotalVertexCount() const
 {
   return m_totalVertexCount;
 }

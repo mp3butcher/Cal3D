@@ -60,18 +60,18 @@ public:
   const CalQuaternion & getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton);
   const CalVector & getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton);
 
-  float getShininess();
+  float getShininess() const;
   
-  int getHardwareMeshCount();
-  int getFaceCount();
-  int getVertexCount();
-  int getBoneCount();
+  int getHardwareMeshCount() const;
+  int getFaceCount() const;
+  int getVertexCount() const;
+  int getBoneCount() const;
 
-  int getBaseVertexIndex();
-  int getStartIndex();
+  int getBaseVertexIndex() const;
+  int getStartIndex() const;
 
-  int getTotalFaceCount();
-  int getTotalVertexCount();    
+  int getTotalFaceCount() const;
+  int getTotalVertexCount() const;
 
   Cal::UserData getMapUserData(int mapId);
   

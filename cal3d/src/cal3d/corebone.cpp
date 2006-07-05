@@ -119,7 +119,7 @@ std::list<int>& CalCoreBone::getListChildId()
   * @return The name as string.
   *****************************************************************************/
 
-const std::string& CalCoreBone::getName()
+const std::string& CalCoreBone::getName() const
 {
   return m_strName;
 }
@@ -134,7 +134,7 @@ const std::string& CalCoreBone::getName()
   *         \li \b -1 if the core bone instance is a root core bone
   *****************************************************************************/
 
-int CalCoreBone::getParentId()
+int CalCoreBone::getParentId() const
 {
   return m_parentId;
 }
@@ -147,7 +147,7 @@ int CalCoreBone::getParentId()
   * @return The relative rotation to the parent as quaternion.
   *****************************************************************************/
 
-const CalQuaternion& CalCoreBone::getRotation()
+const CalQuaternion& CalCoreBone::getRotation() const
 {
   return m_rotation;
 }
@@ -160,7 +160,7 @@ const CalQuaternion& CalCoreBone::getRotation()
   * @return The absolute rotation to the parent as quaternion.
   *****************************************************************************/
 
-const CalQuaternion& CalCoreBone::getRotationAbsolute()
+const CalQuaternion& CalCoreBone::getRotationAbsolute() const
 {
   return m_rotationAbsolute;
 }
@@ -174,7 +174,7 @@ const CalQuaternion& CalCoreBone::getRotationAbsolute()
   * @return The rotation to bring a point into bone space.
   *****************************************************************************/
 
-const CalQuaternion& CalCoreBone::getRotationBoneSpace()
+const CalQuaternion& CalCoreBone::getRotationBoneSpace() const
 {
   return m_rotationBoneSpace;
 }
@@ -187,7 +187,7 @@ const CalQuaternion& CalCoreBone::getRotationBoneSpace()
   * @return The relative translation to the parent as quaternion.
   *****************************************************************************/
 
-const CalVector& CalCoreBone::getTranslation()
+const CalVector& CalCoreBone::getTranslation() const
 {
   return m_translation;
 }
@@ -200,7 +200,7 @@ const CalVector& CalCoreBone::getTranslation()
   * @return The absolute translation to the parent as quaternion.
   *****************************************************************************/
 
-const CalVector& CalCoreBone::getTranslationAbsolute()
+const CalVector& CalCoreBone::getTranslationAbsolute() const
 {
   return m_translationAbsolute;
 }
@@ -214,7 +214,7 @@ const CalVector& CalCoreBone::getTranslationAbsolute()
   * @return The translation to bring a point into bone space.
   *****************************************************************************/
 
-const CalVector& CalCoreBone::getTranslationBoneSpace()
+const CalVector& CalCoreBone::getTranslationBoneSpace() const
 {
   return m_translationBoneSpace;
 }
@@ -452,7 +452,7 @@ void CalCoreBone::getBoundingData(int planeId,CalVector & position)
    position = m_boundingPosition[planeId];
 }
 
-bool CalCoreBone::isBoundingBoxPrecomputed()
+bool CalCoreBone::isBoundingBoxPrecomputed() const
 {
 	return m_boundingBoxPrecomputed;
 }

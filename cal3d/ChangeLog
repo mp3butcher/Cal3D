@@ -8,6 +8,7 @@ o-----------------------------------------------------------------------------o
 
   - MacOSX framework in macosx directory (courtesy Derek Arndt <deekpyro@charter.net>)
   - Add missing docs/modeling directory
+  - Added const to method (courtesy  Stefan Huehner <stefan@huehner.org>)
 	
 o-----------------------------------------------------------------------------o
 | Version 0.11.0 ( 29 june 2006) 

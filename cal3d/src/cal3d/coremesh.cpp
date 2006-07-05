@@ -104,7 +104,7 @@ CalCoreSubmesh *CalCoreMesh::getCoreSubmesh(int id)
   * @return The number of core submeshes.
   *****************************************************************************/
 
-int CalCoreMesh::getCoreSubmeshCount()
+int CalCoreMesh::getCoreSubmeshCount() const
 {
   return m_vectorCoreSubmesh.size();
 }
@@ -229,7 +229,7 @@ void CalCoreMesh::setFilename(const std::string& filename)
   *
   *****************************************************************************/
 
-const std::string& CalCoreMesh::getFilename(void)
+const std::string& CalCoreMesh::getFilename(void) const
 {
   return m_filename;
 }
@@ -256,7 +256,7 @@ void CalCoreMesh::setName(const std::string& name)
   *
   *****************************************************************************/
 
-const std::string& CalCoreMesh::getName(void)
+const std::string& CalCoreMesh::getName(void) const
 {
   return m_name;
 }

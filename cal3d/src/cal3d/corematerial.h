@@ -42,10 +42,10 @@ protected:
 public:
   Color& getAmbientColor();
   Color& getDiffuseColor();
-  int getMapCount();
-  const std::string& getMapFilename(int mapId);
+  int getMapCount() const;
+  const std::string& getMapFilename(int mapId) const;
   Cal::UserData getMapUserData(int mapId);
-  float getShininess();
+  float getShininess() const;
   Color& getSpecularColor();
   Cal::UserData getUserData();
   std::vector<Map>& getVectorMap();
@@ -57,9 +57,9 @@ public:
   void setShininess(float shininess);
   void setSpecularColor(const Color& specularColor);
   void setFilename(const std::string& filename);
-  const std::string& getFilename(void);
+  const std::string& getFilename(void) const;
   void setName(const std::string& name);
-  const std::string& getName(void);
+  const std::string& getName(void) const;
   void setUserData(Cal::UserData userData);
 
 private:

@@ -548,7 +548,7 @@ void CalMixer::updateSkeleton()
   * @return The animation time in seconds.
   *****************************************************************************/
 
-float CalMixer::getAnimationTime()
+float CalMixer::getAnimationTime() const
 {
 	return m_animationTime;
 }
@@ -561,7 +561,7 @@ float CalMixer::getAnimationTime()
   * @return The animation duration in seconds.
   *****************************************************************************/
 
-float CalMixer::getAnimationDuration()
+float CalMixer::getAnimationDuration() const
 {
 	return m_animationDuration;
 }
@@ -598,7 +598,7 @@ void CalMixer::setTimeFactor(float timeFactor)
   *
   *****************************************************************************/
 
-float CalMixer::getTimeFactor()
+float CalMixer::getTimeFactor() const 
 {
     return m_timeFactor;
 }
