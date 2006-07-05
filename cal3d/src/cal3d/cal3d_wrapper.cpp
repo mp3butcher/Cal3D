@@ -1020,7 +1020,7 @@ void CalMixer_Delete(CalMixer *self)
 
 Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut, enum Boolean autoLock)
 {
-  return self->executeAction(id, delayIn, delayOut, 1.0f,  autoLock) ? True : False;
+  return self->executeAction(id, delayIn, delayOut, 1.0f,  autoLock == True ? true : false) ? True : False;
 }
 
 CalMixer *CalMixer_New(CalModel* pModel)
