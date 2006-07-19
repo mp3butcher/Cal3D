@@ -39,6 +39,7 @@ public:
    virtual void setError() const = 0;
    virtual bool readBytes(void* pBuffer, int length) = 0;
    virtual bool readFloat(float& value) = 0;
+   virtual bool readShort(short& value) = 0;
    virtual bool readInteger(int& value) = 0;
    virtual bool readString(std::string& strValue) = 0;
    virtual ~CalDataSource() {};

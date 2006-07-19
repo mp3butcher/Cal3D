@@ -87,6 +87,32 @@ bool CalPlatform::readFloat(std::istream& input, float& value)
   return !input ? false : true;
 }
 
+/*****************************************************************************/
+/** Reads a short.
+  *
+  * This function reads a short from an input stream.
+  *
+  * @param input The input stream to read the short from.
+  * @param value A reference to the short into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalPlatform::readShort(std::istream& input, short& value)
+{
+  input.read((char *)&value, 2);
+
+#ifdef CAL3D_BIG_ENDIAN
+  short x = value ;
+  ((char*)&value)[0] = ((char*)&x)[1] ;
+  ((char*)&value)[1] = ((char*)&x)[0] ;
+#endif
+
+  return !input ? false : true;
+}
+
  /*****************************************************************************/
 /** Reads an integer.
   *
@@ -202,6 +228,34 @@ bool CalPlatform::readFloat(char* input, float& value)
   ((char*)&value)[1] = ((char*)&x)[2] ;
   ((char*)&value)[2] = ((char*)&x)[1] ;
   ((char*)&value)[3] = ((char*)&x)[0] ;  
+#endif
+
+  return true;
+}
+
+/*****************************************************************************/
+/** Reads a short.
+  *
+  * This function reads a short from a memory buffer.
+  *
+  * @param input The buffer to read the short from.
+  * @param value A reference to the short into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if the input buffer is NULL
+  *****************************************************************************/
+
+bool CalPlatform::readShort(char* input, short& value)
+{
+  if (input == NULL) return false;
+
+  memcpy( (void*)&value, (void*)input, 2 );
+
+#ifdef CAL3D_BIG_ENDIAN
+  short x = value ;
+  ((char*)&value)[0] = ((char*)&x)[1] ;
+  ((char*)&value)[1] = ((char*)&x)[0] ;
 #endif
 
   return true;
@@ -330,6 +384,32 @@ bool CalPlatform::writeFloat(std::ostream& output, float value)
 #endif
 
   output.write((char *)&value, 4);
+  return !output ? false : true;
+}
+
+ /*****************************************************************************/
+/** Writes a short.
+  *
+  * This function writes a short to an output stream.
+  *
+  * @param file The output stream to write the short to.
+  * @param value The short that should be written.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalPlatform::writeShort(std::ostream& output, short value)
+{
+
+#ifdef CAL3D_BIG_ENDIAN
+  short x = value ;
+  ((char*)&value)[0] = ((char*)&x)[1] ;
+  ((char*)&value)[1] = ((char*)&x)[0] ;
+#endif
+
+  output.write((char *)&value, 2);
   return !output ? false : true;
 }
 

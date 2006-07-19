@@ -37,6 +37,7 @@ public:
    virtual void setError() const;
    virtual bool readBytes(void* pBuffer, int length);
    virtual bool readFloat(float& value);
+   virtual bool readShort(short& value);
    virtual bool readInteger(int& value);
    virtual bool readString(std::string& strValue);
 

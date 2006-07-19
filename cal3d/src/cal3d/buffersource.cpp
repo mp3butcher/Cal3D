@@ -119,6 +119,29 @@ bool CalBufferSource::readFloat(float& value)
 }
 
  /*****************************************************************************/
+/** Reads a short.
+  *
+  * This function reads a short from this data source.
+  *
+  * @param value A reference to the short into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalBufferSource::readShort(short& value)
+{
+   //Check that the buffer is usable
+   if (!ok()) return false;
+
+   bool result = CalPlatform::readShort( ((char*)mInputBuffer+mOffset), value );
+   mOffset += 2;
+
+   return result;
+}
+
+ /*****************************************************************************/
 /** Reads an integer.
   *
   * This function reads an integer from this data source.

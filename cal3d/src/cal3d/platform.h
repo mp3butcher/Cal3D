@@ -109,16 +109,19 @@ protected:
 public:
   static bool readBytes(std::istream& input, void *pBuffer, int length);
   static bool readFloat(std::istream& input, float& value);
+  static bool readShort(std::istream& input, short& value);
   static bool readInteger(std::istream& input, int& value);
   static bool readString(std::istream& input, std::string& strValue);
 
   static bool readBytes(char* input, void *pBuffer, int length);
   static bool readFloat(char* input, float& value);
+  static bool readShort(char* input, short& value);
   static bool readInteger(char* input, int& value);
   static bool readString(char* input, std::string& strValue);
 
   static bool writeBytes(std::ostream& output, const void *pBuffer, int length);
   static bool writeFloat(std::ostream& output, float value);
+  static bool writeShort(std::ostream& output, short value);
   static bool writeInteger(std::ostream& output, int value);
   static bool writeString(std::ostream& output, const std::string& strValue);
 };

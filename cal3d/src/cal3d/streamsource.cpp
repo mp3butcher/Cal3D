@@ -115,7 +115,27 @@ bool CalStreamSource::readFloat(float& value)
    return CalPlatform::readFloat( *mInputStream, value );
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
+/** Reads a short.
+  *
+  * This function reads a short from this data source.
+  *
+  * @param value A reference to the short into which the data is read.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalStreamSource::readShort(short& value)
+{
+   //Check that the stream is usable
+   if (!ok()) return false;
+
+   return CalPlatform::readShort( *mInputStream, value );
+}
+
+/*****************************************************************************/
 /** Reads an integer.
   *
   * This function reads an integer from this data source.
