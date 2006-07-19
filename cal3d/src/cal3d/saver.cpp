@@ -31,6 +31,8 @@
 #include "cal3d/coretrack.h"
 #include "cal3d/tinyxml.h"
 
+#include <float.h>
+
 using namespace cal3d;
 
  /*****************************************************************************/
@@ -42,13 +44,14 @@ using namespace cal3d;
   *                    to.
   * @param pCoreAnimation A pointer to the core animation instance that should
   *                       be saved.
+	* param pOptions Optional pointer to save options.
   *
   * @return One of the following values:
   *         \li \b true if successful
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
+bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation, CalSaverAnimationOptions *pOptions)
 {
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
 	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);	
@@ -83,22 +86,44 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
     return false;
   }
 
+  // get core track list
+  std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+
   // write the number of tracks
-  if(!CalPlatform::writeInteger(file, pCoreAnimation->getTrackCount()))
+  if(!CalPlatform::writeInteger(file, listCoreTrack.size()))
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
     return 0;
   }
 
-  // get core track list
-  std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+  // write the total number of keyframes
+	int nbTotalKeyframes = pCoreAnimation->getTotalNumberOfKeyframes();
+  if(!CalPlatform::writeInteger(file, nbTotalKeyframes))
+  {
+    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
+
+	if (pOptions)
+		pOptions->duration = pCoreAnimation->getDuration();
+
+	// write flags
+	int flags = 0;
+	if (pOptions && pOptions->bCompressKeyframes == true)
+		flags |= 1;
+
+  if(!CalPlatform::writeInteger(file, flags))
+  {
+    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
 
   // write all core bones
   std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
   for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
   {
     // save core track
-    if(!saveCoreTrack(file, strFilename, *iteratorCoreTrack))
+    if(!saveCoreTrack(file, strFilename, *iteratorCoreTrack, pOptions))
     {
       return false;
     }
@@ -237,6 +262,59 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
   CalPlatform::writeFloat(file, rotation[1]);
   CalPlatform::writeFloat(file, rotation[2]);
   CalPlatform::writeFloat(file, rotation[3]);
+
+  // check if an error happend
+  if(!file)
+  {
+    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+    return false;
+  }
+
+  return true;
+}
+
+bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe* pCoreKeyframe, CalSaverAnimationOptions *pOptions)
+{
+  if(!file)
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+    return false;
+  }
+
+  // write the time of the keyframe
+	int time = int(pCoreKeyframe->getTime() / pOptions->duration * 65535.0f);
+	if(time > 65535)
+		time = 65535;
+  CalPlatform::writeShort(file, time);
+
+  // write the translation of the keyframe
+  const CalVector &translation = pCoreKeyframe->getTranslation();
+
+	const CalVector &minp = pOptions->keyframe_min;
+	const CalVector &scale = pOptions->keyframe_scale;
+
+	int px = int((translation.x - minp.x) * scale.x);
+	int py = int((translation.y - minp.y) * scale.y);
+	int pz = int((translation.z - minp.z) * scale.z);
+
+	if(px > 2047)
+		px = 2047;
+	if(py > 2047)
+		py = 2047;
+	if(pz > 1023)
+		pz = 1023;
+
+	int towrite = px + (py << 11) + (pz << 22);
+  CalPlatform::writeInteger(file, towrite);
+
+  // write the compressed rotation of the keyframe
+  CalQuaternion rotation = pCoreKeyframe->getRotation();
+	short s0, s1, s2;
+	rotation.compress(s0, s1, s2);
+
+	CalPlatform::writeShort(file, s0);
+	CalPlatform::writeShort(file, s1);
+	CalPlatform::writeShort(file, s2);
 
   // check if an error happend
   if(!file)
@@ -667,13 +745,14 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   * @param file The file stream to save the core track instance to.
   * @param strFilename The name of the file stream.
   * @param pCoreTrack A pointer to the core track instance that should be saved.
+	* @parAM pOptions Optional pointer to save options.
   *
   * @return One of the following values:
   *         \li \b true if successful
   *         \li \b false if an error happend
   *****************************************************************************/
 
-bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack)
+bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack, CalSaverAnimationOptions *pOptions)
 {
   if(!file)
   {
@@ -695,13 +774,72 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
     return false;
   }
 
+	if(pOptions && pOptions->bCompressKeyframes == true) {
+
+		CalVector minp(FLT_MAX, FLT_MAX, FLT_MAX);
+		CalVector maxp(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+		int nbKeys = pCoreTrack->getCoreKeyframeCount();
+		for(int i = 0; i < nbKeys; i++) {
+			CalCoreKeyframe *kf = pCoreTrack->getCoreKeyframe(i);
+			const CalVector &pos = kf->getTranslation();
+
+			if(pos.x < minp.x)
+				minp.x = pos.x;
+			if(pos.x > maxp.x)
+				maxp.x = pos.x;
+
+			if(pos.y < minp.y)
+				minp.y = pos.y;
+			if(pos.y > maxp.y)
+				maxp.y = pos.y;
+
+			if(pos.z < minp.z)
+				minp.z = pos.z;
+			if(pos.z > maxp.z)
+				maxp.z = pos.z;
+		}
+
+		float dx = maxp.x - minp.x;
+		float dy = maxp.y - minp.y;
+		float dz = maxp.z - minp.z;
+
+		float factorx = 0, factory = 0, factorz = 0;
+		if(dx != 0)
+			factorx = 1.0f / dx * 2047.0f;
+
+		if(dy != 0)
+			factory = 1.0f / dy * 2047.0f;
+
+		if(dz != 0)
+			factorz = 1.0f / dz * 1023.0f;
+
+		pOptions->keyframe_min = minp;
+		pOptions->keyframe_scale = CalVector(factorx, factory, factorz);
+
+		CalPlatform::writeFloat(file, minp.x);
+		CalPlatform::writeFloat(file, minp.y);
+		CalPlatform::writeFloat(file, minp.z);
+		CalPlatform::writeFloat(file, 1.0f / 2047 * dx);
+		CalPlatform::writeFloat(file, 1.0f / 2047 * dy);
+		CalPlatform::writeFloat(file, 1.0f / 1023 * dz);
+	}
+
   // save all core keyframes
   for(int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
   {
     // save the core keyframe
-		bool res = saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i));
+		bool res;
+		if(pOptions && pOptions->bCompressKeyframes)
+		{
+			res = saveCompressedCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i), pOptions);
+		}
+		else 
+		{
+			res = saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i));
+		}
 
-		if (!res) {
+		if(!res) {
       return false;
     }
   }

@@ -40,10 +40,22 @@ class CalCoreTrack;
 /** The saver class.
   *****************************************************************************/
 
+class CalSaverAnimationOptions {
+public:
+	bool bCompressKeyframes;
+
+protected:
+	CalVector keyframe_min;
+	CalVector keyframe_scale;
+	float duration;
+
+	friend class CalSaver;
+};
+
 class CAL3D_API CalSaver
 {
 public:
-  static bool saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation);
+  static bool saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation, CalSaverAnimationOptions *pOptions = NULL);
   static bool saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial);
   static bool saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh);
   static bool saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton);
@@ -51,8 +63,9 @@ public:
 protected:
   static bool saveCoreBones(std::ofstream& file, const std::string& strFilename, CalCoreBone *pCoreBone);
   static bool saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe);
+  static bool saveCompressedCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe, CalSaverAnimationOptions *pOptions);
   static bool saveCoreSubmesh(std::ofstream& file, const std::string& strFilename, CalCoreSubmesh *pCoreSubmesh);
-  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack);
+  static bool saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack, CalSaverAnimationOptions *pOptions = NULL);
 
   static bool saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton);
   static bool saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation);

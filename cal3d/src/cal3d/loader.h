@@ -78,8 +78,9 @@ public:
 private:
   static CalCoreBone *loadCoreBones(CalDataSource& dataSrc);
   static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc);
+  static CalCoreKeyframe *loadCompressedCoreKeyframe(CalDataSource& dataSrc, const CalVector &trackMinPt, const CalVector &trackScale, float trackDuration);
   static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc);
-  static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, float duration);
+  static CalCoreTrack *loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, float duration, int flags);
 
   static CalCoreAnimationPtr loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(const std::string& strFilename);

@@ -455,13 +455,23 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
     return 0;
   }
 
+	// read flags
+	int flags = 0;
+	if(version >= LIBRARY_VERSION) {
+	  if(!dataSrc.readInteger(flags))
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+			return 0;
+		}
+	}
+
   // load all core bones
   int trackId;
   for(trackId = 0; trackId < trackCount; ++trackId)
   {
     // load the core track
     CalCoreTrack *pCoreTrack;
-    pCoreTrack = loadCoreTrack(dataSrc, skel, duration);
+    pCoreTrack = loadCoreTrack(dataSrc, skel, duration, flags);
     if(pCoreTrack == 0)
     {
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
@@ -913,6 +923,83 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(CalDataSource& dataSrc)
 }
 
  /*****************************************************************************/
+/** Loads a core compressed keyframe instance.
+  *
+  * This function loads a core compressed keyframe instance from a data source.
+  *
+  * @param dataSrc The data source to load the core compressed keyframe instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core keyframe
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreKeyframe *CalLoader::loadCompressedCoreKeyframe(CalDataSource& dataSrc, const CalVector& trackMinPt, const CalVector& trackScale, float trackDuration)
+{
+  if(!dataSrc.ok())
+  {
+    dataSrc.setError();
+    return 0;
+  }
+
+  // get the time of the keyframe
+	unsigned short itime;
+  dataSrc.readShort((short&)itime);
+	float time = (itime / 65535.0f) * trackDuration;
+
+  // get the translation of the bone
+  float tx, ty, tz;
+
+	unsigned pt;
+	dataSrc.readInteger((int&)pt);
+
+	unsigned ptx = pt & 0x7ff;
+	unsigned pty = (pt >> 11) & 0x7ff;
+	unsigned ptz = pt >> 22;
+
+	tx = ptx * trackScale.x + trackMinPt.x;
+	ty = pty * trackScale.y + trackMinPt.y;
+	tz = ptz * trackScale.z + trackMinPt.z;
+
+  // get the rotation of the bone
+	short s0, s1, s2;
+	dataSrc.readShort(s0);
+	dataSrc.readShort(s1);
+	dataSrc.readShort(s2);
+	CalQuaternion quat;
+	quat.decompress(s0, s1, s2);
+
+  // check if an error happened
+  if(!dataSrc.ok())
+  {
+    dataSrc.setError();
+    return 0;
+  }
+
+  // allocate a new core keyframe instance
+  CalCoreKeyframe *pCoreKeyframe = new CalCoreKeyframe();
+
+  if(pCoreKeyframe == 0)
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // create the core keyframe instance
+  if(!pCoreKeyframe->create())
+  {
+    delete pCoreKeyframe;
+    return 0;
+  }
+  // set all attributes of the keyframe
+  pCoreKeyframe->setTime(time);
+  pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
+	pCoreKeyframe->setRotation(quat);
+
+  return pCoreKeyframe;
+}
+
+ /*****************************************************************************/
 /** Loads a core submesh instance.
   *
   * This function loads a core submesh instance from a data source.
@@ -1221,7 +1308,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, float duration)
+CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *skel, float duration, int flags)
 {
   if(!dataSrc.ok())
   {
@@ -1264,12 +1351,32 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
     return 0;
   }
 
+	CalVector minpt, scale;
+	if(flags & 1)
+	{
+		dataSrc.readFloat(minpt.x);
+		dataSrc.readFloat(minpt.y);
+		dataSrc.readFloat(minpt.z);
+		dataSrc.readFloat(scale.x);
+		dataSrc.readFloat(scale.y);
+		dataSrc.readFloat(scale.z);
+	}
+
   // load all core keyframes
   int keyframeId;
   for(keyframeId = 0; keyframeId < keyframeCount; ++keyframeId)
   {
     // load the core keyframe
-    CalCoreKeyframe *pCoreKeyframe = loadCoreKeyframe(dataSrc);
+    CalCoreKeyframe *pCoreKeyframe;
+
+		if(flags & 1)
+		{
+			pCoreKeyframe = loadCompressedCoreKeyframe(dataSrc, minpt, scale, duration);
+		}
+		else
+		{
+			pCoreKeyframe = loadCoreKeyframe(dataSrc);
+		}
 
     if(pCoreKeyframe == 0)
     {
