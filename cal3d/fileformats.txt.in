@@ -59,7 +59,7 @@ description                length  type      comments
 -------------------------  ------  --------  -----------------------------------
 [header]
   magic token              4       const     "CSF\0"
-  file version             4       integer   700
+  file version             4       integer   1200
   number of bones          4       integer
 
 [first bone]
@@ -105,30 +105,60 @@ description                length  type      comments
 -------------------------  ------  --------  -----------------------------------
 [header]
   magic token              4       const     "CAF\0"
-  file version             4       integer   700
+  file version             4       integer   1200
   duration                 4       float     length of animation in seconds
   number of tracks         4       integer
+  flags                    4       integer   flags for tracks
+                                             Bit 0: 1 if compressed tracks
 
-[first track]
-  bone id                  4       integer   index to bone
-  number of keyframes      4       integer
+#IF NORMAL (NOT COMPRESSED) TRACKS
 
-  [first keyframe]
-    time                   4       float     time of keyframe in seconds
-    translation x          4       float     relative translation to parent bone
-    translation y          4       float
-    translation z          4       float
-    rotation x             4       float     relative rotation to parent bone
-    rotation y             4       float     stored as a quaternion
-    rotation z             4       float
-    rotation w             4       float
+  [first track]
+    bone id                4       integer   index to bone
+    number of keyframes    4       integer
 
-  [all other keyframes]
+    [first keyframe]
+      time                 4       float     time of keyframe in seconds
+      translation x        4       float     relative translation to parent bone
+      translation y        4       float
+      translation z        4       float
+      rotation x           4       float     relative rotation to parent bone
+      rotation y           4       float     stored as a quaternion
+      rotation z           4       float
+      rotation w           4       float
+
+    [all other keyframes]
+      ...
+
+  [all other tracks]
     ...
 
-[all other tracks]
-  ...
+#ELSIF COMPRESSED TRACKS
 
+  [first track]
+    bone id                4       integer   index to bone
+    number of keyframes    4       integer
+
+    minimum x              4       float     minimum x value of translations
+    minimum y              4       float     minimum y value of translations
+    minimum z              4       float     minimum z value of translations
+    scale x                4       float     scale value to apply on x translations
+    scale y                4       float     scale value to apply on y translations
+    scale z                4       float     scale value to apply on z translations
+
+    [first keyframe]
+      time                 2       word      quantized time of keyframe in seconds (0 is the start of the animation, 0xFFFF the maximum duration)
+      translation          4       integer   10 bits for translation x, 11 bits for translation y, 11 bits for translation z
+                                             minimum and scale values of the track have to be used to obtain the real float values
+      rotation             6       3 words   compressed quaternion
+
+    [all other keyframes]
+      ...
+
+  [all other tracks]
+    ...
+
+#ENDIF
 
 o------------------------------------------------------------------------------o
 | 4 cal3d mesh file (.cmf)                                                     |
@@ -143,7 +173,7 @@ description                length  type      comments
 -------------------------  ------  --------  -----------------------------------
 [header]
   magic token              4       const     "CMF\0"
-  file version             4       integer   700
+  file version             4       integer   1200
   number of submeshes      4       integer
 
 [first submesh]
@@ -222,7 +252,7 @@ description                length  type      comments
 -------------------------  ------  --------  -----------------------------------
 [header]
   magic token              4       const     "CRF\0"
-  file version             4       integer   700
+  file version             4       integer   1200
   ambient color red        1       byte
   ambient color green      1       byte
   ambient color blue       1       byte
