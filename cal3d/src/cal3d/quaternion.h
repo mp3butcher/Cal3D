@@ -196,6 +196,10 @@ public:
 		z = qz;
 		w = qw;
 	}
+
+	void compress(short &s0, short &s1, short &s2);
+	void decompress(short &s0, short &s1, short &s2);
+
 /*	
 	static inline CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
 	{

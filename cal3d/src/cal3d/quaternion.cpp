@@ -20,6 +20,8 @@
 #include "cal3d/matrix.h"
 #include "cal3d/vector.h"
 
+#include <float.h>
+
  /*****************************************************************************/
 /** Constructs the quaternion instance.
   *
@@ -328,3 +330,141 @@ CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
 }
 */
 //****************************************************************************//
+
+ /*****************************************************************************/
+/** Returns a compressed representation of the quaternion.
+  * Compresses the quaternion from traditional 4*4 = 16 bytes to 6 bytes.
+	* This is a lossy compression based on article "Quaternion, Compression"
+	* by Zarb-Adami in GPG3.
+  *
+  * @param s0 First word of the compressed quaternion.
+  * @param s1 Second word of the compressed quaternion.
+  * @param s2 Third word of the compressed quaternion.
+  *****************************************************************************/
+
+void CalQuaternion::compress(short &s0, short &s1, short &s2)
+{
+	static const float scale = 1.41421f;
+
+	if (w > x && w > y && w > z) {
+		float rx = x * scale;
+		float ry = y * scale;
+		float rz = z * scale;
+
+		if (rx < -1) rx = -1;
+		else if (rx > 1) rx = 1;
+		if (ry < -1) ry = -1;
+		else if (ry > 1) ry = 1;
+		if (rz < -1) rz = -1;
+		else if (rz > 1) rz = 1;
+
+		s0 = (short) rx * 32767;
+		s1 = (short) (int(ry * 32767) & 0xfffe) | 1;
+		s2 = (short) (int(rz * 32767) & 0xfffe) | 1;
+	}
+	else if (z > x && z > y) {
+		float rx = x * scale;
+		float ry = y * scale;
+		float rw = w * scale;
+
+		if (rx < -1) rx = -1;
+		else if (rx > 1) rx = 1;
+		if (ry < -1) ry = -1;
+		else if (ry > 1) ry = 1;
+		if (rw < -1) rw = -1;
+		else if (rw > 1) rw = 1;
+
+		s0 = (short) rx * 32767;
+		s1 = (short) (int(ry * 32767) & 0xfffe) | 1;
+		s2 = (short) (int(rw * 32767) & 0xfffe) | 0;
+	}
+	else if (y > x) {
+		float rx = x * scale;
+		float rz = z * scale;
+		float rw = w * scale;
+
+		if (rx < -1) rx = -1;
+		else if (rx > 1) rx = 1;
+		if (rz < -1) rz = -1;
+		else if (rz > 1) rz = 1;
+		if (rw < -1) rw = -1;
+		else if (rw > 1) rw = 1;
+
+		s0 = (short) rx * 32767;
+		s1 = (short) (int(rz * 32767) & 0xfffe) | 0;
+		s2 = (short) (int(rw * 32767) & 0xfffe) | 1;
+	}
+	else {
+		float ry = y * scale;
+		float rz = z * scale;
+		float rw = w * scale;
+
+		if (ry < -1) ry = -1;
+		else if (ry > 1) ry = 1;
+		if (rz < -1) rz = -1;
+		else if (rz > 1) rz = 1;
+		if (rw < -1) rw = -1;
+		else if (rw > 1) rw = 1;
+
+		s0 = (short) ry * 32767;
+		s1 = (short) (int(rz * 32767) & 0xfffe) | 0;
+		s2 = (short) (int(rw * 32767) & 0xfffe) | 0;
+	}
+}
+
+ /*****************************************************************************/
+/** Sets new values from a compressed quaternion.
+  * Decompresses the quaternion from 6 bytes to traditional 4*4 = 16 bytes.
+	* The compression is based on article "Quaternion, Compression"
+	* by Zarb-Adami in GPG3.
+  *
+  * @param s0 First word of the compressed quaternion.
+  * @param s1 Second word of the compressed quaternion.
+  * @param s2 Third word of the compressed quaternion.
+  *****************************************************************************/
+
+void CalQuaternion::decompress(short &s0, short &s1, short &s2)
+{
+	int which = ((s1 & 1) << 1) | (s2 & 1);
+	s1 &= 0xfffe;
+	s2 &= 0xfffe;
+
+	static const float scale = 1.0f / 32767.0f / 1.41421f;
+
+	if (which == 3) {
+		x = s0 * scale;
+		y = s1 * scale;
+		z = s2 * scale;
+
+		w = 1 - (x*x) - (y*y) - (z*z);
+		if (w > FLT_EPSILON)
+			w = sqrt(w);
+	}
+	else if (which == 2) {
+		x = s0 * scale;
+		y = s1 * scale;
+		w = s2 * scale;
+
+		z = 1 - (x*x) - (y*y) - (w*w);
+		if (z > FLT_EPSILON)
+			z = sqrt(z);
+	}
+	else if (which == 1) {
+		x = s0 * scale;
+		z = s1 * scale;
+		w = s2 * scale;
+
+		y = 1 - (x*x) - (z*z) - (w*w);
+		if (y > FLT_EPSILON)
+			y = sqrt(y);
+	}
+	else {
+		y = s0 * scale;
+		z = s1 * scale;
+		w = s2 * scale;
+
+		x = 1 - (y*y) - (z*z) - (w*w);
+		if (x > FLT_EPSILON)
+			x = sqrt(x);
+	}
+}
