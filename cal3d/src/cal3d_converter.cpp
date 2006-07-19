@@ -98,6 +98,7 @@ int main(int argc, char* argv[])
 		if(!Ske)
 		{
 			cout << "Error during loading of "<< strFilename1<< endl;
+			cout << "Error was:" << CalError::getLastErrorDescription() << endl;
 			return 1;
 		}
 		Saver.saveCoreSkeleton(strFilename2,Ske.get());
@@ -108,6 +109,7 @@ int main(int argc, char* argv[])
 		if(!Mesh)
 		{
 			cout << "Error during loading of "<< strFilename1<< endl;
+			cout << "Error was:" << CalError::getLastErrorDescription() << endl;
 			return 1;
 		}
 		Saver.saveCoreMesh(strFilename2,Mesh.get());
@@ -119,6 +121,7 @@ int main(int argc, char* argv[])
 		if(!Ani)
 		{
 			cout << "Error during loading of "<< strFilename1<< endl;
+			cout << "Error was:" << CalError::getLastErrorDescription() << endl;
 			return 1;
 		}
 		Saver.saveCoreAnimation(strFilename2,Ani.get());
@@ -129,6 +132,7 @@ int main(int argc, char* argv[])
 		if(!Mat)
 		{
 			cout << "Error during loading of "<< strFilename1<< endl;
+			cout << "Error was:" << CalError::getLastErrorDescription() << endl;
 			return 1;
 		}
 		Saver.saveCoreMaterial(strFilename2,Mat.get());

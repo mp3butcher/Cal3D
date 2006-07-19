@@ -35,6 +35,7 @@ protected:
   float m_tiltAngle;
   float m_twistAngle;
   float m_distance;
+  float m_camheight;
   bool m_bLeftMouseButtonDown;
   bool m_bRightMouseButtonDown;
   unsigned int m_lastTick;
@@ -72,6 +73,7 @@ public:
   void onIdle();
   bool onInit();
   void onKey(unsigned char key, int x, int y);
+  void onSpecial(int key, int x, int y);
   void onMouseButtonDown(int button, int x, int y);
   void onMouseButtonUp(int button, int x, int y);
   void onMouseMove(int x, int y);

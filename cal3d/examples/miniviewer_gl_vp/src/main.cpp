@@ -47,6 +47,11 @@ void keyboardFunc(unsigned char key, int x, int y)
   theViewer.onKey(key, x, theViewer.getHeight() - y - 1);
 }
 
+void specialFunc(int key, int x, int y)
+{
+  theViewer.onSpecial(key, x, theViewer.getHeight() - y - 1);
+}
+
 void motionFunc(int x, int y)
 {
   // redirect the message to the viewer instance
@@ -106,6 +111,7 @@ int main(int argc, char *argv[])
   glutReshapeFunc(reshapeFunc);
   glutDisplayFunc(displayFunc);
   glutKeyboardFunc(keyboardFunc);
+  glutSpecialFunc(specialFunc);
 
   // initialize our viewer instance
   if(!theViewer.onInit())

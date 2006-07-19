@@ -123,7 +123,8 @@ Viewer::Viewer()
   m_mouseY = 0;
   m_tiltAngle = -70.0f;
   m_twistAngle = -45.0f;
-  m_distance = 270.0f;
+  m_distance = 250.0f;
+  m_camheight = 0.0f;
   m_bLeftMouseButtonDown = false;
   m_bRightMouseButtonDown = false;
   m_lastTick = 0;
@@ -711,6 +712,30 @@ void Viewer::onKey(unsigned char key, int x, int y)
 }
 
 //----------------------------------------------------------------------------//
+// Handle special keys (F1, F2, UP, DOWN, etc.)                               //
+//----------------------------------------------------------------------------//
+void Viewer::onSpecial(int key, int x, int y)
+{
+  switch(key) 
+  {
+    case GLUT_KEY_UP:
+      m_distance -= 3.0f;
+      break;
+    case GLUT_KEY_DOWN:
+      m_distance += 3.0f;
+      break;
+    case GLUT_KEY_RIGHT:
+      m_camheight += 3.0f;
+      break;
+    case GLUT_KEY_LEFT:
+      m_camheight -= 3.0f;
+      break;
+    default:
+      break;	
+  }
+}
+
+//----------------------------------------------------------------------------//
 // Handle a mouse button down event                                           //
 //----------------------------------------------------------------------------//
 
@@ -823,6 +848,7 @@ void Viewer::onRender()
   glRotatef(m_tiltAngle, 1.0f, 0.0f, 0.0f);
   glRotatef(m_twistAngle, 0.0f, 0.0f, 1.0f);
   glTranslatef(0.0f, 0.0f, -90.0f * m_scale);
+  glTranslatef(0.0f, 0.0f, m_camheight);
 
   // render the model
   renderModel();
@@ -837,7 +863,6 @@ void Viewer::onRender()
   m_fpsFrames++;  
 
   //printf("%d\n",m_fps);
-
 }
 
 //----------------------------------------------------------------------------//
