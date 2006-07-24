@@ -96,14 +96,6 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
     return 0;
   }
 
-  // write the total number of keyframes
-	int nbTotalKeyframes = pCoreAnimation->getTotalNumberOfKeyframes();
-  if(!CalPlatform::writeInteger(file, nbTotalKeyframes))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
-
 	if (pOptions)
 		pOptions->duration = pCoreAnimation->getDuration();
 
