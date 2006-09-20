@@ -31,6 +31,10 @@ set -e
 
 case "$1" in 
 
+*quaternion)
+        @VALGRIND@ $1
+        ;;
+
 *converter/*) 
         what=$(basename $1)
         case $what in

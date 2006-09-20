@@ -347,9 +347,17 @@ void CalQuaternion::compress(short &s0, short &s1, short &s2)
 	static const float scale = 1.41421f;
 
 	if (w > x && w > y && w > z) {
+
 		float rx = x * scale;
 		float ry = y * scale;
 		float rz = z * scale;
+
+		// w is the biggest element, make sure it's also positive, if not, negate the quaternion
+		if (w < 0) {
+			rx = -rx;
+			ry = -ry;
+			rz = -rz;
+		}
 
 		if (rx < -1) rx = -1;
 		else if (rx > 1) rx = 1;
@@ -358,14 +366,22 @@ void CalQuaternion::compress(short &s0, short &s1, short &s2)
 		if (rz < -1) rz = -1;
 		else if (rz > 1) rz = 1;
 
-		s0 = (short) rx * 32767;
-		s1 = (short) (int(ry * 32767) & 0xfffe) | 1;
-		s2 = (short) (int(rz * 32767) & 0xfffe) | 1;
+		s0 = short(rx * 32767);
+		s1 = short((int(ry * 32767) & 0xfffe) | 1);
+		s2 = short((int(rz * 32767) & 0xfffe) | 1);
 	}
 	else if (z > x && z > y) {
+
 		float rx = x * scale;
 		float ry = y * scale;
 		float rw = w * scale;
+
+		// z is the biggest element, make sure it's also positive, if not, negate the quaternion
+		if (w < 0) {
+			rx = -rx;
+			ry = -ry;
+			rw = -rw;
+		}
 
 		if (rx < -1) rx = -1;
 		else if (rx > 1) rx = 1;
@@ -374,14 +390,22 @@ void CalQuaternion::compress(short &s0, short &s1, short &s2)
 		if (rw < -1) rw = -1;
 		else if (rw > 1) rw = 1;
 
-		s0 = (short) rx * 32767;
-		s1 = (short) (int(ry * 32767) & 0xfffe) | 1;
-		s2 = (short) (int(rw * 32767) & 0xfffe) | 0;
+		s0 = short(rx * 32767);
+		s1 = short((int(ry * 32767) & 0xfffe) | 1);
+		s2 = short((int(rw * 32767) & 0xfffe) | 0);
 	}
 	else if (y > x) {
+
 		float rx = x * scale;
 		float rz = z * scale;
 		float rw = w * scale;
+
+		// y is the biggest element, make sure it's also positive, if not, negate the quaternion
+		if (y < 0) {
+			rx = -rx;
+			rz = -rz;
+			rw = -rw;
+		}
 
 		if (rx < -1) rx = -1;
 		else if (rx > 1) rx = 1;
@@ -390,14 +414,22 @@ void CalQuaternion::compress(short &s0, short &s1, short &s2)
 		if (rw < -1) rw = -1;
 		else if (rw > 1) rw = 1;
 
-		s0 = (short) rx * 32767;
-		s1 = (short) (int(rz * 32767) & 0xfffe) | 0;
-		s2 = (short) (int(rw * 32767) & 0xfffe) | 1;
+		s0 = short(rx * 32767);
+		s1 = short((int(rz * 32767) & 0xfffe) | 0);
+		s2 = short((int(rw * 32767) & 0xfffe) | 1);
 	}
 	else {
+
 		float ry = y * scale;
 		float rz = z * scale;
 		float rw = w * scale;
+
+		// x is the biggest element, make sure it's also positive, if not, negate the quaternion
+		if (x < 0) {
+			ry = -ry;
+			rz = -rz;
+			rw = -rw;
+		}
 
 		if (ry < -1) ry = -1;
 		else if (ry > 1) ry = 1;
@@ -406,9 +438,9 @@ void CalQuaternion::compress(short &s0, short &s1, short &s2)
 		if (rw < -1) rw = -1;
 		else if (rw > 1) rw = 1;
 
-		s0 = (short) ry * 32767;
-		s1 = (short) (int(rz * 32767) & 0xfffe) | 0;
-		s2 = (short) (int(rw * 32767) & 0xfffe) | 0;
+		s0 = short(ry * 32767);
+		s1 = short((int(rz * 32767) & 0xfffe) | 0);
+		s2 = short((int(rw * 32767) & 0xfffe) | 0);
 	}
 }
 

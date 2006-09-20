@@ -11,10 +11,17 @@
 # ************************************************************************
 MAINTAINERCLEANFILES = Makefile.in
 
+INCLUDES = -I${top_srcdir}/cal3d/src
+
 EXTRA_DIST = \
 	$(wildcard cal3d_converter/base.??f)
 
 TESTS_ENVIRONMENT = sh ./run
-TESTS = converter/skeleton converter/mesh converter/material converter/animation
+TESTS = converter/skeleton converter/mesh converter/material converter/animation quaternion
+
+noinst_PROGRAMS = quaternion
+
+quaternion_SOURCES = quaternion.cpp
+quaternion_LDFLAGS = ../src/cal3d/libcal3d.la
 
 .PHONY: ${TESTS}
