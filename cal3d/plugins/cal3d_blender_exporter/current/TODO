@@ -1,0 +1,33 @@
+$Id$
+
+- Investigate spring support.
+
+- Investigate LOD support.
+  
+  Palle is working on this now. 7/20/06
+
+- Investigate why some of my models get <!-- UV Coords Unset -->.
+  
+  Solved. Test explicitly for None instead of 0.0.
+
+- Create a "super-layout" option where files are put into directories
+  based on their type.
+
+- Can we create textures "on the fly" using the materials Blender uses
+  internally? If so, this would be the freaking HOTNESS.
+
+  Note: I assume we mean the blender generated textures (cloud, etc.).
+  Have it on good authority that there is no standard, or easy
+  way to do this directly from the Blender API.
+  But it may be possible by integrating functionality from the tex2uvbaker.py
+  script (included with Blender). The functionality is very similar.
+
+- Implement the VIEW and @exception stuff, so that a dialog is popped
+  up with an exception and VIEW shows the bones, meshes, etc, the exporter
+  is aware of.
+
+- Create hooks for using Blender Shapes as Morph Targets in Cal3D.
+
+- Add an optional call out to cal3d_converter for binary exportation.
+
+- Implement a UI to allowing choosing of animations.
