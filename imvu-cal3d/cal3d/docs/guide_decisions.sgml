@@ -1,0 +1,135 @@
+<chapter id="decisions">
+  <title>History, Goals and Design Decisions</title>
+
+  <para>
+    This chapter provides some background information about the development of
+    Cal3D. It does not contain any crucial facts you have to know in order to use
+    the library, but it can help you understand why it was designed the way it is.
+  </para>
+
+  <sect1 id="history">
+    <title>A brief History of Cal3D</title>
+    <para>
+      The origin of the Cal3D library lies in the
+      <ulink url="http://www.worldforge.org">WorldForge</ulink> project: A nifty 3D
+      client was to be built for it (see
+      <ulink url="http://www.worldforge.org">www.worldforge.org</ulink> for more
+      information about this system for massively multiplayer online roleplaying
+      games). One of the needed components was a character animation system. Looking
+      at the existing solutions available under a free license, it was obvious that
+      most of them were based on one of the many popular first-person shooter games,
+      and therefore quite limited in terms of flexibility and functionality. The
+      decision was made that none of them actually fits the desired requirements. Thus
+      Cal3D was born, most probably the first library specialized on character
+      animation released under a <link linkend="licenses">free license</link>.
+    </para>
+  </sect1>
+
+  <sect1 id="goals">
+    <title>Goals and Design Decisions</title>
+    <para>
+      Dreaming about the future features is one of the cool things to do when you
+      start a new project: The usual sentence you get to hear is something along: "It
+      will be better than anything you have ever seen before in every aspect you can
+      think of". It should be evident that you are very unlikely to come up with
+      something just like that. However, to make the Cal3D project a worthy challenge,
+      the goals were still set very high. Even though, they should be seen more as a
+      primary basis for design decisions than an ultimate target that needs to be
+      reached by 100%. Should it happen, even better.
+    </para>
+
+    <sect2>
+      <title>Functionality</title>
+      <para>
+        At the time of the project kick-off, the most promising and flexible technology
+        for character animation was the skeletal-based approach. It gives you a lot of
+        freedom over the animation process and was therefore chosen as a core feature of
+        the Cal3D library. On top of it, there is a powerful control system that
+        handles the sequence and blending of the animations. Different types, such as
+        cycles, actions or poses, will be supported, and it should be easy to add new
+        ones to this system. A flexible handling of materials and meshes should make it
+        possible to completely change the look of a model. Attachment of other objects
+        and models is another 'must have'. Advanced features, such as level-of-detail,
+        inverse kinematics, collision-detection and physics will either be outsourced to
+        external libraries or will become part of the Cal3D library in the long-term.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Ease of Use</title>
+      <para>
+        In spite of the large functionality planned for the library, its usage should be
+        simple, logical and intuitive. Unwanted advanced features do not have to be
+        taken care of by the user, so basically, there must be a default handling for
+        all of them. However, this behaviour should easily be modified or extended
+        if needed.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Portability</title>
+      <para>
+        It does not make sense to develop a platform-dependent library for an
+        application that has to be portable. Hardcoded dependencies on libraries and on
+        APIs, such as OpenGL or DirectX, must be avoided. Therefore the library is
+        coded in C++ and only depends on the STL. It does not handle the actual
+        rendering and the texture-management itself. Necessary platform-dependent code
+        (such as endianness) must be minimized and encapsulated into a single class to
+        make it easy to add support for other platforms.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Scalability</title>
+      <para>
+        All aspects of the library must be as scalable as possible. To avoid hardcoded
+        limits, the library makes heavy usage of the STL containers to store data.
+        Common data of different model instances are shared through the mechanism of
+        a core model. Support of a broad range of system configurations, in terms of cpu
+        power and other such properties, is provided by implementing level-of-detail
+        technologies for models and animations. Thread safety should also be considered
+        in the long-term.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Flexibility</title>
+      <para>
+        Focussing on a single use for the library would prevent its flexibility. So the
+        library is developed as a stand-alone component and is not tied up
+        with a specific application. Unnecessary constraints and an obscure black-box
+        design is a big 'no-no'. Furthermore, all specifications (such as the
+        file-formats) are open and freely available. A good documentation goes
+        without saying.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Performance</title>
+      <para>
+        The overall performance of the library is very important. As previously
+        mentioned, it will be part of a MMORPG client and should therefore be able to
+        handle numerous models at the same time. Besides optimizing the computations
+        inside the library itself, the data exchange across the interface has to be
+        designed as efficient as possible. Current graphic APIs make heavy use of vertex
+        buffers, so this is the choice for the output data. Because render state
+        changes strongly affect render performance, the ouput is grouped and
+        sorted to minimize those. Caution should be taken that the optimizations do not
+        break the clean design of the library.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>Interoperability</title>
+      <para>
+        The library is only useful and used if sufficient and suited tools and
+        exporters exist that can produce Cal3D data files. A portable and
+        application-independent exporter framework helps in developing exporters for
+        the various 3d modelling packages. As some tools may not be able to use the
+        framework, an intermediate file-format in XML should be available too.
+      </para>
+    </sect2>
+  </sect1>
+
+</chapter>
+

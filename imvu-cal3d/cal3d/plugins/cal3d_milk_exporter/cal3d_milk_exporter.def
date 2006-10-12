@@ -1,0 +1,12 @@
+; cal3d_milk_exporter.def
+
+LIBRARY     "msCal3D"
+; DESCRIPTION is only valid for VxD files
+; DESCRIPTION "MilkShape 3D Cal3D Exporter"
+VERSION     0.7
+
+EXPORTS
+    CreatePlugIn @1
+
+SECTIONS
+	.data READ WRITE

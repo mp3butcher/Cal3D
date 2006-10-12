@@ -1,0 +1,15 @@
+Import('*')
+
+sources = Split('''
+    testLoader.cpp
+    testTinyXml.cpp
+    testVector.cpp
+    main.cpp
+''')
+
+# Build the unit tests.
+
+env = env.Copy(tools=[cal3d, boost_test, python])
+env.Append(CPPPATH=['../../..',
+                    '../../../avatarwindow'])
+env.Program('../../bin/${IMVU_BUILDDIR_NAME}/test_cal3d', sources)

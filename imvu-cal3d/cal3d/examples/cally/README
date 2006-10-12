@@ -1,0 +1,125 @@
+o-----------------------------------------------------------------------------o
+|                                                                             |
+|                        T h e   C a l l y   D e m o                          |
+|                                                                             |
+|                              Version 2.9                                    |
+|                                                                             |
+|        Copyright (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger           |
+|                                                                             |
+o-----------------------------------------------------------------------------o
+
+
+o-----------------------------------------------------------------------------o
+| Table of Contents                                                           |
+o-----------------------------------------------------------------------------o
+
+  1 License
+
+  2 Introduction
+      2.1 What is 'The Cally Demo'?
+      2.2 Features
+      2.3 Requirements
+      2.4 Website
+      2.5 Authors
+
+  3 Operation
+      3.1 Commandline arguments
+      3.2 Mouse control
+      3.3 Menu
+      3.4 Hotkeys
+
+
+o-----------------------------------------------------------------------------o
+| 1 License                                                                   |
+o-----------------------------------------------------------------------------o
+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your option)
+  any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation Inc., 59
+  Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+
+o-----------------------------------------------------------------------------o
+| 2 Introduction                                                              |
+o-----------------------------------------------------------------------------o
+
+  2.1 What is 'The Cally Demo'?
+
+      'The Cally Demo' is an interactive demonstration of the 3d character
+      animation library Cal3D.
+
+  2.2 Features
+
+      - different segmented, textured, animated and skinned models
+      - interactive realtime blending of multiple skeletal animation tracks
+      - correct lightning (the mesh normals are *skinned* too)
+      - bone, wireframe, flat-shaded or lit rendering of the model
+      - interactive realtime LOD (level-of-detail)
+
+  2.3 Requirements
+
+      You need a hardware accelerated 3d graphic card to get a decent
+      framerate.
+
+  2.4 Website
+
+      The official website of Cal3D and this demo can be found at:
+      http://cal3d.sourceforge.net
+
+  2.5 Authors
+
+      This demo was developed by Bruno Heidelberger (beosil@swileys.com).
+      The paladin model was created by Douglas Walsh (walshdouglas@hotmail.com).
+
+
+o-----------------------------------------------------------------------------o
+| 3 Operation                                                                 |
+o-----------------------------------------------------------------------------o
+
+  3.1 Commandline arguments
+
+      '--window' starts the demo in a window.
+
+      '--fullscreen' starts the demo in fullscreen mode.
+
+      '--dimension <width> <height>' sets the width and height of the window
+      or fullscreen mode.
+
+      '--data <path>' sets the directory where the cal3d_data module is
+      located.
+
+  3.2 Mouse control
+
+      Click&drag the left mouse-button to rotate the model. Click&drag the
+      right mouse-button up and down to zoom in and out.
+
+  3.3 Menu
+
+      The 'Idle' button brings the model into the default pose. 'Funky' will
+      start a longer, special animation. The 'Motion' button enables the motion
+      triangle that lets you interactively blend 3 different animation cycles.
+      Click&drag the left mouse-button in the triangle to modify the weights.
+      'F/X 1' and 'F/X 2' execute an overlay animation.
+
+      The 'Bone' button toggles the bone rendering mode. The 'Wireframe' button
+      does the same for the wireframe mode. The 'Bulp' button toggles the
+      lightning on and off. The remaining button will switch to the next model.
+
+      The 'LOD' slider can be used to adjust the level-of-detail of the model.
+      100% will render all available faces, 0% will skip all collapsable ones.
+
+  3.4 Hotkeys
+
+      You can quit the demo by pressing 'q' or 'escape'.
+
+
+o-----------------------------------------------------------------------------o

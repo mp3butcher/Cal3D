@@ -1,0 +1,163 @@
+Import('*')
+
+sources = Split('''
+    animation.cpp
+    animation_action.cpp
+    animation_cycle.cpp
+    bone.cpp
+    buffersource.cpp
+    cal3d_wrapper.cpp
+    calxmlbindings.cpp
+    coreanimatedmorph.cpp
+    coreanimation.cpp
+    corebone.cpp
+    corekeyframe.cpp
+    corematerial.cpp
+    coremesh.cpp
+    coremodel.cpp
+    coremorphanimation.cpp
+    coremorphkeyframe.cpp
+    coremorphtrack.cpp
+    coreskeleton.cpp
+    coresubmesh.cpp
+    coresubmorphtarget.cpp
+    coretrack.cpp
+    error.cpp
+    global.cpp
+    hardwaremodel.cpp
+    loader.cpp
+    matrix.cpp
+    mesh.cpp
+    mixer.cpp
+    model.cpp
+    morphtargetmixer.cpp
+    physique.cpp
+    platform.cpp
+    quaternion.cpp
+    renderer.cpp
+    saver.cpp
+    skeleton.cpp
+    springsystem.cpp
+    streamsource.cpp
+    submesh.cpp
+    tinybind.cpp
+    tinystr.cpp
+    tinyxml.cpp
+    tinyxmlerror.cpp
+    tinyxmlparser.cpp
+    vector.cpp
+    xmlformat.cpp
+''')
+
+exporter_sources = Split('''
+    MaxAnimationExport.cpp
+    MaxAnimationExportDesc.cpp
+    MaxAnimationExportMaxscriptCall.cpp
+    MaxInterface.cpp
+    MaxMaterial.cpp
+    MaxMaterialExport.cpp
+    MaxMaterialExportDesc.cpp
+    MaxMaterialExportMaxscriptCall.cpp
+    MaxMesh.cpp
+    MaxMeshExport.cpp
+    MaxMeshExportDesc.cpp
+    MaxMeshExportMaxscriptCall.cpp
+    MaxMorphAnimationExport.cpp
+    MaxMorphAnimationExportDesc.cpp
+    MaxMorphAnimationExportMaxscriptCall.cpp
+    MaxNode.cpp
+    MaxNullView.cpp
+    MaxSkeletonExport.cpp
+    MaxSkeletonExportDesc.cpp
+    MaxSkeletonExportMaxscriptCall.cpp
+    StdAfx.cpp
+    cal3d_max_exporter.cpp
+    cal3d_max_exporter.def
+''')
+
+exporter_src_sources = Split('''
+    BaseInterface.cpp
+    BaseMaterial.cpp
+    BaseMesh.cpp
+    BaseNode.cpp
+    BoneCandidate.cpp
+    Exporter.cpp
+    Lodder.cpp
+    MaterialCandidate.cpp
+    MaterialLibraryCandidate.cpp
+    MeshCandidate.cpp
+    MorphAnimationCandidate.cpp
+    Quadric.cpp
+    SkeletonCandidate.cpp
+    SubmeshCandidate.cpp
+    VertexCandidate.cpp
+''')
+exporter_win32_sources = Split('''
+    AnimationExportSheet.cpp
+    AnimationTimePage.cpp
+    BoneAssignmentPage.cpp
+    LevelOfDetailPage.cpp
+    MaterialExportSheet.cpp
+    MaterialMapDialog.cpp
+    MaterialMapsPage.cpp
+    MaterialSelectionPage.cpp
+    MeshExportSheet.cpp
+    MorphAnimationExportSheet.cpp
+    MorphAnimationTimePage.cpp
+    SkeletonExportSheet.cpp
+    SkeletonFilePage.cpp
+    SkeletonHierarchyPage.cpp
+    SpringSystemPage.cpp
+''')
+
+#   SelectionDialog.cpp
+
+# tinytest.cpp
+
+sources = ['src/cal3d/' + s for s in sources]
+exporter_sources = ['plugins/cal3d_max_exporter/' + s for s in exporter_sources]
+exporter_src_sources = ['plugins/src/' + s for s in exporter_src_sources]
+exporter_win32_sources = ['plugins/src/win32/' + s for s in exporter_win32_sources]
+
+shared_lib_env = env.Copy()
+shared_lib_env.Append(
+    CPPDEFINES=['CAL3D_EXPORTS'],
+    CPPPATH=['../src'])
+
+shared_lib_env.Append(LINKFLAGS='/PDB:'+get_pdb_name('cal3d${IMVU_SHORT_LIBRARY_SUFFIX}'))
+shared_lib_env.SharedLibrary('../bin/${IMVU_BUILDDIR_NAME}/cal3d${IMVU_SHORT_LIBRARY_SUFFIX}', sources)
+
+# Build tests.
+if not ARGUMENTS.get('skiptests', ''):
+    SConscript(dirs=['test'])
+
+exporter_env = env.Copy()
+exporter_env.Append(
+    CPPPATH=['../plugins/cal3d_max_exporter',
+             '#/Dll/cal3d/plugins/src',
+             '#/Dll/cal3d/plugins/src/win32',
+             '#/ext/3dsmax7/maxsdk/include',
+             '#/Ext/3dsmax6/maxsdk/cssdk/include',
+             '../src'
+             ],
+    CPPDEFINES=['_AFXDLL'],
+    LIBPATH=['../bin/${IMVU_BUILDDIR_NAME}',
+             '#/Ext/3dsmax7/maxsdk/lib'],
+    LIBS=['cal3d${IMVU_SHORT_LIBRARY_SUFFIX}',
+          'core',
+          'geom',
+          'gfx',
+          'mesh',
+          'maxutil', 
+          'maxscrpt', 
+          'paramblk2'])
+
+exporter_env['CPPDEFINES'].remove('NOMINMAX')
+exporter_env['CPPDEFINES'].remove('UNICODE')
+exporter_env['CPPDEFINES'].remove('_UNICODE')
+
+res = exporter_env.RES('plugins/cal3d_max_exporter/cal3d_max_exporter.rc')
+exporter_env.SharedLibrary('../bin/${IMVU_BUILDDIR_NAME}/cal3d_max_exporter',
+                  exporter_sources + exporter_src_sources + exporter_win32_sources + [res])
+exporter_env.InstallAs('../bin/${IMVU_BUILDDIR_NAME}/cal3d_max_exporter.dle',
+              '../bin/${IMVU_BUILDDIR_NAME}/cal3d_max_exporter.dll')

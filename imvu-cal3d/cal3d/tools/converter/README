@@ -1,0 +1,85 @@
+o-----------------------------------------------------------------------------o
+|                                                                             |
+|                           c a l 3 d - converter                             |
+|                                                                             |
+|                              Version 0.9                                    |
+|                             ( 9 august 2003 )                               |
+|                                                                             |
+|            Copyright (C) 2003 Desmecht Laurent                              |
+|                                                                             |
+o-----------------------------------------------------------------------------o
+
+o-----------------------------------------------------------------------------o
+| Table of Contents                                                           |
+o-----------------------------------------------------------------------------o
+
+  1 License
+  2 What is 'cal3d-converter'?
+  3 Usage
+  4 Website
+  5 Authors
+
+
+o-----------------------------------------------------------------------------o
+| 1 License                                                                   |
+o-----------------------------------------------------------------------------o
+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your option)
+  any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation Inc., 59
+  Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+
+o-----------------------------------------------------------------------------o
+| 2 What is 'cal3d-converter'?                                               |
+o-----------------------------------------------------------------------------o
+
+  
+  Cal3d-Converter is a simple tool that convert binary cal3d file formats
+  to xml (text) file formats (or the inverse)
+  
+
+o-----------------------------------------------------------------------------o
+| 3 Usage                                                                     |
+o-----------------------------------------------------------------------------o
+
+  The converter tool is started from a shell with the following arguments:
+
+  cal3d_converter [source-file] [destination-file]
+  
+  the converter check the extension of the file to know if this is a xml file
+  of a binary file that must been create
+  
+  Ex:
+  
+  cal3d_converter paladin_body.cmf paladin_body.xmf  
+  
+  cal3d_converter paladin_arm_left.xrf paladin_arm_left.crf
+  
+
+o-----------------------------------------------------------------------------o
+| 4 Website                                                                   |
+o-----------------------------------------------------------------------------o
+
+  The official website of cal3d can be found at: http://cal3d.sourceforge.net
+
+
+o-----------------------------------------------------------------------------o
+| 5 Authors                                                                   |
+o-----------------------------------------------------------------------------o
+
+  Cal3D project was originally started by Bruno 'Beosil' Heidelberger. 
+  This converter was written by Desmecht Laurent. You can find a list 
+  of all people contributing to cal3d in the AUTHORS file.
+
+
+o-----------------------------------------------------------------------------o

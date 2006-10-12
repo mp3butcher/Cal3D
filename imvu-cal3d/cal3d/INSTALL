@@ -1,0 +1,183 @@
+====================================================
+         Building and Installing Cal3D
+====================================================
+
+      The Cal3D Team  (February 22, 2003)
+
+----------------------------------------------------
+
+Table of Contents
+
+  - Win32 Installation
+  - Build System Dependencies
+  - Basic Installation
+  - Some Useful Configuration Options
+  - Configuration Examples
+  - Installation Locations
+  - Important Note for IRIX Users
+
+----------------------------------------------------
+
+
+
+--------------------
+Win32 Installation
+--------------------
+
+   Those wishing to build the Cal3D library on Win32 platforms can use
+the included Visual Studio project files. Cal3D is known to work properly
+with Visual Studio 6 and Visual Studio .NET.
+
+
+-------------------------
+Build System Dependencies
+-------------------------
+
+   To configure and build the Cal3D library, you need the following tools:
+   
+   GNU Autoconf 2.13 or newer
+   GNU Automake 1.4 or newer
+
+   The source packages can be found at:
+
+   ftp://ftp.gnu.org/gnu/autoconf
+   ftp://ftp.gnu.org/gnu/automake
+
+
+------------------
+Basic Installation
+------------------
+
+   Cal3D uses GNU's autobuild tools in order to allow users to build
+the library from source using the same methods on a wide variety of 
+platforms.
+
+The simplest way to compile this package is:
+
+  1. In the top-level directory of the cal3d package, run `./autogen.sh'
+     to automatically generate the configuration scripting files.
+ 
+  2. Type `./configure' to configure the package for your system. 
+
+     Running `configure' takes a while.  While running, it prints some
+     messages telling which features it is checking for. See below for
+     more info on configuring Cal3D.
+
+  3. Type `make' to compile the package.
+
+  4. Type `make install' to install the library and header files into
+     the appropriate location.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  
+
+
+   The `autogen.sh' script will run the autotools for you and create
+the configure script and Makefile.in files, which will be used during 
+the build process.
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, a file
+`config.cache' that saves the results of its tests to speed up
+reconfiguring, and a file `config.log' containing compiler output
+(useful mainly for debugging `configure').
+
+
+---------------------------------
+Some Useful Configuration Options
+---------------------------------
+
+   When using the `configure' script, you might want to use some of the 
+optional flags to change various aspects of the build and installation.
+Below are some of the most commonly-used options.
+
+
+   --prefix=<DIR>          Sets the package to be installed in a particular
+                           location. By default, Cal3D is installed to
+                           /usr/local
+
+   --with-cxx=<COMPILER>   Forces the use of a particular compiler. By default,
+                           the CXX environment variable is used.
+                           
+
+   --enable-16bit-indices  Tells Cal3D to use 16-bit unsigned short indices
+                           instead of the default 32-bit integer. This could 
+                           result in a slight performance boost.
+
+   --enable-rtti           Enables runtime type identification. By default,
+                           it is disabled.
+
+   --enable-static         Allow a static Cal3D library to be built. By
+                           default, only the shared library is built.
+
+   --disable-shared        Prevent the shared library from being built. By
+                           default, it will be created.
+
+
+   To get a list of all configuration options that the script supports, type
+`./configure --help'. 
+
+
+----------------------
+Configuration Examples
+----------------------
+
+* Example: a RedHat 7.2 system with gcc3 support
+
+      ./configure --with-cxx=g++3
+
+
+* Example: a user performing a local installation
+
+      ./configure --prefix=/home/users/jahare/software
+
+
+* Example: an Irix user wanting to build only static libraries
+
+      ./configure --with-cxx=CC --enable-static --disable-shared
+
+
+* Example: a user integrating Cal3D with his own app that requires RTTI
+
+      ./configure --prefix=/home/users/jahare/software --enable-rtti
+
+
+----------------------
+Installation Locations
+----------------------
+
+   By default, `make install' will install the package's files in
+`/usr/local/lib', `/usr/local/include', etc.  You can specify an
+installation prefix other than `/usr/local' by giving `configure' the
+option `--prefix=PATH'.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+give `configure' the option `--exec-prefix=PATH', the package will use
+PATH as the prefix for installing programs and libraries.
+Documentation and other data files will still use the regular prefix.
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+-----------------------------
+Important Note for IRIX Users
+-----------------------------
+
+   Cal3D uses GNU libtool to build the programming library. Some versions 
+of libtool have a problem building dynamic libraries on Irix with the 
+CC compiler, due to the necessity of the -LANG:std flag. As a result, 
+you may experience runtime linking problems in your applications that 
+use Cal3D's shared library (libcal3d.so). 
+   A solution to this problem is to build a static Cal3D library (libcal3d.a)
+instead of a shared library. This can be accomplished by adding the flags 
+`--enable-static' and `--disable-shared' to your configure script. An 
+example configure command would then be:
+
+   ./configure --with-cxx=CC --enable-static --disable-shared
+
+This problem should NOT affect Irix developers using the gcc compiler. 

@@ -1,0 +1,92 @@
+<!DOCTYPE BOOK PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY guideintroduction SYSTEM "guide_introduction.sgml">
+<!ENTITY guidesetup SYSTEM "guide_setup.sgml">
+<!ENTITY guidedecisions SYSTEM "guide_decisions.sgml">
+<!ENTITY guidearchitecture SYSTEM "guide_architecture.sgml">
+<!ENTITY guideusage SYSTEM "guide_usage.sgml">
+<!ENTITY guidelgpl SYSTEM "guide_lgpl.sgml">
+<!ENTITY guidegfdl SYSTEM "guide_gfdl.sgml">
+<!ENTITY apiref SYSTEM "guide_apiref.sgml">
+]>
+
+<book id="index" lang="en">
+
+<bookinfo>
+  <title>The Cal3D User's Guide</title>
+  <subtitle>Version 0.7</subtitle>
+
+  <authorgroup>
+    <author>
+      <firstname>Bruno</firstname>
+      <surname>Heidelberger</surname>
+      <affiliation>
+        <address>
+          <email>beosil@swileys.com</email>
+        </address>
+      </affiliation>
+    </author>
+  </authorgroup>
+
+  <copyright>
+    <year>2001, 2002, 2003</year>
+    <holder><ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink></holder>
+  </copyright>
+
+  <legalnotice>
+    <para>
+      <blockquote>
+        <title>Copyright</title>
+        <para>
+          Copyright (C) 2001, 2002 <ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink>
+        </para>
+        <para>
+          For answers to many frequently asked questions about Cal3D, check out
+          the <ulink url="./cal3dfaq.html">Cal3D FAQ.</ulink>
+        </para>
+        <para>
+          Permission is granted to copy, distribute and/or modify this document
+          under the terms of the GNU Free Documentation License, Version 1.1
+          or any later version published by the Free Software Foundation.
+          A copy of the license is included in <xref linkend="gfdl">.
+        </para>
+      </blockquote>
+    </para>
+  </legalnotice>
+
+  <date>Last updated: 4. January 2002</date>
+
+  <releaseinfo>Initial Release</releaseinfo>
+
+  <abstract>
+    <para>
+      This documentation describes <ulink url="http://cal3d.sourceforge.net">Cal3D</ulink>,
+      a free 3d character animation library.
+      <important>
+        <para>
+          This is.the first version of the Cal3D User's Guide. It surely contains errors,
+          obscure descriptions and other anomalies. Please report them to the authors, and
+          help us make it better, thanks!
+        </para>
+      </important>
+    </para>
+  </abstract>
+
+  <graphic fileref="../shared/cal3d.gif"></graphic>
+
+  <keywordset>
+    <keyword>cal3d</keyword>
+    <keyword>character animation</keyword>
+    <keyword>library</keyword>
+    <keyword>LGPL</keyword>
+  </keywordset>
+</bookinfo>
+
+&guideintroduction;
+&guidedecisions;
+&guidesetup;
+&guidearchitecture;
+&guideusage;
+&guidelgpl;
+&guidegfdl;
+
+</book>
