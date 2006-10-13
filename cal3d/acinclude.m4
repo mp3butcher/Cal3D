@@ -69,12 +69,14 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
 
     AC_ARG_ENABLE(coverage,[  --enable-coverage       enable gcov coverage capabilities (disabled by default)],
     [
-      if test $enableval = "no" -o $enable_shared = "yes" ; then
-         COVERAGE_ENABLED="no"
-      else
-         COVERAGE_ENABLED="yes"
-         CXXFLAGS="$CXXFLAGS -ftest-coverage -fprofile-arcs"
+      COVERAGE_ENABLED="no"   
+      if test $enableval = "yes" ; then
+        if test $enable_shared = "no" ; then
+          COVERAGE_ENABLED="yes"
+          CXXFLAGS="$CXXFLAGS -ftest-coverage -fprofile-arcs"
+        fi
       fi
+
     ], [
       COVERAGE_ENABLED="no"
     ])
@@ -107,7 +109,7 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
        fi
     ])
 
-    AM_CONDITIONAL([COVERAGE], [test x$unittest = xtrue -a x$enable_shared = xno])     # For use in Makefile.am
+    AM_CONDITIONAL([COVERAGE], [test x$unittest = xtrue])     # For use in Makefile.am
 
 ])
 
