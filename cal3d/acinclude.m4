@@ -67,6 +67,18 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
       CXXFLAGS="$CXXFLAGS -pg"
     ],)
 
+    AC_ARG_ENABLE(coverage,[  --enable-coverage       enable gcov coverage capabilities (disabled by default)],
+    [
+      if test $enableval = "no" -o $enable_shared = "yes" ; then
+         COVERAGE_ENABLED="no"
+      else
+         COVERAGE_ENABLED="yes"
+         CXXFLAGS="$CXXFLAGS -ftest-coverage -fprofile-arcs"
+      fi
+    ], [
+      COVERAGE_ENABLED="no"
+    ])
+    AC_SUBST(COVERAGE_ENABLED)    
 
     AC_ARG_ENABLE(rtti, [  --enable-rtti           allow runtime type identification (disabled by default)],
     ,
@@ -81,6 +93,21 @@ AC_DEFUN([CAL3D_CHECK_BUILD],
       CXXFLAGS="$CXXFLAGS -LANG:std -n32 -mips3"
     fi
 
+    AC_ARG_ENABLE(unittest, [  --disable-unittest do not build coverage unittest], [
+        unittest=false                       # for AM_CONDITION
+    ], [
+
+       PKG_CHECK_MODULES(UNITTESTCPP, unittest++ >= 0.1, [unittest_enabled="yes"], [unittest_enabled="no"] )
+       if test "$unittest_enabled" = "yes" ; then
+         CPPFLAGS="$CPPFLAGS $UNITTESTCPP_CFLAGS"
+         LIBS="$LIBS $UNITTESTCPP_LIBS"
+         AC_DEFINE(USE_UNITTESTCPP, 1, [activate unittest++])
+       
+         unittest=true                        # for AM_CONDITION
+       fi
+    ])
+
+    AM_CONDITIONAL([COVERAGE], [test x$unittest = xtrue -a x$enable_shared = xno])     # For use in Makefile.am
 
 ])
 
