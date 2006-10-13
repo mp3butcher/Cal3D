@@ -94,7 +94,7 @@ function checkFunctionUsage
 #
 function getAllHeaderFunction()
 {
-   functions=$( grep '(' $header | awk 'match($0,"[~A-Za-z]+\(") {  print substr($0,RSTART,RLENGTH-1) }' )
+   functions=$(perl -n -e 'if(/([~A-Za-z]+)\(/) { print "$1\n"; }' < $header)
 }
 
 #
