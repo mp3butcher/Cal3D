@@ -37,7 +37,7 @@ coverage_SOURCES = Main.cpp \
                     
 
 coverage_CPPFLAGS = @UNITTESTCPP_CFLAGS@
-coverage_LDFLAGS = ${top_srcdir}/src/cal3d/libcal3d.la @UNITTESTCPP_LIBS@
+coverage_LDFLAGS = ../../src/cal3d/libcal3d.la @UNITTESTCPP_LIBS@
 
 clean-local:
 	-rm -fr *.gcov *.gcda *.gcno tmp.cov tmp.x*
