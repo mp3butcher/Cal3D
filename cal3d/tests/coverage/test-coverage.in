@@ -1,0 +1,224 @@
+#!/bin/bash
+
+VERBOSE=0
+
+SRC_DIR=./../../src/cal3d/
+
+API_HEADERS="animation.h animcallback.h bone.h coreanimation.h corebone.h corekeyframe.h coreskeleton.h coretrack.h"
+
+# files we don't want to check in
+EXCLUDE="animation.cpp \
+         bone.cpp \
+         coreanimation.cpp \
+         corebone.cpp \
+         corekeyframe.cpp \
+         coreskeleton.cpp \
+         coretrack.cpp"
+
+# files that MUST be checked (if they were not runned, fails)
+MUST_RUN=""
+
+#-------------------------------------------------------------------#
+
+TOCHECK=""
+NOTRUN=""
+FULLRUN=""
+
+NUM_CALL_FAILED=0
+NUM_FCT_FAILED=0
+NUM_FCT_GLOBAL=0
+
+TMP=$(pwd)/$0.$$
+trap "rm -f $TMP" EXIT INT QUIT TERM
+
+CUR_DIR=$( pwd )
+
+if [ "@COVERAGE_ENABLED@" = "no" ] ; then
+  echo "You have to use configure with --enable-coverage and --disabled-shared to use this feature."
+  echo "Using --enable-debug is highly recommanded too, as gcov may not correctly report code usage when optimisation are used."
+  exit 0
+fi
+
+if [ ! -e coverage ] ; then
+  echo "./coverage not found."
+  echo "libunittest++ must be present in order to compile the test."
+  exit 0
+fi
+
+./coverage
+
+#
+# for each file to check, 
+# ...
+#
+function checkFunctionUsage 
+{
+  #for each file in FileToChek
+  # grep line where 'function' appear
+  # if line begin with ### -> we are wrong ! :(
+  # else it's good !
+ 
+  NUM_FCT_GLOBAL=$(($NUM_FCT_GLOBAL+1))
+  THIS_FAILED=0
+ 
+  for file in $TOCHECK
+  do
+    grep "[ {(.>]$function[ ]*(" $file.gcov | grep "\#\#\#\#" > $TMP
+
+    # we now remove lines from the exlusion file
+    if [ -e $CUR_DIR/except ]
+    then
+      grep -v -f $CUR_DIR/except $TMP > $TMP
+    fi
+
+    line_count=$(wc -l < $TMP)
+    if [ $line_count -ne 0 ]
+    then
+      THIS_FAILED=1
+      NUM_CALL_FAILED=$((NUM_CALL_FAILED+$line_count))
+      if [ $VERBOSE -ge 1 ] ; then echo " [ $file : $function ]  $line_count call(s) unexecuted"; fi
+      if [ $VERBOSE -ge 2 ] ; then cat $TMP; fi
+    fi
+  done
+
+  if [ $THIS_FAILED -eq 1 ]
+  then
+    NUM_FCT_FAILED=$(($NUM_FCT_FAILED+1))
+  fi
+
+}
+
+# 
+# open a header file and try to locate all
+# classes functions
+#
+function getAllHeaderFunction()
+{
+   functions=$( grep '(' $header | awk 'match($0,"[~A-Za-z]+\(") {  print substr($0,RSTART,RLENGTH-1) }' )
+}
+
+#
+# 
+# 
+#
+function checkApiCoverage()
+{
+  for header in $API_HEADERS
+  do
+    if [ $VERBOSE -ge 1 ] ; then echo "checking $header" ; fi
+    getAllHeaderFunction
+
+    for function in $functions
+    do
+      if [ $VERBOSE -ge 3 ] ; then echo "  $function "; fi
+      checkFunctionUsage $function
+    done
+  done
+}
+
+#
+# 
+#
+#
+function initFileToCheck()
+{
+  file_name=$( echo $1 | sed -e 's/[0-9A-Za-z.]*\///g') 
+  file_pre=$( echo $file_name | sed -e 's/.[0-9A-Za-z]*$//g')
+  file_suf=$( echo $file_name | sed -e 's/^[0-9A-Za-z]*.//g')
+
+  # if file.gcda exist, the we can use gcov
+  # else, the file code was never executed or
+  # compiled with needed parameters
+  if [ -e $file_pre.gcda ]
+  then
+    gcov $file_pre.o > $TMP
+    percent=$(cat $TMP  | grep -C 1 \'$file_name\' \
+              | grep % | awk 'match($0,"[0-9]*.[0-9]*%") { print substr($0,RSTART,RLENGTH-1) }')
+
+    if [ $percent ==  100.00 ] 
+    then
+      FULLRUN=$FULLRUN" "$file_name    
+    else
+      TOCHECK=$TOCHECK" "$file_name
+    fi
+ 
+  else
+    NOTRUN=$NOTRUN" "$file_name
+  fi
+    
+}
+
+#
+#  
+#
+#
+function setFilesToCheck() 
+{
+  # remove all excluded files
+  dir_files=$(ls -1 *.cpp)
+  for dir_file in $dir_files
+  do
+    not_excluded=1
+    for exc in $EXCLUDE
+    do
+      if [ $dir_file = $exc ]
+      then
+        not_excluded=0
+      fi
+    done
+   
+    if [ $not_excluded -eq 1 ]
+    then
+      initFileToCheck $dir_file
+    fi
+
+  done
+}
+
+function displayNotRunned()
+{
+  count=0
+  for i in $NOTRUN
+  do  
+    count=$(( $count + 1 ))
+  done
+  
+  if [ $count -gt 0 ]
+  then
+    echo "[ files NOT RUN AT ALL and removed from test ]"
+
+    for i in $NOTRUN
+    do
+      echo "* "$i
+    done
+  fi
+}
+
+while getopts 'dv:' o ; do
+  case $o in
+    v) #set verbose level
+      VERBOSE=$OPTARG
+      ;;
+    d) # debug mode
+      set -x
+      ;;
+    esac
+done
+
+cd $SRC_DIR
+
+  setFilesToCheck
+  checkApiCoverage
+
+if [ $NUM_FCT_FAILED -eq 0 ]
+then
+  echo "$NUM_FCT_GLOBAL functions checked - calls runned = 100%  -"
+  displayNotRunned
+  exit 0
+else
+  percent=$(awk "END { print int( (100 - (100 * $NUM_FCT_FAILED) / $NUM_FCT_GLOBAL )) }" < /dev/null)
+  echo "$NUM_FCT_GLOBAL functions checked - calls runned = $percent% -"
+  echo "$NUM_FCT_FAILED function(s) failed in $NUM_CALL_FAILED call(s)"
+  displayNotRunned
+  exit 1
+fi
