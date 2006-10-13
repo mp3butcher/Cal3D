@@ -58,6 +58,9 @@ fi
 AC_PATH_PROG(BLENDER, [blender])
 AC_PATH_PROG(VALGRIND, [valgrind])
 
+# Check for unittest++
+AM_USE_UNITTESTCPP
+
 CPPFLAGS="$CPPFLAGS"' -I${top_srcdir}/src'
 
 dnl ************************************************************************
@@ -66,7 +69,11 @@ CAL3D_CHECK_BUILD
 
 dnl ************************************************************************
 
-AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile tests/Makefile tests/run cal3d.pc src/cal3d_converter.1 fileformats.txt)
+AC_CONFIG_FILES([tests/coverage/test-coverage],[chmod 555 $ac_file])
+
+AC_OUTPUT(Makefile src/Makefile src/cal3d/Makefile docs/Makefile docs/api/Makefile docs/shared/Makefile tests/Makefile tests/coverage/Makefile tests/run cal3d.pc src/cal3d_converter.1 fileformats.txt)
+
+dnl AC_CONFIG_FILES([test-coverage],[chmod 555 $ac_file])
 
 dnl ************************************************************************
 
