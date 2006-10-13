@@ -16,6 +16,8 @@ INCLUDES = -I${top_srcdir}/cal3d/src
 
 EXTRA_DIST = except
 
+TESTS = coverage
+
 noinst_PROGRAMS = coverage
 
 noinst_HEADERS = Unittest.h
