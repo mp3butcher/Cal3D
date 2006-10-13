@@ -9,6 +9,15 @@
 # your option) any later version.
 #
 # ************************************************************************
+
+if COVERAGE
+  COVERAGE_SUBDIR = coverage
+else
+  COVERAGE_SUBDIR =
+endif
+
+SUBDIRS = ${COVERAGE_SUBDIR}
+
 MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I${top_srcdir}/cal3d/src
