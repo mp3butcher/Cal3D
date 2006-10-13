@@ -14,7 +14,6 @@
 AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = cal3d.dsw SConstruct \
-	macosx/.DS_Store \
 	macosx/cal3d.xcodeproj/dereka.mode1 \
 	macosx/cal3d.xcodeproj/dereka.pbxuser \
 	macosx/cal3d.xcodeproj/project.pbxproj \
