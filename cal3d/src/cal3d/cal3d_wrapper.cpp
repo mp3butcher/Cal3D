@@ -69,7 +69,7 @@ void CalAnimationAction_Delete(CalAnimationAction *self)
   delete self;
 }
 
-Boolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, float delayOut)
+CalBoolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, float delayOut)
 {
   return self->execute(delayIn, delayOut) ? True : False;
 }
@@ -79,7 +79,7 @@ CalAnimationAction *CalAnimationAction_New(CalCoreAnimation *pCoreAnimation)
   return new CalAnimationAction(pCoreAnimation);
 }
 
-Boolean CalAnimationAction_Update(CalAnimationAction *self, float deltaTime)
+CalBoolean CalAnimationAction_Update(CalAnimationAction *self, float deltaTime)
 {
   return self->update(deltaTime) ? True : False;
 }
@@ -94,7 +94,7 @@ void CalCoreAnimation_Scale(CalCoreAnimation *self, float factor)
 // CalAnimationCycle wrapper functions definition                             //
 //****************************************************************************//
 
-Boolean CalAnimationCycle_Blend(CalAnimationCycle *self, float weight, float delay)
+CalBoolean CalAnimationCycle_Blend(CalAnimationCycle *self, float weight, float delay)
 {
   return self->blend(weight, delay) ? True : False;
 }
@@ -114,7 +114,7 @@ void CalAnimationCycle_SetAsync(CalAnimationCycle *self, float time, float durat
   self->setAsync(time, duration);
 }
 
-Boolean CalAnimationCycle_Update(CalAnimationCycle *self, float deltaTime)
+CalBoolean CalAnimationCycle_Update(CalAnimationCycle *self, float deltaTime)
 {
   return self->update(deltaTime) ? True : False;
 }
@@ -242,7 +242,7 @@ void CalCoreAnimation_SetDuration(CalCoreAnimation *self, float duration)
 // CalCoreAnimation wrapper functions definition                              //
 //****************************************************************************//
 
-Boolean CalCoreBone_AddChildId(CalCoreBone *self, int childId)
+CalBoolean CalCoreBone_AddChildId(CalCoreBone *self, int childId)
 {
   return self->addChildId(childId) ? True : False;
 }
@@ -363,7 +363,7 @@ void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
     delete self;
 }
 
-Boolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
+CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
 {
     return self->addMorphTarget(meshID, morphID) ? True : False;
 }
@@ -434,7 +434,7 @@ std::vector<Map>& CalCoreMaterial_GetVectorMap(CalCoreMaterial *self)
 }
 */
 
-Boolean CalCoreMaterial_Reserve(CalCoreMaterial *self, int mapCount)
+CalBoolean CalCoreMaterial_Reserve(CalCoreMaterial *self, int mapCount)
 {
   return self->reserve(mapCount) ? True : False;
 }
@@ -454,13 +454,13 @@ void CalCoreMaterial_SetDiffuseColor(CalCoreMaterial *self, CalCoreMaterial::Col
 */
 
 /*
-Boolean CalCoreMaterial_SetMap(CalCoreMaterial *self, int mapId, CalCoreMaterial::Map *pMap)
+CalBoolean CalCoreMaterial_SetMap(CalCoreMaterial *self, int mapId, CalCoreMaterial::Map *pMap)
 {
   return self->setMap(mapId, *pMap) ? True : False;
 }
 */
 
-Boolean CalCoreMaterial_SetMapUserData(CalCoreMaterial *self, int mapId, CalUserData userData)
+CalBoolean CalCoreMaterial_SetMapUserData(CalCoreMaterial *self, int mapId, CalUserData userData)
 {
   return self->setMapUserData(mapId, userData) ? True : False;
 }
@@ -553,7 +553,7 @@ int CalCoreModel_AddCoreMesh(CalCoreModel *self, CalCoreMesh *pCoreMesh)
   return self->addCoreMesh(pCoreMesh);
 }
 
-Boolean CalCoreModel_CreateCoreMaterialThread(CalCoreModel *self, int coreMaterialThreadId)
+CalBoolean CalCoreModel_CreateCoreMaterialThread(CalCoreModel *self, int coreMaterialThreadId)
 {
   return self->createCoreMaterialThread(coreMaterialThreadId) ? True : False;
 }
@@ -628,7 +628,7 @@ int CalCoreModel_LoadCoreMesh(CalCoreModel *self, char *strFilename)
   return self->loadCoreMesh(strFilename);
 }
 
-Boolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, char *strFilename)
+CalBoolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, char *strFilename)
 {
   return self->loadCoreSkeleton(strFilename) ? True : False;
 }
@@ -638,27 +638,27 @@ CalCoreModel *CalCoreModel_New(const char* name)
   return new CalCoreModel(name);
 }
 
-Boolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, char *strFilename, int coreAnimationId)
+CalBoolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, char *strFilename, int coreAnimationId)
 {
   return self->saveCoreAnimation(strFilename, coreAnimationId) ? True : False;
 }
 
-Boolean CalCoreModel_SaveCoreMaterial(CalCoreModel *self, char *strFilename, int coreMaterialId)
+CalBoolean CalCoreModel_SaveCoreMaterial(CalCoreModel *self, char *strFilename, int coreMaterialId)
 {
   return self->saveCoreMaterial(strFilename, coreMaterialId) ? True : False;
 }
 
-Boolean CalCoreModel_SaveCoreMesh(CalCoreModel *self, char *strFilename, int coreMeshId)
+CalBoolean CalCoreModel_SaveCoreMesh(CalCoreModel *self, char *strFilename, int coreMeshId)
 {
   return self->saveCoreMesh(strFilename, coreMeshId) ? True : False;
 }
 
-Boolean CalCoreModel_SaveCoreSkeleton(CalCoreModel *self, char *strFilename)
+CalBoolean CalCoreModel_SaveCoreSkeleton(CalCoreModel *self, char *strFilename)
 {
   return self->saveCoreSkeleton(strFilename) ? True : False;
 }
 
-Boolean CalCoreModel_SetCoreMaterialId(CalCoreModel *self, int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId)
+CalBoolean CalCoreModel_SetCoreMaterialId(CalCoreModel *self, int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId)
 {
   return self->setCoreMaterialId(coreMaterialThreadId, coreMaterialSetId, coreMaterialId) ? True : False;
 }
@@ -726,16 +726,6 @@ std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(CalCoreSkeleton *s
 void CalCoreSkeleton_Scale(CalCoreSkeleton *self,float factor)
 {
 	self->scale(factor);
-}
-
-void CalSkeleton_GetBoneBoundingBox(CalSkeleton *self, float *min, float *max)
-{
-	self->getBoneBoundingBox(min, max);
-}
-
-void CalSkeleton_CalculateBoundingBoxes(CalSkeleton *self)
-{
-	self->calculateBoundingBoxes();
 }
 
 //****************************************************************************//
@@ -812,7 +802,7 @@ CalCoreSubmesh *CalCoreSubmesh_New()
   return new CalCoreSubmesh();
 }
 
-Boolean CalCoreSubmesh_Reserve(CalCoreSubmesh *self, int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
+CalBoolean CalCoreSubmesh_Reserve(CalCoreSubmesh *self, int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
 {
   return self->reserve(vertexCount, textureCoordinateCount, faceCount, springCount) ? True : False;
 }
@@ -823,7 +813,7 @@ void CalCoreSubmesh_SetCoreMaterialThreadId(CalCoreSubmesh *self, int coreMateri
 }
 
 /*
-Boolean CalCoreSubmesh_SetFace(CalCoreSubmesh *self, int faceId, CalCoreSubmesh::Face *pFace)
+CalBoolean CalCoreSubmesh_SetFace(CalCoreSubmesh *self, int faceId, CalCoreSubmesh::Face *pFace)
 {
   return self->setFace(faceId, *pFace) ? True : False;
 }
@@ -835,39 +825,39 @@ void CalCoreSubmesh_SetLodCount(CalCoreSubmesh *self, int lodCount)
 }
 
 /*
-Boolean CalCoreSubmesh_SetPhysicalProperty(CalCoreSubmesh *self, int vertexId, CalCoreSubmesh::PhysicalProperty *pPhysicalProperty)
+CalBoolean CalCoreSubmesh_SetPhysicalProperty(CalCoreSubmesh *self, int vertexId, CalCoreSubmesh::PhysicalProperty *pPhysicalProperty)
 {
   return self->setPhysicalProperty(vertexId, *pPhysicalProperty) ? True : False;
 }
 */
 
 /*
-Boolean CalCoreSubmesh_SetSpring(CalCoreSubmesh *self, int springId, CalCoreSubmesh::Spring *pSpring)
+CalBoolean CalCoreSubmesh_SetSpring(CalCoreSubmesh *self, int springId, CalCoreSubmesh::Spring *pSpring)
 {
   return self->setSpring(springId, *pSpring) ? True : False;
 }
 */
 
 /*
-Boolean CalCoreSubmesh_SetTextureCoordinate(CalCoreSubmesh *self, int vertexId, int textureCoordinateId, CalCoreSubmesh::TextureCoordinate *pTextureCoordinate)
+CalBoolean CalCoreSubmesh_SetTextureCoordinate(CalCoreSubmesh *self, int vertexId, int textureCoordinateId, CalCoreSubmesh::TextureCoordinate *pTextureCoordinate)
 {
   return self->setTextureCoordinate(vertexId, textureCoordinateId, *pTextureCoordinate) ? True : False;
 }
 */
 
 /*
-Boolean CalCoreSubmesh_SetVertex(CalCoreSubmesh *self, int vertexId, CalCoreSubmesh::Vertex *pVertex)
+CalBoolean CalCoreSubmesh_SetVertex(CalCoreSubmesh *self, int vertexId, CalCoreSubmesh::Vertex *pVertex)
 {
   return self->setVertex(vertexId, *pVertex) ? True : False;
 }
 */
 
-Boolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
+CalBoolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
 {
   return self->isTangentsEnabled(mapId) ? True : False;
 }
 
-Boolean CalCoreSubmesh_EnableTangents(CalCoreSubmesh *self, int mapId, bool enabled)
+CalBoolean CalCoreSubmesh_EnableTangents(CalCoreSubmesh *self, int mapId, bool enabled)
 {
   return self->enableTangents(mapId, enabled) ? True : False;
 }
@@ -1003,12 +993,12 @@ void CalMesh_SetModel(CalMesh *self, CalModel *pModel)
 // CalMixer wrapper functions definition                                      //
 //****************************************************************************//
 
-Boolean CalMixer_BlendCycle(CalMixer *self, int id, float weight, float delay)
+CalBoolean CalMixer_BlendCycle(CalMixer *self, int id, float weight, float delay)
 {
   return self->blendCycle(id, weight, delay) ? True : False;
 }
 
-Boolean CalMixer_ClearCycle(CalMixer *self, int id, float delay)
+CalBoolean CalMixer_ClearCycle(CalMixer *self, int id, float delay)
 {
   return self->clearCycle(id, delay) ? True : False;
 }
@@ -1018,7 +1008,7 @@ void CalMixer_Delete(CalMixer *self)
   delete self;
 }
 
-Boolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut, enum Boolean autoLock)
+CalBoolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float delayOut, enum CalBoolean autoLock)
 {
   return self->executeAction(id, delayIn, delayOut, 1.0f,  autoLock == True ? true : false) ? True : False;
 }
@@ -1047,12 +1037,12 @@ void CalMixer_RemoveAction(CalMixer *self,int id)
 // CalMorphTargetMixer wrapper functions definition                           //
 //****************************************************************************//
 
-Boolean CalMorphTargetMixer_Blend(struct CalMorphTargetMixer *self, int id, float weight, float delay)
+CalBoolean CalMorphTargetMixer_Blend(struct CalMorphTargetMixer *self, int id, float weight, float delay)
 {
   return self->blend(id, weight, delay) ? True : False;
 }
 
-Boolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay)
+CalBoolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay)
 {
   return self->clear(id, delay) ? True : False;
 }
@@ -1081,7 +1071,7 @@ int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self)
 // CalModel wrapper functions definition                                      //
 //****************************************************************************//
 
-Boolean CalModel_AttachMesh(CalModel *self, int coreMeshId)
+CalBoolean CalModel_AttachMesh(CalModel *self, int coreMeshId)
 {
   return self->attachMesh(coreMeshId) ? True : False;
 }
@@ -1091,7 +1081,7 @@ void CalModel_Delete(CalModel *self)
   delete self;
 }
 
-Boolean CalModel_DetachMesh(CalModel *self, int coreMeshId)
+CalBoolean CalModel_DetachMesh(CalModel *self, int coreMeshId)
 {
   return self->detachMesh(coreMeshId) ? True : False;
 }
@@ -1284,7 +1274,7 @@ void CalQuaternion_Set(CalQuaternion *self, float qx, float qy, float qz, float 
 // CalRender wrapper functions definition                                         //
 //****************************************************************************//
 
-Boolean CalRenderer_BeginRendering(CalRenderer *self)
+CalBoolean CalRenderer_BeginRendering(CalRenderer *self)
 {
   return self->beginRendering() ? True : False;
 }
@@ -1384,7 +1374,7 @@ int CalRenderer_GetTangentSpaces(CalRenderer *self, int mapId, float *pTangentSp
   return self->getTangentSpaces(mapId, pTangentSpaceBuffer);
 }
 
-Boolean CalRenderer_IsTangentsEnabled(CalRenderer *self, int mapId)
+CalBoolean CalRenderer_IsTangentsEnabled(CalRenderer *self, int mapId)
 {
   return self->isTangentsEnabled(mapId) ? True : False;
 }
@@ -1394,7 +1384,7 @@ CalRenderer *CalRenderer_New(CalModel* pModel)
   return new CalRenderer(pModel);
 }
 
-Boolean CalRenderer_SelectMeshSubmesh(CalRenderer *self, int meshId, int submeshId)
+CalBoolean CalRenderer_SelectMeshSubmesh(CalRenderer *self, int meshId, int submeshId)
 {
   return self->selectMeshSubmesh(meshId, submeshId) ? True : False;
 }
@@ -1413,22 +1403,22 @@ CalSaver *CalSaver_New()
   return new CalSaver();
 }
 
-Boolean CalSaver_SaveCoreAnimation(CalSaver *self, char *strFilename, CalCoreAnimation *pCoreAnimation)
+CalBoolean CalSaver_SaveCoreAnimation(CalSaver *self, char *strFilename, CalCoreAnimation *pCoreAnimation)
 {
   return self->saveCoreAnimation(strFilename, pCoreAnimation) ? True : False;
 }
 
-Boolean CalSaver_SaveCoreMaterial(CalSaver *self, char *strFilename, CalCoreMaterial *pCoreMaterial)
+CalBoolean CalSaver_SaveCoreMaterial(CalSaver *self, char *strFilename, CalCoreMaterial *pCoreMaterial)
 {
   return self->saveCoreMaterial(strFilename, pCoreMaterial) ? True : False;
 }
 
-Boolean CalSaver_SaveCoreMesh(CalSaver *self, char *strFilename, CalCoreMesh *pCoreMesh)
+CalBoolean CalSaver_SaveCoreMesh(CalSaver *self, char *strFilename, CalCoreMesh *pCoreMesh)
 {
   return self->saveCoreMesh(strFilename, pCoreMesh) ? True : False;
 }
 
-Boolean CalSaver_SaveCoreSkeleton(CalSaver *self, char *strFilename, CalCoreSkeleton *pCoreSkeleton)
+CalBoolean CalSaver_SaveCoreSkeleton(CalSaver *self, char *strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
   return self->saveCoreSkeleton(strFilename, pCoreSkeleton) ? True : False;
 }
@@ -1477,6 +1467,16 @@ void CalSkeleton_LockState(CalSkeleton *self)
 CalSkeleton *CalSkeleton_New(CalCoreSkeleton *pCoreSkeleton)
 {
   return new CalSkeleton(pCoreSkeleton);
+}
+
+void CalSkeleton_GetBoneBoundingBox(CalSkeleton *self, float *min, float *max)
+{
+	self->getBoneBoundingBox(min, max);
+}
+
+void CalSkeleton_CalculateBoundingBoxes(CalSkeleton *self)
+{
+	self->calculateBoundingBoxes();
 }
 
 // DEBUG-CODE
@@ -1586,7 +1586,7 @@ int CalSubmesh_GetVertexCount(CalSubmesh *self)
   return self->getVertexCount();
 }
 
-Boolean CalSubmesh_HasInternalData(CalSubmesh *self)
+CalBoolean CalSubmesh_HasInternalData(CalSubmesh *self)
 {
   return self->hasInternalData() ? True : False;
 }
