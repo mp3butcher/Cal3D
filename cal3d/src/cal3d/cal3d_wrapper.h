@@ -218,6 +218,8 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreBone_CalculateState(struct CalCoreBone *self);
   CAL3D_WRAPPER_API void CalCoreBone_Delete(struct CalCoreBone *self);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreBone_GetListChildId(struct CalCoreBone *self);
+  CAL3D_WRAPPER_API int CalCoreBone_GetChildCount( struct CalCoreBone *self );
+  CAL3D_WRAPPER_API int CalCoreBone_GetChildId( struct CalCoreBone *self, int childIndex );
   CAL3D_WRAPPER_API const char *CalCoreBone_GetName(struct CalCoreBone *self);
   CAL3D_WRAPPER_API void CalCoreBone_SetName(struct CalCoreBone *self, const char* name );
   CAL3D_WRAPPER_API int CalCoreBone_GetParentId(struct CalCoreBone *self);
