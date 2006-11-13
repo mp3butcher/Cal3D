@@ -16,6 +16,8 @@
 #include "cal3d/error.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/corebone.h"
+#include "cal3d/coremodel.h"
+#include "cal3d/coresubmesh.h"
 
 
 CalCoreSkeleton::CalCoreSkeleton()
@@ -216,11 +218,70 @@ std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
 
 void CalCoreSkeleton::calculateBoundingBoxes(CalCoreModel * pCoreModel)
 {
-   for(size_t boneId=0;boneId<m_vectorCoreBone.size();++boneId)
-   {
-      m_vectorCoreBone[boneId]->calculateBoundingBox(pCoreModel);
-   }
+	size_t boneId;
+	
+	// First, find out whether all the bounding boxes have already been precomputed.
+	// If so, we can bail out early.
+	bool	alreadyComputed = true;
+	for(boneId=0;boneId<m_vectorCoreBone.size();++boneId)
+	{
+		if (! m_vectorCoreBone[boneId]->isBoundingBoxPrecomputed())
+		{
+			alreadyComputed = false;
+			break;
+		}
+	}
+	if (alreadyComputed)
+	{
+		return;
+	}
+	
+	// Initialize all bounding boxes empty.
+	for(boneId=0;boneId<m_vectorCoreBone.size();++boneId)
+	{
+		m_vectorCoreBone[boneId]->initBoundingBox();
+	}
+	
+	// Loop over all vertices updating bounding boxes.
+	for(int meshId=0; meshId < pCoreModel->getCoreMeshCount(); ++meshId)
+	{
+		CalCoreMesh * pCoreMesh = pCoreModel->getCoreMesh(meshId);
+		
+		for(int submeshId=0;submeshId<pCoreMesh->getCoreSubmeshCount();submeshId++)
+		{
+			CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
+			
+			if(pCoreSubmesh->getSpringCount()==0)
+			{
+				std::vector<CalCoreSubmesh::Vertex>& vectorVertex =
+					pCoreSubmesh->getVectorVertex();
+				
+				for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
+				{
+					for(size_t influenceId=0;
+						influenceId < vectorVertex[vertexId].vectorInfluence.size();
+						++influenceId)
+					{
+						if (vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
+						{
+							boneId = vectorVertex[vertexId].vectorInfluence[influenceId].boneId;
+							
+							m_vectorCoreBone[boneId]->updateBoundingBox(
+								vectorVertex[vertexId].position );
+							
+							break;	// there can be at most one bone with majority influence
+						}
+					}
+				}
+			}
+		}
+	}
 
+	// Mark bounding boxes as computed.
+	for(boneId=0;boneId<m_vectorCoreBone.size();++boneId)
+	{
+		m_vectorCoreBone[boneId]->setBoundingBoxPrecomputed( true );
+	}
 }
 
  /*****************************************************************************/

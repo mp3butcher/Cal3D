@@ -124,6 +124,22 @@ const std::string& CalCoreBone::getName() const
   return m_strName;
 }
 
+
+ /*****************************************************************************/
+/** Sets the name.
+  *
+  * This function sets the name of the core bone instance.
+  *
+  * @param strName A string that should be used as the name of the core bone
+  *                instance.
+  *
+  *****************************************************************************/
+void CalCoreBone::setName( const std::string& name )
+{
+	m_strName = name;
+}
+
+
  /*****************************************************************************/
 /** Returns the parent ID.
   *
@@ -352,9 +368,49 @@ void CalCoreBone::setUserData(Cal::UserData userData)
 void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 {
    int boneId =  m_pCoreSkeleton->getCoreBoneId(m_strName);
-   bool bBoundsComputed=false;
-   int planeId;
    
+   initBoundingBox();
+   
+   int meshId;
+   for(meshId=0; meshId < pCoreModel->getCoreMeshCount(); ++meshId)
+   {
+       CalCoreMesh * pCoreMesh = pCoreModel->getCoreMesh(meshId);
+	   
+       int submeshId;
+       for(submeshId=0;submeshId<pCoreMesh->getCoreSubmeshCount();submeshId++)
+       {
+		   CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
+		   
+		   if(pCoreSubmesh->getSpringCount()==0)
+		   {
+			   
+			   std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
+			   for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
+			   {
+				   for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
+				   {
+					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId && vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
+					   {
+						   int planeId;
+						   for(planeId = 0; planeId < 6; ++planeId)
+						   {
+							   if(m_boundingBox.plane[planeId].eval(vectorVertex[vertexId].position) < 0.0f)
+							   {
+								   m_boundingBox.plane[planeId].setPosition(vectorVertex[vertexId].position);
+								   m_boundingPosition[planeId]=vectorVertex[vertexId].position;		          
+							   }
+						   }
+					   }
+				   }
+			   }	
+		   }
+	   }
+   }
+   m_boundingBoxPrecomputed = true;
+}
+
+void CalCoreBone::initBoundingBox()
+{
    CalQuaternion rot;
    rot=m_rotationBoneSpace;   
   
@@ -383,54 +439,18 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
    dir = CalVector(0.0f,0.0f,-1.0f);
    dir*=rot;
    m_boundingBox.plane[5].setNormal(dir);
-   
-   int meshId;
-   for(meshId=0; meshId < pCoreModel->getCoreMeshCount(); ++meshId)
-   {
-       CalCoreMesh * pCoreMesh = pCoreModel->getCoreMesh(meshId);
-	   
-       int submeshId;
-       for(submeshId=0;submeshId<pCoreMesh->getCoreSubmeshCount();submeshId++)
-       {
-		   CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
-		   
-		   if(pCoreSubmesh->getSpringCount()==0)
-		   {
-			   
-			   std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
-			   for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
-			   {
-				   for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
-				   {
-					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId && vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
-					   {						   
-						   for(planeId = 0; planeId < 6; ++planeId)
-						   {
-							   if(m_boundingBox.plane[planeId].eval(vectorVertex[vertexId].position) < 0.0f)
-							   {
-								   m_boundingBox.plane[planeId].setPosition(vectorVertex[vertexId].position);
-								   m_boundingPosition[planeId]=vectorVertex[vertexId].position;
-								   bBoundsComputed=true;
-							   }
-						   }
-					   }
-				   }
-			   }	
-		   }
-	   }
-   }
+}
 
-   // To handle bones with no vertices assigned 
-   if(!bBoundsComputed) 
-   { 
-	   for(planeId = 0; planeId < 6; ++planeId) 
-	   { 
-		   m_boundingBox.plane[planeId].setPosition(m_translation); 
-		   m_boundingPosition[planeId] = m_translation; 
-	   } 
-   } 
-   
-   m_boundingBoxPrecomputed = true;
+void CalCoreBone::updateBoundingBox( const CalVector & position )
+{
+	for (int planeId = 0; planeId < 6; ++planeId)
+	{
+	   if (m_boundingBox.plane[planeId].eval(position) < 0.0f)
+	   {
+		   m_boundingBox.plane[planeId].setPosition(position);
+		   m_boundingPosition[planeId] = position;
+	   }
+	}
 }
 
  /*****************************************************************************/
@@ -457,6 +477,10 @@ bool CalCoreBone::isBoundingBoxPrecomputed() const
 	return m_boundingBoxPrecomputed;
 }
 
+void CalCoreBone::setBoundingBoxPrecomputed( bool inComputed )
+{
+	m_boundingBoxPrecomputed = inComputed;
+}
 
 
  /*****************************************************************************/

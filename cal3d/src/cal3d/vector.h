@@ -140,10 +140,12 @@ public:
 	  float length;
 	  length = (float) sqrt(x * x + y * y + z * z);
 	  
+	  float	lenRecip = 1.0f / length;
+	  
 	  // normalize the vector
-	  x /= length;
-	  y /= length;
-	  z /= length;
+	  x *= lenRecip;
+	  y *= lenRecip;
+	  z *= lenRecip;
 	  
 	  return length;
   }
@@ -206,9 +208,9 @@ class CAL3D_API CalPlane
       // These methods are made only to calculate the bounding boxes,
       // don't use them in you program
       
-      float eval(CalVector &p);
+      float eval(const CalVector &p);
 	  float dist(CalVector &p);
-      void setPosition(CalVector &p);
+      void setPosition(const CalVector &p);
       void setNormal(CalVector &p);
 };
 

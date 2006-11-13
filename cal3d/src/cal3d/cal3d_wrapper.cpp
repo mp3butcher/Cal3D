@@ -213,6 +213,33 @@ void CalBone_SetCoreStateRecursive(CalBone *self)
   self->setCoreStateRecursive();
 }
 
+CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* model,
+  													float* outEightPoints )
+{
+	CalBoolean	gotBounds = False;
+	
+	CalCoreBone*	coreBone = self->getCoreBone();
+	
+	if (not coreBone->isBoundingBoxPrecomputed())
+	{
+		coreBone->calculateBoundingBox( model );
+	}
+	
+	// If a bone owns no vertices, then the box of the core bone will stay at its initialized value,
+	// in which the d members are -1e32.
+	CalBoundingBox&	coreBox( coreBone->getBoundingBox() );
+	if (fabsf(coreBox.plane[0].d) < 1e7)
+	{
+		self->calculateBoundingBox();
+
+		CalBoundingBox&	box( self->getBoundingBox() );
+		box.computePoints( reinterpret_cast<CalVector*>(outEightPoints) );
+		gotBounds = True;
+	}
+	
+	return gotBounds;
+}
+
 
 //****************************************************************************//
 // CalCoreAnimation wrapper functions definition                              //
@@ -269,9 +296,42 @@ const char *CalCoreBone_GetName(CalCoreBone *self)
   return self->getName().c_str();
 }
 
+void CalCoreBone_SetName(struct CalCoreBone *self, const char* name )
+{
+	try
+	{
+		self->setName( name );
+	}
+	catch (...)
+	{
+	}
+}
+
 int CalCoreBone_GetParentId(CalCoreBone *self)
 {
   return self->getParentId();
+}
+
+int CalCoreBone_GetChildCount( struct CalCoreBone *self )
+{
+	return self->getListChildId().size();
+}
+
+int CalCoreBone_GetChildId( struct CalCoreBone *self, int childIndex )
+{
+	int	childBoneID = -1;
+	std::list<int>&		childBoneIDs( self->getListChildId() );
+	if (childIndex < childBoneIDs.size())
+	{
+		std::list<int>::iterator i = childBoneIDs.begin();
+		while (childIndex > 0)
+		{
+			++i;
+			--childIndex;
+		}
+		childBoneID = *i;
+	}
+	return childBoneID;
 }
 
 CalQuaternion *CalCoreBone_GetRotation(CalCoreBone *self)
@@ -347,6 +407,29 @@ void CalCoreBone_SetTranslationBoneSpace(CalCoreBone *self, CalVector *pTranslat
 void CalCoreBone_SetUserData(CalCoreBone *self, CalUserData userData)
 {
   self->setUserData(userData);
+}
+
+CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreModel* model,
+  								float* outEightPoints )
+{
+	CalBoolean	gotBounds = False;
+	
+	if (not self->isBoundingBoxPrecomputed())
+	{
+		self->calculateBoundingBox( model );
+	}
+	
+	CalBoundingBox&	box( self->getBoundingBox() );
+	
+	// If a bone owns no vertices, then the box will stay at its initialized value,
+	// in which the d members are -1e32.
+	if (box.plane[0].d > -1e31)
+	{
+		box.computePoints( reinterpret_cast<CalVector*>(outEightPoints) );
+		gotBounds = True;
+	}
+	
+	return gotBounds;
 }
 
 //****************************************************************************//
@@ -726,6 +809,12 @@ std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(CalCoreSkeleton *s
 void CalCoreSkeleton_Scale(CalCoreSkeleton *self,float factor)
 {
 	self->scale(factor);
+}
+
+void CalCoreSkeleton_CalculateBoundingBoxes( struct CalCoreModel* coreModel )
+{
+	CalCoreSkeleton*	coreSkel = CalCoreModel_GetCoreSkeleton( coreModel );
+	coreSkel->calculateBoundingBoxes( coreModel );
 }
 
 //****************************************************************************//

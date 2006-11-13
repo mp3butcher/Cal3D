@@ -154,8 +154,7 @@ extern "C"
   CAL3D_WRAPPER_API enum CalBoolean CalAnimationAction_Execute(struct CalAnimationAction *self, float delayIn, float delayOut);
   CAL3D_WRAPPER_API struct CalAnimationAction *CalAnimationAction_New(struct CalCoreAnimation *pCoreAnimation);
   CAL3D_WRAPPER_API enum CalBoolean CalAnimationAction_Update(struct CalAnimationAction *self, float deltaTime);
-  CAL3D_WRAPPER_API void CalCoreAnimation_Scale(struct CalCoreAnimation *self, float factor);
-
+ 
 //****************************************************************************//
 // CalAnimationCycle wrapper functions declaration                            //
 //****************************************************************************//
@@ -188,6 +187,8 @@ extern "C"
   CAL3D_WRAPPER_API void CalBone_SetRotation(struct CalBone *self, struct CalQuaternion *pRotation);
   CAL3D_WRAPPER_API void CalBone_SetCoreState(struct CalBone *self);
   CAL3D_WRAPPER_API void CalBone_SetCoreStateRecursive(struct CalBone *self);
+  CAL3D_WRAPPER_API enum CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* model,
+  													float* outEightPoints );
 
 
 //****************************************************************************//
@@ -218,6 +219,7 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreBone_Delete(struct CalCoreBone *self);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreBone_GetListChildId(struct CalCoreBone *self);
   CAL3D_WRAPPER_API const char *CalCoreBone_GetName(struct CalCoreBone *self);
+  CAL3D_WRAPPER_API void CalCoreBone_SetName(struct CalCoreBone *self, const char* name );
   CAL3D_WRAPPER_API int CalCoreBone_GetParentId(struct CalCoreBone *self);
   CAL3D_WRAPPER_API struct CalQuaternion *CalCoreBone_GetRotation(struct CalCoreBone *self);
   CAL3D_WRAPPER_API struct CalQuaternion *CalCoreBone_GetRotationAbsolute(struct CalCoreBone *self);
@@ -234,7 +236,8 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreBone_SetTranslation(struct CalCoreBone *self, struct CalVector *pTranslation);
   CAL3D_WRAPPER_API void CalCoreBone_SetTranslationBoneSpace(struct CalCoreBone *self, struct CalVector *pTranslation);
   CAL3D_WRAPPER_API void CalCoreBone_SetUserData(struct CalCoreBone *self, CalUserData userData);
-
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreModel* model,
+  													float* outEightPoints );
 //****************************************************************************//
 // CalCoreMaterial wrapper functions declaration                              //
 //****************************************************************************//
@@ -321,6 +324,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneId(struct CalCoreSkeleton *self, const char *strName);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreSkeleton_GetListRootCoreBoneId(struct CalCoreSkeleton *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(struct CalCoreSkeleton *self);
+  CAL3D_WRAPPER_API void CalCoreSkeleton_CalculateBoundingBoxes( struct CalCoreModel* coreModel );
   CAL3D_WRAPPER_API void CalCoreSkeleton_Scale(struct CalCoreSkeleton *self,float factor);
 
 //****************************************************************************//

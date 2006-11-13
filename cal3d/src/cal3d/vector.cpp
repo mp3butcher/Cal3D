@@ -430,12 +430,12 @@ void CalVector::set(float vx, float vy, float vz)
   *****************************************************************************/
   
   
-float CalPlane::eval(CalVector &p)
+float CalPlane::eval(const CalVector &p)
 {
    return p.x*a+p.y*b+p.z*c+d;
 }
 
-void CalPlane::setPosition(CalVector &p)
+void CalPlane::setPosition(const CalVector &p)
 {
    d=-p.x*a-p.y*b-p.z*c;
 }
