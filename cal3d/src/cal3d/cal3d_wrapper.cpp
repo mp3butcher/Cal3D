@@ -264,9 +264,9 @@ std::list<int>& CalCoreBone_GetListChildId(CalCoreBone *self)
 }
 */
 
-char *CalCoreBone_GetName(CalCoreBone *self)
+const char *CalCoreBone_GetName(CalCoreBone *self)
 {
-  return const_cast<char *>(self->getName().c_str());
+  return self->getName().c_str();
 }
 
 int CalCoreBone_GetParentId(CalCoreBone *self)
@@ -400,9 +400,9 @@ int CalCoreMaterial_GetMapCount(CalCoreMaterial *self)
   return self->getMapCount();
 }
 
-char *CalCoreMaterial_GetMapFilename(CalCoreMaterial *self, int mapId)
+const char *CalCoreMaterial_GetMapFilename(CalCoreMaterial *self, int mapId)
 {
-  return const_cast<char *>(self->getMapFilename(mapId).c_str());
+  return self->getMapFilename(mapId).c_str();
 }
 
 CalUserData CalCoreMaterial_GetMapUserData(CalCoreMaterial *self, int mapId)
@@ -613,22 +613,22 @@ int CalCoreModel_GetCoreMorphAnimationCount(CalCoreModel *self)
   return self->getCoreMorphAnimationCount();
 }
 
-int CalCoreModel_LoadCoreAnimation(CalCoreModel *self, char *strFilename)
+int CalCoreModel_LoadCoreAnimation(CalCoreModel *self, const char *strFilename)
 {
   return self->loadCoreAnimation(strFilename);
 }
 
-int CalCoreModel_LoadCoreMaterial(CalCoreModel *self, char *strFilename)
+int CalCoreModel_LoadCoreMaterial(CalCoreModel *self, const char *strFilename)
 {
   return self->loadCoreMaterial(strFilename);
 }
 
-int CalCoreModel_LoadCoreMesh(CalCoreModel *self, char *strFilename)
+int CalCoreModel_LoadCoreMesh(CalCoreModel *self, const char *strFilename)
 {
   return self->loadCoreMesh(strFilename);
 }
 
-CalBoolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, char *strFilename)
+CalBoolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, const char *strFilename)
 {
   return self->loadCoreSkeleton(strFilename) ? True : False;
 }
@@ -638,22 +638,22 @@ CalCoreModel *CalCoreModel_New(const char* name)
   return new CalCoreModel(name);
 }
 
-CalBoolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, char *strFilename, int coreAnimationId)
+CalBoolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, const char *strFilename, int coreAnimationId)
 {
   return self->saveCoreAnimation(strFilename, coreAnimationId) ? True : False;
 }
 
-CalBoolean CalCoreModel_SaveCoreMaterial(CalCoreModel *self, char *strFilename, int coreMaterialId)
+CalBoolean CalCoreModel_SaveCoreMaterial(CalCoreModel *self, const char *strFilename, int coreMaterialId)
 {
   return self->saveCoreMaterial(strFilename, coreMaterialId) ? True : False;
 }
 
-CalBoolean CalCoreModel_SaveCoreMesh(CalCoreModel *self, char *strFilename, int coreMeshId)
+CalBoolean CalCoreModel_SaveCoreMesh(CalCoreModel *self, const char *strFilename, int coreMeshId)
 {
   return self->saveCoreMesh(strFilename, coreMeshId) ? True : False;
 }
 
-CalBoolean CalCoreModel_SaveCoreSkeleton(CalCoreModel *self, char *strFilename)
+CalBoolean CalCoreModel_SaveCoreSkeleton(CalCoreModel *self, const char *strFilename)
 {
   return self->saveCoreSkeleton(strFilename) ? True : False;
 }
@@ -703,7 +703,7 @@ CalCoreBone *CalCoreSkeleton_GetCoreBone(CalCoreSkeleton *self, int coreBoneId)
   return self->getCoreBone(coreBoneId);
 }
 
-int CalCoreSkeleton_GetCoreBoneId(CalCoreSkeleton *self, char *strName)
+int CalCoreSkeleton_GetCoreBoneId(CalCoreSkeleton *self, const char *strName)
 {
   return self->getCoreBoneId(strName);
 }
@@ -871,17 +871,17 @@ CalErrorCode CalError_GetLastErrorCode()
   return (CalErrorCode)CalError::getLastErrorCode();
 }
 
-char *CalError_GetLastErrorDescription()
+const char *CalError_GetLastErrorDescription()
 {
   static std::string strDescription;
   strDescription = CalError::getLastErrorDescription();
 
-  return const_cast<char *>(strDescription.c_str());
+  return strDescription.c_str();
 }
 
-char *CalError_GetLastErrorFile()
+const char *CalError_GetLastErrorFile()
 {
-  return const_cast<char *>(CalError::getLastErrorFile().c_str());
+  return CalError::getLastErrorFile().c_str();
 }
 
 int CalError_GetLastErrorLine()
@@ -889,9 +889,9 @@ int CalError_GetLastErrorLine()
   return CalError::getLastErrorLine();
 }
 
-char *CalError_GetLastErrorText()
+const char *CalError_GetLastErrorText()
 {
-  return const_cast<char *>(CalError::getLastErrorText().c_str());
+  return CalError::getLastErrorText().c_str();
 }
 
 void CalError_PrintLastError()
@@ -913,22 +913,22 @@ void CalLoader_Delete(CalLoader *self)
   delete self;
 }
 
-CalCoreAnimation *CalLoader_LoadCoreAnimation(CalLoader *self, char *strFilename)
+CalCoreAnimation *CalLoader_LoadCoreAnimation(CalLoader *self, const char *strFilename)
 {
   return explicitIncRef(self->loadCoreAnimation(strFilename).get());
 }
 
-CalCoreMaterial *CalLoader_LoadCoreMaterial(CalLoader *self, char *strFilename)
+CalCoreMaterial *CalLoader_LoadCoreMaterial(CalLoader *self, const char *strFilename)
 {
   return explicitIncRef(self->loadCoreMaterial(strFilename).get());
 }
 
-CalCoreMesh *CalLoader_LoadCoreMesh(CalLoader *self, char *strFilename)
+CalCoreMesh *CalLoader_LoadCoreMesh(CalLoader *self, const char *strFilename)
 {
   return explicitIncRef(self->loadCoreMesh(strFilename).get());
 }
 
-CalCoreSkeleton *CalLoader_LoadCoreSkeleton(CalLoader *self, char *strFilename)
+CalCoreSkeleton *CalLoader_LoadCoreSkeleton(CalLoader *self, const char *strFilename)
 {
   return explicitIncRef(self->loadCoreSkeleton(strFilename).get());
 }
@@ -1215,7 +1215,7 @@ void CalPhysique_Update(CalPhysique *self)
 // CalQuaternion wrapper functions definition                                 //
 //****************************************************************************//
 
-void CalQuaternion_Blend(CalQuaternion *self, float d, CalQuaternion *pQ)
+void CalQuaternion_Blend(CalQuaternion *self, float d, const CalQuaternion *pQ)
 {
   self->blend(d, *pQ);
 }
@@ -1235,7 +1235,7 @@ void CalQuaternion_Delete(CalQuaternion *self)
   delete self;
 }
 
-void CalQuaternion_Equal(CalQuaternion *self, CalQuaternion *pQ)
+void CalQuaternion_Equal(CalQuaternion *self, const CalQuaternion *pQ)
 {
   *self = *pQ;
 }
@@ -1245,12 +1245,12 @@ float *CalQuaternion_Get(CalQuaternion *self)
   return &(self->x);
 }
 
-void CalQuaternion_Multiply(CalQuaternion *self, CalQuaternion *pQ)
+void CalQuaternion_Multiply(CalQuaternion *self, const CalQuaternion *pQ)
 {
   *self *= *pQ;
 }
 
-void CalQuaternion_MultiplyVector(CalQuaternion *self, CalVector *pV)
+void CalQuaternion_MultiplyVector(CalQuaternion *self, const CalVector *pV)
 {
   *self *= *pV;
 }
@@ -1260,7 +1260,7 @@ CalQuaternion *CalQuaternion_New()
   return new CalQuaternion();
 }
 
-void CalQuaternion_Op_Multiply(CalQuaternion *pResult, CalQuaternion *pQ, CalQuaternion *pR)
+void CalQuaternion_Op_Multiply(CalQuaternion *pResult, const CalQuaternion *pQ, const CalQuaternion *pR)
 {
   *pResult = *pQ * *pR;
 }
@@ -1403,22 +1403,22 @@ CalSaver *CalSaver_New()
   return new CalSaver();
 }
 
-CalBoolean CalSaver_SaveCoreAnimation(CalSaver *self, char *strFilename, CalCoreAnimation *pCoreAnimation)
+CalBoolean CalSaver_SaveCoreAnimation(CalSaver *self, const char *strFilename, CalCoreAnimation *pCoreAnimation)
 {
   return self->saveCoreAnimation(strFilename, pCoreAnimation) ? True : False;
 }
 
-CalBoolean CalSaver_SaveCoreMaterial(CalSaver *self, char *strFilename, CalCoreMaterial *pCoreMaterial)
+CalBoolean CalSaver_SaveCoreMaterial(CalSaver *self, const char *strFilename, CalCoreMaterial *pCoreMaterial)
 {
   return self->saveCoreMaterial(strFilename, pCoreMaterial) ? True : False;
 }
 
-CalBoolean CalSaver_SaveCoreMesh(CalSaver *self, char *strFilename, CalCoreMesh *pCoreMesh)
+CalBoolean CalSaver_SaveCoreMesh(CalSaver *self, const char *strFilename, CalCoreMesh *pCoreMesh)
 {
   return self->saveCoreMesh(strFilename, pCoreMesh) ? True : False;
 }
 
-CalBoolean CalSaver_SaveCoreSkeleton(CalSaver *self, char *strFilename, CalCoreSkeleton *pCoreSkeleton)
+CalBoolean CalSaver_SaveCoreSkeleton(CalSaver *self, const char *strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
   return self->saveCoreSkeleton(strFilename, pCoreSkeleton) ? True : False;
 }

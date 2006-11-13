@@ -217,7 +217,7 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreBone_CalculateState(struct CalCoreBone *self);
   CAL3D_WRAPPER_API void CalCoreBone_Delete(struct CalCoreBone *self);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreBone_GetListChildId(struct CalCoreBone *self);
-  CAL3D_WRAPPER_API char *CalCoreBone_GetName(struct CalCoreBone *self);
+  CAL3D_WRAPPER_API const char *CalCoreBone_GetName(struct CalCoreBone *self);
   CAL3D_WRAPPER_API int CalCoreBone_GetParentId(struct CalCoreBone *self);
   CAL3D_WRAPPER_API struct CalQuaternion *CalCoreBone_GetRotation(struct CalCoreBone *self);
   CAL3D_WRAPPER_API struct CalQuaternion *CalCoreBone_GetRotationAbsolute(struct CalCoreBone *self);
@@ -245,7 +245,7 @@ extern "C"
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetAmbientColor(struct CalCoreMaterial *self);
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetDiffuseColor(struct CalCoreMaterial *self);
   CAL3D_WRAPPER_API int CalCoreMaterial_GetMapCount(struct CalCoreMaterial *self);
-  CAL3D_WRAPPER_API char *CalCoreMaterial_GetMapFilename(struct CalCoreMaterial *self, int mapId);
+  CAL3D_WRAPPER_API const char *CalCoreMaterial_GetMapFilename(struct CalCoreMaterial *self, int mapId);
   CAL3D_WRAPPER_API CalUserData CalCoreMaterial_GetMapUserData(struct CalCoreMaterial *self, int mapId);
   CAL3D_WRAPPER_API float CalCoreMaterial_GetShininess(struct CalCoreMaterial *self);
 //  CAL3D_WRAPPER_API CalCoreMaterial::Color *CalCoreMaterial_GetSpecularColor(struct CalCoreMaterial *self);
@@ -294,15 +294,15 @@ extern "C"
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalCoreModel_GetCoreSkeleton(struct CalCoreModel *self);
   CAL3D_WRAPPER_API CalUserData CalCoreModel_GetUserData(struct CalCoreModel *self);
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreMorphAnimationCount(struct CalCoreModel *self);
-  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreAnimation(struct CalCoreModel *self, char *strFilename);
-  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMaterial(struct CalCoreModel *self, char *strFilename);
-  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMesh(struct CalCoreModel *self, char *strFilename);
-  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_LoadCoreSkeleton(struct CalCoreModel *self, char *strFilename);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreAnimation(struct CalCoreModel *self, const char *strFilename);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMaterial(struct CalCoreModel *self, const char *strFilename);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMesh(struct CalCoreModel *self, const char *strFilename);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_LoadCoreSkeleton(struct CalCoreModel *self, const char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreModel *CalCoreModel_New(const char* name);
-  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreAnimation(struct CalCoreModel *self, char *strFilename, int coreAnimtionId);
-  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMaterial(struct CalCoreModel *self, char *strFilename, int coreMaterialId);
-  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMesh(struct CalCoreModel *self, char *strFilename, int coreMeshId);
-  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreSkeleton(struct CalCoreModel *self, char *strFilename);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreAnimation(struct CalCoreModel *self, const char *strFilename, int coreAnimtionId);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMaterial(struct CalCoreModel *self, const char *strFilename, int coreMaterialId);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMesh(struct CalCoreModel *self, const char *strFilename, int coreMeshId);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreSkeleton(struct CalCoreModel *self, const char *strFilename);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SetCoreMaterialId(struct CalCoreModel *self, int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId);
   CAL3D_WRAPPER_API void CalCoreModel_SetCoreSkeleton(struct CalCoreModel *self, struct CalCoreSkeleton *pCoreSkeleton);
   CAL3D_WRAPPER_API void CalCoreModel_SetUserData(struct CalCoreModel *self, CalUserData userData);
@@ -318,7 +318,7 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreSkeleton_CalculateState(struct CalCoreSkeleton *self);
 //  CAL3D_WRAPPER_API void CalCoreSkeleton_Delete(struct CalCoreSkeleton *self);
   CAL3D_WRAPPER_API struct CalCoreBone *CalCoreSkeleton_GetCoreBone(struct CalCoreSkeleton *self, int coreBoneId);
-  CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneId(struct CalCoreSkeleton *self, char *strName);
+  CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneId(struct CalCoreSkeleton *self, const char *strName);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreSkeleton_GetListRootCoreBoneId(struct CalCoreSkeleton *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(struct CalCoreSkeleton *self);
   CAL3D_WRAPPER_API void CalCoreSkeleton_Scale(struct CalCoreSkeleton *self,float factor);
@@ -378,10 +378,10 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
   };
 
   CAL3D_WRAPPER_API enum CalErrorCode CalError_GetLastErrorCode();
-  CAL3D_WRAPPER_API char *CalError_GetLastErrorDescription();
-  CAL3D_WRAPPER_API char *CalError_GetLastErrorFile();
+  CAL3D_WRAPPER_API const char *CalError_GetLastErrorDescription();
+  CAL3D_WRAPPER_API const char *CalError_GetLastErrorFile();
   CAL3D_WRAPPER_API int CalError_GetLastErrorLine();
-  CAL3D_WRAPPER_API char *CalError_GetLastErrorText();
+  CAL3D_WRAPPER_API const char *CalError_GetLastErrorText();
   CAL3D_WRAPPER_API void CalError_PrintLastError();
 //  CAL3D_WRAPPER_API void CalError_SetLastError(enum CalErrorCode code, char *strFile, int line, char *strText);
 
@@ -391,10 +391,10 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
 
   CAL3D_WRAPPER_API struct CalLoader *CalLoader_New();
   CAL3D_WRAPPER_API void CalLoader_Delete(struct CalLoader *self);
-  CAL3D_WRAPPER_API struct CalCoreAnimation *CalLoader_LoadCoreAnimation(struct CalLoader *self, char *strFilename);
-  CAL3D_WRAPPER_API struct CalCoreMaterial *CalLoader_LoadCoreMaterial(struct CalLoader *self, char *strFilename);
-  CAL3D_WRAPPER_API struct CalCoreMesh *CalLoader_LoadCoreMesh(struct CalLoader *self, char *strFilename);
-  CAL3D_WRAPPER_API struct CalCoreSkeleton *CalLoader_LoadCoreSkeleton(struct CalLoader *self, char *strFilename);
+  CAL3D_WRAPPER_API struct CalCoreAnimation *CalLoader_LoadCoreAnimation(struct CalLoader *self, const char *strFilename);
+  CAL3D_WRAPPER_API struct CalCoreMaterial *CalLoader_LoadCoreMaterial(struct CalLoader *self, const char *strFilename);
+  CAL3D_WRAPPER_API struct CalCoreMesh *CalLoader_LoadCoreMesh(struct CalLoader *self, const char *strFilename);
+  CAL3D_WRAPPER_API struct CalCoreSkeleton *CalLoader_LoadCoreSkeleton(struct CalLoader *self, const char *strFilename);
 
 //****************************************************************************//
 // CalMesh wrapper functions declaration                                      //
@@ -478,16 +478,16 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
 // CalQuaternion wrapper functions declaration                                //
 //****************************************************************************//
 
-  CAL3D_WRAPPER_API void CalQuaternion_Blend(struct CalQuaternion *self, float d, struct CalQuaternion *pQ);
+  CAL3D_WRAPPER_API void CalQuaternion_Blend(struct CalQuaternion *self, float d, const struct CalQuaternion *pQ);
   CAL3D_WRAPPER_API void CalQuaternion_Clear(struct CalQuaternion *self);
   CAL3D_WRAPPER_API void CalQuaternion_Conjugate(struct CalQuaternion *self);
   CAL3D_WRAPPER_API void CalQuaternion_Delete(struct CalQuaternion *self);
-  CAL3D_WRAPPER_API void CalQuaternion_Equal(struct CalQuaternion *self, struct CalQuaternion *pQ);
+  CAL3D_WRAPPER_API void CalQuaternion_Equal(struct CalQuaternion *self, const struct CalQuaternion *pQ);
   CAL3D_WRAPPER_API float *CalQuaternion_Get(struct CalQuaternion *self);
-  CAL3D_WRAPPER_API void CalQuaternion_Multiply(struct CalQuaternion *self, struct CalQuaternion *pQ);
-  CAL3D_WRAPPER_API void CalQuaternion_MultiplyVector(struct CalQuaternion *self, struct CalVector *pV);
+  CAL3D_WRAPPER_API void CalQuaternion_Multiply(struct CalQuaternion *self, const struct CalQuaternion *pQ);
+  CAL3D_WRAPPER_API void CalQuaternion_MultiplyVector(struct CalQuaternion *self, const struct CalVector *pV);
   CAL3D_WRAPPER_API struct CalQuaternion *CalQuaternion_New();
-  CAL3D_WRAPPER_API void CalQuaternion_Op_Multiply(struct CalQuaternion *pResult, struct CalQuaternion *pQ, struct CalQuaternion *pR);
+  CAL3D_WRAPPER_API void CalQuaternion_Op_Multiply(struct CalQuaternion *pResult, const struct CalQuaternion *pQ, const struct CalQuaternion *pR);
   CAL3D_WRAPPER_API void CalQuaternion_Set(struct CalQuaternion *self, float qx, float qy, float qz, float qw);
 
 //****************************************************************************//
@@ -524,10 +524,10 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
 
   CAL3D_WRAPPER_API void CalSaver_Delete(struct CalSaver *self);
   CAL3D_WRAPPER_API struct CalSaver *CalSaver_New();
-  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreAnimation(struct CalSaver *self, char *strFilename, struct  CalCoreAnimation *pCoreAnimation);
-  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreMaterial(struct CalSaver *self, char *strFilename, struct CalCoreMaterial *pCoreMaterial);
-  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreMesh(struct CalSaver *self, char *strFilename, struct CalCoreMesh *pCoreMesh);
-  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreSkeleton(struct CalSaver *self, char *strFilename, struct CalCoreSkeleton *pCoreSkeleton);
+  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreAnimation(struct CalSaver *self, const char *strFilename, struct  CalCoreAnimation *pCoreAnimation);
+  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreMaterial(struct CalSaver *self, const char *strFilename, struct CalCoreMaterial *pCoreMaterial);
+  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreMesh(struct CalSaver *self, const char *strFilename, struct CalCoreMesh *pCoreMesh);
+  CAL3D_WRAPPER_API enum CalBoolean CalSaver_SaveCoreSkeleton(struct CalSaver *self, const char *strFilename, struct CalCoreSkeleton *pCoreSkeleton);
 
 //****************************************************************************//
 // CalSkeleton wrapper functions declaration                                  //
