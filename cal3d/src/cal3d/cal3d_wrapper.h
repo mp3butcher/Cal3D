@@ -324,6 +324,10 @@ extern "C"
 //  CAL3D_WRAPPER_API void CalCoreSkeleton_Delete(struct CalCoreSkeleton *self);
   CAL3D_WRAPPER_API struct CalCoreBone *CalCoreSkeleton_GetCoreBone(struct CalCoreSkeleton *self, int coreBoneId);
   CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneId(struct CalCoreSkeleton *self, const char *strName);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreSkeleton_MapCoreBoneName( struct CalCoreSkeleton *self, int coreBoneID, const char* name );
+  CAL3D_WRAPPER_API int CalCoreSkeleton_GetCoreBoneCount(struct CalCoreSkeleton *self);
+  CAL3D_WRAPPER_API int CalCoreSkeleton_GetRootCoreBoneCount(struct CalCoreSkeleton *self);
+  CAL3D_WRAPPER_API struct CalCoreBone *CalCoreSkeleton_GetRootCoreBone(struct CalCoreSkeleton *self, int rootBoneIndex);
 //  CAL3D_WRAPPER_API std::list<int>& CalCoreSkeleton_GetListRootCoreBoneId(struct CalCoreSkeleton *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(struct CalCoreSkeleton *self);
   CAL3D_WRAPPER_API void CalCoreSkeleton_CalculateBoundingBoxes( struct CalCoreModel* coreModel );

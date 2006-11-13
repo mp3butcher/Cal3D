@@ -786,6 +786,11 @@ CalCoreBone *CalCoreSkeleton_GetCoreBone(CalCoreSkeleton *self, int coreBoneId)
   return self->getCoreBone(coreBoneId);
 }
 
+int CalCoreSkeleton_GetCoreBoneCount(CalCoreSkeleton *self)
+{
+	return self->getVectorCoreBone().size();
+}
+
 int CalCoreSkeleton_GetCoreBoneId(CalCoreSkeleton *self, const char *strName)
 {
   return self->getCoreBoneId(strName);
@@ -809,6 +814,29 @@ std::vector<CalCoreBone *>& CalCoreSkeleton_GetVectorCoreBone(CalCoreSkeleton *s
 void CalCoreSkeleton_Scale(CalCoreSkeleton *self,float factor)
 {
 	self->scale(factor);
+}
+
+CalBoolean CalCoreSkeleton_MapCoreBoneName( struct CalCoreSkeleton *self, int coreBoneID,
+										const char* name )
+{
+	return static_cast<CalBoolean>( self->mapCoreBoneName( coreBoneID, name ) );
+}
+
+int CalCoreSkeleton_GetRootCoreBoneCount(CalCoreSkeleton *self)
+{
+	return self->getVectorRootCoreBoneId().size();
+}
+
+CalCoreBone *CalCoreSkeleton_GetRootCoreBone(CalCoreSkeleton *self, int rootBoneIndex)
+{
+	CalCoreBone*	theBone = NULL;
+	std::vector<int>&	rootIDs( self->getVectorRootCoreBoneId() );
+	if ( (rootBoneIndex >= 0) and (rootBoneIndex < rootIDs.size()) )
+	{
+		int	boneID = rootIDs[ rootBoneIndex ];
+		theBone = CalCoreSkeleton_GetCoreBone( self, boneID );
+	}
+	return theBone;
 }
 
 void CalCoreSkeleton_CalculateBoundingBoxes( struct CalCoreModel* coreModel )
