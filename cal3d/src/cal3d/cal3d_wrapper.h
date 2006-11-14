@@ -95,6 +95,8 @@ typedef int CalIndex;
 
 typedef void *CalUserData;
 
+typedef unsigned long CalColorValue;	// r, g, b, a in hi to lo order
+
 //****************************************************************************//
 // Substitute for the C++ 'bool' type                                         //
 //****************************************************************************//
@@ -264,6 +266,15 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreMaterial_SetShininess(struct CalCoreMaterial *self, float shininess);
 //  CAL3D_WRAPPER_API void CalCoreMaterial_SetSpecularColor(struct CalCoreMaterial *self, struct CalCoreMaterial::Color *pSpecularColor);
   CAL3D_WRAPPER_API void CalCoreMaterial_SetUserData(struct CalCoreMaterial *self, CalUserData userData);
+  CAL3D_WRAPPER_API const char* CalCoreMaterial_GetName(struct CalCoreMaterial *self);
+  CAL3D_WRAPPER_API void CalCoreMaterial_SetName(struct CalCoreMaterial *self, const char* inName);
+  CAL3D_WRAPPER_API CalColorValue CalCoreMaterial_GetAmbientColor(struct CalCoreMaterial *self);
+  CAL3D_WRAPPER_API CalColorValue CalCoreMaterial_GetDiffuseColor(struct CalCoreMaterial *self);
+  CAL3D_WRAPPER_API CalColorValue CalCoreMaterial_GetSpecularColor(struct CalCoreMaterial *self);
+  CAL3D_WRAPPER_API void CalCoreMaterial_SetAmbientColor(struct CalCoreMaterial *self, CalColorValue pAmbientColor);
+  CAL3D_WRAPPER_API void CalCoreMaterial_SetDiffuseColor(struct CalCoreMaterial *self, CalColorValue pDiffuseColor);
+  CAL3D_WRAPPER_API void CalCoreMaterial_SetSpecularColor(struct CalCoreMaterial *self, CalColorValue pSpecularColor);
+
 
 //****************************************************************************//
 // CalCoreMesh wrapper functions declaration                                  //

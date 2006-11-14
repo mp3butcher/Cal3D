@@ -478,6 +478,72 @@ CalCoreMaterial::Color *CalCoreMaterial_GetDiffuseColor(CalCoreMaterial *self)
 }
 */
 
+static CalColorValue	ColorToValue( const CalCoreMaterial::Color& inColor )
+{
+	CalColorValue	theValue = (((CalColorValue) inColor.red) << 24) |
+		(((CalColorValue) inColor.green) << 16) |
+		(((CalColorValue) inColor.blue) << 8) |
+		(((CalColorValue) inColor.alpha) << 0);
+	return theValue;
+}
+
+static CalCoreMaterial::Color ValueToColor( CalColorValue inValue )
+{
+	CalCoreMaterial::Color	theColor = {
+		inValue >> 24,
+		(inValue & 0x00FF0000) >> 16,
+		(inValue & 0x0000FF00) >> 8,
+		(inValue & 0x000000FF)
+	};
+	return theColor;
+}
+
+CalColorValue CalCoreMaterial_GetAmbientColor(struct CalCoreMaterial *self)
+{
+	return ColorToValue( self->getAmbientColor() );
+}
+
+CalColorValue CalCoreMaterial_GetDiffuseColor(struct CalCoreMaterial *self)
+{
+	return ColorToValue( self->getDiffuseColor() );
+}
+
+CalColorValue CalCoreMaterial_GetSpecularColor(struct CalCoreMaterial *self)
+{
+	return ColorToValue( self->getSpecularColor() );
+}
+
+void CalCoreMaterial_SetAmbientColor(struct CalCoreMaterial *self, CalColorValue pAmbientColor)
+{
+	self->setAmbientColor( ValueToColor( pAmbientColor ) );
+}
+
+void CalCoreMaterial_SetDiffuseColor(struct CalCoreMaterial *self, CalColorValue pDiffuseColor)
+{
+	self->setDiffuseColor( ValueToColor( pDiffuseColor ) );
+}
+
+void CalCoreMaterial_SetSpecularColor(struct CalCoreMaterial *self, CalColorValue pSpecularColor)
+{
+	self->setSpecularColor( ValueToColor( pSpecularColor ) );
+}
+
+const char* CalCoreMaterial_GetName(struct CalCoreMaterial *self)
+{
+	return self->getName().c_str();
+}
+
+void CalCoreMaterial_SetName(struct CalCoreMaterial *self, const char* inName)
+{
+	try
+	{
+		self->setName( std::string(inName) );
+	}
+	catch (...)
+	{
+	}
+}
+
 int CalCoreMaterial_GetMapCount(CalCoreMaterial *self)
 {
   return self->getMapCount();
