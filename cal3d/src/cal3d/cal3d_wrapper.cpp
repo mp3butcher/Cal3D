@@ -647,9 +647,36 @@ void CalCoreMesh_Delete(CalCoreMesh *self)
 
 int CalCoreMesh_AddCoreSubmesh(CalCoreMesh *self, CalCoreSubmesh *pCoreSubmesh)
 {
-  return self->addCoreSubmesh(pCoreSubmesh);
+	try
+	{
+		return self->addCoreSubmesh(pCoreSubmesh);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
+void CalCoreMesh_RemoveCoreSubmesh( struct CalCoreMesh *self, int coreSubmeshID )
+{
+	self->removeCoreSubmesh( coreSubmeshID );
+}
+
+const char* CalCoreMesh_GetName(struct CalCoreMesh *self)
+{
+	return self->getName().c_str();
+}
+
+void CalCoreMesh_SetName(struct CalCoreMesh *self, const char* inName)
+{
+	try
+	{
+		self->setName( std::string(inName) );
+	}
+	catch (...)
+	{
+	}
+}
 
 CalCoreSubmesh *CalCoreMesh_GetCoreSubmesh(CalCoreMesh *self, int id)
 {
@@ -675,7 +702,14 @@ void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
 
 int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target)
 {
-  return self->addAsMorphTarget(target);
+	try
+	{
+		return self->addAsMorphTarget(target);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 //****************************************************************************//

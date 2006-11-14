@@ -284,9 +284,12 @@ extern "C"
   CAL3D_WRAPPER_API void CalCoreMesh_Delete(struct CalCoreMesh *self);
 
   CAL3D_WRAPPER_API int CalCoreMesh_AddCoreSubmesh(struct CalCoreMesh *self, struct CalCoreSubmesh *pCoreSubmesh);
+  CAL3D_WRAPPER_API void CalCoreMesh_RemoveCoreSubmesh( struct CalCoreMesh *self, int coreSubmeshID );
   CAL3D_WRAPPER_API struct CalCoreSubmesh *CalCoreMesh_GetCoreSubmesh(struct CalCoreMesh *self, int id);
   CAL3D_WRAPPER_API int CalCoreMesh_GetCoreSubmeshCount(struct CalCoreMesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(struct CalCoreMesh *self);
+  CAL3D_WRAPPER_API const char* CalCoreMesh_GetName(struct CalCoreMesh *self);
+  CAL3D_WRAPPER_API void CalCoreMesh_SetName(struct CalCoreMesh *self, const char* inName);
   CAL3D_WRAPPER_API void CalCoreMesh_Scale(struct CalCoreMesh *self,float factor);
   CAL3D_WRAPPER_API int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *target);
   

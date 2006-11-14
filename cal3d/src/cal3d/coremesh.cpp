@@ -73,6 +73,20 @@ int CalCoreMesh::addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh)
 
 
  /*****************************************************************************/
+/** Removes a core submesh.
+  *
+  * This function removes a core submesh from the core mesh instance.
+  *
+  * @param submesh ID of the core submesh that should be removed.
+  *
+  *****************************************************************************/
+void CalCoreMesh::removeCoreSubmesh( int submeshID )
+{
+	m_vectorCoreSubmesh[ submeshID ] = 0;
+}
+
+
+ /*****************************************************************************/
 /** Provides access to a core submesh.
   *
   * This function returns the core submesh with the given ID.
@@ -169,7 +183,7 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
   while(iteratorCoreSubmesh != m_vectorCoreSubmesh.end())
   {
     int vertexCount = (*otherIteratorCoreSubmesh)->getVertexCount();
-    CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new CalCoreSubMorphTarget();
+    CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new(std::nothrow) CalCoreSubMorphTarget();
     if(!pCalCoreSubMorphTarget->reserve(vertexCount)) return -1;
     std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
     std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();
