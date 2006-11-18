@@ -35,6 +35,7 @@ public:
   };
 
   CalCoreMaterial();
+  CalCoreMaterial( const CalCoreMaterial& inOther );
 
 protected:
   ~CalCoreMaterial() { }

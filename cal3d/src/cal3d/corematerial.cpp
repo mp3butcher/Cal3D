@@ -22,6 +22,18 @@ CalCoreMaterial::CalCoreMaterial()
 {
 }
 
+CalCoreMaterial::CalCoreMaterial( const CalCoreMaterial& inOther )
+	: m_ambientColor( inOther.m_ambientColor ),
+	m_diffuseColor( inOther.m_diffuseColor ),
+	m_specularColor( inOther.m_specularColor ),
+	m_shininess( inOther.m_shininess ),
+	m_vectorMap( inOther.m_vectorMap ),
+	m_userData( inOther.m_userData ),
+	m_name( inOther.m_name ),
+	m_filename( inOther.m_filename )
+{
+}
+
 
  /*****************************************************************************/
 /** Returns the ambient color.
@@ -181,11 +193,19 @@ std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap()
 
 bool CalCoreMaterial::reserve(int mapCount)
 {
-  // reserve the space needed in all the vectors
-  m_vectorMap.reserve(mapCount);
-  m_vectorMap.resize(mapCount);
+	bool	success = true;
+	try
+	{
+		// reserve the space needed in all the vectors
+		m_vectorMap.reserve(mapCount);
+		m_vectorMap.resize(mapCount);
+	}
+	catch (...)
+	{
+		success = false;
+	}
 
-  return true;
+	return success;
 }
 
  /*****************************************************************************/
