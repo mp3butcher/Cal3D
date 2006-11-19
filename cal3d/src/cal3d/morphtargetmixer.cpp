@@ -147,6 +147,39 @@ float CalMorphTargetMixer::getCurrentWeightBase()
 }
 
  /*****************************************************************************/
+/** Copy data from one mixer (for the same core model) to another.
+  *
+  * @param inOther The mixer to copy.
+  * @return True on success.
+  *****************************************************************************/
+bool CalMorphTargetMixer::copy( const CalMorphTargetMixer& inOther )
+{
+	if (inOther.m_pModel->getCoreModel() != this->m_pModel->getCoreModel())
+	{
+  		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+  		return false;
+	}
+	
+	try
+	{
+		std::vector<float>	currentWeight( inOther.m_vectorCurrentWeight );
+		std::vector<float>	endWeight( inOther.m_vectorEndWeight );
+		std::vector<float>	duration( inOther.m_vectorDuration );
+		
+		m_vectorCurrentWeight.swap( currentWeight );
+		m_vectorEndWeight.swap( endWeight );
+		m_vectorDuration.swap( duration );
+	}
+  	catch (...)
+  	{
+  		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+  		return false;
+  	}
+
+  return true;
+}
+
+ /*****************************************************************************/
 /** Updates all morph targets.
   *
   * This function updates all morph targets of the mixer instance for a
@@ -187,16 +220,22 @@ void CalMorphTargetMixer::update(float deltaTime)
     size_t meshIterator = 0;
     while(meshIterator<vectorCoreMeshID.size())
     {
-       std::vector<CalSubmesh *> &vectorSubmesh = 
-             m_pModel->getMesh(vectorCoreMeshID[meshIterator])->getVectorSubmesh();
-       int submeshCount = vectorSubmesh.size();
-       int submeshId;
-       for(submeshId=0;submeshId<submeshCount;++submeshId)
-       {
-         vectorSubmesh[submeshId]->setMorphTargetWeight 
-                  (vectorMorphTargetID[meshIterator],m_vectorCurrentWeight[morphAnimationID]);
-       }
-       ++meshIterator;
+    	int	coreMeshID = vectorCoreMeshID[meshIterator];
+    	CalMesh*	theMesh = m_pModel->getMesh( coreMeshID );
+    	if (theMesh)
+    	{
+			std::vector<CalSubmesh *> &vectorSubmesh = 
+					theMesh->getVectorSubmesh();
+			int submeshCount = vectorSubmesh.size();
+			int submeshId;
+			for(submeshId=0;submeshId<submeshCount;++submeshId)
+			{
+				vectorSubmesh[submeshId]->setMorphTargetWeight 
+					(vectorMorphTargetID[meshIterator],
+					m_vectorCurrentWeight[morphAnimationID]);
+			}
+    	}
+		++meshIterator;
     }
     ++morphAnimationID;
   }

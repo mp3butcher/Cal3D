@@ -26,6 +26,7 @@ public:
 
   bool blend(int id, float weight, float delay);
   bool clear(int id, float delay);
+  bool copy( const CalMorphTargetMixer& inOther );
   float getCurrentWeight(int id) const;
   float getCurrentWeightBase();
   int getMorphTargetCount() const;
