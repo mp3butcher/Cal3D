@@ -501,6 +501,41 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
 }
 
  /*****************************************************************************/
+/** Loads a core animation.
+  *
+  * This function loads a core animation from a buffer.
+  *
+  * @param buffer 	The buffer from which the core animation should be loaded.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core animation
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreAnimation(void* buffer)
+{
+  // the core skeleton has to be loaded already
+  if(m_pCoreSkeleton == 0)
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  // load a new core animation
+  CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(buffer);
+  if (!pCoreAnimation) return -1;
+
+  // add core animation to this core model
+  int animationId = addCoreAnimation(pCoreAnimation.get());
+  if(animationId == -1)
+  {
+    return -1;
+  }
+
+  return animationId;
+}
+
+ /*****************************************************************************/
 /** Loads a core material.
   *
   * This function loads a core material from a file.
@@ -580,6 +615,41 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
   }
 
   return id;
+}
+
+ /*****************************************************************************/
+/** Loads a core material.
+  *
+  * This function loads a core material from a buffer.
+  *
+  * @param buffer 	The buffer from which the core material should be loaded.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core material
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreMaterial(void* buffer)
+{
+  // the core skeleton has to be loaded already
+  if(m_pCoreSkeleton == 0)
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  // load a new core material
+  CalCoreMaterialPtr pCoreMaterial = CalLoader::loadCoreMaterial(buffer);
+  if(!pCoreMaterial) return -1;
+
+  // add core material to this core model
+  int materialId = addCoreMaterial(pCoreMaterial.get());
+  if(materialId == -1)
+  {
+    return -1;
+  }
+
+  return materialId;
 }
 
  /*****************************************************************************/
@@ -711,6 +781,42 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
   return id;
 }
 
+ /*****************************************************************************/
+/** Loads a core mesh.
+  *
+  * This function loads a core mesh from a buffer.
+  *
+  * @param buffer 	The buffer from which the core mesh should be loaded.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core mesh
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreMesh(void* buffer)
+{
+  // the core skeleton has to be loaded already
+  if(m_pCoreSkeleton == 0)
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  // load a new core mesh
+  CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(buffer);
+  if (!pCoreMesh) return -1;
+
+  // add core mesh to this core model
+  int meshId;
+  meshId = addCoreMesh(pCoreMesh.get());
+  if(meshId == -1)
+  {
+    return -1;
+  }
+
+  return meshId;
+}
+
 
  /*****************************************************************************/
 /** Delete the resources used by the named core mesh. The name must 
@@ -779,6 +885,27 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   // load a new core skeleton
   m_pCoreSkeleton = CalLoader::loadCoreSkeleton(strFilename);
   return bool(m_pCoreSkeleton);
+}
+
+ /*****************************************************************************/
+/** Loads the core skeleton.
+  *
+  * This function loads the core skeleton from a buffer.
+  *
+  * @param buffer 	The buffer from which the core skeleton should be loaded.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happend
+  *****************************************************************************/
+
+bool CalCoreModel::loadCoreSkeleton(void* buffer)
+{
+  // load a new core skeleton
+  m_pCoreSkeleton = CalLoader::loadCoreSkeleton(buffer);
+  if(!m_pCoreSkeleton) return false;
+
+  return true;
 }
 
  /*****************************************************************************/

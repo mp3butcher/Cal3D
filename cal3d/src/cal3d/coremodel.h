@@ -39,6 +39,7 @@ public:
   int getCoreAnimationCount() const;
   int loadCoreAnimation(const std::string& strFilename);
   int loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName);
+  int loadCoreAnimation(void* buffer);
   int unloadCoreAnimation(const std::string& name);
   int unloadCoreAnimation(int coreAnimationId);
   bool saveCoreAnimation(const std::string& strFilename, int coreAnimationId);
@@ -58,6 +59,7 @@ public:
   int getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId);
   int loadCoreMaterial(const std::string& strFilename);
   int loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName);
+  int loadCoreMaterial(void* buffer);
   int unloadCoreMaterial(const std::string& name);
   int unloadCoreMaterial(int coreMaterialId);
   bool saveCoreMaterial(const std::string& strFilename, int coreMaterialId);
@@ -71,6 +73,7 @@ public:
   int getCoreMeshCount() const;
   int loadCoreMesh(const std::string& strFilename);
   int loadCoreMesh(const std::string& strFilename, const std::string& strMeshName);
+  int loadCoreMesh(void* buffer);
   int unloadCoreMesh(const std::string& name);
   int unloadCoreMesh(int coreMeshId);
   bool saveCoreMesh(const std::string& strFilename, int coreMeshId);
@@ -80,6 +83,7 @@ public:
   // skeleton
   CalCoreSkeleton *getCoreSkeleton();
   bool loadCoreSkeleton(const std::string& strFilename);
+  bool loadCoreSkeleton(void* buffer);
   bool saveCoreSkeleton(const std::string& strFilename);
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void addBoneName(const std::string& strBoneName, int boneId);

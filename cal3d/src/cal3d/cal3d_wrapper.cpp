@@ -798,22 +798,98 @@ int CalCoreModel_GetCoreMorphAnimationCount(CalCoreModel *self)
 
 int CalCoreModel_LoadCoreAnimation(CalCoreModel *self, const char *strFilename)
 {
-  return self->loadCoreAnimation(strFilename);
+	try
+	{
+		return self->loadCoreAnimation(strFilename);
+	}
+	catch (...)
+	{
+	}
+	return -1;
+}
+
+int CalCoreModel_LoadCoreAnimationFromBuffer(CalCoreModel *self, const void* buffer)
+{
+	try
+	{
+		return self->loadCoreAnimation(const_cast<void*>(buffer));
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 int CalCoreModel_LoadCoreMaterial(CalCoreModel *self, const char *strFilename)
 {
-  return self->loadCoreMaterial(strFilename);
+	try
+	{
+		return self->loadCoreMaterial(strFilename);
+	}
+	catch (...)
+	{
+	}
+	return -1;
+}
+
+int CalCoreModel_LoadCoreMaterialFromBuffer(CalCoreModel *self, const void* buffer)
+{
+	try
+	{
+		return self->loadCoreMaterial(const_cast<void*>(buffer));
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 int CalCoreModel_LoadCoreMesh(CalCoreModel *self, const char *strFilename)
 {
-  return self->loadCoreMesh(strFilename);
+	try
+	{
+		return self->loadCoreMesh(strFilename);
+	}
+	catch (...)
+	{
+	}
+	return -1;
+}
+
+int CalCoreModel_LoadCoreMeshFromBuffer(CalCoreModel *self, const void* buffer)
+{
+	try
+	{
+		return self->loadCoreMesh(const_cast<void*>(buffer));
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 CalBoolean CalCoreModel_LoadCoreSkeleton(CalCoreModel *self, const char *strFilename)
 {
-  return self->loadCoreSkeleton(strFilename) ? True : False;
+	try
+	{
+		return self->loadCoreSkeleton(strFilename) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return False;
+}
+
+CalBoolean CalCoreModel_LoadCoreSkeletonFromBuffer(CalCoreModel *self, const void* buffer)
+{
+	try
+	{
+		return self->loadCoreSkeleton(const_cast<void*>(buffer)) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return False;
 }
 
 CalCoreModel *CalCoreModel_New(const char* name)
@@ -1145,6 +1221,24 @@ CalCoreMesh *CalLoader_LoadCoreMesh(CalLoader *self, const char *strFilename)
   return explicitIncRef(self->loadCoreMesh(strFilename).get());
 }
 
+CalCoreMesh *CalLoader_LoadCoreMeshFromBuffer(const void *data)
+{
+	try
+	{
+		CalCoreMeshPtr	theMesh( CalLoader::loadCoreMesh(const_cast<void*>(data)) );
+		
+		if (theMesh.get() != NULL)
+		{
+			explicitIncRef( theMesh.get() );
+		}
+		return theMesh.get();
+	}
+	catch (...)
+	{
+	}
+	return 0;
+}
+
 CalCoreSkeleton *CalLoader_LoadCoreSkeleton(CalLoader *self, const char *strFilename)
 {
   return explicitIncRef(self->loadCoreSkeleton(strFilename).get());
@@ -1153,6 +1247,11 @@ CalCoreSkeleton *CalLoader_LoadCoreSkeleton(CalLoader *self, const char *strFile
 CalLoader *CalLoader_New()
 {
   return new CalLoader();
+}
+
+void CalLoader_SetLoadingMode( int flags )
+{
+	CalLoader::setLoadingMode( flags );
 }
 
 //****************************************************************************//

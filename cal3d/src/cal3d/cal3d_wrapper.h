@@ -317,6 +317,10 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMaterial(struct CalCoreModel *self, const char *strFilename);
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMesh(struct CalCoreModel *self, const char *strFilename);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_LoadCoreSkeleton(struct CalCoreModel *self, const char *strFilename);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreAnimationFromBuffer(struct CalCoreModel *self, const void* buffer);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMaterialFromBuffer(struct CalCoreModel *self, const void* buffer);
+  CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMeshFromBuffer(struct CalCoreModel *self, const void* buffer);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_LoadCoreSkeletonFromBuffer(struct CalCoreModel *self, const void* buffer);
   CAL3D_WRAPPER_API struct CalCoreModel *CalCoreModel_New(const char* name);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreAnimation(struct CalCoreModel *self, const char *strFilename, int coreAnimtionId);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMaterial(struct CalCoreModel *self, const char *strFilename, int coreMaterialId);
@@ -419,6 +423,13 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
   CAL3D_WRAPPER_API struct CalCoreMaterial *CalLoader_LoadCoreMaterial(struct CalLoader *self, const char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreMesh *CalLoader_LoadCoreMesh(struct CalLoader *self, const char *strFilename);
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalLoader_LoadCoreSkeleton(struct CalLoader *self, const char *strFilename);
+  CAL3D_WRAPPER_API struct CalCoreMesh *CalLoader_LoadCoreMeshFromBuffer(const void *data);
+	enum CalLoaderFlags
+	{
+		CAL_LOADER_ROTATE_X_AXIS = 1,
+		CAL_LOADER_INVERT_V_COORD = 2
+	};
+  CAL3D_WRAPPER_API void CalLoader_SetLoadingMode( int flags );
 
 //****************************************************************************//
 // CalMesh wrapper functions declaration                                      //
