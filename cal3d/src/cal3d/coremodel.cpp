@@ -20,7 +20,6 @@
 #include "cal3d/error.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/coreanimation.h"
-#include "cal3d/coremorphanimation.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/loader.h"
@@ -47,14 +46,6 @@ CalCoreModel::CalCoreModel(const std::string& name)
 
 CalCoreModel::~CalCoreModel()
 {
-  // destroy all core morph animations
-  std::vector<CalCoreMorphAnimation *>::iterator iteratorCoreMorphAnimation;
-  for(iteratorCoreMorphAnimation = m_vectorCoreMorphAnimation.begin(); iteratorCoreMorphAnimation != 
-      m_vectorCoreMorphAnimation.end(); ++iteratorCoreMorphAnimation)
-  {
-    delete (*iteratorCoreMorphAnimation);
-  }
-  m_vectorCoreMorphAnimation.clear();
 }
 
  /*****************************************************************************/
@@ -205,7 +196,7 @@ CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimatio
     return 0;
   }
 
-  return m_vectorCoreMorphAnimation[coreMorphAnimationId];
+  return m_vectorCoreMorphAnimation[coreMorphAnimationId].get();
 }
 
  /*****************************************************************************/

@@ -15,11 +15,11 @@
 #include "cal3d/coreanimation.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/coremesh.h"
+#include "cal3d/coremorphanimation.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/global.h"
 
 
-class CalCoreMorphAnimation;
 
 
 class CAL3D_API CalCoreModel
@@ -90,7 +90,7 @@ private:
   std::string m_strName;
   CalCoreSkeletonPtr m_pCoreSkeleton;
   std::vector<CalCoreAnimationPtr> m_vectorCoreAnimation;
-  std::vector<CalCoreMorphAnimation *> m_vectorCoreMorphAnimation;
+  std::vector<CalCoreMorphAnimationPtr> m_vectorCoreMorphAnimation;
   std::vector<CalCoreMeshPtr> m_vectorCoreMesh;
   std::vector<CalCoreMaterialPtr> m_vectorCoreMaterial;
   std::map<int, std::map<int, int> > m_mapmapCoreMaterialThread;

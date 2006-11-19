@@ -9,11 +9,13 @@
 //****************************************************************************//
 
 #ifndef CAL_COREMORPHANIMATION_H
-#define CAL_COREMOPRHANIMATION_H
+#define CAL_COREMORPHANIMATION_H
 
 #include "cal3d/global.h"
+#include "cal3d/refcounted.h"
+#include "cal3d/refptr.h"
 
-class CAL3D_API CalCoreMorphAnimation
+class CAL3D_API CalCoreMorphAnimation : public cal3d::RefCounted
 {
 public:
   CalCoreMorphAnimation()  { }
@@ -23,10 +25,16 @@ public:
   std::vector<int>& getVectorCoreMeshID();
   std::vector<int>& getVectorMorphTargetID();
 
+  const std::string& getName() const;
+  void setName( const std::string& name );
+
 private:
   std::vector<int> m_vectorCoreMeshID;
   std::vector<int> m_vectorMorphTargetID;
+  std::string		m_name;
 };
+
+typedef cal3d::RefPtr<CalCoreMorphAnimation> CalCoreMorphAnimationPtr;
 
 #endif
 

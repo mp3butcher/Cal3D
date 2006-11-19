@@ -66,4 +66,15 @@ std::vector<int>& CalCoreMorphAnimation::getVectorMorphTargetID()
   return m_vectorMorphTargetID;
 }
 
+
+const std::string& CalCoreMorphAnimation::getName() const
+{
+	return m_name;
+}
+
+void CalCoreMorphAnimation::setName( const std::string& name )
+{
+	m_name = name;
+}
+
 //****************************************************************************//
