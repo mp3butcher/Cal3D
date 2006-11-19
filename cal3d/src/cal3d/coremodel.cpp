@@ -39,6 +39,26 @@ CalCoreModel::CalCoreModel(const std::string& name)
 }
 
  /*****************************************************************************/
+/** Constructs a copy of a core model instance.
+  *
+  * This function is the copy constructor of the core model instance.
+  *****************************************************************************/
+CalCoreModel::CalCoreModel(const CalCoreModel& inOther)
+	: m_strName( inOther.m_strName )
+	, m_pCoreSkeleton( inOther.m_pCoreSkeleton )
+	, m_vectorCoreAnimation( inOther.m_vectorCoreAnimation )
+	, m_vectorCoreMorphAnimation( inOther.m_vectorCoreMorphAnimation )
+	, m_vectorCoreMesh( inOther.m_vectorCoreMesh )
+	, m_vectorCoreMaterial( inOther.m_vectorCoreMaterial )
+	, m_mapmapCoreMaterialThread( inOther.m_mapmapCoreMaterialThread )
+	, m_userData( inOther.m_userData )
+	, m_animationName( inOther.m_animationName )
+	, m_materialName( inOther.m_materialName )
+	, m_meshName( inOther.m_meshName )
+{
+}
+
+ /*****************************************************************************/
 /** Destructs the core model instance.
   *
   * This function is the destructor of the core model instance.
@@ -111,6 +131,24 @@ int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
   return materialId;
 }
 
+
+ /*****************************************************************************/
+/** Replace each core material by a copy.
+  *
+  *****************************************************************************/
+void CalCoreModel::cloneCoreMaterials()
+{
+	std::vector<CalCoreMaterialPtr>		cloneVec;
+	
+	for (std::vector<CalCoreMaterialPtr>::iterator i = m_vectorCoreMaterial.begin();
+		i != m_vectorCoreMaterial.end(); ++i)
+	{
+		cloneVec.push_back( new CalCoreMaterial( **i ) );
+	}
+	
+	m_vectorCoreMaterial.swap( cloneVec );
+}
+
  /*****************************************************************************/
 /** Adds a core mesh.
   *
@@ -130,6 +168,47 @@ int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
   m_vectorCoreMesh.push_back(pCoreMesh);
   return meshId;
 }
+
+ /*****************************************************************************/
+/** Replaces a core mesh.
+  *
+  * This function replaces a core mesh in the core model instance. - JWWalker
+  *
+  * @param coreMeshId  The ID of the core mesh that should be replaced.
+  * @param pCoreMesh A pointer to the core mesh that should be added.
+  *
+  *****************************************************************************/
+void CalCoreModel::replaceCoreMesh( int coreMeshId, CalCoreMesh *pCoreMesh )
+{
+	m_vectorCoreMesh[ coreMeshId ] = pCoreMesh;
+}
+
+ /*****************************************************************************/
+/** Returns the name.
+  *
+  * This function returns the name of the core model instance.
+  *
+  * @return The name as string.
+  *****************************************************************************/
+
+const std::string& CalCoreModel::getName() const
+{
+  return m_strName;
+}
+
+
+ /*****************************************************************************/
+/** Changes the name.
+  *
+  * This function sets the name of the core model instance.
+  *
+  * @param The name as string.
+  *****************************************************************************/
+void CalCoreModel::setName( const char* inName )
+{
+	m_strName.assign( inName );
+}
+
 
  /*****************************************************************************/
 /** Creates a core material thread.

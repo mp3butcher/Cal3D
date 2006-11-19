@@ -26,10 +26,13 @@ class CAL3D_API CalCoreModel
 {
 public:
   CalCoreModel(const std::string& name);
+  CalCoreModel(const CalCoreModel& inOther);
   ~CalCoreModel();
 
   Cal::UserData getUserData();
   void setUserData(Cal::UserData userData);
+  const std::string& getName() const;
+  void setName( const char* inName );
 
   void scale(float factor);
 
@@ -53,6 +56,7 @@ public:
 
   // materials
   int addCoreMaterial(CalCoreMaterial *pCoreMaterial);
+  void cloneCoreMaterials();
   bool createCoreMaterialThread(int coreMaterialThreadId);
   CalCoreMaterial *getCoreMaterial(int coreMaterialId);
   int getCoreMaterialCount() const;
@@ -69,6 +73,7 @@ public:
 
   // meshes
   int addCoreMesh(CalCoreMesh *pCoreMesh);
+  void replaceCoreMesh( int coreMeshId, CalCoreMesh *pCoreMesh );
   CalCoreMesh *getCoreMesh(int coreMeshId);
   int getCoreMeshCount() const;
   int loadCoreMesh(const std::string& strFilename);
