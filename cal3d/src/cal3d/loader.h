@@ -24,6 +24,7 @@
 #include "cal3d/corematerial.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/coreskeleton.h"
+#include "cal3d/tinyxml.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -86,6 +87,10 @@ private:
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(const std::string& strFilename);
   static CalCoreMeshPtr loadXmlCoreMesh(const std::string& strFilename);
   static CalCoreMaterialPtr loadXmlCoreMaterial(const std::string& strFilename);
+
+  static CalCoreSkeletonPtr loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc);
+  static CalCoreMeshPtr loadXmlCoreMesh(cal3d::TiXmlDocument& doc);
+  static CalCoreMaterialPtr loadXmlCoreMaterial(cal3d::TiXmlDocument& doc);
 
   static int loadingMode;
 };

@@ -343,6 +343,18 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkele
 
 CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 {
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<MATERIAL", 9 ) == 0) )
+	{
+		cal3d::TiXmlDocument	doc;
+		doc.Parse( static_cast<const char*>(inputBuffer) );
+		if (doc.Error())
+		{
+		    CalError::setLastError(CalError::FILE_PARSER_FAILED, __FILE__, __LINE__ );
+ 		   return 0;
+		}
+		return loadXmlCoreMaterial( doc );
+	}
+	
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
    return loadCoreMaterial(bufferSrc);
@@ -364,6 +376,18 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 
 CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
 {
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<MESH", 5 ) == 0) )
+	{
+		TiXmlDocument	doc;
+		doc.Parse( static_cast<const char*>(inputBuffer) );
+		if (doc.Error())
+		{
+		    CalError::setLastError(CalError::FILE_PARSER_FAILED, __FILE__, __LINE__ );
+ 		   return 0;
+		}
+		return loadXmlCoreMesh( doc );
+	}
+
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
    return loadCoreMesh(bufferSrc);
@@ -385,6 +409,18 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
 
 CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(void* inputBuffer)
 {
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<SKELETON", 9 ) == 0) )
+	{
+		TiXmlDocument	doc;
+		doc.Parse( static_cast<const char*>(inputBuffer) );
+		if (doc.Error())
+		{
+		    CalError::setLastError(CalError::FILE_PARSER_FAILED, __FILE__, __LINE__ );
+ 		   return 0;
+		}
+		return loadXmlCoreSkeleton( doc );
+	}
+
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
    return loadCoreSkeleton(bufferSrc);
@@ -422,7 +458,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
   }
 
   // allocate a new core animation instance
-  CalCoreAnimationPtr pCoreAnimation(new CalCoreAnimation);
+  CalCoreAnimationPtr pCoreAnimation(new(std::nothrow) CalCoreAnimation);
   if(!pCoreAnimation)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -517,7 +553,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(CalDataSource& dataSrc)
   }
 
   // allocate a new core material instance
-  CalCoreMaterialPtr pCoreMaterial = new CalCoreMaterial();
+  CalCoreMaterialPtr pCoreMaterial = new(std::nothrow) CalCoreMaterial();
   if(!pCoreMaterial)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -635,7 +671,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(CalDataSource& dataSrc)
   }
 
   // allocate a new core mesh instance
-  CalCoreMeshPtr pCoreMesh = new CalCoreMesh();
+  CalCoreMeshPtr pCoreMesh = new(std::nothrow) CalCoreMesh();
   if(!pCoreMesh)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -699,7 +735,7 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(CalDataSource& dataSrc)
   }
 
   // allocate a new core skeleton instance
-  CalCoreSkeletonPtr pCoreSkeleton = new CalCoreSkeleton();
+  CalCoreSkeletonPtr pCoreSkeleton = new(std::nothrow) CalCoreSkeleton();
   if(!pCoreSkeleton)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -812,9 +848,8 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
   }
 
   // allocate a new core bone instance
-  CalCoreBone *pCoreBone;
-  pCoreBone = new CalCoreBone(strName);
-  if(pCoreBone == 0)
+  std::auto_ptr<CalCoreBone> pCoreBone( new(std::nothrow) CalCoreBone(strName) );
+  if(pCoreBone.get() == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -833,7 +868,6 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
   int childCount;
   if(!dataSrc.readInteger(childCount) || (childCount < 0))
   {
-    delete pCoreBone;
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
     return 0;
   }
@@ -844,7 +878,6 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
     int childId;
     if(!dataSrc.readInteger(childId) || (childId < 0))
     {
-      delete pCoreBone;
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
       return 0;
     }
@@ -852,7 +885,7 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc)
     pCoreBone->addChildId(childId);
   }
 
-  return pCoreBone;
+  return pCoreBone.release();
 }
 
  /*****************************************************************************/
@@ -900,7 +933,7 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(CalDataSource& dataSrc)
   }
 
   // allocate a new core keyframe instance
-  CalCoreKeyframe *pCoreKeyframe = new CalCoreKeyframe();
+  CalCoreKeyframe *pCoreKeyframe = new(std::nothrow) CalCoreKeyframe();
 
   if(pCoreKeyframe == 0)
   {
@@ -977,7 +1010,7 @@ CalCoreKeyframe *CalLoader::loadCompressedCoreKeyframe(CalDataSource& dataSrc, c
   }
 
   // allocate a new core keyframe instance
-  CalCoreKeyframe *pCoreKeyframe = new CalCoreKeyframe();
+  CalCoreKeyframe *pCoreKeyframe = new(std::nothrow) CalCoreKeyframe();
 
   if(pCoreKeyframe == 0)
   {
@@ -1048,14 +1081,13 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 	}
 
 	// allocate a new core submesh instance
-	CalCoreSubmesh *pCoreSubmesh;
-	pCoreSubmesh = new CalCoreSubmesh();
-	if(pCoreSubmesh == 0)
+	std::auto_ptr<CalCoreSubmesh> pCoreSubmesh( new(std::nothrow) CalCoreSubmesh() );
+	if(pCoreSubmesh.get() == 0)
 	{
 		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
 		return 0;
 	}
-
+	
 	// set the LOD step count
 	pCoreSubmesh->setLodCount(lodCount);
 
@@ -1066,7 +1098,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 	if(!pCoreSubmesh->reserve(vertexCount, textureCoordinateCount, faceCount, springCount))
 	{
 		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-		delete pCoreSubmesh;
 		return 0;
 	}
 
@@ -1097,7 +1128,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		if(!dataSrc.ok())
 		{
 			dataSrc.setError();
-			delete pCoreSubmesh;
 			return 0;
 		}
 
@@ -1120,7 +1150,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 			if(!dataSrc.ok())
 			{
 				dataSrc.setError();
-				delete pCoreSubmesh;
 				return 0;
 			}
 
@@ -1133,7 +1162,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		if(!dataSrc.readInteger(influenceCount) || (influenceCount < 0))
 		{
 			dataSrc.setError();
-			delete pCoreSubmesh;
 			return 0;
 		}
 
@@ -1153,7 +1181,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 			if(!dataSrc.ok())
 			{
 				dataSrc.setError();
-				delete pCoreSubmesh;
 				return 0;
 			}
 		}
@@ -1173,7 +1200,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 			if(!dataSrc.ok())
 			{
 				dataSrc.setError();
-				delete pCoreSubmesh;
 				return 0;
 			}
 
@@ -1198,7 +1224,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		if(!dataSrc.ok())
 		{
 			dataSrc.setError();
-			delete pCoreSubmesh;
 			return 0;
 		}
 
@@ -1227,7 +1252,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 			if(tmp[0]>65535 || tmp[1]>65535 || tmp[2]>65535)
 			{      
 				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-				delete pCoreSubmesh;
 				return 0;
 			}
 		}
@@ -1239,7 +1263,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		if(!dataSrc.ok())
 		{
 			dataSrc.setError();
-			delete pCoreSubmesh;
 			return 0;
 		}
 
@@ -1263,7 +1286,13 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 
 			// calculates normal of face
 			CalVector cross = vect1 % vect2;
-			CalVector faceNormal = cross / cross.length();
+			float	crossLength = cross.length();
+			if (crossLength == 0.0f)
+			{
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+				return 0;
+			}
+			CalVector faceNormal = cross / crossLength;
 
 			// compare the calculated normal with the normal of a vertex
 			CalVector maxNorm = v1.normal;
@@ -1293,7 +1322,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		pCoreSubmesh->setFace(faceId, face);
 	}
 
-	return pCoreSubmesh;
+	return pCoreSubmesh.release();
 }
 
  /*****************************************************************************/
@@ -1325,9 +1354,8 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
   }
 
   // allocate a new core track instance
-  CalCoreTrack *pCoreTrack;
-  pCoreTrack = new CalCoreTrack();
-  if(pCoreTrack == 0)
+  std::auto_ptr<CalCoreTrack> pCoreTrack( new(std::nothrow) CalCoreTrack() );
+  if(pCoreTrack.get() == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
     return 0;
@@ -1336,7 +1364,6 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
   // create the core track instance
   if(!pCoreTrack->create())
   {
-    delete pCoreTrack;
     return 0;
   }
 
@@ -1381,7 +1408,6 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
     if(pCoreKeyframe == 0)
     {
       pCoreTrack->destroy();
-      delete pCoreTrack;
       return 0;
     }
     if(loadingMode & LOADER_ROTATE_X_AXIS)
@@ -1405,311 +1431,9 @@ CalCoreTrack *CalLoader::loadCoreTrack(CalDataSource& dataSrc, CalCoreSkeleton *
     pCoreTrack->addCoreKeyframe(pCoreKeyframe);
   }
 
-  return pCoreTrack;
+  return pCoreTrack.release();
 }
 
-
- /*****************************************************************************/
-/** Loads a core skeleton instance from a XML file.
-  *
-  * This function loads a core skeleton instance from a XML file.
-  *
-  * @param strFilename The name of the file to load the core skeleton instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
-{
-	std::stringstream str;
-	TiXmlDocument doc(strFilename);
-	if(!doc.LoadFile())
-	{
-		CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
-		return 0;
-	}
-
-	TiXmlNode* node;
-	TiXmlElement*skeleton = doc.FirstChildElement();
-	if(!skeleton)
-	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-		return 0;
-	}
-
-	if(stricmp(skeleton->Value(),"HEADER")==0)
-	{
-		if(stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		if(atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-		{
-			CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		skeleton = skeleton->NextSiblingElement();
-	}
-
-	if(!skeleton || stricmp(skeleton->Value(),"SKELETON")!=0)
-	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-		return false;
-	}
-
-	if(skeleton->Attribute("MAGIC")!=NULL && stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
-	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-		return false;
-	}
-
-	if(skeleton->Attribute("VERSION")!=NULL && atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-	{
-		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-		return false;
-	}
-
-
-	// allocate a new core skeleton instance
-	CalCoreSkeletonPtr pCoreSkeleton = new CalCoreSkeleton();
-	if(!pCoreSkeleton)
-	{
-		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-		return 0;
-	}
-
-	TiXmlElement* bone;
-	for( bone = skeleton->FirstChildElement();bone;bone = bone->NextSiblingElement() )
-	{
-		if(stricmp(bone->Value(),"BONE")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}    
-
-		std::string strName=bone->Attribute("NAME");
-
-
-		// get the translation of the bone
-
-		TiXmlElement* translation = bone->FirstChildElement();
-		if(!translation || stricmp( translation->Value(),"TRANSLATION")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		float tx, ty, tz;
-
-		node = translation->FirstChild();
-		if(!node)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}    
-		TiXmlText* translationdata = node->ToText();
-		if(!translationdata)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}    
-		str.clear();
-		str << translationdata->Value();
-		str >> tx >> ty >> tz;
-
-		// get the rotation of the bone
-
-		TiXmlElement* rotation = translation->NextSiblingElement();
-		if(!rotation || stricmp(rotation->Value(),"ROTATION")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		float rx, ry, rz, rw;
-
-		node = rotation->FirstChild();
-		if(!node)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		TiXmlText* rotationdata = node->ToText();
-		if(!rotationdata)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		str.clear();
-		str << rotationdata->Value();
-		str >> rx >> ry >> rz >> rw;    
-
-		// get the bone space translation of the bone
-
-
-		TiXmlElement* translationBoneSpace = rotation->NextSiblingElement();
-		if(!rotation || stricmp(translationBoneSpace->Value(),"LOCALTRANSLATION")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		float txBoneSpace, tyBoneSpace, tzBoneSpace;
-
-		node = translationBoneSpace->FirstChild();
-		if(!node)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		TiXmlText* translationBoneSpacedata = node->ToText();
-		if(!translationBoneSpacedata)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		str.clear();
-		str << translationBoneSpacedata->Value();
-		str >> txBoneSpace >> tyBoneSpace >> tzBoneSpace;
-
-		// get the bone space rotation of the bone
-
-		TiXmlElement* rotationBoneSpace = translationBoneSpace->NextSiblingElement();
-		if(!rotationBoneSpace || stricmp(rotationBoneSpace->Value(),"LOCALROTATION")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-		float rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace;
-
-		node = rotationBoneSpace->FirstChild();
-		if(!node)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		TiXmlText* rotationBoneSpacedata = node->ToText();
-		if(!rotationBoneSpacedata)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		str.clear();
-		str << rotationBoneSpacedata->Value();
-		str >> rxBoneSpace >> ryBoneSpace >> rzBoneSpace >> rwBoneSpace;
-
-		// get the parent bone id
-
-		TiXmlElement* parent = rotationBoneSpace->NextSiblingElement();
-		if(!parent ||stricmp(parent->Value(),"PARENTID")!=0)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-
-
-		int parentId;
-
-		node = parent->FirstChild();
-		if(!node)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		TiXmlText* parentid = node->ToText();
-		if(!parentid)
-		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-			return false;
-		}
-		parentId = atoi(parentid->Value());
-
-		// allocate a new core bone instance
-		CalCoreBone *pCoreBone = new CalCoreBone(strName);
-		if(pCoreBone == 0)
-		{
-			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-			return 0;
-		}
-
-		// set the parent of the bone
-		pCoreBone->setParentId(parentId);
-
-		// set all attributes of the bone
-
-		CalVector trans = CalVector(tx, ty, tz);
-		CalQuaternion rot = CalQuaternion(rx, ry, rz, rw);
-
-		if (loadingMode & LOADER_ROTATE_X_AXIS)
-		{
-			if (parentId == -1) // only root bone necessary
-			{
-				// Root bone must have quaternion rotated
-				CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
-				rot *= x_axis_90;
-				// Root bone must have translation rotated also
-				trans *= x_axis_90;
-			}
-		}    
-
-
-		pCoreBone->setTranslation(trans);
-		pCoreBone->setRotation(rot);
-		pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
-		pCoreBone->setRotationBoneSpace(CalQuaternion(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace));
-
-
-		TiXmlElement* child;
-		for( child = parent->NextSiblingElement();child;child = child->NextSiblingElement() )
-		{
-			if(stricmp(child->Value(),"CHILDID")!=0)
-			{
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-				delete pCoreBone;
-				return false;
-			}
-
-			TiXmlNode *node= child->FirstChild();
-			if(!node)
-			{
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-				delete pCoreBone;
-				return false;
-			}
-			TiXmlText* childid = node->ToText();
-			if(!childid)
-			{
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-				delete pCoreBone;
-				return false;
-			}
-
-			int childId = atoi(childid->Value());
-
-			pCoreBone->addChildId(childId);
-		}
-
-		// set the core skeleton of the core bone instance
-		pCoreBone->setCoreSkeleton(pCoreSkeleton.get());
-
-		// add the core bone to the core skeleton instance
-		pCoreSkeleton->addCoreBone(pCoreBone);
-
-	}
-
-	doc.Clear();
-
-	pCoreSkeleton->calculateState();
-
-	return pCoreSkeleton;
-}
 
  /*****************************************************************************/
 /** Loads a core animation instance from a XML file.
@@ -1783,7 +1507,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
 
 	// allocate a new core animation instance
 	CalCoreAnimation *pCoreAnimation;
-	pCoreAnimation = new CalCoreAnimation();
+	pCoreAnimation = new(std::nothrow) CalCoreAnimation();
 	if(pCoreAnimation == 0)
 	{
 		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -1813,7 +1537,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
 
 		CalCoreTrack *pCoreTrack;
 
-		pCoreTrack = new CalCoreTrack();
+		pCoreTrack = new(std::nothrow) CalCoreTrack();
 		if(pCoreTrack == 0)
 		{
 			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -1910,7 +1634,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
 			// allocate a new core keyframe instance
 
 			CalCoreKeyframe *pCoreKeyframe;
-			pCoreKeyframe = new CalCoreKeyframe();
+			pCoreKeyframe = new(std::nothrow) CalCoreKeyframe();
 			if(pCoreKeyframe == 0)
 			{
 				CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -1960,6 +1684,33 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
 }
 
  /*****************************************************************************/
+/** Loads a core material instance from a XML file.
+  *
+  * This function loads a core material instance from a XML file.
+  *
+  * @param strFilename The name of the file to load the core material instance
+  *                    from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+
+CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
+{
+  std::stringstream str;
+  TiXmlDocument doc(strFilename);
+  if(!doc.LoadFile())
+  {
+    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
+    return 0;
+  }
+
+  return loadXmlCoreMaterial( doc );
+}
+
+ /*****************************************************************************/
 /** Loads a core mesh instance from a Xml file.
   *
   * This function loads a core mesh instance from a Xml file.
@@ -1981,12 +1732,287 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		return 0;
 	}
 
+	return loadXmlCoreMesh( doc );
+}
+
+ /*****************************************************************************/
+/** Loads a core skeleton instance from a XML file.
+  *
+  * This function loads a core skeleton instance from a XML file.
+  *
+  * @param strFilename The name of the file to load the core skeleton instance
+  *                    from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const std::string& strFilename)
+{
+	TiXmlDocument doc(strFilename);
+	if(!doc.LoadFile())
+	{
+		CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
+		return 0;
+	}
+
+	return loadXmlCoreSkeleton( doc );
+}
+
+ /*****************************************************************************/
+/** Loads a core material instance from an XML document.
+  *
+  * This function loads a core material instance from an XML document.
+  *
+  * @param doc			The document to load the core material instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(TiXmlDocument& doc)
+{
+  std::stringstream str;
+  int r,g,b,a;
+
+  TiXmlNode* node;
+
+  TiXmlElement*material = doc.FirstChildElement();
+  if(!material)
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  if(stricmp(material->Value(),"HEADER")==0)
+  {
+    if(stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+          return false;
+    }
+
+    if(atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+    {
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
+          return false;
+    }
+
+    material = material->NextSiblingElement();
+  }
+
+  if(!material||stricmp(material->Value(),"MATERIAL")!=0)
+  {
+	  CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+      return false;
+  }
+
+  if(material->Attribute("MAGIC")!=NULL && stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
+  {
+    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  if(material->Attribute("VERSION") != NULL && atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+  {
+    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  CalCoreMaterialPtr pCoreMaterial( new(std::nothrow) CalCoreMaterial() );
+  if(pCoreMaterial.get() == 0)
+  {
+    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+    return 0;
+  }
+
+  TiXmlElement* ambient = material->FirstChildElement();
+  if(!ambient ||stricmp(ambient->Value(),"AMBIENT")!=0)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  CalCoreMaterial::Color ambientColor; 
+  node = ambient->FirstChild();
+  if(!node)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  TiXmlText* ambientdata = node->ToText();
+  if(!ambientdata)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  str << ambientdata->Value();
+  str >> r >> g >> b >> a;
+  ambientColor.red = (unsigned char)r;
+  ambientColor.green = (unsigned char)g;
+  ambientColor.blue = (unsigned char)b;
+  ambientColor.alpha = (unsigned char)a; 
+
+  TiXmlElement* diffuse = ambient->NextSiblingElement();
+  if(!diffuse || stricmp(diffuse->Value(),"DIFFUSE")!=0)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  CalCoreMaterial::Color diffuseColor; 
+  node = diffuse->FirstChild();
+  if(!node)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  TiXmlText* diffusedata = node->ToText();
+  if(!diffusedata)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  str.clear();
+  str << diffusedata->Value();
+  str >> r >> g >> b >> a;
+  diffuseColor.red = (unsigned char)r;
+  diffuseColor.green = (unsigned char)g;
+  diffuseColor.blue = (unsigned char)b;
+  diffuseColor.alpha = (unsigned char)a;
+  
+
+  TiXmlElement* specular = diffuse->NextSiblingElement();
+  if(!specular||stricmp(specular->Value(),"SPECULAR")!=0)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  CalCoreMaterial::Color specularColor; 
+  node = specular->FirstChild();
+  if(!node)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  TiXmlText* speculardata = node->ToText();
+  if(!speculardata)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  str.clear();
+  str << speculardata->Value();
+  str >> r >> g >> b >> a;
+  specularColor.red = (unsigned char)r;
+  specularColor.green = (unsigned char)g;
+  specularColor.blue = (unsigned char)b;
+  specularColor.alpha = (unsigned char)a;
+
+
+  TiXmlElement* shininess = specular->NextSiblingElement();
+  if(!shininess||stricmp(shininess->Value(),"SHININESS")!=0)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+
+  float fshininess;
+  node = shininess->FirstChild();
+  if(!node)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+  }
+  TiXmlText* shininessdata = node->ToText();
+  if(!shininessdata)
+  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+         return false;
+  }
+  fshininess = (float)atof(shininessdata->Value());
+
+  // set the colors and the shininess
+  pCoreMaterial->setAmbientColor(ambientColor);
+  pCoreMaterial->setDiffuseColor(diffuseColor);
+  pCoreMaterial->setSpecularColor(specularColor);
+  pCoreMaterial->setShininess(fshininess);
+  
+  std::vector<std::string> MatFileName;
+
+  TiXmlElement* map;
+
+  for( map = shininess->NextSiblingElement();map;map = map->NextSiblingElement() )
+  {
+	  if(!map||stricmp(map->Value(),"MAP")!=0)
+	  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+	  }
+	  
+
+	  node= map->FirstChild();
+	  if(!node)
+	  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+	  }
+
+	  TiXmlText* mapfile = node->ToText();
+	  if(!mapfile)
+	  {
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+        return false;
+	  }
+
+	  MatFileName.push_back(mapfile->Value());
+  }
+
+  pCoreMaterial->reserve(MatFileName.size());
+
+
+
+  for (unsigned int mapId=0; mapId < MatFileName.size(); ++mapId)
+  {
+	  CalCoreMaterial::Map Map;
+	  // initialize the user data
+	  Map.userData = 0;
+
+	  Map.strFilename= MatFileName[mapId];	  
+
+	  // set map in the core material instance
+	  pCoreMaterial->setMap(mapId, Map);
+  }
+
+  doc.Clear();
+  
+  return pCoreMaterial;
+}
+
+
+ /*****************************************************************************/
+/** Loads a core mesh instance from a Xml file.
+  *
+  * This function loads a core mesh instance from a Xml document.
+  *
+  * @param doc The document to load the core mesh instance from.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+CalCoreMeshPtr CalLoader::loadXmlCoreMesh(TiXmlDocument& doc)
+{
+   std::stringstream str;
+
 	TiXmlNode* node;
 
 	TiXmlElement*mesh = doc.FirstChildElement();
 	if(!mesh)
 	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 		return false;
 	}
 
@@ -1994,13 +2020,13 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	{
 		if(stricmp(mesh->Attribute("MAGIC"),Cal::MESH_XMLFILE_MAGIC)!=0)
 		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 			return false;
 		}
 
 		if(atoi(mesh->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
 		{
-			CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+			CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
 			return false;
 		}
 
@@ -2008,19 +2034,19 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	}
 	if(!mesh || stricmp(mesh->Value(),"MESH")!=0)
 	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 		return false;
 	}
 
 	if(mesh->Attribute("MAGIC")!=NULL && stricmp(mesh->Attribute("MAGIC"),Cal::MESH_XMLFILE_MAGIC)!=0)
 	{
-		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 		return false;
 	}
 
 	if(mesh->Attribute("VERSION")!=NULL && atoi(mesh->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
 	{
-		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
 		return false;
 	}
 
@@ -2028,7 +2054,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	int submeshCount = atoi(mesh->Attribute("NUMSUBMESH"));
 
 	// allocate a new core mesh instance
-	CalCoreMeshPtr pCoreMesh = new CalCoreMesh;
+	CalCoreMeshPtr pCoreMesh = new(std::nothrow) CalCoreMesh;
 	if(!pCoreMesh)
 	{
 		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -2043,7 +2069,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	{
 		if(!submesh || stricmp(submesh->Value(),"SUBMESH")!=0)
 		{
-			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 			return false;
 		}
 
@@ -2062,8 +2088,8 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		int textureCoordinateCount = atoi(submesh->Attribute("NUMTEXCOORDS"));
 
 		// allocate a new core submesh instance
-		CalCoreSubmesh *pCoreSubmesh = new CalCoreSubmesh();
-		if(pCoreSubmesh == 0)
+		std::auto_ptr<CalCoreSubmesh> pCoreSubmesh( new(std::nothrow) CalCoreSubmesh() );
+		if (pCoreSubmesh.get() == 0)
 		{
 			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
 			return 0;
@@ -2078,8 +2104,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		// reserve memory for all the submesh data
 		if(!pCoreSubmesh->reserve(vertexCount, textureCoordinateCount, faceCount, springCount))
 		{
-			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__, strFilename);
-			delete pCoreSubmesh;
+			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__, doc.Value());
 			return 0;
 		}
 
@@ -2091,8 +2116,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		{
 			if(!vertex || stricmp(vertex->Value(),"VERTEX")!=0)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}      
 
@@ -2101,23 +2125,20 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			TiXmlElement *pos= vertex->FirstChildElement();
 			if(!pos || stricmp(pos->Value(),"POS")!=0)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 
 			node = pos->FirstChild();
 			if(!node)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}      
 			TiXmlText* posdata = node->ToText();
 			if(!posdata)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 			str.clear();
@@ -2127,23 +2148,20 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			TiXmlElement *norm= pos->NextSiblingElement();
 			if(!norm||stricmp(norm->Value(),"NORM")!=0)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 
 			node = norm->FirstChild();
 			if(!norm)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 			TiXmlText* normdata = node->ToText();
 			if(!normdata)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 			str.clear();
@@ -2156,15 +2174,13 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 				node = collapse->FirstChild();
 				if(!node)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				TiXmlText* collapseid = node->ToText();
 				if(!collapseid)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				Vertex.collapseId = atoi(collapseid->Value());
@@ -2172,23 +2188,20 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 				TiXmlElement *collapseCount= collapse->NextSiblingElement();
 				if(!collapseCount|| stricmp(collapseCount->Value(),"COLLAPSECOUNT")!=0)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 
 				node = collapseCount->FirstChild();
 				if(!node)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				TiXmlText* collapseCountdata = node->ToText();
 				if(!collapseCountdata)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				Vertex.faceCollapseCount= atoi(collapseCountdata->Value());
@@ -2211,23 +2224,20 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 				// load data of the influence
 				if(!texcoord || stricmp(texcoord->Value(),"TEXCOORD")!=0)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 
 				node = texcoord->FirstChild();
 				if(!node)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				TiXmlText* texcoorddata = node->ToText();
 				if(!texcoorddata)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				str.clear();
@@ -2249,8 +2259,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 			if(influenceCount < 0)
 			{
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-				delete pCoreSubmesh;
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return 0;
 			}
 
@@ -2266,23 +2275,20 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			{
 				if(!influence ||stricmp(influence->Value(),"INFLUENCE")!=0)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 
 				node = influence->FirstChild();
 				if(!node)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				TiXmlText* influencedata = node->ToText();
 				if(!influencedata)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 
@@ -2307,22 +2313,19 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 				if(!physique || stricmp(physique->Value(),"PHYSIQUE")!=0)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				node = physique->FirstChild();
 				if(!node)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 				TiXmlText* physiquedata = node->ToText();
 				if(!physiquedata)
 				{
-					delete pCoreSubmesh;
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return false;
 				}
 
@@ -2346,8 +2349,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			CalCoreSubmesh::Spring Spring;
 			if(!spring ||stricmp(spring->Value(),"SPRING")!=0)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 			str.clear();
@@ -2371,8 +2373,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 
 			if(!face || stricmp(face->Value(),"FACE")!=0)
 			{
-				delete pCoreSubmesh;
-				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 				return false;
 			}
 
@@ -2388,8 +2389,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 			{
 				if(tmp[0]>65535 || tmp[1]>65535 || tmp[2]>65535)
 				{
-					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-					delete pCoreSubmesh;
+					CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
 					return 0;
 				}
 			}
@@ -2404,7 +2404,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 		submesh=submesh->NextSiblingElement();
 
 		// add the core submesh to the core mesh instance
-		pCoreMesh->addCoreSubmesh(pCoreSubmesh);
+		pCoreMesh->addCoreSubmesh(pCoreSubmesh.release());
 	}
 
 	// explicitly close the file
@@ -2412,240 +2412,298 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const std::string& strFilename)
 	return pCoreMesh;
 }
 
+
+
  /*****************************************************************************/
-/** Loads a core material instance from a XML file.
+/** Loads a core skeleton instance from a XML document.
   *
-  * This function loads a core material instance from a XML file.
+  * This function loads a core skeleton instance from a XML document.
   *
-  * @param strFilename The name of the file to load the core material instance
-  *                    from.
+  * @param doc		The document to load the core skeleton instance from.
   *
   * @return One of the following values:
-  *         \li a pointer to the core material
+  *         \li a pointer to the core skeleton
   *         \li \b 0 if an error happened
   *****************************************************************************/
-
-
-CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const std::string& strFilename)
+CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc)
 {
-  std::stringstream str;
-  int r,g,b,a;
-  TiXmlDocument doc(strFilename);
-  if(!doc.LoadFile())
-  {
-    CalError::setLastError(CalError::FILE_NOT_FOUND, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
+	std::stringstream str;
 
-  TiXmlNode* node;
+	TiXmlNode* node;
+	TiXmlElement*skeleton = doc.FirstChildElement();
+	if(!skeleton)
+	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+		return 0;
+	}
 
-  TiXmlElement*material = doc.FirstChildElement();
-  if(!material)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        return false;
-  }
+	if(stricmp(skeleton->Value(),"HEADER")==0)
+	{
+		if(stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
 
-  if(stricmp(material->Value(),"HEADER")==0)
-  {
-    if(stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          return false;
-    }
+		if(atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+		{
+			CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
 
-    if(atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-    {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-          return false;
-    }
+		skeleton = skeleton->NextSiblingElement();
+	}
 
-    material = material->NextSiblingElement();
-  }
+	if(!skeleton || stricmp(skeleton->Value(),"SKELETON")!=0)
+	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+		return false;
+	}
 
-  if(!material||stricmp(material->Value(),"MATERIAL")!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-  }
+	if(skeleton->Attribute("MAGIC")!=NULL && stricmp(skeleton->Attribute("MAGIC"),Cal::SKELETON_XMLFILE_MAGIC)!=0)
+	{
+		CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+		return false;
+	}
 
-  if(material->Attribute("MAGIC")!=NULL && stricmp(material->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_MAGIC)!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        return false;
-  }
+	if(skeleton->Attribute("VERSION")!=NULL && atoi(skeleton->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+	{
+		CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, doc.Value());
+		return false;
+	}
 
-  if(material->Attribute("VERSION") != NULL && atoi(material->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
-  {
-    CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
-        return false;
-  }
 
-  CalCoreMaterialPtr pCoreMaterial = new CalCoreMaterial();
-  if(!pCoreMaterial)
-  {
-    CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
-    return 0;
-  }
+	// allocate a new core skeleton instance
+	CalCoreSkeletonPtr pCoreSkeleton = new(std::nothrow) CalCoreSkeleton();
+	if(!pCoreSkeleton)
+	{
+		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+		return 0;
+	}
 
-  TiXmlElement* ambient = material->FirstChildElement();
-  if(!ambient ||stricmp(ambient->Value(),"AMBIENT")!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	TiXmlElement* bone;
+	for( bone = skeleton->FirstChildElement();bone;bone = bone->NextSiblingElement() )
+	{
+		if(stricmp(bone->Value(),"BONE")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}    
 
-  CalCoreMaterial::Color ambientColor; 
-  node = ambient->FirstChild();
-  if(!node)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  TiXmlText* ambientdata = node->ToText();
-  if(!ambientdata)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  str << ambientdata->Value();
-  str >> r >> g >> b >> a;
-  ambientColor.red = (unsigned char)r;
-  ambientColor.green = (unsigned char)g;
-  ambientColor.blue = (unsigned char)b;
-  ambientColor.alpha = (unsigned char)a; 
+		std::string strName=bone->Attribute("NAME");
 
-  TiXmlElement* diffuse = ambient->NextSiblingElement();
-  if(!diffuse || stricmp(diffuse->Value(),"DIFFUSE")!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
 
-  CalCoreMaterial::Color diffuseColor; 
-  node = diffuse->FirstChild();
-  if(!node)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  TiXmlText* diffusedata = node->ToText();
-  if(!diffusedata)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  str.clear();
-  str << diffusedata->Value();
-  str >> r >> g >> b >> a;
-  diffuseColor.red = (unsigned char)r;
-  diffuseColor.green = (unsigned char)g;
-  diffuseColor.blue = (unsigned char)b;
-  diffuseColor.alpha = (unsigned char)a;
-  
+		// get the translation of the bone
 
-  TiXmlElement* specular = diffuse->NextSiblingElement();
-  if(!specular||stricmp(specular->Value(),"SPECULAR")!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+		TiXmlElement* translation = bone->FirstChildElement();
+		if(!translation || stricmp( translation->Value(),"TRANSLATION")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
 
-  CalCoreMaterial::Color specularColor; 
-  node = specular->FirstChild();
-  if(!node)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  TiXmlText* speculardata = node->ToText();
-  if(!speculardata)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  str.clear();
-  str << speculardata->Value();
-  str >> r >> g >> b >> a;
-  specularColor.red = (unsigned char)r;
-  specularColor.green = (unsigned char)g;
-  specularColor.blue = (unsigned char)b;
-  specularColor.alpha = (unsigned char)a;
+		float tx, ty, tz;
 
-  TiXmlElement* shininess = specular->NextSiblingElement();
-  if(!shininess||stricmp(shininess->Value(),"SHININESS")!=0)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+		node = translation->FirstChild();
+		if(!node)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}    
+		TiXmlText* translationdata = node->ToText();
+		if(!translationdata)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}    
+		str.clear();
+		str << translationdata->Value();
+		str >> tx >> ty >> tz;
 
-  float fshininess;
-  node = shininess->FirstChild();
-  if(!node)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  TiXmlText* shininessdata = node->ToText();
-  if(!shininessdata)
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  fshininess = (float)atof(shininessdata->Value());
+		// get the rotation of the bone
 
-  // set the colors and the shininess
-  pCoreMaterial->setAmbientColor(ambientColor);
-  pCoreMaterial->setDiffuseColor(diffuseColor);
-  pCoreMaterial->setSpecularColor(specularColor);
-  pCoreMaterial->setShininess(fshininess);
-  
-  std::vector<std::string> MatFileName;
+		TiXmlElement* rotation = translation->NextSiblingElement();
+		if(!rotation || stricmp(rotation->Value(),"ROTATION")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
 
-  TiXmlElement* map;
+		float rx, ry, rz, rw;
 
-  for(map = shininess->NextSiblingElement();map;map = map->NextSiblingElement() )
-  {
-    if(!map||stricmp(map->Value(),"MAP")!=0)
-    {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-    }
-    
+		node = rotation->FirstChild();
+		if(!node)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		TiXmlText* rotationdata = node->ToText();
+		if(!rotationdata)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		str.clear();
+		str << rotationdata->Value();
+		str >> rx >> ry >> rz >> rw;    
 
-    node= map->FirstChild();
-    if(!node)
-    {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-    }
+		// get the bone space translation of the bone
 
-    TiXmlText* mapfile = node->ToText();
-    if(!mapfile)
-    {
-      CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-      return false;
-    }
 
-    MatFileName.push_back(mapfile->Value());
-  }
-  pCoreMaterial->reserve(MatFileName.size());
+		TiXmlElement* translationBoneSpace = rotation->NextSiblingElement();
+		if(!rotation || stricmp(translationBoneSpace->Value(),"LOCALTRANSLATION")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
 
-  for(unsigned int mapId=0; mapId < MatFileName.size(); ++mapId)
-  {
-    CalCoreMaterial::Map Map;
-    // initialize the user data
-    Map.userData = 0;
+		float txBoneSpace, tyBoneSpace, tzBoneSpace;
 
-    Map.strFilename= MatFileName[mapId];    
+		node = translationBoneSpace->FirstChild();
+		if(!node)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		TiXmlText* translationBoneSpacedata = node->ToText();
+		if(!translationBoneSpacedata)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		str.clear();
+		str << translationBoneSpacedata->Value();
+		str >> txBoneSpace >> tyBoneSpace >> tzBoneSpace;
 
-    // set map in the core material instance
-    pCoreMaterial->setMap(mapId, Map);
-  }
+		// get the bone space rotation of the bone
 
-  doc.Clear();
-  
-  return pCoreMaterial;
+		TiXmlElement* rotationBoneSpace = translationBoneSpace->NextSiblingElement();
+		if(!rotationBoneSpace || stricmp(rotationBoneSpace->Value(),"LOCALROTATION")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+
+		float rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace;
+
+		node = rotationBoneSpace->FirstChild();
+		if(!node)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		TiXmlText* rotationBoneSpacedata = node->ToText();
+		if(!rotationBoneSpacedata)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		str.clear();
+		str << rotationBoneSpacedata->Value();
+		str >> rxBoneSpace >> ryBoneSpace >> rzBoneSpace >> rwBoneSpace;
+
+		// get the parent bone id
+
+		TiXmlElement* parent = rotationBoneSpace->NextSiblingElement();
+		if(!parent ||stricmp(parent->Value(),"PARENTID")!=0)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+
+
+		int parentId;
+
+		node = parent->FirstChild();
+		if(!node)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		TiXmlText* parentid = node->ToText();
+		if(!parentid)
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+			return false;
+		}
+		parentId = atoi(parentid->Value());
+
+		// allocate a new core bone instance
+		std::auto_ptr<CalCoreBone> pCoreBone( new(std::nothrow) CalCoreBone(strName) );
+		if(pCoreBone.get() == 0)
+		{
+			CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
+			return 0;
+		}
+
+		// set the parent of the bone
+		pCoreBone->setParentId(parentId);
+
+		// set all attributes of the bone
+
+		CalVector trans = CalVector(tx, ty, tz);
+		CalQuaternion rot = CalQuaternion(rx, ry, rz, rw);
+
+		if (loadingMode & LOADER_ROTATE_X_AXIS)
+		{
+			if (parentId == -1) // only root bone necessary
+			{
+				// Root bone must have quaternion rotated
+				CalQuaternion x_axis_90(0.7071067811f,0.0f,0.0f,0.7071067811f);
+				rot *= x_axis_90;
+				// Root bone must have translation rotated also
+				trans *= x_axis_90;
+			}
+		}    
+
+
+		pCoreBone->setTranslation(trans);
+		pCoreBone->setRotation(rot);
+		pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
+		pCoreBone->setRotationBoneSpace(CalQuaternion(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace));
+
+
+		TiXmlElement* child;
+		for( child = parent->NextSiblingElement();child;child = child->NextSiblingElement() )
+		{
+			if(stricmp(child->Value(),"CHILDID")!=0)
+			{
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+				return false;
+			}
+
+			TiXmlNode *node= child->FirstChild();
+			if(!node)
+			{
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+				return false;
+			}
+			TiXmlText* childid = node->ToText();
+			if(!childid)
+			{
+				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, doc.Value());
+				return false;
+			}
+
+			int childId = atoi(childid->Value());
+
+			pCoreBone->addChildId(childId);
+		}
+
+		// set the core skeleton of the core bone instance
+		pCoreBone->setCoreSkeleton(pCoreSkeleton.get());
+
+		// add the core bone to the core skeleton instance
+		pCoreSkeleton->addCoreBone(pCoreBone.release());
+
+	}
+
+	doc.Clear();
+
+	pCoreSkeleton->calculateState();
+
+	return pCoreSkeleton;
 }
+
 
 //****************************************************************************//
