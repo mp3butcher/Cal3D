@@ -1355,6 +1355,22 @@ std::vector<CalMesh *>& CalModel_GetVectorMesh(CalModel *self)
 }
 */
 
+int CalModel_GetMeshCount(struct CalModel *self)
+{
+	return self->getVectorMesh().size();
+}
+
+struct CalMesh *CalModel_GetMeshByMeshID(struct CalModel *self, int meshId)
+{
+	CalMesh*	theMesh = 0;
+	
+	if ( (meshId >= 0) && (meshId < self->getVectorMesh().size()) )
+	{
+		theMesh = self->getVectorMesh()[ meshId ];
+	}
+	return theMesh;
+}
+
 CalModel *CalModel_New(CalCoreModel* pCoreModel)
 {
   return new CalModel(pCoreModel);
@@ -1445,6 +1461,11 @@ void CalQuaternion_Clear(CalQuaternion *self)
 void CalQuaternion_Conjugate(CalQuaternion *self)
 {
   self->conjugate();
+}
+
+void CalQuaternion_Invert(struct CalQuaternion *self)
+{
+	self->invert();
 }
 
 void CalQuaternion_Delete(CalQuaternion *self)

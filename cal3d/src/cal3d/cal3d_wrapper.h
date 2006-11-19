@@ -474,6 +474,8 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
   CAL3D_WRAPPER_API struct CalSkeleton *CalModel_GetSkeleton(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalSpringSystem *CalModel_GetSpringSystem(struct CalModel *self);
   CAL3D_WRAPPER_API CalUserData CalModel_GetUserData(struct CalModel *self);
+  CAL3D_WRAPPER_API int CalModel_GetMeshCount(struct CalModel *self);
+  CAL3D_WRAPPER_API struct CalMesh *CalModel_GetMeshByMeshID(struct CalModel *self, int meshId);
 //  CAL3D_WRAPPER_API std::vector<CalMesh *>& CalModel_GetVectorMesh(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalModel *CalModel_New(struct CalCoreModel* pCoreModel);
   CAL3D_WRAPPER_API void CalModel_SetLodLevel(struct CalModel *self, float lodLevel);
@@ -505,6 +507,7 @@ CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreS
   CAL3D_WRAPPER_API void CalQuaternion_Blend(struct CalQuaternion *self, float d, const struct CalQuaternion *pQ);
   CAL3D_WRAPPER_API void CalQuaternion_Clear(struct CalQuaternion *self);
   CAL3D_WRAPPER_API void CalQuaternion_Conjugate(struct CalQuaternion *self);
+  CAL3D_WRAPPER_API void CalQuaternion_Invert(struct CalQuaternion *self);
   CAL3D_WRAPPER_API void CalQuaternion_Delete(struct CalQuaternion *self);
   CAL3D_WRAPPER_API void CalQuaternion_Equal(struct CalQuaternion *self, const struct CalQuaternion *pQ);
   CAL3D_WRAPPER_API float *CalQuaternion_Get(struct CalQuaternion *self);
