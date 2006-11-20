@@ -333,50 +333,58 @@ int CalCoreSubmesh::getVertexCount() const
 
 bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
 {
-  // reserve the space needed in all the vectors
-  m_vectorVertex.reserve(vertexCount);
-  m_vectorVertex.resize(vertexCount);
+	bool	success = true;
+	try
+	{
+		// reserve the space needed in all the vectors
+		m_vectorVertex.reserve(vertexCount);
+		m_vectorVertex.resize(vertexCount);
 
-  m_vectorTangentsEnabled.reserve(textureCoordinateCount);
-  m_vectorTangentsEnabled.resize(textureCoordinateCount);
+		m_vectorTangentsEnabled.reserve(textureCoordinateCount);
+		m_vectorTangentsEnabled.resize(textureCoordinateCount);
 
-  m_vectorvectorTangentSpace.reserve(textureCoordinateCount);
-  m_vectorvectorTangentSpace.resize(textureCoordinateCount);
+		m_vectorvectorTangentSpace.reserve(textureCoordinateCount);
+		m_vectorvectorTangentSpace.resize(textureCoordinateCount);
 
-  m_vectorvectorTextureCoordinate.reserve(textureCoordinateCount);
-  m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
+		m_vectorvectorTextureCoordinate.reserve(textureCoordinateCount);
+		m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
 
-  int textureCoordinateId;
-  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
-  {
-    m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
-    m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
-	
-    if (m_vectorTangentsEnabled[textureCoordinateId])
-    {
-      m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
-      m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);
-    }
-    else
-    {
-      m_vectorvectorTangentSpace[textureCoordinateId].clear();
-    }
-  }
+		int textureCoordinateId;
+		for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
+		{
+			m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
+			m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
 
-  m_vectorFace.reserve(faceCount);
-  m_vectorFace.resize(faceCount);
+			if (m_vectorTangentsEnabled[textureCoordinateId])
+			{
+			  m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
+			  m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);
+			}
+			else
+			{
+			  m_vectorvectorTangentSpace[textureCoordinateId].clear();
+			}
+		}
 
-  m_vectorSpring.reserve(springCount);
-  m_vectorSpring.resize(springCount);
+		m_vectorFace.reserve(faceCount);
+		m_vectorFace.resize(faceCount);
 
-  // reserve the space for the physical properties if we have springs in the core submesh instance
-  if(springCount > 0)
-  {
-    m_vectorPhysicalProperty.reserve(vertexCount);
-    m_vectorPhysicalProperty.resize(vertexCount);
-  }
+		m_vectorSpring.reserve(springCount);
+		m_vectorSpring.resize(springCount);
 
-  return true;
+		// reserve the space for the physical properties if we have springs in the core submesh instance
+		if(springCount > 0)
+		{
+			m_vectorPhysicalProperty.reserve(vertexCount);
+			m_vectorPhysicalProperty.resize(vertexCount);
+		}
+	}
+	catch (...)
+	{
+		success = false;
+	}
+
+	return success;
 }
 
  /*****************************************************************************/
@@ -568,6 +576,7 @@ int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTa
   subMorphTargetId = m_vectorCoreSubMorphTarget.size();
 
   m_vectorCoreSubMorphTarget.push_back(pCoreSubMorphTarget);
+  pCoreSubMorphTarget->setCoreSubmesh( this );
 
   return subMorphTargetId;
 }
