@@ -76,7 +76,7 @@ CalBoolean CalAnimationAction_Execute(CalAnimationAction *self, float delayIn, f
 
 CalAnimationAction *CalAnimationAction_New(CalCoreAnimation *pCoreAnimation)
 {
-  return new CalAnimationAction(pCoreAnimation);
+  return new(std::nothrow) CalAnimationAction(pCoreAnimation);
 }
 
 CalBoolean CalAnimationAction_Update(CalAnimationAction *self, float deltaTime)
@@ -106,7 +106,7 @@ void CalAnimationCycle_Delete(CalAnimationCycle *self)
 
 CalAnimationCycle *CalAnimationCycle_New(CalCoreAnimation *pCoreAnimation)
 {
-  return new CalAnimationCycle(pCoreAnimation);
+  return new(std::nothrow) CalAnimationCycle(pCoreAnimation);
 }
 
 void CalAnimationCycle_SetAsync(CalAnimationCycle *self, float time, float duration)
@@ -185,7 +185,7 @@ void CalBone_LockState(CalBone *self)
 
 CalBone *CalBone_New(CalCoreBone* coreBone)
 {
-  return new CalBone(coreBone);
+  return new(std::nothrow) CalBone(coreBone);
 }
 
 void CalBone_SetSkeleton(CalBone *self, CalSkeleton *pSkeleton)
@@ -245,9 +245,9 @@ CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* mo
 // CalCoreAnimation wrapper functions definition                              //
 //****************************************************************************//
 
-CalCoreAnimation *CalCoreAnimation_New(CalCoreAnimation *self)
+CalCoreAnimation *CalCoreAnimation_New()
 {
-    return explicitIncRef(new CalCoreAnimation());
+    return explicitIncRef(new(std::nothrow) CalCoreAnimation());
 }
 
 void CalCoreAnimation_Delete(CalCoreAnimation* self)
@@ -266,7 +266,7 @@ void CalCoreAnimation_SetDuration(CalCoreAnimation *self, float duration)
 }
 
 //****************************************************************************//
-// CalCoreAnimation wrapper functions definition                              //
+// CalCoreBone wrapper functions definition                                   //
 //****************************************************************************//
 
 CalBoolean CalCoreBone_AddChildId(CalCoreBone *self, int childId)
@@ -371,7 +371,7 @@ CalUserData CalCoreBone_GetUserData(CalCoreBone *self)
 
 CalCoreBone *CalCoreBone_New(const char* name)
 {
-  return new CalCoreBone(name);
+  return new(std::nothrow) CalCoreBone(name);
 }
 
 void CalCoreBone_SetCoreSkeleton(CalCoreBone *self, CalCoreSkeleton *pCoreSkeleton)
@@ -433,55 +433,12 @@ CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreM
 }
 
 //****************************************************************************//
-// CalCoreMorphAnimation wrapper functions definition                         //
-//****************************************************************************//
-
-CalCoreMorphAnimation *CalCoreMorphAnimation_New()
-{
-    return new(std::nothrow) CalCoreMorphAnimation();
-}
-
-void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
-{
-    delete self;
-}
-
-CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
-{
-	CalBoolean	result = False;
-	try
-	{
-		result = self->addMorphTarget( meshID, morphID ) ? True : False;
-	}
-	catch (...)
-	{
-	}
-	return result;
-}
-
-const char* CalCoreMorphAnimation_GetName( const struct CalCoreMorphAnimation *self )
-{
-	return self->getName().c_str();
-}
-
-void CalCoreMorphAnimation_SetName(struct CalCoreMorphAnimation *self, const char* inName )
-{
-	try
-	{
-		self->setName( inName );
-	}
-	catch (...)
-	{
-	}
-}
-
-//****************************************************************************//
 // CalCoreMaterial wrapper functions definition                               //
 //****************************************************************************//
 
 CalCoreMaterial *CalCoreMaterial_New()
 {
-    return explicitIncRef(new CalCoreMaterial());
+    return explicitIncRef(new(std::nothrow) CalCoreMaterial());
 }
 
 void CalCoreMaterial_Delete(CalCoreMaterial *self)
@@ -495,6 +452,7 @@ CalCoreMaterial::Color *CalCoreMaterial_GetAmbientColor(CalCoreMaterial *self)
   return &(self->getAmbientColor());
 }
 */
+
 /*
 CalCoreMaterial::Color *CalCoreMaterial_GetDiffuseColor(CalCoreMaterial *self)
 {
@@ -661,7 +619,7 @@ void CalCoreMaterial_SetUserData(CalCoreMaterial *self, CalUserData userData)
 
 CalCoreMesh *CalCoreMesh_New()
 {
-    return explicitIncRef(new CalCoreMesh());
+    return explicitIncRef(new(std::nothrow) CalCoreMesh());
 }
 
 void CalCoreMesh_Delete(CalCoreMesh *self)
@@ -742,27 +700,63 @@ int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *t
 
 int CalCoreModel_AddCoreAnimation(CalCoreModel *self, CalCoreAnimation *pCoreAnimation)
 {
-  return self->addCoreAnimation(pCoreAnimation);
+	try
+	{
+		return self->addCoreAnimation(pCoreAnimation);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
-int CalCoreModel_AddCoreMorphAnimation(CalCoreModel *self, CalCoreMorphAnimation *pCoreMorphAnimation)
+int CalCoreModel_AddCoreMorphAnimation( struct CalCoreModel *self,
+										struct CalCoreMorphAnimation* inAnim )
 {
-  return self->addCoreMorphAnimation(pCoreMorphAnimation);
+	try
+	{
+		return self->addCoreMorphAnimation( inAnim );
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 int CalCoreModel_AddCoreMaterial(CalCoreModel *self, CalCoreMaterial *pCoreMaterial)
 {
-  return self->addCoreMaterial(pCoreMaterial);
+	try
+	{
+		return self->addCoreMaterial(pCoreMaterial);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 int CalCoreModel_AddCoreMesh(CalCoreModel *self, CalCoreMesh *pCoreMesh)
 {
-  return self->addCoreMesh(pCoreMesh);
+	try
+	{
+		return self->addCoreMesh(pCoreMesh);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 CalBoolean CalCoreModel_CreateCoreMaterialThread(CalCoreModel *self, int coreMaterialThreadId)
 {
-  return self->createCoreMaterialThread(coreMaterialThreadId) ? True : False;
+	try
+	{
+		return self->createCoreMaterialThread(coreMaterialThreadId) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return False;
 }
 
 void CalCoreModel_Delete(CalCoreModel *self)
@@ -805,6 +799,20 @@ int CalCoreModel_GetCoreMeshCount(CalCoreModel *self)
   return self->getCoreMeshCount();
 }
 
+int CalCoreModel_GetCoreMeshId(struct CalCoreModel *self, const char* coreMeshName )
+{
+	int	theID = -1;
+	try
+	{
+		std::string	theName( coreMeshName );
+		theID = self->getCoreMeshId( theName );
+	}
+	catch (...)
+	{
+	}
+	return theID;
+}
+
 CalCoreSkeleton *CalCoreModel_GetCoreSkeleton(CalCoreModel *self)
 {
   return self->getCoreSkeleton();
@@ -818,6 +826,42 @@ CalUserData CalCoreModel_GetUserData(CalCoreModel *self)
 int CalCoreModel_GetCoreMorphAnimationCount(CalCoreModel *self)
 {
   return self->getCoreMorphAnimationCount();
+}
+
+struct CalCoreMorphAnimation* CalCoreModel_GetCoreMorphAnimation( struct CalCoreModel *self,
+																int morphAnimID )
+{
+	return self->getCoreMorphAnimation( morphAnimID );
+}
+
+CalBoolean CalCoreModel_AddMeshName(struct CalCoreModel *self, const char* name, int coreMeshId )
+{
+	CalBoolean	success = False;
+	
+	try
+	{
+		std::string		meshName( name );
+		if (self->addMeshName( meshName, coreMeshId ))
+		{
+			success = True;
+		}
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+void CalCoreModel_CloneCoreMaterials(struct CalCoreModel *self )
+{
+	try
+	{
+		self->cloneCoreMaterials();
+	}
+	catch (...)
+	{
+	}
 }
 
 int CalCoreModel_LoadCoreAnimation(CalCoreModel *self, const char *strFilename)
@@ -918,7 +962,17 @@ CalBoolean CalCoreModel_LoadCoreSkeletonFromBuffer(CalCoreModel *self, const voi
 
 CalCoreModel *CalCoreModel_New(const char* name)
 {
-  return new CalCoreModel(name);
+  return new(std::nothrow) CalCoreModel(name);
+}
+
+CalCoreModel *CalCoreModel_NewCopy( CalCoreModel* other )
+{
+  return new(std::nothrow) CalCoreModel(*other);
+}
+
+void CalCoreModel_ReplaceCoreMesh(struct CalCoreModel *self, int coreMeshId, struct CalCoreMesh *pCoreMesh)
+{
+	self->replaceCoreMesh( coreMeshId, pCoreMesh );
 }
 
 CalBoolean CalCoreModel_SaveCoreAnimation(CalCoreModel *self, const char *strFilename, int coreAnimationId)
@@ -956,13 +1010,79 @@ void CalCoreModel_SetUserData(CalCoreModel *self, CalUserData userData)
   self->setUserData(userData);
 }
 
+const char *CalCoreModel_GetName(CalCoreModel *self)
+{
+  return self->getName().c_str();
+}
+
+void CalCoreModel_SetName(struct CalCoreModel *self, const char* inName)
+{
+	try
+	{
+		self->setName( inName );
+	}
+	catch (...)
+	{
+	}
+}
+
+//****************************************************************************//
+// CalCoreMorphAnimation wrapper functions definition                         //
+//****************************************************************************//
+
+CalCoreMorphAnimation *CalCoreMorphAnimation_New()
+{
+    return new(std::nothrow) CalCoreMorphAnimation();
+}
+
+void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
+{
+    delete self;
+}
+
+CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
+{
+	CalBoolean	result = False;
+	try
+	{
+		result = self->addMorphTarget( meshID, morphID ) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return result;
+}
+
+const char* CalCoreMorphAnimation_GetName( const struct CalCoreMorphAnimation *self )
+{
+	return self->getName().c_str();
+}
+
+void CalCoreMorphAnimation_SetName(struct CalCoreMorphAnimation *self, const char* inName )
+{
+	try
+	{
+		self->setName( inName );
+	}
+	catch (...)
+	{
+	}
+}
+
 //****************************************************************************//
 // CalCoreSkeleton wrapper functions definition                               //
 //****************************************************************************//
 
 int CalCoreSkeleton_AddCoreBone(CalCoreSkeleton *self, CalCoreBone *pCoreBone)
 {
-  return self->addCoreBone(pCoreBone);
+	try
+	{
+		return self->addCoreBone(pCoreBone);
+	}
+	catch (...)
+	{
+	}
+	return -1;
 }
 
 void CalCoreSkeleton_CalculateState(CalCoreSkeleton *self)
@@ -973,7 +1093,7 @@ void CalCoreSkeleton_CalculateState(CalCoreSkeleton *self)
 
 CalCoreSkeleton *CalCoreSkeleton_New()
 {
-    return explicitIncRef(new CalCoreSkeleton());
+    return explicitIncRef(new(std::nothrow) CalCoreSkeleton());
 }
 
 void CalCoreSkeleton_Delete(CalCoreSkeleton *self)
@@ -1206,7 +1326,7 @@ CalBoolean CalCoreSubmesh_IsTangentsEnabled(CalCoreSubmesh *self, int mapId)
   return self->isTangentsEnabled(mapId) ? True : False;
 }
 
-CalBoolean CalCoreSubmesh_EnableTangents(CalCoreSubmesh *self, int mapId, bool enabled)
+CalBoolean CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, enum CalBoolean enabled)
 {
   return self->enableTangents(mapId, enabled) ? True : False;
 }
@@ -1408,7 +1528,7 @@ std::vector<CalSubmesh *>& CalMesh_GetVectorSubmesh(CalMesh *self)
 
 CalMesh *CalMesh_New(CalCoreMesh *pCoreMesh)
 {
-  return new CalMesh(pCoreMesh);
+  return new(std::nothrow) CalMesh(pCoreMesh);
 }
 
 void CalMesh_SetLodLevel(CalMesh *self, float lodLevel)
@@ -1452,7 +1572,7 @@ CalBoolean CalMixer_ExecuteAction(CalMixer *self, int id, float delayIn, float d
 
 CalMixer *CalMixer_New(CalModel* pModel)
 {
-  return new CalMixer(pModel);
+  return new(std::nothrow) CalMixer(pModel);
 }
 
 void CalMixer_UpdateAnimation(CalMixer *self, float deltaTime)
@@ -1593,7 +1713,7 @@ struct CalMesh *CalModel_GetMeshByMeshID(struct CalModel *self, int meshId)
 
 CalModel *CalModel_New(CalCoreModel* pCoreModel)
 {
-  return new CalModel(pCoreModel);
+  return new(std::nothrow) CalModel(pCoreModel);
 }
 
 void CalModel_SetLodLevel(CalModel *self, float lodLevel)
@@ -1652,7 +1772,7 @@ void CalPhysique_Delete(CalPhysique *self)
 
 CalPhysique *CalPhysique_New(CalModel* pModel)
 {
-  return new CalPhysique(pModel);
+  return new(std::nothrow) CalPhysique(pModel);
 }
 
 void CalPhysique_Update(CalPhysique *self)
@@ -1715,7 +1835,7 @@ void CalQuaternion_MultiplyVector(CalQuaternion *self, const CalVector *pV)
 
 CalQuaternion *CalQuaternion_New()
 {
-  return new CalQuaternion();
+  return new(std::nothrow) CalQuaternion();
 }
 
 void CalQuaternion_Op_Multiply(CalQuaternion *pResult, const CalQuaternion *pQ, const CalQuaternion *pR)
@@ -1839,7 +1959,7 @@ CalBoolean CalRenderer_IsTangentsEnabled(CalRenderer *self, int mapId)
 
 CalRenderer *CalRenderer_New(CalModel* pModel)
 {
-  return new CalRenderer(pModel);
+  return new(std::nothrow) CalRenderer(pModel);
 }
 
 CalBoolean CalRenderer_SelectMeshSubmesh(CalRenderer *self, int meshId, int submeshId)
@@ -1858,7 +1978,7 @@ void CalSaver_Delete(CalSaver *self)
 
 CalSaver *CalSaver_New()
 {
-  return new CalSaver();
+  return new(std::nothrow) CalSaver();
 }
 
 CalBoolean CalSaver_SaveCoreAnimation(CalSaver *self, const char *strFilename, CalCoreAnimation *pCoreAnimation)
@@ -1924,7 +2044,7 @@ void CalSkeleton_LockState(CalSkeleton *self)
 
 CalSkeleton *CalSkeleton_New(CalCoreSkeleton *pCoreSkeleton)
 {
-  return new CalSkeleton(pCoreSkeleton);
+  return new(std::nothrow) CalSkeleton(pCoreSkeleton);
 }
 
 void CalSkeleton_GetBoneBoundingBox(CalSkeleton *self, float *min, float *max)
@@ -1982,7 +2102,7 @@ void CalSpringSystem_Delete(CalSpringSystem *self)
 
 CalSpringSystem *CalSpringSystem_New(CalModel* pModel)
 {
-  return new CalSpringSystem(pModel);
+  return new(std::nothrow) CalSpringSystem(pModel);
 }
 
 void CalSpringSystem_Update(CalSpringSystem *self, float deltaTime)
@@ -2051,7 +2171,7 @@ CalBoolean CalSubmesh_HasInternalData(CalSubmesh *self)
 
 CalSubmesh *CalSubmesh_New(CalCoreSubmesh* coreSubmesh)
 {
-  return new CalSubmesh(coreSubmesh);
+  return new(std::nothrow) CalSubmesh(coreSubmesh);
 }
 
 void CalSubmesh_SetCoreMaterialId(CalSubmesh *self, int coreMaterialId)
@@ -2110,7 +2230,7 @@ float CalVector_Length(CalVector *self)
 
 CalVector *CalVector_New()
 {
-  return new CalVector();
+  return new(std::nothrow) CalVector();
 }
 
 float CalVector_Normalize(CalVector *self)

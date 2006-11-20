@@ -306,6 +306,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreModel_AddCoreMesh(struct CalCoreModel *self, struct CalCoreMesh *pCoreMesh);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_CreateCoreMaterialThread(struct CalCoreModel *self, int coreMaterialThreadId);
   CAL3D_WRAPPER_API void CalCoreModel_Delete(struct CalCoreModel *self);
+  CAL3D_WRAPPER_API const char *CalCoreModel_GetName(struct CalCoreModel *self);
   CAL3D_WRAPPER_API struct CalCoreAnimation *CalCoreModel_GetCoreAnimation(struct CalCoreModel *self, int coreAnimationId);
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreAnimationCount(struct CalCoreModel *self);
   CAL3D_WRAPPER_API struct CalCoreMaterial *CalCoreModel_GetCoreMaterial(struct CalCoreModel *self, int coreMaterialId);
@@ -313,6 +314,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreMaterialId(struct CalCoreModel *self, int coreMaterialThreadId, int coreMaterialSetId);
   CAL3D_WRAPPER_API struct CalCoreMesh *CalCoreModel_GetCoreMesh(struct CalCoreModel *self, int coreMeshId);
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreMeshCount(struct CalCoreModel *self);
+  CAL3D_WRAPPER_API int CalCoreModel_GetCoreMeshId(struct CalCoreModel *self, const char* coreMeshName );
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalCoreModel_GetCoreSkeleton(struct CalCoreModel *self);
   CAL3D_WRAPPER_API CalUserData CalCoreModel_GetUserData(struct CalCoreModel *self);
   CAL3D_WRAPPER_API int CalCoreModel_GetCoreMorphAnimationCount(struct CalCoreModel *self);
@@ -325,6 +327,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreModel_LoadCoreMeshFromBuffer(struct CalCoreModel *self, const void* buffer);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_LoadCoreSkeletonFromBuffer(struct CalCoreModel *self, const void* buffer);
   CAL3D_WRAPPER_API struct CalCoreModel *CalCoreModel_New(const char* name);
+  CAL3D_WRAPPER_API struct CalCoreModel *CalCoreModel_NewCopy( struct CalCoreModel* other );
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreAnimation(struct CalCoreModel *self, const char *strFilename, int coreAnimtionId);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMaterial(struct CalCoreModel *self, const char *strFilename, int coreMaterialId);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SaveCoreMesh(struct CalCoreModel *self, const char *strFilename, int coreMeshId);
@@ -332,6 +335,11 @@ extern "C"
   CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_SetCoreMaterialId(struct CalCoreModel *self, int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId);
   CAL3D_WRAPPER_API void CalCoreModel_SetCoreSkeleton(struct CalCoreModel *self, struct CalCoreSkeleton *pCoreSkeleton);
   CAL3D_WRAPPER_API void CalCoreModel_SetUserData(struct CalCoreModel *self, CalUserData userData);
+  CAL3D_WRAPPER_API struct CalCoreMorphAnimation* CalCoreModel_GetCoreMorphAnimation( struct CalCoreModel *self, int morphAnimID );
+  CAL3D_WRAPPER_API void CalCoreModel_SetName(struct CalCoreModel *self, const char* inName);
+  CAL3D_WRAPPER_API void CalCoreModel_ReplaceCoreMesh(struct CalCoreModel *self, int coreMeshId, struct CalCoreMesh *pCoreMesh);
+  CAL3D_WRAPPER_API enum CalBoolean CalCoreModel_AddMeshName(struct CalCoreModel *self, const char* name, int coreMeshId );
+  CAL3D_WRAPPER_API void CalCoreModel_CloneCoreMaterials(struct CalCoreModel *self );
 
 //****************************************************************************//
 // CalCoreSkeleton wrapper functions declaration                              //
