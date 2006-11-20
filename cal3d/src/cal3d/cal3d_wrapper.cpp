@@ -1594,9 +1594,16 @@ void CalMixer_RemoveAction(CalMixer *self,int id)
 // CalMorphTargetMixer wrapper functions definition                           //
 //****************************************************************************//
 
-CalBoolean CalMorphTargetMixer_Blend(struct CalMorphTargetMixer *self, int id, float weight, float delay)
+float CalMorphTargetMixer_GetCurrentWeight( struct CalMorphTargetMixer* self,
+											int morphAnimID )
 {
-  return self->blend(id, weight, delay) ? True : False;
+	return self->getCurrentWeight( morphAnimID );
+}
+
+CalBoolean CalMorphTargetMixer_Blend( struct CalMorphTargetMixer* self,
+  							int morphAnimID, float weight, float delay )
+{
+  return self->blend(morphAnimID, weight, delay) ? True : False;
 }
 
 CalBoolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay)
@@ -1611,7 +1618,7 @@ void CalMorphTargetMixer_Delete(struct CalMorphTargetMixer *self)
 
 struct CalMorphTargetMixer *CalMorphTargetMixer_New(struct CalModel *pModel)
 {
-  return new CalMorphTargetMixer(pModel);
+  return new(std::nothrow) CalMorphTargetMixer(pModel);
 }
 
 void CalMorphTargetMixer_Update(struct CalMorphTargetMixer *self, float deltaTime)
@@ -1622,6 +1629,12 @@ void CalMorphTargetMixer_Update(struct CalMorphTargetMixer *self, float deltaTim
 int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self)
 {
   return self->getMorphTargetCount();
+}
+
+CalBoolean CalMorphTargetMixer_Copy( struct CalMorphTargetMixer* self,
+  										const struct CalMorphTargetMixer* toCopy )
+{
+	return (CalBoolean) self->copy( *toCopy );
 }
 
 //****************************************************************************//
