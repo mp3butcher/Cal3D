@@ -1090,9 +1090,41 @@ int CalCoreSubmesh_GetVertexCount(CalCoreSubmesh *self)
   return self->getVertexCount();
 }
 
+int CalCoreSubmesh_GetVertexInfluenceCount( struct CalCoreSubmesh *self, int vertID )
+{
+	return self->getVectorVertex()[ vertID ].vectorInfluence.size();
+}
+
+int CalCoreSubmesh_GetVertexInfluence( struct CalCoreSubmesh *self, int vertID,
+									int influenceID, float* outWeight )
+{
+	CalCoreSubmesh::Influence&	theInfluence =
+		self->getVectorVertex()[ vertID ].vectorInfluence[ influenceID ];
+	
+	*outWeight = theInfluence.weight;
+	return theInfluence.boneId;
+}
+
 CalCoreSubmesh *CalCoreSubmesh_New()
 {
-  return new CalCoreSubmesh();
+  return new(std::nothrow) CalCoreSubmesh();
+}
+
+void CalCoreSubmesh_GetVertex( struct CalCoreSubmesh* self, int vertID, float* outPosition, float* outNormal )
+{
+	std::vector<CalCoreSubmesh::Vertex>&	vertices( self->getVectorVertex() );
+	if ( (vertID >= 0) and (vertID < vertices.size()) )
+	{
+		CalCoreSubmesh::Vertex&		theVertex( vertices[ vertID ] );
+		
+		outPosition[0] = theVertex.position.x;
+		outPosition[1] = theVertex.position.y;
+		outPosition[2] = theVertex.position.z;
+
+		outNormal[0] = theVertex.normal.x;
+		outNormal[1] = theVertex.normal.y;
+		outNormal[2] = theVertex.normal.z;
+	}
 }
 
 CalBoolean CalCoreSubmesh_Reserve(CalCoreSubmesh *self, int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
@@ -1154,6 +1186,71 @@ CalBoolean CalCoreSubmesh_EnableTangents(CalCoreSubmesh *self, int mapId, bool e
 {
   return self->enableTangents(mapId, enabled) ? True : False;
 }
+
+int CalCoreSubmesh_AddSubMorphTarget( CalCoreSubmesh *self, CalCoreSubMorphTargetDiffMap* inTarget )
+{
+	int	morphTargetID = -1;
+	try
+	{
+		morphTargetID = self->addCoreSubMorphTarget( inTarget );
+	}
+	catch (...)
+	{
+	}
+	return morphTargetID;
+}
+
+//****************************************************************************//
+// CalCoreSubMorphTargetDiffMap wrapper functions definition                  //
+//****************************************************************************//
+CalCoreSubMorphTargetDiffMap* CalCoreSubMorphTargetDiffMap_New()
+{
+	CalCoreSubMorphTargetDiffMap*	theMap = NULL;
+	try
+	{
+		theMap = new CalCoreSubMorphTargetDiffMap;
+	}
+	catch (...)
+	{
+	}
+	return theMap;
+}
+
+CalCoreSubMorphTargetDiffMap* CalCoreSubMorphTargetDiffMap_Clone(
+	const CalCoreSubMorphTargetDiffMap* inOther )
+{
+	CalCoreSubMorphTargetDiffMap*	theMap = NULL;
+	try
+	{
+		theMap = new CalCoreSubMorphTargetDiffMap( *inOther );
+	}
+	catch (...)
+	{
+	}
+	return theMap;
+}
+
+void CalCoreSubMorphTargetDiffMap_Delete( CalCoreSubMorphTargetDiffMap* inSelf )
+{
+	delete inSelf;
+}
+
+bool CalCoreSubMorphTargetDiffMap_Reserve( CalCoreSubMorphTargetDiffMap* inSelf,
+	int inNumDifferences )
+{
+	return inSelf->reserve( inNumDifferences );
+}
+
+bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorphTargetDiffMap* inSelf,
+	int inVertexID, float* inPositionOffset, float* inNormalOffset )
+{
+	CalCoreSubMorphTarget::BlendVertex	theVertex;
+	theVertex.position.set( inPositionOffset[0], inPositionOffset[1], inPositionOffset[2] );
+	theVertex.normal.set( inNormalOffset[0], inNormalOffset[1], inNormalOffset[2] );
+	
+	return inSelf->appendBlendVertex( inVertexID, theVertex );
+}
+
 
 //****************************************************************************//
 // CalError wrapper functions definition                                      //

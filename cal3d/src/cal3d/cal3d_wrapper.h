@@ -84,6 +84,7 @@ struct CalSkeleton;
 struct CalSpringSystem;
 struct CalSubmesh;
 struct CalVector;
+struct CalCoreSubMorphTargetDiffMap;
 
 #ifndef __cplusplus
 typedef int CalIndex; 
@@ -366,7 +367,11 @@ extern "C"
 //  CAL3D_WRAPPER_API std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& CalCoreSubmesh_GetVectorVectorTextureCoordinate(struct CalCoreSubmesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh_GetVectorVertex(struct CalCoreSubmesh *self);
   CAL3D_WRAPPER_API int CalCoreSubmesh_GetVertexCount(struct CalCoreSubmesh *self);
+  CAL3D_WRAPPER_API int CalCoreSubmesh_GetVertexInfluenceCount( struct CalCoreSubmesh *self, int vertID );
+  CAL3D_WRAPPER_API int CalCoreSubmesh_GetVertexInfluence( struct CalCoreSubmesh *self, int vertID, int influenceID,
+  															float* outWeight );
   CAL3D_WRAPPER_API struct CalCoreSubmesh *CalCoreSubmesh_New();
+  CAL3D_WRAPPER_API void CalCoreSubmesh_GetVertex( struct CalCoreSubmesh* self, int vertID, float* outPosition, float* outNormal );
   CAL3D_WRAPPER_API enum CalBoolean CalCoreSubmesh_Reserve(struct CalCoreSubmesh *self, int vertexCount, int textureCoordinateCount, int faceCount, int springCount);
   CAL3D_WRAPPER_API void CalCoreSubmesh_SetCoreMaterialThreadId(struct CalCoreSubmesh *self, int coreMaterialThreadId);
 //  CAL3D_WRAPPER_API enum CalBoolean CalCoreSubmesh_SetFace(struct CalCoreSubmesh *self, int faceId, struct CalCoreSubmesh::Face *pFace);
@@ -377,6 +382,19 @@ extern "C"
 //  CAL3D_WRAPPER_API enum CalBoolean CalCoreSubmesh_SetVertex(struct CalCoreSubmesh *self, int vertexId, struct CalCoreSubmesh::Vertex *pVertex);
 CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_IsTangentsEnabled(struct CalCoreSubmesh *self, int mapId);
 CAL3D_WRAPPER_API enum CalBoolean  CalCoreSubmesh_EnableTangents(struct CalCoreSubmesh *self, int mapId, enum CalBoolean enabled);
+CAL3D_WRAPPER_API int CalCoreSubmesh_AddSubMorphTarget( CalCoreSubmesh *self, CalCoreSubMorphTargetDiffMap* inTarget );
+  
+//****************************************************************************//
+// CalCoreSubMorphTargetDiffMap wrapper functions declaration                 //
+//****************************************************************************//
+CAL3D_WRAPPER_API CalCoreSubMorphTargetDiffMap* CalCoreSubMorphTargetDiffMap_New();
+CAL3D_WRAPPER_API CalCoreSubMorphTargetDiffMap* CalCoreSubMorphTargetDiffMap_Clone(
+	const CalCoreSubMorphTargetDiffMap* inOther );
+CAL3D_WRAPPER_API void CalCoreSubMorphTargetDiffMap_Delete( CalCoreSubMorphTargetDiffMap* inSelf );
+CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_Reserve( CalCoreSubMorphTargetDiffMap* inSelf,
+	int inNumDifferences );
+CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorphTargetDiffMap* inSelf,
+	int inVertexID, float* inPositionOffset, float* inNormalOffset );
 
 //****************************************************************************//
 // CalError wrapper functions declaration                                     //
