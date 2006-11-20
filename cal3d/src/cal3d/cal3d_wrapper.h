@@ -212,7 +212,9 @@ extern "C"
   CAL3D_WRAPPER_API struct CalCoreMorphAnimation *CalCoreMorphAnimation_New();
   CAL3D_WRAPPER_API void CalCoreMorphAnimation_Delete(struct CalCoreMorphAnimation* self);
   CAL3D_WRAPPER_API enum CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID);
-  
+  CAL3D_WRAPPER_API const char* CalCoreMorphAnimation_GetName( const struct CalCoreMorphAnimation *self );
+  CAL3D_WRAPPER_API void CalCoreMorphAnimation_SetName(struct CalCoreMorphAnimation *self, const char* inName );
+
 //****************************************************************************//
 // CalCoreBone wrapper functions declaration                                  //
 //****************************************************************************//

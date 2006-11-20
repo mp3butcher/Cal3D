@@ -438,7 +438,7 @@ CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreM
 
 CalCoreMorphAnimation *CalCoreMorphAnimation_New()
 {
-    return new CalCoreMorphAnimation();
+    return new(std::nothrow) CalCoreMorphAnimation();
 }
 
 void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
@@ -448,7 +448,31 @@ void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
 
 CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
 {
-    return self->addMorphTarget(meshID, morphID) ? True : False;
+	CalBoolean	result = False;
+	try
+	{
+		result = self->addMorphTarget( meshID, morphID ) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return result;
+}
+
+const char* CalCoreMorphAnimation_GetName( const struct CalCoreMorphAnimation *self )
+{
+	return self->getName().c_str();
+}
+
+void CalCoreMorphAnimation_SetName(struct CalCoreMorphAnimation *self, const char* inName )
+{
+	try
+	{
+		self->setName( inName );
+	}
+	catch (...)
+	{
+	}
 }
 
 //****************************************************************************//
