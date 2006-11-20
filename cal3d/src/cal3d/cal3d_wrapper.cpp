@@ -1630,7 +1630,14 @@ int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self)
 
 CalBoolean CalModel_AttachMesh(CalModel *self, int coreMeshId)
 {
-  return self->attachMesh(coreMeshId) ? True : False;
+	try
+	{
+		return self->attachMesh(coreMeshId) ? True : False;
+	}
+	catch (...)
+	{
+	}
+	return False;
 }
 
 void CalModel_Delete(CalModel *self)
@@ -2023,6 +2030,11 @@ void CalSkeleton_Delete(CalSkeleton *self)
 CalBone *CalSkeleton_GetBone(CalSkeleton *self, int boneId)
 {
   return self->getBone(boneId);
+}
+
+int CalSkeleton_GetBoneCount(CalSkeleton *self)
+{
+	return self->getVectorBone().size();
 }
 
 CalCoreSkeleton *CalSkeleton_GetCoreSkeleton(CalSkeleton *self)
