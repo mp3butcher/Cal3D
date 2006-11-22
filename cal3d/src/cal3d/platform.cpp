@@ -18,6 +18,9 @@
 
 #include "cal3d/platform.h"
 
+#include <string.h>
+
+
  /*****************************************************************************/
 /** Constructs the platform instance.
   *

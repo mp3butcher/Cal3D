@@ -24,6 +24,7 @@
 #include "cal3d/coreskeleton.h"
 #include "cal3d/skeleton.h"
 
+#include <string.h>	// for memcpy
 
  /*****************************************************************************/
 /** Constructs the hardware model instance.

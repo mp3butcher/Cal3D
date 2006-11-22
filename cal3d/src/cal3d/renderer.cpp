@@ -29,6 +29,8 @@
 #include "cal3d/coresubmesh.h"
 #include "cal3d/physique.h"
 
+#include <string.h>	// for memcpy
+
  /*****************************************************************************/
 /** Constructs the renderer instance.
   *
