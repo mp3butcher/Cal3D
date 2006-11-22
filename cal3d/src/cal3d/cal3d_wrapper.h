@@ -605,6 +605,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API void CalSkeleton_ClearState(struct CalSkeleton *self);
   CAL3D_WRAPPER_API void CalSkeleton_Delete(struct CalSkeleton *self);
   CAL3D_WRAPPER_API struct CalBone *CalSkeleton_GetBone(struct CalSkeleton *self, int boneId);
+  CAL3D_WRAPPER_API int CalSkeleton_GetBoneCount(struct CalSkeleton *self);
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalSkeleton_GetCoreSkeleton(struct CalSkeleton *self);
 //  CAL3D_WRAPPER_API std::vector<CalBone *>& CalSkeleton_GetVectorBone(struct CalSkeleton *self);
   CAL3D_WRAPPER_API void CalSkeleton_LockState(struct CalSkeleton *self);
@@ -627,6 +628,11 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API void CalSpringSystem_Delete(struct CalSpringSystem *self);
   CAL3D_WRAPPER_API struct CalSpringSystem *CalSpringSystem_New(struct CalModel *pModel);
   CAL3D_WRAPPER_API void CalSpringSystem_Update(struct CalSpringSystem *self, float deltaTime);
+  CAL3D_WRAPPER_API struct CalVector* CalSpringSystem_GetGravityVector(struct CalSpringSystem *self);
+  CAL3D_WRAPPER_API struct CalVector* CalSpringSystem_GetForceVector(struct CalSpringSystem *self);
+  CAL3D_WRAPPER_API void CalSpringSystem_SetGravityVector(struct CalSpringSystem *self, struct CalVector* grav);
+  CAL3D_WRAPPER_API void CalSpringSystem_SetForceVector(struct CalSpringSystem *self, struct CalVector* force);
+  CAL3D_WRAPPER_API void CalSpringSystem_ResetPositions(struct CalSpringSystem *self);
 
 //****************************************************************************//
 // CalSubmesh wrapper functions declaration                                   //

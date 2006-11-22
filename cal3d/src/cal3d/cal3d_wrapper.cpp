@@ -1433,10 +1433,12 @@ void CalError_PrintLastError()
   CalError::printLastError();
 }
 
+/*
 void CalError_SetLastError(CalErrorCode code, char *strFile, int line, char *strText)
 {
   CalError::setLastError((CalError::Code)code, strFile, line, strText);
 }
+*/
 
 //****************************************************************************//
 // CalLoader wrapper functions definition                                     //
@@ -2133,6 +2135,31 @@ CalSpringSystem *CalSpringSystem_New(CalModel* pModel)
 void CalSpringSystem_Update(CalSpringSystem *self, float deltaTime)
 {
   self->update(deltaTime);
+}
+
+CalVector* CalSpringSystem_GetGravityVector(CalSpringSystem *self)
+{
+	return &self->getGravityVector();
+}
+
+CalVector* CalSpringSystem_GetForceVector(CalSpringSystem *self)
+{
+	return &self->getForceVector();
+}
+
+void CalSpringSystem_SetGravityVector(CalSpringSystem *self, CalVector* grav)
+{
+	self->setGravityVector( *grav );
+}
+
+void CalSpringSystem_SetForceVector(CalSpringSystem *self, CalVector* grav)
+{
+	self->setForceVector( *grav );
+}
+
+void CalSpringSystem_ResetPositions(struct CalSpringSystem *self)
+{
+	self->resetPositions();
 }
 
 //****************************************************************************//

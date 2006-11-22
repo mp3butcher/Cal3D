@@ -21,6 +21,7 @@
 #include "cal3d/coremodel.h"
 #include "cal3d/model.h"
 #include "cal3d/mesh.h"
+#include "cal3d/physique.h"
 #include "cal3d/submesh.h"
 #include "cal3d/skeleton.h"
 #include "cal3d/bone.h"
@@ -58,6 +59,7 @@ CalSpringSystem::CalSpringSystem(CalModel* pModel)
 
 void CalSpringSystem::calculateForces(CalSubmesh *pSubmesh, float deltaTime)
 {
+#pragma unused( deltaTime )
   // get the vertex vector of the submesh
   std::vector<CalVector>& vectorVertex = pSubmesh->getVectorVertex();
 
@@ -301,6 +303,53 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 *********************************/
 }
 
+ /*****************************************************************************/
+/** Reset the spring system.
+  *
+  * Reset the vertex positions of the vertices to where they would be if their
+  * submesh was not springy.
+  *****************************************************************************/
+
+void CalSpringSystem::resetPositions()
+{
+	CalPhysique*	thePhysique = m_pModel->getPhysique();
+
+	// get the attached meshes vector
+	std::vector<CalMesh *>& vectorMesh = m_pModel->getVectorMesh();
+
+	// loop through all the attached meshes
+	std::vector<CalMesh *>::iterator iteratorMesh;
+	for(iteratorMesh = vectorMesh.begin(); iteratorMesh != vectorMesh.end(); ++iteratorMesh)
+	{
+		// get the submesh vector of the mesh
+		std::vector<CalSubmesh *>& vectorSubmesh = (*iteratorMesh)->getVectorSubmesh();
+
+		// loop through all the submeshes of the mesh
+		std::vector<CalSubmesh *>::iterator iteratorSubmesh;
+		for(iteratorSubmesh = vectorSubmesh.begin(); iteratorSubmesh != vectorSubmesh.end(); ++iteratorSubmesh)
+		{
+			CalSubmesh*	theSubmesh = *iteratorSubmesh;
+
+			// check if the submesh contains a spring system
+			if (theSubmesh->getCoreSubmesh()->getSpringCount() > 0 && theSubmesh->hasInternalData())
+			{
+				const int kNumVert = theSubmesh->getVertexCount();
+				std::vector<CalVector>&		vectorVertex( theSubmesh->getVectorVertex() );
+				vectorVertex.resize( kNumVert );
+				thePhysique->calculateVertices( theSubmesh, &vectorVertex[0].x );
+				
+				std::vector<CalSubmesh::PhysicalProperty>&	vectorPhysProp(
+					theSubmesh->getVectorPhysicalProperty() );
+				
+				for (int i = 0; i < kNumVert; ++i)
+				{
+					vectorPhysProp[i].position = vectorVertex[i];
+					vectorPhysProp[i].positionOld = vectorVertex[i];
+				}
+			}
+		}
+	}	
+}
 
  /*****************************************************************************/
 /** Updates all the spring systems in the attached meshes.

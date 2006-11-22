@@ -44,6 +44,7 @@ public:
   void calculateForces(CalSubmesh *pSubmesh, float deltaTime);
   void calculateVertices(CalSubmesh *pSubmesh, float deltaTime);
   void update(float deltaTime);
+  void resetPositions();
   
   CalVector & getGravityVector();
   void setGravityVector(const CalVector & vGravity);
