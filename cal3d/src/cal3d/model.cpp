@@ -119,7 +119,7 @@ bool CalModel::attachMesh(int coreMeshId)
   }
 
   // allocate a new mesh instance
-  CalMesh *pMesh = new CalMesh(pCoreMesh);
+  CalMesh *pMesh = new(std::nothrow) CalMesh(pCoreMesh);
   if(pMesh == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);

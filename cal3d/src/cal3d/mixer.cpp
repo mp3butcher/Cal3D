@@ -169,7 +169,7 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
     ::addExtraKeyframeForLoopedAnim(pCoreAnimation);
 
     // allocate a new animation cycle instance
-    CalAnimationCycle *pAnimationCycle = new CalAnimationCycle(pCoreAnimation);
+    CalAnimationCycle *pAnimationCycle = new(std::nothrow) CalAnimationCycle(pCoreAnimation);
     if(pAnimationCycle == 0)
     {
       CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
@@ -289,7 +289,7 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   }
 
   // allocate a new animation action instance
-  CalAnimationAction *pAnimationAction = new CalAnimationAction(pCoreAnimation);
+  CalAnimationAction *pAnimationAction = new(std::nothrow) CalAnimationAction(pCoreAnimation);
   if(pAnimationAction == 0)
   {
     CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);

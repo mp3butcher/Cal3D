@@ -112,7 +112,7 @@ void TiXmlBase::PutString( const TIXML_STRING& str, TIXML_STRING* outString )
 // <-- Strange class for a bug fix. Search for STL_STRING_BUG
 TiXmlBase::StringToBuffer::StringToBuffer( const TIXML_STRING& str )
 {
-	buffer = new char[ str.length()+1 ];
+	buffer = new (std::nothrow) char[ str.length()+1 ];
 	if ( buffer )
 	{
 		strcpy( buffer, str.c_str() );
@@ -545,7 +545,7 @@ void TiXmlElement::SetAttribute( const char * name, const char * _value )
 		return;
 	}
 
-	TiXmlAttribute* attrib = new TiXmlAttribute( name, _value );
+	TiXmlAttribute* attrib = new (std::nothrow) TiXmlAttribute( name, _value );
 	if ( attrib )
 	{
 		attributeSet.Add( attrib );
@@ -640,7 +640,7 @@ void TiXmlElement::StreamOut( TIXML_OSTREAM * stream ) const
 
 TiXmlNode* TiXmlElement::Clone() const
 {
-	TiXmlElement* clone = new TiXmlElement( Value() );
+	TiXmlElement* clone = new (std::nothrow) TiXmlElement( Value() );
 	if ( !clone )
 		return 0;
 
@@ -774,7 +774,7 @@ bool TiXmlDocument::SaveFile( const char * filename ) const
 
 TiXmlNode* TiXmlDocument::Clone() const
 {
-	TiXmlDocument* clone = new TiXmlDocument();
+	TiXmlDocument* clone = new (std::nothrow) TiXmlDocument();
 	if ( !clone )
 		return 0;
 
@@ -925,7 +925,7 @@ void TiXmlComment::StreamOut( TIXML_OSTREAM * stream ) const
 
 TiXmlNode* TiXmlComment::Clone() const
 {
-	TiXmlComment* clone = new TiXmlComment();
+	TiXmlComment* clone = new (std::nothrow) TiXmlComment();
 
 	if ( !clone )
 		return 0;
@@ -952,7 +952,7 @@ void TiXmlText::StreamOut( TIXML_OSTREAM * stream ) const
 TiXmlNode* TiXmlText::Clone() const
 {	
 	TiXmlText* clone = 0;
-	clone = new TiXmlText( "" );
+	clone = new (std::nothrow) TiXmlText( "" );
 
 	if ( !clone )
 		return 0;
@@ -1013,7 +1013,7 @@ void TiXmlDeclaration::StreamOut( TIXML_OSTREAM * stream ) const
 
 TiXmlNode* TiXmlDeclaration::Clone() const
 {	
-	TiXmlDeclaration* clone = new TiXmlDeclaration();
+	TiXmlDeclaration* clone = new (std::nothrow) TiXmlDeclaration();
 
 	if ( !clone )
 		return 0;
@@ -1040,7 +1040,7 @@ void TiXmlUnknown::StreamOut( TIXML_OSTREAM * stream ) const
 
 TiXmlNode* TiXmlUnknown::Clone() const
 {
-	TiXmlUnknown* clone = new TiXmlUnknown();
+	TiXmlUnknown* clone = new (std::nothrow) TiXmlUnknown();
 
 	if ( !clone )
 		return 0;

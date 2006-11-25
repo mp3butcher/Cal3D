@@ -49,7 +49,7 @@ CalMesh::CalMesh(CalCoreMesh* pCoreMesh)
   // clone every core submesh
   for(int submeshId = 0; submeshId < submeshCount; ++submeshId)
   {
-    m_vectorSubmesh.push_back(new CalSubmesh(vectorCoreSubmesh[submeshId]));
+    m_vectorSubmesh.push_back(new(std::nothrow) CalSubmesh(vectorCoreSubmesh[submeshId]));
   }
 }
 
