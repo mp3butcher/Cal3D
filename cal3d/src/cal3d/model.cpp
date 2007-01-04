@@ -333,6 +333,19 @@ CalPhysique *CalModel::getPhysique() const
 }
 
  /*****************************************************************************/
+/** Sets the physique.
+  *
+  * This function changes the physique of the model.
+  *
+  * @param physique The new physique object.
+  *****************************************************************************/
+void CalModel::setPhysique( CalPhysique* physique )
+{
+	delete m_pPhysique;
+	m_pPhysique = physique;
+}
+
+ /*****************************************************************************/
 /** Provides access to the renderer.
   *
   * This function returns the renderer.

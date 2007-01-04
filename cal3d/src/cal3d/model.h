@@ -42,6 +42,7 @@ public:
   void setAbstractMixer(CalAbstractMixer* pMixer);
   CalMorphTargetMixer *getMorphTargetMixer() const;
   CalPhysique *getPhysique() const;
+  void setPhysique( CalPhysique* physique );
   CalRenderer *getRenderer() const;
   CalSkeleton *getSkeleton() const;
   CalSpringSystem *getSpringSystem() const;
