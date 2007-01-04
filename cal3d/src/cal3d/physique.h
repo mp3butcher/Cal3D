@@ -23,21 +23,21 @@ class CAL3D_API CalPhysique
 {
 public:
   CalPhysique(CalModel* pModel);
-  ~CalPhysique() { }
+  virtual ~CalPhysique() { }
 
   int calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer, int stride=0);
-  int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0);
-  int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
+  virtual int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0);
+  virtual int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
   CalVector calculateVertex(CalSubmesh *pSubmesh, int vertexId);
-  int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
-  int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
+  virtual int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0);
+  virtual int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords=1);  
   void update();
   void setNormalization(bool normalize);
   void setAxisFactorX(float factor);
   void setAxisFactorY(float factor);
   void setAxisFactorZ(float factor);
 
-private:
+protected:
   CalModel *m_pModel;
   bool m_Normalize;
   float m_axisFactorX;

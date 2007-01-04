@@ -90,6 +90,11 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
   // get the number of morph targets
   int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
 
+  // Check for spring case
+  bool	hasSpringsAndInternalData =
+	(pSubmesh->getCoreSubmesh()->getSpringCount() > 0) &&
+	pSubmesh->hasInternalData();
+
   // calculate all submesh vertices
   int vertexId;
   for(vertexId = 0; vertexId < vertexCount; ++vertexId)
@@ -162,9 +167,9 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
 	}
 
     // save vertex position
-    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
+    if(hasSpringsAndInternalData)
     {
-      // get the pgysical property of the vertex
+      // get the physical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
 
       // assign new vertex position if there is no vertex weight
@@ -750,7 +755,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 /** Calculates the transformed vertex data.
   *
   * This function calculates and returns the transformed vertex, the transformed 
-  * normal datadata and the texture coords of a specific submesh.
+  * normal data and the texture coords of a specific submesh.
   *
   * @param pSubmesh A pointer to the submesh from which the vertex data should
   *                 be calculated and returned.
@@ -803,6 +808,11 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 
   // get the number of morph targets
   int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
+
+  // Check for spring case
+  bool	hasSpringsAndInternalData =
+	(pSubmesh->getCoreSubmesh()->getSpringCount() > 0) &&
+	pSubmesh->hasInternalData();
 
   // calculate all submesh vertices
   int vertexId;
@@ -901,7 +911,7 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
 	}
 
     // save vertex position
-    if(pSubmesh->getCoreSubmesh()->getSpringCount() > 0 && pSubmesh->hasInternalData())
+    if(hasSpringsAndInternalData)
     {
       // get the pgysical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
