@@ -82,6 +82,14 @@ public:
 		w = qw * q.w - qx * q.x - qy * q.y - qz * q.z;
 	}
 	
+	inline void operator+=(const CalQuaternion& q)
+	{
+		x += q.x;
+		y += q.y;
+		z += q.z;
+		w += q.w;
+	}
+	
 	inline void operator*=(const CalVector& v)
 	{
 		float qx, qy, qz, qw;
@@ -94,6 +102,14 @@ public:
 		y = qw * v.y - qx * v.z            + qz * v.x;
 		z = qw * v.z + qx * v.y - qy * v.x;
 		w =          - qx * v.x - qy * v.y - qz * v.z;
+	}
+
+	inline void operator*=( float s )
+	{
+		x *= s;
+		y *= s;
+		z *= s;
+		w *= s;
 	}
 
   inline bool operator==(const CalQuaternion& rhs) const
@@ -183,10 +199,7 @@ public:
 		if (norm == 0.0f) return;
 		
 		const float inv_norm = 1 / norm;
-		x *= inv_norm;
-		y *= inv_norm;
-		z *= inv_norm;
-		w *= inv_norm;
+		*this *= inv_norm;
 	}
 	
 	inline void set(float qx, float qy, float qz, float qw)
@@ -229,6 +242,15 @@ static inline CalQuaternion operator*(const CalQuaternion& q, const CalQuaternio
 		r.w * q.w - r.x * q.x - r.y * q.y - r.z * q.z
 		);
 }
+
+static inline float dot( const CalQuaternion& q, const CalQuaternion& r )
+{
+	return	q.x * r.x +
+			q.y * r.y +
+			q.z * r.z +
+			q.w * r.w;
+}
+
 
 static inline CalQuaternion shortestArc( const CalVector& from, const CalVector& to )
 {
