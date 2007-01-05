@@ -38,6 +38,7 @@
 #include "cal3d/model.h"
 #include "cal3d/morphtargetmixer.h"
 #include "cal3d/physique.h"
+#include "cal3d/physiquedualquaternion.h"
 #include "cal3d/platform.h"
 #include "cal3d/quaternion.h"
 #include "cal3d/renderer.h"

@@ -511,6 +511,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API struct CalMixer *CalModel_GetMixer(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalMorphTargetMixer *CalModel_GetMorphTargetMixer(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalPhysique *CalModel_GetPhysique(struct CalModel *self);
+  CAL3D_WRAPPER_API void CalModel_SetPhysique(struct CalModel *self, struct CalPhysique *phys);
   CAL3D_WRAPPER_API struct CalRenderer *CalModel_GetRenderer(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalSkeleton *CalModel_GetSkeleton(struct CalModel *self);
   CAL3D_WRAPPER_API struct CalSpringSystem *CalModel_GetSpringSystem(struct CalModel *self);
@@ -536,6 +537,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API void CalPhysique_Delete(struct CalPhysique *self);
   CAL3D_WRAPPER_API struct CalPhysique *CalPhysique_New(struct CalModel* pModel);
   CAL3D_WRAPPER_API void CalPhysique_Update(struct CalPhysique *self);
+  CAL3D_WRAPPER_API struct CalPhysique *CalPhysiqueDualQuat_New(struct CalModel* pModel);
 
 //****************************************************************************//
 // CalPlatform wrapper functions declaration                                  //

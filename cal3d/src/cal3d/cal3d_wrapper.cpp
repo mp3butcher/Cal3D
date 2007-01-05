@@ -1690,6 +1690,11 @@ CalPhysique *CalModel_GetPhysique(CalModel *self)
   return self->getPhysique();
 }
 
+void CalModel_SetPhysique(struct CalModel *self, struct CalPhysique *phys)
+{
+	self->setPhysique( phys );
+}
+
 CalRenderer *CalModel_GetRenderer(CalModel *self)
 {
   return self->getRenderer();
@@ -1795,6 +1800,11 @@ void CalPhysique_Delete(CalPhysique *self)
 CalPhysique *CalPhysique_New(CalModel* pModel)
 {
   return new(std::nothrow) CalPhysique(pModel);
+}
+
+CalPhysique *CalPhysiqueDualQuat_New(CalModel* pModel)
+{
+  return new(std::nothrow) CalPhysiqueDualQuat(pModel);
 }
 
 void CalPhysique_Update(CalPhysique *self)
