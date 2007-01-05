@@ -158,7 +158,7 @@ inline static void StoreVectorInBuffer( const CalVector& inVec, float* outBuffer
 static void CalcInfluencedPosition(
 				const CalVector& morphedPosition,
 				const std::vector<CalCoreSubmesh::Influence>& vectorInfluence,
-				const std::vector<CalBone *>& vectorBone,
+				CalBone ** vectorBone,
 				CalVector& outPosition )
 {
 	// blend together all vertex influences
@@ -169,7 +169,7 @@ static void CalcInfluencedPosition(
 	}
 	else if (influenceCount == 1)
 	{
-		CalBone*	oneBone = vectorBone[ vectorInfluence[0].boneId ];
+		const CalBone*	oneBone = vectorBone[ vectorInfluence[0].boneId ];
 		outPosition = morphedPosition;
 		outPosition *= oneBone->getTransformMatrix();
 		outPosition += oneBone->getTranslationBoneSpace();
@@ -187,7 +187,7 @@ static void CalcInfluencedPosition(
 			const CalCoreSubmesh::Influence& influence = vectorInfluence[influenceId];
 			
 			// get the bone of the influence vertex
-			CalBone *pBone = vectorBone[influence.boneId];
+			const CalBone *pBone = vectorBone[influence.boneId];
 			
 			// Get the dual quaternion for the bonespace transform
 			CalDualQuaternion	boneTransform( pBone->getRotationBoneSpace(),
@@ -221,7 +221,7 @@ static void CalcInfluencedPosition(
 static void CalcInfluencedNormal(
 				const CalVector& morphedNormal,
 				const std::vector<CalCoreSubmesh::Influence>& vectorInfluence,
-				const std::vector<CalBone *>& vectorBone,
+				CalBone ** vectorBone,
 				CalVector& outNormal )
 {
 	// blend together all vertex influences
@@ -232,7 +232,7 @@ static void CalcInfluencedNormal(
 	}
 	else if (influenceCount == 1)
 	{
-		CalBone*	oneBone = vectorBone[ vectorInfluence[0].boneId ];
+		const CalBone*	oneBone = vectorBone[ vectorInfluence[0].boneId ];
 		outNormal = morphedNormal;
 		outNormal *= oneBone->getTransformMatrix();
 	}
@@ -249,7 +249,7 @@ static void CalcInfluencedNormal(
 			const CalCoreSubmesh::Influence& influence = vectorInfluence[influenceId];
 			
 			// get the bone of the influence vertex
-			CalBone *pBone = vectorBone[influence.boneId];
+			const CalBone *pBone = vectorBone[influence.boneId];
 			
 			// Get the dual quaternion for the rotation part of the bonespace
 			// transform
@@ -294,10 +294,10 @@ int CalPhysiqueDualQuat::calculateVertices(CalSubmesh *pSubmesh, float *pVertexB
 	}
 
 	// get bone vector of the skeleton
-	std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	CalBone ** vectorBone = &m_pModel->getSkeleton()->getVectorBone()[0];
 
 	// get vertex vector of the core submesh
-	std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
+	const CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];
 
 	// get physical property vector of the core submesh
 	std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty =
@@ -323,7 +323,7 @@ int CalPhysiqueDualQuat::calculateVertices(CalSubmesh *pSubmesh, float *pVertexB
 	for (vertexId = 0; vertexId < vertexCount; ++vertexId)
 	{
 		// get the vertex
-		CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+		const CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
 
 		// blend the morph targets
 		CalVector morphedPosition;
@@ -385,10 +385,10 @@ int CalPhysiqueDualQuat::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBu
 	}
 
 	// get bone vector of the skeleton
-	std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	CalBone ** vectorBone = &m_pModel->getSkeleton()->getVectorBone()[0];
 
 	// get vertex vector of the submesh
-	std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
+	const CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];
 
 	// get the number of vertices
 	const int vertexCount = pSubmesh->getVertexCount();
@@ -405,7 +405,7 @@ int CalPhysiqueDualQuat::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBu
 	for (vertexId = 0; vertexId < vertexCount; ++vertexId)
 	{
 		// get the vertex
-		CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+		const CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
 
 		// blend the morph targets
 		CalVector morphedNormal;
@@ -457,7 +457,7 @@ int CalPhysiqueDualQuat::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float
 	}
 
 	// get bone vector of the skeleton
-	std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	CalBone ** vectorBone = &m_pModel->getSkeleton()->getVectorBone()[0];
 
 	// get vertex vector of the core submesh
 	const CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];
@@ -568,7 +568,7 @@ int CalPhysiqueDualQuat::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float
 int CalPhysiqueDualQuat::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords)
 {
 	// get bone vector of the skeleton
-	std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+	CalBone ** vectorBone = &m_pModel->getSkeleton()->getVectorBone()[0];
 
 	// get vertex vector of the core submesh
 	const CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];

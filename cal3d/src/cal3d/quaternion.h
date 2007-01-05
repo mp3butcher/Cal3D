@@ -70,16 +70,13 @@ public:
 	
 	inline void operator*=(const CalQuaternion& q)
 	{
-		float qx, qy, qz, qw;
-		qx = x;
-		qy = y;
-		qz = z;
-		qw = w;
+		float mx( x ), my( y ), mz( z ), mw( w );
+		float qx(q.x), qy(q.y), qz(q.z), qw(q.w);
 		
-		x = qw * q.x + qx * q.w + qy * q.z - qz * q.y;
-		y = qw * q.y - qx * q.z + qy * q.w + qz * q.x;
-		z = qw * q.z + qx * q.y - qy * q.x + qz * q.w;
-		w = qw * q.w - qx * q.x - qy * q.y - qz * q.z;
+		x = mw * qx + mx * qw + my * qz - mz * qy;
+		y = mw * qy - mx * qz + my * qw + mz * qx;
+		z = mw * qz + mx * qy - my * qx + mz * qw;
+		w = mw * qw - mx * qx - my * qy - mz * qz;
 	}
 	
 	inline void operator+=(const CalQuaternion& q)
