@@ -148,6 +148,18 @@ static void GetUsedMorphTargetIDs( CalSubmesh *pSubmesh, std::vector<int>& outMo
 	}
 }
 
+static float CalcMorphBaseWeight( CalSubmesh *pSubmesh,  const std::vector<int>& morphIDs )
+{
+	float	baseWeight = 1.0f;
+	
+	for (std::vector<int>::const_iterator i = morphIDs.begin(); i != morphIDs.end(); ++i)
+	{
+		baseWeight -= pSubmesh->getMorphTargetWeight( *i );
+	}
+	
+	return baseWeight;
+}
+
 inline static void StoreVectorInBuffer( const CalVector& inVec, float* outBuffer )
 {
 	outBuffer[0] = inVec.x;
@@ -311,7 +323,7 @@ int CalPhysiqueDualQuat::calculateVertices(CalSubmesh *pSubmesh, float *pVertexB
 	GetUsedMorphTargetIDs( pSubmesh, morphIDs );
 
 	// calculate the base weight
-	float baseWeight = 1.0f - std::accumulate( morphIDs.begin(), morphIDs.end(), 0.0f );
+	float baseWeight = CalcMorphBaseWeight( pSubmesh, morphIDs );
 
 	// Check for spring case
 	bool	hasSpringsAndInternalData =
@@ -398,7 +410,7 @@ int CalPhysiqueDualQuat::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBu
 	GetUsedMorphTargetIDs( pSubmesh, morphIDs );
 
 	// calculate the base weight
-	float baseWeight = 1.0f - std::accumulate( morphIDs.begin(), morphIDs.end(), 0.0f );
+	float baseWeight = CalcMorphBaseWeight( pSubmesh, morphIDs );
 
 	// calculate normal for all submesh vertices
 	int vertexId;
@@ -473,7 +485,7 @@ int CalPhysiqueDualQuat::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float
 	GetUsedMorphTargetIDs( pSubmesh, morphIDs );
 
 	// calculate the base weight
-	float baseWeight = 1.0f - std::accumulate( morphIDs.begin(), morphIDs.end(), 0.0f );
+	float baseWeight = CalcMorphBaseWeight( pSubmesh, morphIDs );
 
 	// Check for spring case
 	bool	hasSpringsAndInternalData =
@@ -599,7 +611,7 @@ int CalPhysiqueDualQuat::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubme
 	GetUsedMorphTargetIDs( pSubmesh, morphIDs );
 
 	// calculate the base weight
-	float baseWeight = 1.0f - std::accumulate( morphIDs.begin(), morphIDs.end(), 0.0f );
+	float baseWeight = CalcMorphBaseWeight( pSubmesh, morphIDs );
 
 	// Check for spring case
 	bool	hasSpringsAndInternalData =
