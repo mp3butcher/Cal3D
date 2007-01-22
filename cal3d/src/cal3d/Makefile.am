@@ -76,6 +76,8 @@ libcal3d_la_SOURCES = \
 	model.cpp \
 	morphtargetmixer.cpp \
 	physique.cpp \
+	physiquedualquaternion.cpp \
+	dualquaternion.cpp \
 	platform.cpp \
 	quaternion.cpp \
 	renderer.cpp \
@@ -88,7 +90,7 @@ libcal3d_la_SOURCES = \
 	tinyxml.cpp \
 	tinyxmlerror.cpp \
 	tinyxmlparser.cpp \
-	coremorphanimation.cpp
+	coremorphanimation.cpp 
 
 libcal3d_la_LDFLAGS = -no-undefined -version-info $(VERSION_INFO) 
 
@@ -122,6 +124,8 @@ pkginclude_HEADERS = \
 	model.h \
 	morphtargetmixer.h \
 	physique.h \
+	physiquedualquaternion.h \
+	dualquaternion.h \
 	platform.h \
 	quaternion.h \
 	refcounted.h \
