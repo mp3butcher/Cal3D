@@ -91,6 +91,10 @@
 		65F7B1A50A56AF9A00F548C1 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B14D0A56AF9A00F548C1 /* vector.cpp */; };
 		65F7B1A60A56AF9A00F548C1 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B14E0A56AF9A00F548C1 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D07F2C00486CC7A007CD1D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		BE1C6EDA0B65282A002AD7F3 /* dualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6ED80B65282A002AD7F3 /* dualquaternion.h */; };
+		BE1C6EDB0B65282A002AD7F3 /* dualquaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1C6ED90B65282A002AD7F3 /* dualquaternion.cpp */; };
+		BE1C6EDE0B652875002AD7F3 /* physiquedualquaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1C6EDC0B652875002AD7F3 /* physiquedualquaternion.cpp */; };
+		BE1C6EDF0B652875002AD7F3 /* physiquedualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6EDD0B652875002AD7F3 /* physiquedualquaternion.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -180,6 +184,10 @@
 		65F7B14E0A56AF9A00F548C1 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		8D07F2C70486CC7A007CD1D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D07F2C80486CC7A007CD1D0 /* cal3d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cal3d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE1C6ED80B65282A002AD7F3 /* dualquaternion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dualquaternion.h; sourceTree = "<group>"; };
+		BE1C6ED90B65282A002AD7F3 /* dualquaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = dualquaternion.cpp; sourceTree = "<group>"; };
+		BE1C6EDC0B652875002AD7F3 /* physiquedualquaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = physiquedualquaternion.cpp; sourceTree = "<group>"; };
+		BE1C6EDD0B652875002AD7F3 /* physiquedualquaternion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = physiquedualquaternion.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +276,8 @@
 				65F7B11B0A56AF9A00F548C1 /* coretrack.cpp */,
 				65F7B11C0A56AF9A00F548C1 /* coretrack.h */,
 				65F7B11D0A56AF9A00F548C1 /* datasource.h */,
+				BE1C6ED90B65282A002AD7F3 /* dualquaternion.cpp */,
+				BE1C6ED80B65282A002AD7F3 /* dualquaternion.h */,
 				65F7B11E0A56AF9A00F548C1 /* error.cpp */,
 				65F7B11F0A56AF9A00F548C1 /* error.h */,
 				65F7B1200A56AF9A00F548C1 /* global.cpp */,
@@ -288,6 +298,8 @@
 				65F7B1310A56AF9A00F548C1 /* morphtargetmixer.h */,
 				65F7B1320A56AF9A00F548C1 /* physique.cpp */,
 				65F7B1330A56AF9A00F548C1 /* physique.h */,
+				BE1C6EDC0B652875002AD7F3 /* physiquedualquaternion.cpp */,
+				BE1C6EDD0B652875002AD7F3 /* physiquedualquaternion.h */,
 				65F7B1340A56AF9A00F548C1 /* platform.cpp */,
 				65F7B1350A56AF9A00F548C1 /* platform.h */,
 				65F7B1360A56AF9A00F548C1 /* quaternion.cpp */,
@@ -370,6 +382,8 @@
 				65F7B1A10A56AF9A00F548C1 /* tinyxml.h in Headers */,
 				65F7B1A40A56AF9A00F548C1 /* transform.h in Headers */,
 				65F7B1A60A56AF9A00F548C1 /* vector.h in Headers */,
+				BE1C6EDA0B65282A002AD7F3 /* dualquaternion.h in Headers */,
+				BE1C6EDF0B652875002AD7F3 /* physiquedualquaternion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +491,8 @@
 				65F7B1A20A56AF9A00F548C1 /* tinyxmlerror.cpp in Sources */,
 				65F7B1A30A56AF9A00F548C1 /* tinyxmlparser.cpp in Sources */,
 				65F7B1A50A56AF9A00F548C1 /* vector.cpp in Sources */,
+				BE1C6EDB0B65282A002AD7F3 /* dualquaternion.cpp in Sources */,
+				BE1C6EDE0B652875002AD7F3 /* physiquedualquaternion.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
