@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # $Id$
 
 import Blender
@@ -7,8 +8,7 @@ import bcconf
 
 CALLBACK = lambda *a, **k: None
 UI       = [None] * 11
-IMAGE    = Blender.Image.Load(os.path.join(Blender.Get("scriptsdir"), "blendercal", "logo.png"))
-
+IMAGE    = None
 (
 	EV_AUTHOR,
 	EV_PREPEND,
@@ -173,6 +173,10 @@ def InterfaceDraw():
 		"Weee!"
 	)
 
+	global IMAGE
+	if not IMAGE:
+		# Don't load the logo if used in non-GUI mode
+		IMAGE = Blender.Image.Load(os.path.join(Blender.Get("scriptsdir"), "blendercal", "logo.png"))
 	Blender.Draw.Image(IMAGE, 145, 65)
 
 	Blender.BGL.glDisable(Blender.BGL.GL_BLEND)

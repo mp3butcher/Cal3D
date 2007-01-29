@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # $Id$
 
 import Blender
@@ -569,6 +570,9 @@ class Vertex(Cal3DObject):
 			str(self.num_faces)
 		)
 
+		loc = loc * bcconf.SCALE
+		normal = normal * bcconf.SCALE
+
 		return """\
 			##<VERTEX ID="%s" NUMINFLUENCES="%s">
 			###<POS>%s %s %s</POS>
@@ -667,10 +671,16 @@ class Bone(Cal3DObject):
 		# and cal3d rotations are counterclockwise
 		
 		local     = blendercal.MATRIX2GL(self.local)
+
+		local = local * bcconf.SCALE
+
 		localloc  = local.translationPart()
 		localrot  = local.toQuat()
 		invert    = blendercal.MATRIX2GL(self.invert)
 		invertloc = invert.translationPart()
+
+		invertloc = invertloc * bcconf.SCALE
+
 		invertrot = invert.toQuat()
 
 		return """\
@@ -753,6 +763,9 @@ class KeyFrame(Cal3DObject):
 		track.keyframes.append(self)
   
 	def XML(self):
+
+		self.loc = self.loc * bcconf.SCALE
+		
 		return """\
 			##<KEYFRAME TIME="%s">
 			###<TRANSLATION>%s %s %s</TRANSLATION>

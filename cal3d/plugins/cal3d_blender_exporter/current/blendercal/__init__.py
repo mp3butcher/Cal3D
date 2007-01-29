@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # $Id$
 
 import bcconf
@@ -39,6 +40,8 @@ influence from Loic Dachary, especially in the bcdata.AnimationData().
 # A decorator to catch any exception semi-gracefully. Sometiem later
 # this will create a Blender panel to show the exception.
 def exception(function):
+	return function
+
 	def exceptionDecorator(*args, **kargs):
 		try:
 			return function(*args, **kargs)
@@ -72,15 +75,16 @@ def ParseArgs(parse):
 			print ">>", a, "=", v
 
 			{
-				"FILENAME":  lambda: setattr(bcconf, a, v),
-				"EXPORTGL":  lambda: setattr(bcconf, a, str2bool(v)),
-				"FLOATPRE":  lambda: setattr(bcconf, a, int(v)),
-				"XMLINDENT": lambda: setattr(bcconf, a, int(v)),
-				"ANIMFPS":   lambda: setattr(bcconf, a, float(v)),
-				"AUTHOR":    lambda: setattr(bcconf, a, v),
-				"PREPEND":   lambda: setattr(bcconf, a, v),
-				"LOD":       lambda: setattr(bcconf, a, str2bool(v)),
-				"EXTRADATA": lambda: setattr(bcconf, a, str2bool(v))
+				"FILENAME":    lambda: setattr(bcconf, a, v),
+				"EXPORTGL":    lambda: setattr(bcconf, a, str2bool(v)),
+				"FLOATPRE":    lambda: setattr(bcconf, a, int(v)),
+				"XMLINDENT":   lambda: setattr(bcconf, a, int(v)),
+				"ANIMFPS":     lambda: setattr(bcconf, a, float(v)),
+				"AUTHOR":      lambda: setattr(bcconf, a, v),
+				"PREPEND":     lambda: setattr(bcconf, a, v),
+				"LOD":         lambda: setattr(bcconf, a, str2bool(v)),
+				"EXTRADATA":   lambda: setattr(bcconf, a, str2bool(v)),
+				"SUBMESHMODE": lambda: setattr(bcconf, a, v),
 			}[a]()
 
 	# Return args; since this will be False by default, we'll use this

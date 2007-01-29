@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # $Id$
 
 # Rather than ask the user to change these variables directly, the user
@@ -17,3 +18,5 @@ ANIMFPS   = 25.0
 EXPORTGL  = False
 LOD       = False
 EXTRADATA = False
+SUBMESHMODE = "group" # "group" (one submesh per group) or "object" (one submesh per object)
+SCALE = 1.0

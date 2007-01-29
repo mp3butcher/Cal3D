@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: t -*-
 # $Id$
 
 # The purpose of this module is to provide methods by which the caller can easily
@@ -46,8 +47,7 @@ def SkeletonData():
 	for obj, data in __yieldBlenderObj("Armature"):
 		rootbones = [b for b in data.bones.values() if not b.hasParent()]
 
-		# Use the first rootbone we find, even if there are multiples.
-		len(rootbones) and __recurseBone(rootbones[0], obj.getMatrix())
+		for rootbone in rootbones: __recurseBone(rootbone, obj.getMatrix())
 		
 		# Set the ARMATURE variable for use later in Animations.
 		bcobject.Skeleton.ARMATURE = obj
@@ -90,7 +90,7 @@ def MeshData():
 			return self.index, self.uvco[0], self.uvco[1]
 
 	# A function to split our faces into triangles and convert the vertices into
-	# our HasableVert class.
+	# our HashableVert class.
 	def __triFaces(f, hasUV):
 		nulluv = lambda n: [(None, None)] * n
 	
@@ -127,31 +127,33 @@ def MeshData():
 		# - A vertex needs to be appended (and then it's index) if it doesn't
 		#   appear in the lookup dictionary.
 		# - An index HAS to be appended.
-		for vert in reduce(lambda x, y: x + y, [__triFaces(f, hasUV) for f in faces]):
-			key = vert.MakeKey()
+		trifaces = [__triFaces(f, hasUV) for f in faces]
+		if trifaces:
+			for vert in reduce(lambda x, y: x + y, trifaces):
+				key = vert.MakeKey()
 
-			# If we can't find the "key" in the lookup dictionary, add
-			# it to the vertices list and put it's index back into the
-			# lookup table.
-			if not key in lookup:
-				lookup[key] = i = len(vertices)
+				# If we can't find the "key" in the lookup dictionary, add
+				# it to the vertices list and put it's index back into the
+				# lookup table.
+				if not key in lookup:
+					lookup[key] = i = len(vertices)
 
-				vertices.append(vert)
+					vertices.append(vert)
 			
-			# Otherwise, just get the index to be appended to the indices
-			# list, to be handled later.
-			else:
-				i = lookup[key]
+				# Otherwise, just get the index to be appended to the indices
+				# list, to be handled later.
+				else:
+					i = lookup[key]
 
-			if not vert.index in duplookup:
-				duplookup[vert.index] = vert
+				if not vert.index in duplookup:
+					duplookup[vert.index] = vert
 
-			else:
-				if vert.uvco != duplookup[vert.index].uvco:
-					dupindices[vert.index] = True
-					dupindices[i] = True
+				else:
+					if vert.uvco != duplookup[vert.index].uvco:
+						dupindices[vert.index] = True
+						dupindices[i] = True
 
-			indices.append(i)
+				indices.append(i)
 
 		return indices, vertices, dupindices
 
@@ -204,12 +206,14 @@ def MeshData():
 						specular,
 						mapnames
 					)
-					
-					if firstmaterial:
-						submeshmaterial = material
-					
-					firstmaterial = False
+				else:
+					material = bcobject.Material.MATERIALS[m.name]
 
+				if firstmaterial:
+					submeshmaterial = material
+					
+				firstmaterial = False
+				
 			submesh = bcobject.SubMesh(mesh, submeshmaterial)
 			
 			ilist, vlist, dupdict = __createIndexVertexLists(
@@ -273,7 +277,13 @@ def MeshData():
 	# one mesh with all objects of the file as submeshes.
 	#
 	# TODO: Perhaps make this choice user-configurable?
-	if len(Blender.Group.Get()):
+	if bcconf.SUBMESHMODE == "object":
+		for obj, data in __yieldBlenderObj("Mesh"):
+			mesh = bcobject.Mesh(obj.name)
+			meshes.append(mesh)
+			__createSubMeshes(mesh, [obj])
+
+	elif len(Blender.Group.Get()):
 		for group in Blender.Group.Get():
 			mesh = bcobject.Mesh(group.name)
 			
@@ -318,8 +328,9 @@ def AnimationData():
 			
 				name2ipo[iponame] = ipo
 
+		if not frames: continue
 		frames.sort()
-
+    
 		animation.duration = frames[-1]
 
 		# Move the armature to the keyframe "times" and grab the data we
@@ -330,9 +341,9 @@ def AnimationData():
 			track    = bcobject.Track(animation, bone)
 			
 			animation.tracks[bonename] = track
-
+      
 			blenderbone = bcobject.Skeleton.ARMATURE.getPose().bones[iponame]
-		
+      
 			# Before versions 242 you would build Loc/Quat values using
 			# Ipo.evaluate(); no need for that now.
 			for curframe in frames:
