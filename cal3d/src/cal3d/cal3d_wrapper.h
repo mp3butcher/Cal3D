@@ -370,6 +370,7 @@ extern "C"
   CAL3D_WRAPPER_API int CalCoreSubmesh_GetFaceCount(struct CalCoreSubmesh *self);
   CAL3D_WRAPPER_API int CalCoreSubmesh_GetLodCount(struct CalCoreSubmesh *self);
   CAL3D_WRAPPER_API int CalCoreSubmesh_GetSpringCount(struct CalCoreSubmesh *self);
+  CAL3D_WRAPPER_API const CalIndex* CalCoreSubmesh_GetFaces( struct CalCoreSubmesh *self );
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh::Face>& CalCoreSubmesh_GetVectorFace(struct CalCoreSubmesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh_GetVectorPhysicalProperty(struct CalCoreSubmesh *self);
 //  CAL3D_WRAPPER_API std::vector<CalCoreSubmesh::Spring>& CalCoreSubmesh_GetVectorSpring(struct CalCoreSubmesh *self);

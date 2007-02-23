@@ -1344,6 +1344,13 @@ int CalCoreSubmesh_AddSubMorphTarget( CalCoreSubmesh *self, CalCoreSubMorphTarge
 	return morphTargetID;
 }
 
+
+const CalIndex* CalCoreSubmesh_GetFaces( struct CalCoreSubmesh *self )
+{
+	return &self->getVectorFace()[0].vertexId[0];
+}
+
+
 //****************************************************************************//
 // CalCoreSubMorphTargetDiffMap wrapper functions definition                  //
 //****************************************************************************//
