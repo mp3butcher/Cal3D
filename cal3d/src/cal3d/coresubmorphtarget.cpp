@@ -188,11 +188,11 @@ bool CalSharedDifferenceMap::reserve(int blendVertexCount)
 bool CalSharedDifferenceMap::appendBlendVertex(int vertexID,
 	const CalCoreSubMorphTarget::BlendVertex& vertex)
 {
-	if ( (vertexID < 0) or (m_vectorVertexIndex.size() >= m_vectorVertexIndex.capacity()) )
+	if ( (vertexID < 0) || (m_vectorVertexIndex.size() >= m_vectorVertexIndex.capacity()) )
 	{
 		return false;
 	}
-	if ( (not m_vectorVertexIndex.empty()) and (m_vectorVertexIndex.back() >= vertexID) )
+	if ( (! m_vectorVertexIndex.empty()) && (m_vectorVertexIndex.back() >= vertexID) )
 	{
 		return false;
 	}
@@ -235,19 +235,19 @@ bool	CalSharedDifferenceMap::getBlendVertex( int vertexId,
 	// and
 	// either m_NextIndex == 0 or vertexId > m_vectorVertexIndex[ m_NextIndex - 1 ].
 	// Make sure that condition holds.
-	while ( (m_NextIndex < m_vectorVertexIndexSize) and
+	while ( (m_NextIndex < m_vectorVertexIndexSize) &&
 		(vertexId > m_vectorVertexIndexPtr[ m_NextIndex ]) )
 	{
 		m_NextIndex += 1;
 	}
-	while ( (m_NextIndex > 0) and (vertexId <= m_vectorVertexIndexPtr[ m_NextIndex - 1 ]) )
+	while ( (m_NextIndex > 0) && (vertexId <= m_vectorVertexIndexPtr[ m_NextIndex - 1 ]) )
 	{
 		m_NextIndex -= 1;
 	}
 	
 	bool	didFind = false;
 	
-	if ( (m_NextIndex < m_vectorVertexIndexSize) and
+	if ( (m_NextIndex < m_vectorVertexIndexSize) &&
 		(vertexId == m_vectorVertexIndexPtr[ m_NextIndex ] ) )
 	{
 		outVertex = m_vectorBlendVertexPtr[ m_NextIndex ];
@@ -257,7 +257,7 @@ bool	CalSharedDifferenceMap::getBlendVertex( int vertexId,
 	return didFind;
 }
 
-#pragma mark -
+//#pragma mark -
 
 CalCoreSubMorphTargetDiffMap::CalCoreSubMorphTargetDiffMap()
 	: m_diffMap( new CalSharedDifferenceMap )

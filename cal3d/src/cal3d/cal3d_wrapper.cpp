@@ -220,7 +220,7 @@ CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* mo
 	
 	CalCoreBone*	coreBone = self->getCoreBone();
 	
-	if (not coreBone->isBoundingBoxPrecomputed())
+	if (!coreBone->isBoundingBoxPrecomputed())
 	{
 		coreBone->calculateBoundingBox( model );
 	}
@@ -414,7 +414,7 @@ CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreM
 {
 	CalBoolean	gotBounds = False;
 	
-	if (not self->isBoundingBoxPrecomputed())
+	if (! self->isBoundingBoxPrecomputed())
 	{
 		self->calculateBoundingBox( model );
 	}
@@ -1151,7 +1151,7 @@ CalCoreBone *CalCoreSkeleton_GetRootCoreBone(CalCoreSkeleton *self, int rootBone
 {
 	CalCoreBone*	theBone = NULL;
 	std::vector<int>&	rootIDs( self->getVectorRootCoreBoneId() );
-	if ( (rootBoneIndex >= 0) and (rootBoneIndex < rootIDs.size()) )
+	if ( (rootBoneIndex >= 0) && (rootBoneIndex < rootIDs.size()) )
 	{
 		int	boneID = rootIDs[ rootBoneIndex ];
 		theBone = CalCoreSkeleton_GetCoreBone( self, boneID );
@@ -1257,7 +1257,7 @@ CalCoreSubmesh *CalCoreSubmesh_New()
 void CalCoreSubmesh_GetVertex( struct CalCoreSubmesh* self, int vertID, float* outPosition, float* outNormal )
 {
 	std::vector<CalCoreSubmesh::Vertex>&	vertices( self->getVectorVertex() );
-	if ( (vertID >= 0) and (vertID < vertices.size()) )
+	if ( (vertID >= 0) && (vertID < vertices.size()) )
 	{
 		CalCoreSubmesh::Vertex&		theVertex( vertices[ vertID ] );
 		

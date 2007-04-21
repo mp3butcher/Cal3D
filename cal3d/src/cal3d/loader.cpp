@@ -343,7 +343,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkele
 
 CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 {
-	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<MATERIAL", 9 ) == 0) )
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<MATERIAL", 9 ) == 0) )
 	{
 		cal3d::TiXmlDocument	doc;
 		doc.Parse( static_cast<const char*>(inputBuffer) );
@@ -376,7 +376,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 
 CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
 {
-	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<MESH", 5 ) == 0) )
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<MESH", 5 ) == 0) )
 	{
 		TiXmlDocument	doc;
 		doc.Parse( static_cast<const char*>(inputBuffer) );
@@ -409,7 +409,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
 
 CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(void* inputBuffer)
 {
-	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) or (memcmp( inputBuffer, "<SKELETON", 9 ) == 0) )
+	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<SKELETON", 9 ) == 0) )
 	{
 		TiXmlDocument	doc;
 		doc.Parse( static_cast<const char*>(inputBuffer) );

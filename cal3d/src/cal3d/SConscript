@@ -16,6 +16,7 @@ sources = Split("""
     coreskeleton.cpp
     coresubmesh.cpp
     coresubmorphtarget.cpp
+    dualquaternion.cpp
     error.cpp
     global.cpp
     hardwaremodel.cpp
@@ -26,6 +27,7 @@ sources = Split("""
     model.cpp
     morphtargetmixer.cpp
     physique.cpp
+    physiquedualquaternion.cpp
     platform.cpp
     quaternion.cpp
     renderer.cpp
