@@ -63,7 +63,6 @@ def MeshData():
 	# one Mesh+SubMesh combo per item in the list, though it would also be possible
 	# to have all meshes in the scene be SubMeshes of a single Mesh returned
 	# by this function.
-
 	meshes = []
 
 	# This class serves as a kind of "temporary" vertex class that we will use
@@ -128,6 +127,7 @@ def MeshData():
 		#   appear in the lookup dictionary.
 		# - An index HAS to be appended.
 		trifaces = [__triFaces(f, hasUV) for f in faces]
+		
 		if trifaces:
 			for vert in reduce(lambda x, y: x + y, trifaces):
 				key = vert.MakeKey()
@@ -206,6 +206,7 @@ def MeshData():
 						specular,
 						mapnames
 					)
+				
 				else:
 					material = bcobject.Material.MATERIALS[m.name]
 

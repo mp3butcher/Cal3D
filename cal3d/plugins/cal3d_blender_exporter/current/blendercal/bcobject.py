@@ -6,10 +6,8 @@ import blendercal
 import bcconf
 import bcgui
 
-# We use immutable sets in the LOD algorithm
-# to identify unique edges and faces. Immutable
-# sets are handy for identification because they're
-# hashable and unordered.
+# We use immutable sets in the LOD algorithm to identify unique edges and faces. Immutable
+# sets are handy for identification because they're hashable and unordered.
 from sets import ImmutableSet
 
 CONCAT = lambda s, j="": j.join(str(v) for v in s)
@@ -200,13 +198,19 @@ class SubMesh(Cal3DObject):
 	class LODFace:
 		def __init__(self, verts, fid):
 			self.verts = verts
-			vertset = ImmutableSet((self.verts[0].id, self.verts[1].id, self.verts[2].id))
+			
+			vertset = ImmutableSet((
+				self.verts[0].id,
+				self.verts[1].id,
+				self.verts[2].id
+			))
+			
 			for vert in self.verts:
 				vert.faces[self.getHashableSet()] = self
 
-			self.id = fid
-
+			self.id    = fid
 			self.edges = []
+
 			self.RefactorArea()
 
 			self.dead = False
@@ -219,9 +223,14 @@ class SubMesh(Cal3DObject):
 #			self.RefactorArea()
 
 		def RefactorArea(self):
-			crossp = Blender.Mathutils.CrossVecs(self.verts[1].getloc() - self.verts[2].getloc(),
-							     self.verts[0].getloc() - self.verts[2].getloc())
-			self.area = (1./2.)*((crossp.x**2 + crossp.y**2 + crossp.z**2)**(1./2.))
+			crossp = Blender.Mathutils.CrossVecs(
+				self.verts[1].getloc() - self.verts[2].getloc(),
+				self.verts[0].getloc() - self.verts[2].getloc()
+			)
+			
+			self.area = (1.0 / 2.0) * (
+				(crossp.x ** 2 + crossp.y ** 2 + crossp.z ** 2) ** (1.0 / 2.0)
+			)
 
 		def getHashableSet(self):
 			return ImmutableSet((self.verts[0].id, self.verts[1].id, self.verts[2].id))
@@ -232,16 +241,12 @@ class SubMesh(Cal3DObject):
 			self.v1 = v1
 			self.v2 = v2
 			vertset = ImmutableSet((self.v1.id, self.v2.id))
+			
 			self.v1.edges[vertset] = self
 			self.v2.edges[vertset] = self
 
 			# Get faces common for both v1 and v2
-			self.faces = []
-			#for key in filter(self.v1.faces.__contains__, self.v2.faces):
-			#	face = self.v1.faces[key]
-				#self.faces[ImmutableSet((face.verts[0].id, face.verts[1].id, face.verts[2].id))] = face
-			#	self.faces.append(face)
-
+			self.faces           = []
 			self.collapsed_faces = {}
 
 			self.RefactorLength()
@@ -251,6 +256,7 @@ class SubMesh(Cal3DObject):
 		def getOtherVert(self, vertex):
 			if vertex == self.v1:
 				return self.v2
+
 			elif vertex == self.v2:
 				return self.v1
 
@@ -274,6 +280,7 @@ class SubMesh(Cal3DObject):
 
 			# Get total area of faces surrounding edge
 			area = 0
+			
 			for face in self.faces:
 				area += face.area
 
@@ -339,12 +346,6 @@ class SubMesh(Cal3DObject):
 						edge.dead = True
 
 
-#			for face in self.faces:
-#				face.dead = True
-#				for edge in face.edges:
-#					if (edge.v1 != self.v2) and (edge.v2 != self.v2):
-#						edge.dead = True
-#						self.v1.face_collapses += 1
 			# Refactor area of all non-dead faces on vertex 1
 			for face in self.v1.getfaces():
 				if not face.dead:
@@ -405,8 +406,10 @@ class SubMesh(Cal3DObject):
 				imset = ImmutableSet((lodface.verts[e[0]].id, lodface.verts[e[1]].id))
 				if not LODedges.has_key(imset):
 					#Create edge
-					lodedge = self.LODEdge(lodface.verts[e[0]],
-							       lodface.verts[e[1]])
+					lodedge = self.LODEdge(
+						lodface.verts[e[0]],
+						lodface.verts[e[1]]
+					)
 					LODedges[imset] = lodedge
 					lodface.edges.append(lodedge)
 					lodedge.faces.append(lodface)
@@ -419,8 +422,6 @@ class SubMesh(Cal3DObject):
 
 		if num_edges:
 			avg_length = total_length / float(num_edges)
-#		print total_length
-#		print avg_length
 
 
 		# Step two. Calculate initial weights of all edges.
@@ -428,7 +429,6 @@ class SubMesh(Cal3DObject):
 		for edge in LODedges.values():
 			progressbar.increment()
 			edge.RefactorWeight()
-#			print edge.weight
 
 		# Order edges in list after weights
 		LODedgelist = LODedges.values()
@@ -513,10 +513,6 @@ class SubMesh(Cal3DObject):
 			CONCAT(self.springs),
 			CONCAT(self.faces)
 		)
-
-#class Progress:
-#	self.progress = 0.0
-#	self.
 
 class Map(Cal3DObject):
 	def __init__(self, uv):

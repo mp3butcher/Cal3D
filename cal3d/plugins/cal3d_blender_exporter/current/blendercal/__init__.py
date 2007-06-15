@@ -5,7 +5,7 @@ import bcconf
 import Blender.Mathutils
 
 VERSION   = "0.0.1"
-AUTHOR    = "Jeremy Moles, Palle Raabjerg"
+AUTHOR    = "Jeremy Moles, Palle Raabjerg, Jean-Baptiste Lamy"
 EMAIL     = "jeremy@emperorlinux.com, palle@user-friendly.dk"
 URL       = "http://gna.org/projects/cal3d"
 ROT90X    = Blender.Mathutils.RotationMatrix(90, 4, "x")
@@ -40,8 +40,6 @@ influence from Loic Dachary, especially in the bcdata.AnimationData().
 # A decorator to catch any exception semi-gracefully. Sometiem later
 # this will create a Blender panel to show the exception.
 def exception(function):
-	return function
-
 	def exceptionDecorator(*args, **kargs):
 		try:
 			return function(*args, **kargs)
@@ -55,9 +53,8 @@ def exception(function):
 # values in bcconf.
 @exception
 def ParseArgs(parse):
-	args  = []
-	strip = lambda s: s.rstrip().lstrip().replace("\t", "").replace("\n", "")
-
+	args     = []
+	strip    = lambda s: s.rstrip().lstrip().replace("\t", "").replace("\n", "")
 	str2bool = lambda s: s.lower() == "true" or s == "1"
 
 	for arg in parse:
