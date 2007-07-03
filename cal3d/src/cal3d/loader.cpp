@@ -1110,9 +1110,10 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 
 	// load all vertices and their influences
 	int vertexId;
+	std::vector<CalCoreSubmesh::Vertex>&	vertexVector( pCoreSubmesh->getVectorVertex() );
 	for(vertexId = 0; vertexId < vertexCount; ++vertexId)
 	{
-		CalCoreSubmesh::Vertex vertex;
+		CalCoreSubmesh::Vertex& vertex( vertexVector[ vertexId ] );
 
 		// load data of the vertex
 		dataSrc.readFloat(vertex.position.x);
@@ -1166,7 +1167,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 		}
 
 		// reserve memory for the influences in the vertex
-		vertex.vectorInfluence.reserve(influenceCount);
 		vertex.vectorInfluence.resize(influenceCount);
 
 		// load all influences of the vertex
@@ -1184,9 +1184,6 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc)
 				return 0;
 			}
 		}
-
-		// set vertex in the core submesh instance
-		pCoreSubmesh->setVertex(vertexId, vertex);
 
 		// load the physical property of the vertex if there are springs in the core submesh
 		if(springCount > 0)
