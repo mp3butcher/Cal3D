@@ -26,13 +26,14 @@ CMaxMesh::CMaxMesh()
   m_pINode = 0;
   m_pIMesh = 0;
   m_bDelete = false;
+  m_pTriObjectToDelete = 0;
   m_modifierType = MODIFIER_NONE;
 }
 
 
 CMaxMesh::~CMaxMesh()
 {
-  if(m_bDelete) delete m_pIMesh;
+  if(m_bDelete) m_pTriObjectToDelete->DeleteMe();
 }
 
 //----------------------------------------------------------------------------//
@@ -55,7 +56,7 @@ bool CMaxMesh::AddBoneInfluence(CSkeletonCandidate *pSkeletonCandidate, CVertexC
 // Create a max node instance                                                 //
 //----------------------------------------------------------------------------//
 
-bool CMaxMesh::Create(INode *pINode, Mesh *pIMesh, bool bDelete)
+bool CMaxMesh::Create(INode *pINode, Mesh *pIMesh, TriObject* pTriObjectToDelete, bool bDelete)
 {
   // check for valid mesh
   if(pIMesh == 0)
@@ -66,11 +67,12 @@ bool CMaxMesh::Create(INode *pINode, Mesh *pIMesh, bool bDelete)
 
   m_pINode = pINode;
   m_pIMesh = pIMesh;
+  m_pTriObjectToDelete = pTriObjectToDelete;
   m_bDelete = bDelete;
 
   // recursively create materials
-  if(!CreateMaterial(m_pINode->GetMtl())) return false;
-
+  if(!CreateMaterial(m_pINode->GetMtl())) { m_bDelete = false; return false; }
+  
   // build all normals if necessary
   m_pIMesh->checkNormals(TRUE);
 
@@ -85,8 +87,10 @@ bool CMaxMesh::Create(INode *pINode, Mesh *pIMesh, bool bDelete)
     m_pModifier = FindSkinModifier(pINode);
     if(m_pModifier == 0)
     {
-      theExporter.SetLastError("No physique/skin modifier found.", __FILE__, __LINE__);
-      return false;
+		theExporter.SetLastError(
+			std::string("No physique/skin modifier found. ") + pINode->GetName(), __FILE__, __LINE__);
+		m_bDelete = false; // to not double delete mesh in dtor
+		return false;
     }
     else
     {

@@ -370,7 +370,7 @@ CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode)
 
   Mesh *pMesh = &pTriObject->mesh;
   
-  BOOL bDelete= false;
+  bool bDelete= false;
 
   if(os.obj != pTriObject)
     bDelete = true;
@@ -380,14 +380,15 @@ CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode)
   pMaxMesh = new CMaxMesh();
   if(pMaxMesh == 0)
   {
+    if(bDelete) pTriObject->DeleteMe();
     theExporter.SetLastError("Memory allocation failed.", __FILE__, __LINE__);
     return 0;
   }
 
   // create the max mesh
-  if(!pMaxMesh->Create(pMaxNode->GetINode(), pMesh, (bDelete == TRUE)))
+  if(!pMaxMesh->Create(pMaxNode->GetINode(), pMesh, pTriObject, (bDelete == true)))
   {
-    if(bDelete) delete pMesh;
+    if(bDelete) pTriObject->DeleteMe();
     delete pMaxMesh;
     return 0;
   }

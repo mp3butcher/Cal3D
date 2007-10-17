@@ -41,6 +41,7 @@ public:
 protected:
 	INode *m_pINode;
 	Mesh *m_pIMesh;
+	TriObject* m_pTriObjectToDelete;
 	bool m_bDelete;
 	std::vector<StdMat *> m_vectorStdMat;
 	Matrix3 m_tm;
@@ -54,7 +55,7 @@ public:
 
 // member functions
 public:
-	bool Create(INode *pINode, Mesh *pIMesh, bool bDelete);
+	bool Create(INode *pINode, Mesh *pIMesh, TriObject* pTriObjectToDelete, bool bDelete);
 	int GetFaceCount();
 	Mesh *GetIMesh();
 	int GetMaterialCount();
