@@ -73,6 +73,7 @@ namespace cal3d
     class TiXmlComment;
     class TiXmlUnknown;
     class TiXmlAttribute;
+    class TiXmlAttributeSet;
     class TiXmlText;
     class TiXmlDeclaration;
 
