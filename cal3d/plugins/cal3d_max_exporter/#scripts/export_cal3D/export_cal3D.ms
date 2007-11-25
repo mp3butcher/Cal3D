@@ -487,6 +487,10 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:400
 		skeletonfile = exportDir + "Skeleton."+expType+"SF"
 		try ( SRootsSet = for obj in selectionSets[ddlSkelSet.selected] collect obj )
 		catch ( return "The Named Selection Set that lists the skeleton roots is invalid" )
+
+		-- CJF: turn on figure mode!
+		SRootsSet[1].transform.controller.figuremode = true
+
 		res = exportcalskel skeletonfile SRootsSet off transform:chkTransform.checked
 		case res of
 		(
@@ -575,6 +579,10 @@ rollout cal3DexportR "Cal3D Multi-export" width:464 height:400
 				 7 : return "The Names Selection Set for the objects cointains invalid mesh nodes"
 			)
 		)
+
+		-- CJF: turn off figure mode
+		SRootsSet[1].transform.controller.figuremode = false
+
 		--	Animations
 		for anm in aList do
 		(
