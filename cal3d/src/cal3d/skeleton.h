@@ -20,29 +20,32 @@ class CalBone;
 class CAL3D_API CalSkeleton
 {
 public:
-  CalSkeleton(CalCoreSkeleton* pCoreSkeleton);
+  CalSkeleton(CalCoreSkeleton *pCoreSkeleton);
   ~CalSkeleton();
 
   void calculateState();
   void clearState();
   bool create(CalCoreSkeleton *pCoreSkeleton);
-  CalBone *getBone(int boneId) const;
-  CalCoreSkeleton *getCoreSkeleton() const;
+  CalBone *getBone(int boneId);
+  const CalBone *getBone(int boneId) const;
+  CalCoreSkeleton *getCoreSkeleton();
+  const CalCoreSkeleton *getCoreSkeleton() const;
   std::vector<CalBone *>& getVectorBone();
+  const std::vector<CalBone *>& getVectorBone() const;
   void lockState();
   void getBoneBoundingBox(float *min, float *max);
   void calculateBoundingBoxes();
 
   // DEBUG-CODE
-  int getBonePoints(float *pPoints);
-  int getBonePointsStatic(float *pPoints);
-  int getBoneLines(float *pLines);
-  int getBoneLinesStatic(float *pLines);
+  int getBonePoints(float *pPoints) const;
+  int getBonePointsStatic(float *pPoints) const;
+  int getBoneLines(float *pLines) const;
+  int getBoneLinesStatic(float *pLines) const;
 
 private:
-  CalCoreSkeleton *m_pCoreSkeleton;
+  CalCoreSkeleton       *m_pCoreSkeleton;
   std::vector<CalBone *> m_vectorBone;
-  bool m_isBoundingBoxesComputed;
+  bool                   m_isBoundingBoxesComputed;
 };
 
 #endif

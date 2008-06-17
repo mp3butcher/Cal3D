@@ -18,7 +18,7 @@
 #include "cal3d/animcallback.h"
 #include "cal3d/model.h"
 
-CalAnimation::CalAnimation(CalCoreAnimation* pCoreAnimation)
+CalAnimation::CalAnimation(CalCoreAnimation *pCoreAnimation)
   : m_pCoreAnimation(pCoreAnimation)
   , m_type(TYPE_NONE)
   , m_state(STATE_NONE)
@@ -43,10 +43,26 @@ CalAnimation::CalAnimation(CalCoreAnimation* pCoreAnimation)
   *
   * @return One of the following values:
   *         \li a pointer to the core animation
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreAnimation *CalAnimation::getCoreAnimation()
+{
+  return m_pCoreAnimation;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core animation.
+  *
+  * This function returns the core animation on which this animation instance
+  * is based on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreAnimation *CalAnimation::getCoreAnimation() const
 {
   return m_pCoreAnimation;
 }
@@ -150,7 +166,7 @@ float CalAnimation::getTimeFactor() const
     return m_timeFactor;
 }
 
-void CalAnimation::checkCallbacks(float animationTime,CalModel *model)
+void CalAnimation::checkCallbacks(float animationTime, CalModel *model)
 {
   std::vector<CalCoreAnimation::CallbackRecord>& list = m_pCoreAnimation->getCallbackList();
 

@@ -75,11 +75,17 @@ public:
   int getLodCount() const;
   int getSpringCount() const;
   std::vector<Face>& getVectorFace();
+  const std::vector<Face>& getVectorFace() const;
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
+  const std::vector<PhysicalProperty>& getVectorPhysicalProperty() const;
   std::vector<Spring>& getVectorSpring();
+  const std::vector<Spring>& getVectorSpring() const;
   std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
+  const std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace() const;
   std::vector<std::vector<TextureCoordinate> >& getVectorVectorTextureCoordinate();
+  const std::vector<std::vector<TextureCoordinate> >& getVectorVectorTextureCoordinate() const;
   std::vector<Vertex>& getVectorVertex();
+  const std::vector<Vertex>& getVectorVertex() const;
   int getVertexCount() const;
   bool isTangentsEnabled(int mapId) const;
   bool enableTangents(int mapId, bool enabled);
@@ -94,24 +100,26 @@ public:
   bool setVertex(int vertexId, const Vertex& vertex);
   int addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget);
   CalCoreSubMorphTarget *getCoreSubMorphTarget(int id);
+  const CalCoreSubMorphTarget *getCoreSubMorphTarget(int id) const;
   int getCoreSubMorphTargetCount() const;
   std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
+  const std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget() const;
   void scale(float factor);
 
 private:
   void UpdateTangentVector(int v0, int v1, int v2, int channel);
 
 private:
-  std::vector<Vertex> m_vectorVertex;
-  std::vector<bool> m_vectorTangentsEnabled;
-  std::vector<std::vector<TangentSpace> > m_vectorvectorTangentSpace;
+  std::vector<Vertex>                          m_vectorVertex;
+  std::vector<bool>                            m_vectorTangentsEnabled;
+  std::vector<std::vector<TangentSpace> >      m_vectorvectorTangentSpace;
   std::vector<std::vector<TextureCoordinate> > m_vectorvectorTextureCoordinate;
-  std::vector<PhysicalProperty> m_vectorPhysicalProperty;
-  std::vector<Face> m_vectorFace;
-  std::vector<Spring> m_vectorSpring;
-  std::vector<CalCoreSubMorphTarget *> m_vectorCoreSubMorphTarget;
-  int m_coreMaterialThreadId;
-  int m_lodCount;
+  std::vector<PhysicalProperty>                m_vectorPhysicalProperty;
+  std::vector<Face>                            m_vectorFace;
+  std::vector<Spring>                          m_vectorSpring;
+  std::vector<CalCoreSubMorphTarget *>         m_vectorCoreSubMorphTarget;
+  int                                          m_coreMaterialThreadId;
+  int                                          m_lodCount;
 };
 
 #endif

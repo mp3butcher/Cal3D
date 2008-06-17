@@ -57,7 +57,7 @@ CalCoreMesh::~CalCoreMesh()
   *
   * @return One of the following values:
   *         \li the assigned submesh \b ID of the added core submesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreMesh::addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh)
@@ -95,10 +95,33 @@ void CalCoreMesh::removeCoreSubmesh( int submeshID )
   *
   * @return One of the following values:
   *         \li a pointer to the core submesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSubmesh *CalCoreMesh::getCoreSubmesh(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorCoreSubmesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreSubmesh[id];
+}
+
+ /*****************************************************************************/
+/** Provides access to a core submesh.
+  *
+  * This function returns the core submesh with the given ID.
+  *
+  * @param id The ID of the core submesh that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core submesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSubmesh *CalCoreMesh::getCoreSubmesh(int id) const
 {
   if((id < 0) || (id >= (int)m_vectorCoreSubmesh.size()))
   {
@@ -138,6 +161,20 @@ std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh()
 }
 
  /*****************************************************************************/
+/** Returns the core submesh vector.
+  *
+  * This function returns the vector that contains all core submeshes of the
+  * core mesh instance.
+  *
+  * @return A reference to the core submesh vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh() const
+{
+  return m_vectorCoreSubmesh;
+}
+
+ /*****************************************************************************/
 /** Adds a core submesh.
   *
   * This function adds a core mesh as a blend target.
@@ -147,7 +184,7 @@ std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh()
   *
   * @return One of the following values:
   *         \li the assigned morph target \b ID of the added blend target
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)

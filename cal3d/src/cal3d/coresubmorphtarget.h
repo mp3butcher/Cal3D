@@ -31,21 +31,22 @@ public:
   CalCoreSubMorphTarget() : m_coreSubmesh( NULL ) { }
   virtual ~CalCoreSubMorphTarget() { }
   
-  virtual void	setCoreSubmesh( CalCoreSubmesh* inCoreSubmesh );
-  CalCoreSubmesh*		getCoreSubmesh() const;
+  virtual void setCoreSubmesh( CalCoreSubmesh *inCoreSubmesh );
+  const CalCoreSubmesh *getCoreSubmesh() const;
 
   int getBlendVertexCount() const;
   std::vector<BlendVertex>& getVectorBlendVertex();
+  const std::vector<BlendVertex>& getVectorBlendVertex() const;
   virtual bool reserve(int blendVertexCount);
   bool setBlendVertex(int vertexId, const BlendVertex& vertex);
 
   void	getBlendVertex( int vertexId, BlendVertex& outVertex ) const;
 
 private:
-			CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
-			
-	std::vector<BlendVertex>	m_vectorBlendVertex;
-	CalCoreSubmesh*				m_coreSubmesh;
+  CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
+
+  std::vector<BlendVertex>  m_vectorBlendVertex;
+  CalCoreSubmesh           *m_coreSubmesh;
 };
 
 // The difference map is reference counted because we can use the same difference
@@ -67,14 +68,14 @@ protected:
 			~CalSharedDifferenceMap() { }
 
 private:
-	std::vector<CalCoreSubMorphTarget::BlendVertex>		m_vectorBlendVertex;
-	std::vector<int>									m_vectorVertexIndex;
-	mutable	int											m_NextIndex;
-	
-	// performance optimization: direct access to vector size and arrays
-	mutable int											m_vectorVertexIndexSize;
-	mutable const int*									m_vectorVertexIndexPtr;
-	mutable const CalCoreSubMorphTarget::BlendVertex*	m_vectorBlendVertexPtr;
+  std::vector<CalCoreSubMorphTarget::BlendVertex>   m_vectorBlendVertex;
+  std::vector<int>                                  m_vectorVertexIndex;
+  mutable	int                                       m_NextIndex;
+
+  // performance optimization: direct access to vector size and arrays
+  mutable int                                       m_vectorVertexIndexSize;
+  mutable const int                                *m_vectorVertexIndexPtr;
+  mutable const CalCoreSubMorphTarget::BlendVertex *m_vectorBlendVertexPtr;
 };
 typedef cal3d::RefPtr<CalSharedDifferenceMap> CalSharedDifferenceMapPtr;
 

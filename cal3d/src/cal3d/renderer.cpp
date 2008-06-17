@@ -37,7 +37,7 @@
   * This function is the default constructor of the renderer instance.
   *****************************************************************************/
 
-CalRenderer::CalRenderer(CalModel* pModel)
+CalRenderer::CalRenderer(CalModel *pModel)
   : m_pSelectedSubmesh(0)
 {
   assert(pModel);
@@ -52,7 +52,7 @@ CalRenderer::CalRenderer(CalModel* pModel)
   * This is useful for multi-pipe parallel rendering.
   *****************************************************************************/
 
-CalRenderer::CalRenderer(CalRenderer* pRenderer)
+CalRenderer::CalRenderer(CalRenderer *pRenderer)
 {
   m_pModel = pRenderer->m_pModel ;
   m_pSelectedSubmesh = pRenderer->m_pSelectedSubmesh ;
@@ -107,7 +107,7 @@ void CalRenderer::endRendering()
   *                     data is written to.
   *****************************************************************************/
 
-void CalRenderer::getAmbientColor(unsigned char *pColorBuffer)
+void CalRenderer::getAmbientColor(unsigned char *pColorBuffer) const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -124,7 +124,7 @@ void CalRenderer::getAmbientColor(unsigned char *pColorBuffer)
   }
 
   // get the ambient color of the material
-  CalCoreMaterial::Color& color = pCoreMaterial->getAmbientColor();
+  const CalCoreMaterial::Color& color = pCoreMaterial->getAmbientColor();
 
   // write it to the color buffer
   pColorBuffer[0] = color.red;
@@ -143,7 +143,7 @@ void CalRenderer::getAmbientColor(unsigned char *pColorBuffer)
   *                     data is written to.
   *****************************************************************************/
 
-void CalRenderer::getDiffuseColor(unsigned char *pColorBuffer)
+void CalRenderer::getDiffuseColor(unsigned char *pColorBuffer) const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -160,7 +160,7 @@ void CalRenderer::getDiffuseColor(unsigned char *pColorBuffer)
   }
 
   // get the diffuse color of the material
-  CalCoreMaterial::Color& color = pCoreMaterial->getDiffuseColor();
+  const CalCoreMaterial::Color& color = pCoreMaterial->getDiffuseColor();
 
   // write it to the color buffer
   pColorBuffer[0] = color.red;
@@ -226,10 +226,43 @@ int CalRenderer::getMapCount() const
   *
   * @return One of the following values:
   *         \li the user data stored in the specified map
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 Cal::UserData CalRenderer::getMapUserData(int mapId)
+{
+  // get the core material
+  CalCoreMaterial *pCoreMaterial;
+  pCoreMaterial = m_pModel->getCoreModel()->getCoreMaterial(m_pSelectedSubmesh->getCoreMaterialId());
+  if(pCoreMaterial == 0) return 0;
+
+  // get the map vector
+  std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
+
+  // check if the map id is valid
+  if((mapId < 0) || (mapId >= (int)vectorMap.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return vectorMap[mapId].userData;
+}
+
+ /*****************************************************************************/
+/** Provides access to a specified map user data.
+  *
+  * This function returns the user data stored in the specified map of the
+  * material of the selected mesh/submesh.
+  *
+  * @param mapId The ID of the map.
+  *
+  * @return One of the following values:
+  *         \li the user data stored in the specified map
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const Cal::UserData CalRenderer::getMapUserData(int mapId) const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -280,7 +313,7 @@ int CalRenderer::getMeshCount() const
   *
   * @return The number of tangent space written to the buffer.
   *****************************************************************************/
-int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer, int stride)
+int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer, int stride) const
 {
   // get the texture coordinate vector vector
   std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& vectorvectorTangentSpace = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace();
@@ -337,7 +370,7 @@ int CalRenderer::getTangentSpaces(int mapId, float *pTangentSpaceBuffer, int str
   * @return The number of normals written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getNormals(float *pNormalBuffer, int stride)
+int CalRenderer::getNormals(float *pNormalBuffer, int stride) const
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -402,7 +435,7 @@ float CalRenderer::getShininess() const
   *                     data is written to.
   *****************************************************************************/
 
-void CalRenderer::getSpecularColor(unsigned char *pColorBuffer)
+void CalRenderer::getSpecularColor(unsigned char *pColorBuffer) const
 {
   // get the core material
   CalCoreMaterial *pCoreMaterial;
@@ -419,7 +452,7 @@ void CalRenderer::getSpecularColor(unsigned char *pColorBuffer)
   }
 
   // get the specular color of the material
-  CalCoreMaterial::Color& color = pCoreMaterial->getSpecularColor();
+  const CalCoreMaterial::Color& color = pCoreMaterial->getSpecularColor();
 
   // write it to the color buffer
   pColorBuffer[0] = color.red;
@@ -467,7 +500,7 @@ int CalRenderer::getSubmeshCount(int meshId) const
   * @return The number of texture coordinates written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer, int stride)
+int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffer, int stride) const
 {
   // get the texture coordinate vector vector
   std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTextureCoordinate();
@@ -540,7 +573,7 @@ bool CalRenderer::isTangentsEnabled(int mapId) const
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getVertices(float *pVertexBuffer, int stride)
+int CalRenderer::getVertices(float *pVertexBuffer, int stride) const
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -587,7 +620,7 @@ int CalRenderer::getVertices(float *pVertexBuffer, int stride)
   * @return The number of vertex written to the buffer.
   *****************************************************************************/
 
-int CalRenderer::getVerticesAndNormals(float *pVertexBuffer, int stride)
+int CalRenderer::getVerticesAndNormals(float *pVertexBuffer, int stride) const
 {
   // check if the submesh handles vertex data internally
   if(m_pSelectedSubmesh->hasInternalData())
@@ -635,7 +668,7 @@ int CalRenderer::getVerticesAndNormals(float *pVertexBuffer, int stride)
   *****************************************************************************/
 
 
-int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords)
+int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords) const
 {  
 
   // check if the submesh handles vertex data internally
@@ -721,7 +754,7 @@ int CalRenderer::getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexC
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalRenderer::selectMeshSubmesh(int meshId, int submeshId)
@@ -758,4 +791,5 @@ void CalRenderer::setNormalization(bool normalize)
 
 
 //****************************************************************************//
+
 

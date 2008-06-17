@@ -21,14 +21,14 @@ class CalModel;
 class CAL3D_API CalMorphTargetMixer
 {
 public:
-  CalMorphTargetMixer(CalModel* model);
+  CalMorphTargetMixer(CalModel *model);
   ~CalMorphTargetMixer() { }
 
   bool blend(int id, float weight, float delay);
   bool clear(int id, float delay);
   bool copy( const CalMorphTargetMixer& inOther );
   float getCurrentWeight(int id) const;
-  float getCurrentWeightBase();
+  float getCurrentWeightBase() const;
   int getMorphTargetCount() const;
   void update(float deltaTime);
 
@@ -36,7 +36,7 @@ private:
   std::vector<float> m_vectorCurrentWeight;
   std::vector<float> m_vectorEndWeight;
   std::vector<float> m_vectorDuration;
-  CalModel *m_pModel;
+  CalModel          *m_pModel;
 };
 
 #endif

@@ -37,7 +37,7 @@
   * This function is the default constructor of the model instance.
   *****************************************************************************/
 
-CalModel::CalModel(CalCoreModel* pCoreModel)
+CalModel::CalModel(CalCoreModel *pCoreModel)
   : m_pCoreModel(0)
   , m_pSkeleton(0)
   , m_pMixer(0)
@@ -49,15 +49,15 @@ CalModel::CalModel(CalCoreModel* pCoreModel)
 {
   assert(pCoreModel);
 
-  m_pCoreModel = pCoreModel;
-  m_pSkeleton = new CalSkeleton(pCoreModel->getCoreSkeleton());
-  m_pMixer = new CalMixer(this);
+  m_pCoreModel        = pCoreModel;
+  m_pSkeleton         = new CalSkeleton(pCoreModel->getCoreSkeleton());
+  m_pMixer            = new CalMixer(this);
   m_pMorphTargetMixer = new CalMorphTargetMixer(this);
-  m_pPhysique = new CalPhysique(this);
-  m_pSpringSystem = new CalSpringSystem(this);
-  m_pRenderer = new CalRenderer(this);
+  m_pPhysique         = new CalPhysique(this);
+  m_pSpringSystem     = new CalSpringSystem(this);
+  m_pRenderer         = new CalRenderer(this);
 
-  m_userData = 0;
+  m_userData          = 0;
 }
 
  /*****************************************************************************/
@@ -90,7 +90,7 @@ CalModel::~CalModel()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalModel::attachMesh(int coreMeshId)
@@ -145,7 +145,7 @@ bool CalModel::attachMesh(int coreMeshId)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalModel::detachMesh(int coreMeshId)
@@ -193,10 +193,26 @@ bool CalModel::detachMesh(int coreMeshId)
   *
   * @return One of the following values:
   *         \li a pointer to the core model
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreModel *CalModel::getCoreModel() const
+CalCoreModel *CalModel::getCoreModel()
+{
+  return m_pCoreModel;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core model.
+  *
+  * This function returns the core model on which this model instance is based
+  * on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core model
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreModel *CalModel::getCoreModel() const
 {
   return m_pCoreModel;
 }
@@ -210,10 +226,47 @@ CalCoreModel *CalModel::getCoreModel() const
   *
   * @return One of the following values:
   *         \li a pointer to the mesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalMesh *CalModel::getMesh(int coreMeshId) const
+CalMesh *CalModel::getMesh(int coreMeshId)
+{
+  // check if the id is valid
+  if((coreMeshId < 0) ||(coreMeshId >= m_pCoreModel->getCoreMeshCount()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  // get the core mesh
+  CalCoreMesh *pCoreMesh = m_pCoreModel->getCoreMesh(coreMeshId);
+
+  // search the mesh
+  for(int meshId = 0; meshId < (int)m_vectorMesh.size(); ++meshId)
+  {
+    // check if we found the matching mesh
+    if(m_vectorMesh[meshId]->getCoreMesh() == pCoreMesh)
+    {
+      return m_vectorMesh[meshId];
+    }
+  }
+
+  return 0;
+}
+
+ /*****************************************************************************/
+/** Provides access to an attached mesh.
+  *
+  * This function returns the attached mesh with the given core mesh ID.
+  *
+  * @param coreMeshId The core mesh ID of the mesh that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalMesh *CalModel::getMesh(int coreMeshId) const
 {
   // check if the id is valid
   if((coreMeshId < 0) ||(coreMeshId >= m_pCoreModel->getCoreMeshCount()))
@@ -246,10 +299,34 @@ CalMesh *CalModel::getMesh(int coreMeshId) const
  * CalError) is set and 0 is returned.
  *
  * @return \li a pointer to the mixer
- *         \li \b 0 if an error happend
+ *         \li \b 0 if an error happened
  *****************************************************************************/
 
-CalMixer *CalModel::getMixer() const
+CalMixer *CalModel::getMixer()
+{
+  if(m_pMixer == 0)
+    return 0;
+
+  if(m_pMixer->isDefaultMixer() == false) {
+    CalError::setLastError(CalError::INVALID_MIXER_TYPE, __FILE__, __LINE__);
+    return 0;
+  } else {
+    return (CalMixer*)(m_pMixer);
+  }
+}
+
+/*****************************************************************************/
+/** Returns the mixer.
+  *
+  * If a mixer that is not an instance of CalMixer was set with the
+  * CalModel::setAbstractMixer method, an INVALID_MIXER_TYPE error (see
+  * CalError) is set and 0 is returned.
+  *
+  * @return \li a pointer to the mixer
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalMixer *CalModel::getMixer() const
 {
   if(m_pMixer == 0)
     return 0;
@@ -269,7 +346,7 @@ CalMixer *CalModel::getMixer() const
  *         \li \b 0 if no mixer was set
  *****************************************************************************/
 
-CalAbstractMixer *CalModel::getAbstractMixer() const
+const CalAbstractMixer *CalModel::getAbstractMixer() const
 {
   return m_pMixer;
 }
@@ -297,7 +374,7 @@ CalAbstractMixer *CalModel::getAbstractMixer() const
  *
  *****************************************************************************/
 
-void CalModel::setAbstractMixer(CalAbstractMixer* pMixer)
+void CalModel::setAbstractMixer(CalAbstractMixer *pMixer)
 {
   m_pMixer = pMixer;
 }
@@ -309,10 +386,25 @@ void CalModel::setAbstractMixer(CalAbstractMixer* pMixer)
   *
   * @return One of the following values:
   *         \li a pointer to the morph target mixer
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalMorphTargetMixer *CalModel::getMorphTargetMixer() const
+CalMorphTargetMixer *CalModel::getMorphTargetMixer()
+{
+  return m_pMorphTargetMixer;
+}
+
+/*****************************************************************************/
+/** Provides access to the morph target mixer.
+  *
+  * This function returns the morph target mixer.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the morph target mixer
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalMorphTargetMixer *CalModel::getMorphTargetMixer() const
 {
   return m_pMorphTargetMixer;
 }
@@ -324,10 +416,25 @@ CalMorphTargetMixer *CalModel::getMorphTargetMixer() const
   *
   * @return One of the following values:
   *         \li a pointer to the physique
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalPhysique *CalModel::getPhysique() const
+CalPhysique *CalModel::getPhysique()
+{
+  return m_pPhysique;
+}
+
+ /*****************************************************************************/
+/** Provides access to the physique.
+  *
+  * This function returns the physique.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the physique
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalPhysique *CalModel::getPhysique() const
 {
   return m_pPhysique;
 }
@@ -339,10 +446,10 @@ CalPhysique *CalModel::getPhysique() const
   *
   * @param physique The new physique object.
   *****************************************************************************/
-void CalModel::setPhysique( CalPhysique* physique )
+void CalModel::setPhysique( CalPhysique *physique )
 {
-	delete m_pPhysique;
-	m_pPhysique = physique;
+  delete m_pPhysique;
+  m_pPhysique = physique;
 }
 
  /*****************************************************************************/
@@ -352,10 +459,25 @@ void CalModel::setPhysique( CalPhysique* physique )
   *
   * @return One of the following values:
   *         \li a pointer to the renderer
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalRenderer *CalModel::getRenderer() const
+CalRenderer *CalModel::getRenderer()
+{
+  return m_pRenderer;
+}
+
+ /*****************************************************************************/
+/** Provides access to the renderer.
+  *
+  * This function returns the renderer.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the renderer
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalRenderer *CalModel::getRenderer() const
 {
   return m_pRenderer;
 }
@@ -367,10 +489,25 @@ CalRenderer *CalModel::getRenderer() const
   *
   * @return One of the following values:
   *         \li a pointer to the skeleton
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalSkeleton *CalModel::getSkeleton() const
+CalSkeleton *CalModel::getSkeleton()
+{
+  return m_pSkeleton;
+}
+
+ /*****************************************************************************/
+/** Provides access to the skeleton.
+  *
+  * This function returns the skeleton.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalSkeleton *CalModel::getSkeleton() const
 {
   return m_pSkeleton;
 }
@@ -382,10 +519,25 @@ CalSkeleton *CalModel::getSkeleton() const
   *
   * @return One of the following values:
   *         \li a pointer to the spring system
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalSpringSystem *CalModel::getSpringSystem() const
+CalSpringSystem *CalModel::getSpringSystem()
+{
+  return m_pSpringSystem;
+}
+
+ /*****************************************************************************/
+/** Provides access to the spring system.
+  *
+  * This function returns the spring system.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the spring system
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalSpringSystem *CalModel::getSpringSystem() const
 {
   return m_pSpringSystem;
 }
@@ -475,7 +627,7 @@ CalBoundingBox & CalModel::getBoundingBox(bool precision)
   * @return The user data stored in the model instance.
   *****************************************************************************/
 
-Cal::UserData CalModel::getUserData() const
+const Cal::UserData CalModel::getUserData() const
 {
   return m_userData;
 }

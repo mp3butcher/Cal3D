@@ -45,7 +45,7 @@ public:
 public:
   bool create();
   void destroy();
-  const CalQuaternion& getRotation();
+  const CalQuaternion& getRotation() const;
 
   /*****************************************************************************/
   /** Returns the time.
@@ -59,7 +59,7 @@ public:
 	  return m_time;
   }
 
-  const CalVector& getTranslation();
+  const CalVector& getTranslation() const;
   void setRotation(const CalQuaternion& rotation);
   void setTime(float time);
   void setTranslation(const CalVector& translation);

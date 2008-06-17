@@ -41,15 +41,18 @@ protected:
   ~CalCoreMaterial() { }
 
 public:
-  Color& getAmbientColor();
-  Color& getDiffuseColor();
+  const Color& getAmbientColor() const;
+  const Color& getDiffuseColor() const;
   int getMapCount() const;
   const std::string& getMapFilename(int mapId) const;
   Cal::UserData getMapUserData(int mapId);
+  const Cal::UserData getMapUserData(int mapId) const;
   float getShininess() const;
-  Color& getSpecularColor();
+  const Color& getSpecularColor() const;
   Cal::UserData getUserData();
+  const Cal::UserData getUserData() const;
   std::vector<Map>& getVectorMap();
+  const std::vector<Map>& getVectorMap() const;
   bool reserve(int mapCount);
   void setAmbientColor(const Color& ambientColor);
   void setDiffuseColor(const Color& diffuseColor);
@@ -64,14 +67,14 @@ public:
   void setUserData(Cal::UserData userData);
 
 private:
-  Color m_ambientColor;
-  Color m_diffuseColor;
-  Color m_specularColor;
-  float m_shininess;
+  Color            m_ambientColor;
+  Color            m_diffuseColor;
+  Color            m_specularColor;
+  float            m_shininess;
   std::vector<Map> m_vectorMap;
-  Cal::UserData m_userData;
-  std::string m_name;
-  std::string m_filename;
+  Cal::UserData    m_userData;
+  std::string      m_name;
+  std::string      m_filename;
 };
 typedef cal3d::RefPtr<CalCoreMaterial> CalCoreMaterialPtr;
 

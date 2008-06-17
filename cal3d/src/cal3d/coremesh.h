@@ -30,9 +30,11 @@ public:
 
   int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
   CalCoreSubmesh *getCoreSubmesh(int id);
+  const CalCoreSubmesh *getCoreSubmesh(int id) const;
   void removeCoreSubmesh( int submeshID );
   int getCoreSubmeshCount() const;
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
+  const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
   int addAsMorphTarget(CalCoreMesh *pCoreMesh);
   void scale(float factor);
   void setFilename(const std::string& filename);
@@ -42,8 +44,8 @@ public:
 
 private:
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
-  std::string m_name;
-  std::string m_filename;
+  std::string                   m_name;
+  std::string                   m_filename;
 };
 typedef cal3d::RefPtr<CalCoreMesh> CalCoreMeshPtr;
 

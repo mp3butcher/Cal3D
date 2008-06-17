@@ -29,7 +29,7 @@
   * This function is the default constructor of the skeleton instance.
   *****************************************************************************/
 
-CalSkeleton::CalSkeleton(CalCoreSkeleton* pCoreSkeleton)
+CalSkeleton::CalSkeleton(CalCoreSkeleton *pCoreSkeleton)
   : m_pCoreSkeleton(0)
   , m_isBoundingBoxesComputed(false)
 {
@@ -122,10 +122,27 @@ void CalSkeleton::clearState()
   *
   * @return One of the following values:
   *         \li a pointer to the bone
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalBone *CalSkeleton::getBone(int boneId) const
+CalBone *CalSkeleton::getBone(int boneId)
+{
+  return m_vectorBone[boneId];
+}
+
+ /*****************************************************************************/
+/** Provides access to a bone.
+  *
+  * This function returns the bone with the given ID.
+  *
+  * @param boneId The ID of the bone that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the bone
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalBone *CalSkeleton::getBone(int boneId) const
 {
   return m_vectorBone[boneId];
 }
@@ -138,10 +155,26 @@ CalBone *CalSkeleton::getBone(int boneId) const
   *
   * @return One of the following values:
   *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreSkeleton *CalSkeleton::getCoreSkeleton() const
+CalCoreSkeleton *CalSkeleton::getCoreSkeleton()
+{
+  return m_pCoreSkeleton;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core skeleton.
+  *
+  * This function returns the core skeleton on which this skeleton instance is
+  * based on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSkeleton *CalSkeleton::getCoreSkeleton() const
 {
   return m_pCoreSkeleton;
 }
@@ -156,6 +189,20 @@ CalCoreSkeleton *CalSkeleton::getCoreSkeleton() const
   *****************************************************************************/
 
 std::vector<CalBone *>& CalSkeleton::getVectorBone()
+{
+  return m_vectorBone;
+}
+
+ /*****************************************************************************/
+/** Returns the bone vector.
+  *
+  * This function returns the vector that contains all bones of the skeleton
+  * instance.
+  *
+  * @return A reference to the bone vector.
+  *****************************************************************************/
+
+const std::vector<CalBone *>& CalSkeleton::getVectorBone() const
 {
   return m_vectorBone;
 }
@@ -260,12 +307,12 @@ void CalSkeleton::calculateBoundingBoxes()
 //****************************************************************************//
 //****************************************************************************//
 
-int CalSkeleton::getBonePoints(float *pPoints)
+int CalSkeleton::getBonePoints(float *pPoints) const
 {
   int nrPoints;
   nrPoints = 0;
 
-  std::vector<CalBone *>::iterator iteratorBone;
+  std::vector<CalBone *>::const_iterator iteratorBone;
   for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
   {
     const CalVector& translation = (*iteratorBone)->getTranslationAbsolute();
@@ -280,12 +327,12 @@ int CalSkeleton::getBonePoints(float *pPoints)
   return nrPoints;
 }
 
-int CalSkeleton::getBonePointsStatic(float *pPoints)
+int CalSkeleton::getBonePointsStatic(float *pPoints) const
 {
   int nrPoints;
   nrPoints = 0;
 
-  std::vector<CalBone *>::iterator iteratorBone;
+  std::vector<CalBone *>::const_iterator iteratorBone;
   for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
   {
     const CalVector& translation = (*iteratorBone)->getCoreBone()->getTranslationAbsolute();
@@ -300,12 +347,12 @@ int CalSkeleton::getBonePointsStatic(float *pPoints)
   return nrPoints;
 }
 
-int CalSkeleton::getBoneLines(float *pLines)
+int CalSkeleton::getBoneLines(float *pLines) const
 {
   int nrLines;
   nrLines = 0;
 
-  std::vector<CalBone *>::iterator iteratorBone;
+  std::vector<CalBone *>::const_iterator iteratorBone;
   for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
   {
     int parentId;
@@ -334,12 +381,12 @@ int CalSkeleton::getBoneLines(float *pLines)
   return nrLines;
 }
 
-int CalSkeleton::getBoneLinesStatic(float *pLines)
+int CalSkeleton::getBoneLinesStatic(float *pLines) const
 {
   int nrLines;
   nrLines = 0;
 
-  std::vector<CalBone *>::iterator iteratorBone;
+  std::vector<CalBone *>::const_iterator iteratorBone;
   for(iteratorBone = m_vectorBone.begin(); iteratorBone != m_vectorBone.end(); ++iteratorBone)
   {
     int parentId;

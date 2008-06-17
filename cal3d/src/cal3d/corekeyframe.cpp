@@ -46,7 +46,7 @@ CalCoreKeyframe::~CalCoreKeyframe()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreKeyframe::create()
@@ -73,7 +73,7 @@ void CalCoreKeyframe::destroy()
   * @return The rotation as quaternion.
   *****************************************************************************/
 
-const CalQuaternion& CalCoreKeyframe::getRotation()
+const CalQuaternion& CalCoreKeyframe::getRotation() const
 {
   return m_rotation;
 }
@@ -86,7 +86,7 @@ const CalQuaternion& CalCoreKeyframe::getRotation()
   * @return The translation as vector.
   *****************************************************************************/
 
-const CalVector& CalCoreKeyframe::getTranslation()
+const CalVector& CalCoreKeyframe::getTranslation() const
 {
   return m_translation;
 }

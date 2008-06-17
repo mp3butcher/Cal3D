@@ -93,7 +93,7 @@ CalMixer::~CalMixer()
 /// do not match up, the first key frame is duplicated and added to the end of the track
 /// to ensure smooth looping.
 ///
-static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* pCoreAnimation)
+static void addExtraKeyframeForLoopedAnim(CalCoreAnimation *pCoreAnimation)
 {
 	std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
@@ -140,7 +140,7 @@ static void addExtraKeyframeForLoopedAnim(CalCoreAnimation* pCoreAnimation)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalMixer::blendCycle(int id, float weight, float delay)
@@ -218,7 +218,7 @@ bool CalMixer::blendCycle(int id, float weight, float delay)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalMixer::clearCycle(int id, float delay)
@@ -276,7 +276,7 @@ bool CalMixer::clearCycle(int id, float delay)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weightTarget, bool autoLock)
 {
@@ -603,7 +603,7 @@ float CalMixer::getTimeFactor() const
     return m_timeFactor;
 }
 
-/*****************************************************************************/
+ /*****************************************************************************/
 /** Get the model.
   * 
   * This function return the CalModel of the mixer instance.
@@ -612,7 +612,31 @@ float CalMixer::getTimeFactor() const
 
 CalModel *CalMixer::getCalModel() 
 { 
-    return m_pModel; 
+  return m_pModel;
+} 
+
+ /*****************************************************************************/
+/** Get the model.
+  * 
+  * This function return the CalModel of the mixer instance.
+  *
+  *****************************************************************************/
+
+const CalModel *CalMixer::getCalModel() const
+{
+  return m_pModel;
+}
+
+/*****************************************************************************/
+/** Get the animation vector.
+  * 
+  * This function return the animation vector of the mixer instance.
+  *
+  *****************************************************************************/
+
+std::vector<CalAnimation *> &CalMixer::getAnimationVector() 
+{ 
+  return m_vectorAnimation;
 } 
 
 /*****************************************************************************/
@@ -622,10 +646,10 @@ CalModel *CalMixer::getCalModel()
   *
   *****************************************************************************/
 
-std::vector<CalAnimation *> & CalMixer::getAnimationVector() 
-{ 
-    return m_vectorAnimation; 
-} 
+const std::vector<CalAnimation *> &CalMixer::getAnimationVector() const
+{
+  return m_vectorAnimation;
+}
 
 /*****************************************************************************/
 /** Get the list of the action animation.
@@ -636,7 +660,19 @@ std::vector<CalAnimation *> & CalMixer::getAnimationVector()
 
 std::list<CalAnimationAction *> & CalMixer::getAnimationActionList() 
 { 
-    return m_listAnimationAction; 
+    return m_listAnimationAction;
+}
+
+/*****************************************************************************/
+/** Get the list of the action animation.
+  * 
+  * This function return the list of the action animation of the mixer instance.
+  *
+  *****************************************************************************/
+
+const std::list<CalAnimationAction *> &CalMixer::getAnimationActionList() const
+{
+  return m_listAnimationAction;
 }
 
 /*****************************************************************************/
@@ -648,7 +684,19 @@ std::list<CalAnimationAction *> & CalMixer::getAnimationActionList()
 
 std::list<CalAnimationCycle *> & CalMixer::getAnimationCycle() 
 { 
-    return m_listAnimationCycle; 
+  return m_listAnimationCycle;
 } 
+
+/*****************************************************************************/
+/** Get the list of the cycle animation.
+  * 
+  * This function return the list of the cycle animation of the mixer instance.
+  *
+  *****************************************************************************/
+
+const std::list<CalAnimationCycle *> &CalMixer::getAnimationCycle() const
+{
+  return m_listAnimationCycle;
+}
 
 //****************************************************************************//

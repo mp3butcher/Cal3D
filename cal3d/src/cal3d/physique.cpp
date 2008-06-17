@@ -60,7 +60,7 @@ CalPhysique::CalPhysique(CalModel* pModel)
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride)
+int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride) const
 {
   if(stride <= 0)
   {
@@ -333,7 +333,7 @@ CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
   * @return The number of tangent spaces written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer, int stride)
+int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *pTangentSpaceBuffer, int stride) const
 {
   if((mapId < 0) || (mapId >= (int)pSubmesh->getCoreSubmesh()->getVectorVectorTangentSpace().size())) return false;
   if(stride <= 0)
@@ -435,7 +435,7 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
   * @return The number of normals written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride)
+int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride) const
 {
   if(stride <= 0)
   {
@@ -575,7 +575,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
   * @return The number of vertices written to the buffer.
   *****************************************************************************/
 
-int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride)
+int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride) const
 {
   if(stride <= 0)
   {
@@ -769,7 +769,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
   *****************************************************************************/
 
 
-int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer,int NumTexCoords)
+int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords) const
 {
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();

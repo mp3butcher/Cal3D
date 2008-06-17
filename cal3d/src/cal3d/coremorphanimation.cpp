@@ -26,10 +26,10 @@
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreMorphAnimation::addMorphTarget(int coreMeshID,int morphTargetID)
+bool CalCoreMorphAnimation::addMorphTarget(int coreMeshID, int morphTargetID)
 {
   m_vectorCoreMeshID.push_back(coreMeshID);
   m_vectorMorphTargetID.push_back(morphTargetID);
@@ -53,6 +53,20 @@ std::vector<int>& CalCoreMorphAnimation::getVectorCoreMeshID()
 }
 
  /*****************************************************************************/
+/** Returns the core mesh ID list.
+  *
+  * This function returns the list that contains all core mesh IDs of the core
+  * morph animation instance.
+  *
+  * @return A reference to the core mesh ID list.
+  *****************************************************************************/
+
+const std::vector<int>& CalCoreMorphAnimation::getVectorCoreMeshID() const
+{
+  return m_vectorCoreMeshID;
+}
+
+ /*****************************************************************************/
 /** Returns the morph target ID list.
   *
   * This function returns the list that contains all morph target  IDs of the core
@@ -66,6 +80,19 @@ std::vector<int>& CalCoreMorphAnimation::getVectorMorphTargetID()
   return m_vectorMorphTargetID;
 }
 
+ /*****************************************************************************/
+/** Returns the morph target ID list.
+  *
+  * This function returns the list that contains all morph target  IDs of the core
+  * morph animation instance.
+  *
+  * @return A reference to the morph target ID list.
+  *****************************************************************************/
+
+const std::vector<int>& CalCoreMorphAnimation::getVectorMorphTargetID() const
+{
+  return m_vectorMorphTargetID;
+}
 
 const std::string& CalCoreMorphAnimation::getName() const
 {

@@ -226,6 +226,20 @@ std::vector<CalCoreSubmesh::Face>& CalCoreSubmesh::getVectorFace()
 }
 
  /*****************************************************************************/
+/** Returns the face vector.
+  *
+  * This function returns the vector that contains all faces of the core submesh
+  * instance.
+  *
+  * @return A reference to the face vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Face>& CalCoreSubmesh::getVectorFace() const
+{
+  return m_vectorFace;
+}
+
+ /*****************************************************************************/
 /** Returns the physical property vector.
   *
   * This function returns the vector that contains all physical properties of
@@ -240,6 +254,20 @@ std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysical
 }
 
  /*****************************************************************************/
+/** Returns the physical property vector.
+  *
+  * This function returns the vector that contains all physical properties of
+  * the core submesh instance.
+  *
+  * @return A reference to the physical property vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysicalProperty() const
+{
+  return m_vectorPhysicalProperty;
+}
+
+ /*****************************************************************************/
 /** Returns the spring vector.
   *
   * This function returns the vector that contains all springs of the core
@@ -249,6 +277,20 @@ std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysical
   *****************************************************************************/
 
 std::vector<CalCoreSubmesh::Spring>& CalCoreSubmesh::getVectorSpring()
+{
+  return m_vectorSpring;
+}
+
+ /*****************************************************************************/
+/** Returns the spring vector.
+  *
+  * This function returns the vector that contains all springs of the core
+  * submesh instance.
+  *
+  * @return A reference to the spring vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Spring>& CalCoreSubmesh::getVectorSpring() const
 {
   return m_vectorSpring;
 }
@@ -269,6 +311,21 @@ std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> > & CalCoreSubmesh::g
 }
 
  /*****************************************************************************/
+/** Returns the texture coordinate vector-vector.
+  *
+  * This function returns the vector that contains all texture coordinate
+  * vectors of the core submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the texture coordinate vector-vector.
+  *****************************************************************************/
+
+const std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& CalCoreSubmesh::getVectorVectorTextureCoordinate() const
+{
+  return m_vectorvectorTextureCoordinate;
+}
+
+ /*****************************************************************************/
 /** Returns the tangent space vector-vector.
   *
   * This function returns the vector that contains all tangent space bases of
@@ -283,6 +340,20 @@ std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVect
   return m_vectorvectorTangentSpace;
 }
 
+ /*****************************************************************************/
+/** Returns the tangent space vector-vector.
+  *
+  * This function returns the vector that contains all tangent space bases of
+  * the core submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the tangent space vector-vector.
+  *****************************************************************************/
+
+const std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVectorVectorTangentSpace() const
+{
+  return m_vectorvectorTangentSpace;
+}
 
  /*****************************************************************************/
 /** Returns the vertex vector.
@@ -294,6 +365,20 @@ std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVect
   *****************************************************************************/
 
 std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex()
+{
+  return m_vectorVertex;
+}
+
+ /*****************************************************************************/
+/** Returns the vertex vector.
+  *
+  * This function returns the vector that contains all vertices of the core
+  * submesh instance.
+  *
+  * @return A reference to the vertex vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex() const
 {
   return m_vectorVertex;
 }
@@ -328,7 +413,7 @@ int CalCoreSubmesh::getVertexCount() const
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
@@ -412,7 +497,7 @@ void CalCoreSubmesh::setCoreMaterialThreadId(int coreMaterialThreadId)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setFace(int faceId, const Face& face)
@@ -450,7 +535,7 @@ void CalCoreSubmesh::setLodCount(int lodCount)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, const CalVector& tangent, float crossFactor)
@@ -476,7 +561,7 @@ bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, cons
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setPhysicalProperty(int vertexId, const PhysicalProperty& physicalProperty)
@@ -498,7 +583,7 @@ bool CalCoreSubmesh::setPhysicalProperty(int vertexId, const PhysicalProperty& p
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setSpring(int springId, const Spring& spring)
@@ -522,7 +607,7 @@ bool CalCoreSubmesh::setSpring(int springId, const Spring& spring)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setTextureCoordinate(int vertexId, int textureCoordinateId, const TextureCoordinate& textureCoordinate)
@@ -545,7 +630,7 @@ bool CalCoreSubmesh::setTextureCoordinate(int vertexId, int textureCoordinateId,
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setVertex(int vertexId, const Vertex& vertex)
@@ -566,7 +651,7 @@ bool CalCoreSubmesh::setVertex(int vertexId, const Vertex& vertex)
   *
   * @return One of the following values:
   *         \li the assigned sub morph target \b ID of the added core sub morph target
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget)
@@ -590,10 +675,32 @@ int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTa
   *
   * @return One of the following values:
   *         \li a pointer to the core sub morph target
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorCoreSubMorphTarget.size()))
+  {
+    return 0;
+  }
+
+  return m_vectorCoreSubMorphTarget[id];
+}
+
+ /*****************************************************************************/
+/** Provides access to a core sub morph target.
+  *
+  * This function returns the core sub morph target with the given ID.
+  *
+  * @param id The ID of the core sub morph target that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core sub morph target
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id) const
 {
   if((id < 0) || (id >= (int)m_vectorCoreSubMorphTarget.size()))
   {
@@ -627,6 +734,20 @@ int CalCoreSubmesh::getCoreSubMorphTargetCount() const
   *****************************************************************************/
 
 std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarget()
+{
+  return m_vectorCoreSubMorphTarget;
+}
+
+ /*****************************************************************************/
+/** Returns the core sub morph target vector.
+  *
+  * This function returns the vector that contains all core sub morph target
+  *  of the core submesh instance.
+  *
+  * @return A reference to the core sub morph target vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarget() const
 {
   return m_vectorCoreSubMorphTarget;
 }

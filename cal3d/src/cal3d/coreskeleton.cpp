@@ -44,7 +44,7 @@ CalCoreSkeleton::~CalCoreSkeleton()
   *
   * @return One of the following values:
   *         \li the assigned bone \b ID of the added core bone
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreSkeleton::addCoreBone(CalCoreBone *pCoreBone)
@@ -93,10 +93,33 @@ void CalCoreSkeleton::calculateState()
   *
   * @return One of the following values:
   *         \li a pointer to the core bone
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
+{
+  if((coreBoneId < 0) || (coreBoneId >= (int)m_vectorCoreBone.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreBone[coreBoneId];
+}
+
+ /*****************************************************************************/
+/** Provides access to a core bone.
+  *
+  * This function returns the core bone with the given ID.
+  *
+  * @param coreBoneId The ID of the core bone that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core bone
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId) const
 {
   if((coreBoneId < 0) || (coreBoneId >= (int)m_vectorCoreBone.size()))
   {
@@ -116,12 +139,29 @@ CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
   *
   * @return One of the following values:
   *         \li a pointer to the core bone
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreBone* CalCoreSkeleton::getCoreBone(const std::string& strName)
+CalCoreBone *CalCoreSkeleton::getCoreBone(const std::string& strName)
 {
    return getCoreBone( getCoreBoneId( strName ));
+}
+
+ /*****************************************************************************/
+/** Provides access to a core bone.
+  *
+  * This function returns the core bone with the given name.
+  *
+  * @param strName The name of the core bone that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core bone
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreBone *CalCoreSkeleton::getCoreBone(const std::string& strName) const
+{
+  return getCoreBone( getCoreBoneId( strName ));
 }
 
  /*****************************************************************************/
@@ -133,10 +173,10 @@ CalCoreBone* CalCoreSkeleton::getCoreBone(const std::string& strName)
   *
   * @return One of the following values:
   *         \li the \b ID of the core bone
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreSkeleton::getCoreBoneId(const std::string& strName)
+int CalCoreSkeleton::getCoreBoneId(const std::string& strName) const
 {
   //Check to make sure the mapping exists
   if (m_mapCoreBoneNames.count(strName) <= 0)
@@ -145,8 +185,35 @@ int CalCoreSkeleton::getCoreBoneId(const std::string& strName)
     return -1;
   }
 
+  /*
+  DJMC note: We cannot simply do the following:
+
   return m_mapCoreBoneNames[strName];
 
+  and still remain a const method since the [] operation might
+  add a setting if it is not found inside. We must seek an
+  alternative.
+
+  Note, according to http://www.sgi.com/tech/stl/Map.html, m[k]
+  should be equivalent to:
+
+  (*((m.insert(value_type(k, data_type()))).first)).second
+
+  ...thus, we should be able to find a read-only analogue by
+  changing the line from an insert to a find, so that we may
+  remain a const method.
+  //*/
+
+  std::map<std::string, int>::const_iterator i = m_mapCoreBoneNames.find(strName);
+  if (i != m_mapCoreBoneNames.end())
+  {
+    return (*i).second;
+  }
+
+  // if control flows here, entry does not exist in map,
+  // and therefore there has been an error
+  CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+  return -1;
 }
 
  /*****************************************************************************/
@@ -193,6 +260,20 @@ std::vector<int>& CalCoreSkeleton::getVectorRootCoreBoneId()
 }
 
  /*****************************************************************************/
+/** Returns the root core bone id list.
+  *
+  * This function returns the list that contains all root core bone IDs of the
+  * core skeleton instance.
+  *
+  * @return A reference to the root core bone id list.
+  *****************************************************************************/
+
+const std::vector<int>& CalCoreSkeleton::getVectorRootCoreBoneId() const
+{
+  return m_vectorRootCoreBoneId;
+}
+
+ /*****************************************************************************/
 /** Returns the core bone vector.
   *
   * This function returns the vector that contains all core bones of the core
@@ -206,6 +287,19 @@ std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
   return m_vectorCoreBone;
 }
 
+ /*****************************************************************************/
+/** Returns the core bone vector.
+  *
+  * This function returns the vector that contains all core bones of the core
+  * skeleton instance.
+  *
+  * @return A reference to the core bone vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone() const
+{
+  return m_vectorCoreBone;
+}
 
  /*****************************************************************************/
 /** Calculates bounding boxes.
@@ -216,7 +310,7 @@ std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
   *****************************************************************************/
 
 
-void CalCoreSkeleton::calculateBoundingBoxes(CalCoreModel * pCoreModel)
+void CalCoreSkeleton::calculateBoundingBoxes(CalCoreModel *pCoreModel)
 {
 	size_t boneId;
 	

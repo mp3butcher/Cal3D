@@ -53,7 +53,7 @@ public:
   bool create();
   void destroy();
 
-  bool getState(float time, CalVector& translation, CalQuaternion& rotation);
+  bool getState(float time, CalVector& translation, CalQuaternion& rotation) const;
 
   /*****************************************************************************/
   /** Returns the ID of the core bone.
@@ -63,17 +63,18 @@ public:
   *
   * @return One of the following values:
   *         \li the \b ID of the core bone
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
-  inline int getCoreBoneId()
+  inline int getCoreBoneId() const
   {
 	  return m_coreBoneId;
   }
 
   bool setCoreBoneId(int coreBoneId);
   
-  int getCoreKeyframeCount();
-  CalCoreKeyframe* getCoreKeyframe(int idx);
+  int getCoreKeyframeCount() const;
+  CalCoreKeyframe *getCoreKeyframe(int idx);
+  const CalCoreKeyframe *getCoreKeyframe(int idx) const;
 
   bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
 	void removeCoreKeyFrame(int _i) { m_keyframes.erase( m_keyframes.begin() + _i); }
@@ -81,7 +82,7 @@ public:
   void scale(float factor);
 
 private:
-  std::vector<CalCoreKeyframe*>::iterator getUpperBound(float time);
+  std::vector<CalCoreKeyframe *>::const_iterator getUpperBound(float time) const;
 };
 
 #endif

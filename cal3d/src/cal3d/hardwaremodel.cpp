@@ -33,8 +33,8 @@
   *****************************************************************************/
 
 
-CalHardwareModel::CalHardwareModel(CalCoreModel* pCoreModel)
-: m_selectedHardwareMesh(-1)
+CalHardwareModel::CalHardwareModel(CalCoreModel *pCoreModel)
+  : m_selectedHardwareMesh(-1)
 {
   assert(pCoreModel);
   m_pCoreModel = pCoreModel;
@@ -67,7 +67,7 @@ CalHardwareModel::CalHardwareModel(CalCoreModel* pCoreModel)
   *
   *****************************************************************************/
 
-void CalHardwareModel::setVertexBuffer( char * pVertexBuffer, int stride)
+void CalHardwareModel::setVertexBuffer( char *pVertexBuffer, int stride)
 {
   m_pVertexBuffer = pVertexBuffer;
   m_vertexStride = stride;
@@ -82,7 +82,7 @@ void CalHardwareModel::setVertexBuffer( char * pVertexBuffer, int stride)
   *
   *****************************************************************************/
 
-void CalHardwareModel::setIndexBuffer( CalIndex * pIndexBuffer)
+void CalHardwareModel::setIndexBuffer( CalIndex *pIndexBuffer)
 {
   m_pIndexBuffer= pIndexBuffer;
 }
@@ -97,7 +97,7 @@ void CalHardwareModel::setIndexBuffer( CalIndex * pIndexBuffer)
   *
   *****************************************************************************/
 
-void CalHardwareModel::setNormalBuffer( char * pNormalBuffer, int stride)
+void CalHardwareModel::setNormalBuffer( char *pNormalBuffer, int stride)
 {
   m_pNormalBuffer = pNormalBuffer;
   m_normalStride = stride;
@@ -114,7 +114,7 @@ void CalHardwareModel::setNormalBuffer( char * pNormalBuffer, int stride)
   *****************************************************************************/
 
 
-void CalHardwareModel::setWeightBuffer( char * pWeightBuffer, int stride)
+void CalHardwareModel::setWeightBuffer( char *pWeightBuffer, int stride)
 {
   m_pWeightBuffer = pWeightBuffer;
   m_weightStride = stride;
@@ -131,7 +131,7 @@ void CalHardwareModel::setWeightBuffer( char * pWeightBuffer, int stride)
   *****************************************************************************/
 
 
-void CalHardwareModel::setMatrixIndexBuffer( char * pMatrixIndexBuffer, int stride)
+void CalHardwareModel::setMatrixIndexBuffer( char *pMatrixIndexBuffer, int stride)
 {
   m_pMatrixIndexBuffer = pMatrixIndexBuffer;
   m_matrixIndexStride = stride;
@@ -166,7 +166,7 @@ void CalHardwareModel::setTextureCoordNum(int textureCoordNum)
   *****************************************************************************/
 
 
-void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuffer, int stride)
+void CalHardwareModel::setTextureCoordBuffer(int mapId, char *pTextureCoordBuffer, int stride)
 {
   if( 0 <= mapId && mapId < 8)
   {
@@ -186,7 +186,7 @@ void CalHardwareModel::setTextureCoordBuffer(int mapId, char * pTextureCoordBuff
   *
   *****************************************************************************/
 
-void CalHardwareModel::setTangentSpaceBuffer(int mapId, char * pTangentSpaceBuffer, int stride)
+void CalHardwareModel::setTangentSpaceBuffer(int mapId, char *pTangentSpaceBuffer, int stride)
 {
   if( 0 <= mapId && mapId < 8)
   {
@@ -226,6 +226,20 @@ std::vector<CalHardwareModel::CalHardwareMesh> & CalHardwareModel::getVectorHard
 }
 
  /*****************************************************************************/
+/** Returns the hardware mesh vector.
+  *
+  * This function returns the vector that contains all hardware mesh of the
+  * core mesh instance.
+  *
+  * @return A reference to the hardware mesh vector.
+  *****************************************************************************/
+
+const std::vector<CalHardwareModel::CalHardwareMesh> & CalHardwareModel::getVectorHardwareMesh() const
+{
+  return m_vectorHardwareMesh;
+}
+
+ /*****************************************************************************/
 /** Provides access to the ambient color.
   *
   * This function returns the ambient color of the material of the selected
@@ -236,12 +250,12 @@ std::vector<CalHardwareModel::CalHardwareMesh> & CalHardwareModel::getVectorHard
   *****************************************************************************/
 
 
-void CalHardwareModel::getAmbientColor(unsigned char *pColorBuffer)
+void CalHardwareModel::getAmbientColor(unsigned char *pColorBuffer) const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()) 
     && m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial!=0)
   {
-    CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getAmbientColor();
+    const CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getAmbientColor();
     pColorBuffer[0] = color.red;
     pColorBuffer[1] = color.green;
     pColorBuffer[2] = color.blue;
@@ -267,12 +281,12 @@ void CalHardwareModel::getAmbientColor(unsigned char *pColorBuffer)
   *****************************************************************************/
 
 
-void CalHardwareModel::getDiffuseColor(unsigned char *pColorBuffer)
+void CalHardwareModel::getDiffuseColor(unsigned char *pColorBuffer) const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size())
     && m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial!=0)
   {
-    CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getDiffuseColor();
+    const CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getDiffuseColor();
     pColorBuffer[0] = color.red;
     pColorBuffer[1] = color.green;
     pColorBuffer[2] = color.blue;
@@ -297,12 +311,12 @@ void CalHardwareModel::getDiffuseColor(unsigned char *pColorBuffer)
   *                     data is written to.
   *****************************************************************************/
 
-void CalHardwareModel::getSpecularColor(unsigned char *pColorBuffer)
+void CalHardwareModel::getSpecularColor(unsigned char *pColorBuffer) const
 {
     if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size())
     && m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial!=0)
   {
-    CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getSpecularColor();
+    const CalCoreMaterial::Color& color = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getSpecularColor();
     pColorBuffer[0] = color.red;
     pColorBuffer[1] = color.green;
     pColorBuffer[2] = color.blue;
@@ -350,7 +364,7 @@ float CalHardwareModel::getShininess() const
   * @return The rotation to bring a point into bone space.
   *****************************************************************************/
 
-const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton)
+const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton) const
 {
   const std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
   return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getRotationBoneSpace();
@@ -367,7 +381,7 @@ const CalQuaternion & CalHardwareModel::getRotationBoneSpace(int boneId, CalSkel
   *****************************************************************************/
 
 
-const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton)
+const CalVector & CalHardwareModel::getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton) const
 {
   const std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
   return vectorBone[m_vectorHardwareMesh[m_selectedHardwareMesh].m_vectorBonesIndices[boneId]]->getTranslationBoneSpace();
@@ -489,7 +503,7 @@ int CalHardwareModel::getStartIndex() const
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 
@@ -532,22 +546,22 @@ int CalHardwareModel::getTotalVertexCount() const
 }
 
 
-/*****************************************************************************/
+ /*****************************************************************************/
 /** Provides access to a specified map user data.
-*
-* This function returns the user data stored in the specified map of the
-* material of the selected hardware mesh.
-*
-* @param mapId The ID of the map.
-*
-* @return One of the following values:
-*         \li the user data stored in the specified map
-*         \li \b 0 if an error happend
-*****************************************************************************/
+  *
+  * This function returns the user data stored in the specified map of the
+  * material of the selected hardware mesh.
+  *
+  * @param mapId The ID of the map.
+  *
+  * @return One of the following values:
+  *         \li the user data stored in the specified map
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
 
 Cal::UserData CalHardwareModel::getMapUserData(int mapId)
 {
-    if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
+  if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
   {
     if(m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial==0)
       return 0;
@@ -568,6 +582,42 @@ Cal::UserData CalHardwareModel::getMapUserData(int mapId)
   return 0;
 }
 
+ /*****************************************************************************/
+/** Provides access to a specified map user data.
+  *
+  * This function returns the user data stored in the specified map of the
+  * material of the selected hardware mesh.
+  *
+  * @param mapId The ID of the map.
+  *
+  * @return One of the following values:
+  *         \li the user data stored in the specified map
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const Cal::UserData CalHardwareModel::getMapUserData(int mapId) const
+{
+  if( m_selectedHardwareMesh >= 0 && m_selectedHardwareMesh < int(m_vectorHardwareMesh.size()))
+  {
+    if(m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial==0)
+      return 0;
+
+    // get the map vector
+    std::vector<CalCoreMaterial::Map>& vectorMap = m_vectorHardwareMesh[m_selectedHardwareMesh].pCoreMaterial->getVectorMap();
+
+
+    // check if the map id is valid
+    if((mapId < 0) || (mapId >= (int)vectorMap.size()))
+    {
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return 0;
+    }
+
+    return vectorMap[mapId].userData;
+  }
+  return 0;
+}
+
 /*****************************************************************************/
 /** Compute the information needed to use the hardware model .
 *
@@ -580,7 +630,7 @@ Cal::UserData CalHardwareModel::getMapUserData(int mapId)
 *
 * @return One of the following values:
 *         \li \b true if succeed
-*         \li \b false if an error happend
+*         \li \b false if an error happened
 *****************************************************************************/
 
 
@@ -708,7 +758,7 @@ bool CalHardwareModel::load(int baseVertexIndex, int startIndex,int maxBonesPerM
 
 
 
-bool CalHardwareModel::canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face,std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh)
+bool CalHardwareModel::canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face,std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh) const
 {
   size_t boneCount=hardwareMesh.m_vectorBonesIndices.size();
   

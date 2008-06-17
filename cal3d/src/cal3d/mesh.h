@@ -28,17 +28,20 @@ public:
   ~CalMesh();
 
   CalCoreMesh *getCoreMesh();
+  const CalCoreMesh *getCoreMesh() const;
   CalSubmesh *getSubmesh(int id);
+  const CalSubmesh *getSubmesh(int id) const;
   int getSubmeshCount() const;
   std::vector<CalSubmesh *>& getVectorSubmesh();
+  const std::vector<CalSubmesh *>& getVectorSubmesh() const;
   void setLodLevel(float lodLevel);
   void setMaterialSet(int setId);
   void setModel(CalModel *pModel);
   void disableInternalData();
 
 private:
-  CalModel *m_pModel;
-  CalCoreMesh *m_pCoreMesh;
+  CalModel                 *m_pModel;
+  CalCoreMesh              *m_pCoreMesh;
   std::vector<CalSubmesh *> m_vectorSubmesh;
 };
 

@@ -51,7 +51,7 @@ CalCoreTrack::~CalCoreTrack()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreTrack::addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe)
@@ -72,7 +72,7 @@ bool CalCoreTrack::addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreTrack::create()
@@ -114,13 +114,13 @@ void CalCoreTrack::destroy()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& rotation)
+bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& rotation) const
 {
-  std::vector<CalCoreKeyframe*>::iterator iteratorCoreKeyframeBefore;
-  std::vector<CalCoreKeyframe*>::iterator iteratorCoreKeyframeAfter;
+  std::vector<CalCoreKeyframe*>::const_iterator iteratorCoreKeyframeBefore;
+  std::vector<CalCoreKeyframe*>::const_iterator iteratorCoreKeyframeAfter;
 
   // get the keyframe after the requested time
   iteratorCoreKeyframeAfter = getUpperBound(time);
@@ -170,7 +170,7 @@ bool CalCoreTrack::getState(float time, CalVector& translation, CalQuaternion& r
   return true;
 }
 
-std::vector<CalCoreKeyframe*>::iterator CalCoreTrack::getUpperBound(float time)
+std::vector<CalCoreKeyframe *>::const_iterator CalCoreTrack::getUpperBound(float time) const
 {
 
   int lowerBound = 0;
@@ -212,7 +212,7 @@ std::vector<CalCoreKeyframe*>::iterator CalCoreTrack::getUpperBound(float time)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreTrack::setCoreBoneId(int coreBoneId)
@@ -229,13 +229,19 @@ bool CalCoreTrack::setCoreBoneId(int coreBoneId)
 }
 
 
-int CalCoreTrack::getCoreKeyframeCount()
+int CalCoreTrack::getCoreKeyframeCount() const
 {
   return m_keyframes.size();
 }
 
 
-CalCoreKeyframe* CalCoreTrack::getCoreKeyframe(int idx)
+CalCoreKeyframe *CalCoreTrack::getCoreKeyframe(int idx)
+{
+  return m_keyframes[idx];
+}
+
+
+const CalCoreKeyframe *CalCoreTrack::getCoreKeyframe(int idx) const
 {
   return m_keyframes[idx];
 }

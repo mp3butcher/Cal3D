@@ -23,14 +23,14 @@ CalCoreMaterial::CalCoreMaterial()
 }
 
 CalCoreMaterial::CalCoreMaterial( const CalCoreMaterial& inOther )
-	: m_ambientColor( inOther.m_ambientColor ),
-	m_diffuseColor( inOther.m_diffuseColor ),
-	m_specularColor( inOther.m_specularColor ),
-	m_shininess( inOther.m_shininess ),
-	m_vectorMap( inOther.m_vectorMap ),
-	m_userData( inOther.m_userData ),
-	m_name( inOther.m_name ),
-	m_filename( inOther.m_filename )
+  : m_ambientColor( inOther.m_ambientColor )
+  , m_diffuseColor( inOther.m_diffuseColor )
+  , m_specularColor( inOther.m_specularColor )
+  , m_shininess( inOther.m_shininess )
+  , m_vectorMap( inOther.m_vectorMap )
+  , m_userData( inOther.m_userData )
+  , m_name( inOther.m_name )
+  , m_filename( inOther.m_filename )
 {
 }
 
@@ -43,7 +43,7 @@ CalCoreMaterial::CalCoreMaterial( const CalCoreMaterial& inOther )
   * @return A reference to the ambient color.
   *****************************************************************************/
 
-CalCoreMaterial::Color& CalCoreMaterial::getAmbientColor()
+const CalCoreMaterial::Color& CalCoreMaterial::getAmbientColor() const
 {
   return m_ambientColor;
 }
@@ -56,7 +56,7 @@ CalCoreMaterial::Color& CalCoreMaterial::getAmbientColor()
   * @return A reference to the diffuse color.
   *****************************************************************************/
 
-CalCoreMaterial::Color& CalCoreMaterial::getDiffuseColor()
+const CalCoreMaterial::Color& CalCoreMaterial::getDiffuseColor() const
 {
   return m_diffuseColor;
 }
@@ -84,7 +84,7 @@ int CalCoreMaterial::getMapCount() const
   *
   * @return One of the following values:
   *         \li the filename of the map texture
-  *         \li an empty string if an error happend
+  *         \li an empty string if an error happened
   *****************************************************************************/
 
 const std::string& CalCoreMaterial::getMapFilename(int mapId) const
@@ -110,10 +110,35 @@ const std::string& CalCoreMaterial::getMapFilename(int mapId) const
   *
   * @return One of the following values:
   *         \li the user data stored in the specified map
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 Cal::UserData CalCoreMaterial::getMapUserData(int mapId)
+{
+  // check if the map id is valid
+  if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorMap[mapId].userData;
+}
+
+ /*****************************************************************************/
+/** Provides access to a specified map user data.
+  *
+  * This function returns the user data stored in the specified map of the core
+  * material instance.
+  *
+  * @param mapId The ID of the map.
+  *
+  * @return One of the following values:
+  *         \li the user data stored in the specified map
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const Cal::UserData CalCoreMaterial::getMapUserData(int mapId) const
 {
   // check if the map id is valid
   if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
@@ -146,7 +171,7 @@ float CalCoreMaterial::getShininess() const
   * @return A reference to the specular color.
   *****************************************************************************/
 
-CalCoreMaterial::Color& CalCoreMaterial::getSpecularColor()
+const CalCoreMaterial::Color& CalCoreMaterial::getSpecularColor() const
 {
   return m_specularColor;
 }
@@ -160,6 +185,19 @@ CalCoreMaterial::Color& CalCoreMaterial::getSpecularColor()
   *****************************************************************************/
 
 Cal::UserData CalCoreMaterial::getUserData()
+{
+  return m_userData;
+}
+
+ /*****************************************************************************/
+/** Provides access to the user data.
+  *
+  * This function returns the user data stored in the core material instance.
+  *
+  * @return The user data stored in the core material instance.
+  *****************************************************************************/
+
+const Cal::UserData CalCoreMaterial::getUserData() const
 {
   return m_userData;
 }
@@ -179,6 +217,20 @@ std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap()
 }
 
  /*****************************************************************************/
+/** Returns the map vector.
+  *
+  * This function returns the vector that contains all maps of the core material
+  * instance.
+  *
+  * @return A reference to the map vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap() const
+{
+  return m_vectorMap;
+}
+
+ /*****************************************************************************/
 /** Reserves memory for the maps.
   *
   * This function reserves memory for the maps of the core material instance.
@@ -188,7 +240,7 @@ std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreMaterial::reserve(int mapCount)
@@ -244,7 +296,7 @@ void CalCoreMaterial::setDiffuseColor(const CalCoreMaterial::Color& diffuseColor
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreMaterial::setMap(int mapId, const Map& map)
@@ -267,7 +319,7 @@ bool CalCoreMaterial::setMap(int mapId, const Map& map)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreMaterial::setMapUserData(int mapId, Cal::UserData userData)

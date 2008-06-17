@@ -31,6 +31,20 @@ std::vector<CalCoreSubMorphTarget::BlendVertex>& CalCoreSubMorphTarget::getVecto
 }
 
  /*****************************************************************************/
+/** Returns the blend vertex vector.
+  *
+  * This function returns the vector that contains all blend vertices of the core
+  * sub morph target instance.
+  *
+  * @return A reference to the blend vertex vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubMorphTarget::BlendVertex>& CalCoreSubMorphTarget::getVectorBlendVertex() const
+{
+  return m_vectorBlendVertex;
+}
+
+ /*****************************************************************************/
 /** Returns the number of blend vertices.
   *
   * This function returns the number of blend vertices in the 
@@ -52,7 +66,7 @@ int CalCoreSubMorphTarget::getBlendVertexCount() const
   * @param The core submesh.
   *****************************************************************************/
 
-void	CalCoreSubMorphTarget::setCoreSubmesh( CalCoreSubmesh* inCoreSubmesh )
+void CalCoreSubMorphTarget::setCoreSubmesh( CalCoreSubmesh *inCoreSubmesh )
 {
 	m_coreSubmesh = inCoreSubmesh;
 }
@@ -66,7 +80,7 @@ void	CalCoreSubMorphTarget::setCoreSubmesh( CalCoreSubmesh* inCoreSubmesh )
   * @return The number of blend vertices.
   *****************************************************************************/
 
-CalCoreSubmesh*		CalCoreSubMorphTarget::getCoreSubmesh() const
+const CalCoreSubmesh *CalCoreSubMorphTarget::getCoreSubmesh() const
 {
 	return m_coreSubmesh;
 }
@@ -83,7 +97,7 @@ CalCoreSubmesh*		CalCoreSubMorphTarget::getCoreSubmesh() const
  *
  * @return One of the following values:
  *         \li \b true if successful
- *         \li \b false if an error happend
+ *         \li \b false if an error happened
  *****************************************************************************/
 
 bool CalCoreSubMorphTarget::reserve(int blendVertexCount)

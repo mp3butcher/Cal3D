@@ -21,9 +21,11 @@ public:
   CalCoreMorphAnimation()  { }
   ~CalCoreMorphAnimation() { }
 
-  bool addMorphTarget(int coreMeshID,int morphTargetID);
+  bool addMorphTarget(int coreMeshID, int morphTargetID);
   std::vector<int>& getVectorCoreMeshID();
+  const std::vector<int>& getVectorCoreMeshID() const;
   std::vector<int>& getVectorMorphTargetID();
+  const std::vector<int>& getVectorMorphTargetID() const;
 
   const std::string& getName() const;
   void setName( const std::string& name );
@@ -31,7 +33,7 @@ public:
 private:
   std::vector<int> m_vectorCoreMeshID;
   std::vector<int> m_vectorMorphTargetID;
-  std::string		m_name;
+  std::string      m_name;
 };
 
 typedef cal3d::RefPtr<CalCoreMorphAnimation> CalCoreMorphAnimationPtr;

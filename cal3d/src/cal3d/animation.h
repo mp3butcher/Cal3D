@@ -41,11 +41,12 @@ public:
   };
 
 protected:
-  CalAnimation(CalCoreAnimation* pCoreAnimation);
+  CalAnimation(CalCoreAnimation *pCoreAnimation);
 public:
     virtual ~CalAnimation() {  }
 
   CalCoreAnimation *getCoreAnimation();
+  const CalCoreAnimation *getCoreAnimation() const;
   State getState() const;
   float getTime() const;
   Type getType() const;
@@ -54,7 +55,7 @@ public:
   void setTimeFactor(float timeFactor);
   float getTimeFactor() const;
 
-  void checkCallbacks(float animationTime,CalModel *model);
+  void checkCallbacks(float animationTime, CalModel *model);
   void completeCallbacks(CalModel *model);
 
 protected:

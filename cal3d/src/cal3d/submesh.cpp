@@ -18,7 +18,7 @@
 
 #include <string.h>
 
-CalSubmesh::CalSubmesh(CalCoreSubmesh* coreSubmesh)
+CalSubmesh::CalSubmesh(CalCoreSubmesh *coreSubmesh)
 {
   assert(coreSubmesh);
 
@@ -88,7 +88,7 @@ CalSubmesh::CalSubmesh(CalCoreSubmesh* coreSubmesh)
   *
   * @return One of the following values:
   *         \li the \b ID of the core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalSubmesh::getCoreMaterialId() const
@@ -104,10 +104,26 @@ int CalSubmesh::getCoreMaterialId() const
   *
   * @return One of the following values:
   *         \li a pointer to the core submesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSubmesh *CalSubmesh::getCoreSubmesh()
+{
+  return m_pCoreSubmesh;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core submesh.
+  *
+  * This function returns the core submesh on which this submesh instance is
+  * based on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core submesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSubmesh *CalSubmesh::getCoreSubmesh() const
 {
   return m_pCoreSubmesh;
 }
@@ -136,7 +152,7 @@ int CalSubmesh::getFaceCount() const
   *
   * @return The number of faces written to the buffer.
   *****************************************************************************/
-int CalSubmesh::getFaces(CalIndex *pFaceBuffer)
+int CalSubmesh::getFaces(CalIndex *pFaceBuffer) const
 {
   // copy the face vector to the face buffer
   memcpy(pFaceBuffer, &m_vectorFace[0], m_faceCount * sizeof(Face));
@@ -158,7 +174,21 @@ std::vector<CalVector>& CalSubmesh::getVectorNormal()
   return m_vectorNormal;
 }
 
-   /*****************************************************************************/
+ /*****************************************************************************/
+/** Returns the normal vector.
+  *
+  * This function returns the vector that contains all normals of the submesh
+  * instance.
+  *
+  * @return A reference to the normal vector.
+  *****************************************************************************/
+
+const std::vector<CalVector>& CalSubmesh::getVectorNormal() const
+{
+  return m_vectorNormal;
+}
+
+ /*****************************************************************************/
 /** Returns the tangent space vector-vector.
   *
   * This function returns the vector that contains all tangent space bases of
@@ -173,6 +203,20 @@ std::vector<std::vector<CalSubmesh::TangentSpace> >& CalSubmesh::getVectorVector
   return m_vectorvectorTangentSpace;
 }
 
+ /*****************************************************************************/
+/** Returns the tangent space vector-vector.
+  *
+  * This function returns the vector that contains all tangent space bases of
+  * the submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the tangent space vector-vector.
+  *****************************************************************************/
+
+const std::vector<std::vector<CalSubmesh::TangentSpace> >& CalSubmesh::getVectorVectorTangentSpace() const
+{
+  return m_vectorvectorTangentSpace;
+}
 
  /*****************************************************************************/
 /** Returns the physical property vector.
@@ -189,6 +233,20 @@ std::vector<CalSubmesh::PhysicalProperty>& CalSubmesh::getVectorPhysicalProperty
 }
 
  /*****************************************************************************/
+/** Returns the physical property vector.
+  *
+  * This function returns the vector that contains all physical properties of
+  * the submesh instance.
+  *
+  * @return A reference to the physical property vector.
+  *****************************************************************************/
+
+const std::vector<CalSubmesh::PhysicalProperty>& CalSubmesh::getVectorPhysicalProperty() const
+{
+  return m_vectorPhysicalProperty;
+}
+
+ /*****************************************************************************/
 /** Returns the vertex vector.
   *
   * This function returns the vector that contains all vertices of the submesh
@@ -198,6 +256,20 @@ std::vector<CalSubmesh::PhysicalProperty>& CalSubmesh::getVectorPhysicalProperty
   *****************************************************************************/
 
 std::vector<CalVector>& CalSubmesh::getVectorVertex()
+{
+  return m_vectorVertex;
+}
+
+ /*****************************************************************************/
+/** Returns the vertex vector.
+  *
+  * This function returns the vector that contains all vertices of the submesh
+  * instance.
+  *
+  * @return A reference to the vertex vector.
+  *****************************************************************************/
+
+const std::vector<CalVector>& CalSubmesh::getVectorVertex() const
 {
   return m_vectorVertex;
 }
@@ -300,8 +372,6 @@ bool CalSubmesh::enableTangents(int mapId, bool enabled)
   return true;    
 }
 
-
-
  /*****************************************************************************/
 /** Sets the core material ID.
   *
@@ -386,7 +456,7 @@ void CalSubmesh::setLodLevel(float lodLevel)
   * @param weight The weight to be set.
   *****************************************************************************/
 
-void CalSubmesh::setMorphTargetWeight(int blendId,float weight)
+void CalSubmesh::setMorphTargetWeight(int blendId, float weight)
 {
   m_vectorMorphTargetWeight[blendId] = weight;
 }
@@ -429,7 +499,22 @@ float CalSubmesh::getBaseWeight() const
   *
   * @return A reference to the weight vector.
   *****************************************************************************/
+
 std::vector<float>& CalSubmesh::getVectorMorphTargetWeight()
+{
+  return m_vectorMorphTargetWeight;
+}
+
+ /*****************************************************************************/
+/** Returns the morph target weight vector.
+  *
+  * This function returns the vector that contains all weights for
+  * each morph target instance.
+  *
+  * @return A reference to the weight vector.
+  *****************************************************************************/
+
+const std::vector<float>& CalSubmesh::getVectorMorphTargetWeight() const
 {
   return m_vectorMorphTargetWeight;
 }

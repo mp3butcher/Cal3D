@@ -34,7 +34,7 @@
   * This function is the default constructor of the spring system instance.
   *****************************************************************************/
 
-CalSpringSystem::CalSpringSystem(CalModel* pModel)
+CalSpringSystem::CalSpringSystem(CalModel *pModel)
 {
   assert(pModel);
   m_pModel = pModel;
@@ -395,7 +395,7 @@ void CalSpringSystem::update(float deltaTime)
   * @return the gravity vector as vector.
   *****************************************************************************/
 
-CalVector & CalSpringSystem::getGravityVector()
+const CalVector & CalSpringSystem::getGravityVector() const
 {
 	return m_vGravity;
 }
@@ -409,7 +409,7 @@ CalVector & CalSpringSystem::getGravityVector()
   *****************************************************************************/
 
 
-CalVector & CalSpringSystem::getForceVector()
+const CalVector & CalSpringSystem::getForceVector() const
 {
 	return m_vForce;
 }

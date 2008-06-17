@@ -49,7 +49,7 @@ CalCoreBone::CalCoreBone(const std::string& name)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreBone::addChildId(int childId)
@@ -107,6 +107,20 @@ void CalCoreBone::calculateState()
   *****************************************************************************/
 
 std::list<int>& CalCoreBone::getListChildId()
+{
+  return m_listChildId;
+}
+
+ /*****************************************************************************/
+/** Returns the child ID list.
+  *
+  * This function returns the list that contains all child IDs of the core bone
+  * instance.
+  *
+  * @return A reference to the child ID list.
+  *****************************************************************************/
+
+const std::list<int>& CalCoreBone::getListChildId() const
 {
   return m_listChildId;
 }
@@ -249,6 +263,19 @@ Cal::UserData CalCoreBone::getUserData()
 }
 
  /*****************************************************************************/
+/** Provides access to the user data.
+  *
+  * This function returns the user data stored in the core bone instance.
+  *
+  * @return The user data stored in the core bone instance.
+  *****************************************************************************/
+
+const Cal::UserData CalCoreBone::getUserData() const
+{
+  return m_userData;
+}
+
+ /*****************************************************************************/
 /** Sets the core skeleton.
   *
   * This function sets the core skeleton to which the core bone instance is
@@ -276,17 +303,32 @@ void CalCoreBone::setParentId(int parentId)
   m_parentId = parentId;
 }
 
-/*****************************************************************************/
+ /*****************************************************************************/
 /** Provides access to the core skeleton.
   *
   * This function returns the core skeleton.
   *
   * @return One of the following values:
   *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSkeleton *CalCoreBone::getCoreSkeleton()
+{
+  return m_pCoreSkeleton;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core skeleton.
+  *
+  * This function returns the core skeleton.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSkeleton *CalCoreBone::getCoreSkeleton() const
 {
   return m_pCoreSkeleton;
 }
@@ -467,7 +509,20 @@ CalBoundingBox & CalCoreBone::getBoundingBox()
    return m_boundingBox;
 }
 
-void CalCoreBone::getBoundingData(int planeId,CalVector & position)
+ /*****************************************************************************/
+/** Returns the current bounding box.
+  *
+  * This function returns the current bounding box of the core bone instance.
+  *
+  * @return bounding box.
+  *****************************************************************************/
+
+const CalBoundingBox & CalCoreBone::getBoundingBox() const
+{
+  return m_boundingBox;
+}
+
+void CalCoreBone::getBoundingData(int planeId,CalVector & position) const
 {
    position = m_boundingPosition[planeId];
 }
@@ -510,4 +565,5 @@ void CalCoreBone::scale(float factor)
 
 
 //****************************************************************************//
+
 

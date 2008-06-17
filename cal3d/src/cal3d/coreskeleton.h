@@ -30,19 +30,23 @@ public:
 
   int addCoreBone(CalCoreBone *pCoreBone);
   void calculateState();
-  CalCoreBone* getCoreBone(int coreBoneId);
-  CalCoreBone* getCoreBone(const std::string& strName);
-  int getCoreBoneId(const std::string& strName);
+  CalCoreBone *getCoreBone(int coreBoneId);
+  const CalCoreBone *getCoreBone(int coreBoneId) const;
+  CalCoreBone *getCoreBone(const std::string& strName);
+  const CalCoreBone *getCoreBone(const std::string& strName) const;
+  int getCoreBoneId(const std::string& strName) const;
   bool mapCoreBoneName(int coreBoneId, const std::string& strName);
   std::vector<int>& getVectorRootCoreBoneId();
+  const std::vector<int>& getVectorRootCoreBoneId() const;
   std::vector<CalCoreBone *>& getVectorCoreBone();
-  void calculateBoundingBoxes(CalCoreModel * pCoreModel);
+  const std::vector<CalCoreBone *>& getVectorCoreBone() const;
+  void calculateBoundingBoxes(CalCoreModel *pCoreModel);
   void scale(float factor);
 
 private:
-  std::vector<CalCoreBone *> m_vectorCoreBone;
+  std::vector<CalCoreBone *>   m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
-  std::vector<int> m_vectorRootCoreBoneId;  
+  std::vector<int>             m_vectorRootCoreBoneId;  
 };
 typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 

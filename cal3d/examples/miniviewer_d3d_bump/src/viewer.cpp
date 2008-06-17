@@ -660,22 +660,22 @@ bool Viewer::onInit()
 
   // Enable tangents
 
-  for(meshId = 0; meshId < m_calCoreModel->getCoreMeshCount(); meshId++) 
-  { 
-      int submeshId; 
-      for(submeshId = 0; submeshId < m_calModel->getMesh(meshId)->getSubmeshCount() ; submeshId++) 
-      { 
-          CalSubmesh * Submesh = m_calModel->getMesh(meshId)->getSubmesh(submeshId); 
-          CalCoreMaterial *pCoreMaterial= m_calCoreModel->getCoreMaterial(Submesh->getCoreMaterialId()); 
+  for(meshId = 0; meshId < m_calCoreModel->getCoreMeshCount(); meshId++)
+  {
+    int submeshId;
+    for(submeshId = 0; submeshId < m_calModel->getMesh(meshId)->getSubmeshCount() ; submeshId++)
+    {
+      CalSubmesh *Submesh = m_calModel->getMesh(meshId)->getSubmesh(submeshId);
+      CalCoreMaterial *pCoreMaterial= m_calCoreModel->getCoreMaterial(Submesh->getCoreMaterialId());
 
-		  if(pCoreMaterial->getMapCount()==2)
-		  {
-		     if(strstr(pCoreMaterial->getMapFilename(1).c_str(),"bump")!=NULL)
-			 {
-                 Submesh->enableTangents(1,true);				 
-			 }			 
-		  }          
-      } 
+      if(pCoreMaterial->getMapCount()==2)
+      {
+        if(strstr(pCoreMaterial->getMapFilename(1).c_str(),"bump")!=NULL)
+        {
+          Submesh->enableTangents(1,true);
+        }
+      }
+    }
   }
 
   m_bBump=g_bCanDot3;
@@ -1083,7 +1083,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     // stop if we reached the end of file
     if(file.eof()) break;
 
-    // check if an error happend while reading from the file
+    // check if an error happened while reading from the file
     if(!file)
     {
       std::cout << "Error while reading from the model configuration file '" << strFilename << "'." << std::endl;
@@ -1429,6 +1429,7 @@ void Viewer::setDimension(int width, int height)
 }
 
 //----------------------------------------------------------------------------//
+
 
 
 

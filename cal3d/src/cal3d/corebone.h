@@ -31,10 +31,12 @@ public:
   bool addChildId(int childId);
   void calculateState();
   std::list<int>& getListChildId();
+  const std::list<int>& getListChildId() const;
   const std::string& getName() const;
   void setName( const std::string& name );
   int getParentId() const;
   CalCoreSkeleton *getCoreSkeleton();
+  const CalCoreSkeleton *getCoreSkeleton() const;
   const CalQuaternion& getRotation() const;
   const CalQuaternion& getRotationAbsolute() const;
   const CalQuaternion& getRotationBoneSpace() const;
@@ -42,6 +44,7 @@ public:
   const CalVector& getTranslationAbsolute() const;
   const CalVector& getTranslationBoneSpace() const;
   Cal::UserData getUserData();
+  const Cal::UserData getUserData() const;
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void setParentId(int parentId);
   void setRotation(const CalQuaternion& rotation);
@@ -53,28 +56,29 @@ public:
   void initBoundingBox();
   void calculateBoundingBox(CalCoreModel * pCoreModel);
   CalBoundingBox & getBoundingBox();
-  void getBoundingData(int planeId,CalVector & position); 
+  const CalBoundingBox & getBoundingBox() const;
+  void getBoundingData(int planeId,CalVector & position) const;
   bool isBoundingBoxPrecomputed() const;
   void setBoundingBoxPrecomputed( bool inComputed );
   void updateBoundingBox( const CalVector & position );
   void scale(float factor);
   
 private:
-  std::string m_strName;
+  std::string      m_strName;
   CalCoreSkeleton *m_pCoreSkeleton;
-  int m_parentId;
-  std::list<int> m_listChildId;
-  CalVector m_translation;
-  CalQuaternion m_rotation;
-  CalVector m_translationAbsolute;
-  CalQuaternion m_rotationAbsolute;
-  CalVector m_translationBoneSpace;
-  CalQuaternion m_rotationBoneSpace;
-  Cal::UserData m_userData;
+  int              m_parentId;
+  std::list<int>   m_listChildId;
+  CalVector        m_translation;
+  CalQuaternion    m_rotation;
+  CalVector        m_translationAbsolute;
+  CalQuaternion    m_rotationAbsolute;
+  CalVector        m_translationBoneSpace;
+  CalQuaternion    m_rotationBoneSpace;
+  Cal::UserData    m_userData;
 
-  CalBoundingBox m_boundingBox;
-  CalVector m_boundingPosition[6];
-  bool m_boundingBoxPrecomputed;
+  CalBoundingBox   m_boundingBox;
+  CalVector        m_boundingPosition[6];
+  bool             m_boundingBoxPrecomputed;
 };
 
 #endif

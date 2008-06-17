@@ -23,7 +23,7 @@
 #include "cal3d/coreskeleton.h"
 
 
-CalBone::CalBone(CalCoreBone* coreBone)
+CalBone::CalBone(CalCoreBone *coreBone)
   : m_pSkeleton(0)
 {
   assert(coreBone);
@@ -97,7 +97,7 @@ void CalBone::calculateState()
   else
   {
     // get the parent bone
-    CalBone *pParent;
+    const CalBone *pParent;
     pParent = m_pSkeleton->getBone(parentId);
 
     // transform relative state with the absolute state of the parent
@@ -150,10 +150,26 @@ void CalBone::clearState()
   *
   * @return One of the following values:
   *         \li a pointer to the core bone
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreBone *CalBone::getCoreBone()
+{
+  return m_pCoreBone;
+}
+
+
+ /*****************************************************************************/
+/** Provides access to the core bone.
+  *
+  * This function returns the core bone on which this bone instance is based on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core bone
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreBone *CalBone::getCoreBone() const
 {
   return m_pCoreBone;
 }
@@ -460,5 +476,17 @@ CalBoundingBox & CalBone::getBoundingBox()
    return m_boundingBox;
 }
 
+ /*****************************************************************************/
+/** Returns the current bounding box.
+  *
+  * This function returns the current bounding box of the bone instance.
+  *
+  * @return bounding box.
+  *****************************************************************************/
+
+const CalBoundingBox & CalBone::getBoundingBox() const
+{
+  return m_boundingBox;
+}
 
 //****************************************************************************//

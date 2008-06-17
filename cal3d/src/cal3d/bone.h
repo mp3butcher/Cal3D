@@ -28,13 +28,14 @@ class CalCoreModel;
 class CAL3D_API CalBone
 {
 public:
-  CalBone(CalCoreBone* coreBone);
+  CalBone(CalCoreBone *coreBone);
   ~CalBone() { }
 
   void blendState(float weight, const CalVector& translation, const CalQuaternion& rotation);
   void calculateState();
   void clearState();
   CalCoreBone *getCoreBone();
+  const CalCoreBone *getCoreBone() const;
   void setCoreState();
   void setCoreStateRecursive();
   void setRotation(const CalQuaternion& rotation);
@@ -50,19 +51,20 @@ public:
   void setSkeleton(CalSkeleton *pSkeleton);
   void calculateBoundingBox();
   CalBoundingBox & getBoundingBox();
+  const CalBoundingBox & getBoundingBox() const;
 
 private:
-  CalCoreBone *m_pCoreBone;
-  CalSkeleton *m_pSkeleton;
-  float m_accumulatedWeight;
-  float m_accumulatedWeightAbsolute;
-  CalVector m_translation;
-  CalQuaternion m_rotation;
-  CalVector m_translationAbsolute;
-  CalQuaternion m_rotationAbsolute;
-  CalVector m_translationBoneSpace;
-  CalQuaternion m_rotationBoneSpace;
-  CalMatrix m_transformMatrix;  
+  CalCoreBone   *m_pCoreBone;
+  CalSkeleton   *m_pSkeleton;
+  float          m_accumulatedWeight;
+  float          m_accumulatedWeightAbsolute;
+  CalVector      m_translation;
+  CalQuaternion  m_rotation;
+  CalVector      m_translationAbsolute;
+  CalQuaternion  m_rotationAbsolute;
+  CalVector      m_translationBoneSpace;
+  CalQuaternion  m_rotationBoneSpace;
+  CalMatrix      m_transformMatrix;  
   CalBoundingBox m_boundingBox;
 };
 

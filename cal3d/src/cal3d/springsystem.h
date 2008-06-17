@@ -36,7 +36,7 @@ class CalSubmesh;
 class CAL3D_API CalSpringSystem
 {
 public:
-  CalSpringSystem(CalModel* pModel);
+  CalSpringSystem(CalModel *pModel);
   ~CalSpringSystem() { }
 
 // member functions	
@@ -46,9 +46,9 @@ public:
   void update(float deltaTime);
   void resetPositions();
   
-  CalVector & getGravityVector();
+  const CalVector & getGravityVector() const;
   void setGravityVector(const CalVector & vGravity);
-  CalVector & getForceVector();
+  const CalVector & getForceVector() const;
   void setForceVector(const CalVector & vForce);
   void setCollisionDetection(bool collision);
 
@@ -65,7 +65,7 @@ private:
   CalModel *m_pModel;
   CalVector m_vGravity;  
   CalVector m_vForce;  
-  bool m_collision;
+  bool      m_collision;
 };
 
 #endif

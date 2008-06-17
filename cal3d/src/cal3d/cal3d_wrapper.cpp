@@ -1682,6 +1682,11 @@ CalMesh *CalModel_GetMesh(CalModel *self, int coreMeshId)
   return self->getMesh(coreMeshId);
 }
 
+const CalMesh *CalModel_GetMeshConst(const CalModel *self, int coreMeshId)
+{
+  return self->getMesh(coreMeshId);
+}
+
 CalMixer *CalModel_GetMixer(CalModel *self)
 {
   return self->getMixer();
@@ -1692,7 +1697,17 @@ CalMorphTargetMixer *CalModel_GetMorphTargetMixer(CalModel *self)
   return self->getMorphTargetMixer();
 }
 
+const CalMorphTargetMixer *CalModel_GetMorphTargetMixerConst(const CalModel *self)
+{
+  return self->getMorphTargetMixer();
+}
+
 CalPhysique *CalModel_GetPhysique(CalModel *self)
+{
+  return self->getPhysique();
+}
+
+const CalPhysique *CalModel_GetPhysiqueConst(const CalModel *self)
 {
   return self->getPhysique();
 }
@@ -1713,6 +1728,11 @@ CalSkeleton *CalModel_GetSkeleton(CalModel *self)
 }
 
 CalSpringSystem *CalModel_GetSpringSystem(CalModel *self)
+{
+  return self->getSpringSystem();
+}
+
+const CalSpringSystem *CalModel_GetSpringSystemConst(const CalModel *self)
 {
   return self->getSpringSystem();
 }
@@ -2064,12 +2084,22 @@ CalBone *CalSkeleton_GetBone(CalSkeleton *self, int boneId)
   return self->getBone(boneId);
 }
 
-int CalSkeleton_GetBoneCount(CalSkeleton *self)
+const CalBone *CalSkeleton_GetBoneConst(const CalSkeleton *self, int boneId)
+{
+  return self->getBone(boneId);
+}
+
+int CalSkeleton_GetBoneCount(const CalSkeleton *self)
 {
 	return self->getVectorBone().size();
 }
 
 CalCoreSkeleton *CalSkeleton_GetCoreSkeleton(CalSkeleton *self)
+{
+  return self->getCoreSkeleton();
+}
+
+const CalCoreSkeleton *CalSkeleton_GetCoreSkeletonConst(const CalSkeleton *self)
 {
   return self->getCoreSkeleton();
 }
@@ -2154,12 +2184,12 @@ void CalSpringSystem_Update(CalSpringSystem *self, float deltaTime)
   self->update(deltaTime);
 }
 
-CalVector* CalSpringSystem_GetGravityVector(CalSpringSystem *self)
+const CalVector *CalSpringSystem_GetGravityVector(const CalSpringSystem *self)
 {
 	return &self->getGravityVector();
 }
 
-CalVector* CalSpringSystem_GetForceVector(CalSpringSystem *self)
+const CalVector *CalSpringSystem_GetForceVector(const CalSpringSystem *self)
 {
 	return &self->getForceVector();
 }

@@ -80,10 +80,25 @@ CalMesh::~CalMesh()
   *
   * @return One of the following values:
   *         \li a pointer to the core mesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreMesh *CalMesh::getCoreMesh()
+{
+  return m_pCoreMesh;
+}
+
+ /*****************************************************************************/
+/** Provides access to the core mesh.
+  *
+  * This function returns the core mesh on which this mesh instance is based on.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreMesh *CalMesh::getCoreMesh() const
 {
   return m_pCoreMesh;
 }
@@ -97,10 +112,33 @@ CalCoreMesh *CalMesh::getCoreMesh()
   *
   * @return One of the following values:
   *         \li a pointer to the submesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalSubmesh *CalMesh::getSubmesh(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorSubmesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorSubmesh[id];
+}
+
+ /*****************************************************************************/
+/** Provides access to a submesh.
+  *
+  * This function returns the submesh with the given ID.
+  *
+  * @param id The ID of the submesh that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the submesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalSubmesh *CalMesh::getSubmesh(int id) const
 {
   if((id < 0) || (id >= (int)m_vectorSubmesh.size()))
   {
@@ -134,6 +172,20 @@ int CalMesh::getSubmeshCount() const
   *****************************************************************************/
 
 std::vector<CalSubmesh *>& CalMesh::getVectorSubmesh()
+{
+  return m_vectorSubmesh;
+}
+
+ /*****************************************************************************/
+/** Returns the submesh vector.
+  *
+  * This function returns the vector that contains all submeshes of the mesh
+  * instance.
+  *
+  * @return A reference to the submesh vector.
+  *****************************************************************************/
+
+const std::vector<CalSubmesh *>& CalMesh::getVectorSubmesh() const
 {
   return m_vectorSubmesh;
 }

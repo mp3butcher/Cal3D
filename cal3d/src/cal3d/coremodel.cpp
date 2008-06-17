@@ -95,7 +95,7 @@ int CalCoreModel::addCoreAnimation(CalCoreAnimation *pCoreAnimation)
   *
   * @return One of the following values:
   *         \li the assigned morph animation \b ID of the added core morph animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimation)
@@ -118,7 +118,7 @@ int CalCoreModel::addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimati
   *
   * @return One of the following values:
   *         \li the assigned material \b ID of the added core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
@@ -158,7 +158,7 @@ void CalCoreModel::cloneCoreMaterials()
   *
   * @return One of the following values:
   *         \li the assigned mesh \b ID of the added core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
@@ -220,7 +220,7 @@ void CalCoreModel::setName( const char* inName )
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreModel::createCoreMaterialThread(int coreMaterialThreadId)
@@ -241,10 +241,33 @@ bool CalCoreModel::createCoreMaterialThread(int coreMaterialThreadId)
   *
   * @return One of the following values:
   *         \li a pointer to the core animation
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId)
+{
+  if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreAnimation[coreAnimationId].get();
+}
+
+ /*****************************************************************************/
+/** Provides access to a core animation.
+  *
+  * This function returns the core animation with the given ID.
+  *
+  * @param coreAnimationId The ID of the core animation that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId) const
 {
   if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
   {
@@ -264,10 +287,33 @@ CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId)
   *
   * @return One of the following values:
   *         \li a pointer to the core morph animation
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimationId)
+{
+  if((coreMorphAnimationId < 0) || (coreMorphAnimationId >= (int)m_vectorCoreMorphAnimation.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreMorphAnimation[coreMorphAnimationId].get();
+}
+
+ /*****************************************************************************/
+/** Provides access to a core morph animation.
+  *
+  * This function returns the core morph animation with the given ID.
+  *
+  * @param coreMorphAnimationId The ID of the core morph animation that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core morph animation
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimationId) const
 {
   if((coreMorphAnimationId < 0) || (coreMorphAnimationId >= (int)m_vectorCoreMorphAnimation.size()))
   {
@@ -316,10 +362,33 @@ int CalCoreModel::getCoreMorphAnimationCount() const
   *
   * @return One of the following values:
   *         \li a pointer to the core material
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreMaterial *CalCoreModel::getCoreMaterial(int coreMaterialId)
+{
+  if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreMaterial[coreMaterialId].get();
+}
+
+ /*****************************************************************************/
+/** Provides access to a core material.
+  *
+  * This function returns the core material with the given ID.
+  *
+  * @param coreMaterialId The ID of the core material that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core material
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreMaterial *CalCoreModel::getCoreMaterial(int coreMaterialId) const
 {
   if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
   {
@@ -355,13 +424,13 @@ int CalCoreModel::getCoreMaterialCount() const
   *
   * @return One of the following values:
   *         \li the \b ID of the core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreModel::getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId)
+int CalCoreModel::getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId) const
 {
   // find the core material thread
-  std::map<int, std::map<int, int> >::iterator iteratorCoreMaterialThread;
+  std::map<int, std::map<int, int> >::const_iterator iteratorCoreMaterialThread;
   iteratorCoreMaterialThread = m_mapmapCoreMaterialThread.find(coreMaterialThreadId);
   if(iteratorCoreMaterialThread == m_mapmapCoreMaterialThread.end())
   {
@@ -370,10 +439,10 @@ int CalCoreModel::getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSe
   }
 
   // get the core material thread
-  std::map<int, int>& coreMaterialThread = (*iteratorCoreMaterialThread).second;
+  const std::map<int, int>& coreMaterialThread = (*iteratorCoreMaterialThread).second;
 
   // find the material id for the given set
-  std::map<int, int>::iterator iteratorSet;
+  std::map<int, int>::const_iterator iteratorSet;
   iteratorSet = coreMaterialThread.find(coreMaterialSetId);
   if(iteratorSet == coreMaterialThread.end())
   {
@@ -393,10 +462,33 @@ int CalCoreModel::getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSe
   *
   * @return One of the following values:
   *         \li a pointer to the core mesh
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreMesh *CalCoreModel::getCoreMesh(int coreMeshId)
+{
+  if((coreMeshId < 0) || (coreMeshId >= (int)m_vectorCoreMesh.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return 0;
+  }
+
+  return m_vectorCoreMesh[coreMeshId].get();
+}
+
+ /*****************************************************************************/
+/** Provides access to a core mesh.
+  *
+  * This function returns the core mesh with the given ID.
+  *
+  * @param coreMeshId The ID of the core mesh that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core mesh
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreMesh *CalCoreModel::getCoreMesh(int coreMeshId) const
 {
   if((coreMeshId < 0) || (coreMeshId >= (int)m_vectorCoreMesh.size()))
   {
@@ -427,10 +519,25 @@ int CalCoreModel::getCoreMeshCount() const
   *
   * @return One of the following values:
   *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSkeleton *CalCoreModel::getCoreSkeleton()
+{
+  return m_pCoreSkeleton.get();
+}
+
+ /*****************************************************************************/
+/** Provides access to the core skeleton.
+  *
+  * This function returns the core skeleton.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core skeleton
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSkeleton *CalCoreModel::getCoreSkeleton() const
 {
   return m_pCoreSkeleton.get();
 }
@@ -449,6 +556,19 @@ Cal::UserData CalCoreModel::getUserData()
 }
 
  /*****************************************************************************/
+/** Provides access to the user data.
+  *
+  * This function returns the user data stored in the core model instance.
+  *
+  * @return The user data stored in the core model instance.
+  *****************************************************************************/
+
+const Cal::UserData CalCoreModel::getUserData() const
+{
+  return m_userData;
+}
+
+ /*****************************************************************************/
 /** Loads a core animation.
   *
   * This function loads a core animation from a file.
@@ -458,7 +578,7 @@ Cal::UserData CalCoreModel::getUserData()
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
@@ -494,7 +614,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName)
@@ -541,7 +661,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::unloadCoreAnimation(const std::string& name)
@@ -562,7 +682,7 @@ int CalCoreModel::unloadCoreAnimation(const std::string& name)
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 
@@ -588,7 +708,7 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreAnimation(void* buffer)
@@ -624,7 +744,7 @@ int CalCoreModel::loadCoreAnimation(void* buffer)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
@@ -659,7 +779,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName)
@@ -705,7 +825,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMaterial(void* buffer)
@@ -741,7 +861,7 @@ int CalCoreModel::loadCoreMaterial(void* buffer)
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::unloadCoreMaterial(const std::string& name)
@@ -762,7 +882,7 @@ int CalCoreModel::unloadCoreMaterial(const std::string& name)
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core material
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 
@@ -788,7 +908,7 @@ int CalCoreModel::unloadCoreMaterial(int coreMaterialId)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core mesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMesh(const std::string& strFilename)
@@ -823,7 +943,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core mesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string& strMeshName)
@@ -869,7 +989,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core mesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreMesh(void* buffer)
@@ -907,7 +1027,7 @@ int CalCoreModel::loadCoreMesh(void* buffer)
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core mesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::unloadCoreMesh(const std::string& name)
@@ -928,7 +1048,7 @@ int CalCoreModel::unloadCoreMesh(const std::string& name)
   *
   * @return One of the following values:
   *         \li the core \b ID of the unloaded core mesh
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 
@@ -956,7 +1076,7 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
@@ -975,7 +1095,7 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreModel::loadCoreSkeleton(void* buffer)
@@ -997,10 +1117,10 @@ bool CalCoreModel::loadCoreSkeleton(void* buffer)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAnimationId)
+bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAnimationId) const
 {
   // check if the core animation id is valid
   if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
@@ -1028,10 +1148,10 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreModel::saveCoreMaterial(const std::string& strFilename, int coreMaterialId)
+bool CalCoreModel::saveCoreMaterial(const std::string& strFilename, int coreMaterialId) const
 {
   // check if the core material id is valid
   if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
@@ -1054,10 +1174,10 @@ bool CalCoreModel::saveCoreMaterial(const std::string& strFilename, int coreMate
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreModel::saveCoreMesh(const std::string& strFilename, int coreMeshId)
+bool CalCoreModel::saveCoreMesh(const std::string& strFilename, int coreMeshId) const
 {
   // check if the core mesh id is valid
   if((coreMeshId < 0) || (coreMeshId >= (int)m_vectorCoreMesh.size()))
@@ -1079,10 +1199,10 @@ bool CalCoreModel::saveCoreMesh(const std::string& strFilename, int coreMeshId)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreModel::saveCoreSkeleton(const std::string& strFilename)
+bool CalCoreModel::saveCoreSkeleton(const std::string& strFilename) const
 {
   // check if we have a core skeleton in this code model
   if(!m_pCoreSkeleton)
@@ -1107,7 +1227,7 @@ bool CalCoreModel::saveCoreSkeleton(const std::string& strFilename)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId, int coreMaterialId)
@@ -1241,19 +1361,51 @@ bool CalCoreModel::addAnimationName(const std::string& strAnimationName, int cor
   *         \li \b the ID number of the anim asssociated with the input string
   *****************************************************************************/
 
-int CalCoreModel::getCoreAnimationId(const std::string& strAnimationName)
+int CalCoreModel::getCoreAnimationId(const std::string& strAnimationName) const
 {
   if (m_animationName.count( strAnimationName ) < 1)
   {
     return -1;
   }
-   
-  if (getCoreAnimation(m_animationName[strAnimationName]) == NULL)
+
+  /*
+  DJMC note: We cannot simply do the following:
+
+  m_animationName[strAnimationName];
+
+  and still remain a const method since the [] operation might
+  add a setting if it is not found inside. We must seek an
+  alternative.
+
+  Note, according to http://www.sgi.com/tech/stl/Map.html, m[k]
+  should be equivalent to:
+
+  (*((m.insert(value_type(k, data_type()))).first)).second
+
+  ...thus, we should be able to find a read-only analogue by
+  changing the line from an insert to a find, so that we may
+  remain a const method.
+  //*/
+
+  int animationID;
+  std::map<std::string, int>::const_iterator i = m_animationName.find(strAnimationName);
+  if (i != m_animationName.end())
+  {
+    animationID = (*i).second;
+  }
+  else
+  {
+    // if control flows here, entry does not exist in map,
+    // and therefore there has been an error
+    return -1;
+  }
+
+  if (getCoreAnimation(animationID) == NULL)
   {
     return -1;
   }
 
-  return m_animationName[strAnimationName];
+  return animationID;
 }
 
  /*****************************************************************************/
@@ -1295,19 +1447,51 @@ bool CalCoreModel::addMaterialName(const std::string& strMaterialName, int coreM
   *         \li \b the core ID number of the material asssociated with the input string
   *****************************************************************************/
 
-int CalCoreModel::getCoreMaterialId(const std::string& strMaterialName)
+int CalCoreModel::getCoreMaterialId(const std::string& strMaterialName) const
 {
   if (m_materialName.count( strMaterialName ) < 1)
   {
     return -1;
   }
 
-  if (getCoreMaterial(m_materialName[strMaterialName]) == NULL) 
+  /*
+  DJMC note: We cannot simply do the following:
+
+  m_materialName[strMaterialName];
+
+  and still remain a const method since the [] operation might
+  add a setting if it is not found inside. We must seek an
+  alternative.
+
+  Note, according to http://www.sgi.com/tech/stl/Map.html, m[k]
+  should be equivalent to:
+
+  (*((m.insert(value_type(k, data_type()))).first)).second
+
+  ...thus, we should be able to find a read-only analogue by
+  changing the line from an insert to a find, so that we may
+  remain a const method.
+  //*/
+
+  int materialID;
+  std::map<std::string, int>::const_iterator i = m_materialName.find(strMaterialName);
+  if (i != m_materialName.end())
+  {
+    materialID = (*i).second;
+  }
+  else
+  {
+    // if control flows here, entry does not exist in map,
+    // and therefore there has been an error
+    return -1;
+  }
+
+  if (getCoreMaterial(materialID) == NULL)
   {
     return -1;
   }
 
-  return m_materialName[strMaterialName];
+  return materialID;
 }
 
 
@@ -1349,19 +1533,51 @@ bool CalCoreModel::addMeshName(const std::string& strMeshName, int coreMeshId)
   *         \li \b the core ID number of the mesh asssociated with the input string
   *****************************************************************************/
 
-int CalCoreModel::getCoreMeshId(const std::string& strMeshName)
+int CalCoreModel::getCoreMeshId(const std::string& strMeshName) const
 {
   if (m_meshName.count( strMeshName ) < 1)
   {
     return -1;
   }
 
-  if (getCoreMesh(m_meshName[strMeshName]) == NULL)
+  /*
+  DJMC note: We cannot simply do the following:
+
+  m_meshName[strMeshName];
+
+  and still remain a const method since the [] operation might
+  add a setting if it is not found inside. We must seek an
+  alternative.
+
+  Note, according to http://www.sgi.com/tech/stl/Map.html, m[k]
+  should be equivalent to:
+
+  (*((m.insert(value_type(k, data_type()))).first)).second
+
+  ...thus, we should be able to find a read-only analogue by
+  changing the line from an insert to a find, so that we may
+  remain a const method.
+  //*/
+
+  int meshID;
+  std::map<std::string, int>::const_iterator i = m_meshName.find(strMeshName);
+  if (i != m_meshName.end())
+  {
+    meshID = (*i).second;
+  }
+  else
+  {
+    // if control flows here, entry does not exist in map,
+    // and therefore there has been an error
+    return -1;
+  }
+
+  if (getCoreMesh(meshID) == NULL)
   {
     return -1;
   }
 
-  return m_meshName[strMeshName];
+  return meshID;
 }
 
  /*****************************************************************************/

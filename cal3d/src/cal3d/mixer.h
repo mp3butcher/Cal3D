@@ -167,19 +167,23 @@ public:
   void setAnimationTime(float animationTime);
   void setTimeFactor(float timeFactor);
   float getTimeFactor() const;
-  CalModel *getCalModel();  
+  CalModel *getCalModel();
+  const CalModel *getCalModel() const;
   std::vector<CalAnimation *> &getAnimationVector();
+  const std::vector<CalAnimation *> &getAnimationVector() const;
   std::list<CalAnimationAction *> &getAnimationActionList();
-  std::list<CalAnimationCycle *> &getAnimationCycle();  
+  const std::list<CalAnimationAction *> &getAnimationActionList() const;
+  std::list<CalAnimationCycle *> &getAnimationCycle();
+  const std::list<CalAnimationCycle *> &getAnimationCycle() const;
   
 protected:
-  CalModel *m_pModel;
-  std::vector<CalAnimation *> m_vectorAnimation;
+  CalModel                       *m_pModel;
+  std::vector<CalAnimation *>     m_vectorAnimation;
   std::list<CalAnimationAction *> m_listAnimationAction;
-  std::list<CalAnimationCycle *> m_listAnimationCycle;
-  float m_animationTime;
-  float m_animationDuration;
-  float m_timeFactor;
+  std::list<CalAnimationCycle *>  m_listAnimationCycle;
+  float                           m_animationTime;
+  float                           m_animationDuration;
+  float                           m_timeFactor;
 };
 
 #endif

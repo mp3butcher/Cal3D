@@ -32,7 +32,7 @@
   * This function is the default constructor of the morph target mixer instance.
   *****************************************************************************/
 
-CalMorphTargetMixer::CalMorphTargetMixer(CalModel* pModel)
+CalMorphTargetMixer::CalMorphTargetMixer(CalModel *pModel)
 {
   assert(pModel);
   m_pModel = pModel;
@@ -72,7 +72,7 @@ CalMorphTargetMixer::CalMorphTargetMixer(CalModel* pModel)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 bool CalMorphTargetMixer::blend(int id, float weight, float delay)
 {
@@ -97,7 +97,7 @@ bool CalMorphTargetMixer::blend(int id, float weight, float delay)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalMorphTargetMixer::clear(int id, float delay)
@@ -134,10 +134,10 @@ float CalMorphTargetMixer::getCurrentWeight(int id) const
   *
   * @return The weight of the base vertices.
   *****************************************************************************/
-float CalMorphTargetMixer::getCurrentWeightBase()
+float CalMorphTargetMixer::getCurrentWeightBase() const
 {
   float currentWeight = 1.0f;
-  std::vector<float>::iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
+  std::vector<float>::const_iterator iteratorCurrentWeight = m_vectorCurrentWeight.begin();
   while(iteratorCurrentWeight!=m_vectorCurrentWeight.end())
   {
     currentWeight -=(*iteratorCurrentWeight);
@@ -220,22 +220,22 @@ void CalMorphTargetMixer::update(float deltaTime)
     size_t meshIterator = 0;
     while(meshIterator<vectorCoreMeshID.size())
     {
-    	int	coreMeshID = vectorCoreMeshID[meshIterator];
-    	CalMesh*	theMesh = m_pModel->getMesh( coreMeshID );
-    	if (theMesh)
-    	{
-			std::vector<CalSubmesh *> &vectorSubmesh = 
-					theMesh->getVectorSubmesh();
-			int submeshCount = vectorSubmesh.size();
-			int submeshId;
-			for(submeshId=0;submeshId<submeshCount;++submeshId)
-			{
-				vectorSubmesh[submeshId]->setMorphTargetWeight 
-					(vectorMorphTargetID[meshIterator],
-					m_vectorCurrentWeight[morphAnimationID]);
-			}
-    	}
-		++meshIterator;
+      int coreMeshID = vectorCoreMeshID[meshIterator];
+      const CalMesh *theMesh = m_pModel->getMesh( coreMeshID );
+      if (theMesh)
+      {
+        const std::vector<CalSubmesh *> &vectorSubmesh = 
+          theMesh->getVectorSubmesh();
+        int submeshCount = vectorSubmesh.size();
+        int submeshId;
+        for(submeshId=0;submeshId<submeshCount;++submeshId)
+        {
+          vectorSubmesh[submeshId]->setMorphTargetWeight 
+            (vectorMorphTargetID[meshIterator],
+            m_vectorCurrentWeight[morphAnimationID]);
+        }
+      }
+      ++meshIterator;
     }
     ++morphAnimationID;
   }
