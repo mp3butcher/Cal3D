@@ -83,7 +83,7 @@ void CalStreamSource::setError() const
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalStreamSource::readBytes(void* pBuffer, int length)
@@ -104,7 +104,7 @@ bool CalStreamSource::readBytes(void* pBuffer, int length)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalStreamSource::readFloat(float& value)
@@ -124,7 +124,7 @@ bool CalStreamSource::readFloat(float& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalStreamSource::readShort(short& value)
@@ -144,7 +144,7 @@ bool CalStreamSource::readShort(short& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalStreamSource::readInteger(int& value)
@@ -164,7 +164,7 @@ bool CalStreamSource::readInteger(int& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalStreamSource::readString(std::string& strValue)

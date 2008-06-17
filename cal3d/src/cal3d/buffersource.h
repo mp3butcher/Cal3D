@@ -30,12 +30,12 @@
 class CAL3D_API CalBufferSource : public CalDataSource
 {
 public:
-   CalBufferSource(void* inputBuffer);
+   CalBufferSource(void *inputBuffer);
    virtual ~CalBufferSource();
 
    virtual bool ok() const;
    virtual void setError() const;
-   virtual bool readBytes(void* pBuffer, int length);
+   virtual bool readBytes(void *pBuffer, int length);
    virtual bool readFloat(float& value);
    virtual bool readShort(short& value);
    virtual bool readInteger(int& value);
@@ -43,7 +43,7 @@ public:
 
 protected:
 
-   void* mInputBuffer;
+   void *mInputBuffer;
    unsigned int mOffset;   
 
 private:

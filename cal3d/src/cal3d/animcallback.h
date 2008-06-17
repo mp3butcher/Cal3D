@@ -20,8 +20,8 @@ class CalAnimation;
 struct CalAnimationCallback
 {
     virtual ~CalAnimationCallback() {}
-    virtual void AnimationUpdate(float anim_time,CalModel *model, void * userData) = 0;
-    virtual void AnimationComplete(CalModel *model, void * userData) = 0;
+    virtual void AnimationUpdate(float anim_time, CalModel *model, void *userData) = 0;
+    virtual void AnimationComplete(CalModel *model, void *userData) = 0;
 };
 
 

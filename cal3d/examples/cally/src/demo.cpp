@@ -147,7 +147,7 @@ bool Demo::loadTexture(const std::string& strFilename, GLuint& pId)
     int depth;
     file.read((char *)&depth, 4);
 
-    // check if an error has happend
+    // check if an error has happened
     if(!file)
     {
       std::cerr << "Error while readinf from texture file '" << strFilename << "'." << std::endl;

@@ -26,8 +26,8 @@
   * This function is the default constructor of the animation action instance.
   *****************************************************************************/
 
-CalAnimationAction::CalAnimationAction(CalCoreAnimation* pCoreAnimation)
-: CalAnimation(pCoreAnimation)
+CalAnimationAction::CalAnimationAction(CalCoreAnimation *pCoreAnimation)
+  : CalAnimation(pCoreAnimation)
 {
   setType(TYPE_ACTION);
 }
@@ -48,10 +48,10 @@ CalAnimationAction::CalAnimationAction(CalCoreAnimation* pCoreAnimation)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget,bool autoLock)
+bool CalAnimationAction::execute(float delayIn, float delayOut, float weightTarget, bool autoLock)
 {
   setState(STATE_IN);
   setWeight(0.0f);

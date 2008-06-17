@@ -52,7 +52,7 @@ CalPlatform::~CalPlatform()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::readBytes(std::istream& input, void *pBuffer, int length)
@@ -72,7 +72,7 @@ bool CalPlatform::readBytes(std::istream& input, void *pBuffer, int length)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::readFloat(std::istream& input, float& value)
@@ -100,7 +100,7 @@ bool CalPlatform::readFloat(std::istream& input, float& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::readShort(std::istream& input, short& value)
@@ -126,7 +126,7 @@ bool CalPlatform::readShort(std::istream& input, short& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::readInteger(std::istream& input, int& value)
@@ -154,7 +154,7 @@ bool CalPlatform::readInteger(std::istream& input, int& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::readString(std::istream& input, std::string& strValue)
@@ -353,7 +353,7 @@ bool CalPlatform::readString(char* input, std::string& strValue)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::writeBytes(std::ostream& output, const void *pBuffer, int length)
@@ -372,7 +372,7 @@ bool CalPlatform::writeBytes(std::ostream& output, const void *pBuffer, int leng
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::writeFloat(std::ostream& output, float value)
@@ -400,7 +400,7 @@ bool CalPlatform::writeFloat(std::ostream& output, float value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::writeShort(std::ostream& output, short value)
@@ -426,7 +426,7 @@ bool CalPlatform::writeShort(std::ostream& output, short value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::writeInteger(std::ostream& output, int value)
@@ -454,7 +454,7 @@ bool CalPlatform::writeInteger(std::ostream& output, int value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalPlatform::writeString(std::ostream& output, const std::string& strValue)

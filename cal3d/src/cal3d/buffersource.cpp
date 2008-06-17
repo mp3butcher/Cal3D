@@ -27,7 +27,7 @@
   * @param inputBuffer The input buffer to read from
   *****************************************************************************/
 
-CalBufferSource::CalBufferSource(void* inputBuffer)
+CalBufferSource::CalBufferSource(void *inputBuffer)
   : mInputBuffer(inputBuffer), mOffset(0)
 {
 }
@@ -81,10 +81,10 @@ void CalBufferSource::setError() const
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalBufferSource::readBytes(void* pBuffer, int length)
+bool CalBufferSource::readBytes(void *pBuffer, int length)
 {
    //Check that the buffer and the target are usable
    if (!ok() || (pBuffer == NULL)) return false;
@@ -104,7 +104,7 @@ bool CalBufferSource::readBytes(void* pBuffer, int length)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalBufferSource::readFloat(float& value)
@@ -127,7 +127,7 @@ bool CalBufferSource::readFloat(float& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalBufferSource::readShort(short& value)
@@ -150,7 +150,7 @@ bool CalBufferSource::readShort(short& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalBufferSource::readInteger(int& value)
@@ -173,7 +173,7 @@ bool CalBufferSource::readInteger(int& value)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalBufferSource::readString(std::string& strValue)

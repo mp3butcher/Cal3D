@@ -40,7 +40,7 @@ CalCoreAnimation::~CalCoreAnimation()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreAnimation::addCoreTrack(CalCoreTrack *pCoreTrack)
@@ -60,7 +60,7 @@ bool CalCoreAnimation::addCoreTrack(CalCoreTrack *pCoreTrack)
   *
   * @return One of the following values:
   *         \li a pointer to the core track
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreTrack *CalCoreAnimation::getCoreTrack(int coreBoneId)
@@ -202,7 +202,7 @@ const std::string& CalCoreAnimation::getName(void) const
   *
   *****************************************************************************/
 
-void CalCoreAnimation::registerCallback(CalAnimationCallback *callback,float min_interval)
+void CalCoreAnimation::registerCallback(CalAnimationCallback *callback, float min_interval)
 {
   CallbackRecord record;
   record.callback     = callback;
@@ -265,4 +265,5 @@ unsigned int CalCoreAnimation::getTotalNumberOfKeyframes() const
 	}
 	return nbKeys;
 }
+
 

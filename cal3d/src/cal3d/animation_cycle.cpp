@@ -26,8 +26,8 @@
   * This function is the default constructor of the animation cycle instance.
   *****************************************************************************/
 
-CalAnimationCycle::CalAnimationCycle(CalCoreAnimation* pCoreAnimation)
-: CalAnimation(pCoreAnimation)
+CalAnimationCycle::CalAnimationCycle(CalCoreAnimation *pCoreAnimation)
+  : CalAnimation(pCoreAnimation)
 {
   setType(TYPE_CYCLE);
   setState(STATE_SYNC);
@@ -49,7 +49,7 @@ CalAnimationCycle::CalAnimationCycle(CalCoreAnimation* pCoreAnimation)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalAnimationCycle::blend(float weight, float delay)

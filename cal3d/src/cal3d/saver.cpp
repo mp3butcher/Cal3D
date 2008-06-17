@@ -48,7 +48,7 @@ using namespace cal3d;
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation, CalSaverAnimationOptions *pOptions)
@@ -140,7 +140,7 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename, CalCoreBone *pCoreBone)
@@ -228,7 +228,7 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe)
@@ -255,7 +255,7 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
   CalPlatform::writeFloat(file, rotation[2]);
   CalPlatform::writeFloat(file, rotation[3]);
 
-  // check if an error happend
+  // check if an error happened
   if(!file)
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -308,7 +308,7 @@ bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string
 	CalPlatform::writeShort(file, s1);
 	CalPlatform::writeShort(file, s2);
 
-  // check if an error happend
+  // check if an error happened
   if(!file)
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -330,7 +330,7 @@ bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
@@ -379,7 +379,7 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   // write the shininess factor
   CalPlatform::writeFloat(file, pCoreMaterial->getShininess());
 
-  // check if an error happend
+  // check if an error happened
   if(!file)
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -428,7 +428,7 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
@@ -500,7 +500,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
@@ -567,7 +567,7 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilename, CalCoreSubmesh *pCoreSubmesh)
@@ -603,7 +603,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   // write the number of texture coordinates per vertex
   CalPlatform::writeInteger(file, vectorvectorTextureCoordinate.size());
 
-  // check if an error happend
+  // check if an error happened
   if(!file)
   {
     CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -636,7 +636,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
       CalPlatform::writeFloat(file, textureCoordinate.u);
       CalPlatform::writeFloat(file, textureCoordinate.v);
 
-      // check if an error happend
+      // check if an error happened
       if(!file)
       {
         CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -661,7 +661,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
       CalPlatform::writeInteger(file, influence.boneId);
       CalPlatform::writeFloat(file, influence.weight);
 
-      // check if an error happend
+      // check if an error happened
       if(!file)
       {
         CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -678,7 +678,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
       // write the physical property data
       CalPlatform::writeFloat(file, physicalProperty.weight);
 
-      // check if an error happend
+      // check if an error happened
       if(!file)
       {
         CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -699,7 +699,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
     CalPlatform::writeFloat(file, spring.springCoefficient);
     CalPlatform::writeFloat(file, spring.idleLength);
 
-    // check if an error happend
+    // check if an error happened
     if(!file)
     {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -718,7 +718,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
     CalPlatform::writeInteger(file, face.vertexId[1]);
     CalPlatform::writeInteger(file, face.vertexId[2]);
 
-    // check if an error happend
+    // check if an error happened
     if(!file)
     {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -741,7 +741,7 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack, CalSaverAnimationOptions *pOptions)
@@ -851,7 +851,7 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
@@ -986,7 +986,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation)
@@ -1083,7 +1083,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
@@ -1307,7 +1307,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)

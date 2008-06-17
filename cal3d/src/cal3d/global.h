@@ -54,8 +54,8 @@ namespace cal3d
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
   const char SKELETON_XMLFILE_MAGIC[4]  = { 'X', 'S', 'F', '\0' };
-  const char ANIMATION_XMLFILE_MAGIC[4]  = { 'X', 'A', 'F', '\0' };
-  const char MESH_XMLFILE_MAGIC[4]  = { 'X', 'M', 'F', '\0' };
+  const char ANIMATION_XMLFILE_MAGIC[4] = { 'X', 'A', 'F', '\0' };
+  const char MESH_XMLFILE_MAGIC[4]      = { 'X', 'M', 'F', '\0' };
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
   // library version       // 0.12.0

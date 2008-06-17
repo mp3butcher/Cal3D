@@ -43,7 +43,7 @@ public:
 
 protected:
 
-   std::istream* mInputStream;
+   std::istream *mInputStream;
 
 private:
    CalStreamSource(); //Can't use this

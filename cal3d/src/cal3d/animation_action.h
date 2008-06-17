@@ -22,10 +22,10 @@ class CalCoreAnimation;
 class CAL3D_API CalAnimationAction : public CalAnimation
 {
 public:
-  CalAnimationAction(CalCoreAnimation* pCoreAnimation);
+  CalAnimationAction(CalCoreAnimation *pCoreAnimation);
   virtual ~CalAnimationAction() { }
 
-  bool execute(float delayIn, float delayOut, float weightTarget = 1.0f,bool autoLock=false);
+  bool execute(float delayIn, float delayOut, float weightTarget = 1.0f, bool autoLock=false);
   bool update(float deltaTime);
 
 private:

@@ -22,7 +22,7 @@ class CalCoreAnimation;
 class CAL3D_API CalAnimationCycle : public CalAnimation
 {
 public:
-  CalAnimationCycle(CalCoreAnimation* pCoreAnimation);
+  CalAnimationCycle(CalCoreAnimation *pCoreAnimation);
   virtual ~CalAnimationCycle() { }
 
   bool blend(float weight, float delay);

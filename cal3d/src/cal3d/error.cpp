@@ -25,7 +25,7 @@ namespace
  /*****************************************************************************/
 /** Returns the code of the last error.
   *
-  * This function returns the code of the last error that occured inside the
+  * This function returns the code of the last error that occurred inside the
   * library.
   *
   * @return The code of the last error.
@@ -39,7 +39,7 @@ CalError::Code CalError::getLastErrorCode()
  /*****************************************************************************/
 /** Returns a description of the last error.
   *
-  * This function returns a short description of the last error that occured
+  * This function returns a short description of the last error that occurred
   * inside the library.
   *
   * @return The description of the last error.
@@ -75,11 +75,11 @@ std::string CalError::getErrorDescription(Code code)
 }
 
  /*****************************************************************************/
-/** Returns the name of the file where the last error occured.
+/** Returns the name of the file where the last error occurred.
   *
-  * This function returns the name of the file where the last error occured.
+  * This function returns the name of the file where the last error occurred.
   *
-  * @return The name of the file where the last error occured.
+  * @return The name of the file where the last error occurred.
   *****************************************************************************/
 
 const std::string& CalError::getLastErrorFile()
@@ -88,11 +88,11 @@ const std::string& CalError::getLastErrorFile()
 }
 
  /*****************************************************************************/
-/** Returns the line number where the last error occured.
+/** Returns the line number where the last error occurred.
   *
-  * This function returns the line number where the last error occured.
+  * This function returns the line number where the last error occurred.
   *
-  * @return The line number where the last error occured.
+  * @return The line number where the last error occurred.
   *****************************************************************************/
 
 int CalError::getLastErrorLine()
@@ -103,7 +103,7 @@ int CalError::getLastErrorLine()
  /*****************************************************************************/
 /** Returns the supplementary text of the last error.
   *
-  * This function returns the suppementary text of the last error occured
+  * This function returns the supplementary text of the last error occurred
   * inside the library.
   *
   * @return The supplementary text of the last error.
@@ -117,7 +117,7 @@ const std::string& CalError::getLastErrorText()
  /*****************************************************************************/
 /** Dumps all information about the last error to the standard output.
   *
-  * This function dumps all the information about the last error that occured
+  * This function dumps all the information about the last error that occurred
   * inside the library to the standard output.
   *****************************************************************************/
 
@@ -137,12 +137,12 @@ void CalError::printLastError()
  /*****************************************************************************/
 /** Sets all the information about the last error.
   *
-  * This function sets all the information about the last error that occured
+  * This function sets all the information about the last error that occurred
   * inside the library.
   *
   * @param code The code of the last error.
-  * @param strFile The file where the last error occured.
-  * @param line The line number where the last error occured.
+  * @param strFile The file where the last error occurred.
+  * @param line The line number where the last error occurred.
   * @param strText The supplementary text of the last error.
   *****************************************************************************/
 
@@ -150,9 +150,9 @@ void CalError::setLastError(Code code, const std::string& strFile, int line, con
 {
   if(code >= MAX_ERROR_CODE) code = INTERNAL;
 
-  m_lastErrorCode = code;
+  m_lastErrorCode    = code;
   m_strLastErrorFile = strFile;
-  m_lastErrorLine = line;
+  m_lastErrorLine    = line;
   m_strLastErrorText = strText;
 }
 

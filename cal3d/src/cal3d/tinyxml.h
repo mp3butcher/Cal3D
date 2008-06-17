@@ -418,7 +418,7 @@ namespace cal3d
 	    #endif
 
 	    /** Add a new node related to this. Adds a child past the LastChild.
-		    Returns a pointer to the new object or NULL if an error occured.
+		    Returns a pointer to the new object or NULL if an error occurred.
 	    */
 	    TiXmlNode* InsertEndChild( const TiXmlNode& addThis );
 
@@ -435,17 +435,17 @@ namespace cal3d
 	    TiXmlNode* LinkEndChild( TiXmlNode* addThis );
 
 	    /** Add a new node related to this. Adds a child before the specified child.
-		    Returns a pointer to the new object or NULL if an error occured.
+		    Returns a pointer to the new object or NULL if an error occurred.
 	    */
 	    TiXmlNode* InsertBeforeChild( TiXmlNode* beforeThis, const TiXmlNode& addThis );
 
 	    /** Add a new node related to this. Adds a child after the specified child.
-		    Returns a pointer to the new object or NULL if an error occured.
+		    Returns a pointer to the new object or NULL if an error occurred.
 	    */
 	    TiXmlNode* InsertAfterChild(  TiXmlNode* afterThis, const TiXmlNode& addThis );
 
 	    /** Replace a child of this node.
-		    Returns a pointer to the new object or NULL if an error occured.
+		    Returns a pointer to the new object or NULL if an error occurred.
 	    */
 	    TiXmlNode* ReplaceChild( TiXmlNode* replaceThis, const TiXmlNode& withThis );
 
@@ -1066,7 +1066,7 @@ namespace cal3d
 		    @sa SetTabSize, Row, Column
 	    */
 	    int ErrorRow()	{ return errorLocation.row+1; }
-	    int ErrorCol()	{ return errorLocation.col+1; }	///< The column where the error occured. See ErrorRow()
+	    int ErrorCol()	{ return errorLocation.col+1; }	///< The column where the error occurred. See ErrorRow()
 
 	    /** By calling this method, with a tab size
 		    greater than 0, the row and column of each node and attribute is stored
@@ -1265,4 +1265,5 @@ namespace cal3d
 }
 
 #endif
+
 

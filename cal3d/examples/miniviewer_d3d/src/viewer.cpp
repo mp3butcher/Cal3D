@@ -850,7 +850,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     // stop if we reached the end of file
     if(file.eof()) break;
 
-    // check if an error happend while reading from the file
+    // check if an error happened while reading from the file
     if(!file)
     {
       std::cout << "Error while reading from the model configuration file '" << strFilename << "'." << std::endl;
@@ -1088,6 +1088,7 @@ void Viewer::setDimension(int width, int height)
 }
 
 //----------------------------------------------------------------------------//
+
 
 
 
