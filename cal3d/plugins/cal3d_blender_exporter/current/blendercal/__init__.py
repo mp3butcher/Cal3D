@@ -40,50 +40,50 @@ influence from Loic Dachary, especially in the bcdata.AnimationData().
 # A decorator to catch any exception semi-gracefully. Sometiem later
 # this will create a Blender panel to show the exception.
 def exception(function):
-	def exceptionDecorator(*args, **kargs):
-		try:
-			return function(*args, **kargs)
+    def exceptionDecorator(*args, **kargs):
+        try:
+            return function(*args, **kargs)
 
-		except Exception, e:
-			print "Exception in", function.func_name, "- error was:", e
+        except Exception, e:
+            print "Exception in", function.func_name, "- error was:", e
 
-	return exceptionDecorator
+    return exceptionDecorator
 
 # A function that will parse the passed-in sequences and set the appropriate
 # values in bcconf.
 @exception
 def ParseArgs(parse):
-	args     = []
-	strip    = lambda s: s.rstrip().lstrip().replace("\t", "").replace("\n", "")
-	str2bool = lambda s: s.lower() == "true" or s == "1"
+    args     = []
+    strip    = lambda s: s.rstrip().lstrip().replace("\t", "").replace("\n", "")
+    str2bool = lambda s: s.lower() == "true" or s == "1"
 
-	for arg in parse:
-		arg = strip(arg)
-	
-		if "--blendercal" in arg:
-			args = arg[13 : ].split(";")
+    for arg in parse:
+        arg = strip(arg)
+    
+        if "--blendercal" in arg:
+            args = arg[13 : ].split(";")
 
-	for arg in args:
-		if "=" in arg:
-			a, v = arg.split("=")
-			a    = strip(a).upper()
-			v    = strip(v)
+    for arg in args:
+        if "=" in arg:
+            a, v = arg.split("=")
+            a    = strip(a).upper()
+            v    = strip(v)
 
-			print ">>", a, "=", v
+            print ">>", a, "=", v
 
-			{
-				"FILENAME":    lambda: setattr(bcconf, a, v),
-				"EXPORTGL":    lambda: setattr(bcconf, a, str2bool(v)),
-				"FLOATPRE":    lambda: setattr(bcconf, a, int(v)),
-				"XMLINDENT":   lambda: setattr(bcconf, a, int(v)),
-				"ANIMFPS":     lambda: setattr(bcconf, a, float(v)),
-				"AUTHOR":      lambda: setattr(bcconf, a, v),
-				"PREPEND":     lambda: setattr(bcconf, a, v),
-				"LOD":         lambda: setattr(bcconf, a, str2bool(v)),
-				"EXTRADATA":   lambda: setattr(bcconf, a, str2bool(v)),
-				"SUBMESHMODE": lambda: setattr(bcconf, a, v),
-			}[a]()
+            {
+                "FILENAME":    lambda: setattr(bcconf, a, v),
+                "EXPORTGL":    lambda: setattr(bcconf, a, str2bool(v)),
+                "FLOATPRE":    lambda: setattr(bcconf, a, int(v)),
+                "XMLINDENT":   lambda: setattr(bcconf, a, int(v)),
+                "ANIMFPS":     lambda: setattr(bcconf, a, float(v)),
+                "AUTHOR":      lambda: setattr(bcconf, a, v),
+                "PREPEND":     lambda: setattr(bcconf, a, v),
+                "LOD":         lambda: setattr(bcconf, a, str2bool(v)),
+                "EXTRADATA":   lambda: setattr(bcconf, a, str2bool(v)),
+                "SUBMESHMODE": lambda: setattr(bcconf, a, v),
+            }[a]()
 
-	# Return args; since this will be False by default, we'll use this
-	# to determine if the user passed a --blendercal argument.
-	return args
+    # Return args; since this will be False by default, we'll use this
+    # to determine if the user passed a --blendercal argument.
+    return args
