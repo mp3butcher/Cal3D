@@ -10,7 +10,7 @@
 //****************************************************************************//
 
 #include "cal3d/cal3d.h"
-
+#include <cstring>
 #define SKELETON 0
 #define MESH 1
 #define ANIMATION 2

@@ -18,7 +18,7 @@
 #include "cal3d/corebone.h"
 #include "cal3d/coremodel.h"
 #include "cal3d/coresubmesh.h"
-
+#include <cstring>
 
 CalCoreSkeleton::CalCoreSkeleton()
 {

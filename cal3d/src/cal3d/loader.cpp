@@ -33,7 +33,7 @@
 #include "cal3d/tinyxml.h"
 #include "cal3d/streamsource.h"
 #include "cal3d/buffersource.h"
-
+#include <memory>
 using namespace cal3d;
 
 int CalLoader::loadingMode;
