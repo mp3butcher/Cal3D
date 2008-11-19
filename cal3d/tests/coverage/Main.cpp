@@ -1,6 +1,8 @@
 #include "UnitTest++.h"
 #include "Unittest.h"
 #include <iostream>
+#include <string.h>
+#include <stdlib.h>
 
 int verbose = VERBOSE_NONE;
 
