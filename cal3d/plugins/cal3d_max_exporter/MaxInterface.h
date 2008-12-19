@@ -80,7 +80,7 @@ public:
 	CWnd *GetMainWnd();
 	CBaseMaterial *GetMaterial(int materialId);
 	int GetMaterialCount();
-	CBaseMesh *GetMesh(CBaseNode *pNode);
+	CBaseMesh *GetMesh(CBaseNode *pNode, float time = -1);
 	CBaseNode *GetNode(const std::string& strName);
 	int GetSelectedNodeCount();
 	CBaseNode *GetSelectedNode(int nodeId);
@@ -90,10 +90,12 @@ public:
 	bool IsBone(CBaseNode *pNode);
 	bool IsDummy(CBaseNode *pNode);
 	bool IsMesh(CBaseNode *pNode);
+	bool IsLight(CBaseNode *pNode);
 	void SetProgressInfo(int percentage);
 	void StartProgressInfo(const std::string& strText);
 	void StopProgressInfo();
 
+        void GetAmbientLight( CalVector & );
 	bool ExportAnimationFromMaxscriptCall(const std::string& strFilename, void* AnimExportParams);
 	bool ExportMaterialFromMaxscriptCall(const std::string& strFilename);
 	bool ExportMeshFromMaxscriptCall(const std::string& strFilename, void* MeshExportParams);

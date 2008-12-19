@@ -28,14 +28,17 @@ protected:
 public:
   CalCoreMesh();
 
+  typedef std::vector<CalCoreSubmesh *> CalCoreSubmeshVector;
+  unsigned int size();
   int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
   CalCoreSubmesh *getCoreSubmesh(int id);
   const CalCoreSubmesh *getCoreSubmesh(int id) const;
   void removeCoreSubmesh( int submeshID );
   int getCoreSubmeshCount() const;
+  void reserve(int submeshes) { m_vectorCoreSubmesh.reserve(submeshes); }
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
-  int addAsMorphTarget(CalCoreMesh *pCoreMesh);
+  int addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & morphTargetName);
   void scale(float factor);
   void setFilename(const std::string& filename);
   const std::string& getFilename(void) const;

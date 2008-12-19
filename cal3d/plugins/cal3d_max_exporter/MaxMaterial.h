@@ -39,6 +39,7 @@ public:
 	void GetDiffuseColor(float *pColor);
 	int GetMapCount();
 	std::string GetMapFilename(int mapId);
+  std::string GetMapType(int mapId);
 	std::string GetName();
 	void GetSpecularColor(float *pColor);
 	float GetShininess();

@@ -20,7 +20,7 @@
 #pragma warning(disable : 4786)
 #endif
 
-#define WINVER 0x0400
+#define WINVER 0x0500
 
 //----------------------------------------------------------------------------//
 // Includes                                                                   //

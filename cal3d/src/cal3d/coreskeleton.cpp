@@ -1,3 +1,8 @@
+#if defined(_MSC_VER) && _MSC_VER <= 1200
+#pragma warning(disable : 4786)
+#endif
+
+
 //****************************************************************************//
 // coreskeleton.cpp                                                           //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
@@ -397,3 +402,20 @@ void CalCoreSkeleton::scale(float factor)
   }
 
 }
+
+//****************************************************************************//
+
+void
+CalCoreSkeleton::setSceneAmbientColor( CalVector const & color )
+{
+  m_sceneAmbientColor = color;
+}
+
+
+void
+CalCoreSkeleton::getSceneAmbientColor( CalVector & color ) const
+{
+  color = m_sceneAmbientColor;
+}
+
+

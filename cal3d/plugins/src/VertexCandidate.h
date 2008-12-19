@@ -49,6 +49,9 @@ protected:
 	std::vector<Influence> m_vectorInfluence;
 	PhysicalProperty m_physicalProperty;
   std::set<int> m_setNeighbour;
+  CalVector m_color; // ===
+  int m_uniqueId;
+  bool m_hasUniqueId;
 
 // constructors/destructor
 public:
@@ -70,6 +73,7 @@ public:
 	void GetNormal(CalVector& normal);
 	void GetPhysicalProperty(PhysicalProperty& physicalProperty);
 	void GetPosition(CalVector& position);
+   void GetVertColor(CalVector &color); // ===
 	std::set<int>& GetSetNeighbour();
 	std::vector<Influence>& GetVectorInfluence();
 	std::vector<TextureCoordinate>& GetVectorTextureCoordinate();
@@ -79,7 +83,10 @@ public:
 	void SetNormal(float nx, float ny, float nz);
 	void SetPhysicalProperty(float weight, int springCount = 0, int constraintDistance = -1);
 	void SetPosition(float x, float y, float z);
+   void SetVertColor( CalVector c );
 
+   int GetUniqueId();
+   void SetUniqueId(int id);
 protected:
 	static bool CompareInfluenceWeight(const Influence& influence1, const Influence& influence2);
 };

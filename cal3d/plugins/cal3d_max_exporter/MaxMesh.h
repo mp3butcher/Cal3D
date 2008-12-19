@@ -29,6 +29,7 @@ public:
 	{
 		MODIFIER_NONE,
 		MODIFIER_SKIN,
+      MODIFIER_MORPHER,
 		MODIFIER_PHYSIQUE
 	} ModifierType;
 
@@ -63,12 +64,15 @@ public:
 	int GetSubmeshMapCount(int submeshId);
 	int GetSubmeshMaterialThreadId(int submeshId);
 	CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId);
+   int numMorphChannels();
+   MorphKeyFrame frameForChannel( int i, float time );
 
 protected:
 	bool AddBoneInfluence(CSkeletonCandidate *pSkeletonCandidate, CVertexCandidate *pVertexCandidate, INode *pNode, float weight);
 	bool CreateMaterial(Mtl *pMtl);
 	Modifier *FindPhysiqueModifier(INode *pINode);
 	Modifier *FindSkinModifier(INode *pINode);
+   Modifier *FindMorpherModifier(INode *pINode);
 	Point3 GetVertexNormal(int faceId, int vertexId);
 	Matrix3 Transpose(Matrix3& matrix);
 };

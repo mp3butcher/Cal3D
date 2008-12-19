@@ -21,6 +21,7 @@
 
 CMeshCandidate::CMeshCandidate()
 {
+   m_pNode = 0;
 }
 
 
@@ -79,6 +80,9 @@ void CMeshCandidate::Clear()
     delete m_vectorSubmeshCandidate[submeshCandidateId];
   }
   m_vectorSubmeshCandidate.clear();
+  
+  delete m_pNode;
+  m_pNode = 0;
 
   for (size_t i = 0; i < m_meshes.size(); ++i)
   {
@@ -86,6 +90,25 @@ void CMeshCandidate::Clear()
   }
   m_meshes.clear();
 }
+
+
+int CMeshCandidate::numMorphs()
+{
+   int numChildren = m_pNode->GetChildCount();
+   return numChildren;
+}
+
+CBaseNode * CMeshCandidate::nthMorphNode(int i)
+{
+   return m_pNode->GetChild(i);
+}
+
+CBaseNode *
+CMeshCandidate::getNode() const
+{
+   return m_pNode;
+}
+
 
 //----------------------------------------------------------------------------//
 // Create a mesh candidate                                                    //
@@ -108,7 +131,13 @@ bool CMeshCandidate::Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneC
     {
       CBaseMesh* mesh = theExporter.GetInterface()->GetMesh(node);
       if (mesh)
+      {
+         if (m_meshes.empty())
+         {
+            m_pNode = node;
+         }
         m_meshes.push_back(mesh);
+      }
     }
   }
 
@@ -249,7 +278,7 @@ bool CMeshCandidate::DisableLOD()
 // Get the submesh candidate vector                                           //
 //----------------------------------------------------------------------------//
 
-std::vector<CSubmeshCandidate *>& CMeshCandidate::GetVectorSubmeshCandidate()
+std::vector<CSubmeshCandidate *>const & CMeshCandidate::GetVectorSubmeshCandidate() const
 {
   return m_vectorSubmeshCandidate;
 }
@@ -265,8 +294,10 @@ bool CMeshCandidate::Create(CBaseNode* _basenode, CSkeletonCandidate *pSkeletonC
 	Clear();
 
 	//Directly set the meshnode into the mesh candidate
+   m_pNode = _basenode;
+
 	// get the mesh
-	CBaseMesh* mesh = theExporter.GetInterface()->GetMesh(_basenode);
+	CBaseMesh* mesh = theExporter.GetInterface()->GetMesh(m_pNode);
 	if(mesh == 0) return false;
 
         m_meshes.push_back(mesh);

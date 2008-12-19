@@ -31,7 +31,9 @@ public:
   CalBone(CalCoreBone *coreBone);
   ~CalBone() { }
 
-  void blendState(float weight, const CalVector& translation, const CalQuaternion& rotation);
+  void blendState(float unrampedWeight, const CalVector& translation, 
+    const CalQuaternion & rotation, float scale = 1.0f,
+    bool replace = false, float rampValue = 1.0f );
   void calculateState();
   void clearState();
   CalCoreBone *getCoreBone();
@@ -45,8 +47,14 @@ public:
   void setTranslation(const CalVector& translation);
   const CalVector& getTranslation() const;
   const CalVector& getTranslationAbsolute() const;
-  const CalVector& getTranslationBoneSpace() const;
-  const CalMatrix& getTransformMatrix() const;
+  inline void setMeshScaleAbsolute( CalVector const & sv ) {
+    m_meshScaleAbsolute = sv; }
+  inline const CalVector& getTranslationBoneSpace() const{
+    return m_translationBoneSpace;
+  }
+  inline const CalMatrix& getTransformMatrix() const{
+    return m_transformMatrix;
+  }
   void lockState();
   void setSkeleton(CalSkeleton *pSkeleton);
   void calculateBoundingBox();
@@ -58,6 +66,9 @@ private:
   CalSkeleton   *m_pSkeleton;
   float          m_accumulatedWeight;
   float          m_accumulatedWeightAbsolute;
+  float          m_accumulatedReplacementAttenuation;
+  float          m_firstBlendScale;
+  CalVector      m_meshScaleAbsolute; // w.r.t. absolute coord system in 3dsMax (Z up), not local coord of bone.
   CalVector      m_translation;
   CalQuaternion  m_rotation;
   CalVector      m_translationAbsolute;

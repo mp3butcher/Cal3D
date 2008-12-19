@@ -44,11 +44,15 @@ public:
   int getVertexCount() const;
   int getVertices(float *pVertexBuffer, int stride=0) const;
   int getTangentSpaces(int mapId, float *pTangentSpaceBuffer, int stride=0) const;
+  int getVertColors(float *pVertexBuffer);
+  int getVertColorsAsStandardPixels( unsigned int *pVertexBuffer);
   int getVerticesAndNormals(float *pVertexBuffer, int stride=0) const;
   int getVerticesNormalsAndTexCoords(float *pVertexBuffer,int NumTexCoords=1) const;
   bool isTangentsEnabled(int mapId) const;
   bool selectMeshSubmesh(int meshId, int submeshId);
   void setNormalization(bool normalize);
+  bool textureCoordinatesForMapValid( int mapId );
+  bool hasNonWhiteVertexColors();
 
 private:
   CalModel   *m_pModel;

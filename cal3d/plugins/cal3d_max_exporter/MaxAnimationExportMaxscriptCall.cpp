@@ -166,13 +166,7 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 			}
 
 			// create the core track instance
-			if(!pCoreTrack->create())
-			{
-				theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-				delete pCoreTrack;
-				theExporter.GetInterface()->StopProgressInfo();
-				return false;
-			}
+			pCoreTrack->create();
 
 			// set the core bone id
 			pCoreTrack->setCoreBoneId(boneCandidateId);

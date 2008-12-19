@@ -12,6 +12,7 @@
 #define CAL_CORESKELETON_H
 
 #include "cal3d/global.h"
+#include "cal3d/vector.h"
 #include "cal3d/refcounted.h"
 #include "cal3d/refptr.h"
 
@@ -42,11 +43,15 @@ public:
   const std::vector<CalCoreBone *>& getVectorCoreBone() const;
   void calculateBoundingBoxes(CalCoreModel *pCoreModel);
   void scale(float factor);
+  unsigned int getNumCoreBones() const { return ( unsigned int ) m_vectorCoreBone.size(); }
+  void setSceneAmbientColor( CalVector const & color );
+  void getSceneAmbientColor( CalVector & color ) const;
 
 private:
   std::vector<CalCoreBone *>   m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
   std::vector<int>             m_vectorRootCoreBoneId;  
+  CalVector m_sceneAmbientColor;
 };
 typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 

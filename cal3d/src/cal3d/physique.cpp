@@ -87,13 +87,25 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
   // calculate the base weight
   float baseWeight = pSubmesh->getBaseWeight();
 
-  // get the number of morph targets
+  // Get the number of morph targets and cache the weights in an array
+  // that can be indexed quickly inside the vertex inner loop.
   int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
+  static int const morphTargetCountMax = 100; // Arbitrary.
+  if( morphTargetCount > morphTargetCountMax ) {
+     morphTargetCount = morphTargetCountMax;
+  }
+  static float morphTargetScaleArray[ morphTargetCountMax ];
+  for(int i = 0; i < morphTargetCount; i++ ) 
+  {
+     morphTargetScaleArray[ i ] = pSubmesh->getMorphTargetWeight( i ); 
+  }
 
   // Check for spring case
   bool	hasSpringsAndInternalData =
 	(pSubmesh->getCoreSubmesh()->getSpringCount() > 0) &&
 	pSubmesh->hasInternalData();
+
+
 
   // calculate all submesh vertices
   int vertexId;
@@ -118,15 +130,21 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
       int morphTargetId;
       for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
       {
-        float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
-        if (currentWeight > FLT_EPSILON)
-        {
-	      	CalCoreSubMorphTarget::BlendVertex	blendVertex;
-	        vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId, blendVertex);
-	        position.x += currentWeight*blendVertex.position.x;
-	        position.y += currentWeight*blendVertex.position.y;
-	        position.z += currentWeight*blendVertex.position.z;
-        }
+         CalCoreSubMorphTarget::BlendVertex const * blendVertex =
+            vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId);
+         float morphScale = morphTargetScaleArray[ morphTargetId ];
+         if( blendVertex ) 
+         {
+            position.x += morphScale * blendVertex->position.x;
+            position.y += morphScale * blendVertex->position.y;
+            position.z += morphScale * blendVertex->position.z;
+         } 
+         else 
+         {
+            position.x += morphScale * vertex.position.x;
+            position.y += morphScale * vertex.position.y;
+            position.z += morphScale * vertex.position.z;
+         }
       }
     }
 
@@ -485,15 +503,18 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
       int morphTargetId;
       for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
       {
-        float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
-        if (currentWeight > FLT_EPSILON)
-        {
-	        CalCoreSubMorphTarget::BlendVertex	blendVertex;
-	        vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId, blendVertex);
-	        normal.x += currentWeight*blendVertex.normal.x;
-	        normal.y += currentWeight*blendVertex.normal.y;
-	        normal.z += currentWeight*blendVertex.normal.z;
-        }
+         CalCoreSubMorphTarget::BlendVertex const * blendVertex = 
+            vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId);
+         float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
+         if( blendVertex ) {
+            normal.x += currentWeight*blendVertex->normal.x;
+            normal.y += currentWeight*blendVertex->normal.y;
+            normal.z += currentWeight*blendVertex->normal.z;
+         } else {
+            normal.x += currentWeight*vertex.normal.x;
+            normal.y += currentWeight*vertex.normal.y;
+            normal.z += currentWeight*vertex.normal.z;
+         }
       }
     }
 
@@ -561,6 +582,24 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
   return vertexCount;
 }
 
+
+static MorphIdAndWeight * MiawCache = NULL;
+static unsigned int MiawCacheNumElements = 0;
+void
+EnlargeMiawCacheAsNecessary( unsigned int numElements )
+{
+   if( MiawCacheNumElements < numElements ) {
+      if( MiawCache ) {
+         delete [] MiawCache;
+      }
+
+      // Step up exponentially to reduce number of steps.
+      MiawCacheNumElements = numElements * 2;
+      MiawCache = new( MorphIdAndWeight [ MiawCacheNumElements ] );
+   }
+}
+
+
  /*****************************************************************************/
 /** Calculates the transformed vertex data.
   *
@@ -587,25 +626,29 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
   CalBone ** vectorBonePtr = &vectorBone[0];
 
   // get vertex vector of the core submesh
-  const CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];
+  CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];
 
   // get physical property vector of the core submesh
   std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pSubmesh->getCoreSubmesh()->getVectorPhysicalProperty();
 
   // get the number of vertices
-  int vertexCount;
-  vertexCount = pSubmesh->getVertexCount();
+  int vertexCount = pSubmesh->getVertexCount();
 
   // get the sub morph target vector from the core sub mesh
   std::vector<CalCoreSubMorphTarget*>& vectorSubMorphTarget =
 	pSubmesh->getCoreSubmesh()->getVectorCoreSubMorphTarget();
 
-  // calculate the base weight
-  float baseWeight = pSubmesh->getBaseWeight();
+ 
 
   // get the number of morph targets
   int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
-  
+  EnlargeMiawCacheAsNecessary( morphTargetCount );
+  unsigned int numMiaws;
+  pSubmesh->getMorphIdAndWeightArray( MiawCache, & numMiaws, ( unsigned int ) morphTargetCount );
+
+  // calculate the base weight
+  float baseWeight2 = pSubmesh->getBaseWeight();
+
   // Check for spring case
   bool	hasSpringsAndInternalData =
 	(pSubmesh->getCoreSubmesh()->getSpringCount() > 0) &&
@@ -613,36 +656,57 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
   // calculate all submesh vertices
   int vertexId;
-  CalCoreSubMorphTarget::BlendVertex	blendVertex;
+  //CalCoreSubMorphTarget::BlendVertex	blendVertex;
   for(vertexId = 0; vertexId < vertexCount; ++vertexId)
   {
     // get the vertex
-    const CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+    CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+
+    // Off unless normalizing set to on and either there are morph targets or multiple influences.
+    bool mustNormalize = false; 
 
     // blend the morph targets
     CalVector position(0,0,0);
     CalVector normal(0,0,0);
-    if(baseWeight == 1.0f)
+    if(baseWeight2 == 1.0f)
     {
       position = vertex.position;
       normal = vertex.normal;
     }
     else
     {
-      position = baseWeight * vertex.position;
-      normal = baseWeight * vertex.normal;
-
-      int morphTargetId;
-      for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
-      {
-        float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
-        if (currentWeight > FLT_EPSILON)
-        {
-			vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId, blendVertex);
-			position += currentWeight * blendVertex.position;
-			normal += currentWeight * blendVertex.normal;
-        }
-      }
+       float baseWeight = baseWeight2;
+       position.x = 0;
+       position.y = 0;
+       position.z = 0;
+       normal.x = 0;
+       normal.y = 0;
+       normal.z = 0;
+       mustNormalize = true; // Morph targets can skew normals.
+       unsigned int i;
+       for( i = 0; i < numMiaws; i++ ) {
+          MorphIdAndWeight * miaw = & MiawCache[ i ];
+          int morphTargetId = miaw->morphId_;
+          CalCoreSubMorphTarget::BlendVertex const * blendVertex =
+             vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId);
+          float currentWeight = miaw->weight_;
+          if( blendVertex ) {
+             position.x += currentWeight*blendVertex->position.x;
+             position.y += currentWeight*blendVertex->position.y;
+             position.z += currentWeight*blendVertex->position.z;
+             normal.x += currentWeight*blendVertex->normal.x;
+             normal.y += currentWeight*blendVertex->normal.y;
+             normal.z += currentWeight*blendVertex->normal.z;
+          } else {
+             baseWeight += currentWeight;
+          }
+       }
+       position.x += baseWeight*vertex.position.x;
+       position.y += baseWeight*vertex.position.y;
+       position.z += baseWeight*vertex.position.z;
+       normal.x += baseWeight*vertex.normal.x;
+       normal.y += baseWeight*vertex.normal.y;
+       normal.z += baseWeight*vertex.normal.z;
     }
 
     // initialize vertex
@@ -660,50 +724,42 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     // blend together all vertex influences
     int influenceId;
 	int influenceCount=(int)vertex.vectorInfluence.size();
-    if(influenceCount == 0) 
-	{
-      x = position.x;
-      y = position.y;
-      z = position.z;
-      nx = normal.x;
-      ny = normal.y;
-      nz = normal.z;
+    if(influenceCount > 1) 
+	{ 
+      mustNormalize = true; // If multiple influences, normalize the normals!
     } 
-	else 
-	{
-		const CalCoreSubmesh::Influence*	influences = &vertex.vectorInfluence[0];
-		
-		for(influenceId = 0; influenceId < influenceCount; ++influenceId)
-		{
-			// get the influence
-			const CalCoreSubmesh::Influence& influence = influences[influenceId];
-			
-			// get the bone of the influence vertex
-			CalBone *pBone;
-			pBone = vectorBonePtr[influence.boneId];
-			
-			// transform vertex with current state of the bone
-			CalVector v(position);
-			v *= pBone->getTransformMatrix();
-			v += pBone->getTranslationBoneSpace();
-			
-			x += influence.weight * v.x;
-			y += influence.weight * v.y;
-			z += influence.weight * v.z;
-			
-			// transform normal with current state of the bone
-			CalVector n(normal);
-			n *= pBone->getTransformMatrix();
-			
-			nx += influence.weight * n.x;
-			ny += influence.weight * n.y;
-			nz += influence.weight * n.z;
-		}
-	}
 
+    for(influenceId = 0; influenceId < influenceCount; ++influenceId)
+    {
+       // get the influence
+       CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+
+       // get the bone of the influence vertex
+       CalBone *pBone;
+       pBone = vectorBone[influence.boneId];
+
+       // transform vertex with current state of the bone
+       CalVector v(position);
+       v *= pBone->getTransformMatrix();
+       v += pBone->getTranslationBoneSpace();
+
+       x += influence.weight * v.x;
+       y += influence.weight * v.y;
+       z += influence.weight * v.z;
+
+       // transform normal with current state of the bone
+       CalVector n(normal);
+       n *= pBone->getTransformMatrix();
+
+       nx += influence.weight * n.x;
+       ny += influence.weight * n.y;
+       nz += influence.weight * n.z;
+    }
     // save vertex position
     if(hasSpringsAndInternalData)
     {
+       mustNormalize = true;
+
       // get the physical property of the vertex
       CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
 
@@ -723,7 +779,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     }
     
     // re-normalize normal if necessary
-    if (m_Normalize)
+    if (m_Normalize && mustNormalize)
     {
 	  nx/= m_axisFactorX;
 	  ny/= m_axisFactorY;
@@ -844,15 +900,26 @@ int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, floa
       int morphTargetId;
       for(morphTargetId=0; morphTargetId < morphTargetCount;++morphTargetId)
       {
-        CalCoreSubMorphTarget::BlendVertex	blendVertex;
-        vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId, blendVertex);
-        float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
-        position.x += currentWeight*blendVertex.position.x;
-        position.y += currentWeight*blendVertex.position.y;
-        position.z += currentWeight*blendVertex.position.z;
-        normal.x += currentWeight*blendVertex.normal.x;
-        normal.y += currentWeight*blendVertex.normal.y;
-        normal.z += currentWeight*blendVertex.normal.z;
+         CalCoreSubMorphTarget::BlendVertex const * blendVertex =
+            vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId);
+         float currentWeight = pSubmesh->getMorphTargetWeight(morphTargetId);
+         if( currentWeight != 0 ) {
+            if( blendVertex ) {
+               position.x += currentWeight*blendVertex->position.x;
+               position.y += currentWeight*blendVertex->position.y;
+               position.z += currentWeight*blendVertex->position.z;
+               normal.x += currentWeight*blendVertex->normal.x;
+               normal.y += currentWeight*blendVertex->normal.y;
+               normal.z += currentWeight*blendVertex->normal.z;
+            } else {
+               position.x += currentWeight*vertex.position.x;
+               position.y += currentWeight*vertex.position.y;
+               position.z += currentWeight*vertex.position.z;
+               normal.x += currentWeight*vertex.normal.x;
+               normal.y += currentWeight*vertex.normal.y;
+               normal.z += currentWeight*vertex.normal.z;
+            }
+         }
       }
     }
 

@@ -148,7 +148,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 	CalCoreMeshPtr coreMesh = new CalCoreMesh;
 
 	// get the submesh candidate vector
-	std::vector<CSubmeshCandidate *>& vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
+	std::vector<CSubmeshCandidate *>const & vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
 
 	// start the progress info
 	StartProgressInfo("Exporting to mesh file...");
@@ -213,6 +213,9 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 				// set the vertex normal
 				CalVector normal;
 				pVertexCandidate->GetNormal(vertex.normal);
+
+        // set the vert color
+        pVertexCandidate->GetVertColor(vertex.vertexColor);
 
 				// set the collapse id
 				vertex.collapseId = pVertexCandidate->GetCollapseId();

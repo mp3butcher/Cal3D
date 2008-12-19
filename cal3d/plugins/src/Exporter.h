@@ -19,12 +19,22 @@
 #include <vector>
 #include <list>
 
+#include <MeshCandidate.h>
+
 //----------------------------------------------------------------------------//
 // Forward declarations                                                       //
 //----------------------------------------------------------------------------//
 
 class CBaseInterface;
 class CSkeletonCandidate;
+
+
+//----------------------------------------------------------------------------//
+// Export options                                                             //
+//----------------------------------------------------------------------------//
+#define CAL3D_EXPORT_OPTION_DESELECT_DUMMY_NODES ( 0 )
+#define CAL3D_EXPORT_OPTION_DESELECT_EX_NODES ( 1 )
+#define CAL3D_EXPORT_OPTION_DESELECT_EX_NODES_PREFIX_STRING "ex_"
 
 //----------------------------------------------------------------------------//
 // Class declaration                                                          //
@@ -48,6 +58,7 @@ public:
 public:
 	bool Create(CBaseInterface *pInterface);
 	bool ExportAnimation(const std::string& strFilename);
+	bool ExportMorphAnimation(const std::string& strFilename);
 	bool ExportMaterial(const std::string& strFilename);
 	bool ExportMesh(const std::string& strFilename);
 	bool ExportSkeleton(const std::string& strFilename);
@@ -57,7 +68,18 @@ public:
 	void SetLastErrorFromCal(const std::string& strFilename, int line);
 
   void SetAxisGL(bool _useAxisGL) { m_useAxisGL=_useAxisGL;}
+	bool ExportAnimationFromMaxscriptCall	(const std::string& strFilename, void* AnimExportParams);
   bool GetAxisGL() { return m_useAxisGL;}
+	bool ExportMorphAnimationFromMaxscriptCall	(const std::string& strFilename, void* AnimExportParams);
+	bool ExportMaterialFromMaxscriptCall	(const std::string& strFilename);
+	bool ExportMeshFromMaxscriptCall		(const std::string& strFilename, void* MeshExportParams);
+	bool ExportSkeletonFromMaxscriptCall	(const std::string& strFilename, bool bShowUI);
+
+ protected:
+        // internal functions
+        bool meshCandidateToCoreMesh(CMeshCandidate const & meshCandidate, CalCoreMesh & coreMesh,
+          CalVector const & positionOffset);
+
 };
 
 extern CExporter theExporter;

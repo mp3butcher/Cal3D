@@ -21,9 +21,10 @@ class CBaseNode
 public:
     enum Type
     {
-        TYPE_OTHER,
+		TYPE_OTHER = 0,
         TYPE_BONE,
         TYPE_DUMMY,
+                TYPE_LIGHT,
         TYPE_MESH
     };
 
@@ -39,6 +40,14 @@ public:
     virtual int GetChildCount() = 0;
     virtual std::string GetName() = 0;
     virtual Type GetType() = 0;
+
+        // not sure if this is the right class for these functions
+        // for nodes of type TYPE_LIGHT, this additional data is available
+  virtual CalLightType GetLightType() {
+    return LIGHT_TYPE_NONE;
+  }
+  virtual void GetLightColor( CalVector &color ) {
+  }
 };
 
 #endif

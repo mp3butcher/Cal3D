@@ -17,6 +17,8 @@
 #include "cal3d/refptr.h"
 
 
+// Maximum length of mapType string buffer, including terminating zero.
+#define CalCoreMaterialMapTypeLengthMax ( 128 )
 class CAL3D_API CalCoreMaterial : public cal3d::RefCounted
 {
 public:
@@ -31,6 +33,7 @@ public:
   struct Map
   {
     std::string strFilename;
+    std::string mapType;
     Cal::UserData userData;
   };
 
@@ -45,6 +48,7 @@ public:
   const Color& getDiffuseColor() const;
   int getMapCount() const;
   const std::string& getMapFilename(int mapId) const;
+  const std::string& getMapType(int mapId);
   Cal::UserData getMapUserData(int mapId);
   const Cal::UserData getMapUserData(int mapId) const;
   float getShininess() const;
@@ -65,6 +69,9 @@ public:
   void setName(const std::string& name);
   const std::string& getName(void) const;
   void setUserData(Cal::UserData userData);
+  bool getAlphaBlending() { return false; } // No check box available in max.
+  bool getTwoSided() { return getMapCount() > 1; } // Should come from check box.
+  bool getSelfIllumination() { return false; } // Should come from check box.
 
 private:
   Color            m_ambientColor;

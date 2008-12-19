@@ -22,6 +22,15 @@ class CalCoreSkeleton;
 class CalCoreModel;
 
 
+enum CalLightType {
+  LIGHT_TYPE_NONE,
+  LIGHT_TYPE_OMNI,
+  LIGHT_TYPE_DIRECTIONAL,
+  LIGHT_TYPE_TARGET,
+  LIGHT_TYPE_AMBIENT
+};
+
+
 class CAL3D_API CalCoreBone
 {
 public:
@@ -31,10 +40,13 @@ public:
   bool addChildId(int childId);
   void calculateState();
   std::list<int>& getListChildId();
+  const std::string& getNameInternal();
+  void setNameInternal( std::string& str ) { m_strName = str; }
   const std::list<int>& getListChildId() const;
   const std::string& getName() const;
   void setName( const std::string& name );
   int getParentId() const;
+  void setName( char const * str ) { m_strName = str; }
   CalCoreSkeleton *getCoreSkeleton();
   const CalCoreSkeleton *getCoreSkeleton() const;
   const CalQuaternion& getRotation() const;
@@ -62,7 +74,13 @@ public:
   void setBoundingBoxPrecomputed( bool inComputed );
   void updateBoundingBox( const CalVector & position );
   void scale(float factor);
-  
+
+  bool hasLightingData();
+  void getLightColor( CalVector & );
+  void setLightColor( CalVector const & );
+  CalLightType  getLightType();
+  void setLightType( CalLightType );
+
 private:
   std::string      m_strName;
   CalCoreSkeleton *m_pCoreSkeleton;
@@ -79,6 +97,9 @@ private:
   CalBoundingBox   m_boundingBox;
   CalVector        m_boundingPosition[6];
   bool             m_boundingBoxPrecomputed;
+  CalVector m_lightColor;
+  CalLightType m_lightType;
+
 };
 
 #endif

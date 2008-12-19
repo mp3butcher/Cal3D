@@ -34,6 +34,27 @@ private:
   float m_delayTarget;
   float m_weightTarget;
   bool  m_autoLock; 
+  float m_scale;
+  float m_rampValue;
+  CompositionFunction m_compositionFunction;
+  enum SequencingMode {
+    SequencingModeNull = 0,
+    SequencingModeAutomatic,
+    SequencingModeManual
+  } m_sequencingMode;
+  bool m_manualOn;
+public:
+  bool setManual();
+  bool setManualAnimationActionOn( bool p );
+  bool setManualAnimationActionWeight( float );
+  bool setScale( float );
+  float getScale();
+  bool setCompositionFunction( CompositionFunction );
+  CompositionFunction getCompositionFunction();
+  bool setRampValue( float );
+  float getRampValue();
+  bool manual();
+  bool on();
 };
 
 #endif

@@ -1,23 +1,51 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="9.00"
 	Name="Cal3D"
-	SccProjectName=""
-	SccLocalPath="">
+	ProjectGUID="{86AD39B7-DDE7-4F46-B5BF-2154B047C112}"
+	RootNamespace="Cal3D"
+	TargetFrameworkVersion="131072"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\bin\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\bin\Debug/cal3d.tlb"
+				HeaderFileName=""
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -30,113 +58,230 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				OutputFile="..\..\bin\Debug\cal3d_d.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug\cal3d.pdb"
-				SubSystem="2"
-				ImportLibrary=".\..\..\bin\Debug/cal3d_d.lib"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\bin\Debug/cal3d.tlb"
-				HeaderFileName=""/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="2055"/>
+				Culture="2055"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\cal3d_d.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\bin\Debug/cal3d_d.lib"
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\bin\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\..\bin\Release/cal3d.tlb"
+				HeaderFileName=""
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS"
-				StringPooling="TRUE"
+				StringPooling="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
+				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\Release/cal3d.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				SuppressStartupBanner="true"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2055"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile=".\..\..\bin\Release/cal3d.dll"
 				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\Release\cal3d.pdb"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\..\..\bin\Release/cal3d.lib"
-				TargetMachine="1"/>
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Hybrid|Win32"
+			OutputDirectory=".\..\..\bin\$(ConfigurationName)"
+			IntermediateDirectory=".\$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\..\bin\Release/cal3d.tlb"
-				HeaderFileName=""/>
+				TypeLibraryName=".\..\..\bin\Debug/cal3d.tlb"
+				HeaderFileName=""
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
+				Optimization="0"
+				AdditionalIncludeDirectories=".."
+				PreprocessorDefinitions="NDEBUG;_HYBRID ;WIN32;_WINDOWS;_USRDLL;CAL3D_EXPORTS"
+				RuntimeLibrary="2"
+				PrecompiledHeaderFile=".\Hybrid/cal3d.pch"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="2055"/>
+				Culture="2055"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\cal3d_d.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary=".\..\..\bin\Hybrid/cal3d_d.lib"
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -144,957 +289,438 @@
 	<Files>
 		<Filter
 			Name="Quellcodedateien"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
 			<File
-				RelativePath="animation.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="animation.cpp"
+				>
 			</File>
 			<File
-				RelativePath="animation_action.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="animation_action.cpp"
+				>
 			</File>
 			<File
-				RelativePath="animation_cycle.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="animation_cycle.cpp"
+				>
 			</File>
 			<File
-				RelativePath="bone.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="bone.cpp"
+				>
 			</File>
 			<File
-				RelativePath="buffersource.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="buffersource.cpp"
+				>
 			</File>
 			<File
-				RelativePath="cal3d.rc">
+				RelativePath="cal3d.rc"
+				>
 			</File>
 			<File
-				RelativePath="cal3d_wrapper.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="cal3d_wrapper.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coreanimation.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\calxmlbindings.cpp"
+				>
 			</File>
 			<File
-				RelativePath="corebone.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\coreanimatedmorph.cpp"
+				>
 			</File>
 			<File
-				RelativePath="corekeyframe.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coreanimation.cpp"
+				>
 			</File>
 			<File
-				RelativePath="corematerial.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="corebone.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coremesh.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="corekeyframe.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coremodel.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="corematerial.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coremorphanimation.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coremesh.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coreskeleton.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coremodel.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coresubmesh.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coremorphanimation.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coresubmorphtarget.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\coremorphkeyframe.cpp"
+				>
 			</File>
 			<File
-				RelativePath="coretrack.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\coremorphtrack.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\dualquaternion.cpp">
+				RelativePath="coreskeleton.cpp"
+				>
 			</File>
 			<File
-				RelativePath="error.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coresubmesh.cpp"
+				>
 			</File>
 			<File
-				RelativePath="global.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coresubmorphtarget.cpp"
+				>
 			</File>
 			<File
-				RelativePath="hardwaremodel.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="coretrack.cpp"
+				>
 			</File>
 			<File
-				RelativePath="loader.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\dualquaternion.cpp"
+				>
 			</File>
 			<File
-				RelativePath="matrix.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="error.cpp"
+				>
 			</File>
 			<File
-				RelativePath="mesh.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="global.cpp"
+				>
 			</File>
 			<File
-				RelativePath="mixer.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="hardwaremodel.cpp"
+				>
 			</File>
 			<File
-				RelativePath="model.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="loader.cpp"
+				>
 			</File>
 			<File
-				RelativePath="morphtargetmixer.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="matrix.cpp"
+				>
 			</File>
 			<File
-				RelativePath="physique.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="mesh.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\physiquedualquaternion.cpp">
+				RelativePath="mixer.cpp"
+				>
 			</File>
 			<File
-				RelativePath="platform.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="model.cpp"
+				>
 			</File>
 			<File
-				RelativePath="quaternion.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="morphtargetmixer.cpp"
+				>
 			</File>
 			<File
-				RelativePath="renderer.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="physique.cpp"
+				>
 			</File>
 			<File
-				RelativePath="saver.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath=".\physiquedualquaternion.cpp"
+				>
 			</File>
 			<File
-				RelativePath="skeleton.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="platform.cpp"
+				>
 			</File>
 			<File
-				RelativePath="springsystem.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="quaternion.cpp"
+				>
 			</File>
 			<File
-				RelativePath="streamsource.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="renderer.cpp"
+				>
 			</File>
 			<File
-				RelativePath="submesh.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="saver.cpp"
+				>
 			</File>
 			<File
-				RelativePath="tinyxml.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="skeleton.cpp"
+				>
 			</File>
 			<File
-				RelativePath="tinyxmlerror.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="springsystem.cpp"
+				>
 			</File>
 			<File
-				RelativePath="tinyxmlparser.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="streamsource.cpp"
+				>
 			</File>
 			<File
-				RelativePath="vector.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CAL3D_EXPORTS;_MBCS;$(NoInherit)"/>
-				</FileConfiguration>
+				RelativePath="submesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tinybind.cpp"
+				>
+			</File>
+			<File
+				RelativePath="tinyxml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="tinyxmlerror.cpp"
+				>
+			</File>
+			<File
+				RelativePath="tinyxmlparser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="vector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\xmlformat.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header-Dateien"
-			Filter="h;hpp;hxx;hm;inl">
+			Filter="h;hpp;hxx;hm;inl"
+			>
 			<File
-				RelativePath="animation.h">
+				RelativePath="animation.h"
+				>
 			</File>
 			<File
-				RelativePath="animation_action.h">
+				RelativePath="animation_action.h"
+				>
 			</File>
 			<File
-				RelativePath="animation_cycle.h">
+				RelativePath="animation_cycle.h"
+				>
 			</File>
 			<File
-				RelativePath="animcallback.h">
+				RelativePath="animcallback.h"
+				>
 			</File>
 			<File
-				RelativePath="bone.h">
+				RelativePath="bone.h"
+				>
 			</File>
 			<File
-				RelativePath="buffersource.h">
+				RelativePath="buffersource.h"
+				>
 			</File>
 			<File
-				RelativePath="cal3d.h">
+				RelativePath="cal3d.h"
+				>
 			</File>
 			<File
-				RelativePath="cal3d_wrapper.h">
+				RelativePath="cal3d_wrapper.h"
+				>
 			</File>
 			<File
-				RelativePath="coreanimation.h">
+				RelativePath=".\calxmlbindings.h"
+				>
 			</File>
 			<File
-				RelativePath="corebone.h">
+				RelativePath=".\coreanimatedmorph.h"
+				>
 			</File>
 			<File
-				RelativePath="corekeyframe.h">
+				RelativePath="coreanimation.h"
+				>
 			</File>
 			<File
-				RelativePath="corematerial.h">
+				RelativePath="corebone.h"
+				>
 			</File>
 			<File
-				RelativePath="coremesh.h">
+				RelativePath="corekeyframe.h"
+				>
 			</File>
 			<File
-				RelativePath="coremodel.h">
+				RelativePath="corematerial.h"
+				>
 			</File>
 			<File
-				RelativePath="coremorphanimation.h">
+				RelativePath="coremesh.h"
+				>
 			</File>
 			<File
-				RelativePath="coreskeleton.h">
+				RelativePath="coremodel.h"
+				>
 			</File>
 			<File
-				RelativePath="coresubmesh.h">
+				RelativePath="coremorphanimation.h"
+				>
 			</File>
 			<File
-				RelativePath="coresubmorphtarget.h">
+				RelativePath=".\coremorphkeyframe.h"
+				>
 			</File>
 			<File
-				RelativePath="coretrack.h">
+				RelativePath=".\coremorphtrack.h"
+				>
 			</File>
 			<File
-				RelativePath="datasource.h">
+				RelativePath="coreskeleton.h"
+				>
 			</File>
 			<File
-				RelativePath=".\dualquaternion.h">
+				RelativePath="coresubmesh.h"
+				>
 			</File>
 			<File
-				RelativePath="error.h">
+				RelativePath="coresubmorphtarget.h"
+				>
 			</File>
 			<File
-				RelativePath="global.h">
+				RelativePath="coretrack.h"
+				>
 			</File>
 			<File
-				RelativePath="hardwaremodel.h">
+				RelativePath="datasource.h"
+				>
 			</File>
 			<File
-				RelativePath="loader.h">
+				RelativePath=".\dualquaternion.h"
+				>
 			</File>
 			<File
-				RelativePath="matrix.h">
+				RelativePath="error.h"
+				>
 			</File>
 			<File
-				RelativePath="mesh.h">
+				RelativePath="global.h"
+				>
 			</File>
 			<File
-				RelativePath="mixer.h">
+				RelativePath="hardwaremodel.h"
+				>
 			</File>
 			<File
-				RelativePath="model.h">
+				RelativePath="loader.h"
+				>
 			</File>
 			<File
-				RelativePath="morphtargetmixer.h">
+				RelativePath="matrix.h"
+				>
 			</File>
 			<File
-				RelativePath="physique.h">
+				RelativePath="mesh.h"
+				>
 			</File>
 			<File
-				RelativePath=".\physiquedualquaternion.h">
+				RelativePath="mixer.h"
+				>
 			</File>
 			<File
-				RelativePath="platform.h">
+				RelativePath="model.h"
+				>
 			</File>
 			<File
-				RelativePath="quaternion.h">
+				RelativePath="morphtargetmixer.h"
+				>
 			</File>
 			<File
-				RelativePath="refcounted.h">
+				RelativePath="physique.h"
+				>
 			</File>
 			<File
-				RelativePath="refptr.h">
+				RelativePath=".\physiquedualquaternion.h"
+				>
 			</File>
 			<File
-				RelativePath="renderer.h">
+				RelativePath="platform.h"
+				>
 			</File>
 			<File
-				RelativePath="resource.h">
+				RelativePath="quaternion.h"
+				>
 			</File>
 			<File
-				RelativePath="saver.h">
+				RelativePath="refcounted.h"
+				>
 			</File>
 			<File
-				RelativePath="skeleton.h">
+				RelativePath="refptr.h"
+				>
 			</File>
 			<File
-				RelativePath="springsystem.h">
+				RelativePath="renderer.h"
+				>
 			</File>
 			<File
-				RelativePath="streamsource.h">
+				RelativePath="resource.h"
+				>
 			</File>
 			<File
-				RelativePath="submesh.h">
+				RelativePath="saver.h"
+				>
 			</File>
 			<File
-				RelativePath="tinyxml.h">
+				RelativePath="skeleton.h"
+				>
 			</File>
 			<File
-				RelativePath="vector.h">
+				RelativePath="springsystem.h"
+				>
+			</File>
+			<File
+				RelativePath="streamsource.h"
+				>
+			</File>
+			<File
+				RelativePath="submesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tinybind.h"
+				>
+			</File>
+			<File
+				RelativePath="tinyxml.h"
+				>
+			</File>
+			<File
+				RelativePath="vector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\xmlformat.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+			>
 		</Filter>
 		<File
-			RelativePath="..\..\AUTHORS">
+			RelativePath="..\..\AUTHORS"
+			>
 		</File>
 		<File
-			RelativePath="..\..\ChangeLog">
+			RelativePath="..\..\ChangeLog"
+			>
 		</File>
 		<File
-			RelativePath="..\..\COPYING">
+			RelativePath="..\..\COPYING"
+			>
 		</File>
 		<File
-			RelativePath="..\..\INSTALL">
+			RelativePath="..\..\INSTALL"
+			>
 		</File>
 		<File
-			RelativePath="..\..\README">
+			RelativePath="..\..\README"
+			>
 		</File>
 		<File
-			RelativePath="..\..\TODO">
+			RelativePath="..\..\TODO"
+			>
 		</File>
 	</Files>
 	<Globals>

@@ -28,6 +28,7 @@ public:
 	typedef struct
 	{
 		std::string strFilename;
+      std::string mapType;
 	} Map;
 
 // member variables

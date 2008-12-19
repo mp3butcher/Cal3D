@@ -18,6 +18,7 @@
 
 struct CalAnimationCallback;
 class CalCoreTrack;
+class CalCoreSkeleton;
 
 class CAL3D_API CalCoreAnimation : public cal3d::RefCounted
 {
@@ -27,12 +28,16 @@ protected:
 public:
   CalCoreAnimation();
 
+  size_t size();
+  void fillInvalidTranslations( CalCoreSkeleton * skel );
   bool addCoreTrack(CalCoreTrack *pCoreTrack);
   CalCoreTrack *getCoreTrack(int coreBoneId);
-
+  unsigned int numCoreTracks();
+  CalCoreTrack * nthCoreTrack( unsigned int );
 	float getDuration() const;
   void setDuration(float duration);
   void scale(float factor);
+  static int getNumCoreAnimations();
   void setFilename(const std::string& filename);
   const std::string& getFilename(void) const;
   void setName(const std::string& name);

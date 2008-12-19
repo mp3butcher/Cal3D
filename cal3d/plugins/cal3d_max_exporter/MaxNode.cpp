@@ -139,10 +139,64 @@ CBaseNode::Type CMaxNode::GetType()
 	if(theExporter.GetInterface()->IsBone(this)) return TYPE_BONE;
 	else if(theExporter.GetInterface()->IsDummy(this)) return TYPE_DUMMY;
 	else if(theExporter.GetInterface()->IsMesh(this)) return TYPE_MESH;
+	else if(theExporter.GetInterface()->IsLight(this)) return TYPE_LIGHT;
 
 	return TYPE_OTHER;
 }
 
+CalLightType CMaxNode::GetLightType()
+{
+   if( GetType() != TYPE_LIGHT ) 
+   {
+      return LIGHT_TYPE_NONE;
+   }
+   ObjectState os;
+
+   TimeValue time = SecToTicks(theExporter.GetInterface()->GetCurrentTime());
+   os = m_pINode->EvalWorldState(time);
+   LightObject * lob = (LightObject*)os.obj;
+   Interval valid;
+   LightState ls;
+   RefResult r = lob->EvalLightState(time, valid, &ls);
+   if( r != REF_SUCCEED ) 
+   {
+      return LIGHT_TYPE_NONE;
+   }
+   switch(ls.type)
+   {
+   case OMNI_LGT:
+      return LIGHT_TYPE_OMNI;
+   case SPOT_LGT:
+      return LIGHT_TYPE_TARGET;
+   case DIRECT_LGT:
+      return LIGHT_TYPE_DIRECTIONAL;
+   case AMBIENT_LGT:
+      return LIGHT_TYPE_AMBIENT;
+   default:
+      return LIGHT_TYPE_NONE;
+   }    
+}
+
+void CMaxNode::GetLightColor( CalVector &color )
+{
+   if( GetType() != TYPE_LIGHT ) 
+   {
+      return;
+   }
+   ObjectState os;
+
+   TimeValue time = SecToTicks(theExporter.GetInterface()->GetCurrentTime());
+   os = m_pINode->EvalWorldState(time);
+   LightObject * lob = (LightObject*)os.obj;
+   Interval valid;
+   LightState ls;
+   RefResult r = lob->EvalLightState(time, valid, &ls);
+   if( r != REF_SUCCEED ) 
+   {
+      return;
+   }
+   color.set(ls.color.r, ls.color.g, ls.color.b);
+}
 //----------------------------------------------------------------------------//
 
 bool CMaxNode::operator==(const CBaseNode& rhs) const

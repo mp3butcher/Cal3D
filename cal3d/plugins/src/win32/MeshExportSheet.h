@@ -51,6 +51,14 @@ public:
 	void SetSkeletonCandidate(CSkeletonCandidate *pSkeletonCandidate);
 	void SetMeshCandidate(CMeshCandidate *pMeshCandidate);
 
+   int GetMaxBoneCount() {
+      return m_boneAssignmentPage.GetMaxBoneCount();
+   }
+
+   float GetWeightThreshold() {
+      return m_boneAssignmentPage.GetWeightThreshold();
+   }
+
 protected:
 	void FillPages();
 

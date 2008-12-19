@@ -17,6 +17,8 @@
 //****************************************************************************//
 
 #include "cal3d/global.h"
+#include "cal3d/animation.h"
+#include "cal3d/quaternion.h"
 
 //****************************************************************************//
 // Forward declarations                                                       //
@@ -27,7 +29,48 @@ class CalAnimation;
 class CalAnimationAction;
 class CalAnimationCycle;
 
+struct CalMixerManualAnimationAttributes {
+  bool on_;
+  float time_;
+  float weight_;
+  float scale_;
+  float rampValue_;
+  CalAnimation::CompositionFunction compositionFunction_;
+};
 
+enum CalMixerBoneAdjustmentFlag {
+  CalMixerBoneAdjustmentFlagPosRot = 1,
+  CalMixerBoneAdjustmentFlagMeshScale = 2
+};
+
+
+struct CalMixerBoneAdjustment {
+
+  // What parts of the adjustment are to be applied?
+  unsigned int flags_;
+
+  // Relative to the parent frame of reference.
+  CalVector localPos_;
+  CalQuaternion localOri_;
+
+  // Scales X, Y, and Z of mesh by these parameters.  The scale parameters are with
+  // respect to the absolute coordinate space, e.g., Z is up in 3dMax, as opposed
+  // to the local coordinate space of the bone.
+  CalVector meshScaleAbsolute_;
+
+  // The adjustment is a highest priority "replace" animation for the bone.  Lower priority
+  // animations for the bone, including other replace animations, will be attenuated by 1 - rampValue.
+  float rampValue_;
+};
+
+
+struct CalMixerBoneAdjustmentAndBoneId {
+  CalMixerBoneAdjustment boneAdjustment_;
+  int boneId_;
+};
+
+// Total number of bone adjustments per mixer.
+#define CalMixerBoneAdjustmentsMax ( 20 ) // Arbitrary.
 
 
 /*****************************************************************************/
@@ -175,7 +218,22 @@ public:
   const std::list<CalAnimationAction *> &getAnimationActionList() const;
   std::list<CalAnimationCycle *> &getAnimationCycle();
   const std::list<CalAnimationCycle *> &getAnimationCycle() const;
-  
+  bool actionOn( int coreAnimationId );
+  bool stopAction( int coreAnimationId );
+  bool addManualAnimation( int coreAnimationId );
+  bool removeManualAnimation( int coreAnimationId );
+  bool setManualAnimationOn( int coreAnimationId, bool );
+  bool setManualAnimationTime( int coreAnimationId, float seconds );
+  bool setManualAnimationWeight( int coreAnimationId, float );
+  bool setManualAnimationScale( int coreAnimationId, float p );
+  bool setManualAnimationRampValue( int coreAnimationId, float p );
+  bool setManualAnimationCompositionFunction( int coreAnimationId, CalAnimation::CompositionFunction p );
+  bool setManualAnimationAttributes( int coreAnimationId, CalMixerManualAnimationAttributes const & p );
+  bool animationDuration( int coreAnimationId, float * result );
+  bool addBoneAdjustment( int boneId, CalMixerBoneAdjustment const & );
+  bool removeBoneAdjustment( int boneId );
+  void removeAllBoneAdjustments();
+  unsigned int numActiveOneShotAnimations();
 protected:
   CalModel                       *m_pModel;
   std::vector<CalAnimation *>     m_vectorAnimation;
@@ -184,7 +242,22 @@ protected:
   float                           m_animationTime;
   float                           m_animationDuration;
   float                           m_timeFactor;
+  unsigned int m_numBoneAdjustments;
+  CalMixerBoneAdjustmentAndBoneId m_boneAdjustmentAndBoneIdArray[ CalMixerBoneAdjustmentsMax ];
+
+public: // private:
+
+  CalAnimationAction * animationActionFromCoreAnimationId( int coreAnimationId );
+  CalAnimationAction * newAnimationAction( int coreAnimationId );
+  bool setManualAnimationCompositionFunction( CalAnimationAction *, CalAnimation::CompositionFunction p );
+  bool setManualAnimationRampValue( CalAnimationAction *, float p );
+  bool setManualAnimationScale( CalAnimationAction *, float p );
+  bool setManualAnimationWeight( CalAnimationAction *, float p );
+  bool setManualAnimationTime( CalAnimationAction *, float p );
+  bool setManualAnimationOn( CalAnimationAction *, bool p );
+  void applyBoneAdjustments();
 };
+
 
 #endif
 

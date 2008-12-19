@@ -14,11 +14,14 @@
 #include "SkeletonCandidate.h"
 #include "BoneCandidate.h"
 #include "BaseNode.h"
+#include "BaseMesh.h"
 #include "SkeletonExportSheet.h"
 #include "AnimationExportSheet.h"
+#include "MorphAnimationExportSheet.h"
 #include "MeshExportSheet.h"
 #include "MaterialExportSheet.h"
 #include "MeshCandidate.h"
+#include "MorphAnimationCandidate.h"
 #include "SubmeshCandidate.h"
 #include "VertexCandidate.h"
 #include "MaterialLibraryCandidate.h"
@@ -135,13 +138,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
 			}
 
 			// create the core track instance
-			if(!pCoreTrack->create())
-			{
-				theExporter.SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-				delete pCoreTrack;
-				theExporter.GetInterface()->StopProgressInfo();
-				return false;
-			}
+			pCoreTrack->create();
 
 			// set the core bone id
 			pCoreTrack->setCoreBoneId(boneCandidateId);
@@ -269,6 +266,23 @@ OutputDebugString(str);
    }
 	}
 
+  for(boneCandidateId = 0; boneCandidateId < vectorBoneCandidate.size(); boneCandidateId++)
+  {
+     CBoneCandidate *pBoneCandidate;
+     pBoneCandidate = vectorBoneCandidate[boneCandidateId];
+     CalCoreTrack *pCoreTrack;
+     pCoreTrack = coreAnimation->getCoreTrack(pBoneCandidate->GetId());
+     static bool useCompression = true;
+     static double translationTolerance = 0.25;
+     static double rotationToleranceDegrees = 0.1;
+     // there is no pCoreTrack for bones that are deselected
+     if( pCoreTrack && useCompression ) 
+     {
+        CalCoreSkeleton * skelOrNull = skeletonCandidate.GetCoreSkeleton();
+        pCoreTrack->compress(translationTolerance, rotationToleranceDegrees, skelOrNull );
+     }
+  }
+
 	// stop the progress info
 	theExporter.GetInterface()->StopProgressInfo();
 
@@ -281,6 +295,167 @@ OutputDebugString(str);
 
 	return true;
 }
+
+
+
+bool CExporter::ExportMorphAnimation(const std::string& strFilename)
+{
+   // check if a valid interface is set
+   if(m_pInterface == 0)
+   {
+      SetLastError("Invalid handle.", __FILE__, __LINE__);
+      return false;
+   }
+
+   // build a morph animation candidate
+   CMorphAnimationCandidate morphAnimationCandidate;
+   if( !morphAnimationCandidate.Create() ) {
+      SetLastError("Creation of CMorphAnimationCandidate instance failed.", __FILE__, __LINE__);
+      return false;
+   }          
+
+   // show export wizard sheet
+   CMorphAnimationExportSheet sheet(_T("Cal3D Animation Export"), m_pInterface->GetMainWnd());
+   sheet.SetMorphAnimationTime(m_pInterface->GetStartFrame(), m_pInterface->GetEndFrame(), m_pInterface->GetCurrentFrame(), m_pInterface->GetFps());
+   sheet.SetWizardMode();
+   if(sheet.DoModal() != ID_WIZFINISH) return true;
+
+   // create the core animation instance
+   CalCoreAnimatedMorph coreAnimation;
+   if(!coreAnimation.create())
+   {
+      SetLastError("Creation of core animation instance failed.", __FILE__, __LINE__);
+      return false;
+   }
+
+   // set the duration of the animation
+   float duration;
+   duration = (float)(sheet.GetEndFrame() - sheet.GetStartFrame()) / (float)m_pInterface->GetFps();
+   coreAnimation.setDuration(duration);
+
+
+   // find the selected mesh
+   // find the morpher modifier
+   // foreach channel
+   //   create a morph anim track
+   //   set the name
+   // foreach frame
+   //   foreach channel
+   //     create keyframe
+   //     set value from modifier
+
+   // start the progress info
+   m_pInterface->StartProgressInfo("Exporting to animation file...");
+
+   CBaseMesh * pMesh = morphAnimationCandidate.meshAtTime(-1);
+   if( !pMesh ) {
+      coreAnimation.destroy();
+      return false;
+   }
+   int numMC = pMesh->numMorphChannels();
+   for( int i = 0; i < numMC; i++ ) {
+      CalCoreMorphTrack * pTrack = new CalCoreMorphTrack();
+      if( !pTrack->create() ) {
+         SetLastError("Creation of CalCoreMorphTrack instance failed.", __FILE__, __LINE__);
+         coreAnimation.destroy();
+         return false;
+      }
+      CBaseMesh::MorphKeyFrame keyFrame = pMesh->frameForChannel(i, 0);
+      pTrack->setMorphName(keyFrame.name);
+      coreAnimation.addCoreTrack(pTrack);
+   }
+
+   // calculate the end frame
+   int endFrame;
+   endFrame = (int)(duration * (float)sheet.GetFps() + 0.5f);
+
+   // calculate the displaced frame
+   int displacedFrame;
+   displacedFrame = (int)(((float)sheet.GetDisplacement() / (float)m_pInterface->GetFps()) * (float)sheet.GetFps() + 0.5f) % endFrame;
+
+   // calculate the possible wrap frame
+   int wrapFrame;
+   wrapFrame = (displacedFrame > 0) ? 1 : 0;
+   float wrapTime;
+   wrapTime = 0.0f;
+
+   int frame;
+   int outputFrame;
+   for(frame = 0,  outputFrame = 0; frame <= (endFrame + wrapFrame); frame++)
+   {
+      // update the progress info
+      m_pInterface->SetProgressInfo(int(100.0f * (float)frame / (float)(endFrame + wrapFrame + 1)));
+
+      // calculate the time in seconds
+      float time;
+      time = (float)sheet.GetStartFrame() / (float)m_pInterface->GetFps() + (float)displacedFrame / (float)sheet.GetFps();
+
+      /* DEBUG
+      CString str;
+      str.Format("frame=%d, endframe=%d, disframe=%d, ouputFrame=%d (%f), time=%f\n", frame, endFrame, displacedFrame, outputFrame, (float)outputFrame / (float)sheet.GetFps() + wrapTime, time);
+      OutputDebugString(str);
+      */
+
+
+      for( int i = 0; i < numMC; i++ ) {
+         CBaseMesh::MorphKeyFrame keyFrame = pMesh->frameForChannel(i, time);
+         CalCoreMorphTrack * pTrack = coreAnimation.getCoreTrack(keyFrame.name);
+         CalCoreMorphKeyframe * pFrame = new CalCoreMorphKeyframe();
+         if(!pFrame->create()) {
+            SetLastError("Creation of CalCoreMorphKeyframe instance failed.", __FILE__, __LINE__);
+            coreAnimation.destroy();
+            return false;
+         }
+         pFrame->setTime(keyFrame.time);
+         pFrame->setWeight(keyFrame.weight / keyFrame.totalWeight);
+         if(!pTrack->addCoreMorphKeyframe(pFrame)) {
+            SetLastError(" addCoreMorphKeyframe failed.", __FILE__, __LINE__);
+            coreAnimation.destroy();
+            pFrame->destroy();
+            return false;
+         }
+      }
+
+      // calculate the next displaced frame and its frame time
+      if(wrapFrame > 0)
+      {
+         if(displacedFrame == endFrame)
+         {
+            wrapTime = 0.0001f;
+            displacedFrame = 0;
+         }
+         else
+         {
+            wrapTime = 0.0f;
+            outputFrame++;
+            displacedFrame++;
+         }
+      }
+      else
+      {
+         outputFrame++;
+         displacedFrame++;
+      }
+   }
+
+   // stop the progress info
+   m_pInterface->StopProgressInfo();
+
+   // save core animation to the file
+   if(!CalSaver::saveCoreAnimatedMorph(strFilename, &coreAnimation))
+   {
+      SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
+      coreAnimation.destroy();
+      return false;
+   }
+
+   // destroy the core animation
+   coreAnimation.destroy();
+
+   return true;
+}
+
+
 
 //----------------------------------------------------------------------------//
 // Export the material to a given file                                        //
@@ -371,6 +546,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
 
     // set map data
     map.strFilename = vectorMap[mapId].strFilename;
+    map.mapType = vectorMap[mapId].mapType;
 
     // set map in the core material instance
     coreMaterial->setMap(mapId, map);
@@ -415,145 +591,50 @@ bool CExporter::ExportMesh(const std::string& strFilename)
   // create the core mesh instance
   CalCoreMeshPtr coreMesh = new CalCoreMesh;
 
-  // get the submesh candidate vector
-  std::vector<CSubmeshCandidate *>& vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
-
-  // start the progress info
-  m_pInterface->StartProgressInfo("Exporting to mesh file...");
-
-  for(size_t submeshCandidateId = 0; submeshCandidateId < vectorSubmeshCandidate.size(); submeshCandidateId++)
-  {
-    // update the progress info
-    m_pInterface->SetProgressInfo(int(100.0f * (float)submeshCandidateId / (float)vectorSubmeshCandidate.size()));
-
-    // get the submesh candidate
-    CSubmeshCandidate *pSubmeshCandidate = vectorSubmeshCandidate[submeshCandidateId];
-
-    // get the face vector
-    std::vector<CSubmeshCandidate::Face>& vectorFace = pSubmeshCandidate->GetVectorFace();
-
-    // check if the submesh actually contains faces
-    if(vectorFace.size() > 0)
-    {
-      // allocate new core submesh instance
-      CalCoreSubmesh *pCoreSubmesh = new CalCoreSubmesh();
-      if(pCoreSubmesh == 0)
-      {
-        SetLastError("Memory allocation failed.", __FILE__, __LINE__);
-        m_pInterface->StopProgressInfo();
-        return false;
-      }
-
-      // set the core material id
-      pCoreSubmesh->setCoreMaterialThreadId(pSubmeshCandidate->GetMaterialThreadId());
-
-      // get the vertex candidate vector
-      std::vector<CVertexCandidate *>& vectorVertexCandidate = pSubmeshCandidate->GetVectorVertexCandidate();
-
-      // get the spring vector
-      std::vector<CSubmeshCandidate::Spring>& vectorSpring = pSubmeshCandidate->GetVectorSpring();
-
-      // reserve memory for all the submesh data
-      if(!pCoreSubmesh->reserve(vectorVertexCandidate.size(), pSubmeshCandidate->GetMapCount(), vectorFace.size(), vectorSpring.size()))
-      {
-        SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
-        delete pCoreSubmesh;
-        m_pInterface->StopProgressInfo();
-        return false;
-      }
-
-      for(size_t vertexCandidateId = 0; vertexCandidateId < vectorVertexCandidate.size(); vertexCandidateId++)
-      {
-        // get the vertex candidate
-        CVertexCandidate *pVertexCandidate = vectorVertexCandidate[vertexCandidateId];
-
-        CalCoreSubmesh::Vertex vertex;
-        pVertexCandidate->GetPosition(vertex.position);
-        pVertexCandidate->GetNormal(vertex.normal);
-        vertex.collapseId = pVertexCandidate->GetCollapseId();
-        vertex.faceCollapseCount = pVertexCandidate->GetFaceCollapseCount();
-
-        // get the texture coordinate vector
-        std::vector<CVertexCandidate::TextureCoordinate>& vectorTextureCoordinate = pVertexCandidate->GetVectorTextureCoordinate();
-
-        // set all texture coordinates
-        for(size_t textureCoordinateId = 0; textureCoordinateId < vectorTextureCoordinate.size(); textureCoordinateId++)
-        {
-          CalCoreSubmesh::TextureCoordinate textureCoordinate;
-          textureCoordinate.u = vectorTextureCoordinate[textureCoordinateId].u;
-          textureCoordinate.v = vectorTextureCoordinate[textureCoordinateId].v;
-
-          // set texture coordinate
-          pCoreSubmesh->setTextureCoordinate(pVertexCandidate->GetLodId(), textureCoordinateId, textureCoordinate);
-        }
-
-        // get the influence vector
-        std::vector<CVertexCandidate::Influence>& vectorInfluence = pVertexCandidate->GetVectorInfluence();
-
-        // reserve memory for the influences in the vertex
-        vertex.vectorInfluence.reserve(vectorInfluence.size());
-        vertex.vectorInfluence.resize(vectorInfluence.size());
-
-        // set all influences
-        for(size_t influenceId = 0; influenceId < vectorInfluence.size(); influenceId++)
-        {
-          vertex.vectorInfluence[influenceId].boneId = vectorInfluence[influenceId].boneId;
-          vertex.vectorInfluence[influenceId].weight = vectorInfluence[influenceId].weight;
-        }
-
-        // set vertex in the core submesh instance
-        pCoreSubmesh->setVertex(pVertexCandidate->GetLodId(), vertex);
-
-        // set the physical property if there is a spring system
-        if(vectorSpring.size() > 0)
-        {
-          // get the physical property vector
-          CVertexCandidate::PhysicalProperty physicalPropertyCandidate;
-          pVertexCandidate->GetPhysicalProperty(physicalPropertyCandidate);
-
-          CalCoreSubmesh::PhysicalProperty physicalProperty;
-          physicalProperty.weight = physicalPropertyCandidate.weight;
-
-          // set the physical property in the core submesh instance
-          pCoreSubmesh->setPhysicalProperty(vertexCandidateId, physicalProperty);
-
-        }
-      }
-
-      for(size_t faceId = 0; faceId < vectorFace.size(); faceId++)
-      {
-        CalCoreSubmesh::Face face;
-
-        // set the vertex ids
-        face.vertexId[0] = vectorFace[faceId].vertexLodId[0];
-        face.vertexId[1] = vectorFace[faceId].vertexLodId[1];
-        face.vertexId[2] = vectorFace[faceId].vertexLodId[2];
-
-        // set face in the core submesh instance
-        pCoreSubmesh->setFace(vectorFace[faceId].lodId, face);
-      }
-
-      for(size_t springId = 0; springId < vectorSpring.size(); springId++)
-      {
-        CalCoreSubmesh::Spring spring;
-
-        // set the vertex ids
-        spring.vertexId[0] = vectorSpring[springId].vertexId[0];
-        spring.vertexId[1] = vectorSpring[springId].vertexId[1];
-        spring.springCoefficient = vectorSpring[springId].springCoefficient;
-        spring.idleLength = vectorSpring[springId].idleLength;
-
-        // set face in the core submesh instance
-        pCoreSubmesh->setSpring(springId, spring);
-      }
-
-      // set the LOD step count
-      pCoreSubmesh->setLodCount(pSubmeshCandidate->GetLodCount());
-
-      // add the core submesh to the core mesh instance
-      coreMesh->addCoreSubmesh(pCoreSubmesh);
-    }
+  CalVector zero;
+  bool r = meshCandidateToCoreMesh(meshCandidate, *coreMesh.get(), zero);
+  if( !r ) {
+     return false;
   }
+
+  int numMorphs = meshCandidate.numMorphs();
+  for( int morphI = 0; morphI < numMorphs; morphI++ ) 
+  {
+     CMeshCandidate morphCandidate;
+
+     CBaseNode * morphNode = meshCandidate.nthMorphNode(morphI);
+     if(!morphCandidate.Create(morphNode, &skeletonCandidate, sheet.GetMaxBoneCount(),
+        sheet.GetWeightThreshold()))
+     {
+        SetLastError("Creation of core mesh instance failed.", __FILE__, __LINE__);
+        return false;
+     }
+
+     if( !morphCandidate.DisableLOD() ) {
+        SetLastError("CalculateLOD failed.", __FILE__, __LINE__);
+        return false;
+     }
+
+     CalCoreMeshPtr morphCoreMesh = new CalCoreMesh;
+
+     CalVector trans;
+     CalQuaternion rot;
+     m_pInterface->GetTranslationAndRotation(morphNode, meshCandidate.getNode(),
+        0, trans, rot);
+
+     if( !meshCandidateToCoreMesh(morphCandidate, *morphCoreMesh.get(), trans) ) 
+     {
+        SetLastError("Creation of core mesh instance failed.", __FILE__, __LINE__);
+        return false;
+     }
+     
+     if( coreMesh->addAsMorphTarget(morphCoreMesh.get(), morphNode->GetName()) == -1 ) 
+     {
+        SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
+        return false;
+     }
+  }
+
 
   // stop the progress info
   m_pInterface->StopProgressInfo();
@@ -567,6 +648,178 @@ bool CExporter::ExportMesh(const std::string& strFilename)
 
   return true;
 }
+
+bool CExporter::meshCandidateToCoreMesh(CMeshCandidate const & meshCandidate, CalCoreMesh & coreMesh,
+                                        CalVector const & positionOffset)
+{
+   // get the submesh candidate vector
+   std::vector<CSubmeshCandidate *> const & vectorSubmeshCandidate = meshCandidate.GetVectorSubmeshCandidate();
+
+   // start the progress info
+   m_pInterface->StartProgressInfo("Exporting to mesh file...");
+
+   size_t submeshCandidateId;
+   for(submeshCandidateId = 0; submeshCandidateId < vectorSubmeshCandidate.size(); submeshCandidateId++)
+   {
+      // update the progress info
+      m_pInterface->SetProgressInfo(int(100.0f * (float)submeshCandidateId / (float)vectorSubmeshCandidate.size()));
+
+      // get the submesh candidate
+      CSubmeshCandidate *pSubmeshCandidate;
+      pSubmeshCandidate = vectorSubmeshCandidate[submeshCandidateId];
+
+      // get the face vector
+      std::vector<CSubmeshCandidate::Face>& vectorFace = pSubmeshCandidate->GetVectorFace();
+
+      // check if the submesh actually contains faces
+      if(vectorFace.size() > 0)
+      {
+         // allocate new core submesh instance
+         CalCoreSubmesh *pCoreSubmesh;
+         pCoreSubmesh = new CalCoreSubmesh();
+         if(pCoreSubmesh == 0)
+         {
+            SetLastError("Memory allocation failed.", __FILE__, __LINE__);
+            m_pInterface->StopProgressInfo();
+            return false;
+         }
+
+         // set the core material id
+         pCoreSubmesh->setCoreMaterialThreadId(pSubmeshCandidate->GetMaterialThreadId());
+
+         // get the vertex candidate vector
+         std::vector<CVertexCandidate *>& vectorVertexCandidate = pSubmeshCandidate->GetVectorVertexCandidate();
+
+         // get the spring vector
+         std::vector<CSubmeshCandidate::Spring>& vectorSpring = pSubmeshCandidate->GetVectorSpring();
+
+         // reserve memory for all the submesh data
+         if(!pCoreSubmesh->reserve(vectorVertexCandidate.size(), pSubmeshCandidate->GetMapCount(), vectorFace.size(), vectorSpring.size()))
+         {
+            SetLastError(CalError::getLastErrorText(), __FILE__, __LINE__);
+            delete pCoreSubmesh;
+            m_pInterface->StopProgressInfo();
+            return false;
+         }
+
+         size_t vertexCandidateId;
+         for(vertexCandidateId = 0; vertexCandidateId < vectorVertexCandidate.size(); vertexCandidateId++)
+         {
+            // get the vertex candidate
+            CVertexCandidate *pVertexCandidate;
+            pVertexCandidate = vectorVertexCandidate[vertexCandidateId];
+
+            CalCoreSubmesh::Vertex vertex;
+
+            // set the vertex position
+            pVertexCandidate->GetPosition(vertex.position);
+            vertex.position -= positionOffset;
+
+            // set the vertex color
+            pVertexCandidate->GetVertColor(vertex.vertexColor);
+
+            // set the vertex normal
+            CalVector normal;
+            pVertexCandidate->GetNormal(vertex.normal);
+
+            // set the collapse id
+            vertex.collapseId = pVertexCandidate->GetCollapseId();
+
+            // set the face collapse count
+            vertex.faceCollapseCount = pVertexCandidate->GetFaceCollapseCount();
+
+            // get the texture coordinate vector
+            std::vector<CVertexCandidate::TextureCoordinate>& vectorTextureCoordinate = pVertexCandidate->GetVectorTextureCoordinate();
+
+            // set all texture coordinates
+            size_t textureCoordinateId;
+            for(textureCoordinateId = 0; textureCoordinateId < vectorTextureCoordinate.size(); textureCoordinateId++)
+            {
+               CalCoreSubmesh::TextureCoordinate textureCoordinate;
+               textureCoordinate.u = vectorTextureCoordinate[textureCoordinateId].u;
+               textureCoordinate.v = vectorTextureCoordinate[textureCoordinateId].v;
+
+               // set texture coordinate
+               pCoreSubmesh->setTextureCoordinate(pVertexCandidate->GetLodId(), textureCoordinateId, textureCoordinate);
+            }
+
+            // get the influence vector
+            std::vector<CVertexCandidate::Influence>& vectorInfluence = pVertexCandidate->GetVectorInfluence();
+
+            // reserve memory for the influences in the vertex
+            vertex.vectorInfluence.reserve(vectorInfluence.size());
+            vertex.vectorInfluence.resize(vectorInfluence.size());
+
+            // set all influences
+            size_t influenceId;
+            for(influenceId = 0; influenceId < vectorInfluence.size(); influenceId++)
+            {
+               vertex.vectorInfluence[influenceId].boneId = vectorInfluence[influenceId].boneId;
+               vertex.vectorInfluence[influenceId].weight = vectorInfluence[influenceId].weight;
+            }
+
+            // set vertex in the core submesh instance
+            pCoreSubmesh->setVertex(pVertexCandidate->GetLodId(), vertex);
+
+            // set the physical property if there is a spring system
+            if(vectorSpring.size() > 0)
+            {
+               // get the physical property vector
+               CVertexCandidate::PhysicalProperty physicalPropertyCandidate;
+               pVertexCandidate->GetPhysicalProperty(physicalPropertyCandidate);
+
+               CalCoreSubmesh::PhysicalProperty physicalProperty;
+               physicalProperty.weight = physicalPropertyCandidate.weight;
+
+               // set the physical property in the core submesh instance
+               pCoreSubmesh->setPhysicalProperty(vertexCandidateId, physicalProperty);
+
+            }
+         }
+
+         size_t faceId;
+         for(faceId = 0; faceId < vectorFace.size(); faceId++)
+         {
+            CalCoreSubmesh::Face face;
+
+            // set the vertex ids
+            face.vertexId[0] = vectorFace[faceId].vertexLodId[0];
+            face.vertexId[1] = vectorFace[faceId].vertexLodId[1];
+            face.vertexId[2] = vectorFace[faceId].vertexLodId[2];
+
+            // set face in the core submesh instance
+            pCoreSubmesh->setFace(vectorFace[faceId].lodId, face);
+         }
+
+         size_t springId;
+         for(springId = 0; springId < vectorSpring.size(); springId++)
+         {
+            CalCoreSubmesh::Spring spring;
+
+            // set the vertex ids
+            spring.vertexId[0] = vectorSpring[springId].vertexId[0];
+            spring.vertexId[1] = vectorSpring[springId].vertexId[1];
+            spring.springCoefficient = vectorSpring[springId].springCoefficient;
+            spring.idleLength = vectorSpring[springId].idleLength;
+
+            // set face in the core submesh instance
+            pCoreSubmesh->setSpring(springId, spring);
+         }
+
+         // set the LOD step count
+         pCoreSubmesh->setLodCount(pSubmeshCandidate->GetLodCount());
+
+         // add the core submesh to the core mesh instance
+         coreMesh.addCoreSubmesh(pCoreSubmesh);
+      }
+   }
+
+   // stop the progress info
+   m_pInterface->StopProgressInfo();
+
+   return true;
+}
+
 
 //----------------------------------------------------------------------------//
 // Export the skeleton to a given file                                        //
@@ -604,6 +857,10 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 
   // get bone candidate vector
   std::vector<CBoneCandidate *> vectorBoneCandidate = skeletonCandidate.GetVectorBoneCandidate();
+
+  CalVector sceneAmbientColor;
+  m_pInterface->GetAmbientLight( sceneAmbientColor );
+  coreSkeleton->setSceneAmbientColor( sceneAmbientColor );
 
   // start the progress info
   m_pInterface->StartProgressInfo("Exporting to skeleton file...");
@@ -651,6 +908,12 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 
       // set the core skeleton of the core bone instance
       pCoreBone->setCoreSkeleton(coreSkeleton.get());
+
+      CBaseNode * pBoneNode = pBoneCandidate->GetNode();
+      pCoreBone->setLightType( pBoneNode->GetLightType() );
+      CalVector color;
+      pBoneNode->GetLightColor( color );
+      pCoreBone->setLightColor( color );
 
       // add the core bone to the core skeleton instance
       int boneId;

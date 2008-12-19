@@ -43,7 +43,11 @@ public:
 
 // member functions
 public:
+  static unsigned int numCalCoreKeyframes();
+  static unsigned int numCalCoreKeyframeBytes();
+
   bool create();
+  unsigned int size();
   void destroy();
   const CalQuaternion& getRotation() const;
 

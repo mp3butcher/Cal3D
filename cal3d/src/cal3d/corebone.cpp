@@ -111,6 +111,7 @@ std::list<int>& CalCoreBone::getListChildId()
   return m_listChildId;
 }
 
+
  /*****************************************************************************/
 /** Returns the child ID list.
   *
@@ -565,5 +566,40 @@ void CalCoreBone::scale(float factor)
 
 
 //****************************************************************************//
+
+
+bool
+CalCoreBone::hasLightingData()
+{
+  return m_lightType != LIGHT_TYPE_NONE;
+}
+
+
+void
+CalCoreBone::getLightColor( CalVector & c )
+{
+  c = m_lightColor;
+}
+
+
+void
+CalCoreBone::setLightColor( CalVector const & c )
+{
+  m_lightColor = c;
+}
+
+
+CalLightType
+CalCoreBone::getLightType()
+{
+  return m_lightType;
+}
+
+
+void
+CalCoreBone::setLightType( CalLightType t )
+{
+  m_lightType = t;
+}
 
 

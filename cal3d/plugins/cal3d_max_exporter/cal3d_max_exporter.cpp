@@ -16,6 +16,7 @@
 #include "cal3d_max_exporter.h"
 #include "MaxSkeletonExportDesc.h"
 #include "MaxAnimationExportDesc.h"
+#include "MaxMorphAnimationExportDesc.h"
 #include "MaxMeshExportDesc.h"
 #include "MaxMaterialExportDesc.h"
 
@@ -65,6 +66,7 @@ __declspec(dllexport) ULONG LibVersion()
 
 CMaxSkeletonExportDesc CMaxExporterApp::m_maxSkeletonExportDesc;
 CMaxAnimationExportDesc CMaxExporterApp::m_maxAnimationExportDesc;
+CMaxMorphAnimationExportDesc CMaxExporterApp::m_maxMorphAnimationExportDesc;
 CMaxMeshExportDesc CMaxExporterApp::m_maxMeshExportDesc;
 CMaxMaterialExportDesc CMaxExporterApp::m_maxMaterialExportDesc;
 
@@ -105,6 +107,9 @@ ClassDesc *CMaxExporterApp::GetClassDesc(int id)
 		case 3:
 			m_maxMaterialExportDesc.SetInstance(m_hInstance);
 			return &m_maxMaterialExportDesc;
+		case 4:
+			m_maxMorphAnimationExportDesc.SetInstance(m_hInstance);
+			return &m_maxMorphAnimationExportDesc;
 		default:
 			return 0;
 	}
@@ -116,7 +121,7 @@ ClassDesc *CMaxExporterApp::GetClassDesc(int id)
 
 int CMaxExporterApp::GetClassDescCount()
 {
-	return 4;
+	return 5;
 }
 
 //----------------------------------------------------------------------------//

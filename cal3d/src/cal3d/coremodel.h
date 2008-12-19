@@ -20,6 +20,7 @@
 #include "cal3d/global.h"
 
 
+class CalCoreAnimatedMorph;
 
 
 class CAL3D_API CalCoreModel
@@ -38,9 +39,15 @@ public:
   void scale(float factor);
 
   // animations
+
+  int getNumCoreAnimations();
+
+  int getNumCoreAnimatedMorphs();
   int addCoreAnimation(CalCoreAnimation *pCoreAnimation);
+  bool removeCoreAnimation( int id );
   CalCoreAnimation *getCoreAnimation(int coreAnimationId);
   const CalCoreAnimation *getCoreAnimation(int coreAnimationId) const;
+  bool removeCoreAnimatedMorph( int id );
   int getCoreAnimationCount() const;
   int loadCoreAnimation(const std::string& strFilename);
   int loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName);
@@ -53,14 +60,23 @@ public:
 
   // morph animations
   int addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimation);
+  int addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph);
   CalCoreMorphAnimation *getCoreMorphAnimation(int coreMorphAnimationId);
   const CalCoreMorphAnimation *getCoreMorphAnimation(int coreMorphAnimationId) const;
+  CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId);
+  const CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId) const;
+
   int getCoreMorphAnimationCount() const;
+  int loadCoreAnimatedMorph(const std::string& strFilename);
 
   // materials
   int addCoreMaterial(CalCoreMaterial *pCoreMaterial);
   void cloneCoreMaterials();
+  bool createInternal(const std::string& strName);
+  bool createWithName( char const * strName);
   bool createCoreMaterialThread(int coreMaterialThreadId);
+  int getCoreAnimationMaxId();
+  // int getCoreAnimatedMorphCount();
   CalCoreMaterial *getCoreMaterial(int coreMaterialId);
   const CalCoreMaterial *getCoreMaterial(int coreMaterialId) const;
   int getCoreMaterialCount() const;
@@ -99,6 +115,10 @@ public:
   void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton);
   void addBoneName(const std::string& strBoneName, int boneId);
   int getBoneId(const std::string& strBoneName) const;
+  void setCoreMeshManagementOn( bool p ) { m_coreMeshManagement = p; }
+  bool getCoreMeshManagementOn() { return m_coreMeshManagement; }
+  void setCoreAnimationManagementOn( bool p ) { m_coreAnimationManagement = p; }
+  bool getCoreAnimationManagementOn() { return m_coreAnimationManagement; }
 
 // member variables
 private:
@@ -106,6 +126,8 @@ private:
   CalCoreSkeletonPtr                    m_pCoreSkeleton;
   std::vector<CalCoreAnimationPtr>      m_vectorCoreAnimation;
   std::vector<CalCoreMorphAnimationPtr> m_vectorCoreMorphAnimation;
+  std::vector<CalCoreAnimatedMorph *>   m_vectorCoreAnimatedMorph;
+
   std::vector<CalCoreMeshPtr>           m_vectorCoreMesh;
   std::vector<CalCoreMaterialPtr>       m_vectorCoreMaterial;
   std::map<int, std::map<int, int> >    m_mapmapCoreMaterialThread;
@@ -113,6 +135,10 @@ private:
   std::map<std::string, int>            m_animationName;
   std::map<std::string, int>            m_materialName;
   std::map<std::string, int>            m_meshName;
+  bool                                  m_coreMeshManagement;
+  bool                                  m_coreAnimationManagement;
+  unsigned int                          m_magic;
+
 };
 
 #endif

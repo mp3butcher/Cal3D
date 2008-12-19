@@ -167,6 +167,45 @@ std::string CMaxMaterial::GetMapFilename(int mapId)
 	return "";
 }
 
+
+//----------------------------------------------------------------------------//
+// Get the slot type of the given map                            //
+//----------------------------------------------------------------------------//
+
+std::string CMaxMaterial::GetMapType(int mapId)
+{
+	int mapCount;
+	mapCount = 0;
+
+	// loop through all maps of the material
+	int materialMapId;
+	for(materialMapId = 0; materialMapId < m_pIStdMat->NumSubTexmaps(); materialMapId++)
+	{
+		// get the texture map
+		Texmap *pTexMap;
+		pTexMap = m_pIStdMat->GetSubTexmap(materialMapId);
+
+		// check if the map is valid
+		if((pTexMap != 0) && (m_pIStdMat->MapEnabled(materialMapId)))
+		{
+			// check if we reached the wanted map
+			if(mapId == mapCount)
+			{
+				if(pTexMap->ClassID() == Class_ID(BMTEX_CLASS_ID, 0))
+				{
+					// get the full filepath
+					std::string mt = m_pIStdMat->GetSubTexmapSlotName(materialMapId);
+          return mt;
+				}
+				else return "<none>";
+			}
+			mapCount++;
+		}
+	}
+
+	return "";
+}
+
 //----------------------------------------------------------------------------//
 // Get the name of the material                                               //
 //----------------------------------------------------------------------------//

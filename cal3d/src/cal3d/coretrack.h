@@ -11,36 +11,31 @@
 #ifndef CAL_CORETRACK_H
 #define CAL_CORETRACK_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
 
 #include "cal3d/global.h"
 #include "cal3d/matrix.h"
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
 
 class CalCoreBone;
 class CalCoreKeyframe;
+class CalCoreSkeleton;
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
-
-//*****************************************************************************/
-//** The core track class.
-//*****************************************************************************/
 
 class CAL3D_API CalCoreTrack
 {
-// member variables
-protected:
+private:
   /// The index of the associated CoreBone in the CoreSkeleton.
   int m_coreBoneId;
+
+  // If translationRequired is false, then the translations are the same as the
+  // skeleton's translations.
+  bool m_translationRequired;
+  bool m_highRangeRequired;
+  bool m_translationIsDynamic;
+  static int m_translationRequiredCount;
+  static int m_translationNotRequiredCount;
 
   /// List of keyframes, always sorted by time.
   std::vector<CalCoreKeyframe*> m_keyframes;
@@ -48,10 +43,11 @@ protected:
 // constructors/destructor
 public:
   CalCoreTrack();
-  virtual ~CalCoreTrack();
+  ~CalCoreTrack();
 
-  bool create();
+  void create();
   void destroy();
+  unsigned int size();
 
   bool getState(float time, CalVector& translation, CalQuaternion& rotation) const;
 
@@ -76,15 +72,30 @@ public:
   CalCoreKeyframe *getCoreKeyframe(int idx);
   const CalCoreKeyframe *getCoreKeyframe(int idx) const;
 
+  static int translationRequiredCount() { return m_translationRequiredCount; }
+  static int translationNotRequiredCount() { return m_translationNotRequiredCount; }
   bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
 	void removeCoreKeyFrame(int _i) { m_keyframes.erase( m_keyframes.begin() + _i); }
+  bool getTranslationRequired() { return m_translationRequired; }
+  void setTranslationRequired( bool p ) { m_translationRequired = p; }
+  bool getTranslationIsDynamic() { return m_translationIsDynamic; }
+  void setTranslationIsDynamic( bool p ) { m_translationIsDynamic = p; }
+  bool getHighRangeRequired() { return m_highRangeRequired; }
+  void setHighRangeRequired( bool p ) { m_highRangeRequired = p; }
+  void fillInvalidTranslations( CalVector const & trans );
 
   void scale(float factor);
+  void compress( double translationTolerance, double rotationToleranceDegrees, CalCoreSkeleton * skelOrNull );
+  bool roundTranslation( CalCoreKeyframe const * prev, CalCoreKeyframe * p, double translationTolerance );
+  void translationCompressibility( 
+    bool * transRequiredResult, bool * transDynamicResult, bool * highRangeRequiredResult,
+    float threshold, float highRangeThreshold, CalCoreSkeleton * skel );
+  void collapseSequences( double translationTolerance, double rotationToleranceDegrees );
 
 private:
   std::vector<CalCoreKeyframe *>::const_iterator getUpperBound(float time) const;
+  bool keyframeEliminatable( CalCoreKeyframe * prev, CalCoreKeyframe * p, CalCoreKeyframe * next,
+	   double translationTolerance, double rotationToleranceDegrees);
 };
 
 #endif
-
-//****************************************************************************//

@@ -31,6 +31,17 @@ CalCoreMesh::CalCoreMesh()
 {
 }
 
+unsigned int
+CalCoreMesh::size()
+{
+  unsigned int r = sizeof( CalCoreMesh );
+  std::vector<CalCoreSubmesh *>::iterator iter1;
+  for( iter1 = m_vectorCoreSubmesh.begin(); iter1 != m_vectorCoreSubmesh.end(); ++iter1 ) {
+    r += (*iter1)->size();
+  }
+  return r;
+}
+
  /*****************************************************************************/
 /** Destructs the core mesh instance.
   *
@@ -181,24 +192,27 @@ const std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh() const
   * It adds appropriate CalCoreSubMorphTargets to each of the core sub meshes.
   *
   * @param pCoreMesh A pointer to the core mesh that shoulb become a blend target.
+  * @param morphTarget A string to be assigned as the morph target's name
   *
   * @return One of the following values:
   *         \li the assigned morph target \b ID of the added blend target
   *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
+int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & morphTargetName)
 {
   //Check if the numbers of vertices allow a blending
   std::vector<CalCoreSubmesh *>& otherVectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
+  int numsubs = getCoreSubmeshCount();
+  int othernumsubs = pCoreMesh->getCoreSubmeshCount();
   if (m_vectorCoreSubmesh.size() != otherVectorCoreSubmesh.size())
   {
-    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__, "This mesh has children with a different numbers of submeshes");
     return -1;
   }
   if (m_vectorCoreSubmesh.size() == 0)
   {
-    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+    CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__, "Mesh has no submeshes");
     return -1;
   }
   std::vector<CalCoreSubmesh *>::iterator iteratorCoreSubmesh = m_vectorCoreSubmesh.begin();
@@ -206,9 +220,14 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
   int subMorphTargetID = (*iteratorCoreSubmesh)->getCoreSubMorphTargetCount();
   while(iteratorCoreSubmesh != m_vectorCoreSubmesh.end())
   {
-    if((*iteratorCoreSubmesh)->getVertexCount() != (*otherIteratorCoreSubmesh)->getVertexCount())
+	int count1 = (*iteratorCoreSubmesh)->getVertexCount();
+	int count2 = (*otherIteratorCoreSubmesh)->getVertexCount();
+
+    if( count1 != count2 )
     {
-      CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__);
+		char buf[2048];
+		_snprintf(buf, sizeof(buf), "This mesh has a morph target child with different number of vertices: %s (%d vs child's %d)", morphTargetName.c_str(), count1, count2);
+      CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__, buf);
       return -1;
     }
     ++iteratorCoreSubmesh;
@@ -222,14 +241,25 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
     int vertexCount = (*otherIteratorCoreSubmesh)->getVertexCount();
     CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new(std::nothrow) CalCoreSubMorphTarget();
     if(!pCalCoreSubMorphTarget->reserve(vertexCount)) return -1;
+    pCalCoreSubMorphTarget->setName( morphTargetName );
     std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
     std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();
+    std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& textCoordVector = (*otherIteratorCoreSubmesh)->getVectorVectorTextureCoordinate();
+    
     for(int i = 0;i<vertexCount;++i)
     {
       CalCoreSubMorphTarget::BlendVertex blendVertex;
       blendVertex.position = (*iteratorVectorVertex).position;
       blendVertex.normal = (*iteratorVectorVertex).normal;
+      blendVertex.textureCoords.clear();
+      blendVertex.textureCoords.reserve(textCoordVector.size());
+      for( unsigned int tcI = 0; tcI < textCoordVector.size(); tcI++ ) 
+      {
+        blendVertex.textureCoords.push_back(textCoordVector[tcI][i]);
+      }  
+
       if(!pCalCoreSubMorphTarget->setBlendVertex(i,blendVertex)) return -1;
+
       ++iteratorVectorVertex;
     }
     (*iteratorCoreSubmesh)->addCoreSubMorphTarget(pCalCoreSubMorphTarget);

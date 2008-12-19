@@ -1,3 +1,7 @@
+#if defined(_MSC_VER) && _MSC_VER <= 1200
+#pragma warning(disable: 4786)
+#endif
+
 //****************************************************************************//
 // coremodel.cpp                                                              //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
@@ -20,10 +24,13 @@
 #include "cal3d/error.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/coreanimation.h"
+#include "cal3d/coreanimatedmorph.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/loader.h"
 #include "cal3d/saver.h"
+
+static unsigned int const CalCoreModelMagic = 0x77884455;
 
  /*****************************************************************************/
 /** Constructs the core model instance.
@@ -36,6 +43,7 @@ CalCoreModel::CalCoreModel(const std::string& name)
 , m_pCoreSkeleton(0)
 , m_userData(0)
 {
+  m_magic = CalCoreModelMagic;
 }
 
  /*****************************************************************************/
@@ -68,6 +76,56 @@ CalCoreModel::~CalCoreModel()
 {
 }
 
+
+
+int 
+
+CalCoreModel::getNumCoreAnimations()
+
+{
+
+  int num = m_vectorCoreAnimation.size();
+
+  int r = 0;
+
+  int i;
+
+  for( i = 0; i < num; i++ ) {
+
+    if( m_vectorCoreAnimation[ i ] ) r++;
+
+  }
+
+  return r;
+
+}
+
+
+
+int 
+
+CalCoreModel::getNumCoreAnimatedMorphs()
+
+{
+
+  int num = m_vectorCoreAnimatedMorph.size();
+
+  int r = 0;
+
+  int i;
+
+  for( i = 0; i < num; i++ ) {
+
+    if( m_vectorCoreAnimatedMorph[ i ] ) r++;
+
+  }
+
+  return r;
+
+}
+
+
+
  /*****************************************************************************/
 /** Adds a core animation.
   *
@@ -80,10 +138,136 @@ CalCoreModel::~CalCoreModel()
 
 int CalCoreModel::addCoreAnimation(CalCoreAnimation *pCoreAnimation)
 {
-  int animationId = m_vectorCoreAnimation.size();
+
+  int num = m_vectorCoreAnimation.size();
+
+  int i;
+
+  for( i = 0; i < num; i++ ) {
+
+    if( !m_vectorCoreAnimation[ i ] ) {
+
+      m_vectorCoreAnimation[ i ] = pCoreAnimation;
+
+      return i;
+
+    }
+
+  }
+
   m_vectorCoreAnimation.push_back(pCoreAnimation);
-  return animationId;
+  return num;
 }
+
+
+
+/*
+
+// Return true if removed.
+
+bool CalCoreModel::removeCoreAnimation(CalCoreAnimation *pCoreAnimation)
+
+{
+
+  int num = m_vectorCoreAnimation.size();
+
+  int i;
+
+  for( i = 0; i < num; i++ ) {
+
+    if( m_vectorCoreAnimation[ i ] == pCoreAnimation ) {
+
+      m_vectorCoreAnimation[ i ] = NULL;
+
+      return true;
+
+    }
+
+  }
+
+  return false;
+
+}
+
+*/
+
+
+
+bool CalCoreModel::removeCoreAnimation( int id )
+
+{
+
+  int num = m_vectorCoreAnimation.size();
+
+  if( id >= num || id < 0) return false;
+
+  if( !m_vectorCoreAnimation[ id ] ) return false;
+
+  m_vectorCoreAnimation[ id ] = NULL;
+
+  return true;
+
+}
+
+
+
+ /*****************************************************************************/
+/** Adds a core animated morph (different from a morph animation).
+  *
+  * Loads a core animated morph (different from a morph animation), and adds
+  * it to the model instance.  The model instance will free the loaded core
+  * animated more when the model instance is freed.
+  *
+  * @param pCoreAnimation A pointer to the core animated morph that should be added.
+  *
+  * @return One of the following values:
+  *         \li the assigned animation \b ID of the added core animated morph
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph)
+{
+  int num = m_vectorCoreAnimatedMorph.size();
+
+  int i;
+
+  for( i = 0; i < num; i++ ) {
+
+    if( !m_vectorCoreAnimatedMorph[ i ] ) {
+
+      m_vectorCoreAnimatedMorph[ i ] = pCoreAnimatedMorph;
+
+      return i;
+
+    }
+
+  }
+
+  m_vectorCoreAnimatedMorph.push_back(pCoreAnimatedMorph);
+
+  return num;
+
+}
+
+
+bool CalCoreModel::removeCoreAnimatedMorph( int id )
+
+{
+
+  int num = m_vectorCoreAnimatedMorph.size();
+
+  if( id >= num || id < 0) return false;
+
+  if( !m_vectorCoreAnimatedMorph[ id ] ) return false;
+
+  m_vectorCoreAnimatedMorph[ id ] = NULL;
+
+  return true;
+
+}
+
+
+
 
  /*****************************************************************************/
 /** Adds a core morph animation.
@@ -196,7 +380,6 @@ const std::string& CalCoreModel::getName() const
   return m_strName;
 }
 
-
  /*****************************************************************************/
 /** Changes the name.
   *
@@ -269,7 +452,11 @@ CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId)
 
 const CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId) const
 {
-  if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
+  if((coreAnimationId < 0) 
+
+    || (coreAnimationId >= (int)m_vectorCoreAnimation.size())
+
+    || !m_vectorCoreAnimation[ coreAnimationId ] )
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
     return 0;
@@ -315,14 +502,15 @@ CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimatio
 
 const CalCoreMorphAnimation *CalCoreModel::getCoreMorphAnimation(int coreMorphAnimationId) const
 {
-  if((coreMorphAnimationId < 0) || (coreMorphAnimationId >= (int)m_vectorCoreMorphAnimation.size()))
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return 0;
-  }
+   if((coreMorphAnimationId < 0) || (coreMorphAnimationId >= (int)m_vectorCoreMorphAnimation.size()))
+   {
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return 0;
+   }
 
-  return m_vectorCoreMorphAnimation[coreMorphAnimationId].get();
+   return m_vectorCoreMorphAnimation[coreMorphAnimationId].get();
 }
+
 
  /*****************************************************************************/
 /** Returns the number of core animations.
@@ -337,6 +525,70 @@ int CalCoreModel::getCoreAnimationCount() const
 {
   return m_vectorCoreAnimation.size();
 }
+
+/*****************************************************************************/
+/** Provides access to a core morph animation.
+*
+* This function returns the core morph animation with the given ID.
+*
+* @param coreAnimatedMorphId The ID of the core morph animation that should be returned.
+*
+* @return One of the following values:
+*         \li a pointer to the core morph animation
+*         \li \b 0 if an error happend
+*****************************************************************************/
+
+CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedMorphId)
+{
+   if((coreAnimatedMorphId < 0) 
+
+      || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
+
+      || !m_vectorCoreAnimatedMorph[ coreAnimatedMorphId ] )
+
+   {
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return 0;
+   }
+
+   return m_vectorCoreAnimatedMorph[coreAnimatedMorphId];
+}
+
+const CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedMorphId) const
+{
+   if((coreAnimatedMorphId < 0) 
+
+      || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
+
+      || !m_vectorCoreAnimatedMorph[ coreAnimatedMorphId ] )
+
+   {
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return 0;
+   }
+
+   return m_vectorCoreAnimatedMorph[coreAnimatedMorphId];
+}
+
+
+ /*****************************************************************************/
+/** Returns the number of CoreAnimatedMorphs.
+  *
+  * This function returns the number of CoreAnimatedMorphs in the core model
+  * instance.
+  *
+  * @return The number of CoreAnimatedMorphs.
+  *****************************************************************************/
+
+/*
+
+int CalCoreModel::getCoreAnimatedMorphCount()
+{
+  return m_vectorCoreAnimatedMorph.size();
+}
+*/
+
+
 
  /*****************************************************************************/
 /** Returns the number of core morph animations.
@@ -735,6 +987,38 @@ int CalCoreModel::loadCoreAnimation(void* buffer)
 }
 
  /*****************************************************************************/
+/** Loads a core animatedMorph.
+  *
+  * This function loads a core animatedMorph from a file.
+  *
+  * @param strFilename The file from which the core animatedMorph should be loaded
+  *                    from.
+  *
+  * @return One of the following values:
+  *         \li the assigned \b ID of the loaded core animation
+  *         \li \b -1 if an error happend
+  *****************************************************************************/
+
+int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename)
+{
+
+  // load a new core AnimatedMorph
+  CalCoreAnimatedMorph *pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorph(strFilename);
+  if(pCoreAnimatedMorph == 0) return -1;
+
+  // add core AnimatedMorph to this core model
+  int animatedMorphId = addCoreAnimatedMorph(pCoreAnimatedMorph);
+  if(animatedMorphId == -1)
+  {
+    delete pCoreAnimatedMorph;
+    return -1;
+  }
+
+  return animatedMorphId;
+}
+
+
+ /*****************************************************************************/
 /** Loads a core material.
   *
   * This function loads a core material from a file.
@@ -1001,6 +1285,7 @@ int CalCoreModel::loadCoreMesh(void* buffer)
     return -1;
   }
 
+
   // load a new core mesh
   CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(buffer);
   if (!pCoreMesh) return -1;
@@ -1123,7 +1408,11 @@ bool CalCoreModel::loadCoreSkeleton(void* buffer)
 bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAnimationId) const
 {
   // check if the core animation id is valid
-  if((coreAnimationId < 0) || (coreAnimationId >= (int)m_vectorCoreAnimation.size()))
+  if((coreAnimationId < 0) 
+
+    || (coreAnimationId >= (int)m_vectorCoreAnimation.size())
+
+    || !m_vectorCoreAnimation[ coreAnimationId ] )
   {
     CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
     return false;
@@ -1137,6 +1426,8 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
 
   return true;
 }
+
+
 
  /*****************************************************************************/
 /** Saves a core material.
@@ -1594,10 +1885,15 @@ void CalCoreModel::scale(float factor)
 {
   m_pCoreSkeleton->scale(factor);
 
-  for(size_t animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
-  {
-    m_vectorCoreAnimation[animationId]->scale(factor);
-  }
+	int animationId;
+	for(animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
+	{
+
+    if( m_vectorCoreAnimation[animationId] ) {
+  		m_vectorCoreAnimation[animationId]->scale(factor);
+
+    }
+	}
 
   for(size_t meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
   {

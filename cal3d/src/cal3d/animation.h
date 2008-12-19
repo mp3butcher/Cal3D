@@ -39,6 +39,12 @@ public:
     STATE_OUT,
     STATE_STOPPED
   };
+  enum CompositionFunction {
+    CompositionFunctionNull = 0,
+    CompositionFunctionReplace,
+    CompositionFunctionAverage,
+    CompositionFunctionCrossFade
+  };
 
 protected:
   CalAnimation(CalCoreAnimation *pCoreAnimation);

@@ -686,7 +686,7 @@ int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *t
 {
 	try
 	{
-		return self->addAsMorphTarget(target);
+		return self->addAsMorphTarget(target, target->getName());
 	}
 	catch (...)
 	{

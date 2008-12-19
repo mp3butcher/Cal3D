@@ -40,6 +40,9 @@ public:
 	INode *GetINode();
 	std::string GetName();
 	Type GetType();
+   virtual CalLightType GetLightType();
+   virtual void GetLightColor( CalVector &color );
+
         bool operator==(const CBaseNode& rhs) const;
 };
 

@@ -67,6 +67,8 @@ CalRenderer::CalRenderer(CalRenderer *pRenderer)
 
 bool CalRenderer::beginRendering()
 {
+  assert( m_pModel );
+
   // get the attached meshes vector
   std::vector<CalMesh *>& vectorMesh = m_pModel->getVectorMesh();
 
@@ -536,6 +538,26 @@ int CalRenderer::getTextureCoordinates(int mapId, float *pTextureCoordinateBuffe
   return textureCoordinateCount;
 }
 
+
+ /*****************************************************************************/
+/** Returns true if texture coordinates exist for the given map.
+  *
+  *
+  * @param mapId The ID of the map to test for texture coordinate data.
+  *
+  * @return true if texture coordinates for the given map are valid.
+  *****************************************************************************/
+bool 
+CalRenderer::textureCoordinatesForMapValid( int mapId )
+{
+  std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVectorTextureCoordinate();
+  if((mapId < 0) || (mapId >= (int)vectorvectorTextureCoordinate.size())) {
+    return false;
+  }
+  return true;
+}
+
+
  /*****************************************************************************/
 /** Returns the number of vertices.
   *
@@ -608,6 +630,84 @@ int CalRenderer::getVertices(float *pVertexBuffer, int stride) const
   // submesh does not handle the vertex data internally, so let the physique calculate it now
   return m_pModel->getPhysique()->calculateVertices(m_pSelectedSubmesh, pVertexBuffer, stride);
 }
+
+
+ /*****************************************************************************/
+/** Provides access to the vertex colors.
+  *
+  * This function returns the vertex colors of the selected mesh/submesh.
+  *
+  * @param pVertexBuffer A pointer to the user-provided buffer where the vertex
+  *                      colors are written to.
+  *
+  * @return The number of vertices written to the buffer.
+  *****************************************************************************/
+
+int CalRenderer::getVertColors(float *pVertexBuffer)
+{
+  // get the number of vertices
+  int vertexCount;
+  vertexCount = m_pSelectedSubmesh->getVertexCount();
+
+  // get vertex vector of the core submesh
+  std::vector<CalCoreSubmesh::Vertex>& vectorVertex = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVertex();
+
+  int vertexId;
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
+  {
+    // get the vertex
+    CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+    pVertexBuffer[0] = vertex.vertexColor.x;
+    pVertexBuffer[1] = vertex.vertexColor.y;
+    pVertexBuffer[2] = vertex.vertexColor.z;
+    pVertexBuffer += 3;
+  }
+  return vertexCount;
+}
+
+// Returns the in-memory 32 bit representation of a color ("StandardPixel"),
+// which may be different on different machines depending on endedness and
+// on graphics format convention.  Alpha is 0xff.
+//
+//    Win32 is low byte first, ARGB8 (i.e., the first byte is B, the second is G).
+//
+int CalRenderer::getVertColorsAsStandardPixels( unsigned int *pVertexBuffer)
+{
+  // get the number of vertices
+  int vertexCount;
+  vertexCount = m_pSelectedSubmesh->getVertexCount();
+
+  // get vertex vector of the core submesh
+  std::vector<CalCoreSubmesh::Vertex>& vectorVertex = m_pSelectedSubmesh->getCoreSubmesh()->getVectorVertex();
+
+  int vertexId;
+  for(vertexId = 0; vertexId < vertexCount; ++vertexId)
+  {
+    // get the vertex
+    CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+#ifdef    WIN32
+
+    // Win32 StandardPixels are ARGB8 with low byte first, which means BGRA byte order.
+    * pVertexBuffer =
+      ( unsigned int ) ( vertex.vertexColor.z * 0xff )
+      + ( ( ( unsigned int ) ( vertex.vertexColor.y * 0xff ) ) << 8 )
+      + ( ( ( unsigned int ) ( vertex.vertexColor.x * 0xff ) ) << 16 )
+      + 0xff000000;
+    pVertexBuffer++;
+#else
+    unimplemented();
+#endif
+  }
+  return vertexCount;
+}
+
+
+bool
+CalRenderer::hasNonWhiteVertexColors() 
+{ 
+  return m_pSelectedSubmesh->getCoreSubmesh()->hasNonWhiteVertexColors();
+}
+
 
  /*****************************************************************************/
 /** Provides access to the submesh data.

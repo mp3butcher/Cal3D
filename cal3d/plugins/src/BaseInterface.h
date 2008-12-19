@@ -40,7 +40,7 @@ public:
 	virtual CWnd *GetMainWnd() = 0;
 	virtual CBaseMaterial *GetMaterial(int materialId) = 0;
 	virtual int GetMaterialCount() = 0;
-	virtual CBaseMesh *GetMesh(CBaseNode *pNode) = 0;
+   virtual CBaseMesh *GetMesh(CBaseNode *pNode, float time = -1) = 0;
 	virtual CBaseNode *GetNode(const std::string& strName) = 0;
 	virtual CBaseNode *GetSelectedNode(int nodeId) = 0;
 	virtual int GetSelectedNodeCount() = 0;
@@ -50,9 +50,12 @@ public:
 	virtual bool IsBone(CBaseNode *pNode) = 0;
 	virtual bool IsDummy(CBaseNode *pNode) = 0;
 	virtual bool IsMesh(CBaseNode *pNode) = 0;
+	virtual bool IsLight(CBaseNode *pNode) = 0;
 	virtual void SetProgressInfo(int percentage) = 0;
 	virtual void StartProgressInfo(const std::string& strText) = 0;
 	virtual void StopProgressInfo() = 0;
+  virtual void GetAmbientLight( CalVector & ) = 0;
+
 };
 
 #endif

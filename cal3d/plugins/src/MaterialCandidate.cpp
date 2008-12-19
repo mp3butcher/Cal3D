@@ -72,6 +72,7 @@ bool CMaterialCandidate::Create(CBaseMaterial *pMaterial)
 		// create a map instance
 		Map map;
 		map.strFilename = pMaterial->GetMapFilename(mapId);
+      map.mapType = pMaterial->GetMapType(mapId);
 
 		// add map to the map vector of this material
 		m_vectorMap.push_back(map);

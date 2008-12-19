@@ -29,13 +29,18 @@ public:
 	void Clear();
 	bool Create(CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold);
 	bool DisableLOD();
-	std::vector<CSubmeshCandidate *>& GetVectorSubmeshCandidate();
+   std::vector<CSubmeshCandidate *> const & GetVectorSubmeshCandidate() const;
 
 	bool Create(CBaseNode* _basenode, CSkeletonCandidate *pSkeletonCandidate, int maxBoneCount, float weightThreshold);
+
+   CBaseNode * getNode() const;
+   int numMorphs();
+   CBaseNode * nthMorphNode(int i);
 
 private:
     std::vector<CBaseMesh*> m_meshes;
     std::vector<CSubmeshCandidate *> m_vectorSubmeshCandidate;
+    CBaseNode *m_pNode;
 };
 
 #endif

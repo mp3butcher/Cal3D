@@ -32,6 +32,9 @@ private:
 	std::list<int> m_listRootBoneCandidateId;
 	std::string m_strFilename;
 
+  // Valid if loaded it from CreateFromSkeletonFile().
+  CalCoreModel *m_coreModel;
+
 // constructors/destructor
 public:
         CSkeletonCandidate();
@@ -51,6 +54,7 @@ public:
 	std::list<int> GetListRootBoneCandidateId();
 	int GetParentSelectedId(int boneCandidateId);
 	int GetSelectedCount();
+  CalCoreSkeleton * GetCoreSkeleton() { return m_coreModel ? m_coreModel->getCoreSkeleton() : NULL; }
 	void GetTranslationAndRotation(int boneCandidateId, float time, CalVector& translation, CalQuaternion& rotation);
 	void GetTranslationAndRotationBoneSpace(int boneCandidateId, float time, CalVector& translation, CalQuaternion& rotation);
 	std::vector<CBoneCandidate *> GetVectorBoneCandidate();

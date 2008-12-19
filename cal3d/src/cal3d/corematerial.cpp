@@ -20,7 +20,7 @@
 CalCoreMaterial::CalCoreMaterial()
   : m_userData(0)
 {
-}
+} 
 
 CalCoreMaterial::CalCoreMaterial( const CalCoreMaterial& inOther )
   : m_ambientColor( inOther.m_ambientColor )
@@ -98,6 +98,33 @@ const std::string& CalCoreMaterial::getMapFilename(int mapId) const
   }
 
   return m_vectorMap[mapId].strFilename;
+}
+
+ /*****************************************************************************/
+/** Returns a specified map type
+  *
+  * This function returns the map type for a specified map ID of the
+  * core material instance. The type will be an exporter-specific string which
+  * explains what the Map is meant to be used for, such as "Opacity"
+  *
+  * @param mapId The ID of the map.
+  *
+  * @return One of the following values:
+  *         \li the type of the map 
+  *         \li an empty string if an error happend
+  *****************************************************************************/
+
+const std::string& CalCoreMaterial::getMapType(int mapId)
+{
+  // check if the map id is valid
+  if((mapId < 0) || (mapId >= (int)m_vectorMap.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    static std::string null;
+    return null;
+  }
+
+  return m_vectorMap[mapId].mapType;
 }
 
  /*****************************************************************************/

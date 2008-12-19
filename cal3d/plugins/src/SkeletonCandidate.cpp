@@ -21,6 +21,7 @@
 
 CSkeletonCandidate::CSkeletonCandidate()
 {
+  m_coreModel = NULL;
 }
 
 //----------------------------------------------------------------------------//
@@ -227,6 +228,12 @@ int CSkeletonCandidate::BuildSelectedId()
 
 void CSkeletonCandidate::Clear()
 {
+   if( m_coreModel ) 
+   {
+      delete m_coreModel;
+      m_coreModel = NULL;
+   }
+
 	// destroy all bone candidates stored in this skeleton candidate
 	for(size_t boneCandidateId = 0; boneCandidateId < m_vectorBoneCandidate.size(); boneCandidateId++)
 	{
@@ -271,17 +278,17 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 	m_strFilename = strFilename;
 
 	// create a core model instance
-	CalCoreModel coreModel("dummy");
+   CalCoreModel *coreModel = new CalCoreModel("dummy");
 
 	// load the core skeleton instance
-	if(!coreModel.loadCoreSkeleton(m_strFilename))
+	if(!coreModel->loadCoreSkeleton(m_strFilename))
 	{
 		theExporter.SetLastErrorFromCal(__FILE__, __LINE__);
 		return false;
 	}
 
 	// get core skeleton
-	CalCoreSkeleton *pCoreSkeleton = coreModel.getCoreSkeleton();
+	CalCoreSkeleton *pCoreSkeleton = coreModel->getCoreSkeleton();
 	
 	// get core bone vector
 	std::vector<CalCoreBone *>& vectorCoreBone = pCoreSkeleton->getVectorCoreBone();
@@ -297,6 +304,7 @@ bool CSkeletonCandidate::CreateFromSkeletonFile(const std::string& strFilename)
 		}
 	}
 
+	m_coreModel = coreModel;
 	return true;
 }
 

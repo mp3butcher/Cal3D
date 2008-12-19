@@ -32,6 +32,9 @@ public:
 	virtual void GetDiffuseColor(float *pColor) = 0;
 	virtual int GetMapCount() = 0;
 	virtual std::string GetMapFilename(int mapId) = 0;
+  virtual std::string GetMapType(int mapId) {
+    return "";
+  }
 	virtual std::string GetName() = 0;
 	virtual void GetSpecularColor(float *pColor) = 0;
 	virtual float GetShininess() = 0;

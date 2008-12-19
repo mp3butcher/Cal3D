@@ -332,7 +332,7 @@ int CMaxInterface::GetMaterialCount()
 // Get the mesh of a given node                                               //
 //----------------------------------------------------------------------------//
 
-CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode)
+CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode, float time )
 {
   // check for invalid nodes
   if(pNode == 0)
@@ -345,9 +345,10 @@ CBaseMesh *CMaxInterface::GetMesh(CBaseNode *pNode)
   CMaxNode *pMaxNode;
   pMaxNode = dynamic_cast<CMaxNode *>(pNode);
 
-  // get the current time
-  TimeValue time;
-  time = m_pInterface->GetTime();
+	// get the current time
+        if( time == -1 ) {
+          time = m_pInterface->GetTime();
+        }
 
   // get max mesh instance
   ObjectState os;
@@ -494,9 +495,8 @@ int CMaxInterface::GetSelectedNodeCount()
 
 CBaseNode *CMaxInterface::GetSelectedNode(int nodeId)
 {
-  // get the number of selected nodes
-  int nodeCount;
-  nodeCount = m_pInterface->GetSelNodeCount();
+	// get the number of selected nodes
+	int nodeCount = m_pInterface->GetSelNodeCount();
 
   // if nothing is selected, we go with the scene root node
   if(nodeCount == 0)
@@ -848,6 +848,32 @@ bool CMaxInterface::IsDummy(CBaseNode *pNode)
   return false;
 }
 
+bool
+CMaxInterface::IsLight(CBaseNode *pNode)
+{
+	// check for invalid nodes
+	if(pNode == 0) return false;
+
+	// downcast to a max node
+	CMaxNode *pMaxNode;
+	pMaxNode = dynamic_cast<CMaxNode *>(pNode);
+
+	// get internal max node
+	INode *pINode;
+	pINode = pMaxNode->GetINode();
+
+	// check for root node
+	if(pINode->IsRootNode()) return false;
+
+	// check for light node
+	ObjectState os;
+	os = pINode->EvalWorldState(0);
+	if(os.obj->ClassID() == Class_ID(LIGHT_CLASS_ID, 0)) return true;
+	if(os.obj->SuperClassID() == LIGHT_CLASS_ID) return true;
+
+	return false;
+}
+
 //----------------------------------------------------------------------------//
 // Check if the given node is a mesh                                          //
 //----------------------------------------------------------------------------//
@@ -938,3 +964,14 @@ StdMat* CMaxInterface::GetStdMatFromMaxscript()
 {
   return m_MatFromMaxScript;
 }
+
+void
+CMaxInterface::GetAmbientLight( CalVector & c )
+{
+
+  Interval valid;
+  Point3 amb = m_pInterface->GetAmbient(SecToTicks(GetCurrentTime()), valid);
+  c.set( amb.x, amb.y, amb.z );
+}
+
+

@@ -16,37 +16,60 @@
 #include "cal3d/vector.h"
 #include "cal3d/refcounted.h"
 #include "cal3d/refptr.h"
-class CalCoreSubmesh;
+#include "cal3d/coresubmesh.h"
 
 class CAL3D_API CalCoreSubMorphTarget
 {
 public:
   struct BlendVertex
   {
-     CalVector position;
-     CalVector normal;
+    CalVector position;
+    CalVector normal;
+    std::vector<CalCoreSubmesh::TextureCoordinate> textureCoords;
+    bool create() { return true; }
+    bool destroy() { return true; }
   };
   
 public:
-  CalCoreSubMorphTarget() : m_coreSubmesh( NULL ) { }
+  CalCoreSubMorphTarget();
   virtual ~CalCoreSubMorphTarget() { }
   
   virtual void setCoreSubmesh( CalCoreSubmesh *inCoreSubmesh );
   const CalCoreSubmesh *getCoreSubmesh() const;
 
   int getBlendVertexCount() const;
-  std::vector<BlendVertex>& getVectorBlendVertex();
-  const std::vector<BlendVertex>& getVectorBlendVertex() const;
+  unsigned int size();
+  typedef std::vector<BlendVertex *> VectorBlendVertex;
+
+  std::vector<BlendVertex *>& getVectorBlendVertex();
+  inline bool hasBlendVertex( int blendVertexId ) {
+    return m_vectorBlendVertex[blendVertexId] != NULL;
+  }
+  inline BlendVertex const * getBlendVertex( int blendVertexId ) {
+    return m_vectorBlendVertex[blendVertexId];
+  }
+
+  inline const BlendVertex* getBlendVertex( int blendVertexId ) const {
+     return m_vectorBlendVertex[blendVertexId];
+  }
+
+  const std::vector<BlendVertex*>& getVectorBlendVertex() const;
   virtual bool reserve(int blendVertexCount);
   bool setBlendVertex(int vertexId, const BlendVertex& vertex);
 
   void	getBlendVertex( int vertexId, BlendVertex& outVertex ) const;
+  CalMorphTargetType morphTargetType() const;
+
+  void setName( std::string );
+  std::string name() const;
 
 private:
   CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
 
-  std::vector<BlendVertex>  m_vectorBlendVertex;
+  std::vector<BlendVertex*>  m_vectorBlendVertex;
   CalCoreSubmesh           *m_coreSubmesh;
+  std::string               m_morphTargetName;
+  CalMorphTargetType        m_morphTargetType;
 };
 
 // The difference map is reference counted because we can use the same difference

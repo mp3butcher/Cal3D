@@ -18,6 +18,9 @@
 
 #include "cal3d/corekeyframe.h"
 
+static unsigned int MyNumCalCoreKeyframes = 0;
+static unsigned int MyNumCalCoreKeyframeBytes = 0;
+
  /*****************************************************************************/
 /** Constructs the core keyframe instance.
   *
@@ -27,7 +30,21 @@
 CalCoreKeyframe::CalCoreKeyframe()
   : m_time(0.0f)
 {
+  MyNumCalCoreKeyframes++;
+  MyNumCalCoreKeyframeBytes += sizeof( CalCoreKeyframe );
 }
+
+unsigned int CalCoreKeyframe::numCalCoreKeyframes() { return MyNumCalCoreKeyframes; }
+unsigned int CalCoreKeyframe::numCalCoreKeyframeBytes() { return MyNumCalCoreKeyframeBytes; }
+
+
+unsigned int
+CalCoreKeyframe::size()
+{
+  unsigned int r = sizeof( CalCoreKeyframe );
+  return r;
+}
+
 
  /*****************************************************************************/
 /** Destructs the core keyframe instance.
@@ -37,6 +54,8 @@ CalCoreKeyframe::CalCoreKeyframe()
 
 CalCoreKeyframe::~CalCoreKeyframe()
 {
+  MyNumCalCoreKeyframes--;
+  MyNumCalCoreKeyframeBytes -= sizeof( CalCoreKeyframe );
 }
 
  /*****************************************************************************/

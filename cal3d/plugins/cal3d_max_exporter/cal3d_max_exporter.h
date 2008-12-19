@@ -17,6 +17,7 @@
 
 class CMaxSkeletonExportDesc;
 class CMaxAnimationExportDesc;
+class CMaxMorphAnimationExportDesc;
 class CMaxMeshExportDesc;
 class CMaxMaterialExportDesc;
 
@@ -30,6 +31,7 @@ class CMaxExporterApp : public CWinApp
 protected:
 	static CMaxSkeletonExportDesc m_maxSkeletonExportDesc;
 	static CMaxAnimationExportDesc m_maxAnimationExportDesc;
+	static CMaxMorphAnimationExportDesc m_maxMorphAnimationExportDesc;
 	static CMaxMeshExportDesc m_maxMeshExportDesc;
 	static CMaxMaterialExportDesc m_maxMaterialExportDesc;
 

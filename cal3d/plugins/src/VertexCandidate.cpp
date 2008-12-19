@@ -41,6 +41,7 @@ CVertexCandidate::CVertexCandidate()
 	m_physicalProperty.weight = 0.0f;
 	m_physicalProperty.springCount = 0;
 	m_physicalProperty.constraintDistance = -1;
+   m_hasUniqueId = false;
 }
 
 //----------------------------------------------------------------------------//
@@ -86,6 +87,17 @@ bool CVertexCandidate::operator==(CVertexCandidate& vertexCandidate)
 	{
 	}
 */
+   if( m_hasUniqueId && vertexCandidate.m_hasUniqueId ) 
+   {
+      if( m_uniqueId == vertexCandidate.m_uniqueId ) 
+      {
+         return true;
+      }
+      else 
+      {
+         return false;
+      }
+   }
 	// no differences found
 	return true;
 }
@@ -366,4 +378,29 @@ void CVertexCandidate::SetPosition(float x, float y, float z)
 	m_position[2] = z;
 }
 
+void 
+CVertexCandidate::SetVertColor( CalVector c )
+{
+   m_color = c;
+}
+
+void 
+CVertexCandidate::GetVertColor( CalVector &c )
+{
+   c.set(m_color.x, m_color.y, m_color.z);
+}
+
+
+int 
+CVertexCandidate::GetUniqueId()
+{
+   return m_uniqueId;
+}
+
+void 
+CVertexCandidate::SetUniqueId(int id)
+{
+   m_hasUniqueId = true;
+   m_uniqueId = id;
+}
 //----------------------------------------------------------------------------//

@@ -12,23 +12,30 @@
 #include "config.h"
 #endif
 
-#include "cal3d/coreanimation.h"
+#include "cal3d/coreanimation.h" 
 #include "cal3d/coretrack.h"
+#include "cal3d/coreskeleton.h"
+#include "cal3d/corebone.h"
+
+static int MyNumCalCoreAnimations = 0;
+int CalCoreAnimation::getNumCoreAnimations() { return MyNumCalCoreAnimations; }
 
 CalCoreAnimation::CalCoreAnimation()
 {
+  MyNumCalCoreAnimations++;
 }
 
 
 CalCoreAnimation::~CalCoreAnimation()
 {
-    std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-    for (iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
-    {
-        CalCoreTrack* pTrack = *iteratorCoreTrack;
-        pTrack->destroy();
-        delete pTrack;
-    }
+  MyNumCalCoreAnimations--;
+  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+  for (iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
+  {
+    CalCoreTrack* pTrack = *iteratorCoreTrack;
+    pTrack->destroy();
+    delete pTrack;
+  }
 }
 
 /*****************************************************************************/
@@ -51,6 +58,18 @@ bool CalCoreAnimation::addCoreTrack(CalCoreTrack *pCoreTrack)
 }
 
  /*****************************************************************************/
+size_t CalCoreAnimation::size()
+{
+  size_t r = sizeof( *this );
+  std::list<CalCoreTrack *>::iterator iter1;
+  for( iter1 = m_listCoreTrack.begin(); iter1 != m_listCoreTrack.end(); ++iter1 ) 
+  {
+    r += (*iter1)->size() + sizeof(iter1); // Bi-directional list has two pointers.
+  }
+  return r;
+}
+
+/*****************************************************************************/
 /** Provides access to a core track.
   *
   * This function returns the core track for a given bone ID.
@@ -79,6 +98,40 @@ CalCoreTrack *CalCoreAnimation::getCoreTrack(int coreBoneId)
 
   // no match found
   return 0;
+}
+
+
+
+void CalCoreAnimation::fillInvalidTranslations( CalCoreSkeleton * skel )
+{
+  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+  for(iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
+  {
+    CalCoreTrack * tr = * iteratorCoreTrack;
+    int boneId = tr->getCoreBoneId();
+    assert( boneId != -1 );
+    CalCoreBone * bo = skel->getCoreBone( boneId );
+    if( bo ) {
+      CalVector trans = bo->getTranslation();
+      tr->fillInvalidTranslations( trans );
+    }
+  }
+}
+
+
+unsigned int CalCoreAnimation::numCoreTracks()
+{
+  return m_listCoreTrack.size();
+}
+
+CalCoreTrack* CalCoreAnimation::nthCoreTrack( unsigned int i )
+{
+  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+  for( iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack ) {
+    if( i == 0 ) return * iteratorCoreTrack;
+    i--;
+  }
+  return NULL;
 }
 
 /*****************************************************************************/
@@ -265,5 +318,3 @@ unsigned int CalCoreAnimation::getTotalNumberOfKeyframes() const
 	}
 	return nbKeys;
 }
-
-

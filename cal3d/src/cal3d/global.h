@@ -11,14 +11,6 @@
 #ifndef CAL_GLOBAL_H
 #define CAL_GLOBAL_H
 
-//****************************************************************************//
-// Includes                                                                   //
-//****************************************************************************//
-
-// autoconf/automake includes
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 // platform dependent includes
 #include "cal3d/platform.h"
@@ -50,6 +42,7 @@ namespace cal3d
   // file magic cookies
   const char SKELETON_FILE_MAGIC[4]  = { 'C', 'S', 'F', '\0' };
   const char ANIMATION_FILE_MAGIC[4] = { 'C', 'A', 'F', '\0' };
+  const char ANIMATEDMORPH_FILE_MAGIC[4] = { 'C', 'P', 'F', '\0' };
   const char MESH_FILE_MAGIC[4]      = { 'C', 'M', 'F', '\0' };
   const char MATERIAL_FILE_MAGIC[4]  = { 'C', 'R', 'F', '\0' };
 
@@ -65,6 +58,18 @@ namespace cal3d
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
   const int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
 
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 = 918;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 = 917;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 = 916;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION = 913;
+  const int FIRST_FILE_VERSION_WITH_VERTEX_COLORS = 911;
+  const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 911;
+  const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 911;
+  const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 911;
+
+  inline bool versionHasCompressionFlag(int version) {
+    return version >= 919;
+  }
   /**
    * Derive from noncopyable to mark your class as not having a copy
    * constructor or operator=
@@ -80,6 +85,11 @@ namespace cal3d
   };
 }
 
+struct CalHeader
+{
+  int version;
+  char const* magic;
+};
 namespace Cal = cal3d;
 
 #endif

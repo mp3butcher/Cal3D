@@ -19,6 +19,15 @@
 class CalCoreSubMorphTarget;
 
 
+enum CalMorphTargetType {
+  CalMorphTargetTypeNull = 0,
+  CalMorphTargetTypeAdditive,
+  CalMorphTargetTypeClamped,
+  CalMorphTargetTypeAverage,
+  CalMorphTargetTypeExclusive
+};
+
+
 class CAL3D_API CalCoreSubmesh
 {
 public:
@@ -51,6 +60,7 @@ public:
     std::vector<Influence> vectorInfluence;
     int collapseId;
     int faceCollapseCount;
+    CalVector vertexColor; 
   };
 
   struct Face
@@ -72,8 +82,21 @@ public:
 
   int getCoreMaterialThreadId() const;
   int getFaceCount() const;
+  typedef std::vector<CalCoreSubMorphTarget *> CoreSubMorphTargetVector;
+  typedef std::vector<Face> VectorFace;
+  typedef std::vector<PhysicalProperty> VectorPhysicalProperty;
+  typedef std::vector<Spring> VectorSpring;
+  typedef std::vector<TangentSpace> VectorTangentSpace;
+  typedef std::vector<TextureCoordinate> VectorTextureCoordinate;
+  typedef std::vector<VectorTangentSpace > VectorVectorTangentSpace;
+  typedef std::vector<VectorTextureCoordinate > VectorVectorTextureCoordinate;
+  typedef std::vector<Vertex> VectorVertex;
+  typedef std::vector<Influence> VectorInfluence;
+  unsigned int size();
+  unsigned int sizeWithoutSubMorphTargets();
   int getLodCount() const;
   int getSpringCount() const;
+  bool hasNonWhiteVertexColors() { return m_hasNonWhiteVertexColors; }
   std::vector<Face>& getVectorFace();
   const std::vector<Face>& getVectorFace() const;
   std::vector<PhysicalProperty>& getVectorPhysicalProperty();
@@ -98,6 +121,7 @@ public:
   bool setTangentSpace(int vertexId, int textureCoordinateId, const CalVector& tangent, float crossFactor);
   bool setTextureCoordinate(int vertexId, int textureCoordinateId, const TextureCoordinate& textureCoordinate);
   bool setVertex(int vertexId, const Vertex& vertex);
+  void setHasNonWhiteVertexColors( bool p ) { m_hasNonWhiteVertexColors = p; }
   int addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget);
   CalCoreSubMorphTarget *getCoreSubMorphTarget(int id);
   const CalCoreSubMorphTarget *getCoreSubMorphTarget(int id) const;
@@ -105,11 +129,14 @@ public:
   std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget();
   const std::vector<CalCoreSubMorphTarget *>& getVectorCoreSubMorphTarget() const;
   void scale(float factor);
+  void setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray );
+  inline unsigned int subMorphTargetGroupIndex( int subMorphTargetId ) { 
+    if( size_t(subMorphTargetId) >= m_vectorSubMorphTargetGroupIndex.size() ) return 0xffffffff;
+    return m_vectorSubMorphTargetGroupIndex[ subMorphTargetId ]; }
 
 private:
   void UpdateTangentVector(int v0, int v1, int v2, int channel);
 
-private:
   std::vector<Vertex>                          m_vectorVertex;
   std::vector<bool>                            m_vectorTangentsEnabled;
   std::vector<std::vector<TangentSpace> >      m_vectorvectorTangentSpace;
@@ -120,6 +147,8 @@ private:
   std::vector<CalCoreSubMorphTarget *>         m_vectorCoreSubMorphTarget;
   int                                          m_coreMaterialThreadId;
   int                                          m_lodCount;
+  std::vector<unsigned int>                    m_vectorSubMorphTargetGroupIndex;
+  bool                                         m_hasNonWhiteVertexColors;
 };
 
 #endif

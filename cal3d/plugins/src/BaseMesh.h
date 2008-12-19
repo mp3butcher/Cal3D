@@ -18,8 +18,14 @@ class CVertexCandidate;
 
 class CBaseMesh
 {
+// member variables
+protected:
+
+// constructors/destructor
+protected:
+   CBaseMesh() {};
 public:
-  virtual ~CBaseMesh() { }
+   virtual ~CBaseMesh() {};
 
   virtual int GetFaceCount() = 0;
   virtual int GetMaterialCount() = 0;
@@ -27,6 +33,23 @@ public:
   virtual int GetSubmeshMapCount(int submeshId) = 0;
   virtual int GetSubmeshMaterialThreadId(int submeshId) = 0;
   virtual CVertexCandidate *GetVertexCandidate(CSkeletonCandidate *pSkeletonCandidate, int faceId, int faceVertexId) = 0;
+
+        struct MorphKeyFrame {
+          std::string name;
+          float weight;
+          float time;
+          float totalWeight;
+        };
+        virtual int numMorphChannels() {
+          return 0;
+        }
+        virtual MorphKeyFrame frameForChannel( int i, float time ) {
+            MorphKeyFrame frame;
+            return frame;
+        }
+
+
+        
 };
 
 #endif

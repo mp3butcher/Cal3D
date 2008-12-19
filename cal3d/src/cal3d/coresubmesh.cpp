@@ -28,6 +28,7 @@
 CalCoreSubmesh::CalCoreSubmesh()
   : m_coreMaterialThreadId(0), m_lodCount(0)
 {
+  m_hasNonWhiteVertexColors = false;
 }
 
  /*****************************************************************************/
@@ -39,6 +40,7 @@ CalCoreSubmesh::CalCoreSubmesh()
 CalCoreSubmesh::~CalCoreSubmesh()
 {
   // destroy all data
+  m_vectorSubMorphTargetGroupIndex.clear();
   m_vectorFace.clear();
   m_vectorVertex.clear();
   m_vectorPhysicalProperty.clear();
@@ -48,12 +50,58 @@ CalCoreSubmesh::~CalCoreSubmesh()
   m_vectorvectorTangentSpace.clear();
   // destroy all core sub morph targets
   std::vector<CalCoreSubMorphTarget *>::iterator iteratorCoreSubMorphTarget;
-  for(iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); ++iteratorCoreSubMorphTarget)
+  for( iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); 
+    iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); 
+    ++iteratorCoreSubMorphTarget )
   {
     delete (*iteratorCoreSubMorphTarget);
   }
   m_vectorCoreSubMorphTarget.clear();
 }
+
+void
+CalCoreSubmesh::setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray )
+{
+  m_vectorSubMorphTargetGroupIndex.reserve( len );
+  m_vectorSubMorphTargetGroupIndex.resize( len );
+  unsigned int i;
+  for( i = 0; i < len; i++ ) {
+    m_vectorSubMorphTargetGroupIndex[ i ] = indexArray[ i ];
+  }
+}
+unsigned int
+CalCoreSubmesh::sizeWithoutSubMorphTargets()
+{
+  unsigned int r = sizeof( CalCoreSubmesh );
+  r += sizeof( Vertex ) * m_vectorVertex.size();
+  r += sizeof( bool ) * m_vectorTangentsEnabled.size();
+  r += sizeof( PhysicalProperty ) * m_vectorPhysicalProperty.size();
+  r += sizeof( Face ) * m_vectorFace.size();
+  r += sizeof( Spring ) * m_vectorSpring.size();
+  r += sizeof( unsigned int ) * m_vectorSubMorphTargetGroupIndex.size();
+  std::vector<std::vector<TangentSpace> >::iterator iter2;
+  for( iter2 = m_vectorvectorTangentSpace.begin(); iter2 != m_vectorvectorTangentSpace.end(); ++iter2 ) {
+    r += sizeof( TangentSpace ) * (*iter2).size();
+  }
+  std::vector<std::vector<TextureCoordinate> >::iterator iter3;
+  for( iter3 = m_vectorvectorTextureCoordinate.begin(); iter3 != m_vectorvectorTextureCoordinate.end(); ++iter3 ) {
+    r += sizeof( TextureCoordinate ) * (*iter3).size();
+  }
+  return r;
+}
+
+
+unsigned int
+CalCoreSubmesh::size()
+{
+  unsigned int r = sizeWithoutSubMorphTargets();
+  std::vector<CalCoreSubMorphTarget *>::iterator iter1;
+  for( iter1 = m_vectorCoreSubMorphTarget.begin(); iter1 != m_vectorCoreSubMorphTarget.end(); ++iter1 ) {
+    r += (*iter1)->size();
+  }
+  return r;
+}
+
 
  /*****************************************************************************/
 /** Returns the ID of the core material thread.
@@ -761,7 +809,6 @@ const std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorp
   *
   *****************************************************************************/
 
-
 void CalCoreSubmesh::scale(float factor)
 {
   // rescale all vertices
@@ -770,6 +817,22 @@ void CalCoreSubmesh::scale(float factor)
   {
     m_vectorVertex[vertexId].position*=factor;		
   }
+
+  //also scale any morph target vertices that may be present
+  for (size_t morphID = 0; morphID < m_vectorCoreSubMorphTarget.size(); morphID++)
+  {
+     std::vector<CalCoreSubMorphTarget::BlendVertex*> blendVertVec =
+        m_vectorCoreSubMorphTarget[morphID]->getVectorBlendVertex();
+
+     for (size_t vertID = 0; vertID < blendVertVec.size(); vertID++)
+     {
+        if (blendVertVec[vertID])
+        {
+           blendVertVec[vertID]->position *= factor;
+        }
+     }
+  }
+
 
   if(!m_vectorSpring.empty())
   {
