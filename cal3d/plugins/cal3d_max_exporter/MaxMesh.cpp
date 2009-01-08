@@ -815,13 +815,13 @@ int CMaxMesh::numMorphChannels()
    }
 
    int activeCount = 0;
-   //for( unsigned int i = 0; i < morpherModifier->chanBank.size(); i++ ) 
+   for( unsigned int i = 0; i < morpherModifier->chanBank.size(); i++ ) 
    {
-      //morphChannel const & chanI = morpherModifier->chanBank[i];
-      //if( chanI.mActive ) 
-      //{
-      //   activeCount++;
-      //}
+      morphChannel const & chanI = morpherModifier->chanBank[i];
+      if( chanI.mActive ) 
+      {
+         activeCount++;
+      }
    }
    return activeCount;
 }
