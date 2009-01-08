@@ -51,24 +51,24 @@ namespace cal3d
   const char MESH_XMLFILE_MAGIC[4]      = { 'X', 'M', 'F', '\0' };
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
-  // library version       // 0.12.0
-  const int LIBRARY_VERSION = 1200;
+  // library version       // 0.13.0
+  const int LIBRARY_VERSION = 1300;
 
   // file versions
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
   const int EARLIEST_COMPATIBLE_FILE_VERSION = 699;
 
-  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 = 918;
-  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 = 917;
-  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 = 916;
-  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION = 913;
-  const int FIRST_FILE_VERSION_WITH_VERTEX_COLORS = 911;
-  const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 911;
-  const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 911;
-  const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 911;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 = 1300;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 = 1300;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 = 1300;
+  const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION = 1300;
+  const int FIRST_FILE_VERSION_WITH_VERTEX_COLORS = 1300;
+  const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 1300;
+  const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 1300;
+  const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 1300;
 
   inline bool versionHasCompressionFlag(int version) {
-    return version >= 919;
+    return version >= 1300;
   }
   /**
    * Derive from noncopyable to mark your class as not having a copy
