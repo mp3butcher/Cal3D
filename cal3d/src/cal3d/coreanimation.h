@@ -32,7 +32,6 @@ public:
   void fillInvalidTranslations( CalCoreSkeleton * skel );
   bool addCoreTrack(CalCoreTrack *pCoreTrack);
   CalCoreTrack *getCoreTrack(int coreBoneId);
-  unsigned int numCoreTracks();
   CalCoreTrack * nthCoreTrack( unsigned int );
 	float getDuration() const;
   void setDuration(float duration);

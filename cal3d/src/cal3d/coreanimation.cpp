@@ -119,16 +119,16 @@ void CalCoreAnimation::fillInvalidTranslations( CalCoreSkeleton * skel )
 }
 
 
-unsigned int CalCoreAnimation::numCoreTracks()
-{
-  return m_listCoreTrack.size();
-}
 
 CalCoreTrack* CalCoreAnimation::nthCoreTrack( unsigned int i )
 {
   std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-  for( iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack ) {
-    if( i == 0 ) return * iteratorCoreTrack;
+  for( iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack ) 
+  {
+    if( i == 0 )
+    {
+       return * iteratorCoreTrack;
+    }
     i--;
   }
   return NULL;
