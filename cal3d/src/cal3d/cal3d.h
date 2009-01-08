@@ -27,7 +27,6 @@
 #include "cal3d/corematerial.h"
 #include "cal3d/coremesh.h"
 #include "cal3d/coremodel.h"
-#include "cal3d/coremorphanimation.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/coresubmesh.h"
 #include "cal3d/coresubmorphtarget.h"

@@ -710,19 +710,6 @@ int CalCoreModel_AddCoreAnimation(CalCoreModel *self, CalCoreAnimation *pCoreAni
 	return -1;
 }
 
-int CalCoreModel_AddCoreMorphAnimation( struct CalCoreModel *self,
-										struct CalCoreMorphAnimation* inAnim )
-{
-	try
-	{
-		return self->addCoreMorphAnimation( inAnim );
-	}
-	catch (...)
-	{
-	}
-	return -1;
-}
-
 int CalCoreModel_AddCoreMaterial(CalCoreModel *self, CalCoreMaterial *pCoreMaterial)
 {
 	try
@@ -823,16 +810,6 @@ CalUserData CalCoreModel_GetUserData(CalCoreModel *self)
   return self->getUserData();
 }
 
-int CalCoreModel_GetCoreMorphAnimationCount(CalCoreModel *self)
-{
-  return self->getCoreMorphAnimationCount();
-}
-
-struct CalCoreMorphAnimation* CalCoreModel_GetCoreMorphAnimation( struct CalCoreModel *self,
-																int morphAnimID )
-{
-	return self->getCoreMorphAnimation( morphAnimID );
-}
 
 CalBoolean CalCoreModel_AddMeshName(struct CalCoreModel *self, const char* name, int coreMeshId )
 {
@@ -1026,48 +1003,6 @@ void CalCoreModel_SetName(struct CalCoreModel *self, const char* inName)
 	}
 }
 
-//****************************************************************************//
-// CalCoreMorphAnimation wrapper functions definition                         //
-//****************************************************************************//
-
-CalCoreMorphAnimation *CalCoreMorphAnimation_New()
-{
-    return new(std::nothrow) CalCoreMorphAnimation();
-}
-
-void CalCoreMorphAnimation_Delete(CalCoreMorphAnimation* self)
-{
-    delete self;
-}
-
-CalBoolean CalCoreMorphAnimation_AddMorphTarget(struct CalCoreMorphAnimation* self, int meshID, int morphID)
-{
-	CalBoolean	result = False;
-	try
-	{
-		result = self->addMorphTarget( meshID, morphID ) ? True : False;
-	}
-	catch (...)
-	{
-	}
-	return result;
-}
-
-const char* CalCoreMorphAnimation_GetName( const struct CalCoreMorphAnimation *self )
-{
-	return self->getName().c_str();
-}
-
-void CalCoreMorphAnimation_SetName(struct CalCoreMorphAnimation *self, const char* inName )
-{
-	try
-	{
-		self->setName( inName );
-	}
-	catch (...)
-	{
-	}
-}
 
 //****************************************************************************//
 // CalCoreSkeleton wrapper functions definition                               //

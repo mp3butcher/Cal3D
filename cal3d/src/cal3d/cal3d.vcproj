@@ -352,10 +352,6 @@
 				>
 			</File>
 			<File
-				RelativePath="coremorphanimation.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\coremorphkeyframe.cpp"
 				>
 			</File>
@@ -550,10 +546,6 @@
 			</File>
 			<File
 				RelativePath="coremodel.h"
-				>
-			</File>
-			<File
-				RelativePath="coremorphanimation.h"
 				>
 			</File>
 			<File

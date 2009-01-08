@@ -15,7 +15,6 @@
 #include "cal3d/coreanimation.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/coremesh.h"
-#include "cal3d/coremorphanimation.h"
 #include "cal3d/coreskeleton.h"
 #include "cal3d/global.h"
 
@@ -59,10 +58,7 @@ public:
   int getCoreAnimationId(const std::string& strAnimationName) const;
 
   // morph animations
-  int addCoreMorphAnimation(CalCoreMorphAnimation *pCoreMorphAnimation);
   int addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph);
-  CalCoreMorphAnimation *getCoreMorphAnimation(int coreMorphAnimationId);
-  const CalCoreMorphAnimation *getCoreMorphAnimation(int coreMorphAnimationId) const;
   CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId);
   const CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId) const;
 
@@ -76,7 +72,6 @@ public:
   bool createWithName( char const * strName);
   bool createCoreMaterialThread(int coreMaterialThreadId);
   int getCoreAnimationMaxId();
-  // int getCoreAnimatedMorphCount();
   CalCoreMaterial *getCoreMaterial(int coreMaterialId);
   const CalCoreMaterial *getCoreMaterial(int coreMaterialId) const;
   int getCoreMaterialCount() const;
@@ -125,7 +120,6 @@ private:
   std::string                           m_strName;
   CalCoreSkeletonPtr                    m_pCoreSkeleton;
   std::vector<CalCoreAnimationPtr>      m_vectorCoreAnimation;
-  std::vector<CalCoreMorphAnimationPtr> m_vectorCoreMorphAnimation;
   std::vector<CalCoreAnimatedMorph *>   m_vectorCoreAnimatedMorph;
 
   std::vector<CalCoreMeshPtr>           m_vectorCoreMesh;
