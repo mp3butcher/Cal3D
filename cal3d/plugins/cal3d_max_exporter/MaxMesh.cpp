@@ -93,7 +93,10 @@ bool CMaxMesh::Create(INode *pINode, Mesh *pIMesh, TriObject* pTriObjectToDelete
        {
           m_modifierType = MODIFIER_NONE;
        }
-       m_modifierType = MODIFIER_MORPHER;
+       else
+       {
+          m_modifierType = MODIFIER_MORPHER;
+       }
     }
     else
     {
@@ -812,13 +815,13 @@ int CMaxMesh::numMorphChannels()
    }
 
    int activeCount = 0;
-   for( unsigned int i = 0; i < morpherModifier->chanBank.size(); i++ ) 
+   //for( unsigned int i = 0; i < morpherModifier->chanBank.size(); i++ ) 
    {
-      morphChannel const & chanI = morpherModifier->chanBank[i];
-      if( chanI.mActive ) 
-      {
-         activeCount++;
-      }
+      //morphChannel const & chanI = morpherModifier->chanBank[i];
+      //if( chanI.mActive ) 
+      //{
+      //   activeCount++;
+      //}
    }
    return activeCount;
 }
