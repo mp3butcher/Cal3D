@@ -52,7 +52,9 @@ namespace cal3d
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
   // library version       // 0.13.0
-  const int LIBRARY_VERSION = 1300;
+#define CAL3D_VERSION 1300
+  const int LIBRARY_VERSION = CAL3D_VERSION;
+
 
   // file versions
   const int CURRENT_FILE_VERSION = LIBRARY_VERSION;
