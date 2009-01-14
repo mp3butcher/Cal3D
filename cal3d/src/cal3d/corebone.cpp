@@ -400,6 +400,7 @@ void CalCoreBone::setUserData(Cal::UserData userData)
 {
   m_userData = userData;
 }
+
  /*****************************************************************************/
 /** Calculates the bounding box.
   *
@@ -410,7 +411,8 @@ void CalCoreBone::setUserData(Cal::UserData userData)
 
 void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
 {
-   int boneId =  m_pCoreSkeleton->getCoreBoneId(m_strName);
+   int boneId = m_pCoreSkeleton->getCoreBoneId(m_strName);
+   bool bBoundsComputed = false;
    
    initBoundingBox();
    
@@ -418,37 +420,41 @@ void CalCoreBone::calculateBoundingBox(CalCoreModel * pCoreModel)
    for(meshId=0; meshId < pCoreModel->getCoreMeshCount(); ++meshId)
    {
        CalCoreMesh * pCoreMesh = pCoreModel->getCoreMesh(meshId);
-	   
+
        int submeshId;
        for(submeshId=0;submeshId<pCoreMesh->getCoreSubmeshCount();submeshId++)
        {
-		   CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
-		   
-		   if(pCoreSubmesh->getSpringCount()==0)
-		   {
-			   
-			   std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
-			   for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
-			   {
-				   for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
-				   {
-					   if(vectorVertex[vertexId].vectorInfluence[influenceId].boneId == boneId && vectorVertex[vertexId].vectorInfluence[influenceId].weight > 0.5f)
-					   {
-						   int planeId;
-						   for(planeId = 0; planeId < 6; ++planeId)
-						   {
-							   if(m_boundingBox.plane[planeId].eval(vectorVertex[vertexId].position) < 0.0f)
-							   {
-								   m_boundingBox.plane[planeId].setPosition(vectorVertex[vertexId].position);
-								   m_boundingPosition[planeId]=vectorVertex[vertexId].position;		          
-							   }
-						   }
-					   }
-				   }
-			   }	
-		   }
-	   }
+         CalCoreSubmesh *pCoreSubmesh = pCoreMesh->getCoreSubmesh(submeshId);
+
+         if(pCoreSubmesh->getSpringCount()==0)
+         {
+            std::vector<CalCoreSubmesh::Vertex>& vectorVertex =  pCoreSubmesh->getVectorVertex();
+            for(size_t vertexId=0;vertexId <vectorVertex.size(); ++vertexId)
+            {
+               for(size_t influenceId=0;influenceId<vectorVertex[vertexId].vectorInfluence.size();++influenceId)
+               {
+                  CalCoreSubmesh::Influence &influence = vectorVertex[vertexId].vectorInfluence[influenceId];
+                  if(influence.boneId == boneId && influence.weight > 0.5f)
+                  {
+                     const bool updated = updateBoundingBox(vectorVertex[vertexId].position);
+                     bBoundsComputed = bBoundsComputed || updated;
+                  }
+               }
+            }   
+         }
+      }
    }
+
+   // To handle bones with no vertices assigned (do not "optimize" this code away!)
+   if(!bBoundsComputed)
+   {
+      for(int planeId = 0; planeId < 6; ++planeId)
+      {
+         m_boundingBox.plane[planeId].setPosition(m_translation);
+         m_boundingPosition[planeId] = m_translation;
+      }
+   }
+
    m_boundingBoxPrecomputed = true;
 }
 
@@ -484,16 +490,30 @@ void CalCoreBone::initBoundingBox()
    m_boundingBox.plane[5].setNormal(dir);
 }
 
-void CalCoreBone::updateBoundingBox( const CalVector & position )
+ /*****************************************************************************/
+/** Updates the bounding box to include the given position.
+  *
+  * This function Updates the bounding box of the core bone instance to include
+  * a given position.
+  *
+  * @param position The position to be included in the bounding box
+  * @return True if the bounding box was changed by this call, false otherwise
+  *****************************************************************************/
+bool CalCoreBone::updateBoundingBox(const CalVector &position)
 {
-	for (int planeId = 0; planeId < 6; ++planeId)
-	{
-	   if (m_boundingBox.plane[planeId].eval(position) < 0.0f)
-	   {
-		   m_boundingBox.plane[planeId].setPosition(position);
-		   m_boundingPosition[planeId] = position;
-	   }
-	}
+   bool bBoundsComputed = false;
+
+   for(int planeId = 0; planeId < 6; ++planeId)
+   {
+      if(m_boundingBox.plane[planeId].eval(position) < 0.0f)
+      {
+         m_boundingBox.plane[planeId].setPosition(position);
+         m_boundingPosition[planeId] = position;
+         bBoundsComputed = true;
+      }
+   }
+
+   return bBoundsComputed;
 }
 
  /*****************************************************************************/

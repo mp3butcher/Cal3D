@@ -209,7 +209,7 @@ class CAL3D_API CalPlane
       // don't use them in you program
       
       float eval(const CalVector &p);
-	  float dist(CalVector &p);
+      float dist(CalVector &p);
       void setPosition(const CalVector &p);
       void setNormal(CalVector &p);
 };

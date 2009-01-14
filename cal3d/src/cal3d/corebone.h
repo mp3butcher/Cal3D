@@ -72,7 +72,7 @@ public:
   void getBoundingData(int planeId,CalVector & position) const;
   bool isBoundingBoxPrecomputed() const;
   void setBoundingBoxPrecomputed( bool inComputed );
-  void updateBoundingBox( const CalVector & position );
+  bool updateBoundingBox(const CalVector &position);
   void scale(float factor);
 
   bool hasLightingData();
