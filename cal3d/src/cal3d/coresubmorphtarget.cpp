@@ -15,6 +15,7 @@
 
 #include "cal3d/coresubmorphtarget.h"
 #include "cal3d/coresubmesh.h"
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////////
 CalCoreSubMorphTarget::CalCoreSubMorphTarget() :
@@ -68,7 +69,7 @@ const std::vector<CalCoreSubMorphTarget::BlendVertex*>& CalCoreSubMorphTarget::g
  /*****************************************************************************/
 /** Returns the number of blend vertices.
   *
-  * This function returns the number of blend vertices in the 
+  * This function returns the number of blend vertices in the
   * core sub morph target instance.
   *
   * @return The number of blend vertices.
@@ -289,7 +290,7 @@ bool	CalSharedDifferenceMap::getBlendVertex( int vertexId,
 		m_vectorVertexIndexSize = m_vectorVertexIndex.size();
 		m_vectorBlendVertexPtr = &m_vectorBlendVertex[0];
 	}
-	
+
 	// With sequential access, the normal situation will be that
 	// (m_NextIndex == m_vectorVertexIndexSize) or (vertexId <= m_vectorVertexIndex[ m_NextIndex ])
 	// and
@@ -304,9 +305,9 @@ bool	CalSharedDifferenceMap::getBlendVertex( int vertexId,
 	{
 		m_NextIndex -= 1;
 	}
-	
+
 	bool	didFind = false;
-	
+
 	if ( (m_NextIndex < m_vectorVertexIndexSize) &&
 		(vertexId == m_vectorVertexIndexPtr[ m_NextIndex ] ) )
 	{
@@ -362,7 +363,7 @@ bool CalCoreSubMorphTargetDiffMap::reserve(int blendVertexCount)
 void	CalCoreSubMorphTargetDiffMap::setCoreSubmesh( CalCoreSubmesh* inCoreSubmesh )
 {
 	CalCoreSubMorphTarget::setCoreSubmesh( inCoreSubmesh );
-	
+
 	// Cache the blend vertices computed from the core vertices and the
 	// difference map.
 	const std::vector<CalCoreSubmesh::Vertex>&	coreVerts(

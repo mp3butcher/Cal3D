@@ -231,7 +231,7 @@ template<class T, class MT>
   {
     MT & mv = const_cast<MT &>(mvPolicy_->getMemberValue(thisPtr));
     TiXmlBinding<MT> const * binding = GetTiXmlBinding( mv,  Identity<MT>()  );
-    if( binding->fromXml(elem, &mv, params()) ) {
+    if( binding->fromXml(elem, &mv, IMemberHolder<T>::params()) ) {
       mvPolicy_->setMemberValue(thisPtr, mv);
       return true;
     } else {
@@ -244,8 +244,8 @@ template<class T, class MT>
     MT const & mv = mvPolicy_->getMemberValue(thisPtr);
     TiXmlBinding<MT> const * binding = GetTiXmlBinding( mv,  Identity<MT>() );
     std::string oldValue = elem->Value();
-    elem->SetValue( tag() );
-    bool ret = binding->intoXml( elem, mv, params() );
+    elem->SetValue( IMemberHolder<T>::tag() );
+    bool ret = binding->intoXml( elem, mv, IMemberHolder<T>::params() );
     elem->SetValue( oldValue );
     return ret;
   }
@@ -281,10 +281,10 @@ template<class T, class MT>
   
   virtual bool fromXml(cal3d::TiXmlElement const & elem, T * thisPtr)
   {
-    if( !stricmp(elem.Value(), tag()) ) {
+    if( !stricmp(elem.Value(), IMemberHolder<T>::tag()) ) {
       MT mv;
       TiXmlBinding<MT> const * binding = GetTiXmlBinding( mv,  Identity<MT>()  );
-      if( binding->fromXml(elem, &mv, params()) ) {
+      if( binding->fromXml(elem, &mv, IMemberHolder<T>::params()) ) {
         mvPolicy_->setMemberValue(thisPtr, mv);
         return true;
       } else {
@@ -298,9 +298,9 @@ template<class T, class MT>
   virtual bool intoXml(cal3d::TiXmlElement * elem, T const * thisPtr)
   {
     MT const & mv = mvPolicy_->getMemberValue(thisPtr);
-   cal3d::TiXmlElement child(tag());
+   cal3d::TiXmlElement child(IMemberHolder<T>::tag());
     TiXmlBinding<MT> const * binding = GetTiXmlBinding( mv, Identity<MT>()  );
-    if( binding->intoXml( &child, mv, params() ) ) {
+    if( binding->intoXml( &child, mv, IMemberHolder<T>::params() ) ) {
       elem->InsertEndChild(child);
       return true;
     } else {
@@ -325,7 +325,7 @@ template<class T, class MT>
   virtual bool fromXml(cal3d::TiXmlElement const & elem, T * thisPtr)
   {
     MT mv;
-    const char * attributeValue = elem.Attribute( tag() );
+    const char * attributeValue = elem.Attribute( IMemberHolder<T>::tag() );
     if( attributeValue && *attributeValue ) {
       ConvertFromString( attributeValue, &mv );
       mvPolicy_->setMemberValue(thisPtr, mv);
@@ -339,7 +339,7 @@ template<class T, class MT>
   {
     MT const & mv = mvPolicy_->getMemberValue(thisPtr);
     char const * attributeValue = ConvertToString( mv );
-    elem->SetAttribute( tag(), attributeValue );
+    elem->SetAttribute( IMemberHolder<T>::tag(), attributeValue );
     return true;
   }
 

@@ -16,7 +16,7 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "cal3d/coreMorphKeyframe.h"
+#include "cal3d/coremorphkeyframe.h"
 
  /*****************************************************************************/
 /** Constructs the core keyframe instance.

@@ -16,7 +16,7 @@
 // Includes                                                                   //
 //****************************************************************************//
 
-#include "cal3d/coreanimatedMorph.h"
+#include "cal3d/coreanimatedmorph.h"
 #include "cal3d/coremorphtrack.h"
 
  /*****************************************************************************/
@@ -121,7 +121,7 @@ CalCoreAnimatedMorph::removeZeroScaleTracks()
       CalCoreMorphTrack *pCoreTrack;
       pCoreTrack = &(*iteratorCoreTrack);
       std::vector<CalCoreMorphKeyframe> & morphNameList = pCoreTrack->getVectorCoreMorphKeyframes();
-      
+
       bool nonZeroScaleTrack = false;
       for(size_t keyframeId = 0; keyframeId < morphNameList.size(); keyframeId++) {
         float weight = morphNameList[keyframeId].getWeight();
