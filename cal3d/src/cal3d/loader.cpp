@@ -411,6 +411,18 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(std::istream& inputStream)
 
 CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel)
 {
+  if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<ANIMATION", 10 ) == 0) )
+  {
+    TiXmlDocument doc;
+    doc.Parse( static_cast<const char*>(inputBuffer) );
+    if (doc.Error())
+    {
+        CalError::setLastError(CalError::FILE_PARSER_FAILED, __FILE__, __LINE__ );
+       return 0;
+    }
+    return loadXmlCoreAnimation( doc, skel );
+  }
+
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
    return loadCoreAnimation(bufferSrc,skel);
