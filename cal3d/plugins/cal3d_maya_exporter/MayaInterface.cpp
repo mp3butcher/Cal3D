@@ -22,6 +22,7 @@
 
 #include <maya/MItSelectionList.h>
 #include <maya/MItDag.h>
+#include <maya/MFnLight.h>
 #include <maya/MFnMesh.h>
 #include <maya/MFnIkJoint.h>
 #include <maya/MEulerRotation.h>
@@ -354,7 +355,7 @@ int CMayaInterface::GetMaterialIDFromShader (const MObject &shaderObj)
   return -1;
 }
 
-CBaseMesh *CMayaInterface::GetMesh(CBaseNode *pNode)
+CBaseMesh *CMayaInterface::GetMesh(CBaseNode *pNode, float)
 {
   CMayaNode *pMayaNode = dynamic_cast<CMayaNode*>(pNode);
   if (!pMayaNode) return 0;
@@ -649,6 +650,30 @@ bool CMayaInterface::IsMesh(CBaseNode *pNode)
   return false;
 }
 
+bool CMayaInterface::IsLight(CBaseNode *pNode)
+{
+  if (!pNode) return false;
+
+  CMayaNode *pMayaNode = dynamic_cast<CMayaNode*>(pNode);
+  if (!pMayaNode) return false;
+
+  MDagPath path = pMayaNode->GetMayaDagPath();
+
+  // Is this a light node?
+  if (path.hasFn (MFn::kLight))
+  {
+    // See if we can make a MFnLight out of this
+    MStatus   status = MS::kSuccess;
+    MFnLight   fnLight (path, &status);
+    if (status != MS::kSuccess)
+      return false;
+
+    return true;
+  }
+
+  return false;
+}
+
 void CMayaInterface::SetProgressInfo(int percentage)
 {
 
@@ -662,4 +687,9 @@ void CMayaInterface::StartProgressInfo(const std::string& strText)
 void CMayaInterface::StopProgressInfo()
 {
 
+}
+
+void CMayaInterface::GetAmbientLight( CalVector & )
+{
+  // TODO
 }

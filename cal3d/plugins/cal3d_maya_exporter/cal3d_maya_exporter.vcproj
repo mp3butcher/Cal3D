@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="cal3d_maya_exporter"
 	ProjectGUID="{D1166BA0-5BF8-4B3E-BBE2-177FC4164CF1}"
 	Keyword="MFCProj"
@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".,../src,../src/win32,../../src"
+				AdditionalIncludeDirectories=".;../src;../src/win32;../../src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_BOOL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -146,7 +146,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".,../src,../src/win32,../../src"
+				AdditionalIncludeDirectories=".;../src;../src/win32;../../src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_BOOL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -243,7 +243,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".,../src,../src/win32,../../src"
+				AdditionalIncludeDirectories=".;../src;../src/win32;../../src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_BOOL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -375,6 +375,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\AnimationExportSheet.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\AnimationTimePage.cpp"
 				>
 				<FileConfiguration
@@ -409,6 +413,10 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\win32\AnimationTimePage.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\win32\BoneAssignmentPage.cpp"
@@ -447,6 +455,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\BoneAssignmentPage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\LevelOfDetailPage.cpp"
 				>
 				<FileConfiguration
@@ -483,6 +495,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\LevelOfDetailPage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\MaterialExportSheet.cpp"
 				>
 				<FileConfiguration
@@ -517,6 +533,10 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\win32\MaterialExportSheet.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\win32\MaterialMapDialog.cpp"
@@ -595,6 +615,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\MaterialMapsPage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\MaterialSelectionPage.cpp"
 				>
 				<FileConfiguration
@@ -629,6 +653,10 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\win32\MaterialSelectionPage.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\win32\MeshExportSheet.cpp"
@@ -667,6 +695,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\MeshExportSheet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\win32\MorphAnimationExportSheet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\win32\MorphAnimationExportSheet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\win32\MorphAnimationTimePage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\win32\MorphAnimationTimePage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\SkeletonExportSheet.cpp"
 				>
 				<FileConfiguration
@@ -701,6 +749,10 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\win32\SkeletonExportSheet.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\win32\SkeletonFilePage.cpp"
@@ -739,6 +791,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\SkeletonFilePage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\SkeletonHierarchyPage.cpp"
 				>
 				<FileConfiguration
@@ -775,6 +831,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32\SkeletonHierarchyPage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32\SpringSystemPage.cpp"
 				>
 				<FileConfiguration
@@ -809,6 +869,10 @@
 						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\win32\SpringSystemPage.h"
+				>
 			</File>
 		</Filter>
 		<Filter
@@ -1216,6 +1280,14 @@
 			</File>
 			<File
 				RelativePath="..\src\MeshCandidate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\MorphAnimationCandidate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\MorphAnimationCandidate.h"
 				>
 			</File>
 			<File
