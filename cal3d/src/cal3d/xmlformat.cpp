@@ -455,6 +455,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         return false;
     }   
     str.clear();
+    str.str("");
     str << translationdata->Value();
     str >> tx >> ty >> tz;
 
@@ -482,6 +483,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         return false;
     }
     str.clear();
+    str.str("");
     str << rotationdata->Value();
     str >> rx >> ry >> rz >> rw;    
     
@@ -510,6 +512,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         return false;
     }
     str.clear();
+    str.str("");
     str << translationBoneSpacedata->Value();
     str >> txBoneSpace >> tyBoneSpace >> tzBoneSpace;
 
@@ -537,6 +540,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         return false;
     }
     str.clear();
+    str.str("");
     str << rotationBoneSpacedata->Value();
     str >> rxBoneSpace >> ryBoneSpace >> rzBoneSpace >> rwBoneSpace;
     
@@ -720,6 +724,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
   if(!firstChild)
   {
     str.clear();
+    str.str("");
     str << "Header element is " << (firstChild ? firstChild->Value() : "<unknown>");
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, str.str());
     return 0;
@@ -1689,6 +1694,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
       // load data of the face
 #if CAL3D_USE_STL_INSTEAD_OF_SSCANF
       str.clear();
+      str.str("");
       str << face->Attribute("VERTEXID");
       str >> tmp[0] >> tmp [1] >> tmp[2];
 #else
@@ -1778,6 +1784,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   if(!firstChild)
   {
     str.clear();
+    str.str("");
     str << "Header element is " << (firstChild ? firstChild->Value() : "<unknown>");
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, str.str());
     return 0;
@@ -1873,6 +1880,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
         return 0;
   }
   str.clear();
+  str.str("");
   str << diffusedata->Value();
   str >> r >> g >> b >> a;
   diffuseColor.red = (unsigned char)r;
@@ -1902,6 +1910,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
         return 0;
   }
   str.clear();
+  str.str("");
   str << speculardata->Value();
   str >> r >> g >> b >> a;
   specularColor.red = (unsigned char)r;
