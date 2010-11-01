@@ -500,8 +500,6 @@ const CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedM
 }
 
 
-
-
  /*****************************************************************************/
 /** Provides access to a core material.
   *
@@ -898,10 +896,15 @@ int CalCoreModel::loadCoreAnimation(void* buffer)
 
 int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename)
 {
-
   // load a new core AnimatedMorph
   CalCoreAnimatedMorph *pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorph(strFilename);
   if(pCoreAnimatedMorph == 0) return -1;
+
+  std::string name = strFilename;
+
+  size_t found = strFilename.find_last_of("/\\");
+  name = strFilename.substr(found + 1);
+  pCoreAnimatedMorph->setName(name);
 
   // add core AnimatedMorph to this core model
   int animatedMorphId = addCoreAnimatedMorph(pCoreAnimatedMorph);

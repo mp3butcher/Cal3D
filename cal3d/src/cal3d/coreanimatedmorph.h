@@ -37,6 +37,7 @@ class CAL3D_API CalCoreAnimatedMorph
 {
 // member variables
 protected:
+  std::string m_name;
   float m_duration;
   std::list<CalCoreMorphTrack> m_listCoreTrack;
   std::list<CalCoreMorphTrack*> m_tracksToDelete;
@@ -48,6 +49,8 @@ public:
 
 // member functions 
 public:
+  const std::string& getName() const {return m_name;}
+  void setName(const std::string& name) {m_name = name;}
   bool addCoreTrack(CalCoreMorphTrack *pCoreTrack);
   bool create();
   void destroy();
