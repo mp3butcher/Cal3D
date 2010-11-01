@@ -1545,9 +1545,9 @@ float CalMorphTargetMixer_GetCurrentWeight( struct CalMorphTargetMixer* self,
 }
 
 CalBoolean CalMorphTargetMixer_Blend( struct CalMorphTargetMixer* self,
-  							int morphAnimID, float weight, float delay )
+  							int morphAnimID, float weight, float delayIn, float delayOut, bool looping )
 {
-  return self->blend(morphAnimID, weight, delay) ? True : False;
+  return self->blend(morphAnimID, weight, delayIn, delayOut, looping) ? True : False;
 }
 
 CalBoolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay)

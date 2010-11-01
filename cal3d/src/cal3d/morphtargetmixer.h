@@ -23,30 +23,52 @@ class CalModel;
 class CAL3D_API CalMorphTargetMixer
 {
 public:
-  CalMorphTargetMixer(CalModel *model);
-  ~CalMorphTargetMixer() { }
+   CalMorphTargetMixer(CalModel *model);
+   ~CalMorphTargetMixer() { }
 
-  bool blend(int id, float weight, float delay);
-  bool clear(int id, float delay);
-  bool copy( const CalMorphTargetMixer& inOther );
-  float getCurrentWeight(int id) const;
-  //float getCurrentWeightBase() const;
-  int getMorphTargetCount() const;
-  void update(float deltaTime);
+   bool blend(int id, float weight, float delayIn, float delayOut, bool looping);
+   bool clear(int id, float delay);
+   bool copy( const CalMorphTargetMixer& inOther );
+   float getCurrentWeight(int id) const;
+   //float getCurrentWeightBase() const;
+   const std::string& getMorphName(int id) const;
+   int getTrackCount(int id) const;
+   int getKeyframeCount(int id) const;
+   float getDuration(int id) const;
+   int getMorphTargetCount() const;
+   void update(float deltaTime);
 
 private:
-  //std::vector<float> m_vectorCurrentWeight;
-  //std::vector<float> m_vectorEndWeight;
-  //std::vector<float> m_vectorDuration;
-  CalModel          *m_pModel;
 
-  float mPlayTime;
-  int mPlayedAnimatedMorphID;
+   struct MorphAnimData
+   {
+      int   animatedMorphID;
 
-  void SetTrackWeights(const CalCoreAnimatedMorph& morph, float elapsedTime);
+      float weight;
+      bool  looping;
 
-  void ApplyWeightToMorphMesh(const std::string &morphMeshName, float trackWeight);
-  float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
+      float playTime;
+      float currentWeight;
+      float fadeIn;
+      float fadeInTime;
+      float fadeOut;
+      float fadeOutTime;
+   };
+
+   std::vector<MorphAnimData> mAnimList;
+
+   //std::vector<float> m_vectorCurrentWeight;
+   //std::vector<float> m_vectorEndWeight;
+   //std::vector<float> m_vectorDuration;
+   CalModel          *m_pModel;
+
+   //float mPlayTime;
+   //int mPlayedAnimatedMorphID;
+
+   void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
+
+   void ApplyWeightToMorphMesh(const std::string &morphMeshName, float trackWeight);
+   float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
 };
 
 #endif

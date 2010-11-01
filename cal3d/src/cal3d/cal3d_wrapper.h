@@ -490,7 +490,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
 // CalMorphTargetMixer wrapper functions declaration                          //
 //****************************************************************************//
   CAL3D_WRAPPER_API enum CalBoolean CalMorphTargetMixer_Blend( struct CalMorphTargetMixer* self,
-  							int morphAnimID, float weight, float delay );
+  							int morphAnimID, float weight, float delayIn, float delayOut, bool looping );
   CAL3D_WRAPPER_API enum CalBoolean CalMorphTargetMixer_Clear(struct CalMorphTargetMixer *self, int id, float delay);
   CAL3D_WRAPPER_API void CalMorphTargetMixer_Delete(struct CalMorphTargetMixer *self);
   CAL3D_WRAPPER_API struct CalMorphTargetMixer *CalMorphTargetMixer_New(struct CalModel *pModel);
