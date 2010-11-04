@@ -205,6 +205,24 @@ int CalMorphTargetMixer::getTrackCount(int id) const
    return 0;
 }
 
+/*****************************************************************************/
+/** Get the tracks for a morph target.
+  *
+  * @param id The id of the morph target.
+  *
+  * @return The tracks for the morph target with the given id.
+  *****************************************************************************/
+const std::list<CalCoreMorphTrack>& CalMorphTargetMixer::getMorphTracks(int id) const
+{
+   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+   if (morph)
+   {
+      return morph->getListCoreTrack();
+   }
+
+   return std::list<CalCoreMorphTrack>();
+}
+
  /*****************************************************************************/
 /** Get the number of keyframes for a morph target.
   *
@@ -372,7 +390,7 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
    //that's related to the elapsedTime and adjust the weight of the morph target
    //mesh that matches the track's name.
 
-   const std::list<CalCoreMorphTrack> tracks = morph.getListCoreTrack();
+   const std::list<CalCoreMorphTrack>& tracks = morph.getListCoreTrack();
 
    std::list<CalCoreMorphTrack>::const_iterator itr;
 
@@ -414,7 +432,7 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
    for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
    {
       const CalCoreMorphTrack *track = &(*itr);
-      const std::vector<CalCoreMorphKeyframe> &keyFrames = track->getVectorCoreMorphKeyframes();      
+      const std::vector<CalCoreMorphKeyframe> &keyFrames = track->getVectorCoreMorphKeyframes(); 
 
       float weight = 0.0f;
 
