@@ -70,7 +70,7 @@ bool CalMorphTargetMixer::manualBlend(int id, float weight, float time)
          data.currentWeight = weight;
          data.fadeIn = 0.0f;
          data.fadeInTime = 0.0f;
-         data.fadeOut = 0.0f;
+         data.fadeOut = -1.0f;
          data.fadeOutTime = 0.0f;
          return true;
       }
@@ -86,7 +86,7 @@ bool CalMorphTargetMixer::manualBlend(int id, float weight, float time)
    data.currentWeight = weight;
    data.fadeIn = 0.0f;
    data.fadeInTime = 0.0f;
-   data.fadeOut = 0.0f;
+   data.fadeOut = -1.0f;
    data.fadeOutTime = 0.0f;
    mAnimList.push_back(data);
    return true;
