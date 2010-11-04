@@ -27,6 +27,7 @@ public:
    ~CalMorphTargetMixer() { }
 
    bool blend(int id, float weight, float delayIn, float delayOut, bool looping);
+   bool manualBlend(int id, float weight, float time);
    bool clear(int id, float delay);
    bool copy( const CalMorphTargetMixer& inOther );
    float getCurrentWeight(int id) const;
@@ -43,6 +44,7 @@ private:
 
    struct MorphAnimData
    {
+      bool  isManual;
       int   animatedMorphID;
 
       float weight;
@@ -58,13 +60,7 @@ private:
 
    std::vector<MorphAnimData> mAnimList;
 
-   //std::vector<float> m_vectorCurrentWeight;
-   //std::vector<float> m_vectorEndWeight;
-   //std::vector<float> m_vectorDuration;
    CalModel          *m_pModel;
-
-   //float mPlayTime;
-   //int mPlayedAnimatedMorphID;
 
    void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
 

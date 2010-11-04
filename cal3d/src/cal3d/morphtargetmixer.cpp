@@ -37,9 +37,63 @@ CalMorphTargetMixer::CalMorphTargetMixer(CalModel *pModel)
   m_pModel = pModel;
 }
 
+/*****************************************************************************/
+/** Interpolates the morph target weights based on an animation.
+  *
+  * This function sets a morph target animation at a specific time interval.
+  *
+  * @param id The ID of the morph target that should be blended.
+  * @param weight The weight to interpolate the morph target to.
+  * @param time The current time value to set the animation at.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happened
+  *****************************************************************************/
+bool CalMorphTargetMixer::manualBlend(int id, float weight, float time)
+{
+   // First check if the animation is already playing.
+   int count = (int)mAnimList.size();
+   for (int index = 0; index < count; ++index)
+   {
+      MorphAnimData& data = mAnimList[index];
+
+      if (data.animatedMorphID == id)
+      {
+         // Reset the currently playing animation.
+         data.isManual = true;
+
+         data.weight = weight;
+         data.looping = false;
+
+         data.playTime = time;
+         data.currentWeight = weight;
+         data.fadeIn = 0.0f;
+         data.fadeInTime = 0.0f;
+         data.fadeOut = 0.0f;
+         data.fadeOutTime = 0.0f;
+         return true;
+      }
+   }
+
+   // If we get here, create a new animation entry to play.
+   MorphAnimData data;
+   data.isManual = true;
+   data.animatedMorphID = id;
+   data.weight = weight;
+   data.looping = false;
+   data.playTime = time;
+   data.currentWeight = weight;
+   data.fadeIn = 0.0f;
+   data.fadeInTime = 0.0f;
+   data.fadeOut = 0.0f;
+   data.fadeOutTime = 0.0f;
+   mAnimList.push_back(data);
+   return true;
+}
 
 /*****************************************************************************/
-/** Interpolates the weight of a morph target.
+/** Interpolates the morph target weights based on an animation.
   *
   * This function interpolates the weight of a morph target a new value
   * in a given amount of time.
@@ -65,6 +119,8 @@ bool CalMorphTargetMixer::blend(int id, float weight, float delayIn, float delay
       if (data.animatedMorphID == id)
       {
          // Reset the currently playing animation.
+         data.isManual = false;
+
          data.weight = weight;
          data.looping = looping;
 
@@ -80,6 +136,7 @@ bool CalMorphTargetMixer::blend(int id, float weight, float delayIn, float delay
 
    // If we get here, create a new animation entry to play.
    MorphAnimData data;
+   data.isManual = false;
    data.animatedMorphID = id;
    data.weight = weight;
    data.looping = looping;
@@ -307,24 +364,28 @@ void CalMorphTargetMixer::update(float deltaTime)
       const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(data.animatedMorphID);
       if (!morph) continue;
 
-      // Update the play time.
-      data.playTime += deltaTime;
-
-      // Update the fade in time.
-      if (data.fadeIn < data.fadeInTime)
+      // Only non-manual animations interpolate the play time and fade values.
+      if (!data.isManual)
       {
-         data.fadeIn += deltaTime;
-         if (data.fadeIn > data.fadeInTime)
+         // Update the play time.
+         data.playTime += deltaTime;
+
+         // Update the fade in time.
+         if (data.fadeIn < data.fadeInTime)
          {
-            data.fadeIn = -1.0f;
-            data.fadeInTime = 0.0f;
+            data.fadeIn += deltaTime;
+            if (data.fadeIn > data.fadeInTime)
+            {
+               data.fadeIn = -1.0f;
+               data.fadeInTime = 0.0f;
+            }
          }
-      }
 
-      // Update the fade out time.
-      if (data.fadeOut > -1.0f)
-      {
-         data.fadeOut += deltaTime;
+         // Update the fade out time.
+         if (data.fadeOut > -1.0f)
+         {
+            data.fadeOut += deltaTime;
+         }
       }
 
       // Update the morph weight.
