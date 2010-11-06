@@ -64,6 +64,7 @@ public:
 
   int getCoreMorphAnimationCount() const;
   int loadCoreAnimatedMorph(const std::string& strFilename);
+  bool saveCoreAnimatedMorph(const std::string& strFilename, int coreAnimatedMorphId) const;
 
   // materials
   int addCoreMaterial(CalCoreMaterial *pCoreMaterial);

@@ -1327,7 +1327,40 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
   return true;
 }
 
+ /*****************************************************************************/
+/** Saves a core animated morph.
+  *
+  * This function saves a core animated morph to a file.
+  *
+  * @param strFilename The file to which the core animated morph should be saved to.
+  * @param coreAnimatedMorphId The ID of the core animated morph that should be saved.
+  *
+  * @return One of the following values:
+  *         \li \b true if successful
+  *         \li \b false if an error happened
+  *****************************************************************************/
 
+bool CalCoreModel::saveCoreAnimatedMorph(const std::string& strFilename, int coreAnimatedMorphId) const
+{
+  // check if the core animation id is valid
+  if((coreAnimatedMorphId < 0) 
+
+    || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
+
+    || !m_vectorCoreAnimatedMorph[ coreAnimatedMorphId ] )
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return false;
+  }
+
+  // save the core animation
+  if(!CalSaver::saveCoreAnimatedMorph(strFilename, m_vectorCoreAnimatedMorph[coreAnimatedMorphId]))
+  {
+    return false;
+  }
+
+  return true;
+}
 
  /*****************************************************************************/
 /** Saves a core material.
