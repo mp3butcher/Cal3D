@@ -46,12 +46,15 @@ public:
   unsigned int getNumCoreBones() const { return ( unsigned int ) m_vectorCoreBone.size(); }
   void setSceneAmbientColor( CalVector const & color );
   void getSceneAmbientColor( CalVector & color ) const;
+  void setName(const std::string& name);
+  const std::string& getName(void) const;
 
 private:
   std::vector<CalCoreBone *>   m_vectorCoreBone;
   std::map< std::string, int > m_mapCoreBoneNames;
   std::vector<int>             m_vectorRootCoreBoneId;  
   CalVector m_sceneAmbientColor;
+  std::string                   m_name;
 };
 typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 

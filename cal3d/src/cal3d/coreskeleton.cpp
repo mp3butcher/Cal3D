@@ -418,4 +418,30 @@ CalCoreSkeleton::getSceneAmbientColor( CalVector & color ) const
   color = m_sceneAmbientColor;
 }
 
+ /*****************************************************************************/
+/** 
+  * Set the symbolic name of the core skeleton.
+  *
+  * @param name A symbolic name.
+  *****************************************************************************/
+
+void CalCoreSkeleton::setName(const std::string& name)
+{
+  m_name = name;
+}
+
+ /*****************************************************************************/
+/** 
+  * Get the symbolic name the core skeleton.
+  *
+  * @return One of the following values:
+  *         \li \b empty string if the mesh was no associated to a symbolic name
+  *         \li \b the symbolic name
+  *
+  *****************************************************************************/
+
+const std::string& CalCoreSkeleton::getName(void) const
+{
+  return m_name;
+}
 
