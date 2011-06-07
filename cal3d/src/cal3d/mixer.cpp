@@ -1019,7 +1019,8 @@ void CalMixer::updateSkeleton()
         (*iteratorCoreTrack)->getState((*iteratorAnimationAction)->getTime(), translation, rotation);
 
         // Replace and CrossFade both blend with the replace function.
-        bool replace = (*iteratorAnimationAction)->getCompositionFunction() != CalAnimation::CompositionFunctionAverage;
+        CalAnimation::CompositionFunction compFunc = (*iteratorAnimationAction)->getCompositionFunction();
+        bool replace = compFunc != CalAnimation::CompositionFunctionAverage && compFunc != CalAnimation::CompositionFunctionNull;
         float scale = (*iteratorAnimationAction)->getScale();
         pBone->blendState( (*iteratorAnimationAction)->getWeight(), translation, rotation, scale, replace, (*iteratorAnimationAction)->getRampValue() );
 
