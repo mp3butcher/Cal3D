@@ -49,6 +49,7 @@ public:
   bool removeCoreAnimatedMorph( int id );
   int getCoreAnimationCount() const;
   int loadCoreAnimation(const std::string& strFilename);
+  int loadCoreAnimation(void* buffer, const std::string& strAnimationName);
   int loadCoreAnimation(const std::string& strFilename, const std::string& strAnimationName);
   int loadCoreAnimation(void* buffer);
   int unloadCoreAnimation(const std::string& name);
@@ -78,6 +79,7 @@ public:
   int getCoreMaterialCount() const;
   int getCoreMaterialId(int coreMaterialThreadId, int coreMaterialSetId) const;
   int loadCoreMaterial(const std::string& strFilename);
+  int loadCoreMaterial(void* buffer, const std::string& strMaterialName);
   int loadCoreMaterial(const std::string& strFilename, const std::string& strMaterialName);
   int loadCoreMaterial(void* buffer);
   int unloadCoreMaterial(const std::string& name);
@@ -94,6 +96,7 @@ public:
   const CalCoreMesh *getCoreMesh(int coreMeshId) const;
   int getCoreMeshCount() const;
   int loadCoreMesh(const std::string& strFilename);
+  int loadCoreMesh(void* buffer, const std::string& strMeshName);
   int loadCoreMesh(const std::string& strFilename, const std::string& strMeshName);
   int loadCoreMesh(void* buffer);
   int unloadCoreMesh(const std::string& name);

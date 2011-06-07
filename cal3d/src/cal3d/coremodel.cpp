@@ -798,6 +798,40 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
   return id;
 }
 
+int CalCoreModel::loadCoreAnimation(void* buffer, const std::string& strAnimationName)
+{
+   int id = -1;
+   std::map<std::string, int>::iterator it = m_animationName.find(strAnimationName);
+   if (it != m_animationName.end())
+   {
+      id=(*it).second;
+
+      // the core skeleton has to be loaded already
+      if(!m_pCoreSkeleton)
+      {
+         CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+         return -1;
+      }
+      if(m_vectorCoreAnimation[id])
+      {
+         CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+         return -1;
+      }
+      CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(buffer);
+      if(!pCoreAnimation) return -1;
+      pCoreAnimation->setName(strAnimationName);
+      m_vectorCoreAnimation[id] = pCoreAnimation;
+   }
+   else
+   {
+      id = loadCoreAnimation(buffer);
+      if(id >= 0)
+         addAnimationName(strAnimationName, id);
+   }
+
+   return id;
+}
+
  /*****************************************************************************/
 /** Delete the resources used by the named core animation. The name must 
   * be associated with a valid core animation Id with the function
@@ -1000,6 +1034,41 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
   return id;
 }
 
+int CalCoreModel::loadCoreMaterial(void* buffer, const std::string& strMaterialName)
+{
+   int id = -1;
+   std::map<std::string, int>::iterator it = m_materialName.find(strMaterialName);
+   if (it != m_materialName.end())
+   {
+      id=(*it).second;
+
+      // the core skeleton has to be loaded already
+      if(!m_pCoreSkeleton)
+      {
+         CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+         return -1;
+      }
+      if(m_vectorCoreMaterial[id])
+      {
+         CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+         return -1;
+      }
+      CalCoreMaterialPtr pCoreMaterial = CalLoader::loadCoreMaterial(buffer);
+      if(!pCoreMaterial) return -1;
+      pCoreMaterial->setName(strMaterialName);
+      m_vectorCoreMaterial[id] = pCoreMaterial;
+   }
+   else
+   {
+      id = loadCoreMaterial(buffer);
+      if(id >= 0)
+         addMaterialName(strMaterialName, id);
+   }
+
+   return id;
+}
+
+
  /*****************************************************************************/
 /** Loads a core material.
   *
@@ -1026,13 +1095,7 @@ int CalCoreModel::loadCoreMaterial(void* buffer)
   if(!pCoreMaterial) return -1;
 
   // add core material to this core model
-  int materialId = addCoreMaterial(pCoreMaterial.get());
-  if(materialId == -1)
-  {
-    return -1;
-  }
-
-  return materialId;
+  return addCoreMaterial(pCoreMaterial.get());
 }
 
  /*****************************************************************************/
@@ -1164,6 +1227,40 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
   return id;
 }
 
+int CalCoreModel::loadCoreMesh(void* buffer, const std::string& strMeshName)
+{
+   int id = -1;
+   std::map<std::string, int>::iterator it = m_meshName.find(strMeshName);
+   if (it != m_meshName.end())
+   {
+      id=(*it).second;
+
+      // the core skeleton has to be loaded already
+      if(!m_pCoreSkeleton)
+      {
+         CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+         return -1;
+      }
+      if(m_vectorCoreMesh[id])
+      {
+         CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+         return -1;
+      }
+      CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(buffer);
+      if(!pCoreMesh) return -1;
+      pCoreMesh->setName(strMeshName);
+      m_vectorCoreMesh[id] = pCoreMesh;
+   }
+   else
+   {
+      id = loadCoreMesh(buffer);
+      if(id >= 0)
+         addMeshName(strMeshName, id);
+   }
+
+   return id;
+}
+
  /*****************************************************************************/
 /** Loads a core mesh.
   *
@@ -1191,14 +1288,7 @@ int CalCoreModel::loadCoreMesh(void* buffer)
   if (!pCoreMesh) return -1;
 
   // add core mesh to this core model
-  int meshId;
-  meshId = addCoreMesh(pCoreMesh.get());
-  if(meshId == -1)
-  {
-    return -1;
-  }
-
-  return meshId;
+  return addCoreMesh(pCoreMesh.get());
 }
 
 
@@ -1668,7 +1758,7 @@ bool CalCoreModel::addMaterialName(const std::string& strMaterialName, int coreM
   * @param strMaterialName A string that is associated with a core material ID number.
   * @return Returns:
   *         \li \b -1 if there is no core material ID associated with the input string
-  *         \li \b the core ID number of the material asssociated with the input string
+  *         \li \b the core ID number of the material associated with the input string
   *****************************************************************************/
 
 int CalCoreModel::getCoreMaterialId(const std::string& strMaterialName) const
