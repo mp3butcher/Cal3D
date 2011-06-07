@@ -40,99 +40,117 @@ ConvertFromString( char const * strIn, T * dataOut )
   str >> *dataOut;
 }
 
+#endif
+
+
 template<>
-void
-ConvertFromString<char const *>( char const * strIn, const char * * dataOut )
-{
-  static std::string strHolder;
-  strHolder = strIn;
-  *dataOut = strHolder.c_str();
-}
-
-#else
-
-
 char const *
-ConvertToString( double const & d )
+ConvertToString<double>( double const & d )
 {
   static char buffer[2048];
   sprintf(buffer, "%g", d);
   return buffer;
 }
 
+template<>
 char const *
-ConvertToString( float const & f )
+ConvertToString<float>( float const & f )
 {
   return ConvertToString((double)f);
 }
 
+template<>
 char const *
-ConvertToString( int const & d )
+ConvertToString<int>( int const & d )
 {
   static char buffer[2048];
   sprintf(buffer, "%d", d);
   return buffer;
 }
 
+template<>
 char const *
-ConvertToString( unsigned int const & d )
+ConvertToString<unsigned>( unsigned int const & d )
 {
   static char buffer[2048];
   sprintf(buffer, "%u", d);
   return buffer;
 }
 
+template<>
 char const *
-ConvertToString( char const * const & s )
+ConvertToString<unsigned long>( unsigned long const & d )
+{
+  static char buffer[2048];
+  sprintf(buffer, "%lu", d);
+  return buffer;
+}
+
+template<>
+char const *
+ConvertToString<long>(long const & d )
+{
+  static char buffer[2048];
+  sprintf(buffer, "%l", d);
+  return buffer;
+}
+
+template<>
+char const *
+ConvertToString<char const*>( char const * const & s )
 {
   return s;
 }
 
+template<>
 char const *
-ConvertToString( std::string const & s )
+ConvertToString<std::string>( std::string const & s )
 {
   return s.c_str();
 }
 
-
-#ifdef WIN32
+template<>
 void
-ConvertFromString( char const * strIn, const char * * dataOut )
-{
-  *dataOut = strIn;
-}
-#endif
-
-void
-ConvertFromString( char const * strIn, std::string * dataOut )
+ConvertFromString<char const *>( char const * strIn, const char * * dataOut )
 {
   *dataOut = strIn;
 }
 
+template<>
 void
-ConvertFromString( char const * strIn,  int * dataOut )
+ConvertFromString<std::string>( char const * strIn, std::string * dataOut )
+{
+  *dataOut = strIn;
+}
+
+template<>
+void
+ConvertFromString<int>( char const * strIn,  int * dataOut )
 {
   *dataOut = atoi(strIn);
 }
 
+template<>
 void
-ConvertFromString( char const * strIn,  unsigned int * dataOut )
+ConvertFromString<unsigned>( char const * strIn,  unsigned int * dataOut )
 {
   *dataOut = (unsigned int) atoi(strIn);
 }
 
+template<>
 void
-ConvertFromString( char const * strIn,  double * dataOut )
+ConvertFromString<double>( char const * strIn,  double * dataOut )
 {
   *dataOut = atof(strIn);
 }
 
+template<>
 void
-ConvertFromString( char const * strIn,  float * dataOut )
+ConvertFromString<float>( char const * strIn,  float * dataOut )
 {
   *dataOut = (float)atof(strIn);
 }
-#endif
+//#endif
 
 
 template<class T>

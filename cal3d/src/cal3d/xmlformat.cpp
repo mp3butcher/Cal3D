@@ -22,11 +22,7 @@
 #include "cal3d/xmlformat.h"
 
 
-#ifdef WIN32
 #include "cal3d/calxmlbindings.h"
-#else
-#include "cal3d/calxmlbindings.cpp"
-#endif
 
 
 static inline void ReadPair( char const * buffer, float * f1, float * f2 )

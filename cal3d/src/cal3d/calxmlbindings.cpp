@@ -21,11 +21,7 @@
 #include "cal3d/corematerial.h"
 #include "cal3d/tinyxml.h"
 
-#ifdef WIN32
 #include "cal3d/tinybind.h"
-#else
-#include "cal3d/tinybind.cpp"
-#endif
 
 #include "calxmlbindings.h"
 

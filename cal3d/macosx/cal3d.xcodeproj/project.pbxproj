@@ -3,10 +3,24 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63F798C5138B10B70040F954 /* calxmlbindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798B9138B10B70040F954 /* calxmlbindings.cpp */; };
+		63F798C6138B10B70040F954 /* calxmlbindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798BA138B10B70040F954 /* calxmlbindings.h */; };
+		63F798C7138B10B70040F954 /* coreanimatedmorph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798BB138B10B70040F954 /* coreanimatedmorph.cpp */; };
+		63F798C8138B10B70040F954 /* coreanimatedmorph.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798BC138B10B70040F954 /* coreanimatedmorph.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63F798C9138B10B70040F954 /* coremorphkeyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798BD138B10B70040F954 /* coremorphkeyframe.cpp */; };
+		63F798CA138B10B70040F954 /* coremorphkeyframe.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798BE138B10B70040F954 /* coremorphkeyframe.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63F798CB138B10B70040F954 /* coremorphtrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798BF138B10B70040F954 /* coremorphtrack.cpp */; };
+		63F798CC138B10B70040F954 /* coremorphtrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798C0138B10B70040F954 /* coremorphtrack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63F798CD138B10B70040F954 /* tinybind.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798C1138B10B70040F954 /* tinybind.cpp */; };
+		63F798CE138B10B70040F954 /* tinybind.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798C2138B10B70040F954 /* tinybind.h */; };
+		63F798CF138B10B70040F954 /* xmlformat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798C3138B10B70040F954 /* xmlformat.cpp */; };
+		63F798D0138B10B70040F954 /* xmlformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798C4138B10B70040F954 /* xmlformat.h */; };
+		63F798FB138B18210040F954 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63F798F9138B18210040F954 /* renderer.cpp */; };
+		63F798FC138B18210040F954 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F798FA138B18210040F954 /* renderer.h */; };
 		65F7B14F0A56AF9A00F548C1 /* animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B0F70A56AF9900F548C1 /* animation.cpp */; };
 		65F7B1500A56AF9A00F548C1 /* animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B0F80A56AF9900F548C1 /* animation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1510A56AF9A00F548C1 /* animation_action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B0F90A56AF9900F548C1 /* animation_action.cpp */; };
@@ -33,8 +47,6 @@
 		65F7B1680A56AF9A00F548C1 /* coremesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1100A56AF9A00F548C1 /* coremesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1690A56AF9A00F548C1 /* coremodel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B1110A56AF9A00F548C1 /* coremodel.cpp */; };
 		65F7B16A0A56AF9A00F548C1 /* coremodel.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1120A56AF9A00F548C1 /* coremodel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		65F7B16B0A56AF9A00F548C1 /* coremorphanimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B1130A56AF9A00F548C1 /* coremorphanimation.cpp */; };
-		65F7B16C0A56AF9A00F548C1 /* coremorphanimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1140A56AF9A00F548C1 /* coremorphanimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B16D0A56AF9A00F548C1 /* coreskeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B1150A56AF9A00F548C1 /* coreskeleton.cpp */; };
 		65F7B16E0A56AF9A00F548C1 /* coreskeleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1160A56AF9A00F548C1 /* coreskeleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B16F0A56AF9A00F548C1 /* coresubmesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B1170A56AF9A00F548C1 /* coresubmesh.cpp */; };
@@ -70,8 +82,6 @@
 		65F7B18F0A56AF9A00F548C1 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1370A56AF9A00F548C1 /* quaternion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1900A56AF9A00F548C1 /* refcounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1380A56AF9A00F548C1 /* refcounted.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1910A56AF9A00F548C1 /* refptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B1390A56AF9A00F548C1 /* refptr.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		65F7B1920A56AF9A00F548C1 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B13A0A56AF9A00F548C1 /* renderer.cpp */; };
-		65F7B1930A56AF9A00F548C1 /* renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B13B0A56AF9A00F548C1 /* renderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1940A56AF9A00F548C1 /* resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B13C0A56AF9A00F548C1 /* resource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65F7B1950A56AF9A00F548C1 /* saver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B13D0A56AF9A00F548C1 /* saver.cpp */; };
 		65F7B1960A56AF9A00F548C1 /* saver.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B13E0A56AF9A00F548C1 /* saver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -91,14 +101,28 @@
 		65F7B1A50A56AF9A00F548C1 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F7B14D0A56AF9A00F548C1 /* vector.cpp */; };
 		65F7B1A60A56AF9A00F548C1 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F7B14E0A56AF9A00F548C1 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D07F2C00486CC7A007CD1D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		BE1C6EDA0B65282A002AD7F3 /* dualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6ED80B65282A002AD7F3 /* dualquaternion.h */; };
+		BE1C6EDA0B65282A002AD7F3 /* dualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6ED80B65282A002AD7F3 /* dualquaternion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE1C6EDB0B65282A002AD7F3 /* dualquaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1C6ED90B65282A002AD7F3 /* dualquaternion.cpp */; };
 		BE1C6EDE0B652875002AD7F3 /* physiquedualquaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1C6EDC0B652875002AD7F3 /* physiquedualquaternion.cpp */; };
-		BE1C6EDF0B652875002AD7F3 /* physiquedualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6EDD0B652875002AD7F3 /* physiquedualquaternion.h */; };
+		BE1C6EDF0B652875002AD7F3 /* physiquedualquaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = BE1C6EDD0B652875002AD7F3 /* physiquedualquaternion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		63F798B9138B10B70040F954 /* calxmlbindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = calxmlbindings.cpp; sourceTree = "<group>"; };
+		63F798BA138B10B70040F954 /* calxmlbindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calxmlbindings.h; sourceTree = "<group>"; };
+		63F798BB138B10B70040F954 /* coreanimatedmorph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coreanimatedmorph.cpp; sourceTree = "<group>"; };
+		63F798BC138B10B70040F954 /* coreanimatedmorph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coreanimatedmorph.h; sourceTree = "<group>"; };
+		63F798BD138B10B70040F954 /* coremorphkeyframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coremorphkeyframe.cpp; sourceTree = "<group>"; };
+		63F798BE138B10B70040F954 /* coremorphkeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coremorphkeyframe.h; sourceTree = "<group>"; };
+		63F798BF138B10B70040F954 /* coremorphtrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coremorphtrack.cpp; sourceTree = "<group>"; };
+		63F798C0138B10B70040F954 /* coremorphtrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coremorphtrack.h; sourceTree = "<group>"; };
+		63F798C1138B10B70040F954 /* tinybind.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinybind.cpp; sourceTree = "<group>"; };
+		63F798C2138B10B70040F954 /* tinybind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinybind.h; sourceTree = "<group>"; };
+		63F798C3138B10B70040F954 /* xmlformat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xmlformat.cpp; sourceTree = "<group>"; };
+		63F798C4138B10B70040F954 /* xmlformat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlformat.h; sourceTree = "<group>"; };
+		63F798F9138B18210040F954 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = renderer.cpp; sourceTree = "<group>"; };
+		63F798FA138B18210040F954 /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = renderer.h; sourceTree = "<group>"; };
 		65F7B0F70A56AF9900F548C1 /* animation.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = animation.cpp; sourceTree = "<group>"; };
 		65F7B0F80A56AF9900F548C1 /* animation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = animation.h; sourceTree = "<group>"; };
 		65F7B0F90A56AF9900F548C1 /* animation_action.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = animation_action.cpp; sourceTree = "<group>"; };
@@ -125,8 +149,6 @@
 		65F7B1100A56AF9A00F548C1 /* coremesh.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = coremesh.h; sourceTree = "<group>"; };
 		65F7B1110A56AF9A00F548C1 /* coremodel.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = coremodel.cpp; sourceTree = "<group>"; };
 		65F7B1120A56AF9A00F548C1 /* coremodel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = coremodel.h; sourceTree = "<group>"; };
-		65F7B1130A56AF9A00F548C1 /* coremorphanimation.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = coremorphanimation.cpp; sourceTree = "<group>"; };
-		65F7B1140A56AF9A00F548C1 /* coremorphanimation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = coremorphanimation.h; sourceTree = "<group>"; };
 		65F7B1150A56AF9A00F548C1 /* coreskeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = coreskeleton.cpp; sourceTree = "<group>"; };
 		65F7B1160A56AF9A00F548C1 /* coreskeleton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = coreskeleton.h; sourceTree = "<group>"; };
 		65F7B1170A56AF9A00F548C1 /* coresubmesh.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = coresubmesh.cpp; sourceTree = "<group>"; };
@@ -162,8 +184,6 @@
 		65F7B1370A56AF9A00F548C1 /* quaternion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = quaternion.h; sourceTree = "<group>"; };
 		65F7B1380A56AF9A00F548C1 /* refcounted.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = refcounted.h; sourceTree = "<group>"; };
 		65F7B1390A56AF9A00F548C1 /* refptr.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = refptr.h; sourceTree = "<group>"; };
-		65F7B13A0A56AF9A00F548C1 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = renderer.cpp; sourceTree = "<group>"; };
-		65F7B13B0A56AF9A00F548C1 /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = renderer.h; sourceTree = "<group>"; };
 		65F7B13C0A56AF9A00F548C1 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
 		65F7B13D0A56AF9A00F548C1 /* saver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = saver.cpp; sourceTree = "<group>"; };
 		65F7B13E0A56AF9A00F548C1 /* saver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = saver.h; sourceTree = "<group>"; };
@@ -239,6 +259,20 @@
 		65F7B0F60A56AF9900F548C1 /* cal3d */ = {
 			isa = PBXGroup;
 			children = (
+				63F798F9138B18210040F954 /* renderer.cpp */,
+				63F798FA138B18210040F954 /* renderer.h */,
+				63F798B9138B10B70040F954 /* calxmlbindings.cpp */,
+				63F798BA138B10B70040F954 /* calxmlbindings.h */,
+				63F798BB138B10B70040F954 /* coreanimatedmorph.cpp */,
+				63F798BC138B10B70040F954 /* coreanimatedmorph.h */,
+				63F798BD138B10B70040F954 /* coremorphkeyframe.cpp */,
+				63F798BE138B10B70040F954 /* coremorphkeyframe.h */,
+				63F798BF138B10B70040F954 /* coremorphtrack.cpp */,
+				63F798C0138B10B70040F954 /* coremorphtrack.h */,
+				63F798C1138B10B70040F954 /* tinybind.cpp */,
+				63F798C2138B10B70040F954 /* tinybind.h */,
+				63F798C3138B10B70040F954 /* xmlformat.cpp */,
+				63F798C4138B10B70040F954 /* xmlformat.h */,
 				65F7B0F70A56AF9900F548C1 /* animation.cpp */,
 				65F7B0F80A56AF9900F548C1 /* animation.h */,
 				65F7B0F90A56AF9900F548C1 /* animation_action.cpp */,
@@ -265,8 +299,6 @@
 				65F7B1100A56AF9A00F548C1 /* coremesh.h */,
 				65F7B1110A56AF9A00F548C1 /* coremodel.cpp */,
 				65F7B1120A56AF9A00F548C1 /* coremodel.h */,
-				65F7B1130A56AF9A00F548C1 /* coremorphanimation.cpp */,
-				65F7B1140A56AF9A00F548C1 /* coremorphanimation.h */,
 				65F7B1150A56AF9A00F548C1 /* coreskeleton.cpp */,
 				65F7B1160A56AF9A00F548C1 /* coreskeleton.h */,
 				65F7B1170A56AF9A00F548C1 /* coresubmesh.cpp */,
@@ -306,8 +338,6 @@
 				65F7B1370A56AF9A00F548C1 /* quaternion.h */,
 				65F7B1380A56AF9A00F548C1 /* refcounted.h */,
 				65F7B1390A56AF9A00F548C1 /* refptr.h */,
-				65F7B13A0A56AF9A00F548C1 /* renderer.cpp */,
-				65F7B13B0A56AF9A00F548C1 /* renderer.h */,
 				65F7B13C0A56AF9A00F548C1 /* resource.h */,
 				65F7B13D0A56AF9A00F548C1 /* saver.cpp */,
 				65F7B13E0A56AF9A00F548C1 /* saver.h */,
@@ -352,7 +382,6 @@
 				65F7B1660A56AF9A00F548C1 /* corematerial.h in Headers */,
 				65F7B1680A56AF9A00F548C1 /* coremesh.h in Headers */,
 				65F7B16A0A56AF9A00F548C1 /* coremodel.h in Headers */,
-				65F7B16C0A56AF9A00F548C1 /* coremorphanimation.h in Headers */,
 				65F7B16E0A56AF9A00F548C1 /* coreskeleton.h in Headers */,
 				65F7B1700A56AF9A00F548C1 /* coresubmesh.h in Headers */,
 				65F7B1720A56AF9A00F548C1 /* coresubmorphtarget.h in Headers */,
@@ -372,7 +401,6 @@
 				65F7B18F0A56AF9A00F548C1 /* quaternion.h in Headers */,
 				65F7B1900A56AF9A00F548C1 /* refcounted.h in Headers */,
 				65F7B1910A56AF9A00F548C1 /* refptr.h in Headers */,
-				65F7B1930A56AF9A00F548C1 /* renderer.h in Headers */,
 				65F7B1940A56AF9A00F548C1 /* resource.h in Headers */,
 				65F7B1960A56AF9A00F548C1 /* saver.h in Headers */,
 				65F7B1990A56AF9A00F548C1 /* skeleton.h in Headers */,
@@ -384,6 +412,13 @@
 				65F7B1A60A56AF9A00F548C1 /* vector.h in Headers */,
 				BE1C6EDA0B65282A002AD7F3 /* dualquaternion.h in Headers */,
 				BE1C6EDF0B652875002AD7F3 /* physiquedualquaternion.h in Headers */,
+				63F798C6138B10B70040F954 /* calxmlbindings.h in Headers */,
+				63F798C8138B10B70040F954 /* coreanimatedmorph.h in Headers */,
+				63F798CA138B10B70040F954 /* coremorphkeyframe.h in Headers */,
+				63F798CC138B10B70040F954 /* coremorphtrack.h in Headers */,
+				63F798CE138B10B70040F954 /* tinybind.h in Headers */,
+				63F798D0138B10B70040F954 /* xmlformat.h in Headers */,
+				63F798FC138B18210040F954 /* renderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,10 +451,19 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 4FADC24608B4156D00ABE55E /* Build configuration list for PBXProject "cal3d" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* cal3d */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D07F2BC0486CC7A007CD1D0 /* cal3d */,
 			);
@@ -464,7 +508,6 @@
 				65F7B1650A56AF9A00F548C1 /* corematerial.cpp in Sources */,
 				65F7B1670A56AF9A00F548C1 /* coremesh.cpp in Sources */,
 				65F7B1690A56AF9A00F548C1 /* coremodel.cpp in Sources */,
-				65F7B16B0A56AF9A00F548C1 /* coremorphanimation.cpp in Sources */,
 				65F7B16D0A56AF9A00F548C1 /* coreskeleton.cpp in Sources */,
 				65F7B16F0A56AF9A00F548C1 /* coresubmesh.cpp in Sources */,
 				65F7B1710A56AF9A00F548C1 /* coresubmorphtarget.cpp in Sources */,
@@ -481,7 +524,6 @@
 				65F7B18A0A56AF9A00F548C1 /* physique.cpp in Sources */,
 				65F7B18C0A56AF9A00F548C1 /* platform.cpp in Sources */,
 				65F7B18E0A56AF9A00F548C1 /* quaternion.cpp in Sources */,
-				65F7B1920A56AF9A00F548C1 /* renderer.cpp in Sources */,
 				65F7B1950A56AF9A00F548C1 /* saver.cpp in Sources */,
 				65F7B1980A56AF9A00F548C1 /* skeleton.cpp in Sources */,
 				65F7B19A0A56AF9A00F548C1 /* springsystem.cpp in Sources */,
@@ -493,6 +535,13 @@
 				65F7B1A50A56AF9A00F548C1 /* vector.cpp in Sources */,
 				BE1C6EDB0B65282A002AD7F3 /* dualquaternion.cpp in Sources */,
 				BE1C6EDE0B652875002AD7F3 /* physiquedualquaternion.cpp in Sources */,
+				63F798C5138B10B70040F954 /* calxmlbindings.cpp in Sources */,
+				63F798C7138B10B70040F954 /* coreanimatedmorph.cpp in Sources */,
+				63F798C9138B10B70040F954 /* coremorphkeyframe.cpp in Sources */,
+				63F798CB138B10B70040F954 /* coremorphtrack.cpp in Sources */,
+				63F798CD138B10B70040F954 /* tinybind.cpp in Sources */,
+				63F798CF138B10B70040F954 /* xmlformat.cpp in Sources */,
+				63F798FB138B18210040F954 /* renderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,7 +572,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../src//**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../src/";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -548,6 +597,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../src/";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -560,20 +610,40 @@
 		4FADC24708B4156D00ABE55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
 		4FADC24808B4156D00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
