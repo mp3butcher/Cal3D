@@ -1122,7 +1122,7 @@ void Viewer::renderModel()
 			glProgramLocalParameter4fvARB(GL_VERTEX_PROGRAM_ARB,boneId*3+2,&transformation[8]);			
 			
             // set the texture id we stored in the map user data
-            glBindTexture(GL_TEXTURE_2D, (GLuint)m_calHardwareModel->getMapUserData(0));
+            glBindTexture(GL_TEXTURE_2D, (GLuint)(size_t)m_calHardwareModel->getMapUserData(0));
 		}
 
 		if(sizeof(CalIndex)==2)

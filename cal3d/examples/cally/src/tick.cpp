@@ -101,7 +101,7 @@ double Tick::getTime()
 
 #else 
 
-# if defined(__i386__) || defined(__ia64__)
+# if defined(__i386__) || defined(__ia64__) || defined(__x86_64__)
 
 inline uint64_t TimerGetCycle() {
   uint64_t x;
