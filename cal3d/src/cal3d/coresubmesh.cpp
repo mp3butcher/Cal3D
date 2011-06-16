@@ -28,6 +28,7 @@
 CalCoreSubmesh::CalCoreSubmesh()
   : m_coreMaterialThreadId(0), m_lodCount(0)
 {
+  m_hasNonWhiteVertexColors = false;
 }
 
  /*****************************************************************************/
@@ -39,6 +40,7 @@ CalCoreSubmesh::CalCoreSubmesh()
 CalCoreSubmesh::~CalCoreSubmesh()
 {
   // destroy all data
+  m_vectorSubMorphTargetGroupIndex.clear();
   m_vectorFace.clear();
   m_vectorVertex.clear();
   m_vectorPhysicalProperty.clear();
@@ -48,12 +50,58 @@ CalCoreSubmesh::~CalCoreSubmesh()
   m_vectorvectorTangentSpace.clear();
   // destroy all core sub morph targets
   std::vector<CalCoreSubMorphTarget *>::iterator iteratorCoreSubMorphTarget;
-  for(iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); ++iteratorCoreSubMorphTarget)
+  for( iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); 
+    iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); 
+    ++iteratorCoreSubMorphTarget )
   {
     delete (*iteratorCoreSubMorphTarget);
   }
   m_vectorCoreSubMorphTarget.clear();
 }
+
+void
+CalCoreSubmesh::setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray )
+{
+  m_vectorSubMorphTargetGroupIndex.reserve( len );
+  m_vectorSubMorphTargetGroupIndex.resize( len );
+  unsigned int i;
+  for( i = 0; i < len; i++ ) {
+    m_vectorSubMorphTargetGroupIndex[ i ] = indexArray[ i ];
+  }
+}
+unsigned int
+CalCoreSubmesh::sizeWithoutSubMorphTargets()
+{
+  unsigned int r = sizeof( CalCoreSubmesh );
+  r += sizeof( Vertex ) * m_vectorVertex.size();
+  r += sizeof( bool ) * m_vectorTangentsEnabled.size();
+  r += sizeof( PhysicalProperty ) * m_vectorPhysicalProperty.size();
+  r += sizeof( Face ) * m_vectorFace.size();
+  r += sizeof( Spring ) * m_vectorSpring.size();
+  r += sizeof( unsigned int ) * m_vectorSubMorphTargetGroupIndex.size();
+  std::vector<std::vector<TangentSpace> >::iterator iter2;
+  for( iter2 = m_vectorvectorTangentSpace.begin(); iter2 != m_vectorvectorTangentSpace.end(); ++iter2 ) {
+    r += sizeof( TangentSpace ) * (*iter2).size();
+  }
+  std::vector<std::vector<TextureCoordinate> >::iterator iter3;
+  for( iter3 = m_vectorvectorTextureCoordinate.begin(); iter3 != m_vectorvectorTextureCoordinate.end(); ++iter3 ) {
+    r += sizeof( TextureCoordinate ) * (*iter3).size();
+  }
+  return r;
+}
+
+
+unsigned int
+CalCoreSubmesh::size()
+{
+  unsigned int r = sizeWithoutSubMorphTargets();
+  std::vector<CalCoreSubMorphTarget *>::iterator iter1;
+  for( iter1 = m_vectorCoreSubMorphTarget.begin(); iter1 != m_vectorCoreSubMorphTarget.end(); ++iter1 ) {
+    r += (*iter1)->size();
+  }
+  return r;
+}
+
 
  /*****************************************************************************/
 /** Returns the ID of the core material thread.
@@ -64,7 +112,7 @@ CalCoreSubmesh::~CalCoreSubmesh()
   * @return The ID of the core material thread.
   *****************************************************************************/
 
-int CalCoreSubmesh::getCoreMaterialThreadId()
+int CalCoreSubmesh::getCoreMaterialThreadId() const
 {
   return m_coreMaterialThreadId;
 }
@@ -77,7 +125,7 @@ int CalCoreSubmesh::getCoreMaterialThreadId()
   * @return The number of faces.
   *****************************************************************************/
 
-int CalCoreSubmesh::getFaceCount()
+int CalCoreSubmesh::getFaceCount() const
 {
   return m_vectorFace.size();
 }
@@ -90,7 +138,7 @@ int CalCoreSubmesh::getFaceCount()
   * @return The number of LOD steps.
   *****************************************************************************/
 
-int CalCoreSubmesh::getLodCount()
+int CalCoreSubmesh::getLodCount() const
 {
   return m_lodCount;
 }
@@ -103,7 +151,7 @@ int CalCoreSubmesh::getLodCount()
   * @return The number of springs.
   *****************************************************************************/
 
-int CalCoreSubmesh::getSpringCount()
+int CalCoreSubmesh::getSpringCount() const
 {
   return m_vectorSpring.size();
 }
@@ -116,7 +164,7 @@ int CalCoreSubmesh::getSpringCount()
   * @return True if tangent vectors are enabled.
   *****************************************************************************/
 
-bool CalCoreSubmesh::isTangentsEnabled(int mapId)
+bool CalCoreSubmesh::isTangentsEnabled(int mapId) const
 {
   if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
 
@@ -130,50 +178,37 @@ bool CalCoreSubmesh::isTangentsEnabled(int mapId)
   *****************************************************************************/
 
 
-void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId, std::vector<CalVector>& bitangents)
+void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
 {
   std::vector<CalCoreSubmesh::Vertex> &vvtx = getVectorVertex();
   std::vector<CalCoreSubmesh::TextureCoordinate> &vtex = m_vectorvectorTextureCoordinate[mapId];
 
   // Step 1. Compute the approximate tangent vector.
-  float du1 = vtex[v1].u - vtex[v0].u;
-  float dv1 = vtex[v1].v - vtex[v0].v;
-  float du2 = vtex[v2].u - vtex[v0].u;
-  float dv2 = vtex[v2].v - vtex[v0].v;
+  double du1 = vtex[v1].u - vtex[v0].u;
+  double dv1 = vtex[v1].v - vtex[v0].v;
+  double du2 = vtex[v2].u - vtex[v0].u;
+  double dv2 = vtex[v2].v - vtex[v0].v;
 
-  float prod1 = (du1*dv2-dv1*du2);
-  if ((fabs(prod1) < 0.000001)) return;
+  double prod1 = (du1*dv2-dv1*du2);
+  double prod2 = (du2*dv1-dv2*du1);
+  if ((fabs(prod1) < 0.000001)||(fabs(prod2) < 0.000001)) return;
 
-  //double prod2 = (du2*dv1-dv2*du1);
-  //if ((fabs(prod1) < 0.000001)||(fabs(prod2) < 0.000001)) return;
-
-  //double x = dv2/prod1;
-  //double y = dv1/prod2;
+  double x = dv2/prod1;
+  double y = dv1/prod2;
 
   CalVector vec1 = vvtx[v1].position - vvtx[v0].position;
   CalVector vec2 = vvtx[v2].position - vvtx[v0].position;
-  //CalVector tangent = (vec1 * ((float)x)) + (vec2 * ((float)y));
+  CalVector tangent = (vec1 * ((float)x)) + (vec2 * ((float)y));
 
-  CalVector tangent((dv2 * vec1.x - dv1 * vec2.x) / prod1, 
-	  (dv2 * vec1.y - dv1 * vec2.y) / prod1,
-	  (dv2 * vec1.z - dv1 * vec2.z) / prod1);
-
-  CalVector bitangent((du1 * vec2.x - du2 * vec1.x) / prod1, 
-	  (du1 * vec2.y - du2 * vec1.y) / prod1,
-	  (du1 * vec2.z - du2 * vec1.z) / prod1);
-
-  // Step 2. Orthonormalize the tangent and bitangent.
+  // Step 2. Orthonormalize the tangent.
   double component = (tangent * vvtx[v0].normal);
   tangent -= (vvtx[v0].normal * ((float)component));
   tangent.normalize();
 
-  component = (bitangent * vvtx[v0].normal);
-  bitangent -= (vvtx[v0].normal * ((float)component));
-  bitangent.normalize();
+  // Step 3: Add the estimated tangent to the overall estimate for the vertex.
 
-  // Step 3: Add the estimated tangent and bitangent to the overall estimate for the vertex.
+
   m_vectorvectorTangentSpace[mapId][v0].tangent+=tangent;
-  bitangents[v0] += bitangent;
 }
 
 
@@ -206,30 +241,18 @@ bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
 
   }
 
-  std::vector<CalVector> bitangents;
-  bitangents.resize(m_vectorVertex.size(), CalVector(0.0f,0.0f,0.0f));
 
   int faceId;
   for(faceId=0;faceId<(int)m_vectorFace.size();faceId++)
   {
-    UpdateTangentVector(m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],mapId, bitangents);
-    UpdateTangentVector(m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],mapId, bitangents);
-    UpdateTangentVector(m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],mapId, bitangents);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],mapId);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[1],m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],mapId);
+    UpdateTangentVector(m_vectorFace[faceId].vertexId[2],m_vectorFace[faceId].vertexId[0],m_vectorFace[faceId].vertexId[1],mapId);
   }
 
   for(tangentId=0;tangentId< (int)m_vectorvectorTangentSpace[mapId].size();tangentId++)
   {
-	  CalVector& n = m_vectorVertex[tangentId].normal;
-	  CalVector& t = m_vectorvectorTangentSpace[mapId][tangentId].tangent;
-
-	  // Gram-Schmidt orthogonalize
-	  t = (t - (n * (n * t)));
-      t.normalize();
-
-	  bitangents[tangentId].normalize();
-
-	  // Calculate handedness
-      m_vectorvectorTangentSpace[mapId][tangentId].crossFactor = (((n % t) * bitangents[tangentId]) < 0.0) ? -1.0 : 1.0;
+    m_vectorvectorTangentSpace[mapId][tangentId].tangent.normalize();
   }
   
   return true;
@@ -251,6 +274,20 @@ std::vector<CalCoreSubmesh::Face>& CalCoreSubmesh::getVectorFace()
 }
 
  /*****************************************************************************/
+/** Returns the face vector.
+  *
+  * This function returns the vector that contains all faces of the core submesh
+  * instance.
+  *
+  * @return A reference to the face vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Face>& CalCoreSubmesh::getVectorFace() const
+{
+  return m_vectorFace;
+}
+
+ /*****************************************************************************/
 /** Returns the physical property vector.
   *
   * This function returns the vector that contains all physical properties of
@@ -265,6 +302,20 @@ std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysical
 }
 
  /*****************************************************************************/
+/** Returns the physical property vector.
+  *
+  * This function returns the vector that contains all physical properties of
+  * the core submesh instance.
+  *
+  * @return A reference to the physical property vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysicalProperty() const
+{
+  return m_vectorPhysicalProperty;
+}
+
+ /*****************************************************************************/
 /** Returns the spring vector.
   *
   * This function returns the vector that contains all springs of the core
@@ -274,6 +325,20 @@ std::vector<CalCoreSubmesh::PhysicalProperty>& CalCoreSubmesh::getVectorPhysical
   *****************************************************************************/
 
 std::vector<CalCoreSubmesh::Spring>& CalCoreSubmesh::getVectorSpring()
+{
+  return m_vectorSpring;
+}
+
+ /*****************************************************************************/
+/** Returns the spring vector.
+  *
+  * This function returns the vector that contains all springs of the core
+  * submesh instance.
+  *
+  * @return A reference to the spring vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Spring>& CalCoreSubmesh::getVectorSpring() const
 {
   return m_vectorSpring;
 }
@@ -294,6 +359,21 @@ std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> > & CalCoreSubmesh::g
 }
 
  /*****************************************************************************/
+/** Returns the texture coordinate vector-vector.
+  *
+  * This function returns the vector that contains all texture coordinate
+  * vectors of the core submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the texture coordinate vector-vector.
+  *****************************************************************************/
+
+const std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& CalCoreSubmesh::getVectorVectorTextureCoordinate() const
+{
+  return m_vectorvectorTextureCoordinate;
+}
+
+ /*****************************************************************************/
 /** Returns the tangent space vector-vector.
   *
   * This function returns the vector that contains all tangent space bases of
@@ -308,6 +388,20 @@ std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVect
   return m_vectorvectorTangentSpace;
 }
 
+ /*****************************************************************************/
+/** Returns the tangent space vector-vector.
+  *
+  * This function returns the vector that contains all tangent space bases of
+  * the core submesh instance. This vector contains another vector
+  * because there can be more than one texture map at each vertex.
+  *
+  * @return A reference to the tangent space vector-vector.
+  *****************************************************************************/
+
+const std::vector<std::vector<CalCoreSubmesh::TangentSpace> >& CalCoreSubmesh::getVectorVectorTangentSpace() const
+{
+  return m_vectorvectorTangentSpace;
+}
 
  /*****************************************************************************/
 /** Returns the vertex vector.
@@ -324,6 +418,20 @@ std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex()
 }
 
  /*****************************************************************************/
+/** Returns the vertex vector.
+  *
+  * This function returns the vector that contains all vertices of the core
+  * submesh instance.
+  *
+  * @return A reference to the vertex vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex() const
+{
+  return m_vectorVertex;
+}
+
+ /*****************************************************************************/
 /** Returns the number of vertices.
   *
   * This function returns the number of vertices in the core submesh instance.
@@ -331,7 +439,7 @@ std::vector<CalCoreSubmesh::Vertex>& CalCoreSubmesh::getVectorVertex()
   * @return The number of vertices.
   *****************************************************************************/
 
-int CalCoreSubmesh::getVertexCount()
+int CalCoreSubmesh::getVertexCount() const
 {
   return m_vectorVertex.size();
 }
@@ -353,55 +461,63 @@ int CalCoreSubmesh::getVertexCount()
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::reserve(int vertexCount, int textureCoordinateCount, int faceCount, int springCount)
 {
-  // reserve the space needed in all the vectors
-  m_vectorVertex.reserve(vertexCount);
-  m_vectorVertex.resize(vertexCount);
+	bool	success = true;
+	try
+	{
+		// reserve the space needed in all the vectors
+		m_vectorVertex.reserve(vertexCount);
+		m_vectorVertex.resize(vertexCount);
 
-  m_vectorTangentsEnabled.reserve(textureCoordinateCount);
-  m_vectorTangentsEnabled.resize(textureCoordinateCount);
+		m_vectorTangentsEnabled.reserve(textureCoordinateCount);
+		m_vectorTangentsEnabled.resize(textureCoordinateCount);
 
-  m_vectorvectorTangentSpace.reserve(textureCoordinateCount);
-  m_vectorvectorTangentSpace.resize(textureCoordinateCount);
+		m_vectorvectorTangentSpace.reserve(textureCoordinateCount);
+		m_vectorvectorTangentSpace.resize(textureCoordinateCount);
 
-  m_vectorvectorTextureCoordinate.reserve(textureCoordinateCount);
-  m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
+		m_vectorvectorTextureCoordinate.reserve(textureCoordinateCount);
+		m_vectorvectorTextureCoordinate.resize(textureCoordinateCount);
 
-  int textureCoordinateId;
-  for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
-  {
-    m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
-    m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
-	
-    if (m_vectorTangentsEnabled[textureCoordinateId])
-    {
-      m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
-      m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);
-    }
-    else
-    {
-      m_vectorvectorTangentSpace[textureCoordinateId].clear();
-    }
-  }
+		int textureCoordinateId;
+		for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
+		{
+			m_vectorvectorTextureCoordinate[textureCoordinateId].reserve(vertexCount);
+			m_vectorvectorTextureCoordinate[textureCoordinateId].resize(vertexCount);
 
-  m_vectorFace.reserve(faceCount);
-  m_vectorFace.resize(faceCount);
+			if (m_vectorTangentsEnabled[textureCoordinateId])
+			{
+			  m_vectorvectorTangentSpace[textureCoordinateId].reserve(vertexCount);
+			  m_vectorvectorTangentSpace[textureCoordinateId].resize(vertexCount);
+			}
+			else
+			{
+			  m_vectorvectorTangentSpace[textureCoordinateId].clear();
+			}
+		}
 
-  m_vectorSpring.reserve(springCount);
-  m_vectorSpring.resize(springCount);
+		m_vectorFace.reserve(faceCount);
+		m_vectorFace.resize(faceCount);
 
-  // reserve the space for the physical properties if we have springs in the core submesh instance
-  if(springCount > 0)
-  {
-    m_vectorPhysicalProperty.reserve(vertexCount);
-    m_vectorPhysicalProperty.resize(vertexCount);
-  }
+		m_vectorSpring.reserve(springCount);
+		m_vectorSpring.resize(springCount);
 
-  return true;
+		// reserve the space for the physical properties if we have springs in the core submesh instance
+		if(springCount > 0)
+		{
+			m_vectorPhysicalProperty.reserve(vertexCount);
+			m_vectorPhysicalProperty.resize(vertexCount);
+		}
+	}
+	catch (...)
+	{
+		success = false;
+	}
+
+	return success;
 }
 
  /*****************************************************************************/
@@ -429,7 +545,7 @@ void CalCoreSubmesh::setCoreMaterialThreadId(int coreMaterialThreadId)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setFace(int faceId, const Face& face)
@@ -467,7 +583,7 @@ void CalCoreSubmesh::setLodCount(int lodCount)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, const CalVector& tangent, float crossFactor)
@@ -493,7 +609,7 @@ bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, cons
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setPhysicalProperty(int vertexId, const PhysicalProperty& physicalProperty)
@@ -515,7 +631,7 @@ bool CalCoreSubmesh::setPhysicalProperty(int vertexId, const PhysicalProperty& p
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setSpring(int springId, const Spring& spring)
@@ -539,7 +655,7 @@ bool CalCoreSubmesh::setSpring(int springId, const Spring& spring)
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setTextureCoordinate(int vertexId, int textureCoordinateId, const TextureCoordinate& textureCoordinate)
@@ -562,7 +678,7 @@ bool CalCoreSubmesh::setTextureCoordinate(int vertexId, int textureCoordinateId,
   *
   * @return One of the following values:
   *         \li \b true if successful
-  *         \li \b false if an error happend
+  *         \li \b false if an error happened
   *****************************************************************************/
 
 bool CalCoreSubmesh::setVertex(int vertexId, const Vertex& vertex)
@@ -583,7 +699,7 @@ bool CalCoreSubmesh::setVertex(int vertexId, const Vertex& vertex)
   *
   * @return One of the following values:
   *         \li the assigned sub morph target \b ID of the added core sub morph target
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTarget)
@@ -593,6 +709,7 @@ int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTa
   subMorphTargetId = m_vectorCoreSubMorphTarget.size();
 
   m_vectorCoreSubMorphTarget.push_back(pCoreSubMorphTarget);
+  pCoreSubMorphTarget->setCoreSubmesh( this );
 
   return subMorphTargetId;
 }
@@ -606,10 +723,32 @@ int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTa
   *
   * @return One of the following values:
   *         \li a pointer to the core sub morph target
-  *         \li \b 0 if an error happend
+  *         \li \b 0 if an error happened
   *****************************************************************************/
 
 CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id)
+{
+  if((id < 0) || (id >= (int)m_vectorCoreSubMorphTarget.size()))
+  {
+    return 0;
+  }
+
+  return m_vectorCoreSubMorphTarget[id];
+}
+
+ /*****************************************************************************/
+/** Provides access to a core sub morph target.
+  *
+  * This function returns the core sub morph target with the given ID.
+  *
+  * @param id The ID of the core sub morph target that should be returned.
+  *
+  * @return One of the following values:
+  *         \li a pointer to the core sub morph target
+  *         \li \b 0 if an error happened
+  *****************************************************************************/
+
+const CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id) const
 {
   if((id < 0) || (id >= (int)m_vectorCoreSubMorphTarget.size()))
   {
@@ -628,7 +767,7 @@ CalCoreSubMorphTarget *CalCoreSubmesh::getCoreSubMorphTarget(int id)
   * @return The number of core sub morph targets.
   *****************************************************************************/
 
-int CalCoreSubmesh::getCoreSubMorphTargetCount()
+int CalCoreSubmesh::getCoreSubMorphTargetCount() const
 {
   return m_vectorCoreSubMorphTarget.size();
 }
@@ -648,6 +787,20 @@ std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarge
 }
 
  /*****************************************************************************/
+/** Returns the core sub morph target vector.
+  *
+  * This function returns the vector that contains all core sub morph target
+  *  of the core submesh instance.
+  *
+  * @return A reference to the core sub morph target vector.
+  *****************************************************************************/
+
+const std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarget() const
+{
+  return m_vectorCoreSubMorphTarget;
+}
+
+ /*****************************************************************************/
 /** Scale the Submesh.
   *
   * This function rescale all the data that are in the core submesh instance.
@@ -655,7 +808,6 @@ std::vector<CalCoreSubMorphTarget *>& CalCoreSubmesh::getVectorCoreSubMorphTarge
   * @param factor A float with the scale factor
   *
   *****************************************************************************/
-
 
 void CalCoreSubmesh::scale(float factor)
 {
@@ -665,6 +817,22 @@ void CalCoreSubmesh::scale(float factor)
   {
     m_vectorVertex[vertexId].position*=factor;		
   }
+
+  //also scale any morph target vertices that may be present
+  for (size_t morphID = 0; morphID < m_vectorCoreSubMorphTarget.size(); morphID++)
+  {
+     std::vector<CalCoreSubMorphTarget::BlendVertex*> blendVertVec =
+        m_vectorCoreSubMorphTarget[morphID]->getVectorBlendVertex();
+
+     for (size_t vertID = 0; vertID < blendVertVec.size(); vertID++)
+     {
+        if (blendVertVec[vertID])
+        {
+           blendVertVec[vertID]->position *= factor;
+        }
+     }
+  }
+
 
   if(!m_vectorSpring.empty())
   {
