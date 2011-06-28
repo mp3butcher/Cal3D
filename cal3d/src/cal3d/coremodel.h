@@ -39,9 +39,8 @@ public:
 
   // animations
 
-  int getNumCoreAnimations();
+  int getNumCoreAnimations() const;
 
-  int getNumCoreAnimatedMorphs();
   int addCoreAnimation(CalCoreAnimation *pCoreAnimation);
   bool removeCoreAnimation( int id );
   CalCoreAnimation *getCoreAnimation(int coreAnimationId);
@@ -62,10 +61,17 @@ public:
   int addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph);
   CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId);
   const CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId) const;
-
+  int getCoreAnimatedMorphId(const std::string& strAnimatedMorphName) const;
+  int getNumCoreAnimatedMorphs() const;
   int getCoreMorphAnimationCount() const;
   int loadCoreAnimatedMorph(const std::string& strFilename);
+  int loadCoreAnimatedMorph(const std::string& strFilename, const std::string& strAnimatedMorphName);
+  int loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength);
+  int loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength, const std::string& strAnimatedMorphName);
+  int unloadCoreAnimatedMorph(const std::string& name);
+  int unloadCoreAnimatedMorph(int coreAnimatedMorphId);
   bool saveCoreAnimatedMorph(const std::string& strFilename, int coreAnimatedMorphId) const;
+  bool addAnimatedMorphName(const std::string& strAnimatedMorphName, int coreAnimatedMorphId);
 
   // materials
   int addCoreMaterial(CalCoreMaterial *pCoreMaterial);
@@ -131,6 +137,7 @@ private:
   std::map<int, std::map<int, int> >    m_mapmapCoreMaterialThread;
   Cal::UserData                         m_userData;
   std::map<std::string, int>            m_animationName;
+  std::map<std::string, int>            m_animatedMorphName;
   std::map<std::string, int>            m_materialName;
   std::map<std::string, int>            m_meshName;
   bool                                  m_coreMeshManagement;

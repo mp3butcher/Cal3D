@@ -79,48 +79,36 @@ CalCoreModel::~CalCoreModel()
 
 int 
 
-CalCoreModel::getNumCoreAnimations()
-
+CalCoreModel::getNumCoreAnimations() const
 {
-
   int num = m_vectorCoreAnimation.size();
 
   int r = 0;
 
-  int i;
-
-  for( i = 0; i < num; i++ ) {
-
-    if( m_vectorCoreAnimation[ i ] ) r++;
-
+  for(int i = 0; i < num; ++i)
+  {
+    if( m_vectorCoreAnimation[ i ] ) ++r;
   }
 
   return r;
-
 }
 
 
 
 int 
 
-CalCoreModel::getNumCoreAnimatedMorphs()
-
+CalCoreModel::getNumCoreAnimatedMorphs() const
 {
-
   int num = m_vectorCoreAnimatedMorph.size();
 
   int r = 0;
 
-  int i;
-
-  for( i = 0; i < num; i++ ) {
-
-    if( m_vectorCoreAnimatedMorph[ i ] ) r++;
-
+  for(int i = 0; i < num; ++i)
+  {
+    if( m_vectorCoreAnimatedMorph[ i ] ) ++r;
   }
 
   return r;
-
 }
 
 
@@ -137,21 +125,15 @@ CalCoreModel::getNumCoreAnimatedMorphs()
 
 int CalCoreModel::addCoreAnimation(CalCoreAnimation *pCoreAnimation)
 {
-
   int num = m_vectorCoreAnimation.size();
 
-  int i;
-
-  for( i = 0; i < num; i++ ) {
-
-    if( !m_vectorCoreAnimation[ i ] ) {
-
+  for(int i = 0; i < num; ++i)
+  {
+    if( !m_vectorCoreAnimation[ i ] )
+    {
       m_vectorCoreAnimation[ i ] = pCoreAnimation;
-
       return i;
-
     }
-
   }
 
   m_vectorCoreAnimation.push_back(pCoreAnimation);
@@ -228,31 +210,60 @@ int CalCoreModel::addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph)
 {
   int num = m_vectorCoreAnimatedMorph.size();
 
-  int i;
-
-  for( i = 0; i < num; i++ ) {
-
-    if( !m_vectorCoreAnimatedMorph[ i ] ) {
-
+  for(int i = 0; i < num; ++i)
+  {
+    if( !m_vectorCoreAnimatedMorph[ i ] )
+    {
       m_vectorCoreAnimatedMorph[ i ] = pCoreAnimatedMorph;
-
       return i;
-
     }
-
   }
 
   m_vectorCoreAnimatedMorph.push_back(pCoreAnimatedMorph);
-
   return num;
+}
 
+ /*****************************************************************************/
+/** Retrieves the ID of the animated morph referenced by a string
+  *
+  * This function returns an animated morph ID
+  *
+  * @param name A string that is associated with an anim morph ID number.
+  * @return Returns:
+  *         \li \b -1 if there is no anim morph ID associated with the input string
+  *         \li \b the ID number of the anim morph asssociated with the input string
+  *****************************************************************************/
+int CalCoreModel::getCoreAnimatedMorphId(const std::string& name) const
+{
+  if (m_animatedMorphName.count( name ) < 1)
+  {
+    return -1;
+  }
+
+  int id = -1;
+  std::map<std::string, int>::const_iterator i = m_animatedMorphName.find(name);
+  if (i != m_animatedMorphName.end())
+  {
+    id = (*i).second;
+  }
+  else
+  {
+    // if control flows here, entry does not exist in map,
+    // and therefore there has been an error
+    return -1;
+  }
+
+  if (getCoreAnimation(id) == NULL)
+  {
+    return -1;
+  }
+
+  return id;
 }
 
 
 bool CalCoreModel::removeCoreAnimatedMorph( int id )
-
 {
-
   int num = m_vectorCoreAnimatedMorph.size();
 
   if( id >= num || id < 0) return false;
@@ -262,7 +273,6 @@ bool CalCoreModel::removeCoreAnimatedMorph( int id )
   m_vectorCoreAnimatedMorph[ id ] = NULL;
 
   return true;
-
 }
 
 
@@ -281,12 +291,19 @@ bool CalCoreModel::removeCoreAnimatedMorph( int id )
 
 int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
 {
-  // get the id of the core material
-  int materialId = m_vectorCoreMaterial.size();
+  int num = m_vectorCoreMaterial.size();
+
+  for(int i = 0; i < num; ++i )
+  {
+     if( !m_vectorCoreMaterial[ i ] )
+     {
+        m_vectorCoreMaterial[ i ] = pCoreMaterial;
+        return i;
+     }
+  }
 
   m_vectorCoreMaterial.push_back(pCoreMaterial);
-
-  return materialId;
+  return num;
 }
 
 
@@ -321,10 +338,19 @@ void CalCoreModel::cloneCoreMaterials()
 
 int CalCoreModel::addCoreMesh(CalCoreMesh *pCoreMesh)
 {
-  // get the id of the core mesh
-  int meshId = m_vectorCoreMesh.size();
+  int num = m_vectorCoreMesh.size();
+
+  for(int i = 0; i < num; ++i )
+  {
+     if( !m_vectorCoreMesh[ i ] )
+     {
+        m_vectorCoreMesh[ i ] = pCoreMesh;
+        return i;
+     }
+  }
+
   m_vectorCoreMesh.push_back(pCoreMesh);
-  return meshId;
+  return num;
 }
 
  /*****************************************************************************/
@@ -497,6 +523,11 @@ const CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedM
    }
 
    return m_vectorCoreAnimatedMorph[coreAnimatedMorphId];
+}
+
+int CalCoreModel::getCoreMorphAnimationCount() const
+{
+   return int(m_vectorCoreAnimatedMorph.size());
 }
 
 
@@ -925,13 +956,13 @@ int CalCoreModel::loadCoreAnimation(void* buffer)
   *
   * @return One of the following values:
   *         \li the assigned \b ID of the loaded core animation
-  *         \li \b -1 if an error happend
+  *         \li \b -1 if an error happened
   *****************************************************************************/
 
 int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename)
 {
   // load a new core AnimatedMorph
-  CalCoreAnimatedMorph *pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorph(strFilename);
+  CalCoreAnimatedMorph* pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorph(strFilename);
   if(pCoreAnimatedMorph == 0) return -1;
 
   std::string name = strFilename;
@@ -949,6 +980,127 @@ int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename)
   }
 
   return animatedMorphId;
+}
+
+int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename, const std::string& name)
+{
+   int id = -1;
+   std::map<std::string, int>::iterator it = m_animatedMorphName.find(name);
+   if (it != m_animatedMorphName.end())
+   {
+      id=(*it).second;
+
+      if(m_vectorCoreAnimatedMorph[id])
+      {
+         CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+         return -1;
+      }
+
+      CalCoreAnimatedMorph* pCoreAnimMorph = CalLoader::loadCoreAnimatedMorph(strFilename);
+      if(!pCoreAnimMorph) return -1;
+      pCoreAnimMorph->setName(name);
+      m_vectorCoreAnimatedMorph[id] = pCoreAnimMorph;
+   }
+   else
+   {
+      id = loadCoreAnimatedMorph(strFilename);
+      if(id >= 0)
+         addAnimatedMorphName(name, id);
+   }
+
+   return id;
+}
+
+int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength)
+{
+   // load a new core animation
+   CalCoreAnimatedMorph* pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorphFromBuffer(buffer, bufferLength);
+   if (!pCoreAnimatedMorph) return -1;
+
+   // add core animation to this core model
+   int id = addCoreAnimatedMorph(pCoreAnimatedMorph);
+   if(id == -1)
+   {
+      return -1;
+   }
+
+   return id;
+}
+
+int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength,
+                                        const std::string& name)
+{
+   int id = -1;
+   std::map<std::string, int>::iterator it = m_animatedMorphName.find(name);
+   if (it != m_animatedMorphName.end())
+   {
+      id=(*it).second;
+
+      if(m_vectorCoreAnimatedMorph[id])
+      {
+         CalError::setLastError(CalError::INDEX_BUILD_FAILED, __FILE__, __LINE__);
+         return -1;
+      }
+
+      CalCoreAnimatedMorph* pCoreAnimMorph = CalLoader::loadCoreAnimatedMorphFromBuffer(buffer, bufferLength);
+      if(!pCoreAnimMorph) return -1;
+      pCoreAnimMorph->setName(name);
+      m_vectorCoreAnimatedMorph[id] = pCoreAnimMorph;
+   }
+   else
+   {
+      id = loadCoreAnimatedMorph(buffer, bufferLength);
+      if(id >= 0)
+         addAnimatedMorphName(name, id);
+   }
+
+   return id;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by the named core animated morph. The name must 
+  * be associated with a valid core animated morph Id with the function
+  * getAnimatedMorphId. The caller must ensure that the corresponding is not
+  * referenced anywhere otherwise unpredictable results will occur.
+  *
+  * @param name The symbolic name of the core animated morph to unload.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core animated morph
+  *         \li \b -1 if an error happened
+  *****************************************************************************/
+
+int CalCoreModel::unloadCoreAnimatedMorph(const std::string& name)
+{
+  int id = getCoreAnimatedMorphId(name);
+  if(id >= 0)
+    return unloadCoreAnimatedMorph(id);
+  else
+    return -1;
+}
+
+ /*****************************************************************************/
+/** Delete the resources used by a core animated orph. The caller must
+  * ensure that the corresponding is not referenced anywhere otherwise
+  * unpredictable results will occur.
+  *
+  * @param coreAnimatedMorphId The ID of the core animated morph that should be unloaded.
+  *
+  * @return One of the following values:
+  *         \li the core \b ID of the unloaded core animated morph
+  *         \li \b -1 if an error happened
+  *****************************************************************************/
+int CalCoreModel::unloadCoreAnimatedMorph(int coreAnimatedMorphId)
+{
+  if((coreAnimatedMorphId < 0) || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size()))
+  {
+    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+    return -1;
+  }
+
+  m_vectorCoreAnimatedMorph[coreAnimatedMorphId] = (CalCoreAnimatedMorph*)(0);
+
+  return coreAnimatedMorphId;
 }
 
 
@@ -1662,6 +1814,20 @@ bool CalCoreModel::addAnimationName(const std::string& strAnimationName, int cor
   m_vectorCoreAnimation[ coreAnimationId ]->setName(strAnimationName);
   m_animationName[ strAnimationName ] = coreAnimationId;
   return true;
+}
+
+bool CalCoreModel::addAnimatedMorphName(const std::string& strAnimatedMorphName, int coreAnimatedMorphId)
+{
+   // check if the core animation id is valid
+   if((coreAnimatedMorphId < 0) || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size()))
+   {
+      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+      return false;
+   }
+
+   m_vectorCoreAnimatedMorph[ coreAnimatedMorphId ]->setName(strAnimatedMorphName);
+   m_animatedMorphName[ strAnimatedMorphName ] = coreAnimatedMorphId;
+   return true;
 }
 
  /*****************************************************************************/
