@@ -1729,11 +1729,6 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
 
 void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
 {
-  if(pCoreSkeleton == 0)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return;
-  }
   m_pCoreSkeleton = pCoreSkeleton;  
 }
 
@@ -2072,23 +2067,26 @@ int CalCoreModel::getCoreMeshId(const std::string& strMeshName) const
 
 void CalCoreModel::scale(float factor)
 {
-  m_pCoreSkeleton->scale(factor);
+   if(m_pCoreSkeleton)
+   {
+      m_pCoreSkeleton->scale(factor);
 
-	unsigned int animationId;
-	for(animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
-	{
+      for(unsigned int animationId = 0; animationId < m_vectorCoreAnimation.size(); animationId++)
+      {
+         if( m_vectorCoreAnimation[animationId] )
+         {
+            m_vectorCoreAnimation[animationId]->scale(factor);
+         }
+      }
 
-    if( m_vectorCoreAnimation[animationId] ) {
-  		m_vectorCoreAnimation[animationId]->scale(factor);
-
-    }
-	}
-
-  for(size_t meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
-  {
-    m_vectorCoreMesh[meshId]->scale(factor);
-  }
-
+      for(size_t meshId = 0; meshId < m_vectorCoreMesh.size(); meshId++)
+      {
+         if(m_vectorCoreMesh[meshId])
+         {
+            m_vectorCoreMesh[meshId]->scale(factor);
+         }
+      }
+   }
 }
 
 //****************************************************************************//
