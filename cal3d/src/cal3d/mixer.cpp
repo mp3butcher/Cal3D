@@ -712,7 +712,8 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   m_listAnimationAction.push_front(pAnimationAction);
 
   // execute the animation
-  pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock);
+  if (!pAnimationAction->execute(delayIn, delayOut, weightTarget, autoLock))
+    return false;
   pAnimationAction->checkCallbacks(0, m_pModel);
   return true;
 }
