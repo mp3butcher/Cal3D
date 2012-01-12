@@ -33,6 +33,7 @@ CalAnimationAction::CalAnimationAction(CalCoreAnimation *pCoreAnimation)
 
   // For error checking, I initialize this here so you can't call execute on a manual action.
   m_manualOn = false;
+  m_sequencingMode = SequencingModeNull;
   m_scale = 1.0;
   if(pCoreAnimation == 0)
   {
