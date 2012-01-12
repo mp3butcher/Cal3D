@@ -685,7 +685,7 @@ int CalRenderer::getVertColorsAsStandardPixels( unsigned int *pVertexBuffer)
   {
     // get the vertex
     CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
-//#ifdef    WIN32
+#ifdef    CAL3D_LITTLE_ENDIAN
 
     // Win32 StandardPixels are ARGB8 with low byte first, which means BGRA byte order.
     * pVertexBuffer =
@@ -693,10 +693,14 @@ int CalRenderer::getVertColorsAsStandardPixels( unsigned int *pVertexBuffer)
       + ( ( ( unsigned int ) ( vertex.vertexColor.y * 0xff ) ) << 8 )
       + ( ( ( unsigned int ) ( vertex.vertexColor.x * 0xff ) ) << 16 )
       + 0xff000000;
+#else
+    * pVertexBuffer =
+      ( ( ( unsigned int ) ( vertex.vertexColor.z * 0xff ) ) << 24 )
+      + ( ( ( unsigned int ) ( vertex.vertexColor.y * 0xff ) ) << 16 )
+      + ( ( ( unsigned int ) ( vertex.vertexColor.x * 0xff ) ) << 8 )
+      + 0x000000ff;
+#endif
     pVertexBuffer++;
-//#else
-//    unimplemented();
-//#endif
   }
   return vertexCount;
 }
