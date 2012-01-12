@@ -95,6 +95,17 @@ ConvertToString<long>(long const & d )
   return buffer;
 }
 
+#ifdef WIN64
+template<>
+char const *
+ConvertToString<unsigned __int64>( unsigned __int64 const & d )
+{
+  static char buffer[2048];
+  sprintf(buffer, "%I64u", d);
+  return buffer;
+}
+#endif
+
 template<>
 char const *
 ConvertToString<char const*>( char const * const & s )
