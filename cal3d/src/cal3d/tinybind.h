@@ -311,6 +311,13 @@ template<class T, class MT>
   virtual bool isAttributeMember() { return false; }
 };
 
+template<class T>
+char const *
+ConvertToString( T const & t );
+
+template<class T>
+void
+ConvertFromString( char const * strIn, T * dataOut );
 
 template<class T, class MT>
   class FromXmlAttribute  : public IMemberHolder<T>
@@ -586,14 +593,6 @@ class MemberTiXmlBinding : public TiXmlBinding<T>
     return true;
   }
 };
-
-template<class T>
-char const *
-ConvertToString( T const & t );
-
-template<class T>
-void
-ConvertFromString( char const * strIn, T * dataOut );
 
 
 template<class T>
