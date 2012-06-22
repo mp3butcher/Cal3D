@@ -44,11 +44,12 @@ CalBone::CalBone(CalCoreBone *coreBone)
   * @param scale Optional scale from 0-1 applies to transformation directly without affecting weights.
   * @param replace If true, subsequent animations will have their weight attenuated by 1 - rampValue.
   * @param rampValue Amount to attenuate weight when ramping in/out the animation.
+  * @param absoluteTranslation If true, use the translation as absolute, otherwise add it to the current bone translation as relative.
   *****************************************************************************/
 
 void CalBone::blendState(float unrampedWeight, const CalVector& translation, 
                          const CalQuaternion& rotation, float scale,
-                         bool replace, float rampValue )
+                         bool replace, float rampValue, bool absoluteTranslation )
 {
 
   // Attenuate the weight by the accumulated replacement attenuation.  Each applied
@@ -79,7 +80,7 @@ void CalBone::blendState(float unrampedWeight, const CalVector& translation,
     // to be blended onto a pose.  If we scale the first state, the skeleton will look like
     // a crumpled spider.
     m_accumulatedWeightAbsolute = attenuatedWeight;
-    m_translationAbsolute = translation;
+    m_translationAbsolute = absoluteTranslation ? translation : m_translation + translation;
     m_rotationAbsolute = rotation;
 
     // I would like to scale this blend, but I cannot since it is the initial pose.  Thus I
@@ -151,7 +152,8 @@ void CalBone::blendState(float unrampedWeight, const CalVector& translation,
     //
     assert( factor <= 1.0f );
     factor = 1.0f - m_firstBlendScale * ( 1.0f - factor );
-    m_translationAbsolute.blend(factor, translation);
+    CalVector newTrans(absoluteTranslation ? translation : m_translation + translation);
+    m_translationAbsolute.blend(factor, newTrans);
     m_rotationAbsolute.blend(factor, rotation);
     m_accumulatedWeightAbsolute += attenuatedWeight;
     m_firstBlendScale = 1.0;
@@ -372,6 +374,19 @@ const CalCoreBone *CalBone::getCoreBone() const
 }
 
  /*****************************************************************************/
+/** Resets the bone transform state variables for rotation and translation.
+  *
+  * This function changes the state of the bone to its default non-animated
+  * position and orientation. Child bones are unaffected and may be animated
+  * independently. 
+  *****************************************************************************/
+void CalBone::setCoreTransformStateVariables()
+{
+   m_translation = m_pCoreBone->getTranslation();
+   m_rotation = m_pCoreBone->getRotation();
+}
+
+ /*****************************************************************************/
 /** Resets the bone to its core state
   *
   * This function changes the state of the bone to its default non-animated
@@ -382,8 +397,7 @@ const CalCoreBone *CalBone::getCoreBone() const
 void CalBone::setCoreState()
 {
    // set the bone to the initial skeleton state
-   m_translation = m_pCoreBone->getTranslation();
-   m_rotation = m_pCoreBone->getRotation();
+   setCoreTransformStateVariables();
 
    // set the appropriate weights
    m_accumulatedWeightAbsolute = 1.0f;

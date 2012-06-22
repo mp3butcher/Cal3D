@@ -713,6 +713,8 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
 {
   std::stringstream str;
 
+  int version = -1;
+
   const std::string strFilename = "";
   cal3d::TiXmlNode* node;
 
@@ -736,7 +738,8 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         return 0;
      }    
 
-     if(atoi(firstChild->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
+     version = atoi(firstChild->Attribute("VERSION"));
+     if(version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
      {
         CalError::setLastError(CalError::INCOMPATIBLE_FILE_VERSION, __FILE__, __LINE__, strFilename);
         return 0;
@@ -756,6 +759,13 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return 0;
   }  
+
+  // Get the version specified on the animation.
+  const char* versionValue = animation->Attribute("VERSION");
+  if(versionValue != NULL)
+  {
+     version = atoi(versionValue);
+  }
 
   int trackCount= atoi(animation->Attribute("NUMTRACKS"));
   float duration= (float) atof(animation->Attribute("DURATION"));
@@ -851,6 +861,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       // I first fill the translation with zero.
       // Then if I have a skeleton, I fill it with the values from the skeleton.
       // Then if I have an XML translation entry, I fill it with the value from that entry.
+      bool translationInitialized = false;
       cal3d::TiXmlElement * translation = keyframe->FirstChildElement();
       cal3d::TiXmlElement * rotation = translation;
       float tx, ty, tz;
@@ -861,6 +872,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         tx = cbtrans.x;
         ty = cbtrans.y;
         tz = cbtrans.z;
+        translationInitialized = true;
       }
 
       // If translation is required but not dynamic, then I may elide the translation
@@ -871,16 +883,26 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         tx = vec.x;
         ty = vec.y;
         tz = vec.z;
+        translationInitialized = true;
       }
 
-      if(!translation )
+      if(!translation || stricmp(translation->Value(),"TRANSLATION") !=0)
       {
-        CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-        pCoreTrack->destroy();
-        delete pCoreTrack;
-        return 0;
+         if(version < Cal::FIRST_FILE_VERSION_WITH_RELATIVE_BONE_TRANSLATION)
+         {
+           CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+           pCoreTrack->destroy();
+           delete pCoreTrack;
+           return 0;
+         }
+         else if(!translationInitialized)
+         {
+            tx = 0.0f;
+            ty = 0.0f;
+            tz = 0.0f;
+         }
       }
-      if( stricmp(translation->Value(),"TRANSLATION") ==0) {
+      if(translation && stricmp(translation->Value(),"TRANSLATION") ==0) {
         node = translation->FirstChild();
         if(!node)
         {

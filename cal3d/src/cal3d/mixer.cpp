@@ -907,7 +907,7 @@ CalMixer::applyBoneAdjustments()
          bo->blendState( unrampedWeight, 
             adjustedLocalPos,
             adjustedLocalOri, 
-            scale, replace, rampValue );
+            scale, replace, rampValue, true );
       }
    }
 }
@@ -978,15 +978,23 @@ CalMixer::numActiveOneShotAnimations()
 void CalMixer::updateSkeleton()
 {
   // get the skeleton we need to update
-  CalSkeleton *pSkeleton;
-  pSkeleton = m_pModel->getSkeleton();
+  CalSkeleton* pSkeleton = m_pModel->getSkeleton();
   if(pSkeleton == 0) return;
 
   // clear the skeleton state
   pSkeleton->clearState();
 
   // get the bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
+  typedef std::vector<CalBone *> BoneList;
+  BoneList& vectorBone = pSkeleton->getVectorBone();
+
+  // For each bone, reset the transform-related variables to the core (bind pose) bone position and orientation.
+  BoneList::iterator curIter = vectorBone.begin();
+  BoneList::iterator endIter = vectorBone.end();
+  for( ; curIter != endIter; ++curIter)
+  {
+     (*curIter)->setCoreTransformStateVariables();
+  }
 
   // The bone adjustments are "replace" so they have to go first, giving them
   // highest priority and full influence.  Subsequent animations affecting the same bones, 
@@ -994,39 +1002,41 @@ void CalMixer::updateSkeleton()
   applyBoneAdjustments();
 
   // loop through all animation actions
+  CalAnimationAction* pAction = NULL;
   std::list<CalAnimationAction *>::iterator iteratorAnimationAction;
   for(iteratorAnimationAction = m_listAnimationAction.begin(); iteratorAnimationAction != m_listAnimationAction.end(); ++iteratorAnimationAction)
   {
-    if ((*iteratorAnimationAction)->on())
+    pAction = *iteratorAnimationAction;
+    if (pAction->on())
     {
       // get the core animation instance
-      CalCoreAnimation *pCoreAnimation;
-      pCoreAnimation = (*iteratorAnimationAction)->getCoreAnimation();
+      CalCoreAnimation* pCoreAnimation = pAction->getCoreAnimation();
 
       // get the list of core tracks of above core animation
       std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
       // loop through all core tracks of the core animation
+      CalCoreTrack* pTrack = NULL;
       std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
       for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
       {
+        pTrack = *iteratorCoreTrack;
+
         // get the appropriate bone of the track
-        CalBone *pBone;
-        pBone = vectorBone[(*iteratorCoreTrack)->getCoreBoneId()];
+        CalBone* pBone = vectorBone[pTrack->getCoreBoneId()];
 
         // get the current translation and rotation
         CalVector translation;
         CalQuaternion rotation;
-        (*iteratorCoreTrack)->getState((*iteratorAnimationAction)->getTime(), translation, rotation);
+        pTrack->getState(pAction->getTime(), translation, rotation);
 
         // Replace and CrossFade both blend with the replace function.
-        CalAnimation::CompositionFunction compFunc = (*iteratorAnimationAction)->getCompositionFunction();
+        CalAnimation::CompositionFunction compFunc = pAction->getCompositionFunction();
         bool replace = compFunc != CalAnimation::CompositionFunctionAverage && compFunc != CalAnimation::CompositionFunctionNull;
-        float scale = (*iteratorAnimationAction)->getScale();
-        pBone->blendState( (*iteratorAnimationAction)->getWeight(), translation, rotation, scale, replace, (*iteratorAnimationAction)->getRampValue() );
+        float scale = pAction->getScale();
 
-        // blend the bone state with the new state
-        //pBone->blendState((*iteratorAnimationAction)->getWeight(), translation, rotation);
+        bool absoluteTrans = pTrack->getTranslationRequired();
+        pBone->blendState( pAction->getWeight(), translation, rotation, scale, replace, pAction->getRampValue(), absoluteTrans );
       }
     }
   }
@@ -1035,16 +1045,18 @@ void CalMixer::updateSkeleton()
   pSkeleton->lockState();
 
   // loop through all animation cycles
+  CalAnimationCycle* pAnimCycle = NULL;
   std::list<CalAnimationCycle *>::iterator iteratorAnimationCycle;
   for(iteratorAnimationCycle = m_listAnimationCycle.begin(); iteratorAnimationCycle != m_listAnimationCycle.end(); ++iteratorAnimationCycle)
   {
+    pAnimCycle = *iteratorAnimationCycle;
+
     // get the core animation instance
-    CalCoreAnimation *pCoreAnimation;
-    pCoreAnimation = (*iteratorAnimationCycle)->getCoreAnimation();
+    CalCoreAnimation* pCoreAnimation = pAnimCycle->getCoreAnimation();
 
     // calculate adjusted time
     float animationTime;
-    if((*iteratorAnimationCycle)->getState() == CalAnimation::STATE_SYNC)
+    if(pAnimCycle->getState() == CalAnimation::STATE_SYNC)
     {
       if(m_animationDuration == 0.0f)
       {
@@ -1057,27 +1069,30 @@ void CalMixer::updateSkeleton()
     }
     else
     {
-      animationTime = (*iteratorAnimationCycle)->getTime();
+      animationTime = pAnimCycle->getTime();
     }
 
     // get the list of core tracks of above core animation
     std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
     // loop through all core tracks of the core animation
+    CalCoreTrack* pTrack = NULL;
     std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
     for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
     {
+      pTrack = *iteratorCoreTrack;
+
       // get the appropriate bone of the track
-      CalBone *pBone;
-      pBone = vectorBone[(*iteratorCoreTrack)->getCoreBoneId()];
+      CalBone *pBone = vectorBone[pTrack->getCoreBoneId()];
 
       // get the current translation and rotation
       CalVector translation;
       CalQuaternion rotation;
-      (*iteratorCoreTrack)->getState(animationTime, translation, rotation);
+      pTrack->getState(animationTime, translation, rotation);
 
       // blend the bone state with the new state
-      pBone->blendState((*iteratorAnimationCycle)->getWeight(), translation, rotation);
+      bool absoluteTrans = pTrack->getTranslationRequired();
+      pBone->blendState(pAnimCycle->getWeight(), translation, rotation, 1.0f, false, 1.0f, absoluteTrans);
     }
   }
 

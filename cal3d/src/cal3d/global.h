@@ -68,6 +68,7 @@ namespace cal3d
   const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 1300;
   const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 1300;
   const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 1300;
+  const int FIRST_FILE_VERSION_WITH_RELATIVE_BONE_TRANSLATION = 1300;
 
   inline bool versionHasCompressionFlag(int version) {
     return version >= 1300;

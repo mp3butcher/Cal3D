@@ -33,11 +33,13 @@ public:
 
   void blendState(float unrampedWeight, const CalVector& translation, 
     const CalQuaternion & rotation, float scale = 1.0f,
-    bool replace = false, float rampValue = 1.0f );
+    bool replace = false, float rampValue = 1.0f,
+    bool absoluteTranslation = true);
   void calculateState();
   void clearState();
   CalCoreBone *getCoreBone();
   const CalCoreBone *getCoreBone() const;
+  void setCoreTransformStateVariables();
   void setCoreState();
   void setCoreStateRecursive();
   void setRotation(const CalQuaternion& rotation);

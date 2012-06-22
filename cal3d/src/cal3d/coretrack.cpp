@@ -34,6 +34,9 @@ int CalCoreTrack::m_translationNotRequiredCount = 0;
 
 CalCoreTrack::CalCoreTrack()
   : m_coreBoneId(-1)
+  , m_translationRequired(true)
+  , m_highRangeRequired(true)
+  , m_translationIsDynamic(true)
 {
 }
 
