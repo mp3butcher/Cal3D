@@ -92,16 +92,16 @@ LRESULT CAnimationTimePage::EndPage()
 	CString strValue;
 
 	m_startFrameEdit.GetWindowText(strValue);
-	m_startFrame = atoi(strValue);
+	m_startFrame = _ttoi(strValue);
 
 	m_endFrameEdit.GetWindowText(strValue);
-	m_endFrame = atoi(strValue);
+	m_endFrame = _ttoi(strValue);
 
 	m_displacementEdit.GetWindowText(strValue);
-	m_displacement = atoi(strValue);
+	m_displacement = _ttoi(strValue);
 
 	m_fpsEdit.GetWindowText(strValue);
-	m_fps = atoi(strValue);
+	m_fps = _ttoi(strValue);
 
 	return 0;
 }
@@ -167,18 +167,18 @@ BOOL CAnimationTimePage::OnInitDialog()
 	m_descriptionStatic.SetWindowText(str);
 
 	// set the time values
-	CString strValue;
+	TSTR strValue;
 
-	strValue.Format("%d", m_startFrame);
+	strValue.printf(_T("%d"), m_startFrame);
 	m_startFrameEdit.SetWindowText(strValue);
 
-	strValue.Format("%d", m_endFrame);
+	strValue.printf(_T("%d"), m_endFrame);
 	m_endFrameEdit.SetWindowText(strValue);
 
-	strValue.Format("%d", m_displacement);
+	strValue.printf(_T("%d"), m_displacement);
 	m_displacementEdit.SetWindowText(strValue);
 
-	strValue.Format("%d", m_fps);
+	strValue.printf(_T("%d"), m_fps);
 	m_fpsEdit.SetWindowText(strValue);
 
 	return TRUE;
@@ -263,7 +263,7 @@ void CAnimationTimePage::SetStep(int index, int total)
 	m_stepIndex = index;
 	m_stepTotal = total;
 
-	m_strStep.Format("Step %d of %d", m_stepIndex, m_stepTotal);
+	m_strStep.printf(_T("Step %d of %d"), m_stepIndex, m_stepTotal);
 }
 
 //----------------------------------------------------------------------------//

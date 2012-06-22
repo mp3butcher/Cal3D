@@ -126,7 +126,7 @@ std::string CMaxNode::GetName()
 	// check if the internal node is valid
 	if(m_pINode == 0) return "<void>";
 
-	return m_pINode->GetName();
+	return ToStdStr(m_pINode->GetName());
 }
 
 //----------------------------------------------------------------------------//

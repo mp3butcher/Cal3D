@@ -15,10 +15,10 @@ class AnimExportParams
 {
 	AnimExportParams();
 public:
-	AnimExportParams(const char* _skeletonfilepath, INodeTab& _tabbones, int startframe, int endframe, int frameoffset, int framerate);
+	AnimExportParams(const TCHAR* _skeletonfilepath, INodeTab& _tabbones, int startframe, int endframe, int frameoffset, int framerate);
 	~AnimExportParams();
 	
-	char*		m_skeletonfilepath;
+	TSTR		m_skeletonfilepath;
 	int			m_startframe;
 	int			m_endframe;
 	int			m_frameoffset;

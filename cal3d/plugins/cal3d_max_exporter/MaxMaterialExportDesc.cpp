@@ -16,12 +16,23 @@
 #include "MaxMaterialExportDesc.h"
 #include "MaxMaterialExport.h"
 
-#include "Maxscrpt\Maxscrpt.h"
-#include "maxscrpt\Strings.h"
-#include "maxscrpt\arrays.h"
-#include "maxscrpt\numbers.h"
-#include "maxscrpt\MaxMats.h"
-#include "maxscrpt\definsfn.h"
+#ifdef MAX_RELEASE_R13 // Max 2011 and up
+#include "maxscript/maxscript.h"
+#include "maxscript/foundation/strings.h"
+#include "maxscript/foundation/arrays.h"
+#include "maxscript/foundation/numbers.h"
+#include "maxscript/maxwrapper/mxsmaterial.h"
+#include "maxscript/macros/define_instantiation_functions.h"
+#else
+#include "maxscrpt/maxscrpt.h"
+#include "maxscrpt/Strings.h"
+#include "maxscrpt/arrays.h"
+#include "maxscrpt/numbers.h"
+#include "maxscrpt/MaxMats.h"
+#include "maxscrpt/definsfn.h"
+#endif
+
+#include <stdmat.h>
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -92,7 +103,7 @@ SClass_ID CMaxMaterialExportDesc::SuperClassID()
 	return SCENE_EXPORT_CLASS_ID;
 }
 
-char * CMaxMaterialExportDesc::GetRsrcString(long n)
+const TCHAR* CMaxMaterialExportDesc::GetRsrcString(long n)
 {
 	return NULL;
 }
@@ -104,18 +115,18 @@ def_visible_primitive( ExportCalMat,	"ExportCalMat" );
 Value* ExportCalMat_cf(Value** arg_list, int count)
 {	
 	int i = 0;
-	char* fullpathfilename;
+	TSTR fullpathfilename;
 
 	check_arg_count(ExportCalMat, 2, count);
-	type_check(arg_list[0], String, "[The first argument of ExportCalMat should be a string]");
-	type_check(arg_list[1], MAXMaterial , "[The 2nd argument of ExportCalMat should be a standard material]");
+	type_check(arg_list[0], String, _T("[The first argument of ExportCalMat should be a string]"));
+	type_check(arg_list[1], MAXMaterial , _T("[The 2nd argument of ExportCalMat should be a standard material]"));
 	
 	try
 	{
-		fullpathfilename		= arg_list[0]->to_string();
+		fullpathfilename = arg_list[0]->to_string();
 		StdMat* stdmat;
 
-		if (! strcmp(fullpathfilename,"")) return new Integer(1);
+		if (fullpathfilename.Length() == 0) return new Integer(1);
 
 		//Get material
 		Value* val;

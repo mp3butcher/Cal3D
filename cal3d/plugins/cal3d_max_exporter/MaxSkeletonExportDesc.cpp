@@ -18,15 +18,23 @@
 
 // initialize variables to hold names used as keyword parameters
 
-#include "Maxscrpt\Maxscrpt.h"
-#include "maxscrpt\Strings.h"
-#include "maxscrpt\arrays.h"
-#include "maxscrpt\numbers.h"
-#include "maxscrpt\maxobj.h"
+#ifdef MAX_RELEASE_R13 // Max 2011 and up
+#include "maxscript/maxscript.h"
+#include "maxscript/foundation/strings.h"
+#include "maxscript/foundation/arrays.h"
+#include "maxscript/foundation/numbers.h"
+#include "maxscript/maxwrapper/mxsobjects.h"
+#include "maxscript/macros/define_instantiation_functions.h"
+#else
+#include "maxscrpt/maxscrpt.h"
+#include "maxscrpt/Strings.h"
+#include "maxscrpt/arrays.h"
+#include "maxscrpt/numbers.h"
+#include "maxscrpt/maxobj.h"
+#include "maxscrpt/definsfn.h"
+#endif
 
 #include "exporter.h"
-
-#include "maxscrpt\definsfn.h"
 
 //----------------------------------------------------------------------------//
 // Constructors                                                               //
@@ -98,7 +106,7 @@ SClass_ID CMaxSkeletonExportDesc::SuperClassID()
 	return SCENE_EXPORT_CLASS_ID;
 }
 
-char * CMaxSkeletonExportDesc::GetRsrcString(long n)
+const TCHAR* CMaxSkeletonExportDesc::GetRsrcString(long n)
 {
 	return NULL;
 }
@@ -113,7 +121,7 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 {	
 	int			i;
 	INodeTab	tabnode;
-	char*		fullpathfilename;
+	TSTR	fullpathfilename;
 	int			ArraySize		;
 	bool		bShowUI			;
   bool bUseAxisGL=false; 
@@ -121,16 +129,16 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
   // Cedric Pinson, now we can export in gl coordinates
 	check_arg_count_with_keys(ExportCalSkel, 3, count);
 	Value* transform= key_arg_or_default(transform, &false_value);
-	type_check(transform, Boolean, "[The axisGL argument of ExportCalSkel should be a boolean that is true if you want to export in openGL axis]");
+	type_check(transform, Boolean, _T("[The axisGL argument of ExportCalSkel should be a boolean that is true if you want to export in openGL axis]"));
 
-	type_check(arg_list[0], String, "[The first argument of ExportCalSkel should be a string that is a full path name of the file to export]");
-	type_check(arg_list[1], Array , "[The 2nd argument of ExportCalSkel should be an array of nodes]");
-	type_check(arg_list[2], Boolean,"[The 3rd argument of ExportCalSkel should be a boolean that tells if you want to use the UI or not to select nodes of skeleton]");
+	type_check(arg_list[0], String, _T("[The first argument of ExportCalSkel should be a string that is a full path name of the file to export]"));
+	type_check(arg_list[1], Array , _T("[The 2nd argument of ExportCalSkel should be an array of nodes]"));
+	type_check(arg_list[2], Boolean,_T("[The 3rd argument of ExportCalSkel should be a boolean that tells if you want to use the UI or not to select nodes of skeleton]"));
 	
 	try
 	{
 		fullpathfilename	= arg_list[0]->to_string();
-    bUseAxisGL       = (transform->to_bool() != 0);
+		bUseAxisGL       = (transform->to_bool() != 0);
 
 		//Get Array
 		Array* BonesArray	= static_cast<Array*>(arg_list[1]);
@@ -138,7 +146,7 @@ Value* ExportCalSkel_cf(Value** arg_list, int count)
 
 		bShowUI				= !!(arg_list[2]->to_bool());
 
-		if (! strcmp(fullpathfilename,"")) return new Integer (1);
+		if (fullpathfilename == 0) return new Integer (1);
 		if (! ArraySize)		return new Integer (2);
  
 		for (i=0;i<ArraySize;i++)

@@ -17,6 +17,7 @@
 #include "SkeletonCandidate.h"
 #include "BoneCandidate.h"
 #include "BaseNode.h"
+#include "Exporter.h"
 
 //----------------------------------------------------------------------------//
 // Message mapping                                                            //
@@ -162,9 +163,11 @@ void CSkeletonHierarchyPage::InsertBoneCandidate(int boneCandidateId, HTREEITEM 
 	CBoneCandidate *pBoneCandidate = vectorBoneCandidate[boneCandidateId];
 
 	// insert bone candidate into the tree control
+	TSTR nodeName(ToTStr(pBoneCandidate->GetNode()->GetName()));
+
 	HTREEITEM hItem = m_hierarchyCtrl.InsertItem(
                 TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_STATE,
-		pBoneCandidate->GetNode()->GetName().c_str(),
+		nodeName,
 		pBoneCandidate->GetNode()->GetType(), pBoneCandidate->GetNode()->GetType(),
 		TVIS_EXPANDED | INDEXTOSTATEIMAGEMASK(pBoneCandidate->IsSelected() ? 2 : 1), TVIS_EXPANDED | TVIS_STATEIMAGEMASK,
 		pBoneCandidate->GetId(),
@@ -289,7 +292,7 @@ void CSkeletonHierarchyPage::SetStep(int index, int total)
 	m_stepIndex = index;
 	m_stepTotal = total;
 
-	m_strStep.Format("Step %d of %d", index, total);
+	m_strStep.printf(_T("Step %d of %d"), index, total);
 }
 
 //----------------------------------------------------------------------------//

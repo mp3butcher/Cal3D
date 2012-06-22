@@ -26,9 +26,9 @@ public:
 
 // member functions
 public:
-  CString GetFilename();
-  void SetFilename(CString& strFilename);
-  void SetName(CString& strName);
+  TSTR GetFilename();
+  void SetFilename(TSTR& strFilename);
+  void SetName(TSTR& strName);
 
 // MSVC++ stuff
 	//{{AFX_DATA(CMaterialMapDialog)

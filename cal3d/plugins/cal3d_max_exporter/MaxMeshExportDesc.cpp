@@ -16,14 +16,22 @@
 #include "MaxMeshExportDesc.h"
 #include "MaxMeshExport.h"
 
-#include "Maxscrpt\Maxscrpt.h"
-#include "maxscrpt\Strings.h"
-#include "maxscrpt\numbers.h"
-#include "maxscrpt\Maxobj.h"
-#include "maxscrpt\definsfn.h"
-#include "maxscrpt\MAXclses.h"
-#include "maxscrpt\MAXObj.h"
-#include "maxscrpt\Parser.h"
+#ifdef MAX_RELEASE_R13 // Max 2011 and up
+#include "maxscript/maxscript.h"
+#include "maxscript/foundation/strings.h"
+#include "maxscript/foundation/numbers.h"
+#include "maxscript/macros/define_instantiation_functions.h"
+#include "maxscript/maxwrapper/mxsobjects.h"
+#include "maxscript/maxwrapper/maxclasses.h"
+#include "maxscript/compiler/parser.h"
+#else
+#include "maxscrpt/maxscrpt.h"
+#include "maxscrpt/Strings.h"
+#include "maxscrpt/numbers.h"
+#include "maxscrpt/Maxobj.h"
+#include "maxscrpt/definsfn.h"
+#include "maxscrpt/Parser.h"
+#endif
 
 #include "exporter.h"
 
@@ -97,7 +105,7 @@ SClass_ID CMaxMeshExportDesc::SuperClassID()
 }
 
 
-char * CMaxMeshExportDesc::GetRsrcString(long n)
+const TCHAR* CMaxMeshExportDesc::GetRsrcString(long n)
 {
 	return NULL;
 }
@@ -110,8 +118,8 @@ char * CMaxMeshExportDesc::GetRsrcString(long n)
 def_visible_primitive( ExportCalMesh,	"ExportCalMesh" );
 Value* ExportCalMesh_cf(Value** arg_list, int count)
 {	
-	char*	Filefullpathfilename		;
-	char*	Skeletonfullpathfilename	;
+	TSTR	Filefullpathfilename	;
+	TSTR	Skeletonfullpathfilename;
 	int		MaxNumOfBones				;
 	float	WeightThreshold				;
 	int		bUseLODCreation				;
@@ -123,15 +131,15 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
   // Cedric Pinson, now we can export in gl coordinates
 	check_arg_count_with_keys(ExportCalMesh, 7, count);
 	Value* transform= key_arg_or_default(transform, &false_value);
-	type_check(transform, Boolean, "[The axisGL argument of ExportCalMesh should be a boolean that is true if you want to export in openGL axis]");
+	type_check(transform, Boolean, _T("[The axisGL argument of ExportCalMesh should be a boolean that is true if you want to export in openGL axis]"));
 
-  type_check(arg_list[0], String		, "[The first argument of ExportCalMesh should be a string that is a full path name of the file to export]");
-	type_check(arg_list[1], String		, "[The 2nd argument of ExportCalMesh should be a string that is the fullpath name of the skeleton file]");
-	type_check(arg_list[2], MAXNode		, "[The 3rd argument of ExportCalMesh should be an mesh node that is the mesh to be exported]");
-	type_check(arg_list[3], Integer		, "[The 3rd argument of ExportCalMesh should be an integer that is the maximum number of bones per vertex]");
-	type_check(arg_list[4], Float		, "[The 4th argument of ExportCalMesh should be a float that is the weight threshold]");
-	type_check(arg_list[5], Boolean		, "[The 5th argument of ExportCalMesh should be a boolean that is true if you want LOD creation]");
-	type_check(arg_list[6], Boolean		, "[The 6th argument of ExportCalMesh should be a boolean that is true if you want to use spring system]");
+  type_check(arg_list[0], String		, _T("[The first argument of ExportCalMesh should be a string that is a full path name of the file to export]"));
+	type_check(arg_list[1], String		, _T("[The 2nd argument of ExportCalMesh should be a string that is the fullpath name of the skeleton file]"));
+	type_check(arg_list[2], MAXNode		, _T("[The 3rd argument of ExportCalMesh should be an mesh node that is the mesh to be exported]"));
+	type_check(arg_list[3], Integer		, _T("[The 3rd argument of ExportCalMesh should be an integer that is the maximum number of bones per vertex]"));
+	type_check(arg_list[4], Float		, _T("[The 4th argument of ExportCalMesh should be a float that is the weight threshold]"));
+	type_check(arg_list[5], Boolean		, _T("[The 5th argument of ExportCalMesh should be a boolean that is true if you want LOD creation]"));
+	type_check(arg_list[6], Boolean		, _T("[The 6th argument of ExportCalMesh should be a boolean that is true if you want to use spring system]"));
 	
 	try
 	{
@@ -145,12 +153,12 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
     bUseAxisGL       = (transform->to_bool() != 0);
 
 
-		if (! strcmp(Filefullpathfilename,"")) return new Integer(1);
-		if (! strcmp(Skeletonfullpathfilename,"")) return new Integer(2);
+		if (Filefullpathfilename.Length() == 0) return new Integer(1);
+		if (Skeletonfullpathfilename.Length() == 0) return new Integer(2);
 
 		//Does skeleton file exist ? 
-		FILE* _stream;
-		_stream = fopen(Skeletonfullpathfilename,"r");
+		FILE* _stream = NULL;
+		_tfopen_s(&_stream, Skeletonfullpathfilename.data(),_T("r"));
 		if (! _stream)return new Integer(3); //Error code number 3
 		fclose(_stream);
 
@@ -165,10 +173,11 @@ Value* ExportCalMesh_cf(Value** arg_list, int count)
 		if (! obj->CanConvertToType(Class_ID(TRIOBJ_CLASS_ID, 0))) return new Integer (7); //Not a Mesh
 				
 		//Create the parameter structure to be sent to the function ExportMeshFromMaxscriptCall
-		MeshMaxscriptExportParams	param ( MeshNode, Skeletonfullpathfilename,	MaxNumOfBones, WeightThreshold,bUseLODCreation,bUseSpringsystem);
+		MeshMaxscriptExportParams	param ( MeshNode, Skeletonfullpathfilename.data(),	MaxNumOfBones, WeightThreshold,bUseLODCreation,bUseSpringsystem);
 
     theExporter.SetAxisGL(bUseAxisGL); // set axis wanted
-    if ( CMaxMeshExport::ExportMeshFromMaxscriptCall(Filefullpathfilename, param) ) {
+	TSTR fullFilePath(Filefullpathfilename);
+    if ( CMaxMeshExport::ExportMeshFromMaxscriptCall(fullFilePath, param) ) {
       // reset to default
       theExporter.SetAxisGL(false);
 			return new Integer(0);

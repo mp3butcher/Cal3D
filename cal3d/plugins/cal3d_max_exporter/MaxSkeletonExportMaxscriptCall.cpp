@@ -82,7 +82,7 @@ bool CMaxInterface::ExportSkeletonFromMaxscriptCall(const std::string& strFilena
 	if (bShowUI)
 	{
 		// show export wizard sheet
-		CSkeletonExportSheet sheet("Cal3D Skeleton Export", GetMainWnd());
+		CSkeletonExportSheet sheet(_T("Cal3D Skeleton Export"), GetMainWnd());
 		sheet.SetSkeletonCandidate(&skeletonCandidate);
 		sheet.SetWizardMode();
 		if(sheet.DoModal() != ID_WIZFINISH) return true;

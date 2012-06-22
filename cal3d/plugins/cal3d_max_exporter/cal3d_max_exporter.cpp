@@ -47,7 +47,7 @@ __declspec(dllexport) ClassDesc *LibClassDesc(int id)
 
 __declspec(dllexport) const TCHAR *LibDescription()
 {
-	return "Cal3D Exporter";
+	return _T("Cal3D Exporter");
 }
 
 __declspec(dllexport) int LibNumberClasses()
@@ -136,7 +136,9 @@ BOOL CMaxExporterApp::InitInstance()
 	if(!bInitialized)
 	{
 		DisableThreadLibraryCalls(m_hInstance);
+#ifndef MAX_RELEASE_R14
 		InitCustomControls(m_hInstance);
+#endif
 		InitCommonControls();
 		bInitialized = true;
 	}

@@ -91,7 +91,7 @@ bool CExporter::ExportAnimation(const std::string& strFilename)
 	CSkeletonCandidate skeletonCandidate;
 
 	// show export wizard sheet
-	CAnimationExportSheet sheet("Cal3D Animation Export", m_pInterface->GetMainWnd());
+	CAnimationExportSheet sheet(_T("Cal3D Animation Export"), m_pInterface->GetMainWnd());
 	sheet.SetSkeletonCandidate(&skeletonCandidate);
 	sheet.SetAnimationTime(m_pInterface->GetStartFrame(), m_pInterface->GetEndFrame(), m_pInterface->GetCurrentFrame(), m_pInterface->GetFps());
 	sheet.SetWizardMode();
@@ -482,7 +482,7 @@ bool CExporter::ExportMaterial(const std::string& strFilename)
   if(!materialLibraryCandidate.CreateFromInterface()) return false;
 
   // show export wizard sheet
-  CMaterialExportSheet sheet("Cal3D Material Export", m_pInterface->GetMainWnd());
+  CMaterialExportSheet sheet(_T("Cal3D Material Export"), m_pInterface->GetMainWnd());
   sheet.SetMaterialLibraryCandidate(&materialLibraryCandidate);
   sheet.SetWizardMode();
   if(sheet.DoModal() != ID_WIZFINISH) return true;
@@ -582,7 +582,7 @@ bool CExporter::ExportMesh(const std::string& strFilename)
   CSkeletonCandidate skeletonCandidate;
 
   // show export wizard sheet
-  CMeshExportSheet sheet("Cal3D Mesh Export", m_pInterface->GetMainWnd());
+  CMeshExportSheet sheet(_T("Cal3D Mesh Export"), m_pInterface->GetMainWnd());
   sheet.SetSkeletonCandidate(&skeletonCandidate);
   sheet.SetMeshCandidate(&meshCandidate);
   sheet.SetWizardMode();
@@ -839,7 +839,7 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
   if(!skeletonCandidate.CreateFromInterface()) return false;
 
   // show export wizard sheet
-  CSkeletonExportSheet sheet("Cal3D Skeleton Export", m_pInterface->GetMainWnd());
+  CSkeletonExportSheet sheet(_T("Cal3D Skeleton Export"), m_pInterface->GetMainWnd());
   sheet.SetSkeletonCandidate(&skeletonCandidate);
   sheet.SetWizardMode();
   if(sheet.DoModal() != ID_WIZFINISH) return true;
@@ -951,10 +951,10 @@ bool CExporter::ExportSkeleton(const std::string& strFilename)
 
   
   HKEY hk;
-  LONG lret=RegCreateKey(HKEY_CURRENT_USER, "Software\\Cal3D\\Exporter", &hk);
+  LONG lret=RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Cal3D\\Exporter"), &hk);
   if(lret==ERROR_SUCCESS && NULL!=hk)
   {
-    lret=RegSetValueEx(hk,"skeleton",NULL,REG_SZ,(unsigned char *)strFilename.c_str() ,strFilename.length());
+    lret=RegSetValueEx(hk,_T("skeleton"),NULL,REG_SZ,(unsigned char *)strFilename.c_str() ,strFilename.length());
     RegCloseKey(hk);
   }
 
@@ -975,7 +975,7 @@ CBaseInterface *CExporter::GetInterface()
 // Get the last error message                                                 //
 //----------------------------------------------------------------------------//
 
-const std::string& CExporter::GetLastError()
+const TSTR& CExporter::GetLastError()
 {
   return m_strLastError;
 }
@@ -989,7 +989,7 @@ void CExporter::SetLastError(const std::string& strText, const std::string& strF
   std::stringstream strstrError;
   strstrError << strText << "\n(" << strFilename << " " << line << ")" << std::ends;
 
-  m_strLastError = strstrError.str();
+  m_strLastError = ToTStr(strstrError.str());
 }
 
 //----------------------------------------------------------------------------//
@@ -1011,7 +1011,68 @@ void CExporter::SetLastErrorFromCal(const std::string& strFilename, int line)
 
   strstrError << "\n(" << strFilename << " " << line << ")" << std::ends;
 
-  m_strLastError = strstrError.str();
+  m_strLastError = ToTStr(strstrError.str());
 }
 
 //----------------------------------------------------------------------------//
+
+// String Converter Functions
+std::string ToStdStr(const TSTR& str)
+{
+	std::string result;
+
+	int length = str.Length();
+	if(length > 0)
+	{
+		char* buffer = new char[length+1];
+		buffer[length] = 0;
+		for(int i = 0; i < length; ++i)
+		{
+			buffer[i] = char(str[i]);
+		}
+		result = buffer;
+		delete [] buffer;
+	}
+
+	return result;
+}
+
+TSTR ToTStr(const std::string& str)
+{
+	TSTR result;
+
+	int length = str.length();
+	if(length > 0)
+	{
+		TCHAR* buffer = new TCHAR[length+1];
+		buffer[length] = 0;
+		for(int i = 0; i < length; ++i)
+		{
+			buffer[i] = TCHAR(str[i]);
+		}
+		result = buffer;
+		delete [] buffer;
+	}
+
+	return result;
+}
+
+TSTR ToTStr(const unsigned char* str, size_t length)
+{
+	TSTR result;
+
+	if(length > 0)
+	{
+		TCHAR* buffer = new TCHAR[length+1];
+		buffer[length] = 0;
+		for(size_t i = 0; i < length; ++i)
+		{
+			buffer[i] = TCHAR(str[i]);
+		}
+		result = buffer;
+		delete [] buffer;
+	}
+
+	return result;
+}
+

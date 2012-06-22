@@ -45,7 +45,7 @@ class CExporter
 // member variables
 protected:
 	CBaseInterface *m_pInterface;
-	std::string m_strLastError;
+	TSTR m_strLastError;
 
   bool m_useAxisGL;
 
@@ -63,7 +63,7 @@ public:
 	bool ExportMesh(const std::string& strFilename);
 	bool ExportSkeleton(const std::string& strFilename);
 	CBaseInterface *GetInterface();
-	const std::string& GetLastError();
+	const TSTR& GetLastError();
 	void SetLastError(const std::string& strText, const std::string& strFilename, int line);
 	void SetLastErrorFromCal(const std::string& strFilename, int line);
 
@@ -81,6 +81,11 @@ public:
           CalVector const & positionOffset);
 
 };
+
+// String Converter Functions
+std::string ToStdStr(const TSTR& str);
+TSTR ToTStr(const std::string& str);
+TSTR ToTStr(const unsigned char* str, size_t length);
 
 extern CExporter theExporter;
 

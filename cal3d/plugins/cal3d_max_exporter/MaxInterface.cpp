@@ -16,6 +16,7 @@
 #include "MaxMaterial.h"
 #include "MaxNullView.h"
 #include "max2ogl.h"
+#include <stdmat.h>
 
 
 CMaxInterface::CMaxInterface()
@@ -413,7 +414,8 @@ CBaseNode *CMaxInterface::GetNode(const std::string& strName)
   }
 
   // create the max node
-  if(!pNode->Create(m_pInterface->GetINodeByName(strName.c_str())))
+  TSTR nodeName(ToTStr(strName));
+  if(!pNode->Create(m_pInterface->GetINodeByName(nodeName)))
   {
     delete pNode;
     return 0;
@@ -926,7 +928,8 @@ void CMaxInterface::SetProgressInfo(int percentage)
 
 void CMaxInterface::StartProgressInfo(const std::string& strText)
 {
-  m_pInterface->ProgressStart(const_cast<char *>(strText.c_str()), true, ProgressFunction, 0);
+	TSTR text(ToTStr(strText));
+	m_pInterface->ProgressStart(text, true, ProgressFunction, 0);
 }
 
 //----------------------------------------------------------------------------//

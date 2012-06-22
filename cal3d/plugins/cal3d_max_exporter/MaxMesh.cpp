@@ -20,7 +20,7 @@
 #include "VertexCandidate.h"
 #include "max2ogl.h"
 
-#include <wm3.h>
+#include "wm3.h"
 
 CMaxMesh::CMaxMesh()
 {
@@ -44,7 +44,8 @@ CMaxMesh::~CMaxMesh()
 bool CMaxMesh::AddBoneInfluence(CSkeletonCandidate *pSkeletonCandidate, CVertexCandidate *pVertexCandidate, INode *pNode, float weight)
 {
   // get the bone id of the bone from the skeleton candidate
-  int boneId = pSkeletonCandidate->GetBoneId(pNode->GetName());
+	std::string boneName(ToStdStr(pNode->GetName()));
+  int boneId = pSkeletonCandidate->GetBoneId(boneName);
   if(boneId == -1) return false;
 
   // add the influence to the vertex candidate
@@ -391,8 +392,8 @@ int CMaxMesh::GetSubmeshMaterialThreadId(int submeshId)
   pStdMat = m_vectorStdMat[submeshId];
 
   // get name of the material
-  std::string strName;
-  strName = pStdMat->GetName();
+  std::string matName(ToStdStr(pStdMat->GetName()));
+  std::string strName(matName);
 
   // get positions of the material thread id
   std::string::size_type openPos;
@@ -832,8 +833,11 @@ CBaseMesh::MorphKeyFrame CMaxMesh::frameForChannel( int i, float timeIn )
    TimeValue time = SecToTicks(timeIn);
    MorphR3 * morpherModifier = (MorphR3*)FindMorpherModifier(m_pINode);
    morphChannel const & chanI = morpherModifier->chanBank[i];
+
+   std::string frameName(ToStdStr(chanI.mName.data()));
+
    CBaseMesh::MorphKeyFrame frame;
-   frame.name = chanI.mName.data();
+   frame.name = frameName;
    frame.time = timeIn;
    Interval valid=FOREVER;
    chanI.cblock->GetValue(0, time, frame.weight, valid);

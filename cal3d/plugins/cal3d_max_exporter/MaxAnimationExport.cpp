@@ -65,21 +65,21 @@ int CMaxAnimationExport::DoExport(const TCHAR *name, ExpInterface *ei, Interface
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(ei, i))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// export the animation
-	if(!theExporter.ExportAnimation(name))
+	if(!theExporter.ExportAnimation(ToStdStr(name)))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
@@ -145,21 +145,21 @@ bool CMaxAnimationExport::ExportAnimationFromMaxscriptCall(const TCHAR *name, An
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(NULL, GetCOREInterface()))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
         // export the animation
-	if(! maxInterface.ExportAnimationFromMaxscriptCall(name, (void*)_animexportparams))
+	if(! maxInterface.ExportAnimationFromMaxscriptCall(ToStdStr(name), (void*)_animexportparams))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
@@ -168,11 +168,11 @@ bool CMaxAnimationExport::ExportAnimationFromMaxscriptCall(const TCHAR *name, An
 
 //----------------------------------------------------------------------------//
 
-AnimExportParams::AnimExportParams(const char* _skeletonfilepath, INodeTab& _tabbones, int _startframe, int _endframe, int _frameoffset, int _framerate)
+AnimExportParams::AnimExportParams(const TCHAR* _skeletonfilepath, INodeTab& _tabbones, int _startframe, int _endframe, int _frameoffset, int _framerate)
 {
 	int i = 0;
 
-	m_skeletonfilepath	= strdup(_skeletonfilepath);
+	m_skeletonfilepath	= _skeletonfilepath;
 	m_startframe		= _startframe;
 	m_endframe			= _endframe;
 	m_frameoffset		= _frameoffset;
@@ -193,7 +193,6 @@ AnimExportParams::~AnimExportParams()
 	if (m_skeletonfilepath)
 	{
 		delete m_skeletonfilepath;
-		m_skeletonfilepath = NULL;
 	}
 }
 

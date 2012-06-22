@@ -38,6 +38,7 @@
 class CBaseNode;
 class CMaxNode;
 class CBaseMaterial;
+class StdMat;
 
 //----------------------------------------------------------------------------//
 // Class declaration                                                          //

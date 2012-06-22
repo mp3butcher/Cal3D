@@ -97,7 +97,7 @@ LRESULT CSpringSystemPage::EndPage()
 		// create the spring system data
 		if(!m_pMeshCandidate->CalculateSpringSystem())
 		{
-			AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+			AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 			return -1;
 		}
 	}
@@ -208,7 +208,7 @@ void CSpringSystemPage::SetStep(int index, int total)
 	m_stepIndex = index;
 	m_stepTotal = total;
 
-	m_strStep.Format("Step %d of %d", m_stepIndex, m_stepTotal);
+	m_strStep.printf(_T("Step %d of %d"), m_stepIndex, m_stepTotal);
 }
 
 //----------------------------------------------------------------------------//

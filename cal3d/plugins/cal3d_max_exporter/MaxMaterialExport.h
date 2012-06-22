@@ -12,6 +12,11 @@
 #define MAX_MATERIAL_EXPORT_H
 
 //----------------------------------------------------------------------------//
+// Forward declarations                                                       //
+//----------------------------------------------------------------------------//
+class StdMat;
+
+//----------------------------------------------------------------------------//
 // Class declaration                                                          //
 //----------------------------------------------------------------------------//
 
@@ -24,7 +29,7 @@ public:
 
 // interface functions	
 public:
-	static bool ExportMaterialFromMaxscriptCall(const char* fullpathfilename, StdMat* _stdmatfrommaxscript);
+	static bool ExportMaterialFromMaxscriptCall(const TCHAR* fullpathfilename, StdMat* _stdmatfrommaxscript);
 
 	const TCHAR *AuthorName();
 	const TCHAR *CopyrightMessage();

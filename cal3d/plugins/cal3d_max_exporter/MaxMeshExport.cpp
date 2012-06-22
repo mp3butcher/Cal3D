@@ -65,21 +65,21 @@ int CMaxMeshExport::DoExport(const TCHAR *name, ExpInterface *ei, Interface *i, 
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(ei, i))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// export the mesh
-	if(!theExporter.ExportMesh(name))
+	if(!theExporter.ExportMesh(ToStdStr(name)))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
@@ -138,10 +138,10 @@ unsigned int CMaxMeshExport::Version()
 }
 
 //----------------------------------------------------------------------------//
-MeshMaxscriptExportParams::MeshMaxscriptExportParams(INode* _MeshNode, const char* _SkeletonFilename, int _MaxNumBonesPerVertex, float _WeightThreshold, int _LODCreation, int _springsystem)
+MeshMaxscriptExportParams::MeshMaxscriptExportParams(INode* _MeshNode, const TCHAR* _SkeletonFilename, int _MaxNumBonesPerVertex, float _WeightThreshold, int _LODCreation, int _springsystem)
 {
 	m_MeshNode				= _MeshNode;
-	m_SkeletonFilename		= strdup(_SkeletonFilename);
+	m_SkeletonFilename		= _SkeletonFilename;
 	m_MaxNumBonesPerVertex	= _MaxNumBonesPerVertex;
 	m_WeightThreshold		= _WeightThreshold;
 	m_LODCreation			= _LODCreation;
@@ -150,9 +150,6 @@ MeshMaxscriptExportParams::MeshMaxscriptExportParams(INode* _MeshNode, const cha
 
 MeshMaxscriptExportParams::~MeshMaxscriptExportParams()
 {
-	if (m_SkeletonFilename)
-		delete m_SkeletonFilename;
-	m_SkeletonFilename = NULL;
 }
 
 int CMaxMeshExport::ExportMeshFromMaxscriptCall(const TCHAR *name, const MeshMaxscriptExportParams& _param)
@@ -163,21 +160,22 @@ int CMaxMeshExport::ExportMeshFromMaxscriptCall(const TCHAR *name, const MeshMax
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(NULL, GetCOREInterface()))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
         // export the mesh
-	if(!maxInterface.ExportMeshFromMaxscriptCall(name, (void*)&_param))
+	std::string filename(ToStdStr(name));
+	if(!maxInterface.ExportMeshFromMaxscriptCall(filename, (void*)&_param))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 

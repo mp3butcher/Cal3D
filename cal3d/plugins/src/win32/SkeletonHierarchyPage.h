@@ -27,7 +27,7 @@ class CSkeletonHierarchyPage : public CPropertyPage
 protected:
 	CImageList m_imageList;
 	CSkeletonCandidate *m_pSkeletonCandidate;
-	CString m_strStep;
+	TSTR m_strStep;
 	UINT m_nDescriptionID;
 	int m_stepIndex;
 	int m_stepTotal;

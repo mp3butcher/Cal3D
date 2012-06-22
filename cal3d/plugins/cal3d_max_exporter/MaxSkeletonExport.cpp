@@ -65,21 +65,21 @@ int CMaxSkeletonExport::DoExport(const TCHAR *name, ExpInterface *ei, Interface 
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(ei, i))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// export the skeleton
-	if(!theExporter.ExportSkeleton(name))
+	if(!theExporter.ExportSkeleton(ToStdStr(name)))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
@@ -94,21 +94,21 @@ int CMaxSkeletonExport::ExportSkeletonFromMaxscriptCall(const TCHAR *name, INode
 	CMaxInterface maxInterface;
 	if(!maxInterface.Create(NULL, GetCOREInterface(),_tabnode))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
 	// create an exporter instance 
 	if(!theExporter.Create(&maxInterface))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 
         // export the skeleton
-	if(!maxInterface.ExportSkeletonFromMaxscriptCall(name, bShowUI))
+	if(!maxInterface.ExportSkeletonFromMaxscriptCall(ToStdStr(name), bShowUI))
 	{
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return 0;
 	}
 

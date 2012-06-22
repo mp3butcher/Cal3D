@@ -93,9 +93,9 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 	//This block replaces the user interface interactions with the parameters passed to the Maxscript function
 	{
 		// create the skeleton candidate from the skeleton file
-		if(! skeletonCandidate.CreateFromSkeletonFile(_param->m_SkeletonFilename))
+		if(! skeletonCandidate.CreateFromSkeletonFile(ToStdStr(_param->m_SkeletonFilename)))
 		{
-			AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+			AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 			return false;
 		}
 
@@ -107,7 +107,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 
 		if(! meshCandidate.Create( maxnode, &skeletonCandidate, _param->m_MaxNumBonesPerVertex, _param->m_WeightThreshold))
 		{
-			AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+			AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 			return false;
 		}
 
@@ -117,7 +117,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 			// create the LOD data
 			if(! meshCandidate.CalculateLOD())
 			{
-				AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+				AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 				return false;
 			}
 		}
@@ -126,7 +126,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 			// disable the LOD data
 			if(! meshCandidate.DisableLOD())
 			{
-				AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+				AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 				return false;
 			}
 		}
@@ -137,7 +137,7 @@ bool CMaxInterface::ExportMeshFromMaxscriptCall(const std::string& strFilename, 
 			// create the spring system data
 			if(! meshCandidate.CalculateSpringSystem())
 			{
-				AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+				AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 				return false;
 			}
 		}

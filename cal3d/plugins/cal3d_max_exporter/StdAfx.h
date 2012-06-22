@@ -41,7 +41,13 @@
 #include <afxcmn.h>
 
 #include "max.h"
+
+#ifdef MAX_RELEASE_R13 // Max 2011 and up
+#include "maxscript/maxscript.h"
+#else
 #include "maxscrpt/maxscrpt.h"
+#endif
+
 #include "bipexp.h"
 #include "phyexp.h"
 #include "decomp.h"

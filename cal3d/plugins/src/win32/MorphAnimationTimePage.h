@@ -19,7 +19,7 @@ class CMorphAnimationTimePage : public CPropertyPage
 {
 // member variables
 protected:
-	CString m_strStep;
+	TSTR m_strStep;
 	UINT m_nDescriptionID;
 	int m_stepIndex;
 	int m_stepTotal;

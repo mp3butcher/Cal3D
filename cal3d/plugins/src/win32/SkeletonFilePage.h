@@ -25,7 +25,7 @@ class CSkeletonFilePage : public CPropertyPage
 {
 // member variables
 protected:
-	CString m_strStep;
+	TSTR m_strStep;
 	CSkeletonCandidate *m_pSkeletonCandidate;
 	UINT m_nDescriptionID;
 	int m_stepIndex;

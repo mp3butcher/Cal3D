@@ -77,7 +77,8 @@ BOOL CMaterialSelectionPage::BeginPage()
 		{
 			// insert material candidate into the list control
 			int candidateIndex;
-			candidateIndex = m_materialCtrl.AddString(vectorMaterialCandidate[materialCandidateId]->GetName().c_str());
+			TSTR name(ToTStr(vectorMaterialCandidate[materialCandidateId]->GetName()));
+			candidateIndex = m_materialCtrl.AddString(name);
 			m_materialCtrl.SetItemDataPtr(candidateIndex, vectorMaterialCandidate[materialCandidateId]);
 		}
 	}
@@ -112,7 +113,7 @@ LRESULT CMaterialSelectionPage::EndPage()
 	if(candidateIndex == LB_ERR)
 	{
 		theExporter.SetLastError("No material selected.", __FILE__, __LINE__);
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return -1;
 	}
 
@@ -122,7 +123,7 @@ LRESULT CMaterialSelectionPage::EndPage()
 	if(pMaterialCandidate == (CMaterialCandidate *)-1)
 	{
 		theExporter.SetLastError("Invalid material selected.", __FILE__, __LINE__);
-		AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 		return -1;
 	}
 
@@ -235,7 +236,7 @@ void CMaterialSelectionPage::SetStep(int index, int total)
 	m_stepIndex = index;
 	m_stepTotal = total;
 
-	m_strStep.Format("Step %d of %d", m_stepIndex, m_stepTotal);
+	m_strStep.printf(_T("Step %d of %d"), m_stepIndex, m_stepTotal);
 }
 
 //----------------------------------------------------------------------------//

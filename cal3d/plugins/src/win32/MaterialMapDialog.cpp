@@ -64,9 +64,9 @@ void CMaterialMapDialog::DoDataExchange(CDataExchange *pDX)
 // Get the filename of the material map                                       //
 //----------------------------------------------------------------------------//
 
-CString CMaterialMapDialog::GetFilename()
+TSTR CMaterialMapDialog::GetFilename()
 {
-  return m_strFilename;
+  return (LPCTSTR)m_strFilename;
 }
 
 //----------------------------------------------------------------------------//
@@ -84,7 +84,7 @@ BOOL CMaterialMapDialog::OnInitDialog()
 // Set the filename of the material map                                       //
 //----------------------------------------------------------------------------//
 
-void CMaterialMapDialog::SetFilename(CString& strFilename)
+void CMaterialMapDialog::SetFilename(TSTR& strFilename)
 {
   m_strFilename = strFilename;
 }
@@ -93,7 +93,7 @@ void CMaterialMapDialog::SetFilename(CString& strFilename)
 // Set the name of the material map                                           //
 //----------------------------------------------------------------------------//
 
-void CMaterialMapDialog::SetName(CString& strName)
+void CMaterialMapDialog::SetName(TSTR& strName)
 {
   m_strName = strName;
 }

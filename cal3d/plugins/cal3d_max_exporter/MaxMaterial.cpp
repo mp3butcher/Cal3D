@@ -16,6 +16,7 @@
 #include "Exporter.h"
 #include "MaxMaterial.h"
 #include "BaseInterface.h"
+#include <stdmat.h>
 
 //----------------------------------------------------------------------------//
 // Debug                                                                      //
@@ -147,8 +148,8 @@ std::string CMaxMaterial::GetMapFilename(int mapId)
 				if(pTexMap->ClassID() == Class_ID(BMTEX_CLASS_ID, 0))
 				{
 					// get the full filepath
-					std::string strFilename;
-					strFilename = ((BitmapTex *)pTexMap)->GetMapName();
+					TSTR mapName(((BitmapTex *)pTexMap)->GetMapName());
+               std::string strFilename(ToStdStr(mapName));
 
 					// extract the filename
 					std::string::size_type pos;
@@ -194,8 +195,8 @@ std::string CMaxMaterial::GetMapType(int mapId)
 				if(pTexMap->ClassID() == Class_ID(BMTEX_CLASS_ID, 0))
 				{
 					// get the full filepath
-					std::string mt = m_pIStdMat->GetSubTexmapSlotName(materialMapId);
-          return mt;
+					TSTR mapSlotName(m_pIStdMat->GetSubTexmapSlotName(materialMapId));
+					return ToStdStr(mapSlotName);
 				}
 				else return "<none>";
 			}
@@ -215,8 +216,8 @@ std::string CMaxMaterial::GetName()
 	// check if the internal material is valid
 	if(m_pIStdMat == 0) return "<void>";
 
-	const char* name = m_pIStdMat->GetName();
-	return name;
+	TSTR matName(m_pIStdMat->GetName());
+	return ToStdStr(matName);
 }
 
 //----------------------------------------------------------------------------//

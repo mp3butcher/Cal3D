@@ -87,9 +87,9 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 	//Following block replaces the user interface interactions
 	{
 		// create the skeleton candidate from the skeleton file
-		if(! skeletonCandidate.CreateFromSkeletonFile(param->m_skeletonfilepath))
+		if(! skeletonCandidate.CreateFromSkeletonFile(ToStdStr(param->m_skeletonfilepath)))
 		{
-			AfxMessageBox(theExporter.GetLastError().c_str(), MB_OK | MB_ICONEXCLAMATION);
+			AfxMessageBox(theExporter.GetLastError(), MB_OK | MB_ICONEXCLAMATION);
 			return false;
 		}	
 
@@ -112,8 +112,8 @@ bool CMaxInterface::ExportAnimationFromMaxscriptCall(const std::string& strFilen
 			int j;
 			for (j=0;j<NumElemInTabMaxscript;j++)
 			{
-				std::string bcname		= bonecandidate->GetNode()->GetName();
-				std::string	bonename	= param->m_tabbones[j]->GetName();
+				TSTR bcname(ToTStr(bonecandidate->GetNode()->GetName()));
+				TSTR bonename(param->m_tabbones[j]->GetName());
 
 				if (bcname == bonename)
 				{

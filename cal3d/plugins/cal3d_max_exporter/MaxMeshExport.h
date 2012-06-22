@@ -17,12 +17,12 @@ protected:
 
 public:
 //constructor
-	MeshMaxscriptExportParams(INode* _MeshNode, const char* _SkeletonFilename, int _MaxNumBonesPerVertex, float _WeightThreshold, int _LODCreation, int _springsystem);
+	MeshMaxscriptExportParams(INode* _MeshNode, const TCHAR* _SkeletonFilename, int _MaxNumBonesPerVertex, float _WeightThreshold, int _LODCreation, int _springsystem);
 	virtual ~MeshMaxscriptExportParams();
 
 //Members variables
 	INode*	m_MeshNode;
-	char*	m_SkeletonFilename;
+	TSTR	m_SkeletonFilename;
 	int		m_MaxNumBonesPerVertex;
 	float	m_WeightThreshold;
 	int		m_LODCreation;

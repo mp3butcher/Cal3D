@@ -46,7 +46,7 @@ public:
 	const TCHAR *InternalName(); 
 	int IsPublic();
 	SClass_ID SuperClassID();
-	char * GetRsrcString(long n);
+	const TCHAR* GetRsrcString(long n);
 };
 
 #endif

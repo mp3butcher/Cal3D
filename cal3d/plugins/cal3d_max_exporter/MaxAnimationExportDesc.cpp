@@ -16,12 +16,21 @@
 #include "MaxAnimationExportDesc.h"
 #include "MaxAnimationExport.h"
 
-#include "Maxscrpt\Maxscrpt.h"
-#include "maxscrpt\Strings.h"
-#include "maxscrpt\arrays.h"
-#include "maxscrpt\numbers.h"
-#include "maxscrpt\maxobj.h"
-#include "maxscrpt\definsfn.h"
+#ifdef MAX_RELEASE_R13 // Max 2011 and up
+#include "maxscript/maxscript.h"
+#include "maxscript/foundation/strings.h"
+#include "maxscript/foundation/arrays.h"
+#include "maxscript/foundation/numbers.h"
+#include "maxscript/maxwrapper/mxsobjects.h"
+#include "maxscript/macros/define_instantiation_functions.h"
+#else
+#include "maxscrpt/maxscrpt.h"
+#include "maxscrpt/Strings.h"
+#include "maxscrpt/arrays.h"
+#include "maxscrpt/numbers.h"
+#include "maxscrpt/maxobj.h"
+#include "maxscrpt/definsfn.h"
+#endif
 
 #include "exporter.h"
 
@@ -95,7 +104,7 @@ SClass_ID CMaxAnimationExportDesc::SuperClassID()
 }
 
 
-char * CMaxAnimationExportDesc::GetRsrcString(long n)
+const TCHAR* CMaxAnimationExportDesc::GetRsrcString(long n)
 {
 	return NULL;
 }
@@ -109,8 +118,8 @@ def_visible_primitive( ExportCalAnim,	"ExportCalAnim" );
 Value* ExportCalAnim_cf(Value** arg_list, int count)
 {	
 	int i								;
-	char*	Filefullpathfilename		;
-	char*	Skeletonfullpathfilename	;
+	TSTR	Filefullpathfilename	;
+	TSTR	Skeletonfullpathfilename;
 	Array*	BonesArray					;
 	int		StartFrame					;
 	int		EndFrame					;
@@ -121,15 +130,15 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
   // Cedric Pinson, now we can export in gl coordinates
 	check_arg_count_with_keys(ExportCalAnim, 7, count);
 	Value* transform= key_arg_or_default(transform, &false_value);
-	type_check(transform, Boolean, "[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]");
+	type_check(transform, Boolean, _T("[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]"));
 
-	type_check(arg_list[0], String	, "[The first argument of ExportCalAnim should be a string that is a full path name of the file to export]");
-	type_check(arg_list[1], String	, "[The 2nd argument of ExportCalAnim should be a string that is the fullpath name of the skeleton file]");
-	type_check(arg_list[2], Array	, "[The 3rd argument of ExportCalAnim should be an array of nodes to get anim from]");
-	type_check(arg_list[3], Integer	, "[The 4th argument of ExportCalAnim should be an integer that is the start frame number]");
-	type_check(arg_list[4], Integer	, "[The 5th argument of ExportCalAnim should be an integer that is the end frame number]");
-	type_check(arg_list[5], Integer , "[The 6th argument of ExportCalAnim should be an integer that is the frame offset]");
-	type_check(arg_list[6], Integer , "[The 7th argument of ExportCalAnim should be an integer that is the framerate]");
+	type_check(arg_list[0], String	, _T("[The first argument of ExportCalAnim should be a string that is a full path name of the file to export]"));
+	type_check(arg_list[1], String	, _T("[The 2nd argument of ExportCalAnim should be a string that is the fullpath name of the skeleton file]"));
+	type_check(arg_list[2], Array	, _T("[The 3rd argument of ExportCalAnim should be an array of nodes to get anim from]"));
+	type_check(arg_list[3], Integer	, _T("[The 4th argument of ExportCalAnim should be an integer that is the start frame number]"));
+	type_check(arg_list[4], Integer	, _T("[The 5th argument of ExportCalAnim should be an integer that is the end frame number]"));
+	type_check(arg_list[5], Integer , _T("[The 6th argument of ExportCalAnim should be an integer that is the frame offset]"));
+	type_check(arg_list[6], Integer , _T("[The 7th argument of ExportCalAnim should be an integer that is the framerate]"));
 	
 	try
 	{
@@ -138,7 +147,8 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
   // Cedric Pinson, now we can export in gl coordinates
 	check_arg_count_with_keys(ExportCalAnim, 7, count);
 	Value* transform= key_arg_or_default(transform, &false_value);
-	type_check(transform, Boolean, "[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]");
+	type_check(transform, Boolean, _T("[The axisGL argument of ExportCalAnim should be a boolean that is true if you want to export in openGL axis]"));
+
 		Filefullpathfilename		= arg_list[0]->to_string();
 		Skeletonfullpathfilename	= arg_list[1]->to_string();
 		BonesArray					= static_cast<Array*>(arg_list[2]);
@@ -147,13 +157,13 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 		FrameOffset					= arg_list[5]->to_int();
 		FrameRate					= arg_list[6]->to_int();
 
-		if (! strcmp(Filefullpathfilename,""))return new Integer(1);
+		if (Filefullpathfilename.Length() == 0)return new Integer(1);
 
-		if (! strcmp(Skeletonfullpathfilename,"")) return new Integer(2);
+		if (Skeletonfullpathfilename.Length() == 0) return new Integer(2);
 
 		//Does skeleton file exist ?
-		FILE* _stream;
-		_stream = fopen(Skeletonfullpathfilename,"r");
+		FILE* _stream = NULL;
+		_tfopen_s(&_stream, Skeletonfullpathfilename.data(),_T("r"));
 		if (! _stream)return new Integer(3); //Error code number 3
 		fclose(_stream);
 
@@ -189,7 +199,8 @@ Value* ExportCalAnim_cf(Value** arg_list, int count)
 		AnimExportParams param(Skeletonfullpathfilename, tabnode, StartFrame, EndFrame, FrameOffset, FrameRate);
 
     theExporter.SetAxisGL(bUseAxisGL); // set axis wanted
-    if (CMaxAnimationExport::ExportAnimationFromMaxscriptCall(Filefullpathfilename, &param)) {
+	TSTR fullFilePath(Filefullpathfilename);
+    if (CMaxAnimationExport::ExportAnimationFromMaxscriptCall(fullFilePath, &param)) {
       //reset to default
       theExporter.SetAxisGL(false);
 			return new Integer(0);
