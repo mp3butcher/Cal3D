@@ -1,0 +1,14 @@
+#Mon Jul 16 16:20:36 CEST 2012
+com.osp.ban.internal.checkers.ApiCompatibilityProblem=Info
+com.osp.ban.internal.checkers.ApiCompatibilityProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+com.osp.ban.internal.checkers.ApiVersionProblem=Info
+com.osp.ban.internal.checkers.ApiVersionProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+com.osp.ban.internal.checkers.InternalFunctionProblem=Info
+com.osp.ban.internal.checkers.InternalFunctionProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+com.osp.ban.internal.checkers.PrivilegeProblem=Info
+com.osp.ban.internal.checkers.PrivilegeProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+com.osp.ban.internal.checkers.SensorProblem=Info
+com.osp.ban.internal.checkers.SensorProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+com.osp.ban.internal.checkers.UnusedPrivilegeProblem=Info
+com.osp.ban.internal.checkers.UnusedPrivilegeProblem.params={fileScope\=>inclusion\=>(),exclusion\=>()}
+eclipse.preferences.version=1

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Application>
+    <Entry>Cal3DViewer</Entry>
+    <Name>
+        <English>Cal3DViewer</English>
+        <eng-GB>Cal3DViewer</eng-GB>
+    </Name>
+    <Vendor/>
+    <Description/>
+    <Icons>
+        <MainMenu>Cal3DViewer_type4.png<Type1/>
+            <Type2/>
+            <Type3>Cal3DViewer_type3.png</Type3>
+            <Type4>Cal3DViewer_type4.png</Type4>
+            <Type5>Cal3DViewer_type3.png</Type5>
+        </MainMenu>
+        <Setting/>
+        <Ticker/>
+        <QuickPanel/>
+        <LaunchImage>Splash_type4.png<Type1/>
+            <Type2/>
+            <Type3>Splash_type3.png</Type3>
+            <Type4>Splash_type4.png</Type4>
+            <Type5>Splash_type3.png</Type5>
+        </LaunchImage>
+    </Icons>
+    <AutoScaling>
+        <Enabled>false</Enabled>
+    </AutoScaling>
+</Application>
