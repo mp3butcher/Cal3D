@@ -1,0 +1,503 @@
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="AuthorSignature">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></SignatureMethod>
+<Reference URI="res/cally/cally_strut.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>+IoBknAxuAJnW1oWxHdNZnBsI4epuL79IGSY+5VO8XI=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_shoot_arrow.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>QdH66vbItscJp2oHMdWJ9KAFHBVdash2NPg0tVS2NE8=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_walk.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>mDR71jr21tD9Wob/IqXC6B8StNqcAMnBScNTYJBQIwg=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_calf_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>FXmjZtDbB/40RgCRb4YhVGz+H70IrBZsMlFA/kBrMjs=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_ponytail.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>odhSQyz04MhjXWbeBimulNb9u0xoraLQo/iIap+wBzA=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_pelvis.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>7qgnrf+xc33DXPV1I6onl8Gk8FpSO6MGFKNk1TDw33I=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_hand_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>SnEAVE6Kox/f99jzJKknqz0F75Ct+VWR67nCCxdQhvI=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_thigh_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>pg/64RPny26IobgjmT4zIue0FxtsJreJlVVx8qRVdVQ=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_skin.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>04J6UOW2ATEsXGNy5wLenSxDa8H/bygXO59MwGiPlyg=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_wave.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>2Sxr9qDFECq0Ir7hnCxk9Jcr4LFkZ6BjtJBnzJegn20=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_chest.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>cyIhGteBzPeESHAEGJMXglgwlCwcn5MvkD5CGLHOTpo=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_ponytail.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>s3z49wgn/wmQB14GmnPFKWN+mcnKE4T6Gvkalew+a+M=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_foot_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>IIUOiNREP5NUroBHVb1SSxRpjTiGsA1aVYd7pxpISd0=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_jog.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>7JFVBTEvEh5Pe0O/dPym+8MOqpuwIdUku+R+wqR0Oeo=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_head.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>OYn13KRrPuGf2hsKeIncSlAMYus4GpqXjKwsvlIaV68=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_upperarm_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>aygeD8D3ucGf/fRNbd05eB2Hrugw23YtsqLObOSqLYE=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_chest.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>wg+mDK+WSWjYh5dhgbOD/hJUkGsWGiqlOKUdmjs/CZs=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_lowerarm_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>a7CXDCOkBc2UwNOODg0foqItu1f8lJFj5xBIaDQ8l4c=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_thigh_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>ACZ40w9qKEfpsIjEUvrCyqKypxUWJv5k+u9Q2x88UhU=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_tornado_kick.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>2tPXmjtyuIBYC7v/yB3Pmeom3t+MSoEq9g9bRUayZQs=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_neck.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>Xbp0UzHcSsCDYoj70adqQoGFPBofkMx16hjYvD/miR0=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_pelvis.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>WF5Smr7+gvsgqT5kaCvkHyLMzvPkdAWq4JmmkbrPVGw=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_upperarm_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>tv1F4DOBs5ByGK5OZx2LZRYG//9z7uqVeTmculXA3U0=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_lowerarm_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>GNAcf6l7wST2IOORjzxwAqxI4NGK2eGCHi3e2bJt+Rg=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_foot_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>aEbRfXzP34KW8HWr/01XeztU3QNT4M2TBgu18Ahx6ec=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_hand_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>t4UxIOCzoKOthosV1Pw6SgTBvILwNbducNEwy/dCxh4=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally.csf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>a3KEjn0pcmSonc5ocaKavUYU82w2u2V2+DlkaQmxTps=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_idle.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>LMCJKcG6MppoqwADW0MOd9w/NfSGlJ6EeYT6HP5N/9k=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally_calf_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>IEtg6TE03ldP4c7EqWN3PpmoT1x/sYiihDKiPWoKxlk=</DigestValue>
+</Reference>
+<Reference URI="res/cally/cally.cfg">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>gKX0FMkI2CcgYtIiqOt2+lKSYrsF9WB3MCCITSJtAF8=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_chest.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>770XM7sIwSYWwMvIo2q9a/Khl5aYDvjuV5MYd1Fpmcg=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legguard.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>p98mNcwZ0II1hmS88/bnHNYXFfk7mwObIM/EcvvBjsA=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin.cfg">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>iofWwh9LbcWrsPbgx50J9NevgobM0j/SZpRMEmc2GDI=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_arm.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>GwV23EgM8vcOZYkQE6kzTWfYfUQQshA6o1DVszaSWvU=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legging.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>NTZtywiHRxh1KYqAq9801ClBTAP9lBcVl6ZDU81uXS8=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_sneak.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>8BIVtoSNjMNwLeVvosHRVBxHTrAY3sCwoInqCU0nnBk=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_flesh.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>sprab/o/km6XpiE254J+IuuaMRjnSHZOCM9PhvzGz9E=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_idle.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>gFTERcmtDwNiA1L8lFVwym0sY19n5FRptu1sNuiapeo=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_ponytail.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>riITMqanF+ecwy6zr7Ku+5H7YhunFzN9lVOUIfevhKo=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_stripe.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>lkpmyONhBTVluHjaZ8m9aIrqIHtr5PGvixcCpBwOzxk=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_walk.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>+X7g0SSJM1aYuvL1t1oGFVgOwrWkBe6gwUrdsaC1PyY=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_gird.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>mTt0GSt8QZMh8i+GwiAhD1Q+s7WEg/iwIVTvOnaiUKc=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_head.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>AGw7UAORowdr6pnzjSH8lZLs592aCGSe2TDU6ZnJ4UU=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_cloth.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>KxHpXntVq7e+H9IbipRdMRw4A7mfkTV8MkLE3MU/l2w=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_flesh.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>mJJuBiLiFVgLJ5DwlEOQUOdvphfmJzFrqDSfyTcpYss=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_shoot_arrow.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>sjDAI5R6BI482jC1xyMp2biyfs3/yDwLAgT8hVXbHRc=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_edge.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>3SR1J7QaN4u+kEnaRk3r8sN6LphQKB3yZ9ZKkpDIg5A=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_head.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>xWYJt0pvw/oExk9UJuI+Kk5fo6vsBR/XznsFaGwOPyY=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legguard_right.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>ivDBW/vSHW/FoTTi+DCcC/zrggrUjDmzxtGzuRCQEII=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legplate_left.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>ATkq2MQpsitvdz4+3l5OCOHKPrE/QT+d6QOQyC0opTw=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_gird.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>d6Ss2R5XiPpVLUWHPdeZzhfnYwDFRX7KcBdGJ63sMi0=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_cape.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>Al8P4rO8g2aMqmYHR2eQoOUX0v6+Z/gRgWKfOQrZ5js=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_cape.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>kjPeR6fEAwaWSALyBZBmBsqaK8nPAbJjQR+j9dy/wFw=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_edge.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>tsVR9RkWbvCxd1oriCxH6M0edVr66rh8Bn7KkEveNlA=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_chest.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>QNxWeeccEEr9vPuRVlRs+Yq2PNna4MRjX0Vtt8n9PO0=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legplate_left.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>AyVIN9pYxE0wms9QooGXnwk9j0zlwC89dassuQB8MOk=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legplate_right.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>lrpnz4aFGc7yIiPPo8zAf6hFrELiyryVZD7vVNfPwXo=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_ponytail.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>mkI6ZF41P1LAkoAbUhEHnOdxtx6p7nRGxBfkSnveb7Y=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_shoe.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>q3MT+Iirx0//6pGuw0w6QSaYwqZqq4Cgv/C4EhAMjMw=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_wave.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>CyeZyaXyGNqqXzKEpJ6f9X30tmCV+wIxd5J9JI4WGcY=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_loincloth.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>tb+Bw9TnQiyjxsXZ3zOJPNZbElnf/t2CTEojSviVUeo=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_jog.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>b/MW4fNFRUGUfcZhdAExmSs2fjGC7CFGb8yMb5kj0iY=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_arm_right.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>7nCeALHDbeP+EytoDAih6WBo6Q9ry4F4tC9ZilpvKqA=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_leg_left.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>dDtwSLhYbRCeYDTMjaxQGuflLvamluRYBkfmrew2WFQ=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_shoe.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>qQkRyAX1/7l+0yEdgzn4gykqF0DoZPjo95kQRqmwa64=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_stripe.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>mxIy6WydDeudS0NjmBCjjW2tYqga/T53eCrN5SYzxq0=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_plate.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>12IXu+uuNEK/ekQywfmovn9U2dV7ykUztzKSW4QDkh0=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_body.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>1mn45O4yQJ2wCXH/vakUPBQaBIK+fxvaF5wzikDZ1xY=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legguard_left.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>fimYMs3o99OUyMbZLcjpZ2SbYrA7+H3qhzGIfcEKCmg=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_loin_lower.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>Qznl8laF9VKNLX4qv0tYH+wvsVfpKpCeYYDI0NRbpeE=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin.csf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>LROINfWdc90e/Dt6UDDKiZl8uWqv9H/pX/0HdL3oQnM=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_cape.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>hPSVJDXf2VKiHS7oKp5l0M0n/7FMwuU9ZbspgaHTs6w=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_strut.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>XoRHvqlIYahVwebmnu1HlaIOxfD/VqCtIhCmKB8v0pM=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_loin_upper.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>jv6RFf2OF77R9BYcVs4y3ZkG4IlJLHQ81YjvoQIL6gs=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_legplate_right.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>u4PuZDaTFfcTlAlhwNIhsRr+LVppsLzDtZr15bGEj9E=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_leg_right.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>ZJXwC5mOPyZ8Mgeb2RBsHn7d1XwkTs81NGEOPLg3FQI=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_arm_left.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>grWlrw8f3DOiHxZid9a2a7iao85RGN7WnuBAqARJKnk=</DigestValue>
+</Reference>
+<Reference URI="res/paladin/paladin_edge_alpha.tga">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>3SR1J7QaN4u+kEnaRk3r8sN6LphQKB3yZ9ZKkpDIg5A=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_neck.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>B2EuTSE7qrU7FL7COh7cYkWhFvJJnOGvru4ilMpWK0A=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hand_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>GViks9G1mytaXG2+T5K3PsbUYid8+++CR2ZpMHHOO+I=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_lowerarm_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>2bQDub54R3KnzbsZZePvP9AGYHBya6+P6XPWWcvEJh4=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_foot_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>qnHqb7k0TPdADBbgvAW2/wuyViGFacpRNt55C/z+9yo=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_foot_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>Fd95yBvUgKVAmnBUAWNREfGNqyKrJ/+qBUe6vpUiJSk=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_strut.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>sDXHuEOz0IhcKgZAaUiOBeiFZFkDCiU7KWZJ755aSI4=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_wave.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>onh6Il/BAcC+E3tqt3A+AhTlVn+amE4c1sdo+IrZHhs=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_spine_upper.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>H+vSwgzue908qiHNf5PbglevcNUB4PFWHTUBEXFsqfg=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_chest.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>9148Wb7oFRSZgoZiEwcH2K9Dq5QRRjVjSpgyjOa+Gcc=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hiphop.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>HTnzw5UWyXwlV2cOeugYX8p0toNjcdKkOoTk+1IAfwk=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_calf_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>jEh7zU8BJXC56f950UpMcR7pi5OyJkHvl7jivqHJsyo=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hair.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>dU5G4jGnxBKyOTCXz3dOieS6dngk3/3d5DnTjpChGxc=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hand_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>MXBBLeJnCg/DcGoMnULbYaU/nb0PrE1L6PFRVA+jSrk=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_head.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>sT9blvZDBhIP1ULk7IHUyYktjWB3v8ot0g0RnhuAtQs=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton.csf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>93aY+A8CPeLkdyHq8bN7c5vpuOOk8jg5T3sQujACBaQ=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_jog.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>bopa4WzzZ9v31Z0H4FetbOW918+2YIiZaQUiiEfYzzI=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hair3.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>X2yWlviZxT/1GpFANqeUYvQAtkdJ/h653zXeVkQP8I8=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_thigh_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>yfKDjypaJVJtzn+Pl4qkW2a+a/HZ1KgV1jHC0UeRpY8=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_calf_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>/H7JxzSj4jz9FXudV/7psd/G4VgcxfjyrfcTeERpJKQ=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_spine_lower.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>TkldY70SsgAytDNy+KxzMqC+p48oAs6rl5D1jyRny7A=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_upperarm_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>NkVFlL6H3PMRBjZYMy931GpR7PI6+9kI7voDZURGIO8=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_bone.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>55zj5W3QgfX3wT6hDhY2LYdIwEWurhw6kaYXxpNWVCc=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_thigh_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>W1f80Ld474lOSknAMqjAfgDJWTh+XfZe1/rBVl8NShw=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_pelvis.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>Nz3XOhatqT5aq2mmmKgFmXqsqj3bPExai7BbDTKyDkY=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hair1.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>DiZelBFMz4g1bRRfSYc7guUa2V6SctI2UFdUIi6GSI8=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_upperarm_left.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>eWS+EEJDp+fEZCIQyUQZd028wMhhUcy5fRSKxowpYJE=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_lowerarm_right.cmf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>vXocQEACd8Ls9snSrJDclogeVISOr32fkcMyhlH3uCY=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_shoot_arrow.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>EHVX3bGuW4qfHzfunRy2s62MacBdOzwTMHaHz272dKo=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton.cfg">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>jJ/cJezUIAM/1e49Ixzdo8B++zb4ztaTs74+BGXpW1w=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_idle.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>t63Z0D+fcfbQhO5mhQASQSvnp0bqmZsBk8KtNGRBVU8=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_hair2.xrf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>hk5RZBXeUXvy8U+On1zLHb6lTCb4Zmy5/u3iKoWcW+s=</DigestValue>
+</Reference>
+<Reference URI="res/skeleton/skeleton_walk.caf">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>YSjmk5NfzwuiKL+t9jTsQkl+pNb3cxiAWbbvr6GUz6o=</DigestValue>
+</Reference>
+<Reference URI="shared/res/screen-density-xhigh/mainmenu.png">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>1d0oEZHqPn+QzNzGIHwj9ODby6x9ggFs9uOsav6jPNs=</DigestValue>
+</Reference>
+<Reference URI="info/manifest.xml">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>p8SbxD6218A2ookxoP8WjdteD3H+Cz+SvX0/B0Qc/gk=</DigestValue>
+</Reference>
+<Reference URI="bin/Cal3DViewer.exe">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>3/Myj9EfMoyFH3L4mu5Bm96clHdIn//CAltF8HjbgmI=</DigestValue>
+</Reference>
+<Reference URI="#prop">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2006/12/xml-c14n11"></Transform>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>lpo8tUDs054eLlBQXiDPVDVKfw30ZZdtkRs1jd7H5K8=</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>
+K24d1oAaQf6GPomh0r/tcCSAIfv02dHAvqUfdMfbwQ1JE6lR5Rz+l/qH0qKXnMI4x3eFyYsgI+wb
+UyFt+iogiKvjuNNKcfWDP+pmKQpe7odHnY6ngj4O2BoDsKnMVU5WdsRKWfHN1vkUmaUiIDPesOFy
+q3uxCCR0ag/5J0qZJS8=
+</SignatureValue>
+<KeyInfo>
+<X509Data>
+<X509Certificate>
+MIICpTCCAg6gAwIBAgIGAT84P+ONMA0GCSqGSIb3DQEBBQUAMIGEMQswCQYDVQQGEwJLUjEOMAwG
+A1UECAwFU3V3b24xDjAMBgNVBAcMBVN1d29uMRYwFAYDVQQKDA1UaXplbiBUZXN0IENBMSAwHgYD
+VQQLDBdUaXplbiBEZXZlbG9wZXIgVGVzdCBDQTEbMBkGA1UEAwwSVGl6ZW4gRGV2ZWxvcGVyIENB
+MB4XDTEyMTEwMTAwMDAwMFoXDTE5MDEwMTAwMDAwMFowczELMAkGA1UEBhMCUEwxFDASBgNVBAgM
+C01hem93aWVja2llMQ8wDQYDVQQHDAZXYXJzYXcxHDAaBgNVBAoME1NhbXN1bmcgRWxlY3Ryb25p
+Y3MxDjAMBgNVBAsMBVNSUE9MMQ8wDQYDVQQDDAZhdXRob3IwgZ8wDQYJKoZIhvcNAQEBBQADgY0A
+MIGJAoGBAMiiuea9UFD/Z1RN/gya09W0GdNsHDKugR9XF51dZXCWq31p0sIg1yFKQVYyfSzOe+6K
+rCOfm3oomIFKTKKm3GVfBO6yRkVQ560NFeFsNXlVctiGA6kwhe3MVQKJSB6txrpRTPM5QKgfWaJq
+Yfq3weRUkYwokfpzdUH46ltjUNDLAgMBAAGjMjAwMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgeA
+MBMGA1UdJQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBBQUAA4GBAJ6R1w8JWqhhY5+K1Ca+9pb3
+vWBge+z/VbTVUba4HHh3JwRGRFhj0JXPI2a7vdLTsRC0ZyLBh3CH7fhY5kJBWwHbNQp/u1EX4TOC
+tW9Ut4BVxQxj+np72ZgjXGaSerLdAB10VYGSgur/+e0iJNy+Vyh+1hN3TB5skjtjbxjtlPED
+</X509Certificate>
+<X509Certificate>
+MIICpzCCAhCgAwIBAgIJAKzDjmEF+1OXMA0GCSqGSIb3DQEBBQUAMIGTMQswCQYDVQQGEwJLUjEO
+MAwGA1UECAwFU3V3b24xDjAMBgNVBAcMBVN1d29uMRYwFAYDVQQKDA1UaXplbiBUZXN0IENBMSUw
+IwYDVQQLDBxUaXplbiBUZXN0IERldmVsb3BlciBSb290IENBMSUwIwYDVQQDDBxUaXplbiBUZXN0
+IERldmVsb3BlciBSb290IENBMB4XDTEyMTAyOTEzMDEyMloXDTIyMTAyNzEzMDEyMlowgYQxCzAJ
+BgNVBAYTAktSMQ4wDAYDVQQIDAVTdXdvbjEOMAwGA1UEBwwFU3V3b24xFjAUBgNVBAoMDVRpemVu
+IFRlc3QgQ0ExIDAeBgNVBAsMF1RpemVuIERldmVsb3BlciBUZXN0IENBMRswGQYDVQQDDBJUaXpl
+biBEZXZlbG9wZXIgQ0EwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyG0DSTHBgalQo1seDK
+xpCU61gji+QQlxQkPQOvBrmuF6Z90zFCprTtg2sRjTLCNoRd75+VCCHuKGcrD27t7hwAekusPrpz
+dsq5QoBMvNjGDM22lC45PJ4d86DEDY4erxeJ5aSQxqbfXK4pKe9NwxdkKuA8dTYZM1UcmhXs7YAL
+AgMBAAGjEDAOMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEACbr/OPNMJ+Ejrxfm/YjC
+iRPpjJLnwXS2IDtitbxot6bEdZkZvOFXOC0Ca4GT+jtvOcSlU7tM3Mdd1MrKe1kkoVd1vhCV8V4C
+K3/DPj8aN3rxfMfQitA6XMDcxzhsyMWz56OdifX50dvS/G/ad+kGhNhOOEKSE8zUyEDCGwqkfXk=
+</X509Certificate>
+</X509Data>
+</KeyInfo>
+<Object Id="prop"><SignatureProperties xmlns:dsp="http://www.w3.org/2009/xmldsig-properties"><SignatureProperty Id="profile" Target="#AuthorSignature"><dsp:Profile URI="http://www.w3.org/ns/widgets-digsig#profile"></dsp:Profile></SignatureProperty><SignatureProperty Id="role" Target="#AuthorSignature"><dsp:Role URI="http://www.w3.org/ns/widgets-digsig#role-author"></dsp:Role></SignatureProperty><SignatureProperty Id="identifier" Target="#AuthorSignature"><dsp:Identifier></dsp:Identifier></SignatureProperty></SignatureProperties></Object>
+</Signature>
