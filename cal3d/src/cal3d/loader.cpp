@@ -927,8 +927,8 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(CalDataSource& dataSrc)
     return 0;
   }
 
-  bool hasVertexColors = (version >= Cal::FIRST_FILE_VERSION_WITH_VERTEX_COLORS);
-  bool hasMorphTargetsInMorphFiles = (version >= Cal::FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES);
+  //bool hasVertexColors = (version >= Cal::FIRST_FILE_VERSION_WITH_VERTEX_COLORS);
+  //bool hasMorphTargetsInMorphFiles = (version >= Cal::FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES);
 
   // get the number of submeshes
   int submeshCount;
@@ -1480,9 +1480,9 @@ CalLoader::readCompressedKeyframe(
    // Read in the quat and time.
    float quat[ 4 ];
    unsigned int steps;
-   unsigned int bytesRead = ReadQuatAndExtra( buf, quat, & steps, keyframeBitsPerOriComponent, keyframeBitsPerTime );
+ //  unsigned int bytesRead = ReadQuatAndExtra( buf, quat, & steps, keyframeBitsPerOriComponent, keyframeBitsPerTime );
    buf += 6;
-   assert( bytesRead == 6 );
+//   assert( bytesRead == 6 );
    quatResult->set( quat[ 0 ], quat[ 1 ], quat[ 2 ], quat[ 3 ] );
    * timeResult = steps / 30.0f;
    return buf - bufStart;
@@ -1546,21 +1546,21 @@ CalLoader::writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, co
    }
 
    // Write the quat and time.
-   float wquat[] = { rotation.x, rotation.y, rotation.z, rotation.w };
+   /*  float wquat[] = { rotation.x, rotation.y, rotation.z, rotation.w };
 
-   unsigned int steps = ( unsigned int ) floor( caltime * 30 + 0.5 );
+    unsigned int steps = ( unsigned int ) floor( caltime * 30 + 0.5 );
 
-   /*
+
    Removed the animation time limit so Matt can do his ice skating room.
 
    if( steps >= keyframeTimeMax ) {
    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
    return 0;
    }
-   */
+   
 
    unsigned int bw = WriteQuatAndExtra( buf, wquat, steps, CalLoader::keyframeBitsPerOriComponent, CalLoader::keyframeBitsPerTime );
-   assert( bw == 6 );
+   assert( bw == 6 );*/
    buf += 6;
    bytesWritten += 6;
    return bytesWritten;

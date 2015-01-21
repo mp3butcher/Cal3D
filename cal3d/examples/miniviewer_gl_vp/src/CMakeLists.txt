@@ -14,7 +14,8 @@ global.h  tga.h  tick.h  viewer.h
 
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} "./" )
 
-
+include_directories(${GLEW_INCLUDE_PATH})
+INCLUDE_DIRECTORIES(   ${GLUT_INCLUDE_PATH})
 INCLUDE_DIRECTORIES( ${CMAKE_HOME_DIRECTORY}/src)
 
 SET(PROJECT_SOURCES 
@@ -23,8 +24,7 @@ main.cpp  tga.cpp  tick.cpp  viewer.cpp
 )
 
 
-include_directories(${GLEW_INCLUDE_PATH})
-INCLUDE_DIRECTORIES(   ${GLUT_INCLUDE_PATH})
+
  
 
 IF(WIN32)

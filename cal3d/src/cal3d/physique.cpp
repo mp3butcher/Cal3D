@@ -623,7 +623,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 
   // get bone vector of the skeleton
   std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
-  CalBone ** vectorBonePtr = &vectorBone[0];
+ // CalBone ** vectorBonePtr = &vectorBone[0];
 
   // get vertex vector of the core submesh
   CalCoreSubmesh::Vertex* vectorVertex = &pSubmesh->getCoreSubmesh()->getVectorVertex()[0];

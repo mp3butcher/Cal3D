@@ -203,8 +203,8 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
 {
   //Check if the numbers of vertices allow a blending
   std::vector<CalCoreSubmesh *>& otherVectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
-  int numsubs = getCoreSubmeshCount();
-  int othernumsubs = pCoreMesh->getCoreSubmeshCount();
+  //int numsubs = getCoreSubmeshCount();
+  //int othernumsubs = pCoreMesh->getCoreSubmeshCount();
   if (m_vectorCoreSubmesh.size() != otherVectorCoreSubmesh.size())
   {
     CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__, "This mesh has children with a different numbers of submeshes");
