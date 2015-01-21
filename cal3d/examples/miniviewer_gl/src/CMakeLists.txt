@@ -39,6 +39,7 @@ ELSE(WIN32)
  SET(ADDITIONALS_LIBS  
  GL 
  GLU 
+pthread
  )
 
 ENDIF(WIN32)
