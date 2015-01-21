@@ -245,12 +245,13 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
     std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
     std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();
     std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& textCoordVector = (*otherIteratorCoreSubmesh)->getVectorVectorTextureCoordinate();
-    
+    std::vector<CalCoreSubmesh::Vertex>& originVectorVertex = (*iteratorCoreSubmesh)->getVectorVertex();
     for(int i = 0;i<vertexCount;++i)
     {
       CalCoreSubMorphTarget::BlendVertex blendVertex;
-      blendVertex.position = (*iteratorVectorVertex).position;
-      blendVertex.normal = (*iteratorVectorVertex).normal;
+      ///different than IMVU: blendvertex store only deltas
+      blendVertex.position = (*iteratorVectorVertex).position-originVectorVertex[i].position;
+      blendVertex.normal = (*iteratorVectorVertex).normal- originVectorVertex[i].normal;
       blendVertex.textureCoords.clear();
       blendVertex.textureCoords.reserve(textCoordVector.size());
       for( unsigned int tcI = 0; tcI < textCoordVector.size(); tcI++ ) 
