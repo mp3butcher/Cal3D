@@ -194,19 +194,19 @@ SET(CPACK_PACKAGE_DESCRIPTION "Cal3D: a skeleton based character animation libra
   IF(WIN32 AND NOT UNIX)
 
 
-  # installer icon   SET(CPACK_NSIS_MUI_UNIICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\ShortCutIcon.ico")
-   #uninstaller icon    SET(CPACK_NSIS_MUI_ICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\ShortCutIcon.ico")
+  # installer icon   SET(CPACK_NSIS_MUI_UNIICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
+   #uninstaller icon    SET(CPACK_NSIS_MUI_ICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
 #   NSIPRINT MessageBox MB_OK 'addnigshortcut'
 
-   SET(CPACK_PACKAGE_ICON "${CMAKE_HOME_DIRECTORY}\\\\InstallIcon.bmp")
+   SET(CPACK_PACKAGE_ICON "${CMAKE_HOME_DIRECTORY}\\\\plugins\\\\src\\\\res\\\\cal3d.bmp")
 
    #custom rules patch bugs in cpack/nsis (custom start icon+ add/remove desktop icon)
 STRING(REGEX REPLACE "/" "\\\\\\\\" HOME_PROJ ${CMAKE_HOME_DIRECTORY})
- SET(CPACK_NSIS_INSTALLED_ICON_NAME "${HOME_PROJ}\\\\ShortCutIcon.ico")
+ SET(CPACK_NSIS_INSTALLED_ICON_NAME "${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
 
-set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\${PROJECT_NAME}.lnk' '\$INSTDIR\\\\bin\\\\${PROJECT_NAME}.exe' parameters  '${HOME_PROJ}\\\\ShortCutIcon.ico'
+set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\CallyDemo.lnk' '\$INSTDIR\\\\CallyDemo.exe' ''   '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
     StrCmp '\$INSTALL_DESKTOP' '0' Conditionaldesktopicon
-    CreateShortCut '\$desktop\\\\${PROJECT_NAME}.lnk' '\$INSTDIR\\\\bin\\\\${PROJECT_NAME}.exe' parameters  '${HOME_PROJ}\\\\ShortCutIcon.ico'
+    CreateShortCut '\$desktop\\\\CallyDemo.lnk' '\$INSTDIR\\\\CallyDemo.exe' ''  '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
       Conditionaldesktopicon:
 ")
   set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete '\$SMPROGRAMS\\\\$START_MENU\\\\${PROJECT_NAME}.lnk'
@@ -216,9 +216,8 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
   ")
 
     SET(CPACK_PACKAGE_NAME "Cal3d Library")
-	#
-      #SET(CPACK_PACKAGE_EXECUTABLES "bin\\\\Cal3D" "Cal3D")
-    #   SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\Cal3D.exe")
+	SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Cal3D CallyDemo")
+       SET(CPACK_NSIS_INSTALLED_ICON_NAME "CallyDemo.exe")
     # SET(CPACK_NSIS_INSTALLED_ICON_NAME "Cal3D")
       SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} Cal3d Library")
       SET(CPACK_NSIS_HELP_LINK "https:\\\\\\\\gna.org\\\\projects\\\\cal3d")
@@ -228,19 +227,25 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
       #SET(CPACK_NSIS_PACKAGE_NAME "Cal3Dnsis")
         #   SET(CPACK_NSIS_PROJECT "Cal3Dnsisproj")
 	#SET(CPACK_SOURCE_STRIP_FILES "src")
+  
     FILE(GLOB dllfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.dll")
+    FILE(GLOB helpdllfiles "${CMAKE_CURRENT_BINARY_DIR}/Win32GlutAndGlew/*.dll")
   FILE(GLOB exefiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.exe")
   #FILE(GLOB datafiles "${CMAKE_CURRENT_BINARY_DIR}/data/*.obj")
- INSTALL(FILES  ${dllfiles} ${exefiles} DESTINATION bin)
-  INSTALL(FILES ${datafiles} DESTINATION data)
+ INSTALL(FILES  ${dllfiles} ${helpdllfiles} ${exefiles} DESTINATION .)
+  FILE(GLOB libfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.lib")
+INSTALL(FILES  ${libfiles} DESTINATION lib)
+  FILE(GLOB includefiles "${CMAKE_CURRENT_BINARY_DIR}/src/cal3d/*.h")
+INSTALL(FILES  ${includefiles} DESTINATION include/cal3d)
+
+	  file(GLOB datafiles "${CMAKE_CURRENT_BINARY_DIR}/data")
+	  
+	  file(GLOB callydatafiles "${CMAKE_CURRENT_BINARY_DIR}/examples/cally/data/*.*")
+  INSTALL(DIRECTORY ${datafiles}   DESTINATION .)
+   INSTALL(FILES  ${callydatafiles} DESTINATION data)
 
 
 
-   INSTALL(  FILES
-	
-	    ${CAL3D_RUNTIME_LIBRARIES_RELEASE}
-	   
-	     DESTINATION bin)
 
      
    ELSE(WIN32 AND NOT UNIX)
@@ -255,22 +260,22 @@ FOREACH(item ${LIBSTOINSTALL})
 #copy all libs in bin
 #get real names
 
-execute_process(
-COMMAND readlink ${item} RESULT_VARIABLE res${item} OUTPUT_VARIABLE TotalLinkName${item} ERROR_VARIABLE fok${item}  OUTPUT_STRIP_TRAILING_WHITESPACE)
-#copy link target to its real name in bin
-if(TotalLinkName${item})
-#its a link
-set ( LinkName${item}   ${CMAKE_HOME_DIRECTORY}/bin/${TotalLinkName${item}} )
-else()
-#its not a link
-set ( LinkName${item}  ${CMAKE_HOME_DIRECTORY}/bin/ )
-endif()
-#display copy trace
-message("cp -L ${item} ${LinkName${item}} ")
-#copy
-execute_process(
-COMMAND cp -L ${item} ${LinkName${item}}
-                OUTPUT_VARIABLE VAROK)
+	execute_process(
+	COMMAND readlink ${item} RESULT_VARIABLE res${item} OUTPUT_VARIABLE TotalLinkName${item} ERROR_VARIABLE fok${item}  OUTPUT_STRIP_TRAILING_WHITESPACE)
+	#copy link target to its real name in bin
+	if(TotalLinkName${item})
+	#its a link
+	set ( LinkName${item}   ${CMAKE_HOME_DIRECTORY}/bin/${TotalLinkName${item}} )
+	else()
+	#its not a link
+	set ( LinkName${item}  ${CMAKE_HOME_DIRECTORY}/bin/ )
+	endif()
+	#display copy trace
+	message("cp -L ${item} ${LinkName${item}} ")
+	#copy
+	execute_process(
+	COMMAND cp -L ${item} ${LinkName${item}}
+					OUTPUT_VARIABLE VAROK)
 ENDFOREACH(item ${LIBSTOINSTALL})
 
 #use these copies as install stuff
@@ -286,7 +291,7 @@ INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
       # There is a bug in NSI that does not handle full unix paths properly. Make
       # sure there is at least one set of four (4) backlasshes.
       #SET(CPACK_PACKAGE_ICON "${Cal3D_SOURCE_DIR}/data/Cal3D.png")
-      SET(CPACK_PACKAGE_EXECUTABLES "Cal3DTest" "Test Cal3DSDK")
+      SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Test Cal3DSDK")
       SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\Release\\\\cal3d_miniviewer.exe")
       SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} a skeleton based character animation library")
       SET(CPACK_NSIS_CONTACT "mp3butcher@hotmail.com")
@@ -297,7 +302,7 @@ INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
       #SET(CPACK_PACKAGE_EXECUTABLES "ccmake" "CMake")
    ENDIF(WIN32 AND NOT UNIX)
 
-SET(CPACK_PACKAGE_EXECUTABLES "Cal3D;miniviewer_gl")
+#SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo;miniviewer_gl")
   INCLUDE(CPack)
 #ENDIF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 

@@ -1,5 +1,5 @@
 subdirs(
-#cally    
+cally/src    
 #miniviewer_bada 
 #miniviewer_d3d  
 #miniviewer_d3d_bump  
