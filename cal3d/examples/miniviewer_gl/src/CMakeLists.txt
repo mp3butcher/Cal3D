@@ -2,7 +2,7 @@ PROJECT(miniviewer_gl)
 
  
 #ADD_DEFINITIONS(-Dx64BIT)
-FIND_PACKAGE(Glut)
+FIND_PACKAGE(GLUT)
 #find_package (Threads) 
 
 SET(PROJECT_INCLUDES
@@ -39,15 +39,14 @@ ELSE(WIN32)
  SET(ADDITIONALS_LIBS  
  GL 
  GLU 
- #GLEW 
- glut )
+ )
 
 ENDIF(WIN32)
   
 ADD_EXECUTABLE(miniviewer_gl ${PROJECT_SOURCES}   )
-TARGET_LINK_LIBRARIES(miniviewer_gl cal3d  ${CMAKE_THREAD_LIBS_INIT} ${ADDITIONALS_LIBS}   ${GLUT_LIBRARY}  
- 
+TARGET_LINK_LIBRARIES(miniviewer_gl cal3d  ${ADDITIONALS_LIBS}   ${GLUT_LIBRARY}   
 )
+
 SET_TARGET_PROPERTIES(miniviewer_gl PROPERTIES PROJECT_LABEL "Application miniviewer_gl" )
 
 

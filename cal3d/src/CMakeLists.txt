@@ -45,13 +45,8 @@ cal3d/morphtargetmixer.cpp  cal3d/saver.cpp                   cal3d/tinyxml.cpp
 
 
 )
-#FIND_PACKAGE(Qt4 REQUIRED)
 
-set(PROJECT_SHADERS
 
-#vorticity.glsl
-
-)
 
 
 ADD_DEFINITIONS(-Dx64BIT)
@@ -59,39 +54,10 @@ ADD_DEFINITIONS(-Dx64BIT)
 
 
 
-
-
-
-#try somestuff in order to control install target compilation options
-if (cal3d_INSTALL)
-IF(WIN32)
- 
-ELSE(WIN32)
- 
- #linux only : add GL LIBS
- SET(ADDITIONALS_LIBS  GL GLU GLEW  )
-
-ENDIF(WIN32)
-else()
-IF(WIN32)
- 
-
-ELSE(WIN32)
-
- 
-
- #linux only : add GL LIBS
- SET(ADDITIONALS_LIBS  GL GLU GLEW  )
-
-ENDIF(WIN32)
-
-endif()
-
-
 ADD_DEFINITIONS(-DCAL3D_EXPORTS)
-ADD_LIBRARY(cal3d  SHARED ${PROJECT_SOURCES} ${obfuscate_shaders} )
+ADD_LIBRARY(cal3d  SHARED ${PROJECT_SOURCES} )
 TARGET_LINK_LIBRARIES(cal3d   ${ADDITIONALS_LIBS}  
-#glsl_optimizer
+
 )
 SET_TARGET_PROPERTIES(cal3d PROPERTIES PROJECT_LABEL "Cal3d Library" )
 
