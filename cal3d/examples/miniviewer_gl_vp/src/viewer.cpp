@@ -7,6 +7,18 @@
 // Software Foundation; either version 2 of the License, or (at your option)  //
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
+#ifndef WIN32
+//Inconsistency detected by ld.so: dl-version.c: 224: _dl_check_map_versions: Assertion `needed != ((void *)0)' failed!
+///http://stackoverflow.com/questions/20007961/error-running-a-compiled-c-file-uses-opengl-error-inconsistency-detected
+//if you find better solution let me know...:/
+#include <string.h>
+#include <stdint.h>
+#include <pthread.h>
+void junk() {
+  int i;
+  i=pthread_getconcurrency();
+};
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
