@@ -185,20 +185,24 @@ SET(CPACK_PACKAGE_DESCRIPTION "Cal3D: a skeleton based character animation libra
 
 
     # install data files
-  
-  # FILE(GLOB fontfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/times.ttf")
- INSTALL(FILES ${fontfiles}  DESTINATION .)
-   
-#plateform specifix RESOURCES
-  
-  IF(WIN32 AND NOT UNIX)
+FILE(GLOB includefiles "${CMAKE_CURRENT_BINARY_DIR}/src/cal3d/*.h")
 
+FILE(GLOB datafiles "${CMAKE_CURRENT_BINARY_DIR}/data")
+FILE(GLOB callydatafiles "${CMAKE_CURRENT_BINARY_DIR}/examples/cally/data/*.*")
+
+ INSTALL(FILES  ${includefiles} DESTINATION include/cal3d)
+   
+SET(CPACK_PACKAGE_NAME "Cal3d Library")
+SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Cal3D CallyDemo")
+
+#plateform specifix Package
+  IF(WIN32 AND NOT UNIX)
+#NSIS Package
 
   # installer icon   SET(CPACK_NSIS_MUI_UNIICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
    #uninstaller icon    SET(CPACK_NSIS_MUI_ICON "D:\\\\SRC\\\\GL3VolumeOctree\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
 #   NSIPRINT MessageBox MB_OK 'addnigshortcut'
 
-   SET(CPACK_PACKAGE_ICON "${CMAKE_HOME_DIRECTORY}\\\\plugins\\\\src\\\\res\\\\cal3d.bmp")
 
    #custom rules patch bugs in cpack/nsis (custom start icon+ add/remove desktop icon)
 STRING(REGEX REPLACE "/" "\\\\\\\\" HOME_PROJ ${CMAKE_HOME_DIRECTORY})
@@ -215,8 +219,8 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
       Conditionaldesktopicon:
   ")
 
-    SET(CPACK_PACKAGE_NAME "Cal3d Library")
-	SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Cal3D CallyDemo")
+
+   SET(CPACK_PACKAGE_ICON "${CMAKE_HOME_DIRECTORY}\\\\plugins\\\\src\\\\res\\\\cal3d.bmp")
        SET(CPACK_NSIS_INSTALLED_ICON_NAME "CallyDemo.exe")
     # SET(CPACK_NSIS_INSTALLED_ICON_NAME "Cal3D")
       SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} Cal3d Library")
@@ -227,7 +231,8 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
       #SET(CPACK_NSIS_PACKAGE_NAME "Cal3Dnsis")
         #   SET(CPACK_NSIS_PROJECT "Cal3Dnsisproj")
 	#SET(CPACK_SOURCE_STRIP_FILES "src")
-  
+INSTALL(FILES  ${callydatafiles} DESTINATION data)
+  INSTALL(DIRECTORY ${datafiles}   DESTINATION .)
     FILE(GLOB dllfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.dll")
     FILE(GLOB helpdllfiles "${CMAKE_CURRENT_BINARY_DIR}/Win32GlutAndGlew/*.dll")
   FILE(GLOB exefiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.exe")
@@ -235,14 +240,8 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
  INSTALL(FILES  ${dllfiles} ${helpdllfiles} ${exefiles} DESTINATION .)
   FILE(GLOB libfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/Release/*.lib")
 INSTALL(FILES  ${libfiles} DESTINATION lib)
-  FILE(GLOB includefiles "${CMAKE_CURRENT_BINARY_DIR}/src/cal3d/*.h")
-INSTALL(FILES  ${includefiles} DESTINATION include/cal3d)
 
-	  file(GLOB datafiles "${CMAKE_CURRENT_BINARY_DIR}/data")
-	  
-	  file(GLOB callydatafiles "${CMAKE_CURRENT_BINARY_DIR}/examples/cally/data/*.*")
-  INSTALL(DIRECTORY ${datafiles}   DESTINATION .)
-   INSTALL(FILES  ${callydatafiles} DESTINATION data)
+
 
 
 
@@ -252,9 +251,12 @@ INSTALL(FILES  ${includefiles} DESTINATION include/cal3d)
 
 
 #INSTALL(FILES  ${exefiles} DESTINATION bin)
-INSTALL(PROGRAMS bin/Cal3D DESTINATION bin)
+INSTALL(PROGRAMS bin/miniviewer_gl DESTINATION bin)
+INSTALL(PROGRAMS bin/miniviewer_gl_vp DESTINATION bin)
+INSTALL(PROGRAMS bin/CallyDemo DESTINATION bin)
 
- 
+INSTALL(FILES  ${callydatafiles} DESTINATION share/cal3d)
+ INSTALL(DIRECTORY ${datafiles}   DESTINATION share/cal3d)
 
 FOREACH(item ${LIBSTOINSTALL})
 #copy all libs in bin
@@ -281,9 +283,9 @@ ENDFOREACH(item ${LIBSTOINSTALL})
 #use these copies as install stuff
 FILE(GLOB dllfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/*.so*")
 #Waiting for    INSTALL(FILES   NAMELINK_SKIP) to work
-INSTALL(FILES  ${dllfiles} DESTINATION bin NAMELINK_SKIP)
+INSTALL(FILES  ${dllfiles} DESTINATION lib NAMELINK_SKIP)
 
-FILE(GLOB linuxlauncher "${CMAKE_CURRENT_BINARY_DIR}/Cal3D")
+#no lacuncher CallyDemo must be run from /usr/share/cal3d FILE(GLOB linuxlauncher "${CMAKE_CURRENT_BINARY_DIR}/Cally")
 #Waiting for    INSTALL(FILES   NAMELINK_SKIP) to work
 INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
 
@@ -292,11 +294,9 @@ INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
       # sure there is at least one set of four (4) backlasshes.
       #SET(CPACK_PACKAGE_ICON "${Cal3D_SOURCE_DIR}/data/Cal3D.png")
       SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Test Cal3DSDK")
-      SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\Release\\\\cal3d_miniviewer.exe")
-      SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} a skeleton based character animation library")
-      SET(CPACK_NSIS_CONTACT "mp3butcher@hotmail.com")
-      SET(CPACK_NSIS_MODIFY_PATH ON)
+      
 	SET(CPACK_SOURCE_STRIP_FILES "src")
+set(CPACK_DEBIAN_PACKAGE_VERSION 0.12.0)
       #SET(CPACK_STRIP_FILES "bin/ccmake;bin/cmake;bin/cpack;bin/ctest")
       #SET(CPACK_SOURCE_STRIP_FILES "")
       #SET(CPACK_PACKAGE_EXECUTABLES "ccmake" "CMake")
