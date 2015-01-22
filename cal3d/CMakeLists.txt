@@ -192,8 +192,7 @@ FILE(GLOB callydatafiles "${CMAKE_CURRENT_BINARY_DIR}/examples/cally/data/*.*")
 
  INSTALL(FILES  ${includefiles} DESTINATION include/cal3d)
    
-SET(CPACK_PACKAGE_NAME "Cal3d Library")
-SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Cal3D CallyDemo")
+#SET(CPACK_PACKAGE_EXECUTABLES "callyDemo" "Cal3DcallyDemo")
 
 #plateform specifix Package
   IF(WIN32 AND NOT UNIX)
@@ -208,9 +207,9 @@ SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Cal3D CallyDemo")
 STRING(REGEX REPLACE "/" "\\\\\\\\" HOME_PROJ ${CMAKE_HOME_DIRECTORY})
  SET(CPACK_NSIS_INSTALLED_ICON_NAME "${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico")
 
-set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\CallyDemo.lnk' '\$INSTDIR\\\\CallyDemo.exe' ''   '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
+set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\callyDemo.lnk' '\$INSTDIR\\\\callyDemo.exe' ''   '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
     StrCmp '\$INSTALL_DESKTOP' '0' Conditionaldesktopicon
-    CreateShortCut '\$desktop\\\\CallyDemo.lnk' '\$INSTDIR\\\\CallyDemo.exe' ''  '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
+    CreateShortCut '\$desktop\\\\callyDemo.lnk' '\$INSTDIR\\\\callyDemo.exe' ''  '${HOME_PROJ}\\\\plugins\\\\src\\\\res\\\\type_bone.ico'
       Conditionaldesktopicon:
 ")
   set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete '\$SMPROGRAMS\\\\$START_MENU\\\\${PROJECT_NAME}.lnk'
@@ -221,7 +220,7 @@ set(CPACK_NSIS_CREATE_ICONS "CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\
 
 
    SET(CPACK_PACKAGE_ICON "${CMAKE_HOME_DIRECTORY}\\\\plugins\\\\src\\\\res\\\\cal3d.bmp")
-       SET(CPACK_NSIS_INSTALLED_ICON_NAME "CallyDemo.exe")
+       SET(CPACK_NSIS_INSTALLED_ICON_NAME "callyDemo.exe")
     # SET(CPACK_NSIS_INSTALLED_ICON_NAME "Cal3D")
       SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} Cal3d Library")
       SET(CPACK_NSIS_HELP_LINK "https:\\\\\\\\gna.org\\\\projects\\\\cal3d")
@@ -250,12 +249,13 @@ INSTALL(FILES  ${libfiles} DESTINATION lib)
    ELSE(WIN32 AND NOT UNIX)
 
 
+SET(CPACK_PACKAGE_NAME "libcal3d11svn-dev")
 #INSTALL(FILES  ${exefiles} DESTINATION bin)
 INSTALL(PROGRAMS bin/miniviewer_gl DESTINATION bin)
 INSTALL(PROGRAMS bin/miniviewer_gl_vp DESTINATION bin)
-INSTALL(PROGRAMS bin/CallyDemo DESTINATION bin)
+INSTALL(PROGRAMS bin/callyDemo DESTINATION bin)
 
-INSTALL(FILES  ${callydatafiles} DESTINATION share/cal3d)
+INSTALL(FILES  ${callydatafiles} DESTINATION share/cal3d/data)
  INSTALL(DIRECTORY ${datafiles}   DESTINATION share/cal3d)
 
 FOREACH(item ${LIBSTOINSTALL})
@@ -285,7 +285,7 @@ FILE(GLOB dllfiles "${CMAKE_CURRENT_BINARY_DIR}/bin/*.so*")
 #Waiting for    INSTALL(FILES   NAMELINK_SKIP) to work
 INSTALL(FILES  ${dllfiles} DESTINATION lib NAMELINK_SKIP)
 
-#no lacuncher CallyDemo must be run from /usr/share/cal3d FILE(GLOB linuxlauncher "${CMAKE_CURRENT_BINARY_DIR}/Cally")
+#no lacuncher callyDemo must be run from /usr/share/cal3d FILE(GLOB linuxlauncher "${CMAKE_CURRENT_BINARY_DIR}/Cally")
 #Waiting for    INSTALL(FILES   NAMELINK_SKIP) to work
 INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
 
@@ -293,8 +293,14 @@ INSTALL(PROGRAMS  ${linuxlauncher} DESTINATION .)
       # There is a bug in NSI that does not handle full unix paths properly. Make
       # sure there is at least one set of four (4) backlasshes.
       #SET(CPACK_PACKAGE_ICON "${Cal3D_SOURCE_DIR}/data/Cal3D.png")
-      SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo" "Test Cal3DSDK")
-      
+      #SET(CPACK_PACKAGE_EXECUTABLES "callyDemo" "Test Cal3DSDK")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Julien Valentin<mp3butcher@hotmail.com>")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libgcc1 (>= 1:3.4.2-12), freeglut3 (>= 2.4), libglew1.10 (>=1.0)")
+ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Cal3d is a skeletal based 3d character animation library written in C++ in a platform-/graphic API-independent way. It has an unified exporter pluginframework. Provide weight based blending of animations, actiosn and morphtargets through a mixer abstraction. Currently this package only include development files and binaries as well as the callyDemo which should be run from /usr/share/cal3d   and OpenGL miniviewers. For exporter plugins, checkout svn at 'http://home.gna.org/cal3d' ")
+#CPACK_DEBIAN_PACKAGE_DESCRIPTION_SUMMARY seams buggy always replace by CPACK_DEBIAN_PACKAGE_DESCRIPTION....??
+ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION_SUMMARY "Ce paquet contient la bibliotheque dexecution CAL3D ainsi que quelques utilitaires.")
+set(CPACK_DEBIAN_PACKAGE_HOMEPAGE http://home.gna.org/cal3d)
+
 	SET(CPACK_SOURCE_STRIP_FILES "src")
 set(CPACK_DEBIAN_PACKAGE_VERSION 0.12.0)
       #SET(CPACK_STRIP_FILES "bin/ccmake;bin/cmake;bin/cpack;bin/ctest")
@@ -302,7 +308,7 @@ set(CPACK_DEBIAN_PACKAGE_VERSION 0.12.0)
       #SET(CPACK_PACKAGE_EXECUTABLES "ccmake" "CMake")
    ENDIF(WIN32 AND NOT UNIX)
 
-#SET(CPACK_PACKAGE_EXECUTABLES "CallyDemo;miniviewer_gl")
+#SET(CPACK_PACKAGE_EXECUTABLES "callyDemo;miniviewer_gl")
   INCLUDE(CPack)
 #ENDIF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
