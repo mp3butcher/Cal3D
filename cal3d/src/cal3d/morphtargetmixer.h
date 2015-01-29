@@ -40,6 +40,7 @@ public:
    int getMorphTargetCount() const;
    void update(float deltaTime);
 
+   float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
 private:
 
    struct MorphAnimData
@@ -65,7 +66,6 @@ private:
    void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
 
    void ApplyWeightToMorphMesh(const std::string &morphMeshName, float trackWeight);
-   float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
 };
 
 #endif

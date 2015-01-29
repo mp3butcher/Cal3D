@@ -38,14 +38,21 @@ public:
   void reserve(int submeshes) { m_vectorCoreSubmesh.reserve(submeshes); }
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
+  ///add a CalCoreMesh as MorphId
   int addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & morphTargetName);
+  ///retrieve MorphId from MorphTargetName
+  int getMorphTargetId(std::string const & morphTargetName);
+  /// return true if submeshes have morphTargets
+  inline bool hasMorphTargets(){return !m_morphTargets.empty();}
   void scale(float factor);
   void setFilename(const std::string& filename);
   const std::string& getFilename(void) const;
   void setName(const std::string& name);
   const std::string& getName(void) const;
 
+
 private:
+  std::map<std::string,int> m_morphTargets;
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
   std::string                   m_name;
   std::string                   m_filename;

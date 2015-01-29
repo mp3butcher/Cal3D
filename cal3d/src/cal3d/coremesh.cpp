@@ -254,10 +254,10 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
       blendVertex.normal = (*iteratorVectorVertex).normal- originVectorVertex[i].normal;
       blendVertex.textureCoords.clear();
       blendVertex.textureCoords.reserve(textCoordVector.size());
-      for( unsigned int tcI = 0; tcI < textCoordVector.size(); tcI++ ) 
+      for( unsigned int tcI = 0; tcI < textCoordVector.size(); tcI++ )
       {
         blendVertex.textureCoords.push_back(textCoordVector[tcI][i]);
-      }  
+      }
 
       if(!pCalCoreSubMorphTarget->setBlendVertex(i,blendVertex)) return -1;
 
@@ -267,9 +267,20 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
     ++iteratorCoreSubmesh;
     ++otherIteratorCoreSubmesh;
   }
+  ///store morphid as a mesh attribute
+  m_morphTargets[morphTargetName]=subMorphTargetID;
   return subMorphTargetID;
 }
+ /*****************************************************************************/
+/**
+  * Set the name of the file in which the core mesh is stored, if any.
+  *
+  * @param filename The path of the file.
+  *****************************************************************************/
+  int CalCoreMesh::getMorphTargetId(std::string const & morphTargetName){
+    return m_morphTargets[morphTargetName];
 
+  }
  /*****************************************************************************/
 /** Scale the Mesh.
   *
@@ -285,12 +296,12 @@ void CalCoreMesh::scale(float factor)
 	std::vector<CalCoreSubmesh *>::iterator iteratorCoreSubmesh;
 	for(iteratorCoreSubmesh = m_vectorCoreSubmesh.begin(); iteratorCoreSubmesh != m_vectorCoreSubmesh.end(); ++iteratorCoreSubmesh)
 	{
-		(*iteratorCoreSubmesh)->scale(factor);    
+		(*iteratorCoreSubmesh)->scale(factor);
 	}
 }
 
  /*****************************************************************************/
-/** 
+/**
   * Set the name of the file in which the core mesh is stored, if any.
   *
   * @param filename The path of the file.
@@ -302,7 +313,7 @@ void CalCoreMesh::setFilename(const std::string& filename)
 }
 
  /*****************************************************************************/
-/** 
+/**
   * Get the name of the file in which the core mesh is stored, if any.
   *
   * @return One of the following values:
@@ -317,7 +328,7 @@ const std::string& CalCoreMesh::getFilename(void) const
 }
 
  /*****************************************************************************/
-/** 
+/**
   * Set the symbolic name of the core mesh.
   *
   * @param name A symbolic name.
@@ -329,7 +340,7 @@ void CalCoreMesh::setName(const std::string& name)
 }
 
  /*****************************************************************************/
-/** 
+/**
   * Get the symbolic name the core mesh.
   *
   * @return One of the following values:
