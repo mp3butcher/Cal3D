@@ -2,9 +2,9 @@ o-----------------------------------------------------------------------------o
 |                                                                             |
 |                               c a l 3 d                                     |
 |                                                                             |
-|                              Version 0.10.0                                 |
+|                              Version 0.13.01                                 |
 |                                                                             |
-|        Copyright (C) 2001-2005 Cal3D Team                                   |
+|        Copyright (C) 2001-2017 Cal3D Team                                   |
 |                                                                             |
 o-----------------------------------------------------------------------------o
 
@@ -81,11 +81,11 @@ o-----------------------------------------------------------------------------o
 | 3 What is 'cal3d'?                                                          |
 o-----------------------------------------------------------------------------o
 
-  Cal3D is a skeletal based character animation library. It is platform-
-  independent and not bound to a specific graphic API. Originally designed to
-  be used in a 3d client for the Worldforge project ( www.worldforge.org )
-  it evolved into a stand-alone product that can be used in many different
-  projects.
+  Cal3D is a skeletal based character animation library.
+  It is platform-independent and not bound to a specific graphic API. 
+  Originally designed to be used in a 3d client for the Worldforge project 
+  ( www.worldforge.org ) it evolved into a stand-alone product that can be used 
+  in many different projects.
 
 
 o-----------------------------------------------------------------------------o
@@ -94,6 +94,7 @@ o-----------------------------------------------------------------------------o
 
   - skeletal based animation setup
   - seamless blending of multiple animation tracks
+  - morphtarget (blendshapes) for facial expression
   - attachment and detachment of one or more skinned meshes at runtime
   - transformation of vertices and normals according to the weighted influence
     of one or more bones
