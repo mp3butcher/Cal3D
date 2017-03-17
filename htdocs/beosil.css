@@ -1,0 +1,8 @@
+a:link    { color: #000000 }
+a:visited { color: #000000 }
+a:active  { color: #000000 }
+a:link, a:visited, a:active { text-decoration: none }
+
+a.reallink:link    { color: #0000c0 }
+a.reallink:visited { color: #0000c0 }
+a.reallink:active  { color: #0000c0 }

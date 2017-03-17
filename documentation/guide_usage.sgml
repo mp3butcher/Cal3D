@@ -1,0 +1,583 @@
+<chapter id="usage">
+  <title>Usage</title>
+
+  <para>
+    This chapter explains the usage of the Cal3D library step by step. The topics
+    cover creation, modification, animation and rendering of models.
+  </para>
+
+  <sect1>
+    <title>Preparations</title>
+    <para>
+      Before you can start using the Cal3D library you need to include its
+      <filename>cal3d.h</filename> header-file into your project:
+    </para>
+      <example>
+        <title>Header-File Inclusion</title>
+        <programlisting>
+
+
+  #include "cal3d.h"
+        </programlisting>
+      </example>
+    <para>
+      Make sure that the location of this header-file is included in the search-path of your
+      compiler, so it is actually found while compiling. This file is very well suited to be
+      handled as a precompiled header-file, in case your compiler supports this feature.
+    </para>
+    <para>
+      In addition your project has to be linked to the Cal3D library code to be built properly.
+      This requires a successfully compiled Cal3D library. See
+      <xref linkend="compilation" endterm="compilationTITLE"> for details.
+    </para>
+  </sect1>
+
+  <sect1 id="coremodelhandling">
+    <title id="coremodelhandlingTITLE">Core Model Handling</title>
+    <para>
+      As explained in the previous chapter, every model instance is based on a core model,
+      which therefore must be created first. All the shared data, such as animations, meshes
+      and materials, need to be loaded, and a few additional steps are necessary to finish the
+      setup of the material handling.
+    </para>
+
+    <sect2>
+      <title>Creation</title>
+      <para>
+        The creation of a core model is done by instantiating a <classname>CalCoreModel</classname>
+        variable and call its <function>create()</function> function. This function takes one single
+        argument which is a description of the core model, and has no other meaning or functionality
+        otherwise. It is highly recommended to check for errors and act accordingly. Not only at this
+        stage, but for all Cal3D library calls.
+      </para>
+
+      <example>
+        <title>Core Model Creation</title>
+        <programlisting>
+
+
+  CalCoreModel myCoreModel;
+
+  if(!myCoreModel.create("my hero model type"))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Data Loading</title>
+      <para>
+        The next step after the creation of the core model is to load the skeleton data. Note that there
+        can only be one skeleton per core model and it has to be loaded before any other type of data. Use
+        the <function>loadCoreSkeleton()</function> function to do so. The single argument is the filename
+        of a Cal3D skeleton file.
+      </para>
+      <example>
+        <title>Skeleton Data Loading</title>
+        <programlisting>
+
+
+  if(!myCoreModel.loadCoreSkeleton("hero.csf"))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+      <para>
+        The animation, mesh and material data can now be loaded in any order. Use the corresponding
+        <function>loadCoreAnimation()</function>, <function>loadCoreMesh()</function> and
+        <function>loadCoreMaterial()</function> function to do so. Each of them needs a filename to
+        a Cal3D data file as argument. A unique identifier is returned which will be used in further
+        Cal3D library calls.
+      </para>
+      <example>
+      <title>Animation Data Loading</title>
+        <programlisting>
+
+
+  int idleAnimationId, walkAnimationId, limpAnimationId, waveAnimationId;
+
+  idleAnimationId = myCoreModel.loadCoreAnimation("hero_idle.caf");
+  walkAnimationId = myCoreModel.loadCoreAnimation("hero_walk.caf");
+  limpAnimationId = myCoreModel.loadCoreAnimation("hero_limp.caf");
+  waveAnimationId = myCoreModel.loadCoreAnimation("hero_wave.caf");
+
+  if((idleAnimationId == -1) || (walkAnimationId == -1) || (limpAnimationId == -1) || (waveAnimationId == -1))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+      <example>
+      <title>Mesh Data Loading</title>
+        <programlisting>
+
+
+  int upperBodyMeshId, lowerBodyMeshId, helmetMeshId;
+
+  upperBodyMeshId = myCoreModel.loadCoreMesh("hero_upperbody.cmf");
+  lowerBodyMeshId = myCoreModel.loadCoreMesh("hero_lowerbody.cmf");
+  helmetMeshId = myCoreModel.loadCoreMesh("hero_helmet.cmf");
+
+  if((upperBodyMeshId == -1) || (lowerBodyMeshId == -1) || (helmetMeshId == -1))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+      <example>
+      <title>Material Data Loading</title>
+        <programlisting>
+
+
+  int upperBodyChainmailMaterialId, upperBodyPlatemailMaterialId;
+  int lowerBodyChainmailMaterialId, lowerBodyPlatemailMaterialId;
+
+  upperBodyChainmailMaterialId = myCoreModel.loadCoreMaterial("hero_upperbody_chainmail.crf");
+  upperBodyPlatemailMaterialId = myCoreModel.loadCoreMaterial("hero_upperbody_platemail.crf");
+  lowerBodyChainmailMaterialId = myCoreModel.loadCoreMaterial("hero_lowerbody_chainmail.crf");
+  lowerBodyPlatemailMaterialId = myCoreModel.loadCoreMaterial("hero_lowerbody_platemail.crf");
+
+  if((upperBodyChainmailMaterialId == -1) || (upperBodyPlatemailMaterialId == -1) ||
+     (lowerBodyChainmailMaterialId == -1) || (lowerBodyPlatemailMaterialId == -1))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Material System Setup</title>
+      <para>
+        Depending on the type of model and the needed functionality, a few additional
+        steps must be executed to make the material handling work properly.
+      </para>
+      <para>
+        Textures are not handled by the Cal3D library itself, because of all the different
+        ways they are needed and managed in the applications. However, there is flexible
+        system in place to support the texture handling as much as possible.
+      </para>
+      <para>
+        In every map of each material there is an identifier stored. This value is written
+        during the exporting process, and is most likely the filename of a texture. The idea is
+        to use this value to load the texture, and reference it afterwards through a
+        user-defined data that can be stored in every core material map at runtime.
+      </para>
+      <para>
+        Useful functions to get all the core materials of the core model are
+        <function>getCoreMaterialCount()</function> and <function>getCoreMaterial()</function>.
+        The number of maps in a core material is returned by the <function>getMapCount()</function>
+        function. Access to the filename of each map is provided through <function>getMapFilename()</function>.
+        User-data, such as an identifier of the loaded texture, can be stored in the core material
+        map with help of the <function>setMapUserData()</function> function. It can later be retrieved
+        by calling <function>getUserMapData()</function>.
+      </para>
+      <example>
+        <title>Texture Loading</title>
+        <programlisting>
+
+
+  // load all textures and store their identifier as user-data in the corresponding core material map
+  int materialId;
+  for(materialId = 0; materialId < myCoreModel.getCoreMaterialCount(); materialId++)
+  {
+    // get the current core material
+    CalCoreMaterial *pCoreMaterial;
+    pCoreMaterial = myCoreModel.getCoreMaterial(materialId);
+
+    // loop through all the maps of the current core material
+    int mapId;
+    for(mapId = 0; mapId < pCoreMaterial->getMapCount(); mapId++)
+    {
+      // get the filename of the map
+      std::string strFilename;
+      strFilename = pCoreMaterial->getMapFilename(mapId);
+
+      // load the texture from the file
+      Cal::UserData textureId;
+      textureId = (Cal::UserData)myTextureLoadingFunction(strFilename);
+
+      // store the texture id in the user data of the map
+      pCoreMaterial->setMapUserData(mapId, textureId);
+    }
+  }
+        </programlisting>
+      </example>
+      <para>
+        If you want to use the built-in material management system of the Cal3D library
+        to handle different material sets and threads, you have to initialize it
+        accordingly. This is done by creating all material threads of the core model by
+        calling <function>createCoreMaterialThread()</function> for each of them. Then,
+        the <function>setCoreMaterialId()</function> is used to assign a material to a
+        specific material thread/set pair.
+      </para>
+      <example>
+        <title>Material Thread/Set Setup</title>
+        <programlisting>
+
+
+  // create all the material threads
+  const int UPPER_BODY_MATERIAL_THREAD = 0;
+  const int LOWER_BODY_MATERIAL_THREAD = 1;
+
+  myCoreModel.createCoreMaterialThread(UPPER_BODY_MATERIAL_THREAD);
+  myCoreModel.createCoreMaterialThread(LOWER_BODY_MATERIAL_THREAD);
+
+  // assign a material for each material thread/set pair
+  const int CHAINMAIL_MATERIAL_SET = 0;
+  const int PLATEMAIL_MATERIAL_SET = 1;
+
+  myCoreModel.setCoreMaterialId(UPPER_BODY_MATERIAL_THREAD, CHAINMAIL_MATERIAL_SET, upperChainmailMaterialId);
+  myCoreModel.setCoreMaterialId(UPPER_BODY_MATERIAL_THREAD, PLATEMAIL_MATERIAL_SET, upperPlatemailMaterialId);
+  myCoreModel.setCoreMaterialId(LOWER_BODY_MATERIAL_THREAD, CHAINMAIL_MATERIAL_SET, lowerChainmailMaterialId);
+  myCoreModel.setCoreMaterialId(LOWER_BODY_MATERIAL_THREAD, PLATEMAIL_MATERIAL_SET, lowerPlatemailMaterialId);
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Destruction</title>
+      <para>
+        When a core model is not needed anymore, it must be destroyed by calling the <function>destroy()</function>
+        function. This will free all data and other resources. Make sure that all the model instances are already
+        destroyed before doing so with their core model.
+      </para>
+      <example>
+      <title>Core Model Destruction</title>
+        <programlisting>
+
+
+  myCoreModel.destroy();
+        </programlisting>
+      </example>
+    </sect2>
+  </sect1>
+
+  <sect1 id="modelinstancehandling">
+    <title id="modelinstancehandlingTITLE">Model Instance Handling</title>
+    <para>
+      After the initialization of a core model, an unlimited number of model instances
+      can be created from it. Each of them has its own state, such as attached meshes,
+      active animations or level-of-detail settings.
+    </para>
+
+    <sect2>
+      <title>Creation</title>
+      <para>
+        The creation of a model instance is done by instantiating a <classname>CalModel</classname>
+        variable and call its <function>create()</function> function. This function takes one single
+        argument which is the core model it should be based on.
+      </para>
+
+      <example>
+        <title>Model Instance Creation</title>
+        <programlisting>
+
+
+  CalModel myModel;
+
+  if(!myModel.create(&amp;myCoreModel))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Attachment and Detachment of Meshes</title>
+      <para>
+        There is no mesh attached to a freshly created model instance. This can be done by calling
+        the <function>attachMesh()</function> function. The single argument is the identifier of the
+        mesh, which was returned when the mesh was loaded. It is always possible to attach another mesh
+        or detach an existing mesh. Detachment of an attached mesh can be done with the
+        <function>detachMesh()</function> function.
+      </para>
+      <example>
+        <title>Mesh Attachment</title>
+        <programlisting>
+
+
+  if(!myModel.attachMesh(helmetMeshId))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+      <example>
+        <title>Mesh Detachment</title>
+        <programlisting>
+
+
+  if(!myModel.detachMesh(helmetMeshId))
+  {
+    // error handling ...
+  }
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Level-of-Detail Control</title>
+      <para>
+        The <function>setLodLevel()</function> function is used to set the level-of-detail
+        of a model instance. The single argument is a floating-point value in the range
+        [0.0, 1.0]. The value is defined as the amount of the faces that are collapsed.
+        A value of 0.0 will collapse as many faces as possible, whereas a value of 1.0 will
+        set the model to full detail.
+      </para>
+      <para>
+        Note that the Cal3D library does prevent face collapsing over a material border.
+        This is done to avoid unattractive artifacts. Therefore, a value of 0.0 does not
+        equal zero faces. It means that all those faces are removed which can be collapsed
+        safely.
+      </para>
+      <para>
+        The <function>setLodLevel()</function> function should only be called when a significant
+        change in the level-of-detail occured, as it is a quite expensive process. A repetitive
+        calling on every frame with the same value will kill the performance.
+      </para>
+      <example>
+        <title>Level-of-Detail Control</title>
+        <programlisting>
+
+
+  myModel.setLodLevel(0.5f);
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Material Control</title>
+      <para>
+        A proper initialized material setup in the core model makes it possible to
+        easily change the material set of a mesh or the whole model instance. The
+        <function>setMaterialSet()</function> function, either of the
+        <classname>CalModel</classname> or the <classname>CalMesh</classname> class,
+        is used for this. The single argument is the new material set to use.
+      </para>
+      <example>
+        <title>Material Set Change</title>
+        <programlisting>
+
+
+  myModel.setMaterialSet(CHAINMAIL_MATERIAL_SET);
+
+  myModel.getMesh(upperBodyMeshId)->setMaterialSet(PLATEMAIL_MATERIAL_SET);
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Animation Control</title>
+      <para>
+        There are currently two types of animations implemented in the Cal3D library:
+        <orderedlist>
+          <listitem>
+            <para>
+              Cycles, which are repeating, looping animations.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Actions, which are one-time executed animations.
+            </para>
+          </listitem>
+        </orderedlist>
+        Note that all the available animations in a core model can be used as both animation types.
+      </para>
+      <para>
+        There are two function calls that are used to control cycles: <function>blendCycle()</function>
+        and <function>clearCycle()</function> of the <classname>CalMixer</classname>.helper class.
+      </para>
+      <para>
+        <function>blendCycle()</function> adjusts the weight of a cyclic animation in a given amount of time. This
+        can be used to fade in a new cycle or to modify the weight of an active cycle. The first
+        argument is the animation identifier, which was returned when the animation was loaded.
+        The second argument is the new weight for the cycle. The third and last argument is the
+        delay until the given weight will be reached. This value can be used to seamlessly blend
+        between two different cycles and to avoid abrupt motion changes.
+      </para>
+      <para>
+        <function>clearCycle()</function> fades out an active cycle animation in a given amount of time.
+        The first argument is again an animation identifier. The second argument is the delay until
+        the animation will be at zero weight.
+      </para>
+      <example>
+        <title>Cycle Animation Control</title>
+        <programlisting>
+
+
+  myModel.getMixer()->clearCycle(idleAnimationId, 0.3f);
+  myModel.getMixer()->blendCycle(walkAnimationId, 0.8f, 0.3f);
+  myModel.getMixer()->blendCycle(limpAnimationId, 0.2f, 0.3f);
+        </programlisting>
+      </example>
+      <para>
+        The <function>executeAction()</function> function is used to execute an action animation.
+        It takes the animation identifier as a first argument. The second and third arguments are
+        the fade in and fade out delay. Actions are executed once and automatically removed afterwards.
+      </para>
+      <example>
+        <title>Action Animation Control</title>
+        <programlisting>
+
+
+  myModel.getMixer()->executeAction(waveAnimationId, 0.3f, 0.3f);
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>State Update</title>
+      <para>
+        To obtain a smooth motion of the models, their state needs to be updated regularly.
+        This involves evaluating the new time and blending values for the active animations,
+        and calculating the resulting pose of the skeleton. All this computation is done by
+        calling the <function>update()</function> function. The single argument is a floating-point
+        value holding the elapsed seconds since the last <function>update()</function> call.
+      </para>
+      <example>
+        <title>State Update</title>
+        <programlisting>
+
+
+  myModel.update(elapsedSeconds);
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Rendering</title>
+      <para>
+        To avoid graphic-API dependent code, the actual rendering of the models is not done
+        in the Cal3D library itself. But all the necessary functions are available to make your
+        rendering loop as simple as possible.
+      </para>
+      <para>
+        IMPORTANT: The rendering of a model must always be enclosed by a
+        <function>beginRendering()</function> and a <function>endRendering()</function> function call.
+      </para>
+      <para>
+        The basic idea is to render the model by visiting all its meshes and their submeshes.
+        Helpful functions for this are <function>getMeshCount()</function> and
+        <function>getSubmeshCount()</function>. A call to the <function>selectMeshSubmesh()</function>
+        function sets the current mesh/submesh to which all following data queries will refer to.
+      </para>
+      <para>
+        Material properties can be retrieved by calling <function>getAmbientColor()</function>,
+        <function>getDiffuseColor()</function>, <function>getSpecularColor()</function> and
+        <function>getShininess()</function>.
+      </para>
+      <para>
+        The geometric data, such as vertices, normals, texture coordinates and faces, is obtained
+        by calling the appropriate functions and providing a sufficient sized buffer for the data
+        to hold. These functions are <function>getVertices()</function>, <function>getNormals()</function>,
+        <function>getTextureCoordinates()</function> and <function>getFaces()</function>. They all
+        return the actual number of data elements written to the buffer.
+      </para>
+      <example>
+        <title>Model Rendering</title>
+        <programlisting>
+
+
+  // get the renderer of the model
+  CalRenderer *pCalRenderer;
+  pCalRenderer = myModel.getRenderer();
+
+  // begin the rendering loop
+  if(!pCalRenderer->beginRendering())
+  {
+    // error handling ...
+  }
+
+  [ set the global graphic-API states here ]
+
+  // get the number of meshes
+  int meshCount;
+  meshCount = pCalRenderer->getMeshCount();
+
+  // loop through all meshes of the model
+  int meshId;
+  for(meshId = 0; meshId < meshCount; meshId++)
+  {
+    // get the number of submeshes
+    int submeshCount;
+    submeshCount = pCalRenderer->getSubmeshCount(meshId);
+
+    // loop through all submeshes of the mesh
+    int submeshId;
+    for(submeshId = 0; submeshId < submeshCount; submeshId++)
+    {
+      // select mesh and submesh for further data access
+      if(pCalRenderer->selectMeshSubmesh(meshId, submeshId))
+      {
+        // get the material colors
+        unsigned char ambientColor[4], diffuseColor[4], specularColor[4];
+        pCalRenderer->getAmbientColor(&amp;ambientColor[0]);
+        pCalRenderer->getDiffuseColor(&amp;diffuseColor[0]);
+        pCalRenderer->getSpecularColor(&amp;specularColor[0]);
+
+        // get the material shininess factor
+        float shininess;
+        shininess = pCalRenderer->getShininess();
+
+        // get the transformed vertices of the submesh
+        static float meshVertices[30000][3];
+        int vertexCount;
+        vertexCount = pCalRenderer->getVertices(&amp;meshVertices[0][0]);
+
+        // get the transformed normals of the submesh
+        static float meshNormals[30000][3];
+        pCalRenderer->getNormals(&amp;meshNormals[0][0]);
+
+        // get the texture coordinates of the submesh
+        // (only for the first map as example, others can be accessed in the same way though)
+        static float meshTextureCoordinates[30000][2];
+        int textureCoordinateCount;
+        textureCoordinateCount = pCalRenderer->getTextureCoordinates(0, &amp;meshTextureCoordinates[0][0]);
+
+        // get the stored texture identifier
+        // (only for the first map as example, others can be accessed in the same way though)
+        Cal::UserData textureId;
+        textureId = pCalRenderer->getMapUserData(0)
+
+        [ set the material, vertex, normal and texture states in the graphic-API here ]
+
+        // get the faces of the submesh
+        static int meshFaces[50000][3];
+        int faceCount;
+        faceCount = pCalRenderer->getFaces(&amp;meshFaces[0][0]);
+
+        [ render the faces with the graphic-API here ]
+      }
+    }
+  }
+
+  // end the rendering of the model
+  pCalRenderer->endRendering();
+        </programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Destruction</title>
+      <para>
+        When a model instance is not needed anymore, it must be destroyed by calling the
+        <function>destroy()</function> function. This will free all data and other resources.
+      </para>
+      <example>
+      <title>Model Instance Destruction</title>
+        <programlisting>
+
+
+  myModel.destroy();
+        </programlisting>
+      </example>
+    </sect2>
+  </sect1>
+
+</chapter>

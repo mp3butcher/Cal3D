@@ -1,0 +1,27 @@
+Format: 1.7
+Date: Thu, 15 Jun 2006 05:31:27 +0000
+Source: cal3d
+Binary: libcal3d12-dev libcal3d-doc libcal3d12
+Architecture: source i386 all
+Version: 0.10.0+0.11.0+rc2-1
+Distribution: breezy
+Urgency: low
+Maintainer: Michael Koch <konqueror@gmx.de>
+Changed-By: Michael Koch <konqueror@gmx.de>
+Description: 
+ libcal3d-doc - Skeletal based 3d character animation library - API documentation
+ libcal3d12 - Skeletal based 3d character animation library
+ libcal3d12-dev - Skeletal based 3d character animation library - development files
+Changes: 
+ cal3d (0.10.0+0.11.0+rc2-1) unstable; urgency=low
+ .
+   * New upstream release.
+   * Run make check during build.
+   * Include cal3d_converter into libcal3d12.
+Files: 
+ 2dce4c4d9217e0852b64b6c8ad8095e1 394 libs optional cal3d_0.10.0+0.11.0+rc2-1.dsc
+ cf179e73be1c638591e4e622dbe9ca4a 557884 libs optional cal3d_0.10.0+0.11.0+rc2.orig.tar.gz
+ 7224cf4314271bf83b75634aaa1e7598 3363 libs optional cal3d_0.10.0+0.11.0+rc2-1.diff.gz
+ 23aae4d5cc16a7ccf05212b79c6a7107 157574 libdevel optional libcal3d-doc_0.10.0+0.11.0+rc2-1_all.deb
+ 2df8a02ce016dbf690bebdd640e0cc4e 245986 libs optional libcal3d12_0.10.0+0.11.0+rc2-1_i386.deb
+ ecf02ec0ee83710cc91ab5530b733c20 397962 libdevel optional libcal3d12-dev_0.10.0+0.11.0+rc2-1_i386.deb

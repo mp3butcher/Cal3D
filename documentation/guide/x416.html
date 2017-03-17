@@ -1,0 +1,484 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Core Model Handling</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Usage"
+HREF="c403.html"><LINK
+REL="PREVIOUS"
+TITLE="Usage"
+HREF="c403.html"><LINK
+REL="NEXT"
+TITLE="Model Instance Handling"
+HREF="x475.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c403.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 5. Usage</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x475.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="COREMODELHANDLING"
+>5.2. Core Model Handling</A
+></H1
+><P
+>      As explained in the previous chapter, every model instance is based on a core model,
+      which therefore must be created first. All the shared data, such as animations, meshes
+      and materials, need to be loaded, and a few additional steps are necessary to finish the
+      setup of the material handling.
+    </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN419"
+>5.2.1. Creation</A
+></H2
+><P
+>        The creation of a core model is done by instantiating a <CODE
+CLASS="CLASSNAME"
+>CalCoreModel</CODE
+>
+        variable and call its <CODE
+CLASS="FUNCTION"
+>create()</CODE
+> function. This function takes one single
+        argument which is a description of the core model, and has no other meaning or functionality
+        otherwise. It is highly recommended to check for errors and act accordingly. Not only at this
+        stage, but for all Cal3D library calls.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN424"
+></A
+><P
+><B
+>Example 5-2. Core Model Creation</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  CalCoreModel myCoreModel;
+
+  if(!myCoreModel.create("my hero model type"))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN427"
+>5.2.2. Data Loading</A
+></H2
+><P
+>        The next step after the creation of the core model is to load the skeleton data. Note that there
+        can only be one skeleton per core model and it has to be loaded before any other type of data. Use
+        the <CODE
+CLASS="FUNCTION"
+>loadCoreSkeleton()</CODE
+> function to do so. The single argument is the filename
+        of a Cal3D skeleton file.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN431"
+></A
+><P
+><B
+>Example 5-3. Skeleton Data Loading</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  if(!myCoreModel.loadCoreSkeleton("hero.csf"))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+><P
+>        The animation, mesh and material data can now be loaded in any order. Use the corresponding
+        <CODE
+CLASS="FUNCTION"
+>loadCoreAnimation()</CODE
+>, <CODE
+CLASS="FUNCTION"
+>loadCoreMesh()</CODE
+> and
+        <CODE
+CLASS="FUNCTION"
+>loadCoreMaterial()</CODE
+> function to do so. Each of them needs a filename to
+        a Cal3D data file as argument. A unique identifier is returned which will be used in further
+        Cal3D library calls.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN438"
+></A
+><P
+><B
+>Example 5-4. Animation Data Loading</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  int idleAnimationId, walkAnimationId, limpAnimationId, waveAnimationId;
+
+  idleAnimationId = myCoreModel.loadCoreAnimation("hero_idle.caf");
+  walkAnimationId = myCoreModel.loadCoreAnimation("hero_walk.caf");
+  limpAnimationId = myCoreModel.loadCoreAnimation("hero_limp.caf");
+  waveAnimationId = myCoreModel.loadCoreAnimation("hero_wave.caf");
+
+  if((idleAnimationId == -1) || (walkAnimationId == -1) || (limpAnimationId == -1) || (waveAnimationId == -1))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN441"
+></A
+><P
+><B
+>Example 5-5. Mesh Data Loading</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  int upperBodyMeshId, lowerBodyMeshId, helmetMeshId;
+
+  upperBodyMeshId = myCoreModel.loadCoreMesh("hero_upperbody.cmf");
+  lowerBodyMeshId = myCoreModel.loadCoreMesh("hero_lowerbody.cmf");
+  helmetMeshId = myCoreModel.loadCoreMesh("hero_helmet.cmf");
+
+  if((upperBodyMeshId == -1) || (lowerBodyMeshId == -1) || (helmetMeshId == -1))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN444"
+></A
+><P
+><B
+>Example 5-6. Material Data Loading</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  int upperBodyChainmailMaterialId, upperBodyPlatemailMaterialId;
+  int lowerBodyChainmailMaterialId, lowerBodyPlatemailMaterialId;
+
+  upperBodyChainmailMaterialId = myCoreModel.loadCoreMaterial("hero_upperbody_chainmail.crf");
+  upperBodyPlatemailMaterialId = myCoreModel.loadCoreMaterial("hero_upperbody_platemail.crf");
+  lowerBodyChainmailMaterialId = myCoreModel.loadCoreMaterial("hero_lowerbody_chainmail.crf");
+  lowerBodyPlatemailMaterialId = myCoreModel.loadCoreMaterial("hero_lowerbody_platemail.crf");
+
+  if((upperBodyChainmailMaterialId == -1) || (upperBodyPlatemailMaterialId == -1) ||
+     (lowerBodyChainmailMaterialId == -1) || (lowerBodyPlatemailMaterialId == -1))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN447"
+>5.2.3. Material System Setup</A
+></H2
+><P
+>        Depending on the type of model and the needed functionality, a few additional
+        steps must be executed to make the material handling work properly.
+      </P
+><P
+>        Textures are not handled by the Cal3D library itself, because of all the different
+        ways they are needed and managed in the applications. However, there is flexible
+        system in place to support the texture handling as much as possible.
+      </P
+><P
+>        In every map of each material there is an identifier stored. This value is written
+        during the exporting process, and is most likely the filename of a texture. The idea is
+        to use this value to load the texture, and reference it afterwards through a
+        user-defined data that can be stored in every core material map at runtime.
+      </P
+><P
+>        Useful functions to get all the core materials of the core model are
+        <CODE
+CLASS="FUNCTION"
+>getCoreMaterialCount()</CODE
+> and <CODE
+CLASS="FUNCTION"
+>getCoreMaterial()</CODE
+>.
+        The number of maps in a core material is returned by the <CODE
+CLASS="FUNCTION"
+>getMapCount()</CODE
+>
+        function. Access to the filename of each map is provided through <CODE
+CLASS="FUNCTION"
+>getMapFilename()</CODE
+>.
+        User-data, such as an identifier of the loaded texture, can be stored in the core material
+        map with help of the <CODE
+CLASS="FUNCTION"
+>setMapUserData()</CODE
+> function. It can later be retrieved
+        by calling <CODE
+CLASS="FUNCTION"
+>getUserMapData()</CODE
+>.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN459"
+></A
+><P
+><B
+>Example 5-7. Texture Loading</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  // load all textures and store their identifier as user-data in the corresponding core material map
+  int materialId;
+  for(materialId = 0; materialId &#60; myCoreModel.getCoreMaterialCount(); materialId++)
+  {
+    // get the current core material
+    CalCoreMaterial *pCoreMaterial;
+    pCoreMaterial = myCoreModel.getCoreMaterial(materialId);
+
+    // loop through all the maps of the current core material
+    int mapId;
+    for(mapId = 0; mapId &#60; pCoreMaterial-&#62;getMapCount(); mapId++)
+    {
+      // get the filename of the map
+      std::string strFilename;
+      strFilename = pCoreMaterial-&#62;getMapFilename(mapId);
+
+      // load the texture from the file
+      Cal::UserData textureId;
+      textureId = (Cal::UserData)myTextureLoadingFunction(strFilename);
+
+      // store the texture id in the user data of the map
+      pCoreMaterial-&#62;setMapUserData(mapId, textureId);
+    }
+  }
+        </PRE
+></DIV
+><P
+>        If you want to use the built-in material management system of the Cal3D library
+        to handle different material sets and threads, you have to initialize it
+        accordingly. This is done by creating all material threads of the core model by
+        calling <CODE
+CLASS="FUNCTION"
+>createCoreMaterialThread()</CODE
+> for each of them. Then,
+        the <CODE
+CLASS="FUNCTION"
+>setCoreMaterialId()</CODE
+> is used to assign a material to a
+        specific material thread/set pair.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN465"
+></A
+><P
+><B
+>Example 5-8. Material Thread/Set Setup</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  // create all the material threads
+  const int UPPER_BODY_MATERIAL_THREAD = 0;
+  const int LOWER_BODY_MATERIAL_THREAD = 1;
+
+  myCoreModel.createCoreMaterialThread(UPPER_BODY_MATERIAL_THREAD);
+  myCoreModel.createCoreMaterialThread(LOWER_BODY_MATERIAL_THREAD);
+
+  // assign a material for each material thread/set pair
+  const int CHAINMAIL_MATERIAL_SET = 0;
+  const int PLATEMAIL_MATERIAL_SET = 1;
+
+  myCoreModel.setCoreMaterialId(UPPER_BODY_MATERIAL_THREAD, CHAINMAIL_MATERIAL_SET, upperChainmailMaterialId);
+  myCoreModel.setCoreMaterialId(UPPER_BODY_MATERIAL_THREAD, PLATEMAIL_MATERIAL_SET, upperPlatemailMaterialId);
+  myCoreModel.setCoreMaterialId(LOWER_BODY_MATERIAL_THREAD, CHAINMAIL_MATERIAL_SET, lowerChainmailMaterialId);
+  myCoreModel.setCoreMaterialId(LOWER_BODY_MATERIAL_THREAD, PLATEMAIL_MATERIAL_SET, lowerPlatemailMaterialId);
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN468"
+>5.2.4. Destruction</A
+></H2
+><P
+>        When a core model is not needed anymore, it must be destroyed by calling the <CODE
+CLASS="FUNCTION"
+>destroy()</CODE
+>
+        function. This will free all data and other resources. Make sure that all the model instances are already
+        destroyed before doing so with their core model.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN472"
+></A
+><P
+><B
+>Example 5-9. Core Model Destruction</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myCoreModel.destroy();
+        </PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c403.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x475.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Usage</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c403.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Model Instance Handling</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

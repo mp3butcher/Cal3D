@@ -1,0 +1,166 @@
+<chapter id="setup">
+  <title>Setup</title>
+
+  <para>
+    This chapter explains how you obtain, install and compile the Cal3D library.
+  </para>
+
+  <sect1 id="howtoobtain">
+    <title>How to obtain Cal3D</title>
+    <para>
+      You can find Cal3D on the official website at
+      <ulink url="http://gna.org/projects/cal3d/">http://gna.org/projects/cal3d/</ulink>.
+    </para>
+    <para>
+      Read the release notes in the download section for the latest information
+      about the different packages and dependencies.
+    </para>
+  </sect1>
+
+  <sect1 id="requirements">
+    <title>Requirements</title>
+    <para>
+      In order to successfully compile and use the Cal3D library, you need the following
+      programs:
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            A C++ compiler with decent STL support.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <ulink url="http://www.doxygen.org">Doxygen</ulink> if you want to build the
+            &apiref; from the sourcecode comments.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The <ulink url="http://www.docbook.org">DocBook</ulink> tools if you want to
+            build this User's Guide from scratch.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <para>
+      The setup was tested on most GNU/Linux distributions and native
+      packages exist for most of them. It also works on all known windows
+      or macos flavors.
+    </para>
+    <para>
+      Note that you will need additional programs and libraries to compile and
+      run the tools and demos from the Cal3D project. See their documentation
+      for details.
+    </para>
+  </sect1>
+
+  <sect1 id="installation">
+    <title>Installation</title>
+    <para>
+      This section is very important for a successful installation of Cal3D, so
+      follow the steps carefully.
+    </para>
+
+    <orderedlist>
+      <listitem>
+        <para>
+          Make sure you unpack <emphasis>all</emphasis> the different Cal3D packages into
+          the <emphasis>same</emphasis> directory. It is highly recommended that you create
+          a separate directory for this.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          The names of all the Cal3D packages are tagged with their version number. After
+          unpacking the Cal3D library package, you have to strip the version number from
+          the directory name. As example, unpacking Cal3D version 0.11 will result in a
+          directory named <filename class="directory">cal3d-0.11</filename> and should
+          be renamed to <filename class="directory">cal3d</filename>. A symbolic link
+          under *nix systems works too. All the packages depending on the Cal3D library
+          fail to compile if this is not properly done!
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          The same procedure needs to be done for the example data package. As example,
+          rename <filename class="directory">cal3d_data-0.11</filename> to
+          <filename class="directory">cal3d_data</filename>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          All the other package names do not need to be stripified, but you are free to
+          do so.
+        </para>
+      </listitem>
+    </orderedlist>
+
+    <para>
+      At the end, you should have a directory structure like this:
+    </para>
+    <programlisting>
+  <filename class="directory">my_separate_cal3d_directory/</filename>
+  <filename class="directory">    cal3d/</filename>
+  <filename class="directory">    cal3d_cally-2.0/</filename>
+  <filename class="directory">    cal3d_data/</filename>
+  <filename class="directory">    cal3d_exporter-0.3/</filename>
+  <filename class="directory">    cal3d_miniviewer-0.9/</filename>
+  <filename class="directory">    ...</filename>
+    </programlisting>
+  </sect1>
+
+  <sect1 id="compilation">
+    <title id="compilationTITLE">Compilation</title>
+    <para>
+      The Cal3D project comes with automake/autoconf scripts and MS Visual C++ for
+      easy compilation.
+    </para>
+
+    <para>
+      Read the compile instructions for your specific development environment below.
+    </para>
+
+    <sect2>
+      <title>automake/autoconf</title>
+      <para>
+        Change to the <filename class="directory">cal3d</filename> directory and execute
+        the following commands in the shell:
+      </para>
+      <programlisting>
+  ./configure
+  make
+      </programlisting>
+      <para>
+        This should build the Cal3D library without any warning or error.
+      </para>
+    </sect2>
+
+    <sect2>
+      <title>MS Visual C++</title>
+      <para>
+        Start up MS Visual C++ and execute the following steps:
+      </para>
+      <orderedlist>
+        <listitem>
+          <para>
+            Open the <filename>cal3d.dsw</filename> workspace file.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Execute <guimenu>Build</guimenu> -> <guimenuitem>Rebuild all</guimenuitem>.
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>
+        This should build the Cal3D library without any warning or error in the Release
+        Configuration. The STL warnings that appear while compiling the Debug Configuration
+        can be ignored.
+      </para>
+    </sect2>
+  </sect1>
+
+</chapter>
+

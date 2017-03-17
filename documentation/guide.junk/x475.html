@@ -1,0 +1,670 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Model Instance Handling</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Usage"
+HREF="c403.html"><LINK
+REL="PREVIOUS"
+TITLE="Core Model Handling"
+HREF="x416.html"><LINK
+REL="NEXT"
+TITLE="GNU Lesser General Public License"
+HREF="a578.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x416.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 5. Usage</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="a578.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MODELINSTANCEHANDLING"
+>5.3. Model Instance Handling</A
+></H1
+><P
+>      After the initialization of a core model, an unlimited number of model instances
+      can be created from it. Each of them has its own state, such as attached meshes,
+      active animations or level-of-detail settings.
+    </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN478"
+>5.3.1. Creation</A
+></H2
+><P
+>        The creation of a model instance is done by instantiating a <CODE
+CLASS="CLASSNAME"
+>CalModel</CODE
+>
+        variable and call its <CODE
+CLASS="FUNCTION"
+>create()</CODE
+> function. This function takes one single
+        argument which is the core model it should be based on.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN483"
+></A
+><P
+><B
+>Example 5-10. Model Instance Creation</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  CalModel myModel;
+
+  if(!myModel.create(&amp;myCoreModel))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN486"
+>5.3.2. Attachment and Detachment of Meshes</A
+></H2
+><P
+>        There is no mesh attached to a freshly created model instance. This can be done by calling
+        the <CODE
+CLASS="FUNCTION"
+>attachMesh()</CODE
+> function. The single argument is the identifier of the
+        mesh, which was returned when the mesh was loaded. It is always possible to attach another mesh
+        or detach an existing mesh. Detachment of an attached mesh can be done with the
+        <CODE
+CLASS="FUNCTION"
+>detachMesh()</CODE
+> function.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN491"
+></A
+><P
+><B
+>Example 5-11. Mesh Attachment</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  if(!myModel.attachMesh(helmetMeshId))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN494"
+></A
+><P
+><B
+>Example 5-12. Mesh Detachment</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  if(!myModel.detachMesh(helmetMeshId))
+  {
+    // error handling ...
+  }
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN497"
+>5.3.3. Level-of-Detail Control</A
+></H2
+><P
+>        The <CODE
+CLASS="FUNCTION"
+>setLodLevel()</CODE
+> function is used to set the level-of-detail
+        of a model instance. The single argument is a floating-point value in the range
+        [0.0, 1.0]. The value is defined as the amount of the faces that are collapsed.
+        A value of 0.0 will collapse as many faces as possible, whereas a value of 1.0 will
+        set the model to full detail.
+      </P
+><P
+>        Note that the Cal3D library does prevent face collapsing over a material border.
+        This is done to avoid unattractive artifacts. Therefore, a value of 0.0 does not
+        equal zero faces. It means that all those faces are removed which can be collapsed
+        safely.
+      </P
+><P
+>        The <CODE
+CLASS="FUNCTION"
+>setLodLevel()</CODE
+> function should only be called when a significant
+        change in the level-of-detail occured, as it is a quite expensive process. A repetitive
+        calling on every frame with the same value will kill the performance.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN504"
+></A
+><P
+><B
+>Example 5-13. Level-of-Detail Control</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.setLodLevel(0.5f);
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN507"
+>5.3.4. Material Control</A
+></H2
+><P
+>        A proper initialized material setup in the core model makes it possible to
+        easily change the material set of a mesh or the whole model instance. The
+        <CODE
+CLASS="FUNCTION"
+>setMaterialSet()</CODE
+> function, either of the
+        <CODE
+CLASS="CLASSNAME"
+>CalModel</CODE
+> or the <CODE
+CLASS="CLASSNAME"
+>CalMesh</CODE
+> class,
+        is used for this. The single argument is the new material set to use.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN513"
+></A
+><P
+><B
+>Example 5-14. Material Set Change</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.setMaterialSet(CHAINMAIL_MATERIAL_SET);
+
+  myModel.getMesh(upperBodyMeshId)-&#62;setMaterialSet(PLATEMAIL_MATERIAL_SET);
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN516"
+>5.3.5. Animation Control</A
+></H2
+><P
+>        There are currently two types of animations implemented in the Cal3D library:
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              Cycles, which are repeating, looping animations.
+            </P
+></LI
+><LI
+><P
+>              Actions, which are one-time executed animations.
+            </P
+></LI
+></OL
+>
+        Note that all the available animations in a core model can be used as both animation types.
+      </P
+><P
+>        There are two function calls that are used to control cycles: <CODE
+CLASS="FUNCTION"
+>blendCycle()</CODE
+>
+        and <CODE
+CLASS="FUNCTION"
+>clearCycle()</CODE
+> of the <CODE
+CLASS="CLASSNAME"
+>CalMixer</CODE
+>.helper class.
+      </P
+><P
+>        <CODE
+CLASS="FUNCTION"
+>blendCycle()</CODE
+> adjusts the weight of a cyclic animation in a given amount of time. This
+        can be used to fade in a new cycle or to modify the weight of an active cycle. The first
+        argument is the animation identifier, which was returned when the animation was loaded.
+        The second argument is the new weight for the cycle. The third and last argument is the
+        delay until the given weight will be reached. This value can be used to seamlessly blend
+        between two different cycles and to avoid abrupt motion changes.
+      </P
+><P
+>        <CODE
+CLASS="FUNCTION"
+>clearCycle()</CODE
+> fades out an active cycle animation in a given amount of time.
+        The first argument is again an animation identifier. The second argument is the delay until
+        the animation will be at zero weight.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN532"
+></A
+><P
+><B
+>Example 5-15. Cycle Animation Control</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.getMixer()-&#62;clearCycle(idleAnimationId, 0.3f);
+  myModel.getMixer()-&#62;blendCycle(walkAnimationId, 0.8f, 0.3f);
+  myModel.getMixer()-&#62;blendCycle(limpAnimationId, 0.2f, 0.3f);
+        </PRE
+></DIV
+><P
+>        The <CODE
+CLASS="FUNCTION"
+>executeAction()</CODE
+> function is used to execute an action animation.
+        It takes the animation identifier as a first argument. The second and third arguments are
+        the fade in and fade out delay. Actions are executed once and automatically removed afterwards.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN537"
+></A
+><P
+><B
+>Example 5-16. Action Animation Control</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.getMixer()-&#62;executeAction(waveAnimationId, 0.3f, 0.3f);
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN540"
+>5.3.6. State Update</A
+></H2
+><P
+>        To obtain a smooth motion of the models, their state needs to be updated regularly.
+        This involves evaluating the new time and blending values for the active animations,
+        and calculating the resulting pose of the skeleton. All this computation is done by
+        calling the <CODE
+CLASS="FUNCTION"
+>update()</CODE
+> function. The single argument is a floating-point
+        value holding the elapsed seconds since the last <CODE
+CLASS="FUNCTION"
+>update()</CODE
+> call.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN545"
+></A
+><P
+><B
+>Example 5-17. State Update</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.update(elapsedSeconds);
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN548"
+>5.3.7. Rendering</A
+></H2
+><P
+>        To avoid graphic-API dependent code, the actual rendering of the models is not done
+        in the Cal3D library itself. But all the necessary functions are available to make your
+        rendering loop as simple as possible.
+      </P
+><P
+>        IMPORTANT: The rendering of a model must always be enclosed by a
+        <CODE
+CLASS="FUNCTION"
+>beginRendering()</CODE
+> and a <CODE
+CLASS="FUNCTION"
+>endRendering()</CODE
+> function call.
+      </P
+><P
+>        The basic idea is to render the model by visiting all its meshes and their submeshes.
+        Helpful functions for this are <CODE
+CLASS="FUNCTION"
+>getMeshCount()</CODE
+> and
+        <CODE
+CLASS="FUNCTION"
+>getSubmeshCount()</CODE
+>. A call to the <CODE
+CLASS="FUNCTION"
+>selectMeshSubmesh()</CODE
+>
+        function sets the current mesh/submesh to which all following data queries will refer to.
+      </P
+><P
+>        Material properties can be retrieved by calling <CODE
+CLASS="FUNCTION"
+>getAmbientColor()</CODE
+>,
+        <CODE
+CLASS="FUNCTION"
+>getDiffuseColor()</CODE
+>, <CODE
+CLASS="FUNCTION"
+>getSpecularColor()</CODE
+> and
+        <CODE
+CLASS="FUNCTION"
+>getShininess()</CODE
+>.
+      </P
+><P
+>        The geometric data, such as vertices, normals, texture coordinates and faces, is obtained
+        by calling the appropriate functions and providing a sufficient sized buffer for the data
+        to hold. These functions are <CODE
+CLASS="FUNCTION"
+>getVertices()</CODE
+>, <CODE
+CLASS="FUNCTION"
+>getNormals()</CODE
+>,
+        <CODE
+CLASS="FUNCTION"
+>getTextureCoordinates()</CODE
+> and <CODE
+CLASS="FUNCTION"
+>getFaces()</CODE
+>. They all
+        return the actual number of data elements written to the buffer.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN568"
+></A
+><P
+><B
+>Example 5-18. Model Rendering</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  // get the renderer of the model
+  CalRenderer *pCalRenderer;
+  pCalRenderer = myModel.getRenderer();
+
+  // begin the rendering loop
+  if(!pCalRenderer-&#62;beginRendering())
+  {
+    // error handling ...
+  }
+
+  [ set the global graphic-API states here ]
+
+  // get the number of meshes
+  int meshCount;
+  meshCount = pCalRenderer-&#62;getMeshCount();
+
+  // loop through all meshes of the model
+  int meshId;
+  for(meshId = 0; meshId &#60; meshCount; meshId++)
+  {
+    // get the number of submeshes
+    int submeshCount;
+    submeshCount = pCalRenderer-&#62;getSubmeshCount(meshId);
+
+    // loop through all submeshes of the mesh
+    int submeshId;
+    for(submeshId = 0; submeshId &#60; submeshCount; submeshId++)
+    {
+      // select mesh and submesh for further data access
+      if(pCalRenderer-&#62;selectMeshSubmesh(meshId, submeshId))
+      {
+        // get the material colors
+        unsigned char ambientColor[4], diffuseColor[4], specularColor[4];
+        pCalRenderer-&#62;getAmbientColor(&amp;ambientColor[0]);
+        pCalRenderer-&#62;getDiffuseColor(&amp;diffuseColor[0]);
+        pCalRenderer-&#62;getSpecularColor(&amp;specularColor[0]);
+
+        // get the material shininess factor
+        float shininess;
+        shininess = pCalRenderer-&#62;getShininess();
+
+        // get the transformed vertices of the submesh
+        static float meshVertices[30000][3];
+        int vertexCount;
+        vertexCount = pCalRenderer-&#62;getVertices(&amp;meshVertices[0][0]);
+
+        // get the transformed normals of the submesh
+        static float meshNormals[30000][3];
+        pCalRenderer-&#62;getNormals(&amp;meshNormals[0][0]);
+
+        // get the texture coordinates of the submesh
+        // (only for the first map as example, others can be accessed in the same way though)
+        static float meshTextureCoordinates[30000][2];
+        int textureCoordinateCount;
+        textureCoordinateCount = pCalRenderer-&#62;getTextureCoordinates(0, &amp;meshTextureCoordinates[0][0]);
+
+        // get the stored texture identifier
+        // (only for the first map as example, others can be accessed in the same way though)
+        Cal::UserData textureId;
+        textureId = pCalRenderer-&#62;getMapUserData(0)
+
+        [ set the material, vertex, normal and texture states in the graphic-API here ]
+
+        // get the faces of the submesh
+        static int meshFaces[50000][3];
+        int faceCount;
+        faceCount = pCalRenderer-&#62;getFaces(&amp;meshFaces[0][0]);
+
+        [ render the faces with the graphic-API here ]
+      }
+    }
+  }
+
+  // end the rendering of the model
+  pCalRenderer-&#62;endRendering();
+        </PRE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN571"
+>5.3.8. Destruction</A
+></H2
+><P
+>        When a model instance is not needed anymore, it must be destroyed by calling the
+        <CODE
+CLASS="FUNCTION"
+>destroy()</CODE
+> function. This will free all data and other resources.
+      </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN575"
+></A
+><P
+><B
+>Example 5-19. Model Instance Destruction</B
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>&#13;
+  myModel.destroy();
+        </PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x416.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="a578.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Core Model Handling</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c403.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>GNU Lesser General Public License</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

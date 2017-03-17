@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Meshes and Submeshes</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Architecture"
+HREF="c208.html"><LINK
+REL="PREVIOUS"
+TITLE="Materials"
+HREF="x364.html"><LINK
+REL="NEXT"
+TITLE="The 'Renderer'"
+HREF="x379.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x364.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. Architecture</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x379.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MESHESSUBMESHES"
+>4.7. Meshes and Submeshes</A
+></H1
+><P
+>      The Cal3D library can handle models built from one or more meshes. These meshes
+      must be composed from triangular faces, but do not need to be in any special
+      form otherwise. Each face inside the mesh is assigned to a corresponding submesh
+      which holds all faces with the same material. This classification is done to
+      minimize render state changes in the rendering phase.
+    </P
+><P
+>      Each submesh contains a list of vertices and a list of faces. The data stored
+      per vertex includes the position, the normal, the mapping coordinates,
+      the level-of-detail data and all the influences from the assigned bones. The
+      face list is a simple structure that holds a vertex index for each corner of the
+      face.
+    </P
+><P
+>      Once again, the core model holds all meshes for a specific model type, whereas
+      the model instances have an active set of attached meshes. Each attached mesh
+      has a current state for material and level-of-detail settings, so every model
+      instance can be handled completely independent from the others.
+    </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x364.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x379.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Materials</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c208.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>The 'Renderer'</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

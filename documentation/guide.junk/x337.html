@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Animations, Tracks and Keyframes</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Architecture"
+HREF="c208.html"><LINK
+REL="PREVIOUS"
+TITLE="Skeletons and Bones"
+HREF="x325.html"><LINK
+REL="NEXT"
+TITLE="The 'Mixer'"
+HREF="x346.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x325.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. Architecture</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x346.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="ANIMATIONSTRACKSKEYFRAMES"
+>4.4. Animations, Tracks and Keyframes</A
+></H1
+><P
+>      The Cal3D library stores every motion such as walking, jumping, waving etc. in
+      a separate core animation inside the core model. These animations contain one core
+      track for each bone that is affected by the specific motion.
+    </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN340"
+></A
+><P
+><B
+>Example 4-2. The waving Walker</B
+></P
+><P
+>        Say we have a walking, human-like model waving with his right hand. There are 2
+        animations in this scenario, the one for walking and the other for waving. The
+        walking animation does most likely contain a track for every bone there is to
+        have a fully animated model. The waving animation will only be defined locally,
+        so only tracks for the right hand, arm, shoulder and probably neck and head are
+        stored within. This selective inclusion allows a powerful blending and overlay
+        mechanism as we will see in <A
+HREF="x346.html"
+><I
+>The 'Mixer'</I
+></A
+>.
+      </P
+></DIV
+><P
+>      The actual transformation data for a bone is stored in several core keyframes
+      that are contained in the corresponding track. Each keyframe holds a relative
+      rotation and a relative translation to the parent bone for a specified point of
+      time. These values are interpolated between two following keyframes by the
+      Cal3D library to achieve a smooth motion.
+    </P
+><P
+>      All the above data can be shared between different model instances and is
+      therefore completely stored in the Core Classes. The active set of animations
+      and their blending state is what makes the difference here, so these values are
+      defined in each model instance separately.
+    </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x325.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x346.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Skeletons and Bones</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c208.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>The 'Mixer'</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

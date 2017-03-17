@@ -1,0 +1,61 @@
+.FarmCopyright { font-size: 75%; font-style: italic; }
+.FarmCellNeverBuilt { background:LightGoldenRodYellow  ; }
+.FarmCellOk { background:LightGreen ; }
+.FarmCellOkCurrent { background:GreenYellow ; }
+.FarmCellOkOlder { background:DarkKhaki ; }
+.FarmCellOkNewer { background:LightGrey ; }
+.FarmCellFail { background:LightCoral ; }
+.FarmCellBuilding { background:LightSalmon ; }
+.FarmCellScheduled { background:LightBlue ; }
+.FarmCellUnknown { background:LightGrey ; }
+.FarmLogfileFail { ; }
+.FarmLogfile { font-size: 50%; }
+.FarmSchedule { font-weight: bold; }
+.FarmCellVersion { font-style: italic; }
+.FarmCellOfficialVersion { font-style: italic; font-size: 50%; }
+.FarmInstallation { font-weight: bold; }
+.FarmFreshmeatCurrent { background:GreenYellow ; }
+.FarmFreshmeatOlder { background:DarkKhaki ; }
+.FarmFreshmeatNewer { background:LightGrey ; }
+
+.FarmAge010 {
+  opacity : 0.10; /* css 3 */
+  filter : alpha(opacity = 10); /* Internet Explorer */
+  -moz-opacity : 0.1; /* Gecko */
+  -khtml-opacity : .1; /* Safari */
+}
+
+.FarmAge020 {
+  opacity : 0.20; /* css 3 */
+  filter : alpha(opacity = 20); /* Internet Explorer */
+  -moz-opacity : 0.2; /* Gecko */
+  -khtml-opacity : .2; /* Safari */
+}
+
+.FarmAge040 {
+  opacity : 0.40; /* css 3 */
+  filter : alpha(opacity = 40); /* Internet Explorer */
+  -moz-opacity : 0.4; /* Gecko */
+  -khtml-opacity : .4; /* Safari */
+}
+
+.FarmAge060 {
+  opacity : 0.60; /* css 3 */
+  filter : alpha(opacity = 60); /* Internet Explorer */
+  -moz-opacity : 0.6; /* Gecko */
+  -khtml-opacity : .6; /* Safari */
+}
+
+.FarmAge080 {
+  opacity : 0.80; /* css 3 */
+  filter : alpha(opacity = 80); /* Internet Explorer */
+  -moz-opacity : 0.8; /* Gecko */
+  -khtml-opacity : .8; /* Safari */
+}
+
+.FarmAge100 {
+  opacity : 1; /* css 3 */
+  filter : alpha(opacity = 100); /* Internet Explorer */
+  -moz-opacity : 1; /* Gecko */
+  -khtml-opacity : 1; /* Safari */
+}

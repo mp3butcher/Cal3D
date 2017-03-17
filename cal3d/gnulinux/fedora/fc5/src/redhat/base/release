@@ -1,0 +1,15 @@
+Origin: Unknown
+Label: Unknown
+Suite: Unknown
+Codename: Unknown
+Date: Thu, 22 Jun 2006 12:47:51 -0400
+Architectures: Unknown
+Components: cal3d
+Description: Not available
+MD5Sum:
+ 91a4780862015958f0921b68e7b100de 5500 base/pkglist.cal3d
+ 91c81e4fb0347d47ccfd80ea68e0ff03 771 base/srclist.cal3d
+ d7dc24c4a44603c2e03fc3aa68f0c418 1505 base/pkglist.cal3d.bz2
+ 71fb498a8094112218340943e7e337a7 521 base/srclist.cal3d.bz2
+ 6d3db0413b3bdc1544a57c83db59aa85 155 base/release.cal3d
+

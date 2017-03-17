@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Cal3D Character Modeling Tutorial</title>
+                                                                     
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+</head>
+  <body>
+               
+<div align="center"><i><b><big><big><img src="image002.jpg" alt=""
+ width="576" height="432">
+      <br>
+      <br>
+      <big>Creating Cal3D Characters with 3D Studio  MAX<br>
+<br>
+      </big>  <small>Contributed by James Allen &lt; jamesa@vrac.iastate.edu
+&gt; <br>
+</small></big></big></b><b>All images and content &copy; 2003 by James Allen</b></i><i><b><big><big><small></small><br>
+        </big></big></b></i></div>
+         <br>
+        <big><br>
+      <font face="Times New Roman, Times, serif"><i><b><big><a
+ name="Part1_basics"></a> Part 1: The Basics</big></b></i></font></big> 
+<br>
+         <br>
+       <font face="Helvetica, Arial, sans-serif">  The joy of creating a
+virtual    character or creature is that the possibilities are limitless
+on what they    can do. The exciting thing is that as computers get faster,
+the more it  is  possible to create and bring to life virtual worlds, full
+of interacting   people and creatures. As animators, it is our job to animate,
+or breathe  life into 3D models.<br>
+       <br>
+         This tutorial assumes that you have a <font color="#3333ff">low-polygon
+  model ready for animation</font>.   It also assumes that you have a basic
+  knowledge of <font color="#3333ff">terminology in computer   graphics</font>,
+ and a <font color="#3333ff">good knowledge of 3D Studio Max</font>. For
+this  tutorial,  I'm  using Max 5.1 with Character Studio 4.0. <br>
+    <font color="#cc0000"><br>
+    </font><font color="#cc0000">If you are a novice MAX user, I'd  suggest 
+ the tutorials that come with MAX, as they are very well written and  will 
+ give you a basic knowledge of this wonderful program.</font><br>
+       <br>
+        First, we've got to go over some basics of what actually goes on
+when   animating  a character. By knowing these basics, you can then use
+this tutorial   to fit  your own needs. <br>
+       <br>
+         For those of you not familiar with Character Studio at all, it is
+ a  plug-in   that ships with 3DS Max, which makes the process of rigging
+a character  much  easier. What's rigging a character you ask? A character
+is your mesh  or model that needs to be animated, and before it can be animated,
+ we need  to create a system of hierarchies that act as a skeleton. It is
+this skeleton   that we actually animate.<br>
+       <br>
+         Like in our own bodies, our virtual characters get bones as well,
+ and   not  only do these bones act as a controlling structure, but also
+can  control   deformations such as muscle bulge, etc. Character Studio takes
+Max's already   great bones system, and simplifies it, making it much faster
+and easier to  rig a character. It is possible, and sometimes necessary to
+combine the Character  Studio Biped and Max's traditional bones, i.e. a third
+leg or arm, or perhaps  a bunch of tentacles, etc.<br>
+       <br>
+         This brings me to the basics of Character Studio. Character Studio 
+ consists   of 2 programs within the package: Biped &amp; Physique. Biped 
+is the skeleton   structure that will control your character. Physique is 
+the modifier you  give your character that links it to Biped, thus allowing 
+Biped to have complete   control of your character.</font>       <br>
+        <big><i><b><big><font face="Times New Roman, Times, serif"><br>
+       <a name="Part2_rigging"></a>  Part 2: Rigging<br>
+      </font></big></b></i><br>
+      </big><font face="Helvetica, Arial, sans-serif"><br>
+         All right, now we can finally start setting up our mesh! Load your 
+ model   into Max: it's time to get started! Okay, I've got my Max with 4 
+views, which  is the default mode: Top, Front, Right and Perspective in the 
+lower right  corner. Make sure your model is in the center of the workspace, 
+which is 0 for the X and Y axes, and the feet should be at 0 for the Z axis. 
+This way, when we export to Cal3D, it will be properly aligned with the coordinate
+  axes (see figure 1).<br>
+       <br>
+      </font>      
+<div align="center"><img src="image004.jpg" alt="" width="372"
+ height="278">
+      <br>
+      <font face="Helvetica, Arial, sans-serif"><small><b>Figure 1 : Window 
+ setup</b></small></font><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif"><br>
+         The character I'll be rigging today is Jason (see figure 2), who 
+is  one  of the kids in  an animation I'm currently working on. Because we 
+don't  need  to edit Jason  just yet, we'll select all the pieces that make 
+up Jason's   arms, head, legs,  feet and shirt.<br>
+      <br>
+       </font>      
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image005.jpg" alt="" width="320" height="240">
+      <br>
+      <small><b>Figure 2 : The "Jason" character</b></small></font><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif"><br>
+     <i><b>Setting up the Biped</b></i><br>
+     <br>
+     Once you have your entire model selected, first hit <font
+ color="#3333ff"><i><b>Alt-X</b></i></font>, which turns him  semi-transparent.
+  After he's transparent, right-click on or around him and  freeze him</font><font
+ face="Helvetica, Arial, sans-serif"> (see figure 3)</font><font
+ face="Helvetica, Arial, sans-serif">. We'll thaw him out soon enough. We
+  freeze him so we don't accidentally click on him while we're setting up
+the  Biped. <br>
+       <br>
+      </font>      
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image006.jpg" alt="" width="167" height="192">
+      </font><br>
+      <font face="Helvetica, Arial, sans-serif"><b><small>Figure 3 : Freezing 
+  a model</small></b></font><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif"><br>
+        Now, click on the <font color="#3333ff"><i><b>Create</b></i></font> 
+ tab, and go to the <font color="#3333ff"><i><b>Systems</b></i></font> button.
+  Click on the   <font color="#3333ff"><i><b>Biped</b></i></font> button
+(see   figure 4). In the front viewport, click and drag from the bottom of
+the  feet to the top of the Biped's head. Click on the <font
+ color="#3333ff"><b><i>Motion</i></b></font>   tab, and then select any one
+of his appendages. Under the  <font color="#3333ff"><i><b>Motion</b></i></font>
+tab, you'll get a whole gamut   of settings and options will appear.  Click
+on the little icon that resembles   a stick figure. This will put us in Figure
+Mode, which allows us to configure   the Biped to conform to our character.
+Figure Mode is used for rigging our   character, as well as change settings
+without affecting animation.<br>
+      <br>
+      </font>      
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image008.jpg" alt="" width="195" height="278">
+      </font><br>
+      <b><font face="Helvetica, Arial, sans-serif"><small>Figure 4 : Creating 
+  a biped object</small></font></b><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif">   &nbsp;<br>
+         Moving right along, you'll see under the initial icons, Track Selection,
+    Copy/Paste, and Structure. If it isn't already visible, click on the
+<font color="#3333ff"><i><b>Structure</b></i></font>   rollout. Because Jason
+isn't a super complex character, many of the Biped's settings can remain
+the same, but here is how I have set him up for  Jason (see figure 5). Just
+a few things have changed from the default, like number of fingers,  links,
+etc. As you can see, you can give your model a ponytail, braids, props, 
+more leg or spine links, and even have forearm  twist, with as many as 10
+links! This provides much more realism when rotating  the wrist, but for
+today we'll leave that option unchecked.<br>
+       <br>
+      </font>      
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image010.jpg" alt="" width="166" height="375">
+      </font><br>
+      <b><font face="Helvetica, Arial, sans-serif"><small>Figure 5 : Biped
+ settings</small></font></b><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif"><br>
+         Now that we've explored the Structure rollout, we need to make the 
+ Biped   conform to the physiological standards of Jason. In the front viewport,
+  click  on the triangle-looking thing located at the Biped's pelvis (see
+figure  6). This is the <font color="#3333ff"><i><b>Center of Mass</b></i></font>,
+  which acts as the base point for all of the Biped. Select the <font
+ color="#3333ff"><i><b>Center of Mass</b></i></font> and position it right
+  at the crotch area of your model (as in figure 7).<br>
+       <br>
+      </font>      
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image012.jpg" alt="" width="360" height="236">
+      </font><br>
+     <small><font face="Helvetica, Arial, sans-serif"><b> Figure 6 : The
+biped's   center of mass</b></font></small><br>
+      <br>
+      </div>
+           
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image014.jpg" alt="" width="334" height="235">
+      </font><br>
+     <b><small><font face="Helvetica, Arial, sans-serif"> Figure 7 : Placement 
+  of the center of mass</font></small></b><br>
+      </div>
+      <font face="Helvetica, Arial, sans-serif"><br>
+         Next, select the right arm &amp; hand, clavicle, and the left leg
+ &amp;    foot. Right click and hide these appendages. Now select the Pelvis
+ object    and click on the <font color="#3333ff"><i><b>Non-Uniform Scale</b></i></font>
+  icon - </font><font face="Helvetica, Arial, sans-serif"><img
+ src="image015.jpg" alt="" width="32" height="39">
+    .</font><font face="Helvetica, Arial, sans-serif"> This is the icon next
+    to the Move icon. If the Uniform Scale button is visible, notice the
+little     arrow at the lower right indicating more tools, so press &amp;
+hold with    the left mouse button for a couple of seconds, and you'll get
+to choose  from  available scaling tools. <br>
+     <br>
+     Use this to scale the pelvis so that the left leg is roughly in the
+middle   of Jason's left leg. Then start working your way down his left leg
+by scaling   length &amp; relative shape. Keep in mind that Character Studio
+4's new Biped  object is much more skeletal shaped than in previous versions,
+thus thick bones are not needed. As you are scaling, make sure to line the
+knees up, and move the feet into position.<br>
+         &nbsp;<br>
+         The spine needs to be a bit bigger as well. Starting with the base 
+ of  the  spine, scale it just a bit, and then go on to the next link, on 
+up to  the  neck. They should be about the same size, and put the shoulders
+  and neck in the correct position.</font><br>
+         
+<div align="center"><br>
+         
+<div align="left"><font face="Helvetica, Arial, sans-serif">    The Biped's 
+  head needs to be a bit bigger. Using our <font color="#3333ff"><i><b>Non-Uniform
+  Scaling </b></i></font> tool, we scale it to be about the size of Jason's
+  head. You may have to also  scale the spine a bit as well. Last but not
+least,  scale the arms, hand, and fingers to match our model. When finished,
+the left side of your character's Biped object should be closely matched
+with its mesh, as in figure 8 below.</font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">    </font><br>
+     <font face="Helvetica, Arial, sans-serif"><img src="image017.jpg"
+ alt="" width="408" height="268">
+      </font><br>
+      <font face="Helvetica, Arial, sans-serif"><small><b>Figure 8 : Finished 
+  left-hand side of Jason's biped object</b></small></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         Once you've gotten the left side all set up, its time to get the 
+rest   of  the Biped in order. A very nice thing about Character Studio 4 
+is the   <font color="#3333ff"><i><b>Copy/Paste</b></i></font>  rollout. Drag
+your  mouse and select the whole Biped that's visible. Then, click on the
+<font color="#3333ff"><i><b>Copy/Paste</b></i> <font color="#000000">rollout 
+and under that, the</font> <i><b>Posture</b></i></font> button. Click  on 
+<font color="#3333ff"><i><b>Copy Posture</b></i></font>. Now, unhide the rest
+of the Biped, and hit <font color="#3333ff"><i><b>Paste Posture  Opposite</b></i></font>.
+ This will take all of our changes that we made to the left side,  and bring
+ them to the right side,  thus making the Biped symmetrical. If you  are
+satisfied  with your Biped,  it is a very good idea at this point to click
+ on the diskette  icon, which  will allow us to save our Biped figure and
+all  of our presets.  Many times  I will start animating and forget to turn
+off Figure Mode, thus  losing my  neutral pose. <br>
+     <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image019.jpg" alt="" width="156" height="262">
+     </font><br>
+     <font face="Helvetica, Arial, sans-serif"><b><small>Figure 9 : Copying 
+ biped  posture from left to right sides</small></b></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">  <br>
+     <br>
+     <i><b>    Applying the Physique modifier</b></i><br>
+       <br>
+     </font><font face="Helvetica, Arial, sans-serif">Now it's time to assign 
+  the <font color="#3333ff"><i><b>Physique</b></i></font> modifier.</font><font
+ face="Helvetica, Arial, sans-serif">&nbsp;     In a viewport, right-click
+ and hit <font color="#3333ff"><b><i>Unfreeze All</i></b></font>. Now that
+ Jason is all  thawed  out, click on his feet. For Jason's character, because
+ he has many  parts (i.e. the legs are separate from arms) we will give each
+ part a Physique   modifier. Click on the <font color="#3333ff"><i><b>Modifier</b></i></font>
+ tab, and it will be under the modifier list.   You can add it to a custom
+ button by clicking on the little button icon in  the upper right corner
+of  the Modifier rollout (see figure 10). <br>
+     <br>
+     <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image021.jpg" alt="" width="169" height="727">
+     </font><br>
+     <font face="Helvetica, Arial, sans-serif"><b><small>Figure 10 : The
+Physique   modifier rollout</small></b></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">  <br>
+        Select each part of your model and give each part a physique modifier.
+   After assigning Physique, click on the <font color="#3333ff"><i><b>Link
+ to Root Node</b></i></font> button <img src="image022.jpg" alt=""
+ width="30" height="30">
+     , and then clicking on the <font color="#3333ff"><i><b>Center of Mass</b></i></font>
+ for the Biped. When you do this,  a window will appear which allows you
+to  preset how Physique sets up its influences. For this tutorial, we'll
+just  leave it as default. It really doesn't matter what order  you apply
+physique,  but if you have many, many parts to a model it's good to do it
+in some sort  of order, so you remember which piece does and does not have
+the physique  modifier.<br>
+         &nbsp;<br>
+         Now that they all have Physique applied, if you have multiple meshes 
+  in  your character, like Jason does, click on the legs mesh. You will notice 
+   that it has many sub-objects similar to your editable mesh or poly that 
+ you're  working with. Of all the sub-objects available, we will only be focusing
+  on the envelope and vertex sub-objects. The envelope sub-object allows
+for   editing of envelopes, which determine which bone affects which vertices.
+ When you click on the <font color="#3333ff"><i><b>Envelope</b></i></font>
+ sub-object, you'll notice lines drawn through your mesh, corresponding to
+ the Biped. These are called Links. If you select a link, you'll notice a
+balloon-shaped thing that surrounds the link. You'll   also notice the vertices
+that it encompasses or is near to are shaded. These   are the vertices that
+will be influenced by that link, and in turn, that  particular bone. You
+can have multiple bones affect a single vertex, and sometimes you want that,
+and sometimes it can be a pain in the ass. <br>
+         &nbsp;<br>
+         Okay, now go to the <font color="#3333ff"><i><b>Vertex Sub-Object</b></i></font>
+ mode. You'll see three colored  crosses.  The <font color="#cc0000"><b>Red</b></font>
+ indicates deformable vertices, the <b><font color="#33cc00">Green</font></b>
+ are rigid vertices, and the  <font color="#3333ff"><b>Blue</b></font> indicates
+  that they aren't influenced at all by a bone, or are root vertices.<br>
+         &nbsp;<br>
+         Next, get out of sub-object mode and click the Biped's left foot 
+and   go  to your <font color="#3333ff"><b><i>Motion</i></b></font> tab. Unclick
+the <font color="#3333ff"><i><b>Figure Mode</b></i></font> button and move
+the Biped's  foot  to <b>his</b> left. You'll notice that some vertices from
+the right  leg might be dragged along and some from the left leg might be
+left behind  (see figure 11). Now click on the <font color="#3333ff"><i><b>Key
+ Info</b></i></font> rollout and click <font color="#3333ff"><i><b>Create
+Key</b></i></font>. This will create a key at frame 0 so we can see what
+vertex weights need to be edited.<br>
+     <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image024.jpg" alt="" width="537" height="353">
+     </font><br>
+     <b><small><font face="Helvetica, Arial, sans-serif">Figure 11 : Moving 
+ Jason  with the Physique modifier</font></small></b><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">    &nbsp;<br>
+         Going back to Physique, first go into <font color="#3333ff"><i><b>Envelopes</b></i></font>
+ sub-object mode and  click   on the L Thigh link, bringing up its envelope.
+ Looks like it needs  to be  a bit bigger. Using the <font
+ color="#3333ff"><i><b>Radial Scale</b></i></font> spinner, increase the
+envelopes  overall   scale and watch as the rest of our leg is influenced.
+The problem  that we   have now is that parts of the other leg are influenced
+by this larger envelope.   Don't worry about that for now and work your way
+down the leg, increasing   or decreasing the envelopes to encompass your
+mesh. Once you have the left   leg envelopes done, do the same to the right
+leg (<b>his</b> right, not yours). Now, if the bones were placed properly
+and the envelopes aren't too big or too small, your envelopes won't influence
+ the wrong leg. If your envelopes  DO influence the wrong leg, after you've
+ sized each envelope, go into the  Vertex sub-object mode. Make sure the
+select  button is pressed, and select  the problem vertices. If they are
+from the  left leg, and are influenced by  the right leg, click on <font
+ color="#3333ff"><b><i>Remove from Link</i></b></font> and select the right 
+ thigh and calf  links. This will remove those links from influencing those 
+ vertices. <br>
+         <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image026.jpg" alt="" width="543" height="353">
+     </font><br>
+     <small><font face="Helvetica, Arial, sans-serif"><b>Figure 12 &nbsp;:
+ The  envelope around Jason's forearm</b></font></small><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         Now we repeat this process to locate other naughty vertices.<br>
+         &nbsp;<br>
+         Okay, the head is a bit different, as you don't want it to deform
+ as  you  move the head, so select all the vertices above the neck and remove 
+ the neck  links influence from them first. Next, we want to assign a Rigid 
+ influence  on them to the Head link so click on <font color="#3333ff"><b><i>Assign
+ to Link</i></b></font>. Now, remember the three  colored cross buttons?
+Right  now, the <font color="#ff0000"><b>red</b></font> should be depressed.
+Depress  the <font color="#33cc00"><b>green</b></font> instead, which means
+that any  link we then select, it assigns a rigid  influence over, so it
+doesn't deform.  This is very useful if you have a robot  with hard metal
+or armor on a character  that you dont want stretching or deforming.<br>
+         &nbsp;<br>
+         Now repeat this process if there are other rigid objects in your 
+character.    <br>
+         &nbsp;<br>
+         After you've edited all the vertex link assignments, it is a good
+ idea   to <font color="#3333ff"><i><b>Lock</b></i></font> the assignments,
+ and if further editing is required, once the vertices    are locked, you
+can type in their weights for precise control. This can  be helpful around
+the underarm and anywhere else that just seems to be influenced   improperly.
+ Keep in mind that you can't change link assignments unless the   selected
+ vertices are Unlocked.<br>
+       <br>
+       Rigging can be the longest and worst part of character animation,
+and   you'll   be glad once it's over. The biggest thing to remember is to
+do it  right the  first time, and take the time to rig your character well,
+otherwise  animating  him can give you much more grief.&nbsp; </font>   
+         <br>
+       <i><b><big><big><br>
+      <a name="Part3_animation"></a>Part 3: Animation</big> <br>
+        </big></b></i> <br>
+       <font face="Helvetica, Arial, sans-serif">  Finally done with rigging! 
+  Now  let's create a simple walking animation.<br>
+     <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image028.jpg" alt="" width="702" height="285">
+     <br>
+     <small><b>Figure 13 : Walking animation keyframes</b></small></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">  <br>
+       To begin, click on a part of the Biped again and go into the <font
+ color="#3333ff"><b><i>Motion</i></b></font> tab.   What we'll be making
+is a simple walk cycle, and we won't be using Character   Studio's popular
+Footstep mode either. <br>
+       <br>
+       <b><i>Some Basics of Animation</i></b><br>
+       <br>
+         Traditional cell animation is usually accomplished by artists drawing
+   the keyframes first, and then later filling in with the in-betweens. For
+   example,  on frame 1, a character is standing, then on frame 8, he's in
+ the  air, and  by frame 20 he's on the side of a building. These would be
+ the keyframes,  and the poses that make up his actions between these frames
+ would be, yes  you got it, the in-betweens. The way you work in Max is a
+bit different,  but very similar. First, put your initial poses and keyframe
+in the large  poses until you've got your animation. Then come back in and
+tweak the poses  in-between each frame so that your character acts and behaves
+smoothly. <br>
+       <br>
+         For our walk cycle, make sure you have your character physiqued, 
+then   if  you want you can hide your mesh and just work with the bones. This
+helps   if your computer isn't fast or you have many polygons or large textures.
+ Sometimes  I like to keep the mesh visible so I can see how it reacts to
+certain poses.<br>
+       <br>
+         Now to start animating Jason. Click on the <font
+ color="#3333ff"><b><i>Time  Configuration</i></b></font> dialog  box  (see
+figure 14) and make the starting  frame 1 and the ending frame 32.  This
+is an even number,  which makes it  easy for keyframing. I set the first
+ keyframe to 1 because  we want the animation to loop evenly, which it must
+ be one keyframe less,  so it sets back up for the first one in the sequence.
+ <br>
+       <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image030.jpg" alt="" width="322" height="357">
+     </font><br>
+     <b><small><font face="Helvetica, Arial, sans-serif">Figure 14 : The
+Time   Configuration dialog box</font></small></b><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         Using the rotate and the move commands, position your Biped in an
+ extended    stride position. In figure 15, I have set the right foot and
+the left arm   forward, and the left foot and right arm back. <br>
+     <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image032.jpg" alt="" width="175" height="306">
+     </font><br>
+     <small><b><font face="Helvetica, Arial, sans-serif">Figure 15 : A single 
+  keyframe of animation</font></b></small><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif">  <br>
+         Here's where observation of people and their movements is critical.
+  If  you look at someone walk, you'll notice that not just their legs and
+ arms  move, but the spine, hips, and shoulders as well, even if the walk
+is basic,   like the one we're making.<br>
+       <br>
+         Select the pelvis. Since his right leg is the one taking the step, 
+ all   the weight will be placed upon the right foot, so in the front viewport, 
+  rotate the pelvis just a tad so the right foot is lower than the left (see 
+  figure 16).<br>
+       <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image033.jpg" alt="" width="358" height="251">
+     </font><br>
+     <font face="Helvetica, Arial, sans-serif"><b><small>Figure 16 : Pelvis 
+ rotation  during walk animation</small></b></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         The spine also moves to compensate for weight distribution. Click
+ on  the  Spine bone, and while holding CTRL, select Spine 1, Spine 2, and
+ Spine  3.  Rotate these in the opposite direction of the pelvis, so they
+curve just  slightly to the left of the character (as in figure 17).<br>
+       <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image035.jpg" alt="" width="218" height="325">
+     </font><br>
+     <font face="Helvetica, Arial, sans-serif"><small><b>Figure 17 : Spinal 
+ rotation  during walk animation</b></small></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         Now, you'll also notice when someone walks, the pelvis, spine and
+ shoulders    also rotate just a bit around the Z-axis, i.e. when the left
+ arm is forward,    they are rotated from left to right. Don't overdo this
+ rotation.<br>
+       <br>
+         Simple practice and observation of people walking and their movements
+   will allow you to make better, more realistic movements.<br>
+       <br>
+        In the <font color="#3333ff"><i><b>Motion</b></i></font> tab, still
+ with part of the Biped selected, add a keyframe    under the <font
+ color="#3333ff"><i><b>Key Info</b></i></font> rollout. Still in the <font
+ color="#3333ff"><i><b>Motion</b></i></font> tab, go to the <font
+ color="#3333ff"><b><i>Copy/Paste</i></b></font>    rollout and this time
+ click the <font color="#3333ff"><i><b>Pose</b></i></font> button and copy
+ your pose. Now, drag   the timeslider to frame 32. Click <font
+ color="#3333ff"><i><b>Paste Pose</b></i></font>, and add another keyframe. 
+ Next,  go to frame 16 and <font color="#3333ff"><i><b>Paste Pose Opposite</b></i></font>.
+ If you decide to play this animation,  you'll see your character sliding
+along the ground, as if he's on ice. <br>
+       <br>
+         Now go to frame 8, which is half-way between the first frame and 
+frame    16, where we'll put our in-between keyframe. Since he's taking a 
+step, we'll   just move his foot up just a tad, but not too much. Usually 
+people don't  bend their knees too much when walking casually. Don't forget 
+to assign a  keyframe at frame 8. Still on frame 8, copy our pose and go to
+frame 24 and  <font color="#3333ff"><b><i>Paste Pose Opposite</i></b></font>. 
+Now we have a character that is starting to look like  he's walking!<br>
+       <br>
+     </font>     
+<div align="center"><font face="Helvetica, Arial, sans-serif"><img
+ src="image037.jpg" alt="" width="189" height="251">
+     <img src="image039.jpg" alt="" width="189" height="251">
+     </font><br>
+     <font face="Helvetica, Arial, sans-serif"><small><b>Figure 18 : Consecutive 
+  keyframes of walking animation</b></small></font><br>
+     </div>
+     <font face="Helvetica, Arial, sans-serif"><br>
+         Double-Click on the Biped's <font color="#3333ff"><i><b>Center of
+ Mass</b></i></font>, which will select everything    except for your mesh.
+ Hide the Biped. In the <font color="#3333ff"><i><b>Perspective Viewport</b></i></font>, 
+   play the animation. Lookin' good!<br>
+       <br>
+         This was just a very basic walk cycle. It's up to you to add personality
+    to your character. There are many books and resources available showing
+  movements  and talking about timing that can help you in your quest to
+be   a great animator. See <a href="#AppendixI">Appendix I</a> for some resource
+ links. <big><br>
+      </big> </font>                                <big><br>
+      <i><b><big><a name="Part4_export"></a>Part 4: Exporting</big></b></i></big> 
+    <br>
+         &nbsp;<font face="Helvetica, Arial, sans-serif"><br>
+         One of the most important parts of Cal3D is the MAX plug-in that 
+allows    artists to export their animated characters to a format that the 
+programmers    can use. Using the exporter correctly requires a lot of attention 
+to detail,    so listen up!<br>
+       <br>
+         Before we export our model, we need to make our textures according 
+ to  what  Cal3D likes. Each material on your character MUST have a slot in
+ the  material  editor, and these materials must be named properly with a
+number  or Tag starting  with 0. Example:<br>
+         &nbsp;<br>
+         Pants [0]<br>
+         Shirt [1]<br>
+         Face [2]<br>
+         Arms [3]<br>
+         Shoes [4]<br>
+       <br>
+        Now we are ready to export the model using Cal3D's exporters. The 
+latest    exporters can be found at <a
+ href="http://gna.org/projects/cal3d/">http://gna.org/projects/cal3d/</a>. 
+   It is important to export the SKELETON FIRST. Make sure that the Biped 
+is   in FIGURE MODE, and select his Center of Mass. Under the file menu, click
+  Export. Now select the Cal3D skeleton exporter, and type a name for your
+ skeleton. A dialog box will appear with all of the bones in your Biped checked.
+ Just hit next and finish, and you've got your Cal3D skeleton!<br>
+       <br>
+         After the skeleton is exported, you can export your materials, meshes
+   and  animations in any order you want. When exporting your mesh objects
+ or  your  animation, the dialog box will ask you for a skeleton, which if
+ you  hit browse,  you'll see the skeleton file you just created. When exporting
+   the animation file, make sure your Biped is NOT in figure mode. You will
+  then be given the choice of FPS and the selection of keys to export. Also,
+  if you change your material at all, you have to re-export it AND the mesh
+  again, as that tag is saved in both the mesh and the material's Cal3D file.<br>
+       <br>
+         A bit about Cal3D's Spring system. When exporting your mesh, you 
+are   given  the option to enable the cloth spring system. Before you do this,
+ make sure  your mesh is set up properly, or MAX will crash. First, make
+sure  every polygon  in the mesh has the same smoothing group. I've also
+heard that there can only be one material applied to the mesh. Now assign 
+a weight to the vertices,  with 0.0 being your rigid vertices, and anything 
+greater than 0.0 will give  those vertices a cloth-like property, with the 
+higher number being more springy.  Now just export the mesh and enable the 
+spring system check.<br>
+       <br>
+         After everything is exported, create a .cfg file that contains all 
+ the   information about the files that make up your character. This can be
+ created   using any text editor. When writing the list of included materials, 
+ it MUST   be done so that the material tagged with [0] appears FIRST in the
+ list, with  the second being [1], etc. I've found it's easier just to name
+ my exported   materials with tags as well, so I know in what order to place
+ them. <br>
+       <br>
+         Knowing all this about exporting, here is a sample .cfg:</font>
+           <br>
+         <br>
+                 
+<table cellpadding="2" cellspacing="2" border="0" width="100%">
+          <tbody>
+            <tr>
+              <td valign="top" bgcolor="#cccccc"><small><font
+ face="Courier New, Courier, monospace"><br>
+         ################################################<br>
+         #<br>
+         # Jason Tutorial - Cal3d cfg File<br>
+         #<br>
+         ################################################<br>
+              <br>
+         scale=0.5<br>
+              <br>
+         ################# Skeleton #################<br>
+              <br>
+         skeleton=Jason_skeleton.csf<br>
+              <br>
+         ################# Meshes #################<br>
+              <br>
+         mesh=arms_and_hands.cmf<br>
+              <br>
+         mesh=body.cmf<br>
+              <br>
+         mesh=Jason_head.cmf<br>
+              <br>
+         mesh=shoes.cmf<br>
+              <br>
+         mesh=slingshot.cmf<br>
+              <br>
+         mesh=slingshot_band.cmf<br>
+              <br>
+         ################# Animations #################<br>
+              <br>
+         animation=jason_walk.caf<br>
+         animation_strut=jason_strut.caf<br>
+         animation_running=Jason_run.caf<br>
+              <br>
+         ################# Materials #################<br>
+              <br>
+         material=pants.crf<br>
+              <br>
+         material=shirt.crf<br>
+              <br>
+         material=jason_face.crf<br>
+              <br>
+         material=brown_hair.crf<br>
+              <br>
+        material=jason_arms.crf<br>
+              <br>
+        material=puma_shoes.crf</font></small>         <br>
+              <br>
+              </td>
+            </tr>
+                               
+  </tbody>        
+</table>
+        <font face="Helvetica, Arial, sans-serif"><br>
+         On the Cal3D website, you can download a mini-viewer that is used
+ to  view  and test your models. All you have to do is drag your .cfg file
+ over  Cal3d_miniviewer.exe  and it will run your model. You can also run
+it manually  on the command line by typing in Cal3d_miniviewer.exe whatever.cfg,
+ with the name of your cfg file replacing whatever.cfg.<br>
+       <br>
+         I've taken you through the steps of rigging a character, animating 
+ him,   and then exporting him, and now it's your turn to start creating characters
+   and giving them life. Have fun with it, and always observe people and
+their    movements! Also, in movies, it can be fun to &nbsp;slow down the
+motion,   and visually take note where the weight distribution is and the
+timing of   everything. This can be really fun during action sequences, such
+as the many  in The Matrix, or Lord of the Rings. </font>  <br>
+          <big><big><br>
+      <i><b><a name="AppendixI"></a>Appendix I: &nbsp;Animation Resources</b></i></big></big><font
+ face="Helvetica, Arial, sans-serif"><br>
+       <br>
+         For further learning, here are some great resources on character 
+animation,    and it's principles &amp; timing: <br>
+       <i><b><br>
+  Tricks to Animating with a Computer</b></i> - Jon Lasseter<br>
+  <a
+ href="http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/principles/lasseter_s94.htm"><small> 
+       http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/principles/lasseter_s94.htm</small></a><br>
+         <br>
+  <i><b>Character Animation: Principles and Practice</b></i> - Michael B. 
+Comet<br>
+  <a href="http://www.comet-cartoons.com/toons/3ddocs/charanim"><small> 
+     http://www.comet-cartoons.com/toons/3ddocs/charanim</small></a><br>
+         <br>
+  <i><b>Principles of Traditional Animation Applied to 3D Computer Animation</b></i><br>
+  <a
+ href="http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/principles/prin_trad_anim.htm"><small> 
+       http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/principles/prin_trad_anim.htm</small></a><br>
+         <br>
+  <i><b>Contrapposto - Sculpture Posing</b></i><br>
+  <a
+ href="http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/contrapposto.htm"><small> 
+       http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/contrapposto.htm</small></a><br>
+         <br>
+  <b><i>Learning to Walk</i></b> - George Maestri<br>
+  <small><a
+ href="http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/walking/learning_to_walk.htm"> 
+       http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/walking/learning_to_walk.htm</a></small><br>
+         &nbsp;&nbsp;<br>
+  </font><font color="#000000"><i><b><font class="header-story"
+ face="arial,helvetica,sanserif">3D Character Animation: Posing and Staging</font></b></i></font><br>
+  <font face="Helvetica, Arial, sans-serif"><small><a
+ href="http://www.techtv.com/screensavers/showtell/story/0,24330,3356118,00.html">http://www.techtv.com/screensavers/showtell/story/0,24330,3356118,00.html</a></small><br>
+       </font>     <br>
+       <br>
+      <br>
+     <br>
+    <br>
+    <br>
+ <br>
+</body>
+</html>

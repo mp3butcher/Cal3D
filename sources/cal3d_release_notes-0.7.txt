@@ -1,0 +1,61 @@
+o------------------------------------------------------------------------------o
+|                                                                              |
+|                            cal3d Release Notes                               |
+|                                                                              |
+|                       Version 0.7 (5. January 2002)                          |
+|                                                                              |
+o------------------------------------------------------------------------------o
+
+ The cal3d 0.7 release consists of the following (source-)packages:
+
+  - cal3d-0.7.tar.gz (.zip)
+    The source-code of the cal3d library.
+
+  - fileformats-0.7.txt
+    The description of the cal3d data file formats.
+
+  - cal3d_data-0.7.tar.gz (.zip)
+    The example cal3d model data (skeleton/animation/mesh/material).
+
+  - 3dsmax_models-0.7.zip
+    The original 3ds max model files.
+
+  - cal3d_miniviewer-0.7.tar.gz (.zip)
+    The source-code of the cal3d model viewer.
+    (depends on the cal3d library and the example cal3d model data).
+
+  - cal3d_exporter-0.7.zip
+    The source-code of the cal3d exporter (only 3ds max right now).
+    (depends on the cal3d library).
+
+  - cal3d_cally-2.7.tar.gz (.zip)
+    The source-code of the cal3d cally demo.
+    (depends on the cal3d library and the example cal3d model data).
+
+ All the above source-packages contain autoconf/automake scripts, a kdevelop
+ and a MSVC++ workspace. They should compile and run fine on win32 and linux
+ systems.
+
+ Unpack all packages into the same directory, so that the directory structure
+ looks like this:
+
+    cal3d_project/
+      cal3d
+      cal3d_data
+      cal3d_miniviewer-0.7
+      cal3d_exporter-0.7
+      cal3d_cally-2.7
+
+ Make sure you rename the 'cal3d-0.7' folder to 'cal3d', and the
+ 'cal3d_data-0.7' folder to 'cal3d_data' before compiling/running the other
+ packages. A symbolic link under linux works too.
+
+ A win32 binary version of the cal3d cally demo with the cal3d example model
+ data included can be downloaded as: TheCallyDemo-2.7.zip. This package is
+ completely stand-alone, no other packages are needed to run it.
+
+ Have fun!
+ Bruno 'Beosil' Heidelberger <beosil@swileys.com>
+
+o------------------------------------------------------------------------------o
+

@@ -1,0 +1,534 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Architecture</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Compilation"
+HREF="x186.html"><LINK
+REL="NEXT"
+TITLE="Vectors and Quaternions"
+HREF="x320.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x186.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x320.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="ARCHITECTURE"
+></A
+>Chapter 4. Architecture</H1
+><P
+>    This chapter illustrates the architecture of the Cal3D library. All the components
+    and terminologies are explained in every detail.
+  </P
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN211"
+>4.1. Overview</A
+></H1
+><P
+>      The basic concept in the Cal3D library is to separate data that can
+      be shared between several objects from data that is tied to one specific
+      object instance. In the realm of skeletal character animation there is quite
+      a lot of shared data: Take the animations and the meshes as examples.
+    </P
+><P
+>      The Cal3D library has a set of <A
+HREF="c208.html#CORECLASSES"
+>Core Classes</A
+> (also
+      referred to as 'core model') that represents one type of model and that stores all the
+      shared data. Each set of <A
+HREF="c208.html#INSTANCECLASSES"
+>Instance Classes</A
+>
+      (also referred to as 'model' or 'model instance') is constructed from the
+      <A
+HREF="c208.html#CORECLASSES"
+>Core Classes</A
+> and represents one specific instance
+      of the model type.
+    </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN218"
+></A
+><P
+><B
+>Example 4-1. Warriors and Dragons</B
+></P
+><P
+>        Say we have a little fantasy game with heroic warriors and deadly dragons.
+        There will be 2 different core models, namely the one for the warriors and
+        the other for the dragons. The core model of the warriors contains all the
+        animations, materials and meshes of all possible warrior instances. The
+        same holds for the dragon core model. Now, every time a warrior or dragon is
+        born, a new model instance will be created based on its core model. The
+        individual appearance is done by selecting specific meshes and materials
+        from the core model. This allows us to have epic battles with numerous different
+        warriors and dragons, even so we store most of the data only once.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="CORECLASSES"
+>4.1.1. Core Classes</A
+></H2
+><P
+>        As explained, each set of <A
+HREF="c208.html#CORECLASSES"
+>Core Classes</A
+> contains all
+        the data for one model type. This data can be divided into 4 parts:
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              The hierarchical structure, see
+              <A
+HREF="x325.html"
+><I
+>Skeletons and Bones</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The motion data, see
+              <A
+HREF="x337.html"
+><I
+>Animations, Tracks and Keyframes</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The surface properties, see
+              <A
+HREF="x364.html"
+><I
+>Materials</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The body parts, see
+              <A
+HREF="x374.html"
+><I
+>Meshes and Submeshes</I
+></A
+>
+              for details.
+            </P
+></LI
+></OL
+>
+      </P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN238"
+></A
+><P
+><B
+>Figure 4-1. Core Classes</B
+></P
+><DIV
+CLASS="MEDIAOBJECT"
+><P
+><IMG
+SRC="../guide_classes_2.gif"
+ALIGN="CENTER"></P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="INSTANCECLASSES"
+>4.1.2. Instance Classes</A
+></H2
+><P
+>        Each set of <A
+HREF="c208.html#INSTANCECLASSES"
+>Instance Classes</A
+> contains the
+        specific data for one instance of a model type. This data can be divided into 3 parts:
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              The current state of the skeleton, see
+              <A
+HREF="x325.html"
+><I
+>Skeletons and Bones</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The active set of animations, see
+              <A
+HREF="x337.html"
+><I
+>Animations, Tracks and Keyframes</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The attached body parts, see
+              <A
+HREF="x374.html"
+><I
+>Meshes and Submeshes</I
+></A
+>
+              for details.
+            </P
+></LI
+></OL
+>
+      </P
+><P
+>        There are 4 helper classes that simplify the model handling:
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              The motion control, see
+              <A
+HREF="x346.html"
+><I
+>The 'Mixer'</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The skinning stage (Physique).
+            </P
+></LI
+><LI
+><P
+>              The (experimental) cloth animation layer (Spring-System).
+            </P
+></LI
+><LI
+><P
+>              The rendering interface, see
+              <A
+HREF="x379.html"
+><I
+>The 'Renderer'</I
+></A
+>
+              for details.
+            </P
+></LI
+></OL
+>
+      </P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN271"
+></A
+><P
+><B
+>Figure 4-2. Instance Classes</B
+></P
+><DIV
+CLASS="MEDIAOBJECT"
+><P
+><IMG
+SRC="../guide_classes_3.gif"
+ALIGN="CENTER"></P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="MISCELLANEOUSCLASSES"
+>4.1.3. Miscellaneous Classes</A
+></H2
+><P
+>        The remaining classes can be divided into 4 groups:
+
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              The math components, see
+              <A
+HREF="x320.html"
+><I
+>Vectors and Quaternions</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The error handling, see
+              <A
+HREF="x400.html"
+><I
+>Error Handling</I
+></A
+>
+              for details.
+            </P
+></LI
+><LI
+><P
+>              The encapsulated platform-dependent code.
+            </P
+></LI
+><LI
+><P
+>              The helper classes for loading and saving data.
+            </P
+></LI
+></OL
+>
+      </P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN292"
+></A
+><P
+><B
+>Figure 4-3. Miscellaneous Classes</B
+></P
+><DIV
+CLASS="MEDIAOBJECT"
+><P
+><IMG
+SRC="../guide_classes_1.gif"
+ALIGN="CENTER"></P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ANIMATIONPIPELINE"
+>4.1.4. Animation Pipeline</A
+></H2
+><P
+>        The process of calculating the final model from the core data and
+        the current instance state must be seen as one single pipeline:
+
+        <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>              The combination of all the active animations in the "Mixer" to get a
+              current skeleton pose.
+            </P
+></LI
+><LI
+><P
+>              The combination of all the active morph targets in the "Morpher" to
+              get a current mesh (planned feature).
+            </P
+></LI
+><LI
+><P
+>              The deformation of the current mesh based on the current skeleton
+              pose in the "Physique".
+            </P
+></LI
+><LI
+><P
+>              The simulation of the cloth parts of the model in the "Spring-System"
+              (experimental feature).
+            </P
+></LI
+><LI
+><P
+>              The querying of the final data from the "Renderer".
+            </P
+></LI
+></OL
+>
+      </P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN313"
+></A
+><P
+><B
+>Figure 4-4. Animation Pipeline</B
+></P
+><DIV
+CLASS="MEDIAOBJECT"
+><P
+><IMG
+SRC="../guide_pipeline.gif"
+ALIGN="CENTER"></P
+></DIV
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x186.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x320.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Compilation</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Vectors and Quaternions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

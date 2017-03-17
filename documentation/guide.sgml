@@ -1,0 +1,66 @@
+<!DOCTYPE BOOK PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY guideintroduction SYSTEM "guide_introduction.sgml">
+<!ENTITY guidesetup SYSTEM "guide_setup.sgml">
+<!ENTITY guidedecisions SYSTEM "guide_decisions.sgml">
+<!ENTITY guidearchitecture SYSTEM "guide_architecture.sgml">
+<!ENTITY guideusage SYSTEM "guide_usage.sgml">
+<!ENTITY guidelgpl SYSTEM "guide_lgpl.sgml">
+<!ENTITY guidegfdl SYSTEM "guide_gfdl.sgml">
+<!ENTITY apiref SYSTEM "guide_apiref.sgml">
+]>
+
+<book id="index" lang="en">
+
+<bookinfo>
+  <title>The Cal3D User's Guide</title>
+  <subtitle>Version 0.11</subtitle>
+
+  <copyright>
+    <year>2001-2006</year>
+    <holder><ulink url="mailto:l.desmecht@skynet.be">Laurent Desmecht</ulink></holder>
+    <holder><ulink url="mailto:loic@dachary.org">Loic Dachary</ulink></holder>
+    <holder><ulink url="mailto:beosil@swileys.com">Bruno Heidelberger</ulink></holder>
+  </copyright>
+
+  <date>Last updated: 29. June 2006</date>
+
+  <releaseinfo>Draft Release</releaseinfo>
+
+  <abstract>
+    <para>
+      This documentation describes <ulink url="http://gna.org/projects/cal3d/">Cal3D</ulink>,
+      a free 3d character animation library.
+
+      Please take a minute of your time to <ulink url="https://gna.org/bugs/?func=additem&amp;group=cal3d">report
+        problems</ulink> when compiling or using cal3d. 
+
+      <important>
+        <para>
+          This is a draft version of the Cal3D User's Guide. It surely contains errors,
+          obscure descriptions and other anomalies. Please report them to the authors, 
+          or to the <ulink url="https://mail.gna.org/listinfo/cal3d-devel/">mailing list</ulink> and
+          help us make it better, thanks!
+        </para>
+      </important>
+    </para>
+  </abstract>
+
+  <graphic fileref="../shared/cal3d.gif"></graphic>
+
+  <keywordset>
+    <keyword>cal3d</keyword>
+    <keyword>character animation</keyword>
+    <keyword>library</keyword>
+    <keyword>LGPL</keyword>
+  </keywordset>
+</bookinfo>
+
+&guideintroduction;
+&guidedecisions;
+&guidesetup;
+&guidearchitecture;
+&guideusage;
+&guidelgpl;
+&guidegfdl;
+
+</book>

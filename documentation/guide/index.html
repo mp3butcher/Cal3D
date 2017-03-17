@@ -1,0 +1,729 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>The Cal3D User's Guide</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="NEXT"
+TITLE="Introduction"
+HREF="c28.html"><META
+NAME="KEYWORD"
+CONTENT="cal3d"><META
+NAME="KEYWORD"
+CONTENT="character animation"><META
+NAME="KEYWORD"
+CONTENT="library"><META
+NAME="KEYWORD"
+CONTENT="LGPL"></HEAD
+><BODY
+CLASS="BOOK"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="BOOK"
+><A
+NAME="INDEX"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN2"
+>The Cal3D User's Guide</A
+></H1
+><H2
+CLASS="SUBTITLE"
+>Version 0.11</H2
+><IMG
+SRC="../shared/cal3d.gif"
+ALT=""><P
+CLASS="COPYRIGHT"
+>Copyright &copy; 2001-2006 <A
+HREF="mailto:l.desmecht@skynet.be"
+TARGET="_top"
+>Laurent Desmecht</A
+>, <A
+HREF="mailto:loic@dachary.org"
+TARGET="_top"
+>Loic Dachary</A
+>, <A
+HREF="mailto:beosil@swileys.com"
+TARGET="_top"
+>Bruno Heidelberger</A
+></P
+><DIV
+><DIV
+CLASS="ABSTRACT"
+><P
+></P
+><A
+NAME="AEN15"
+></A
+><P
+>      This documentation describes <A
+HREF="http://gna.org/projects/cal3d/"
+TARGET="_top"
+>Cal3D</A
+>,
+      a free 3d character animation library.
+
+      Please take a minute of your time to <A
+HREF="https://gna.org/bugs/?func=additem&group=cal3d"
+TARGET="_top"
+>report
+        problems</A
+> when compiling or using cal3d. 
+
+      <DIV
+CLASS="IMPORTANT"
+><P
+></P
+><TABLE
+CLASS="IMPORTANT"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/important.gif"
+HSPACE="5"
+ALT="Important"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>          This is a draft version of the Cal3D User's Guide. It surely contains errors,
+          obscure descriptions and other anomalies. Please report them to the authors, 
+          or to the <A
+HREF="https://mail.gna.org/listinfo/cal3d-devel/"
+TARGET="_top"
+>mailing list</A
+> and
+          help us make it better, thanks!
+        </P
+></TD
+></TR
+></TABLE
+></DIV
+>
+    </P
+><P
+></P
+></DIV
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="c28.html"
+>Introduction</A
+></DT
+><DD
+><DL
+><DT
+>1.1. <A
+HREF="c28.html#AEN32"
+>What is Cal3D?</A
+></DT
+><DT
+>1.2. <A
+HREF="x37.html"
+>About this Guide</A
+></DT
+><DT
+>1.3. <A
+HREF="x67.html"
+>Credits</A
+></DT
+><DT
+>1.4. <A
+HREF="x75.html"
+>Licenses</A
+></DT
+></DL
+></DD
+><DT
+>2. <A
+HREF="c103.html"
+>History, Goals and Design Decisions</A
+></DT
+><DD
+><DL
+><DT
+>2.1. <A
+HREF="c103.html#HISTORY"
+>A brief History of Cal3D</A
+></DT
+><DT
+>2.2. <A
+HREF="x112.html"
+>Goals and Design Decisions</A
+></DT
+><DD
+><DL
+><DT
+>2.2.1. <A
+HREF="x112.html#AEN115"
+>Functionality</A
+></DT
+><DT
+>2.2.2. <A
+HREF="x112.html#AEN118"
+>Ease of Use</A
+></DT
+><DT
+>2.2.3. <A
+HREF="x112.html#AEN121"
+>Portability</A
+></DT
+><DT
+>2.2.4. <A
+HREF="x112.html#AEN124"
+>Scalability</A
+></DT
+><DT
+>2.2.5. <A
+HREF="x112.html#AEN127"
+>Flexibility</A
+></DT
+><DT
+>2.2.6. <A
+HREF="x112.html#AEN130"
+>Performance</A
+></DT
+><DT
+>2.2.7. <A
+HREF="x112.html#AEN133"
+>Interoperability</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>3. <A
+HREF="c136.html"
+>Setup</A
+></DT
+><DD
+><DL
+><DT
+>3.1. <A
+HREF="c136.html#HOWTOOBTAIN"
+>How to obtain Cal3D</A
+></DT
+><DT
+>3.2. <A
+HREF="x144.html"
+>Requirements</A
+></DT
+><DT
+>3.3. <A
+HREF="x159.html"
+>Installation</A
+></DT
+><DT
+>3.4. <A
+HREF="x186.html"
+>Compilation</A
+></DT
+><DD
+><DL
+><DT
+>3.4.1. <A
+HREF="x186.html#AEN190"
+>automake/autoconf</A
+></DT
+><DT
+>3.4.2. <A
+HREF="x186.html#AEN196"
+>MS Visual C++</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>4. <A
+HREF="c208.html"
+>Architecture</A
+></DT
+><DD
+><DL
+><DT
+>4.1. <A
+HREF="c208.html#AEN211"
+>Overview</A
+></DT
+><DD
+><DL
+><DT
+>4.1.1. <A
+HREF="c208.html#CORECLASSES"
+>Core Classes</A
+></DT
+><DT
+>4.1.2. <A
+HREF="c208.html#INSTANCECLASSES"
+>Instance Classes</A
+></DT
+><DT
+>4.1.3. <A
+HREF="c208.html#MISCELLANEOUSCLASSES"
+>Miscellaneous Classes</A
+></DT
+><DT
+>4.1.4. <A
+HREF="c208.html#ANIMATIONPIPELINE"
+>Animation Pipeline</A
+></DT
+></DL
+></DD
+><DT
+>4.2. <A
+HREF="x320.html"
+>Vectors and Quaternions</A
+></DT
+><DT
+>4.3. <A
+HREF="x325.html"
+>Skeletons and Bones</A
+></DT
+><DT
+>4.4. <A
+HREF="x337.html"
+>Animations, Tracks and Keyframes</A
+></DT
+><DT
+>4.5. <A
+HREF="x346.html"
+>The 'Mixer'</A
+></DT
+><DT
+>4.6. <A
+HREF="x364.html"
+>Materials</A
+></DT
+><DT
+>4.7. <A
+HREF="x374.html"
+>Meshes and Submeshes</A
+></DT
+><DT
+>4.8. <A
+HREF="x379.html"
+>The 'Renderer'</A
+></DT
+><DT
+>4.9. <A
+HREF="x400.html"
+>Error Handling</A
+></DT
+></DL
+></DD
+><DT
+>5. <A
+HREF="c403.html"
+>Usage</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="c403.html#AEN406"
+>Preparations</A
+></DT
+><DT
+>5.2. <A
+HREF="x416.html"
+>Core Model Handling</A
+></DT
+><DD
+><DL
+><DT
+>5.2.1. <A
+HREF="x416.html#AEN419"
+>Creation</A
+></DT
+><DT
+>5.2.2. <A
+HREF="x416.html#AEN427"
+>Data Loading</A
+></DT
+><DT
+>5.2.3. <A
+HREF="x416.html#AEN447"
+>Material System Setup</A
+></DT
+><DT
+>5.2.4. <A
+HREF="x416.html#AEN468"
+>Destruction</A
+></DT
+></DL
+></DD
+><DT
+>5.3. <A
+HREF="x475.html"
+>Model Instance Handling</A
+></DT
+><DD
+><DL
+><DT
+>5.3.1. <A
+HREF="x475.html#AEN478"
+>Creation</A
+></DT
+><DT
+>5.3.2. <A
+HREF="x475.html#AEN486"
+>Attachment and Detachment of Meshes</A
+></DT
+><DT
+>5.3.3. <A
+HREF="x475.html#AEN497"
+>Level-of-Detail Control</A
+></DT
+><DT
+>5.3.4. <A
+HREF="x475.html#AEN507"
+>Material Control</A
+></DT
+><DT
+>5.3.5. <A
+HREF="x475.html#AEN516"
+>Animation Control</A
+></DT
+><DT
+>5.3.6. <A
+HREF="x475.html#AEN540"
+>State Update</A
+></DT
+><DT
+>5.3.7. <A
+HREF="x475.html#AEN548"
+>Rendering</A
+></DT
+><DT
+>5.3.8. <A
+HREF="x475.html#AEN571"
+>Destruction</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>A. <A
+HREF="a578.html"
+>GNU Lesser General Public License</A
+></DT
+><DD
+><DL
+><DT
+>0. <A
+HREF="a578.html#AEN585"
+>PREAMBLE</A
+></DT
+><DT
+>1. <A
+HREF="x602.html"
+>TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION</A
+></DT
+></DL
+></DD
+><DT
+>B. <A
+HREF="a671.html"
+>GNU Free Documentation License</A
+></DT
+><DD
+><DL
+><DT
+>0. <A
+HREF="a671.html#AEN677"
+>PREAMBLE</A
+></DT
+><DT
+>1. <A
+HREF="x682.html"
+>APPLICABILITY AND DEFINITIONS</A
+></DT
+><DT
+>2. <A
+HREF="x692.html"
+>VERBATIM COPYING</A
+></DT
+><DT
+>3. <A
+HREF="x696.html"
+>COPYING IN QUANTITY</A
+></DT
+><DT
+>4. <A
+HREF="x702.html"
+>MODIFICATIONS</A
+></DT
+><DT
+>5. <A
+HREF="x738.html"
+>COMBINING DOCUMENTS</A
+></DT
+><DT
+>6. <A
+HREF="x743.html"
+>COLLECTIONS OF DOCUMENTS</A
+></DT
+><DT
+>7. <A
+HREF="x747.html"
+>AGGREGATION WITH INDEPENDENT WORKS</A
+></DT
+><DT
+>8. <A
+HREF="x751.html"
+>TRANSLATION</A
+></DT
+><DT
+>9. <A
+HREF="x754.html"
+>TERMINATION</A
+></DT
+><DT
+>10. <A
+HREF="x757.html"
+>FUTURE REVISIONS OF THIS LICENSE</A
+></DT
+></DL
+></DD
+></DL
+></DIV
+><DIV
+CLASS="LOT"
+><DL
+CLASS="LOT"
+><DT
+><B
+>List of Figures</B
+></DT
+><DT
+>4-1. <A
+HREF="c208.html#AEN238"
+>Core Classes</A
+></DT
+><DT
+>4-2. <A
+HREF="c208.html#AEN271"
+>Instance Classes</A
+></DT
+><DT
+>4-3. <A
+HREF="c208.html#AEN292"
+>Miscellaneous Classes</A
+></DT
+><DT
+>4-4. <A
+HREF="c208.html#AEN313"
+>Animation Pipeline</A
+></DT
+><DT
+>4-5. <A
+HREF="x325.html#AEN328"
+>The skinned Cally model</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="LOT"
+><DL
+CLASS="LOT"
+><DT
+><B
+>List of Examples</B
+></DT
+><DT
+>4-1. <A
+HREF="c208.html#AEN218"
+>Warriors and Dragons</A
+></DT
+><DT
+>4-2. <A
+HREF="x337.html#AEN340"
+>The waving Walker</A
+></DT
+><DT
+>4-3. <A
+HREF="x346.html#AEN360"
+>The waving Limper</A
+></DT
+><DT
+>4-4. <A
+HREF="x364.html#AEN370"
+>The legendary paladin goes shopping</A
+></DT
+><DT
+>5-1. <A
+HREF="c403.html#AEN410"
+>Header-File Inclusion</A
+></DT
+><DT
+>5-2. <A
+HREF="x416.html#AEN424"
+>Core Model Creation</A
+></DT
+><DT
+>5-3. <A
+HREF="x416.html#AEN431"
+>Skeleton Data Loading</A
+></DT
+><DT
+>5-4. <A
+HREF="x416.html#AEN438"
+>Animation Data Loading</A
+></DT
+><DT
+>5-5. <A
+HREF="x416.html#AEN441"
+>Mesh Data Loading</A
+></DT
+><DT
+>5-6. <A
+HREF="x416.html#AEN444"
+>Material Data Loading</A
+></DT
+><DT
+>5-7. <A
+HREF="x416.html#AEN459"
+>Texture Loading</A
+></DT
+><DT
+>5-8. <A
+HREF="x416.html#AEN465"
+>Material Thread/Set Setup</A
+></DT
+><DT
+>5-9. <A
+HREF="x416.html#AEN472"
+>Core Model Destruction</A
+></DT
+><DT
+>5-10. <A
+HREF="x475.html#AEN483"
+>Model Instance Creation</A
+></DT
+><DT
+>5-11. <A
+HREF="x475.html#AEN491"
+>Mesh Attachment</A
+></DT
+><DT
+>5-12. <A
+HREF="x475.html#AEN494"
+>Mesh Detachment</A
+></DT
+><DT
+>5-13. <A
+HREF="x475.html#AEN504"
+>Level-of-Detail Control</A
+></DT
+><DT
+>5-14. <A
+HREF="x475.html#AEN513"
+>Material Set Change</A
+></DT
+><DT
+>5-15. <A
+HREF="x475.html#AEN532"
+>Cycle Animation Control</A
+></DT
+><DT
+>5-16. <A
+HREF="x475.html#AEN537"
+>Action Animation Control</A
+></DT
+><DT
+>5-17. <A
+HREF="x475.html#AEN545"
+>State Update</A
+></DT
+><DT
+>5-18. <A
+HREF="x475.html#AEN568"
+>Model Rendering</A
+></DT
+><DT
+>5-19. <A
+HREF="x475.html#AEN575"
+>Model Instance Destruction</A
+></DT
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c28.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Introduction</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Skeletons and Bones</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Architecture"
+HREF="c208.html"><LINK
+REL="PREVIOUS"
+TITLE="Vectors and Quaternions"
+HREF="x320.html"><LINK
+REL="NEXT"
+TITLE="Animations, Tracks and Keyframes"
+HREF="x337.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x320.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. Architecture</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x337.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="SKELETONSBONES"
+>4.3. Skeletons and Bones</A
+></H1
+><P
+>      The Cal3D library is designed as a skeletal-based animation system. This means that
+      all the mesh vertices of the animated model are attached to one or more bones of an
+      underlying skeleton structure. This makes it very easy to animate the whole model, you
+      only need to adjust the skeleton pose and the model meshes are automatically deformed.
+      This method of attaching meshes to a bone hierarchy is known as 'skinning'.
+    </P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN328"
+></A
+><P
+><B
+>Figure 4-5. The skinned Cally model</B
+></P
+><DIV
+CLASS="MEDIAOBJECT"
+><P
+><IMG
+SRC="../guide_phases.gif"
+ALIGN="CENTER"></P
+></DIV
+></DIV
+><P
+>      A bone is defined as a relative transformation to the parent bone. This transformation
+      is split into two separate parts: The relative translation stored in a vector, and the
+      relative rotation stored in a quaternion. The absolute transformation of a bone is
+      recursively calculated after each animation step.
+    </P
+><P
+>      Following the concept of shared data, the core skeleton and its core bones contain
+      data such as the initial skeleton pose, the bone names and the hierarchy itself.
+      Whereas the skeleton and the bones of the model instances have only the current
+      transformation and a link to the corresponding skeleton or bone stored.
+    </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x320.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x337.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Vectors and Quaternions</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c208.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Animations, Tracks and Keyframes</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

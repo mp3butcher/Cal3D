@@ -1,0 +1,598 @@
+<chapter id="architecture">
+  <title>Architecture</title>
+
+  <para>
+    This chapter illustrates the architecture of the Cal3D library. All the components
+    and terminologies are explained in every detail.
+  </para>
+
+
+  <sect1>
+    <title>Overview</title>
+    <para>
+      The basic concept in the Cal3D library is to separate data that can
+      be shared between several objects from data that is tied to one specific
+      object instance. In the realm of skeletal character animation there is quite
+      a lot of shared data: Take the animations and the meshes as examples.
+    </para>
+
+    <para>
+      The Cal3D library has a set of <link linkend="coreclasses">Core Classes</link> (also
+      referred to as 'core model') that represents one type of model and that stores all the
+      shared data. Each set of <link linkend="instanceclasses">Instance Classes</link>
+      (also referred to as 'model' or 'model instance') is constructed from the
+      <link linkend="coreclasses">Core Classes</link> and represents one specific instance
+      of the model type.
+    </para>
+
+    <example>
+      <title>Warriors and Dragons</title>
+      <para>
+        Say we have a little fantasy game with heroic warriors and deadly dragons.
+        There will be 2 different core models, namely the one for the warriors and
+        the other for the dragons. The core model of the warriors contains all the
+        animations, materials and meshes of all possible warrior instances. The
+        same holds for the dragon core model. Now, every time a warrior or dragon is
+        born, a new model instance will be created based on its core model. The
+        individual appearance is done by selecting specific meshes and materials
+        from the core model. This allows us to have epic battles with numerous different
+        warriors and dragons, even so we store most of the data only once.
+      </para>
+    </example>
+
+    <sect2 id="coreclasses">
+      <title>Core Classes</title>
+      <para>
+        As explained, each set of <link linkend="coreclasses">Core Classes</link> contains all
+        the data for one model type. This data can be divided into 4 parts:
+        <orderedlist>
+          <listitem>
+            <para>
+              The hierarchical structure, see
+              <xref linkend="skeletonsbones" endterm="skeletonsbonesTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The motion data, see
+              <xref linkend="animationstrackskeyframes" endterm="animationstrackskeyframesTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The surface properties, see
+              <xref linkend="materials" endterm="materialsTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The body parts, see
+              <xref linkend="meshessubmeshes" endTerm="meshessubmeshesTITLE">
+              for details.
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <figure>
+        <title>Core Classes</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="../guide_classes_2.gif">
+          </imageobject>
+          <textobject>
+            <phrase>Core Classes</phrase>
+          </textobject>
+        </mediaobject>
+      </figure>
+
+    </sect2>
+
+    <sect2 id="instanceclasses">
+      <title>Instance Classes</title>
+      <para>
+        Each set of <link linkend="instanceclasses">Instance Classes</link> contains the
+        specific data for one instance of a model type. This data can be divided into 3 parts:
+        <orderedlist>
+          <listitem>
+            <para>
+              The current state of the skeleton, see
+              <xref linkend="skeletonsbones" endterm="skeletonsbonesTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The active set of animations, see
+              <xref linkend="animationstrackskeyframes" endterm="animationstrackskeyframesTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The attached body parts, see
+              <xref linkend="meshessubmeshes" endTerm="meshessubmeshesTITLE">
+              for details.
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <para>
+        There are 4 helper classes that simplify the model handling:
+        <orderedlist>
+          <listitem>
+            <para>
+              The motion control, see
+              <xref linkend="mixer" endterm="mixerTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The skinning stage (Physique).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The (experimental) cloth animation layer (Spring-System).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The rendering interface, see
+              <xref linkend="renderer" endterm="rendererTITLE">
+              for details.
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <figure>
+        <title>Instance Classes</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="../guide_classes_3.gif">
+          </imageobject>
+          <textobject>
+            <phrase>Instance Classes</phrase>
+          </textobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+
+    <sect2 id="miscellaneousclasses">
+      <title>Miscellaneous Classes</title>
+      <para>
+        The remaining classes can be divided into 4 groups:
+
+        <orderedlist>
+          <listitem>
+            <para>
+              The math components, see
+              <xref linkend="vectorsquaternions" endterm="vectorsquaternionsTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The error handling, see
+              <xref linkend="errorhandling" endterm="errorhandlingTITLE">
+              for details.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The encapsulated platform-dependent code.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The helper classes for loading and saving data.
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <figure>
+        <title>Miscellaneous Classes</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="../guide_classes_1.gif">
+          </imageobject>
+          <textobject>
+            <phrase>Miscellaneous Classes</phrase>
+          </textobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+
+    <sect2 id="animationpipeline">
+      <title>Animation Pipeline</title>
+      <para>
+        The process of calculating the final model from the core data and
+        the current instance state must be seen as one single pipeline:
+
+        <orderedlist>
+          <listitem>
+            <para>
+              The combination of all the active animations in the "Mixer" to get a
+              current skeleton pose.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The combination of all the active morph targets in the "Morpher" to
+              get a current mesh (planned feature).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The deformation of the current mesh based on the current skeleton
+              pose in the "Physique".
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The simulation of the cloth parts of the model in the "Spring-System"
+              (experimental feature).
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The querying of the final data from the "Renderer".
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+      <figure>
+        <title>Animation Pipeline</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="../guide_pipeline.gif">
+          </imageobject>
+          <textobject>
+            <phrase>Animation Pipeline</phrase>
+          </textobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+
+  </sect1>
+
+  <sect1 id="vectorsquaternions">
+    <title id="vectorsquaternionsTITLE">Vectors and Quaternions</title>
+    <para>
+      Vectors and quaternions are essential elements in the internal calculations of
+      the Cal3D library. The translation of bones, the position of mesh vertices and
+      the orientation of mesh normals are all stored as a vector. Quaternions are used
+      whenever a rotation needs to be represented, such as at a joint. They have some
+      big advantages over rotation matrices in regard to interpolation and memory usage.
+      This is the reason why you will not find any matrices in the Cal3D library. If
+      you ever need these rotations in a matrix representation, you can easily convert
+      the quaternions though.
+    </para>
+
+    <para>
+      In-depth information about vectors, quaternions and matrices in 3d graphics can
+      be found <ulink url="http://www.google.com/search?q=quaternion+vector+matrix">all over the web</ulink>.
+    </para>
+  </sect1>
+
+  <sect1 id="skeletonsbones">
+    <title id="skeletonsbonesTITLE">Skeletons and Bones</title>
+    <para>
+      The Cal3D library is designed as a skeletal-based animation system. This means that
+      all the mesh vertices of the animated model are attached to one or more bones of an
+      underlying skeleton structure. This makes it very easy to animate the whole model, you
+      only need to adjust the skeleton pose and the model meshes are automatically deformed.
+      This method of attaching meshes to a bone hierarchy is known as 'skinning'.
+    </para>
+
+    <figure>
+      <title>The skinned Cally model</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" fileref="../guide_phases.gif">
+        </imageobject>
+        <textobject>
+          <phrase>The skinned Cally model</phrase>
+        </textobject>
+      </mediaobject>
+    </figure>
+
+    <para>
+      A bone is defined as a relative transformation to the parent bone. This transformation
+      is split into two separate parts: The relative translation stored in a vector, and the
+      relative rotation stored in a quaternion. The absolute transformation of a bone is
+      recursively calculated after each animation step.
+    </para>
+
+    <para>
+      Following the concept of shared data, the core skeleton and its core bones contain
+      data such as the initial skeleton pose, the bone names and the hierarchy itself.
+      Whereas the skeleton and the bones of the model instances have only the current
+      transformation and a link to the corresponding skeleton or bone stored.
+    </para>
+  </sect1>
+
+  <sect1 id="animationstrackskeyframes">
+    <title id="animationstrackskeyframesTITLE">Animations, Tracks and Keyframes</title>
+    <para>
+      The Cal3D library stores every motion such as walking, jumping, waving etc. in
+      a separate core animation inside the core model. These animations contain one core
+      track for each bone that is affected by the specific motion.
+    </para>
+
+    <example>
+      <title>The waving Walker</title>
+      <para>
+        Say we have a walking, human-like model waving with his right hand. There are 2
+        animations in this scenario, the one for walking and the other for waving. The
+        walking animation does most likely contain a track for every bone there is to
+        have a fully animated model. The waving animation will only be defined locally,
+        so only tracks for the right hand, arm, shoulder and probably neck and head are
+        stored within. This selective inclusion allows a powerful blending and overlay
+        mechanism as we will see in <xref linkend="mixer" endterm="mixerTITLE">.
+      </para>
+    </example>
+
+    <para>
+      The actual transformation data for a bone is stored in several core keyframes
+      that are contained in the corresponding track. Each keyframe holds a relative
+      rotation and a relative translation to the parent bone for a specified point of
+      time. These values are interpolated between two following keyframes by the
+      Cal3D library to achieve a smooth motion.
+    </para>
+
+    <para>
+      All the above data can be shared between different model instances and is
+      therefore completely stored in the Core Classes. The active set of animations
+      and their blending state is what makes the difference here, so these values are
+      defined in each model instance separately.
+    </para>
+  </sect1>
+
+  <sect1 id="mixer">
+    <title id="mixerTitle">The 'Mixer'</title>
+    <para>
+      The Cal3D library provides a powerful and flexible, yet easy-to-use animation
+      control system through the so called 'Mixer'. This helper class handles the
+      following things for a model instance:
+
+      <orderedlist>
+        <listitem>
+          <para>
+            The addition and removal of animations to the active animation set.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The update of the active animation states including fade in and out.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The weighted blending and prioritized overlay of the active animations
+            according to their type.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The update of the current pose of the skeleton.
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+
+    <para>
+      When triggering a new animation you can choose between different behaviors.
+      Currently implemented are the cycle and the action types. Once started, a cycle
+      animation will loop until you explicitly stop it. This is well-suited for
+      motions such as walking or swimming. The action type is a one-time animation
+      that is executed only once and is removed automatically from the active
+      animation set thereafter. As you can imagine this is useful for motions such as
+      fighting moves or emotes. There are plans to extend the number of animation
+      types in future releases of the Cal3D library.
+    </para>
+
+    <para>
+      Each active animation has a weight associated with it. This makes it possible
+      to fine tune the amount of influence each animation has on the model. Furthermore
+      each animation type has a different priority in the blending process. In the
+      current version of the Cal3D library, the action type has a higher priority than
+      the cycle one. This is necessary to make actions completely overlay the ongoing
+      cycles.
+    </para>
+
+    <example>
+      <title>The waving Limper</title>
+      <para>
+        Unfortunately, our waving human-like walker from a previous example stumbled and
+        is now limping with his left leg. In addition to the walk animation defined for
+        all bones in the model skeleton, and the locally waving animation, we need an
+        additional limping animation, which has tracks for all the bones in the lower
+        part the body. With the help of the mixer, we can now easily assign a light
+        limping motion to the model by blending the walking animation cycle with the
+        limping animation cycle at a ratio of 40%:60% as example. The waving animation
+        completely overlays the motion for the skeleton part it is defined on, because
+        it was triggered as an action and is therefore of higher priority than the two
+        cycles. When the little injury starts to heal, you can successively lower the
+        weight of the limping animation until you fade it completely out at the end.
+      </para>
+    </example>
+
+    <para>
+      There are a few important things you have to take care of to make this blending
+      system work as intended. Make sure that the animations that are used as actions
+      only contain tracks for bones that should really be affected. Otherwise they
+      will completely overlay all cycle animations, because of their higher priority.
+      Cycles that will be blended together should also be synchronized to achieve a
+      good-looking result. Note that this synchronization has to be done for the
+      displacement of the motion only, not for the duration of the animation, as this
+      adjustment is handled in the blending process inside the mixer.
+    </para>
+  </sect1>
+
+  <sect1 id="materials">
+    <title id="materialsTITLE">Materials</title>
+    <para>
+      In the Cal3D library, a core material is composed from the color components
+      (ambient, diffuse and specular), a shininess factor and several maps, most
+      likely texture-maps. All possible materials for a model type are stored in the
+      core model according to the shared-data concept.
+    </para>
+
+    <para>
+      A simple mechanism for material handling is implemented, which provides an easy
+      way to change materials and therefore the look of a model instance. For each
+      core model there exists one or more material sets. Materials in the same set
+      share a common look, as example 'skin', 'leather' or 'chain-mail'. Additionally
+      there are one or more material threads in the core model. These material threads
+      contain the same materials but grouped by a specific part of the model, as
+      example 'left foot', 'torso' or 'helmet'. Together they build a material grid
+      that defines a material for each material set/thread pair.
+    </para>
+
+    <para>
+      As described in <xref linkend="meshessubmeshes" endterm="meshessubmeshesTITLE">,
+      every part of the core model (every submesh to be more exact) has a material
+      thread assigned. You can now very easily change the look of a model instance,
+      by simply select a new current material set for its parts. The Cal3D library is
+      now able to look up the material in the material grid with the given new material
+      set and the material thread stored in the core model parts.
+    </para>
+
+    <example>
+      <title>The legendary paladin goes shopping</title>
+      <para>
+        After uncountable battles against evil creatures, our paladin's suit of armor
+        has a scratch here and there. In other words, it is time for a visit at the
+        local smith for a new outfit. For simplicity let's assume that the paladin model
+        is built from two pieces only, the upper body and the lower body. Each of them
+        has a different material thread assigned. The smith sells two types of armor,
+        the first is chain-mail, the other plate-mail. There is an upper body piece and a
+        lower body piece for both armor types. All the pieces of the same armor type
+        are in the same material set. The material grid for this example has therefore
+        4 entries (2 sets x 2 threads) filled with the materials: upper body chain-mail,
+        lower body chain-mail, upper body plate-mail, lower body plate-mail. Now, when the
+        paladin tries on the pieces of armor, you can simple select the appropriate
+        material set for the body part to change the look of the model. As example, in
+        pseudo-code 'change upper body to plate-mail'.
+      </para>
+    </example>
+
+    <para>
+      The advantage of this simple material system is that you do not have to handle
+      the individual materials themselves. You select the more high-level material
+      set which is the same for all body parts. The material system does the low-level
+      assignment of the materials of the selected material set to the body parts.
+    </para>
+  </sect1>
+
+  <sect1 id="meshessubmeshes">
+    <title id="meshessubmeshesTITLE">Meshes and Submeshes</title>
+    <para>
+      The Cal3D library can handle models built from one or more meshes. These meshes
+      must be composed from triangular faces, but do not need to be in any special
+      form otherwise. Each face inside the mesh is assigned to a corresponding submesh
+      which holds all faces with the same material. This classification is done to
+      minimize render state changes in the rendering phase.
+    </para>
+
+    <para>
+      Each submesh contains a list of vertices and a list of faces. The data stored
+      per vertex includes the position, the normal, the mapping coordinates,
+      the level-of-detail data and all the influences from the assigned bones. The
+      face list is a simple structure that holds a vertex index for each corner of the
+      face.
+    </para>
+
+    <para>
+      Once again, the core model holds all meshes for a specific model type, whereas
+      the model instances have an active set of attached meshes. Each attached mesh
+      has a current state for material and level-of-detail settings, so every model
+      instance can be handled completely independent from the others.
+    </para>
+  </sect1>
+
+  <sect1 id="renderer">
+    <title id="rendererTITLE">The 'Renderer'</title>
+    <para>
+      The Cal3D library does not handle the actual rendering itself, but it provides
+      an easy-to-use interface called 'Renderer' to access all needed data for your
+      rendering loop. The basic idea is to go through all the meshes of the model
+      instance and visit one of its submeshes after the other.
+    </para>
+
+    <para>
+      For each submesh you execute a number of steps:
+
+      <orderedlist>
+        <listitem>
+          <para>
+            Set the current mesh/submesh for the data query.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Get the material data.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Get the deformed vertex data.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Get the transformed normal data.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Get the mapping coordinate data.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Get the face data.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Set the rendering state in the used graphic API, and render the data.
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+
+    <para>
+      Most of the data is returned in a user-allocated array to make usage of vertex-
+      buffers as easy as possible.
+    </para>
+
+    <para>
+      The level-of-detail calculations are done transparently by the Cal3D library.
+      This means that you only need to set the current detail level for the model
+      instance, and you will automatically get the adjusted data in the next rendering
+      loop.
+    </para>
+  </sect1>
+
+  <sect1 id="errorhandling">
+    <title id="errorhandlingTITLE">Error Handling</title>
+    <para>
+      If a return-code of a Cal3D library function indicates an error, you can get a more
+      detailed information about it from a set of error handling functions. The information
+      contain data such as the individual error code, a description and the file and
+      line-number where the error was noticed.
+    </para>
+  </sect1>
+
+</chapter>
+

@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Goals and Design Decisions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="History, Goals and Design Decisions"
+HREF="c103.html"><LINK
+REL="PREVIOUS"
+TITLE="History, Goals and Design Decisions"
+HREF="c103.html"><LINK
+REL="NEXT"
+TITLE="Setup"
+HREF="c136.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c103.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 2. History, Goals and Design Decisions</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c136.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="GOALS"
+>2.2. Goals and Design Decisions</A
+></H1
+><P
+>      Dreaming about the future features is one of the cool things to do when you
+      start a new project: The usual sentence you get to hear is something along: "It
+      will be better than anything you have ever seen before in every aspect you can
+      think of". It should be evident that you are very unlikely to come up with
+      something just like that. However, to make the Cal3D project a worthy challenge,
+      the goals were still set very high. Even though, they should be seen more as a
+      primary basis for design decisions than an ultimate target that needs to be
+      reached by 100%. Should it happen, even better.
+    </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN115"
+>2.2.1. Functionality</A
+></H2
+><P
+>        At the time of the project kick-off, the most promising and flexible technology
+        for character animation was the skeletal-based approach. It gives you a lot of
+        freedom over the animation process and was therefore chosen as a core feature of
+        the Cal3D library. On top of it, there is a powerful control system that
+        handles the sequence and blending of the animations. Different types, such as
+        cycles, actions or poses, will be supported, and it should be easy to add new
+        ones to this system. A flexible handling of materials and meshes should make it
+        possible to completely change the look of a model. Attachment of other objects
+        and models is another 'must have'. Advanced features, such as level-of-detail,
+        inverse kinematics, collision-detection and physics will either be outsourced to
+        external libraries or will become part of the Cal3D library in the long-term.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN118"
+>2.2.2. Ease of Use</A
+></H2
+><P
+>        In spite of the large functionality planned for the library, its usage should be
+        simple, logical and intuitive. Unwanted advanced features do not have to be
+        taken care of by the user, so basically, there must be a default handling for
+        all of them. However, this behaviour should easily be modified or extended
+        if needed.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN121"
+>2.2.3. Portability</A
+></H2
+><P
+>        It does not make sense to develop a platform-dependent library for an
+        application that has to be portable. Hardcoded dependencies on libraries and on
+        APIs, such as OpenGL or DirectX, must be avoided. Therefore the library is
+        coded in C++ and only depends on the STL. It does not handle the actual
+        rendering and the texture-management itself. Necessary platform-dependent code
+        (such as endianness) must be minimized and encapsulated into a single class to
+        make it easy to add support for other platforms.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN124"
+>2.2.4. Scalability</A
+></H2
+><P
+>        All aspects of the library must be as scalable as possible. To avoid hardcoded
+        limits, the library makes heavy usage of the STL containers to store data.
+        Common data of different model instances are shared through the mechanism of
+        a core model. Support of a broad range of system configurations, in terms of cpu
+        power and other such properties, is provided by implementing level-of-detail
+        technologies for models and animations. Thread safety should also be considered
+        in the long-term.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN127"
+>2.2.5. Flexibility</A
+></H2
+><P
+>        Focussing on a single use for the library would prevent its flexibility. So the
+        library is developed as a stand-alone component and is not tied up
+        with a specific application. Unnecessary constraints and an obscure black-box
+        design is a big 'no-no'. Furthermore, all specifications (such as the
+        file-formats) are open and freely available. A good documentation goes
+        without saying.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN130"
+>2.2.6. Performance</A
+></H2
+><P
+>        The overall performance of the library is very important. As previously
+        mentioned, it will be part of a MMORPG client and should therefore be able to
+        handle numerous models at the same time. Besides optimizing the computations
+        inside the library itself, the data exchange across the interface has to be
+        designed as efficient as possible. Current graphic APIs make heavy use of vertex
+        buffers, so this is the choice for the output data. Because render state
+        changes strongly affect render performance, the ouput is grouped and
+        sorted to minimize those. Caution should be taken that the optimizations do not
+        break the clean design of the library.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN133"
+>2.2.7. Interoperability</A
+></H2
+><P
+>        The library is only useful and used if sufficient and suited tools and
+        exporters exist that can produce Cal3D data files. A portable and
+        application-independent exporter framework helps in developing exporters for
+        the various 3d modelling packages. As some tools may not be able to use the
+        framework, an intermediate file-format in XML should be available too.
+      </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c103.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c136.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>History, Goals and Design Decisions</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c103.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Setup</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

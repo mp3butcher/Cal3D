@@ -1,0 +1,173 @@
+<chapter id="introduction">
+  <title>Introduction</title>
+
+  <para>
+    <emphasis>The Cal3D team welcomes you to the world of moving vertices!</emphasis>
+  </para>
+
+  <sect1>
+    <title>What is Cal3D?</title>
+    <para>
+      Cal3D is a free skeletal-based 3d character animation library written
+      in C++ in a platform/graphic-API independent way.
+    </para>
+    <para>
+      Originally designed to be used in a 3d client for
+      <ulink url="http://www.worldforge.org">WorldForge</ulink>, it evolved
+      into a stand-alone library which can be used in many different kinds
+      of projects.
+    </para>
+  </sect1>
+
+  <sect1>
+    <title>About this Guide</title>
+    <para>
+      This guide covers among other things
+      <link linkend="decisions">Design Decisions</link>,
+      <link linkend="installation">Installation</link>,
+      <link linkend="compilation">Compilation</link>,
+      <link linkend="architecture">Architecture</link> and
+      <link linkend="usage">Usage</link>
+      of the Cal3D library. A detailed description of the API is available
+      in the separate &apiref;.
+    </para>
+
+    <formalpara>
+      <title><xref linkend="introduction"></title>
+      <para>
+        This is the chapter you are currently reading. The most important part is
+        the one about the <link linkend="licenses">Licenses</link>.
+      </para>
+    </formalpara>
+
+    <formalpara>
+      <title><xref linkend="decisions"></title>
+      <para>
+        This chapter provides some background information about the development of
+        Cal3D. It does not contain any crucial facts you have to know in order to use
+        the library, but it can help you understand why it was designed the way it is.
+      </para>
+    </formalpara>
+
+    <formalpara>
+      <title><xref linkend="setup"></title>
+      <para>
+        This chapter explains how you obtain, install and compile the Cal3D library.
+      </para>
+    </formalpara>
+
+    <formalpara>
+      <title><xref linkend="architecture"></title>
+      <para>
+        This chapter illustrates the architecture of the Cal3D library. All the components
+        and terminologies are explained in every detail.
+      </para>
+    </formalpara>
+
+    <formalpara>
+      <title><xref linkend="usage"></title>
+      <para>
+        This chapter explains the usage of the Cal3D library step by step. The topics
+        cover creation, modification, animation and rendering of models.
+      </para>
+    </formalpara>
+  </sect1>
+
+  <sect1>
+    <title>Credits</title>
+    <para>
+      There are already numerous people who have made contributions in some sort to
+      the Cal3D project. Here they are, in no specific order:
+    </para>
+
+    <para>
+      Laurent Desmecht, Loic Dachary, Douglas Walsh, Nick Edgington, Marco Heidelberger, 
+      Wolfgang Wester, Brandon Ehle, Igor Kravtchenko, Jeremy Moles,
+      Wolfgang Scheicher, Stephan Stapel, Steve Cordon, Tomek Grudzinski and Ladislav Stefun.
+    </para>
+
+    <para>
+      <emphasis>A very big thanks to all of you!</emphasis>
+    </para>
+
+    <para>
+      <ulink url="https://mail.gna.org/listinfo/cal3d-devel/">The cal3d developers</ulink>
+    </para>
+
+  </sect1>
+
+  <sect1 id="licenses">
+    <title>Licenses</title>
+    <para>
+      The Cal3D User's Guide is licensed under the <link linkend="gfdl">GNU Free Documentation License (GFDL)</link>.
+    </para>
+    <para>
+      The Cal3D library is licensed under the <link linkend="lgpl">GNU Lesser General Public License (LGPL)</link>.
+      which among other things, allows you to link proprietary
+      applications with it. The Cal3D team strongly believes in the <ulink url="http://www.fsf.org">Free Software</ulink>
+      movement and provides this library without any additional restrictions.
+      However, to make this a "fair deal" and to support the future development of
+      the library, we invite you to follow these points when using the Cal3D library
+      in your project:
+
+      <orderedlist>
+        <listitem>
+          <para>
+            Seriously consider releasing your project under a free license too.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Read and understand the <link linkend="lgpl">LGPL</link> and make sure
+            that your usage of Cal3D complies with it.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Include a prominent mention about the usage of the Cal3D library in
+            your project.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Send a short message to us when you release your work.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Provide feedback to the Cal3D project to help us enhance it.
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+
+    <para>
+      Furthermore, here are a few other possibilities to help the Cal3D project:
+
+      <orderedlist>
+        <listitem>
+          <para>
+            We are always in need of models, animations, textures and demos. So,
+            if you have something to spare, send it along!
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Sponsoring and donations can definitively help the project, just contact
+            <ulink url="https://mail.gna.org/listinfo/cal3d-devel/">us</ulink>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Have you heard of a new animation technology? Is there a freshly written,
+            earth-shaking paper about inverse-kinematics on your desk? Fell free to
+            send such stuff to the Cal3D project, so we can put it into the library!
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+
+  </sect1>
+
+</chapter>
+

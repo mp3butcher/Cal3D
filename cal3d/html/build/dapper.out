@@ -1,0 +1,1286 @@
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper
+rm -fr /spare/cal3d/build/debian/dapper.unionfs
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+make chroot-mounts
+make[2]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+mount -t proc proc /spare/cal3d/build/debian/dapper/proc
+mount -t devpts devpts /spare/cal3d/build/debian/dapper/dev/pts 
+if [ debian = debian -o debian = fedora ] ; then \
+		mkdir -p gnulinux/debian/dapper/archives/partial ; \
+		mount --bind gnulinux/debian/dapper/archives /spare/cal3d/build/debian/dapper/var/cache/apt/archives ; \
+	elif [ debian = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+	fi
+mkdir -p gnulinux/debian/dapper/src
+mount --bind gnulinux/debian/dapper/src /spare/cal3d/build/debian/dapper/usr/src
+if [ debian = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+	fi
+make[2]: Leaving directory `/spare/cal3d'
+if [ debian = debian -o debian = fedora ] ; then \
+		source_list=/spare/cal3d/build/debian/dapper/etc/apt/sources.list ; \
+		: ; \
+		: ; \
+		chroot /spare/cal3d/build/debian/dapper apt-get update ; \
+		chroot /spare/cal3d/build/debian/dapper apt-get -y --force-yes dist-upgrade ; \
+	elif [ debian = gentoo ] ; then \
+		overlaydir=/spare/cal3d/build/debian/dapper/overlays ; \
+		mkdir -p $overlaydir ; \
+		: ; \
+	fi
+Get:1 http://de.archive.ubuntu.com dapper Release.gpg [189B]
+Hit http://de.archive.ubuntu.com dapper Release
+Err http://de.archive.ubuntu.com dapper Release
+  
+Get:2 http://de.archive.ubuntu.com dapper Release [34.8kB]
+Ign http://de.archive.ubuntu.com dapper Release
+Hit http://de.archive.ubuntu.com dapper/main Packages
+Hit http://de.archive.ubuntu.com dapper/universe Packages
+Fetched 34.9kB in 1s (28.0kB/s)
+Reading package lists...
+W: GPG error: http://de.archive.ubuntu.com dapper Release: Could not execute /usr/bin/gpgv to verify signature (is gnupg installed?)
+W: You may want to run apt-get update to correct these problems
+Reading package lists...
+Building dependency tree...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+make chroot-umounts
+make[2]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[2]: Leaving directory `/spare/cal3d'
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p "/var/cache/packaging-farm/sources/cal3d"
+rsync  --delete -avH /var/cache/packaging-farm/sources/cal3d/ cal3d/
+building file list ... done
+
+sent 513 bytes  received 20 bytes  1066.00 bytes/sec
+total size is 18066033  speedup is 33895.00
+#
+# Make sure no update occur less than 1 seconds after the end of the rsync.
+# If an update can occur within less than 1 second, the -c (checksum) rsync option 
+# *must* be used to ensure that the rsync is accurate and this slows down
+# the rsync a great deal. By loosing a second here you can save many seconds
+# later because rsync can rely on the file date and size to figure out which
+# files are identical.
+#
+sleep 1
+:
+: Copy the patches to current directory and include the
+: package name in their file name
+:
+eval tarbal=cal3d/cal3d*[0-9].tar.gz ; \
+	version=$(expr $tarbal : '.*-\(.*\).tar.gz') ; \
+	if [ -f cal3d/cal3d-*[0-9]/debian/patches/00list ] ; then \
+		for patch in cal3d/cal3d-*[0-9]/debian/patches/*.dpatch ; do \
+			base=$(basename $patch) ; \
+			cp -a $patch cal3d ; \
+			cp -a $patch cal3d/cal3d-debian-$base ; \
+		done ; \
+	fi
+rm -fr gnulinux/debian/dapper/src
+mkdir -p gnulinux/debian/dapper/src
+if [ -f cal3d/*/debian/control.dapper ] ; then \
+		cd gnulinux/debian/dapper/src ; \
+		dpkg-source -x ../../../../cal3d/*.dsc ; \
+		cp cal3d-*/debian/control.dapper cal3d-*/debian/control ; \
+		dpkg-source -b cal3d-*[0-9] cal3d_*.tar.gz ; \
+	elif [ -d cal3d/dapper ] ; then \
+		rsync -av cal3d/dapper/*.{dsc,gz} gnulinux/debian/dapper/src ; \
+	else \
+		rsync -av cal3d/*.{dsc,gz} gnulinux/debian/dapper/src ; \
+	fi 
+building file list ... done
+cal3d_0.10.0+0.11.0+rc2-1.diff.gz
+cal3d_0.10.0+0.11.0+rc2-1.dsc
+cal3d_0.10.0+0.11.0+rc2.orig.tar.gz
+
+sent 561981 bytes  received 86 bytes  1124134.00 bytes/sec
+total size is 561641  speedup is 1.00
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+mount -t proc proc /spare/cal3d/build/debian/dapper/proc
+mount -t devpts devpts /spare/cal3d/build/debian/dapper/dev/pts 
+if [ debian = debian -o debian = fedora ] ; then \
+		mkdir -p gnulinux/debian/dapper/archives/partial ; \
+		mount --bind gnulinux/debian/dapper/archives /spare/cal3d/build/debian/dapper/var/cache/apt/archives ; \
+	elif [ debian = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+	fi
+mkdir -p gnulinux/debian/dapper/src
+mount --bind gnulinux/debian/dapper/src /spare/cal3d/build/debian/dapper/usr/src
+if [ debian = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+	fi
+/usr/lib/pbuilder/pbuilder-satisfydepends --force-version --chroot /spare/cal3d/build/debian/dapper --control gnulinux/debian/dapper/src/cal3d*.dsc
+ -> Attempting to parse the build-deps : pbuilder-satisfydepends,v 1.27 2006/05/22 02:18:00 dancer Exp $
+ -> Considering  debhelper (>> 4.0.0)
+   -> Trying debhelper
+ -> Considering  doxygen
+   -> Trying doxygen
+ -> Installing  debhelper doxygen
+Reading package lists...
+Building dependency tree...
+The following extra packages will be installed:
+  debconf-utils html2text libpng12-0 po-debconf
+Suggested packages:
+  dh-make doxygen-doc doxygen-gui graphviz
+Recommended packages:
+  libmail-sendmail-perl libcompress-zlib-perl
+The following NEW packages will be installed:
+  debconf-utils debhelper doxygen html2text libpng12-0 po-debconf
+0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0B/2096kB of archives.
+After unpacking 5796kB of additional disk space will be used.
+WARNING: The following packages cannot be authenticated!
+  debconf-utils html2text po-debconf debhelper libpng12-0 doxygen
+Selecting previously deselected package debconf-utils.
+(Reading database ... 9769 files and directories currently installed.)
+Unpacking debconf-utils (from .../debconf-utils_1.4.72ubuntu9_all.deb) ...
+Selecting previously deselected package html2text.
+Unpacking html2text (from .../html2text_1.3.2a-3_i386.deb) ...
+Selecting previously deselected package po-debconf.
+Unpacking po-debconf (from .../po-debconf_0.9.2_all.deb) ...
+Selecting previously deselected package debhelper.
+Unpacking debhelper (from .../debhelper_5.0.7ubuntu13_all.deb) ...
+Selecting previously deselected package libpng12-0.
+Unpacking libpng12-0 (from .../libpng12-0_1.2.8rel-5_i386.deb) ...
+Selecting previously deselected package doxygen.
+Unpacking doxygen (from .../doxygen_1.4.6-2ubuntu1_i386.deb) ...
+Setting up debconf-utils (1.4.72ubuntu9) ...
+
+Setting up html2text (1.3.2a-3) ...
+
+Setting up po-debconf (0.9.2) ...
+Setting up debhelper (5.0.7ubuntu13) ...
+Setting up libpng12-0 (1.2.8rel-5) ...
+
+Setting up doxygen (1.4.6-2ubuntu1) ...
+ -> Finished parsing the build-deps
+cp -a /usr/lib/packaging-farm/debian/debuild.sh /spare/cal3d/build/debian/dapper/usr/src
+chroot /spare/cal3d/build/debian/dapper sh -c "cd /usr/src && DISTRIBUTION=dapper PACKAGE=cal3d DEB_BUILD_OPTIONS='' ./debuild.sh"
+dpkg-source: extracting cal3d in cal3d-0.10.0+0.11.0+rc2
+dpkg-source: unpacking cal3d_0.10.0+0.11.0+rc2.orig.tar.gz
+dpkg-source: applying ./cal3d_0.10.0+0.11.0+rc2-1.diff.gz
+dpkg-buildpackage: source package is cal3d
+dpkg-buildpackage: source version is 0.10.0+0.11.0+rc2-1
+dpkg-buildpackage: source changed by Michael Koch <konqueror@gmx.de>
+dpkg-buildpackage: host architecture i386
+ debian/rules clean
+make[2]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+dh_testdir
+dh_testroot
+rm -f build-stamp 
+/usr/bin/make distclean
+make[3]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[3]: *** No rule to make target `distclean'.  Stop.
+make[3]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[2]: [clean] Error 2 (ignored)
+dh_clean
+make[2]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+ debian/rules build
+make[2]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+dh_testdir
+CXXFLAGS="-Wall -g -fPIC -O2" LIBS="-lstdc++" \
+	./configure \
+		--host=i486-linux-gnu \
+		--build=i486-linux-gnu \
+		--prefix=/usr \
+		--disable-dependency-tracking \
+		--enable-shared \
+		--enable-static \
+		--mandir=\${prefix}/share/man \
+		--infodir=\${prefix}/share/info
+checking build system type... i486-pc-linux-gnu
+checking host system type... i486-pc-linux-gnu
+checking target system type... i486-pc-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking whether user defined C++ flags overwrite the default Cal3D ones... yes
+checking for i486-linux-gnu-g++... i486-linux-gnu-g++
+checking for C++ compiler default output file name... a.out
+checking whether the C++ compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether i486-linux-gnu-g++ accepts -g... yes
+checking for style of include used by make... GNU
+checking dependency style of i486-linux-gnu-g++... none
+checking for i486-linux-gnu-gcc... i486-linux-gnu-gcc
+checking whether we are using the GNU C compiler... yes
+checking whether i486-linux-gnu-gcc accepts -g... yes
+checking for i486-linux-gnu-gcc option to accept ANSI C... none needed
+checking dependency style of i486-linux-gnu-gcc... none
+checking for a sed that does not truncate output... /bin/sed
+checking for egrep... grep -E
+checking for ld used by i486-linux-gnu-gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognise dependent libraries... pass_all
+checking how to run the C preprocessor... i486-linux-gnu-gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking how to run the C++ preprocessor... i486-linux-gnu-g++ -E
+checking for i486-linux-gnu-g77... no
+checking for i486-linux-gnu-f77... no
+checking for i486-linux-gnu-xlf... no
+checking for i486-linux-gnu-frt... no
+checking for i486-linux-gnu-pgf77... no
+checking for i486-linux-gnu-fort77... no
+checking for i486-linux-gnu-fl32... no
+checking for i486-linux-gnu-af77... no
+checking for i486-linux-gnu-f90... no
+checking for i486-linux-gnu-xlf90... no
+checking for i486-linux-gnu-pgf90... no
+checking for i486-linux-gnu-epcf90... no
+checking for i486-linux-gnu-f95... no
+checking for i486-linux-gnu-fort... no
+checking for i486-linux-gnu-xlf95... no
+checking for i486-linux-gnu-ifc... no
+checking for i486-linux-gnu-efc... no
+checking for i486-linux-gnu-pgf95... no
+checking for i486-linux-gnu-lf95... no
+checking for i486-linux-gnu-gfortran... no
+checking for g77... no
+checking for f77... no
+checking for xlf... no
+checking for frt... no
+checking for pgf77... no
+checking for fort77... no
+checking for fl32... no
+checking for af77... no
+checking for f90... no
+checking for xlf90... no
+checking for pgf90... no
+checking for epcf90... no
+checking for f95... no
+checking for fort... no
+checking for xlf95... no
+checking for ifc... no
+checking for efc... no
+checking for pgf95... no
+checking for lf95... no
+checking for gfortran... no
+checking whether we are using the GNU Fortran 77 compiler... no
+checking whether  accepts -g... no
+checking the maximum length of command line arguments... 32768
+checking command to parse /usr/bin/nm -B output from i486-linux-gnu-gcc object... ok
+checking for objdir... .libs
+checking for i486-linux-gnu-ar... no
+checking for ar... ar
+checking for i486-linux-gnu-ranlib... no
+checking for ranlib... ranlib
+checking for i486-linux-gnu-strip... no
+checking for strip... strip
+checking if i486-linux-gnu-gcc supports -fno-rtti -fno-exceptions... no
+checking for i486-linux-gnu-gcc option to produce PIC... -fPIC
+checking if i486-linux-gnu-gcc PIC flag -fPIC works... yes
+checking if i486-linux-gnu-gcc static flag -static works... yes
+checking if i486-linux-gnu-gcc supports -c -o file.o... yes
+checking whether the i486-linux-gnu-gcc linker (/usr/bin/ld) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+configure: creating libtool
+appending configuration tag "CXX" to libtool
+checking for ld used by i486-linux-gnu-g++... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking whether the i486-linux-gnu-g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking for i486-linux-gnu-g++ option to produce PIC... -fPIC
+checking if i486-linux-gnu-g++ PIC flag -fPIC works... yes
+checking if i486-linux-gnu-g++ static flag -static works... yes
+checking if i486-linux-gnu-g++ supports -c -o file.o... yes
+checking whether the i486-linux-gnu-g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+appending configuration tag "F77" to libtool
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for doxygen... true
+checking for db2html... false
+configure: WARNING: cannot find db2html, unable to generate Cal3D User's Guide!
+checking for blender... no
+checking for valgrind... no
+checking whether to build Cal3D in debug mode... no
+checking whether i486-linux-gnu-g++ supports -fno-rtti... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating src/cal3d/Makefile
+config.status: creating docs/Makefile
+config.status: creating docs/api/Makefile
+config.status: creating docs/shared/Makefile
+config.status: creating tests/Makefile
+config.status: creating tests/run
+config.status: creating cal3d.pc
+config.status: creating src/cal3d_converter.1
+config.status: creating fileformats.txt
+config.status: creating config.h
+config.status: executing depfiles commands
+o-----------------------------------------------------------o
+| To build and install the Cal3D library type...            |
+|     make; make install                                    |
+|                                                           |
+| To generate the Cal3D User's Guide you need to install    |
+| the DocBook tools first. ('docbktls' package)             |
+|                                                           |
+| To generate the Cal3D API Reference type...               |
+|     cd docs; make doc-api                                 |
+o-----------------------------------------------------------o
+# FIXME: Still needed ?
+sed -e 's/CC="gcc"/CC="g++"/g' libtool > lt.tmp && mv -f lt.tmp libtool
+dh_testdir
+/usr/bin/make
+make[3]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+/usr/bin/make  all-recursive
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+Making all in src
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making all in cal3d
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o animation.lo animation.cpp
+mkdir .libs
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation.cpp  -fPIC -DPIC -o .libs/animation.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation.cpp -o animation.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o animation_action.lo animation_action.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation_action.cpp  -fPIC -DPIC -o .libs/animation_action.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation_action.cpp -o animation_action.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o animation_cycle.lo animation_cycle.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation_cycle.cpp  -fPIC -DPIC -o .libs/animation_cycle.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c animation_cycle.cpp -o animation_cycle.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o bone.lo bone.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c bone.cpp  -fPIC -DPIC -o .libs/bone.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c bone.cpp -o bone.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o buffersource.lo buffersource.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c buffersource.cpp  -fPIC -DPIC -o .libs/buffersource.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c buffersource.cpp -o buffersource.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o cal3d_wrapper.lo cal3d_wrapper.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c cal3d_wrapper.cpp  -fPIC -DPIC -o .libs/cal3d_wrapper.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c cal3d_wrapper.cpp -o cal3d_wrapper.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coreanimation.lo coreanimation.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coreanimation.cpp  -fPIC -DPIC -o .libs/coreanimation.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coreanimation.cpp -o coreanimation.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o corebone.lo corebone.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corebone.cpp  -fPIC -DPIC -o .libs/corebone.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corebone.cpp -o corebone.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o corekeyframe.lo corekeyframe.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corekeyframe.cpp  -fPIC -DPIC -o .libs/corekeyframe.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corekeyframe.cpp -o corekeyframe.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o corematerial.lo corematerial.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corematerial.cpp  -fPIC -DPIC -o .libs/corematerial.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c corematerial.cpp -o corematerial.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coremesh.lo coremesh.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremesh.cpp  -fPIC -DPIC -o .libs/coremesh.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremesh.cpp -o coremesh.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coremodel.lo coremodel.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremodel.cpp  -fPIC -DPIC -o .libs/coremodel.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremodel.cpp -o coremodel.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coreskeleton.lo coreskeleton.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coreskeleton.cpp  -fPIC -DPIC -o .libs/coreskeleton.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coreskeleton.cpp -o coreskeleton.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coresubmesh.lo coresubmesh.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coresubmesh.cpp  -fPIC -DPIC -o .libs/coresubmesh.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coresubmesh.cpp -o coresubmesh.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coresubmorphtarget.lo coresubmorphtarget.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coresubmorphtarget.cpp  -fPIC -DPIC -o .libs/coresubmorphtarget.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coresubmorphtarget.cpp -o coresubmorphtarget.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coretrack.lo coretrack.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coretrack.cpp  -fPIC -DPIC -o .libs/coretrack.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coretrack.cpp -o coretrack.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o error.lo error.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c error.cpp  -fPIC -DPIC -o .libs/error.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c error.cpp -o error.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o global.lo global.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c global.cpp  -fPIC -DPIC -o .libs/global.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c global.cpp -o global.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o hardwaremodel.lo hardwaremodel.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c hardwaremodel.cpp  -fPIC -DPIC -o .libs/hardwaremodel.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c hardwaremodel.cpp -o hardwaremodel.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o loader.lo loader.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c loader.cpp  -fPIC -DPIC -o .libs/loader.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c loader.cpp -o loader.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o matrix.lo matrix.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c matrix.cpp  -fPIC -DPIC -o .libs/matrix.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c matrix.cpp -o matrix.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o mesh.lo mesh.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c mesh.cpp  -fPIC -DPIC -o .libs/mesh.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c mesh.cpp -o mesh.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o mixer.lo mixer.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c mixer.cpp  -fPIC -DPIC -o .libs/mixer.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c mixer.cpp -o mixer.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o model.lo model.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c model.cpp  -fPIC -DPIC -o .libs/model.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c model.cpp -o model.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o morphtargetmixer.lo morphtargetmixer.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c morphtargetmixer.cpp  -fPIC -DPIC -o .libs/morphtargetmixer.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c morphtargetmixer.cpp -o morphtargetmixer.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o physique.lo physique.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c physique.cpp  -fPIC -DPIC -o .libs/physique.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c physique.cpp -o physique.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o platform.lo platform.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c platform.cpp  -fPIC -DPIC -o .libs/platform.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c platform.cpp -o platform.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o quaternion.lo quaternion.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c quaternion.cpp  -fPIC -DPIC -o .libs/quaternion.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c quaternion.cpp -o quaternion.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o renderer.lo renderer.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c renderer.cpp  -fPIC -DPIC -o .libs/renderer.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c renderer.cpp -o renderer.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o saver.lo saver.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c saver.cpp  -fPIC -DPIC -o .libs/saver.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c saver.cpp -o saver.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o skeleton.lo skeleton.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c skeleton.cpp  -fPIC -DPIC -o .libs/skeleton.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c skeleton.cpp -o skeleton.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o springsystem.lo springsystem.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c springsystem.cpp  -fPIC -DPIC -o .libs/springsystem.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c springsystem.cpp -o springsystem.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o streamsource.lo streamsource.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c streamsource.cpp  -fPIC -DPIC -o .libs/streamsource.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c streamsource.cpp -o streamsource.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o submesh.lo submesh.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c submesh.cpp  -fPIC -DPIC -o .libs/submesh.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c submesh.cpp -o submesh.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o vector.lo vector.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c vector.cpp  -fPIC -DPIC -o .libs/vector.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c vector.cpp -o vector.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o tinyxml.lo tinyxml.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxml.cpp  -fPIC -DPIC -o .libs/tinyxml.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxml.cpp -o tinyxml.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o tinyxmlerror.lo tinyxmlerror.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxmlerror.cpp  -fPIC -DPIC -o .libs/tinyxmlerror.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxmlerror.cpp -o tinyxmlerror.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o tinyxmlparser.lo tinyxmlparser.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxmlparser.cpp  -fPIC -DPIC -o .libs/tinyxmlparser.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c tinyxmlparser.cpp -o tinyxmlparser.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=compile i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -Wall -g -fPIC -O2 -fno-rtti -c -o coremorphanimation.lo coremorphanimation.cpp
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremorphanimation.cpp  -fPIC -DPIC -o .libs/coremorphanimation.o
+ i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -Wall -g -fPIC -O2 -fno-rtti -c coremorphanimation.cpp -o coremorphanimation.o >/dev/null 2>&1
+/bin/sh ../../libtool --tag=CXX --mode=link i486-linux-gnu-g++  -Wall -g -fPIC -O2 -fno-rtti   -o libcal3d.la -rpath /usr/lib -lstdc++ -no-undefined -version-info 12:0:0  animation.lo animation_action.lo animation_cycle.lo bone.lo buffersource.lo cal3d_wrapper.lo coreanimation.lo corebone.lo corekeyframe.lo corematerial.lo coremesh.lo coremodel.lo coreskeleton.lo coresubmesh.lo coresubmorphtarget.lo coretrack.lo error.lo global.lo hardwaremodel.lo loader.lo matrix.lo mesh.lo mixer.lo model.lo morphtargetmixer.lo physique.lo platform.lo quaternion.lo renderer.lo saver.lo skeleton.lo springsystem.lo streamsource.lo submesh.lo vector.lo tinyxml.lo tinyxmlerror.lo tinyxmlparser.lo coremorphanimation.lo  -lstdc++
+i486-linux-gnu-g++ -shared -nostdlib /usr/lib/gcc/i486-linux-gnu/4.0.3/../../../../lib/crti.o /usr/lib/gcc/i486-linux-gnu/4.0.3/crtbeginS.o  .libs/animation.o .libs/animation_action.o .libs/animation_cycle.o .libs/bone.o .libs/buffersource.o .libs/cal3d_wrapper.o .libs/coreanimation.o .libs/corebone.o .libs/corekeyframe.o .libs/corematerial.o .libs/coremesh.o .libs/coremodel.o .libs/coreskeleton.o .libs/coresubmesh.o .libs/coresubmorphtarget.o .libs/coretrack.o .libs/error.o .libs/global.o .libs/hardwaremodel.o .libs/loader.o .libs/matrix.o .libs/mesh.o .libs/mixer.o .libs/model.o .libs/morphtargetmixer.o .libs/physique.o .libs/platform.o .libs/quaternion.o .libs/renderer.o .libs/saver.o .libs/skeleton.o .libs/springsystem.o .libs/streamsource.o .libs/submesh.o .libs/vector.o .libs/tinyxml.o .libs/tinyxmlerror.o .libs/tinyxmlparser.o .libs/coremorphanimation.o  -L/usr/lib/gcc/i486-linux-gnu/4.0.3 -L/usr/lib/gcc/i486-linux-gnu/4.0.3/../../../../lib -L/usr/lib/gcc/i486-linux-gnu/4.0.3/../../.. -L/lib/../lib -L/usr/lib/../lib -lstdc++ -lm -lc -lgcc_s /usr/lib/gcc/i486-linux-gnu/4.0.3/crtendS.o /usr/lib/gcc/i486-linux-gnu/4.0.3/../../../../lib/crtn.o  -Wl,-soname -Wl,libcal3d.so.12 -o .libs/libcal3d.so.12.0.0
+(cd .libs && rm -f libcal3d.so.12 && ln -s libcal3d.so.12.0.0 libcal3d.so.12)
+(cd .libs && rm -f libcal3d.so && ln -s libcal3d.so.12.0.0 libcal3d.so)
+ar cru .libs/libcal3d.a  animation.o animation_action.o animation_cycle.o bone.o buffersource.o cal3d_wrapper.o coreanimation.o corebone.o corekeyframe.o corematerial.o coremesh.o coremodel.o coreskeleton.o coresubmesh.o coresubmorphtarget.o coretrack.o error.o global.o hardwaremodel.o loader.o matrix.o mesh.o mixer.o model.o morphtargetmixer.o physique.o platform.o quaternion.o renderer.o saver.o skeleton.o springsystem.o streamsource.o submesh.o vector.o tinyxml.o tinyxmlerror.o tinyxmlparser.o coremorphanimation.o
+ranlib .libs/libcal3d.a
+creating libcal3d.la
+(cd .libs && rm -f libcal3d.la && ln -s ../libcal3d.la libcal3d.la)
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+i486-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I..   -I../src  -Wall -g -fPIC -O2 -fno-rtti -c -o cal3d_converter.o cal3d_converter.cpp
+/bin/sh ../libtool --tag=CXX --mode=link i486-linux-gnu-g++  -Wall -g -fPIC -O2 -fno-rtti   -o cal3d_converter cal3d/libcal3d.la cal3d_converter.o  -lstdc++
+mkdir .libs
+i486-linux-gnu-g++ -Wall -g -fPIC -O2 -fno-rtti -o .libs/cal3d_converter cal3d_converter.o  cal3d/.libs/libcal3d.so -lstdc++
+creating cal3d_converter
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making all in docs
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making all in shared
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+make[6]: Nothing to be done for `all'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+Making all in api
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[6]: Nothing to be done for `all'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[6]: Nothing to be done for `all-am'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making all in tests
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[5]: Nothing to be done for `all-am'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[3]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+/usr/bin/make check
+make[3]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+Making check in src
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making check in cal3d
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[5]: Nothing to be done for `check'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[5]: Nothing to be done for `check-am'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making check in docs
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making check in shared
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+make[5]: Nothing to be done for `check'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+Making check in api
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[5]: Nothing to be done for `check'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[5]: Nothing to be done for `check-am'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making check in tests
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+/usr/bin/make  check-TESTS
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+PASS: converter/skeleton
+PASS: converter/mesh
+PASS: converter/material
+PASS: converter/animation
+==================
+All 4 tests passed
+==================
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[4]: Nothing to be done for `check-am'.
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[3]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+( cd docs ; /usr/bin/make doc-api )
+make[3]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+doxygen cal3d.doxygen
+Warning: Tag `CGI_NAME' at line 158 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `CGI_URL' at line 159 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `DOC_URL' at line 160 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `DOC_ABSPATH' at line 161 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `BIN_ABSPATH' at line 162 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `EXT_DOC_PATHS' at line 163 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Searching for include files...
+Searching for example files...
+Searching for images...
+Searching for dot files...
+Searching for files to exclude
+Searching for files to process...
+Reading and parsing tag files
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_action.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_action.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_action.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_action.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_cycle.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_cycle.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_cycle.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animation_cycle.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animcallback.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/animcallback.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/bone.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/bone.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/bone.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/bone.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d_wrapper.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d_wrapper.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d_wrapper.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d_wrapper.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreanimation.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreanimation.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreanimation.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreanimation.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corebone.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corebone.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corebone.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corebone.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corematerial.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corematerial.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corematerial.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corematerial.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremesh.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremesh.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremesh.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremesh.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremodel.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremodel.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremodel.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremodel.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremorphanimation.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremorphanimation.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremorphanimation.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coremorphanimation.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreskeleton.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreskeleton.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreskeleton.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coreskeleton.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmesh.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmesh.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmesh.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmesh.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmorphtarget.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmorphtarget.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmorphtarget.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coresubmorphtarget.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coretrack.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coretrack.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coretrack.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/coretrack.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/datasource.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/datasource.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/error.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/error.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/error.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/error.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/global.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/global.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/global.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/global.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/hardwaremodel.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/hardwaremodel.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/hardwaremodel.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/hardwaremodel.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/matrix.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/matrix.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/matrix.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/matrix.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mesh.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mesh.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mesh.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mesh.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mixer.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mixer.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mixer.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/mixer.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/model.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/model.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/model.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/model.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/morphtargetmixer.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/morphtargetmixer.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/morphtargetmixer.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/morphtargetmixer.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/physique.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/physique.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/physique.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/physique.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/quaternion.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/quaternion.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/quaternion.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/quaternion.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/refcounted.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/refcounted.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/refptr.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/refptr.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/renderer.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/renderer.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/renderer.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/renderer.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/resource.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/resource.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/saver.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/saver.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/saver.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/saver.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/skeleton.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/skeleton.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/skeleton.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/skeleton.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/springsystem.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/springsystem.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/springsystem.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/springsystem.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/submesh.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/submesh.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/submesh.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/submesh.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxml.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxml.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxml.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxml.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxmlerror.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxmlerror.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxmlparser.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/tinyxmlparser.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/transform.h...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/transform.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.h...
+Parsing file /usr/src/c/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `/'
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/cal3d.h:55 Warning: image file ./shared/cal3d.gif is not found in IMAGE_PATH: assuming external image.
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.cpp:145 Warning: argument `value' of command @param is not found in the argument list of CalBufferSource::readString(std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/buffersource.cpp:145 Warning: The following parameters of CalBufferSource::readString(std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp:108 Warning: argument `rotation' of command @param is not found in the argument list of CalCoreKeyframe::setTime(float time)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp:108 Warning: The following parameters of CalCoreKeyframe::setTime(float time) are not documented:
+  parameter time
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp:121 Warning: argument `rotation' of command @param is not found in the argument list of CalCoreKeyframe::setTranslation(const CalVector &translation)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/corekeyframe.cpp:121 Warning: The following parameters of CalCoreKeyframe::setTranslation(const CalVector &translation) are not documented:
+  parameter translation
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp:394 Warning: The following parameters of CalLoader::loadCoreAnimation(CalDataSource &dataSrc, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp:310 Warning: The following parameters of CalLoader::loadCoreAnimation(void *inputBuffer, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp:227 Warning: The following parameters of CalLoader::loadCoreAnimation(std::istream &inputStream, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/loader.cpp:59 Warning: The following parameters of CalLoader::loadCoreAnimation(const std::string &strFilename, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp:409 Warning: argument `x' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp:409 Warning: argument `y' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp:409 Warning: argument `z' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/vector.cpp:409 Warning: The following parameters of CalPlane::eval(CalVector &p) are not documented:
+  parameter p
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:241 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::readString(char *input, std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:241 Warning: The following parameters of CalPlatform::readString(char *input, std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:119 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::readString(std::istream &input, std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:119 Warning: The following parameters of CalPlatform::readString(std::istream &input, std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:337 Warning: argument `file' of command @param is not found in the argument list of CalPlatform::writeInteger(std::ostream &output, int value)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:337 Warning: The following parameters of CalPlatform::writeInteger(std::ostream &output, int value) are not documented:
+  parameter output
+
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:365 Warning: argument `file' of command @param is not found in the argument list of CalPlatform::writeString(std::ostream &output, const std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:365 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::writeString(std::ostream &output, const std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/platform.cpp:365 Warning: The following parameters of CalPlatform::writeString(std::ostream &output, const std::string &strValue) are not documented:
+  parameter output
+  parameter strValue
+
+al3d-0.10.0+0.11.0+rc2/src/cal3d/vector.h...
+Preprocessing /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d_converter.cpp...
+Parsing file /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d_converter.cpp...
+Building group list...
+Building directory list...
+Building namespace list...
+Building file list...
+Searching for included using directives...
+Building class list...
+Associating documentation with classes...
+Computing nesting relations for classes...
+Searching for members imported via using declarations...
+Building example list...
+Searching for documented variables...
+Building member list...
+Searching for friends...
+Searching for documented defines...
+Computing template instances...
+Flushing cached template relations that have become invalid...
+Creating members for template instances...
+Computing class relations...
+Searching for enumerations...
+Searching for member function documentation...
+Building page list...
+Search for main page...
+Computing page relations...
+Determining the scope of groups...
+Sorting lists...
+Freeing entry tree
+Determining which enums are documented
+Computing member relations...
+Building full member lists recursively...
+Adding members to member groups.
+Computing member references...
+Inheriting documentation...
+Generating disk names...
+Adding source references...
+Adding todo/test/bug list items...
+Generating style sheet...
+Counting data structures...
+Resolving user defined references...
+Combining using relations...
+Finding anchors and sections in the documentation...
+Generating index page...
+Generating file index...
+Generating example documentation...
+Generating file sources...
+Generating code for file animation.h...
+Generating code for file animation_action.h...
+Generating code for file animation_cycle.h...
+Generating code for file animcallback.h...
+Generating code for file bone.h...
+Generating code for file buffersource.h...
+Generating code for file cal3d.h...
+Generating code for file cal3d_wrapper.h...
+Generating code for file coreanimation.h...
+Generating code for file corebone.h...
+Generating code for file corekeyframe.h...
+Generating code for file corematerial.h...
+Generating code for file coremesh.h...
+Generating code for file coremodel.h...
+Generating code for file coremorphanimation.h...
+Generating code for file coreskeleton.h...
+Generating code for file coresubmesh.h...
+Generating code for file coresubmorphtarget.h...
+Generating code for file coretrack.h...
+Generating code for file datasource.h...
+Generating code for file error.h...
+Generating code for file global.h...
+Generating code for file hardwaremodel.h...
+Generating code for file loader.h...
+Generating code for file matrix.h...
+Generating code for file mesh.h...
+Generating code for file mixer.h...
+Generating code for file model.h...
+Generating code for file morphtargetmixer.h...
+Generating code for file physique.h...
+Generating code for file platform.h...
+Generating code for file quaternion.h...
+Generating code for file refcounted.h...
+Generating code for file refptr.h...
+Generating code for file renderer.h...
+Generating code for file resource.h...
+Generating code for file saver.h...
+Generating code for file skeleton.h...
+Generating code for file springsystem.h...
+Generating code for file streamsource.h...
+Generating code for file submesh.h...
+Generating code for file tinyxml.h...
+Generating code for file transform.h...
+Generating code for file vector.h...
+Generating file documentation...
+Generating class documentation...
+Generating annotated compound index...
+Generating alphabetical compound index...
+Generating hierarchical class index...
+Generating member index...
+Generating docs for compound CalAbstractMixer...
+Generating docs for compound CalBoundingBox...
+Generating docs for compound CalBufferSource...
+Generating docs for compound CalCoreKeyframe...
+Generating docs for nested compound CalCoreSubmesh::Spring...
+Generating docs for compound CalDataSource...
+Generating docs for compound CalLoader...
+Generating docs for compound CalMatrix...
+Generating docs for compound CalPlane...
+Generating docs for compound CalPlatform...
+Generating docs for /usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.cpp:139 Warning: argument `value' of command @param is not found in the argument list of CalStreamSource::readString(std::string &strValue)
+/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d/streamsource.cpp:139 Warning: The following parameters of CalStreamSource::readString(std::string &strValue) are not documented:
+  parameter strValue
+
+compound CalQuaternion...
+Generating docs for compound CalSaver...
+Generating docs for compound CalSpringSystem...
+Generating docs for compound CalStreamSource...
+Generating docs for compound CalVector...
+Generating page documentation...
+Generating docs for page license...
+Generating group documentation...
+Generating namespace index...
+Generating docs for compound cal3d::noncopyable...
+Generating docs for compound cal3d::RefCounted...
+Generating docs for compound cal3d::RefPtr...
+Generating docs for compound cal3d::TiXmlBase...
+Generating docs for compound cal3d::TiXmlNode...
+Generating docs for compound cal3d::TiXmlAttribute...
+Generating docs for compound cal3d::TiXmlElement...
+Generating docs for compound cal3d::TiXmlComment...
+Generating docs for compound cal3d::TiXmlText...
+Generating docs for compound cal3d::TiXmlDeclaration...
+Generating docs for compound cal3d::TiXmlUnknown...
+Generating docs for compound cal3d::TiXmlDocument...
+Generating docs for compound cal3d::TiXmlHandle...
+Generating docs for compound cal3d::Transform...
+Generating group index...
+Generating example index...
+Generating file member index...
+Generating namespace member index...
+Generating page index...
+Generating graph info page...
+make[3]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+touch build-stamp
+make[2]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+ debian/rules binary
+make[2]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+dh_testdir
+dh_testroot
+dh_clean -k
+dh_installdirs
+/usr/bin/make install DESTDIR=/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp
+make[3]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+Making install in src
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making install in cal3d
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+test -z "/usr/lib" || mkdir -p -- "/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib"
+ /bin/sh ../../libtool --mode=install /usr/bin/install -c  'libcal3d.la' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.la'
+/usr/bin/install -c .libs/libcal3d.so.12.0.0 /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.so.12.0.0
+(cd /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib && { ln -s -f libcal3d.so.12.0.0 libcal3d.so.12 || { rm -f libcal3d.so.12 && ln -s libcal3d.so.12.0.0 libcal3d.so.12; }; })
+(cd /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib && { ln -s -f libcal3d.so.12.0.0 libcal3d.so || { rm -f libcal3d.so && ln -s libcal3d.so.12.0.0 libcal3d.so; }; })
+/usr/bin/install -c .libs/libcal3d.lai /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.la
+/usr/bin/install -c .libs/libcal3d.a /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.a
+chmod 644 /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.a
+ranlib /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/libcal3d.a
+libtool: install: warning: remember to run `libtool --finish /usr/lib'
+test -z "/usr/include/cal3d" || mkdir -p -- "/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d"
+ /usr/bin/install -c -m 644 'animation.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/animation.h'
+ /usr/bin/install -c -m 644 'animation_action.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/animation_action.h'
+ /usr/bin/install -c -m 644 'animation_cycle.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/animation_cycle.h'
+ /usr/bin/install -c -m 644 'animcallback.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/animcallback.h'
+ /usr/bin/install -c -m 644 'bone.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/bone.h'
+ /usr/bin/install -c -m 644 'buffersource.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/buffersource.h'
+ /usr/bin/install -c -m 644 'cal3d.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/cal3d.h'
+ /usr/bin/install -c -m 644 'cal3d_wrapper.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/cal3d_wrapper.h'
+ /usr/bin/install -c -m 644 'coreanimation.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coreanimation.h'
+ /usr/bin/install -c -m 644 'corebone.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/corebone.h'
+ /usr/bin/install -c -m 644 'corekeyframe.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/corekeyframe.h'
+ /usr/bin/install -c -m 644 'corematerial.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/corematerial.h'
+ /usr/bin/install -c -m 644 'coremesh.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coremesh.h'
+ /usr/bin/install -c -m 644 'coremodel.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coremodel.h'
+ /usr/bin/install -c -m 644 'coreskeleton.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coreskeleton.h'
+ /usr/bin/install -c -m 644 'coresubmesh.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coresubmesh.h'
+ /usr/bin/install -c -m 644 'coresubmorphtarget.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coresubmorphtarget.h'
+ /usr/bin/install -c -m 644 'coretrack.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coretrack.h'
+ /usr/bin/install -c -m 644 'datasource.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/datasource.h'
+ /usr/bin/install -c -m 644 'error.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/error.h'
+ /usr/bin/install -c -m 644 'global.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/global.h'
+ /usr/bin/install -c -m 644 'hardwaremodel.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/hardwaremodel.h'
+ /usr/bin/install -c -m 644 'loader.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/loader.h'
+ /usr/bin/install -c -m 644 'matrix.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/matrix.h'
+ /usr/bin/install -c -m 644 'mesh.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/mesh.h'
+ /usr/bin/install -c -m 644 'mixer.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/mixer.h'
+ /usr/bin/install -c -m 644 'model.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/model.h'
+ /usr/bin/install -c -m 644 'morphtargetmixer.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/morphtargetmixer.h'
+ /usr/bin/install -c -m 644 'physique.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/physique.h'
+ /usr/bin/install -c -m 644 'platform.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/platform.h'
+ /usr/bin/install -c -m 644 'quaternion.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/quaternion.h'
+ /usr/bin/install -c -m 644 'refcounted.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/refcounted.h'
+ /usr/bin/install -c -m 644 'refptr.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/refptr.h'
+ /usr/bin/install -c -m 644 'renderer.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/renderer.h'
+ /usr/bin/install -c -m 644 'resource.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/resource.h'
+ /usr/bin/install -c -m 644 'saver.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/saver.h'
+ /usr/bin/install -c -m 644 'skeleton.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/skeleton.h'
+ /usr/bin/install -c -m 644 'springsystem.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/springsystem.h'
+ /usr/bin/install -c -m 644 'streamsource.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/streamsource.h'
+ /usr/bin/install -c -m 644 'submesh.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/submesh.h'
+ /usr/bin/install -c -m 644 'vector.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/vector.h'
+ /usr/bin/install -c -m 644 'tinyxml.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/tinyxml.h'
+ /usr/bin/install -c -m 644 'transform.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/transform.h'
+ /usr/bin/install -c -m 644 'coremorphanimation.h' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/include/cal3d/coremorphanimation.h'
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src/cal3d'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+test -z "/usr/bin" || mkdir -p -- "/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/bin"
+  /bin/sh ../libtool --mode=install /usr/bin/install -c 'cal3d_converter' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/bin/cal3d_converter'
+libtool: install: warning: `cal3d/libcal3d.la' has not been installed in `/usr/lib'
+/usr/bin/install -c .libs/cal3d_converter /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/bin/cal3d_converter
+test -z "/usr/share/man/man1" || mkdir -p -- "/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/share/man/man1"
+ /usr/bin/install -c -m 644 './cal3d_converter.1' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/share/man/man1/cal3d_converter.1'
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/src'
+Making install in docs
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making install in shared
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+make[6]: Nothing to be done for `install-exec-am'.
+make[6]: Nothing to be done for `install-data-am'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/shared'
+Making install in api
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[6]: Nothing to be done for `install-exec-am'.
+make[6]: Nothing to be done for `install-data-am'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[6]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[6]: Nothing to be done for `install-exec-am'.
+make[6]: Nothing to be done for `install-data-am'.
+make[6]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/docs'
+Making install in tests
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2/tests'
+make[4]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[5]: Entering directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[5]: Nothing to be done for `install-exec-am'.
+test -z "/usr/lib/pkgconfig" || mkdir -p -- "/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/pkgconfig"
+ /usr/bin/install -c -m 644 'cal3d.pc' '/usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/lib/pkgconfig/cal3d.pc'
+make[5]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[4]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+make[3]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+mkdir -p /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/share/doc/libcal3d-doc/html
+cp -r /usr/src/cal3d-0.10.0+0.11.0+rc2/docs/api/html/* /usr/src/cal3d-0.10.0+0.11.0+rc2/debian/tmp/usr/share/doc/libcal3d-doc//html
+dh_testdir
+dh_testroot
+dh_installchangelogs -i ChangeLog
+dh_installdocs -i
+dh_installexamples -i
+dh_installman -i
+dh_install -i --sourcedir=debian/tmp
+dh_compress -i
+dh_fixperms -i
+dh_installdeb -i
+dh_gencontrol -i
+dh_md5sums -i
+dh_builddeb -i
+dpkg-deb: building package `libcal3d-doc' in `../libcal3d-doc_0.10.0+0.11.0+rc2-1_all.deb'.
+dh_testdir
+dh_testroot
+dh_installchangelogs -a ChangeLog
+dh_installdocs -a
+dh_installexamples -a
+dh_installman -a
+dh_install -a --sourcedir=debian/tmp
+dh_link -a
+dh_strip -a
+dh_compress -a
+dh_fixperms -a
+dh_makeshlibs -a
+dh_installdeb -a
+dh_shlibdeps -a
+dpkg-shlibdeps: warning: could not find path for libcal3d.so.12
+dh_gencontrol -a
+dh_md5sums -a
+dh_builddeb -a
+dpkg-deb: building package `libcal3d12' in `../libcal3d12_0.10.0+0.11.0+rc2-1_i386.deb'.
+dpkg-deb: building package `libcal3d12-dev' in `../libcal3d12-dev_0.10.0+0.11.0+rc2-1_i386.deb'.
+make[2]: Leaving directory `/usr/src/cal3d-0.10.0+0.11.0+rc2'
+ dpkg-genchanges -b
+dpkg-genchanges: binary-only upload - not including any source code
+dpkg-buildpackage: binary only upload (no source included)
+dpkg-genchanges: including full source code in upload
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+mount -t proc proc /spare/cal3d/build/debian/dapper/proc
+mount -t devpts devpts /spare/cal3d/build/debian/dapper/dev/pts 
+if [ debian = debian -o debian = fedora ] ; then \
+		mkdir -p gnulinux/debian/dapper/archives/partial ; \
+		mount --bind gnulinux/debian/dapper/archives /spare/cal3d/build/debian/dapper/var/cache/apt/archives ; \
+	elif [ debian = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/debian/distdir /spare/cal3d/build/debian/dapper/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/debian/portage /spare/cal3d/build/debian/dapper/usr/portage ; \
+	fi
+mkdir -p gnulinux/debian/dapper/src
+mount --bind gnulinux/debian/dapper/src /spare/cal3d/build/debian/dapper/usr/src
+if [ debian = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/debian/dapper/root/.ccache ; \
+	fi
+cd gnulinux/debian/dapper/src ; \
+	dpkg-scanpackages . /dev/null | gzip > Packages.gz ; \
+	dpkg-scansources . /dev/null | gzip > Sources.gz
+ ** Packages in archive but missing from override file: **
+  libcal3d-doc libcal3d12 libcal3d12-dev
+
+ Wrote 3 entries to output Packages file.
+mkdir -p /spare/cal3d/build/debian/dapper /spare/cal3d/build/debian/dapper.unionfs
+if ! unionctl --query /spare/cal3d/build/debian/dapper > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/debian/dapper.unionfs=rw:/chroot/debian/dapper=ro cal3d-dapper /spare/cal3d/build/debian/dapper ; fi
+umount /spare/cal3d/build/debian/dapper/proc > /dev/null 2>&1
+umount /spare/cal3d/build/debian/dapper/dev/pts > /dev/null 2>&1
+if [ debian = debian -o debian = fedora ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/debian/dapper/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/debian/dapper/usr/src > /dev/null 2>&1
+if [ debian = gentoo ] ; then \
+		umount /spare/cal3d/build/debian/dapper/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/debian/dapper/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: Leaving directory `/spare/cal3d'

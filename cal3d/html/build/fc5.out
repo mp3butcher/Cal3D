@@ -1,0 +1,1533 @@
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+make[1]: [chroot-umounts] Error 1 (ignored)
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: [chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5
+rm -fr /spare/cal3d/build/fedora/fc5.unionfs
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+make chroot-mounts
+make[2]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+mount -t proc proc /spare/cal3d/build/fedora/fc5/proc
+mount -t devpts devpts /spare/cal3d/build/fedora/fc5/dev/pts 
+if [ fedora = debian -o fedora = fedora ] ; then \
+		mkdir -p gnulinux/fedora/fc5/archives/partial ; \
+		mount --bind gnulinux/fedora/fc5/archives /spare/cal3d/build/fedora/fc5/var/cache/apt/archives ; \
+	elif [ fedora = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+	fi
+mkdir -p gnulinux/fedora/fc5/src
+mount --bind gnulinux/fedora/fc5/src /spare/cal3d/build/fedora/fc5/usr/src
+if [ fedora = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+	fi
+make[2]: Leaving directory `/spare/cal3d'
+if [ fedora = debian -o fedora = fedora ] ; then \
+		source_list=/spare/cal3d/build/fedora/fc5/etc/apt/sources.list ; \
+		: ; \
+		: ; \
+		chroot /spare/cal3d/build/fedora/fc5 apt-get update ; \
+		chroot /spare/cal3d/build/fedora/fc5 apt-get -y --force-yes dist-upgrade ; \
+	elif [ fedora = gentoo ] ; then \
+		overlaydir=/spare/cal3d/build/fedora/fc5/overlays ; \
+		mkdir -p $overlaydir ; \
+		: ; \
+	fi
+Get:1 http://dl.atrpms.net fc5-i386/atrpms release [1247B]
+Get:2 http://dl.atrpms.net fc5-i386/redhat release [1378B]
+Get:3 http://ayo.freshrpms.net fedora/linux/5/i386 release [1843B]
+Fetched 4468B in 0s (6006B/s)
+Get:1 http://ayo.freshrpms.net fedora/linux/5/i386/extras pkglist [2623kB]
+Get:2 http://dl.atrpms.net fc5-i386/atrpms/stable pkglist [979kB]
+Get:3 http://dl.atrpms.net fc5-i386/atrpms/stable release [128B]
+Hit http://dl.atrpms.net fc5-i386/redhat/release pkglist
+Hit http://dl.atrpms.net fc5-i386/redhat/release release
+Get:4 http://dl.atrpms.net fc5-i386/redhat/updates pkglist [1618kB]
+Get:5 http://dl.atrpms.net fc5-i386/redhat/updates release [129B]
+Get:6 http://dl.atrpms.net fc5-i386/redhat/extras pkglist [2567kB]
+Hit http://ayo.freshrpms.net fedora/linux/5/i386/extras release
+Get:7 http://ayo.freshrpms.net fedora/linux/5/i386/extras srclist [409kB]
+Hit http://ayo.freshrpms.net fedora/linux/5/i386/core srclist
+Get:8 http://dl.atrpms.net fc5-i386/redhat/extras release [129B]
+error: rpmdb: damaged header #20 retrieved -- skipping.
+error: rpmdb: damaged header #92 retrieved -- skipping.
+error: rpmdb: damaged header #100 retrieved -- skipping.
+error: rpmdb: damaged header #166 retrieved -- skipping.
+error: rpmdb: damaged header #170 retrieved -- skipping.
+Fetched 8197kB in 14s (582kB/s)
+Reading Package Lists...
+Building Dependency Tree...
+Del tzdata 2006f-1.fc5 [500kB]
+Reading Package Lists...
+Building Dependency Tree...
+The following packages will be upgraded
+  python
+1 upgraded, 0 newly installed, 0 removed and 0 not upgraded.
+Need to get 6143kB of archives.
+After unpacking 31.3kB of additional disk space will be used.
+Get:1 http://dl.atrpms.net fc5-i386/redhat/updates python 2.4.3-4.FC5 [6143kB]
+Fetched 6143kB in 14s (421kB/s)
+Committing changes...
+Preparing packages for installation...
+python-2.4.3-4.FC5
+Done.
+make chroot-umounts
+make[2]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[2]: Leaving directory `/spare/cal3d'
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p "/var/cache/packaging-farm/sources/cal3d"
+rsync  --delete -avH /var/cache/packaging-farm/sources/cal3d/ cal3d/
+building file list ... done
+
+sent 515 bytes  received 20 bytes  1070.00 bytes/sec
+total size is 17810771  speedup is 33291.16
+#
+# Make sure no update occur less than 1 seconds after the end of the rsync.
+# If an update can occur within less than 1 second, the -c (checksum) rsync option 
+# *must* be used to ensure that the rsync is accurate and this slows down
+# the rsync a great deal. By loosing a second here you can save many seconds
+# later because rsync can rely on the file date and size to figure out which
+# files are identical.
+#
+sleep 1
+:
+: Copy the patches to current directory and include the
+: package name in their file name
+:
+eval tarbal=cal3d/cal3d*[0-9].tar.gz ; \
+	version=$(expr $tarbal : '.*-\(.*\).tar.gz') ; \
+	if [ -f cal3d/cal3d-*[0-9]/debian/patches/00list ] ; then \
+		for patch in cal3d/cal3d-*[0-9]/debian/patches/*.dpatch ; do \
+			base=$(basename $patch) ; \
+			cp -a $patch cal3d ; \
+			cp -a $patch cal3d/cal3d-debian-$base ; \
+		done ; \
+	fi
+/usr/lib/packaging-farm/fedora/get.sh cal3d fc5
++ PACKAGE=cal3d
++ DISTRIBUTION=fc5
++ '[' -z cal3d -o -z fc5 ']'
+++ packaging-farm --var DISTRIBUTION=fc5 DISTTYPE
++ DISTTYPE=fedora
+++ packaging-farm --var DISTRIBUTION=fc5 OSTYPE
++ OSTYPE=gnulinux
++ mkdir -p gnulinux/fedora/fc5/src/redhat/SOURCES
++ mkdir -p gnulinux/fedora/fc5/src/redhat/SPECS
+++ echo 'cal3d/cal3d*[0-9].tar.gz'
++ tarbal='cal3d/cal3d*[0-9].tar.gz'
++ '[' '!' -f 'cal3d/cal3d*[0-9].tar.gz' ']'
+++ echo cal3d/fc5/cal3d-0.11-rc2.1.src.rpm
++ srpms=cal3d/fc5/cal3d-0.11-rc2.1.src.rpm
++ '[' '!' -f cal3d/fc5/cal3d-0.11-rc2.1.src.rpm ']'
+++ basename cal3d/fc5/cal3d-0.11-rc2.1.src.rpm
++ file=cal3d-0.11-rc2.1.src.rpm
++ rm -fr gnulinux/fedora/fc5/src/redhat
++ for dir in SRPMS SPECS SOURCES
++ mkdir -p gnulinux/fedora/fc5/src/redhat/SRPMS
++ for dir in SRPMS SPECS SOURCES
++ mkdir -p gnulinux/fedora/fc5/src/redhat/SPECS
++ for dir in SRPMS SPECS SOURCES
++ mkdir -p gnulinux/fedora/fc5/src/redhat/SOURCES
++ cp cal3d/fc5/cal3d-0.11-rc2.1.src.rpm gnulinux/fedora/fc5/src/redhat/SRPMS
++ packaging-farm DISTRIBUTION=fc5 chroot-mounts
+make[2]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[2]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+mount -t proc proc /spare/cal3d/build/fedora/fc5/proc
+mount -t devpts devpts /spare/cal3d/build/fedora/fc5/dev/pts 
+if [ fedora = debian -o fedora = fedora ] ; then \
+		mkdir -p gnulinux/fedora/fc5/archives/partial ; \
+		mount --bind gnulinux/fedora/fc5/archives /spare/cal3d/build/fedora/fc5/var/cache/apt/archives ; \
+	elif [ fedora = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+	fi
+mkdir -p gnulinux/fedora/fc5/src
+mount --bind gnulinux/fedora/fc5/src /spare/cal3d/build/fedora/fc5/usr/src
+if [ fedora = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+	fi
+make[2]: Leaving directory `/spare/cal3d'
++ chroot build/fedora/fc5 rpm -i /usr/src/redhat/SRPMS/cal3d-0.11-rc2.1.src.rpm
+warning: user build does not exist - using root
+warning: group build does not exist - using root
+warning: user build does not exist - using root
+warning: group build does not exist - using root
++ exit 0
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+mount -t proc proc /spare/cal3d/build/fedora/fc5/proc
+mount -t devpts devpts /spare/cal3d/build/fedora/fc5/dev/pts 
+if [ fedora = debian -o fedora = fedora ] ; then \
+		mkdir -p gnulinux/fedora/fc5/archives/partial ; \
+		mount --bind gnulinux/fedora/fc5/archives /spare/cal3d/build/fedora/fc5/var/cache/apt/archives ; \
+	elif [ fedora = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+	fi
+mkdir -p gnulinux/fedora/fc5/src
+mount --bind gnulinux/fedora/fc5/src /spare/cal3d/build/fedora/fc5/usr/src
+if [ fedora = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+	fi
+cp -a /usr/lib/packaging-farm/fedora/rpmbuild.sh /spare/cal3d/build/fedora/fc5/usr/src
+chroot /spare/cal3d/build/fedora/fc5 sh -c "cd /usr/src && DISTRIBUTION=fc5 PACKAGE=cal3d ./rpmbuild.sh"
++ rm -fr redhat/BUILD redhat/RPMS/i386 redhat/RPMS/noarch redhat/SRPMS
++ mkdir -p redhat/BUILD redhat/RPMS/i386 redhat/RPMS/noarch redhat/SRPMS
++ USER=root.root
++ chown root.root redhat/SOURCES/cal3d-0.11rc2.tar.bz2
++ cd redhat/SPECS
+++ sed -n -e 's/[><=][><=]*[ 	]*[^ 	][^ 	]*//g; s/^BuildRequires:[ 	]*//p'
++ DEPS='doxygen docbook-utils
+autoconf automake libtool'
++ apt-get -y --force-yes install doxygen docbook-utils autoconf automake libtool
+Reading Package Lists...
+Building Dependency Tree...
+autoconf is already the newest version.
+automake is already the newest version.
+libtool is already the newest version.
+The following extra packages will be installed:
+  docbook-dtds docbook-style-dsssl elinks libidn openjade opensp perl-SGMLSpm
+  sgml-common xml-common
+The following NEW packages will be installed:
+  docbook-dtds docbook-style-dsssl docbook-utils doxygen elinks libidn openjade
+  opensp perl-SGMLSpm sgml-common xml-common
+0 upgraded, 11 newly installed, 0 removed and 0 not upgraded.
+Need to get 0B/6478kB of archives.
+After unpacking 21.9MB of additional disk space will be used.
+Committing changes...
+Preparing packages for installation...
+sgml-common-0.6.3-17_11.at
+opensp-1.5.2-1.2
+openjade-1.3.2-23.2
+perl-SGMLSpm-1.03ii-16.2
+libidn-0.6.2-1.1
+elinks-0.11.0-2.2
+xml-common-0.6.3-17_11.at
+docbook-dtds-1.0-30
+docbook-style-dsssl-1.79-4
+docbook-utils-0.6.14-5
+doxygen-1.4.6-3
+Done.
++ rpmbuild -ba cal3d.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.37220
++ umask 022
++ cd /usr/src/redhat/BUILD
++ LANG=C
++ export LANG
++ unset DISPLAY
++ cd /usr/src/redhat/BUILD
++ rm -rf cal3d-0.11rc2
++ /usr/bin/bzip2 -dc /usr/src/redhat/SOURCES/cal3d-0.11rc2.tar.bz2
++ tar -xf -
++ STATUS=0
++ '[' 0 -ne 0 ']'
++ cd cal3d-0.11rc2
+++ /usr/bin/id -u
++ '[' 0 = 0 ']'
++ /bin/chown -Rhf root .
+++ /usr/bin/id -u
++ '[' 0 = 0 ']'
++ /bin/chgrp -Rhf root .
++ /bin/chmod -Rf a+rX,u+w,g-w,o-w .
++ autoreconf --force --install
+configure.in: installing `./install-sh'
+configure.in: installing `./missing'
+src/Makefile.am: installing `./depcomp'
++ exit 0
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.76243
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ LANG=C
++ export LANG
++ unset DISPLAY
++ CFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables'
++ export CFLAGS
++ CXXFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables'
++ export CXXFLAGS
++ FFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables'
++ export FFLAGS
+++ find . -name config.guess -o -name config.sub
++ for i in '$(find . -name config.guess -o -name config.sub)'
+++ basename ./config.guess
++ '[' -f /usr/lib/rpm/redhat/config.guess ']'
++ /bin/rm -f ./config.guess
+++ basename ./config.guess
++ /bin/cp -fv /usr/lib/rpm/redhat/config.guess ./config.guess
+`/usr/lib/rpm/redhat/config.guess' -> `./config.guess'
++ for i in '$(find . -name config.guess -o -name config.sub)'
+++ basename ./config.sub
++ '[' -f /usr/lib/rpm/redhat/config.sub ']'
++ /bin/rm -f ./config.sub
+++ basename ./config.sub
++ /bin/cp -fv /usr/lib/rpm/redhat/config.sub ./config.sub
+`/usr/lib/rpm/redhat/config.sub' -> `./config.sub'
++ ./configure --build=i686-redhat-linux-gnu --host=i686-redhat-linux-gnu --target=i386-redhat-linux-gnu --program-prefix= --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --libexecdir=/usr/libexec --localstatedir=/var --sharedstatedir=/usr/com --mandir=/usr/share/man --infodir=/usr/share/info
+checking build system type... i686-redhat-linux-gnu
+checking host system type... i686-redhat-linux-gnu
+checking target system type... i386-redhat-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether user defined C++ flags overwrite the default Cal3D ones... yes
+checking for i686-redhat-linux-gnu-g++... no
+checking for i686-redhat-linux-gnu-c++... no
+checking for i686-redhat-linux-gnu-gpp... no
+checking for i686-redhat-linux-gnu-aCC... no
+checking for i686-redhat-linux-gnu-CC... no
+checking for i686-redhat-linux-gnu-cxx... no
+checking for i686-redhat-linux-gnu-cc++... no
+checking for i686-redhat-linux-gnu-cl... no
+checking for i686-redhat-linux-gnu-FCC... no
+checking for i686-redhat-linux-gnu-KCC... no
+checking for i686-redhat-linux-gnu-RCC... no
+checking for i686-redhat-linux-gnu-xlC_r... no
+checking for i686-redhat-linux-gnu-xlC... no
+checking for g++... g++
+checking for C++ compiler default output file name... a.out
+checking whether the C++ compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking for style of include used by make... GNU
+checking dependency style of g++... gcc3
+checking for i686-redhat-linux-gnu-gcc... no
+checking for gcc... gcc
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ANSI C... none needed
+checking dependency style of gcc... gcc3
+checking for a sed that does not truncate output... /bin/sed
+checking for egrep... grep -E
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognise dependent libraries... pass_all
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking how to run the C++ preprocessor... g++ -E
+checking for i686-redhat-linux-gnu-g77... no
+checking for i686-redhat-linux-gnu-f77... no
+checking for i686-redhat-linux-gnu-xlf... no
+checking for i686-redhat-linux-gnu-frt... no
+checking for i686-redhat-linux-gnu-pgf77... no
+checking for i686-redhat-linux-gnu-fort77... no
+checking for i686-redhat-linux-gnu-fl32... no
+checking for i686-redhat-linux-gnu-af77... no
+checking for i686-redhat-linux-gnu-f90... no
+checking for i686-redhat-linux-gnu-xlf90... no
+checking for i686-redhat-linux-gnu-pgf90... no
+checking for i686-redhat-linux-gnu-epcf90... no
+checking for i686-redhat-linux-gnu-f95... no
+checking for i686-redhat-linux-gnu-fort... no
+checking for i686-redhat-linux-gnu-xlf95... no
+checking for i686-redhat-linux-gnu-ifc... no
+checking for i686-redhat-linux-gnu-efc... no
+checking for i686-redhat-linux-gnu-pgf95... no
+checking for i686-redhat-linux-gnu-lf95... no
+checking for i686-redhat-linux-gnu-gfortran... no
+checking for g77... no
+checking for f77... no
+checking for xlf... no
+checking for frt... no
+checking for pgf77... no
+checking for fort77... no
+checking for fl32... no
+checking for af77... no
+checking for f90... no
+checking for xlf90... no
+checking for pgf90... no
+checking for epcf90... no
+checking for f95... no
+checking for fort... no
+checking for xlf95... no
+checking for ifc... no
+checking for efc... no
+checking for pgf95... no
+checking for lf95... no
+checking for gfortran... no
+checking whether we are using the GNU Fortran 77 compiler... no
+checking whether  accepts -g... no
+checking the maximum length of command line arguments... 32768
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for objdir... .libs
+checking for i686-redhat-linux-gnu-ar... no
+checking for ar... ar
+checking for i686-redhat-linux-gnu-ranlib... no
+checking for ranlib... ranlib
+checking for i686-redhat-linux-gnu-strip... no
+checking for strip... strip
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC
+checking if gcc PIC flag -fPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking whether the gcc linker (/usr/bin/ld) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... cat: ld.so.conf.d/*.conf: No such file or directory
+GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+configure: creating libtool
+appending configuration tag "CXX" to libtool
+checking for ld used by g++... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking whether the g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking for g++ option to produce PIC... -fPIC
+checking if g++ PIC flag -fPIC works... yes
+checking if g++ static flag -static works... yes
+checking if g++ supports -c -o file.o... yes
+checking whether the g++ linker (/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... cat: ld.so.conf.d/*.conf: No such file or directory
+GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+appending configuration tag "F77" to libtool
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for doxygen... true
+checking for db2html... true
+checking for blender... no
+checking for valgrind... no
+checking whether to build Cal3D in debug mode... no
+checking whether g++ supports -fno-rtti... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating src/cal3d/Makefile
+config.status: creating docs/Makefile
+config.status: creating docs/api/Makefile
+config.status: creating docs/shared/Makefile
+config.status: creating tests/Makefile
+config.status: creating tests/run
+config.status: creating cal3d.pc
+config.status: creating src/cal3d_converter.1
+config.status: creating fileformats.txt
+config.status: creating config.h
+config.status: executing depfiles commands
+o-----------------------------------------------------------o
+| To build and install the Cal3D library type...            |
+|     make; make install                                    |
+|                                                           |
+| To generate the Cal3D User's Guide type...                |
+|     cd docs; make doc-guide                               |
+|                                                           |
+| To generate the Cal3D API Reference type...               |
+|     cd docs; make doc-api                                 |
+o-----------------------------------------------------------o
++ /usr/bin/make
+make[2]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+/usr/bin/make  all-recursive
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+Making all in src
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making all in cal3d
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation.lo -MD -MP -MF ".deps/animation.Tpo" -c -o animation.lo animation.cpp; \
+then mv -f ".deps/animation.Tpo" ".deps/animation.Plo"; else rm -f ".deps/animation.Tpo"; exit 1; fi
+mkdir .libs
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation.lo -MD -MP -MF .deps/animation.Tpo -c animation.cpp  -fPIC -DPIC -o .libs/animation.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation_action.lo -MD -MP -MF ".deps/animation_action.Tpo" -c -o animation_action.lo animation_action.cpp; \
+then mv -f ".deps/animation_action.Tpo" ".deps/animation_action.Plo"; else rm -f ".deps/animation_action.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation_action.lo -MD -MP -MF .deps/animation_action.Tpo -c animation_action.cpp  -fPIC -DPIC -o .libs/animation_action.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation_cycle.lo -MD -MP -MF ".deps/animation_cycle.Tpo" -c -o animation_cycle.lo animation_cycle.cpp; \
+then mv -f ".deps/animation_cycle.Tpo" ".deps/animation_cycle.Plo"; else rm -f ".deps/animation_cycle.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT animation_cycle.lo -MD -MP -MF .deps/animation_cycle.Tpo -c animation_cycle.cpp  -fPIC -DPIC -o .libs/animation_cycle.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT bone.lo -MD -MP -MF ".deps/bone.Tpo" -c -o bone.lo bone.cpp; \
+then mv -f ".deps/bone.Tpo" ".deps/bone.Plo"; else rm -f ".deps/bone.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT bone.lo -MD -MP -MF .deps/bone.Tpo -c bone.cpp  -fPIC -DPIC -o .libs/bone.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT buffersource.lo -MD -MP -MF ".deps/buffersource.Tpo" -c -o buffersource.lo buffersource.cpp; \
+then mv -f ".deps/buffersource.Tpo" ".deps/buffersource.Plo"; else rm -f ".deps/buffersource.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT buffersource.lo -MD -MP -MF .deps/buffersource.Tpo -c buffersource.cpp  -fPIC -DPIC -o .libs/buffersource.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT cal3d_wrapper.lo -MD -MP -MF ".deps/cal3d_wrapper.Tpo" -c -o cal3d_wrapper.lo cal3d_wrapper.cpp; \
+then mv -f ".deps/cal3d_wrapper.Tpo" ".deps/cal3d_wrapper.Plo"; else rm -f ".deps/cal3d_wrapper.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT cal3d_wrapper.lo -MD -MP -MF .deps/cal3d_wrapper.Tpo -c cal3d_wrapper.cpp  -fPIC -DPIC -o .libs/cal3d_wrapper.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coreanimation.lo -MD -MP -MF ".deps/coreanimation.Tpo" -c -o coreanimation.lo coreanimation.cpp; \
+then mv -f ".deps/coreanimation.Tpo" ".deps/coreanimation.Plo"; else rm -f ".deps/coreanimation.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coreanimation.lo -MD -MP -MF .deps/coreanimation.Tpo -c coreanimation.cpp  -fPIC -DPIC -o .libs/coreanimation.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corebone.lo -MD -MP -MF ".deps/corebone.Tpo" -c -o corebone.lo corebone.cpp; \
+then mv -f ".deps/corebone.Tpo" ".deps/corebone.Plo"; else rm -f ".deps/corebone.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corebone.lo -MD -MP -MF .deps/corebone.Tpo -c corebone.cpp  -fPIC -DPIC -o .libs/corebone.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corekeyframe.lo -MD -MP -MF ".deps/corekeyframe.Tpo" -c -o corekeyframe.lo corekeyframe.cpp; \
+then mv -f ".deps/corekeyframe.Tpo" ".deps/corekeyframe.Plo"; else rm -f ".deps/corekeyframe.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corekeyframe.lo -MD -MP -MF .deps/corekeyframe.Tpo -c corekeyframe.cpp  -fPIC -DPIC -o .libs/corekeyframe.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corematerial.lo -MD -MP -MF ".deps/corematerial.Tpo" -c -o corematerial.lo corematerial.cpp; \
+then mv -f ".deps/corematerial.Tpo" ".deps/corematerial.Plo"; else rm -f ".deps/corematerial.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT corematerial.lo -MD -MP -MF .deps/corematerial.Tpo -c corematerial.cpp  -fPIC -DPIC -o .libs/corematerial.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremesh.lo -MD -MP -MF ".deps/coremesh.Tpo" -c -o coremesh.lo coremesh.cpp; \
+then mv -f ".deps/coremesh.Tpo" ".deps/coremesh.Plo"; else rm -f ".deps/coremesh.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremesh.lo -MD -MP -MF .deps/coremesh.Tpo -c coremesh.cpp  -fPIC -DPIC -o .libs/coremesh.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremodel.lo -MD -MP -MF ".deps/coremodel.Tpo" -c -o coremodel.lo coremodel.cpp; \
+then mv -f ".deps/coremodel.Tpo" ".deps/coremodel.Plo"; else rm -f ".deps/coremodel.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremodel.lo -MD -MP -MF .deps/coremodel.Tpo -c coremodel.cpp  -fPIC -DPIC -o .libs/coremodel.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coreskeleton.lo -MD -MP -MF ".deps/coreskeleton.Tpo" -c -o coreskeleton.lo coreskeleton.cpp; \
+then mv -f ".deps/coreskeleton.Tpo" ".deps/coreskeleton.Plo"; else rm -f ".deps/coreskeleton.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coreskeleton.lo -MD -MP -MF .deps/coreskeleton.Tpo -c coreskeleton.cpp  -fPIC -DPIC -o .libs/coreskeleton.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coresubmesh.lo -MD -MP -MF ".deps/coresubmesh.Tpo" -c -o coresubmesh.lo coresubmesh.cpp; \
+then mv -f ".deps/coresubmesh.Tpo" ".deps/coresubmesh.Plo"; else rm -f ".deps/coresubmesh.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coresubmesh.lo -MD -MP -MF .deps/coresubmesh.Tpo -c coresubmesh.cpp  -fPIC -DPIC -o .libs/coresubmesh.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coresubmorphtarget.lo -MD -MP -MF ".deps/coresubmorphtarget.Tpo" -c -o coresubmorphtarget.lo coresubmorphtarget.cpp; \
+then mv -f ".deps/coresubmorphtarget.Tpo" ".deps/coresubmorphtarget.Plo"; else rm -f ".deps/coresubmorphtarget.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coresubmorphtarget.lo -MD -MP -MF .deps/coresubmorphtarget.Tpo -c coresubmorphtarget.cpp  -fPIC -DPIC -o .libs/coresubmorphtarget.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coretrack.lo -MD -MP -MF ".deps/coretrack.Tpo" -c -o coretrack.lo coretrack.cpp; \
+then mv -f ".deps/coretrack.Tpo" ".deps/coretrack.Plo"; else rm -f ".deps/coretrack.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coretrack.lo -MD -MP -MF .deps/coretrack.Tpo -c coretrack.cpp  -fPIC -DPIC -o .libs/coretrack.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT error.lo -MD -MP -MF ".deps/error.Tpo" -c -o error.lo error.cpp; \
+then mv -f ".deps/error.Tpo" ".deps/error.Plo"; else rm -f ".deps/error.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT error.lo -MD -MP -MF .deps/error.Tpo -c error.cpp  -fPIC -DPIC -o .libs/error.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT global.lo -MD -MP -MF ".deps/global.Tpo" -c -o global.lo global.cpp; \
+then mv -f ".deps/global.Tpo" ".deps/global.Plo"; else rm -f ".deps/global.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT global.lo -MD -MP -MF .deps/global.Tpo -c global.cpp  -fPIC -DPIC -o .libs/global.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT hardwaremodel.lo -MD -MP -MF ".deps/hardwaremodel.Tpo" -c -o hardwaremodel.lo hardwaremodel.cpp; \
+then mv -f ".deps/hardwaremodel.Tpo" ".deps/hardwaremodel.Plo"; else rm -f ".deps/hardwaremodel.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT hardwaremodel.lo -MD -MP -MF .deps/hardwaremodel.Tpo -c hardwaremodel.cpp  -fPIC -DPIC -o .libs/hardwaremodel.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT loader.lo -MD -MP -MF ".deps/loader.Tpo" -c -o loader.lo loader.cpp; \
+then mv -f ".deps/loader.Tpo" ".deps/loader.Plo"; else rm -f ".deps/loader.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT loader.lo -MD -MP -MF .deps/loader.Tpo -c loader.cpp  -fPIC -DPIC -o .libs/loader.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT matrix.lo -MD -MP -MF ".deps/matrix.Tpo" -c -o matrix.lo matrix.cpp; \
+then mv -f ".deps/matrix.Tpo" ".deps/matrix.Plo"; else rm -f ".deps/matrix.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT matrix.lo -MD -MP -MF .deps/matrix.Tpo -c matrix.cpp  -fPIC -DPIC -o .libs/matrix.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT mesh.lo -MD -MP -MF ".deps/mesh.Tpo" -c -o mesh.lo mesh.cpp; \
+then mv -f ".deps/mesh.Tpo" ".deps/mesh.Plo"; else rm -f ".deps/mesh.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT mesh.lo -MD -MP -MF .deps/mesh.Tpo -c mesh.cpp  -fPIC -DPIC -o .libs/mesh.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT mixer.lo -MD -MP -MF ".deps/mixer.Tpo" -c -o mixer.lo mixer.cpp; \
+then mv -f ".deps/mixer.Tpo" ".deps/mixer.Plo"; else rm -f ".deps/mixer.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT mixer.lo -MD -MP -MF .deps/mixer.Tpo -c mixer.cpp  -fPIC -DPIC -o .libs/mixer.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT model.lo -MD -MP -MF ".deps/model.Tpo" -c -o model.lo model.cpp; \
+then mv -f ".deps/model.Tpo" ".deps/model.Plo"; else rm -f ".deps/model.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT model.lo -MD -MP -MF .deps/model.Tpo -c model.cpp  -fPIC -DPIC -o .libs/model.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT morphtargetmixer.lo -MD -MP -MF ".deps/morphtargetmixer.Tpo" -c -o morphtargetmixer.lo morphtargetmixer.cpp; \
+then mv -f ".deps/morphtargetmixer.Tpo" ".deps/morphtargetmixer.Plo"; else rm -f ".deps/morphtargetmixer.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT morphtargetmixer.lo -MD -MP -MF .deps/morphtargetmixer.Tpo -c morphtargetmixer.cpp  -fPIC -DPIC -o .libs/morphtargetmixer.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT physique.lo -MD -MP -MF ".deps/physique.Tpo" -c -o physique.lo physique.cpp; \
+then mv -f ".deps/physique.Tpo" ".deps/physique.Plo"; else rm -f ".deps/physique.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT physique.lo -MD -MP -MF .deps/physique.Tpo -c physique.cpp  -fPIC -DPIC -o .libs/physique.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT platform.lo -MD -MP -MF ".deps/platform.Tpo" -c -o platform.lo platform.cpp; \
+then mv -f ".deps/platform.Tpo" ".deps/platform.Plo"; else rm -f ".deps/platform.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT platform.lo -MD -MP -MF .deps/platform.Tpo -c platform.cpp  -fPIC -DPIC -o .libs/platform.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT quaternion.lo -MD -MP -MF ".deps/quaternion.Tpo" -c -o quaternion.lo quaternion.cpp; \
+then mv -f ".deps/quaternion.Tpo" ".deps/quaternion.Plo"; else rm -f ".deps/quaternion.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT quaternion.lo -MD -MP -MF .deps/quaternion.Tpo -c quaternion.cpp  -fPIC -DPIC -o .libs/quaternion.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT renderer.lo -MD -MP -MF ".deps/renderer.Tpo" -c -o renderer.lo renderer.cpp; \
+then mv -f ".deps/renderer.Tpo" ".deps/renderer.Plo"; else rm -f ".deps/renderer.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT renderer.lo -MD -MP -MF .deps/renderer.Tpo -c renderer.cpp  -fPIC -DPIC -o .libs/renderer.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT saver.lo -MD -MP -MF ".deps/saver.Tpo" -c -o saver.lo saver.cpp; \
+then mv -f ".deps/saver.Tpo" ".deps/saver.Plo"; else rm -f ".deps/saver.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT saver.lo -MD -MP -MF .deps/saver.Tpo -c saver.cpp  -fPIC -DPIC -o .libs/saver.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT skeleton.lo -MD -MP -MF ".deps/skeleton.Tpo" -c -o skeleton.lo skeleton.cpp; \
+then mv -f ".deps/skeleton.Tpo" ".deps/skeleton.Plo"; else rm -f ".deps/skeleton.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT skeleton.lo -MD -MP -MF .deps/skeleton.Tpo -c skeleton.cpp  -fPIC -DPIC -o .libs/skeleton.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT springsystem.lo -MD -MP -MF ".deps/springsystem.Tpo" -c -o springsystem.lo springsystem.cpp; \
+then mv -f ".deps/springsystem.Tpo" ".deps/springsystem.Plo"; else rm -f ".deps/springsystem.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT springsystem.lo -MD -MP -MF .deps/springsystem.Tpo -c springsystem.cpp  -fPIC -DPIC -o .libs/springsystem.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT streamsource.lo -MD -MP -MF ".deps/streamsource.Tpo" -c -o streamsource.lo streamsource.cpp; \
+then mv -f ".deps/streamsource.Tpo" ".deps/streamsource.Plo"; else rm -f ".deps/streamsource.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT streamsource.lo -MD -MP -MF .deps/streamsource.Tpo -c streamsource.cpp  -fPIC -DPIC -o .libs/streamsource.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT submesh.lo -MD -MP -MF ".deps/submesh.Tpo" -c -o submesh.lo submesh.cpp; \
+then mv -f ".deps/submesh.Tpo" ".deps/submesh.Plo"; else rm -f ".deps/submesh.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT submesh.lo -MD -MP -MF .deps/submesh.Tpo -c submesh.cpp  -fPIC -DPIC -o .libs/submesh.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT vector.lo -MD -MP -MF ".deps/vector.Tpo" -c -o vector.lo vector.cpp; \
+then mv -f ".deps/vector.Tpo" ".deps/vector.Plo"; else rm -f ".deps/vector.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT vector.lo -MD -MP -MF .deps/vector.Tpo -c vector.cpp  -fPIC -DPIC -o .libs/vector.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxml.lo -MD -MP -MF ".deps/tinyxml.Tpo" -c -o tinyxml.lo tinyxml.cpp; \
+then mv -f ".deps/tinyxml.Tpo" ".deps/tinyxml.Plo"; else rm -f ".deps/tinyxml.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxml.lo -MD -MP -MF .deps/tinyxml.Tpo -c tinyxml.cpp  -fPIC -DPIC -o .libs/tinyxml.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxmlerror.lo -MD -MP -MF ".deps/tinyxmlerror.Tpo" -c -o tinyxmlerror.lo tinyxmlerror.cpp; \
+then mv -f ".deps/tinyxmlerror.Tpo" ".deps/tinyxmlerror.Plo"; else rm -f ".deps/tinyxmlerror.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxmlerror.lo -MD -MP -MF .deps/tinyxmlerror.Tpo -c tinyxmlerror.cpp  -fPIC -DPIC -o .libs/tinyxmlerror.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxmlparser.lo -MD -MP -MF ".deps/tinyxmlparser.Tpo" -c -o tinyxmlparser.lo tinyxmlparser.cpp; \
+then mv -f ".deps/tinyxmlparser.Tpo" ".deps/tinyxmlparser.Plo"; else rm -f ".deps/tinyxmlparser.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT tinyxmlparser.lo -MD -MP -MF .deps/tinyxmlparser.Tpo -c tinyxmlparser.cpp  -fPIC -DPIC -o .libs/tinyxmlparser.o
+if /bin/sh ../../libtool --tag=CXX --mode=compile g++ -DHAVE_CONFIG_H -I. -I. -I../..  -I../../src  -I../../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremorphanimation.lo -MD -MP -MF ".deps/coremorphanimation.Tpo" -c -o coremorphanimation.lo coremorphanimation.cpp; \
+then mv -f ".deps/coremorphanimation.Tpo" ".deps/coremorphanimation.Plo"; else rm -f ".deps/coremorphanimation.Tpo"; exit 1; fi
+ g++ -DHAVE_CONFIG_H -I. -I. -I../.. -I../../src -I../../src -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT coremorphanimation.lo -MD -MP -MF .deps/coremorphanimation.Tpo -c coremorphanimation.cpp  -fPIC -DPIC -o .libs/coremorphanimation.o
+/bin/sh ../../libtool --tag=CXX --mode=link g++  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti   -o libcal3d.la -rpath /usr/lib  -no-undefined -version-info 12:0:0  animation.lo animation_action.lo animation_cycle.lo bone.lo buffersource.lo cal3d_wrapper.lo coreanimation.lo corebone.lo corekeyframe.lo corematerial.lo coremesh.lo coremodel.lo coreskeleton.lo coresubmesh.lo coresubmorphtarget.lo coretrack.lo error.lo global.lo hardwaremodel.lo loader.lo matrix.lo mesh.lo mixer.lo model.lo morphtargetmixer.lo physique.lo platform.lo quaternion.lo renderer.lo saver.lo skeleton.lo springsystem.lo streamsource.lo submesh.lo vector.lo tinyxml.lo tinyxmlerror.lo tinyxmlparser.lo coremorphanimation.lo  
+g++ -shared -nostdlib /usr/lib/gcc/i386-redhat-linux/4.1.1/../../../crti.o /usr/lib/gcc/i386-redhat-linux/4.1.1/crtbeginS.o  .libs/animation.o .libs/animation_action.o .libs/animation_cycle.o .libs/bone.o .libs/buffersource.o .libs/cal3d_wrapper.o .libs/coreanimation.o .libs/corebone.o .libs/corekeyframe.o .libs/corematerial.o .libs/coremesh.o .libs/coremodel.o .libs/coreskeleton.o .libs/coresubmesh.o .libs/coresubmorphtarget.o .libs/coretrack.o .libs/error.o .libs/global.o .libs/hardwaremodel.o .libs/loader.o .libs/matrix.o .libs/mesh.o .libs/mixer.o .libs/model.o .libs/morphtargetmixer.o .libs/physique.o .libs/platform.o .libs/quaternion.o .libs/renderer.o .libs/saver.o .libs/skeleton.o .libs/springsystem.o .libs/streamsource.o .libs/submesh.o .libs/vector.o .libs/tinyxml.o .libs/tinyxmlerror.o .libs/tinyxmlparser.o .libs/coremorphanimation.o  -L/usr/lib/gcc/i386-redhat-linux/4.1.1 -L/usr/lib/gcc/i386-redhat-linux/4.1.1/../../.. -lstdc++ -lm -lc -lgcc_s /usr/lib/gcc/i386-redhat-linux/4.1.1/crtendS.o /usr/lib/gcc/i386-redhat-linux/4.1.1/../../../crtn.o  -m32 -march=i386 -mtune=generic -Wl,-soname -Wl,libcal3d.so.12 -o .libs/libcal3d.so.12.0.0
+(cd .libs && rm -f libcal3d.so.12 && ln -s libcal3d.so.12.0.0 libcal3d.so.12)
+(cd .libs && rm -f libcal3d.so && ln -s libcal3d.so.12.0.0 libcal3d.so)
+creating libcal3d.la
+(cd .libs && rm -f libcal3d.la && ln -s ../libcal3d.la libcal3d.la)
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+if g++ -DHAVE_CONFIG_H -I. -I. -I..   -I../src  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -MT cal3d_converter.o -MD -MP -MF ".deps/cal3d_converter.Tpo" -c -o cal3d_converter.o cal3d_converter.cpp; \
+then mv -f ".deps/cal3d_converter.Tpo" ".deps/cal3d_converter.Po"; else rm -f ".deps/cal3d_converter.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CXX --mode=link g++  -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti   -o cal3d_converter cal3d/libcal3d.la cal3d_converter.o  
+mkdir .libs
+g++ -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fno-rtti -o .libs/cal3d_converter cal3d_converter.o  cal3d/.libs/libcal3d.so
+creating cal3d_converter
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making all in docs
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making all in shared
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+Making all in api
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[5]: Nothing to be done for `all-am'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making all in tests
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[2]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
++ cd docs
++ /usr/bin/make doc-guide
+make[2]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+db2html guide.sgml
+output is guide
+Using catalogs: /etc/sgml/sgml-docbook-3.1-1.0-30.cat
+Using stylesheet: /usr/share/sgml/docbook/utils-0.6.14/docbook-utils.dsl#html
+Working on: /usr/src/redhat/BUILD/cal3d-0.11rc2/docs/guide.sgml
+Done.
+make[2]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
++ /usr/bin/make doc-api
+make[2]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+doxygen cal3d.doxygen
+Warning: Tag `CGI_NAME' at line 158 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `CGI_URL' at line 159 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `DOC_URL' at line 160 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `DOC_ABSPATH' at line 161 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `BIN_ABSPATH' at line 162 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Warning: Tag `EXT_DOC_PATHS' at line 163 of file cal3d.doxygen has become obsolete.
+To avoid this warning please update your configuration file using "doxygen -u"
+Searching for include files...
+Searching for example files...
+Searching for images...
+Searching for dot files...
+Searching for files to exclude
+Searching for files to process...
+Reading and parsing tag files
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_action.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_action.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_action.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_action.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_cycle.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_cycle.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_cycle.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animation_cycle.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animcallback.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/animcallback.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/bone.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/bone.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/bone.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/bone.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d_wrapper.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d_wrapper.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d_wrapper.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d_wrapper.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreanimation.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreanimation.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreanimation.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreanimation.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corebone.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corebone.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corebone.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corebone.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corematerial.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corematerial.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corematerial.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corematerial.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremesh.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremesh.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremesh.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremesh.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremodel.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremodel.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremodel.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremodel.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremorphanimation.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremorphanimation.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremorphanimation.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coremorphanimation.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreskeleton.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreskeleton.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreskeleton.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coreskeleton.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmesh.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmesh.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmesh.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmesh.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmorphtarget.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmorphtarget.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmorphtarget.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coresubmorphtarget.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coretrack.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coretrack.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coretrack.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/coretrack.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/datasource.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/datasource.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/error.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/error.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/error.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/error.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/global.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/global.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/global.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/global.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/hardwaremodel.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/hardwaremodel.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/hardwaremodel.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/hardwaremodel.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/matrix.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/matrix.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/matrix.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/matrix.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mesh.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mesh.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mesh.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mesh.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mixer.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mixer.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mixer.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/mixer.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/model.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/model.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/model.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/model.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/morphtargetmixer.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/morphtargetmixer.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/morphtargetmixer.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/morphtargetmixer.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/physique.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/physique.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/physique.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/physique.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/quaternion.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/quaternion.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/quaternion.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/quaternion.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/refcounted.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/refcounted.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/refptr.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/refptr.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/renderer.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/renderer.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/renderer.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/renderer.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/resource.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/resource.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/saver.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/saver.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/saver.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/saver.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/skeleton.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/skeleton.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/skeleton.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/skeleton.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/springsystem.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/springsystem.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/springsystem.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/springsystem.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/submesh.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/submesh.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/submesh.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/submesh.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxml.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxml.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxml.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxml.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxmlerror.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxmlerror.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `/'
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h:55 Error: Unexpected character `.'
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/cal3d.h:55 Warning: image file ./shared/cal3d.gif is not found in IMAGE_PATH: assuming external image.
+3d/tinyxmlparser.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/tinyxmlparser.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/transform.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/transform.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.h...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.h...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d_converter.cpp...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d_converter.cpp...
+Preprocessing /usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen...
+Parsing file /usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen...
+Building group list...
+Building directory list...
+Building namespace list...
+Building file list...
+Searching for included using directives...
+Building class list...
+Associating documentation with classes...
+Computing nesting relations for classes...
+Searching for members imported via using declarations...
+Building example list...
+Searching for documented variables...
+Building member list...
+Searching for friends...
+Searching for documented defines...
+Computing template instances...
+Flushing cached template relations that have become invalid...
+Creating members for template instances...
+Computing class relations...
+Searching for enumerations...
+Searching for member function documentation...
+Building page list...
+Search for main page...
+Computing page relations...
+Determining the scope of groups...
+Sorting lists...
+Freeing entry tree
+Determining which enums are documented
+Computing member relations...
+Building full member lists recursively...
+Adding members to member groups.
+Computing member references...
+Inheriting documentation...
+Generating disk names...
+Adding source references...
+Adding todo/test/bug list items...
+Generating style sheet...
+Counting data structures...
+Resolving user defined references...
+Combining using relations...
+Finding anchors and sections in the documentation...
+Generating index page...
+Generating file index...
+Generating example documentation...
+Generating file sources...
+Generating code for file animation.h...
+Generating code for file animation_action.h...
+Generating code for file animation_cycle.h...
+Generating code for file animcallback.h...
+Generating code for file bone.h...
+Generating code for file buffersource.h...
+Generating code for file cal3d.h...
+Generating code for file cal3d_wrapper.h...
+Generating code for file coreanimation.h...
+Generating code for file corebone.h...
+Generating code for file corekeyframe.h...
+Generating code for file corematerial.h...
+Generating code for file coremesh.h...
+Generating code for file coremodel.h...
+Generating code for file coremorphanimation.h...
+Generating code for file coreskeleton.h...
+Generating code for file coresubmesh.h...
+Generating code for file coresubmorphtarget.h...
+Generating code for file coretrack.h...
+Generating code for file datasource.h...
+Generating code for file error.h...
+Generating code for file global.h...
+Generating code for file hardwaremodel.h...
+Generating code for file loader.h...
+Generating code for file matrix.h...
+Generating code for file mesh.h...
+Generating code for file mixer.h...
+Generating code for file model.h...
+Generating code for file morphtargetmixer.h...
+Generating code for file physique.h...
+Generating code for file platform.h...
+Generating code for file quaternion.h...
+Generating code for file refcounted.h...
+Generating code for file refptr.h...
+Generating code for file renderer.h...
+Generating code for file resource.h...
+Generating code for file saver.h...
+Generating code for file skeleton.h...
+Generating code for file springsystem.h...
+Generating code for file streamsource.h...
+Generating code for file submesh.h...
+Generating code for file tinyxml.h...
+Generating code for file transform.h...
+Generating code for file vector.h...
+Generating file documentation...
+Generatin/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.cpp:145 Warning: argument `value' of command @param is not found in the argument list of CalBufferSource::readString(std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/buffersource.cpp:145 Warning: The following parameters of CalBufferSource::readString(std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp:108 Warning: argument `rotation' of command @param is not found in the argument list of CalCoreKeyframe::setTime(float time)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp:108 Warning: The following parameters of CalCoreKeyframe::setTime(float time) are not documented:
+  parameter time
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp:121 Warning: argument `rotation' of command @param is not found in the argument list of CalCoreKeyframe::setTranslation(const CalVector &translation)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/corekeyframe.cpp:121 Warning: The following parameters of CalCoreKeyframe::setTranslation(const CalVector &translation) are not documented:
+  parameter translation
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp:394 Warning: The following parameters of CalLoader::loadCoreAnimation(CalDataSource &dataSrc, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp:310 Warning: The following parameters of CalLoader::loadCoreAnimation(void *inputBuffer, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp:227 Warning: The following parameters of CalLoader::loadCoreAnimation(std::istream &inputStream, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/loader.cpp:59 Warning: The following parameters of CalLoader::loadCoreAnimation(const std::string &strFilename, CalCoreSkeleton *skel=NULL) are not documented:
+  parameter skel
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp:409 Warning: argument `x' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp:409 Warning: argument `y' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp:409 Warning: argument `z' of command @param is not found in the argument list of CalPlane::eval(CalVector &p)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/vector.cpp:409 Warning: The following parameters of CalPlane::eval(CalVector &p) are not documented:
+  parameter p
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:241 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::readString(char *input, std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:241 Warning: The following parameters of CalPlatform::readString(char *input, std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:119 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::readString(std::istream &input, std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:119 Warning: The following parameters of CalPlatform::readString(std::istream &input, std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:337 Warning: argument `file' of command @param is not found in the argument list of CalPlatform::writeInteger(std::ostream &output, int value)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:337 Warning: The following parameters of CalPlatform::writeInteger(std::ostream &output, int value) are not documented:
+  parameter output
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:365 Warning: argument `file' of command @param is not found in the argument list of CalPlatform::writeString(std::ostream &output, const std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:365 Warning: argument `value' of command @param is not found in the argument list of CalPlatform::writeString(std::ostream &output, const std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/platform.cpp:365 Warning: The following parameters of CalPlatform::writeString(std::ostream &output, const std::string &strValue) are not documented:
+  parameter output
+  parameter strValue
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.cpp:139 Warning: argument `value' of command @param is not found in the argument list of CalStreamSource::readString(std::string &strValue)
+/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d/streamsource.cpp:139 Warning: The following parameters of CalStreamSource::readString(std::string &strValue) are not documented:
+  parameter strValue
+
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:20 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:37 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:42 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:65 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:70 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:87 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:92 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:94 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:98 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:108 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:113 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:119 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:125 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:131 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:137 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:148 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:154 Warning: expected <li> tag but found <b> instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:154 Warning: found </b> tag without matching <b>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:198 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:203 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:210 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:218 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:222 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:227 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:231 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:237 Warning: expected <li> tag but found TK_WORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:246 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:252 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:256 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:262 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:270 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:276 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:287 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:293 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:303 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:309 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:312 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:318 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:324 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:329 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:332 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:337 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:343 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:352 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:356 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:362 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:382 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:387 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:399 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:405 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:425 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:434 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:445 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:451 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:460 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:466 Warning: expected <li> tag but found TK_LNKWORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:468 Warning: found </ul> tag without matching <ul>
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:474 Warning: expected <li> tag but found TK_WORD token instead!
+/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/faq/cal3dfaq.doxygen:476 Warning: found </ul> tag without matching <ul>
+g docs for file cal3dfaq.doxygen...
+Generating class documentation...
+Generating annotated compound index...
+Generating alphabetical compound index...
+Generating hierarchical class index...
+Generating member index...
+Generating docs for compound CalAbstractMixer...
+Generating docs for compound CalBoundingBox...
+Generating docs for compound CalBufferSource...
+Generating docs for compound CalCoreKeyframe...
+Generating docs for nested compound CalCoreSubmesh::Spring...
+Generating docs for compound CalDataSource...
+Generating docs for compound CalLoader...
+Generating docs for compound CalMatrix...
+Generating docs for compound CalPlane...
+Generating docs for compound CalPlatform...
+Generating docs for compound CalQuaternion...
+Generating docs for compound CalSaver...
+Generating docs for compound CalSpringSystem...
+Generating docs for compound CalStreamSource...
+Generating docs for compound CalVector...
+Generating page documentation...
+Generating docs for page license...
+Generating docs for page cal3dfaq...
+Generating group documentation...
+Generating namespace index...
+Generating docs for compound cal3d::noncopyable...
+Generating docs for compound cal3d::RefCounted...
+Generating docs for compound cal3d::RefPtr...
+Generating docs for compound cal3d::TiXmlBase...
+Generating docs for compound cal3d::TiXmlNode...
+Generating docs for compound cal3d::TiXmlAttribute...
+Generating docs for compound cal3d::TiXmlElement...
+Generating docs for compound cal3d::TiXmlComment...
+Generating docs for compound cal3d::TiXmlText...
+Generating docs for compound cal3d::TiXmlDeclaration...
+Generating docs for compound cal3d::TiXmlUnknown...
+Generating docs for compound cal3d::TiXmlDocument...
+Generating docs for compound cal3d::TiXmlHandle...
+Generating docs for compound cal3d::Transform...
+Generating group index...
+Generating example index...
+Generating file member index...
+Generating namespace member index...
+Generating page index...
+Generating graph info page...
+make[2]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
++ exit 0
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.24970
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ LANG=C
++ export LANG
++ unset DISPLAY
++ /bin/rm -rf /var/tmp/cal3d-0.11-rc2.1.fc5-root-root
++ /usr/bin/make install DESTDIR=/var/tmp/cal3d-0.11-rc2.1.fc5-root-root
+make[2]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+Making install in src
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making install in cal3d
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+test -z "/usr/lib" || mkdir -p -- "/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib"
+ /bin/sh ../../libtool --mode=install /usr/bin/install -c  'libcal3d.la' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/libcal3d.la'
+/usr/bin/install -c .libs/libcal3d.so.12.0.0 /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/libcal3d.so.12.0.0
+(cd /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib && { ln -s -f libcal3d.so.12.0.0 libcal3d.so.12 || { rm -f libcal3d.so.12 && ln -s libcal3d.so.12.0.0 libcal3d.so.12; }; })
+(cd /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib && { ln -s -f libcal3d.so.12.0.0 libcal3d.so || { rm -f libcal3d.so && ln -s libcal3d.so.12.0.0 libcal3d.so; }; })
+/usr/bin/install -c .libs/libcal3d.lai /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/libcal3d.la
+libtool: install: warning: remember to run `libtool --finish /usr/lib'
+test -z "/usr/include/cal3d" || mkdir -p -- "/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d"
+ /usr/bin/install -c -m 644 'animation.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/animation.h'
+ /usr/bin/install -c -m 644 'animation_action.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/animation_action.h'
+ /usr/bin/install -c -m 644 'animation_cycle.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/animation_cycle.h'
+ /usr/bin/install -c -m 644 'animcallback.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/animcallback.h'
+ /usr/bin/install -c -m 644 'bone.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/bone.h'
+ /usr/bin/install -c -m 644 'buffersource.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/buffersource.h'
+ /usr/bin/install -c -m 644 'cal3d.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/cal3d.h'
+ /usr/bin/install -c -m 644 'cal3d_wrapper.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/cal3d_wrapper.h'
+ /usr/bin/install -c -m 644 'coreanimation.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coreanimation.h'
+ /usr/bin/install -c -m 644 'corebone.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/corebone.h'
+ /usr/bin/install -c -m 644 'corekeyframe.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/corekeyframe.h'
+ /usr/bin/install -c -m 644 'corematerial.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/corematerial.h'
+ /usr/bin/install -c -m 644 'coremesh.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coremesh.h'
+ /usr/bin/install -c -m 644 'coremodel.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coremodel.h'
+ /usr/bin/install -c -m 644 'coreskeleton.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coreskeleton.h'
+ /usr/bin/install -c -m 644 'coresubmesh.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coresubmesh.h'
+ /usr/bin/install -c -m 644 'coresubmorphtarget.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coresubmorphtarget.h'
+ /usr/bin/install -c -m 644 'coretrack.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coretrack.h'
+ /usr/bin/install -c -m 644 'datasource.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/datasource.h'
+ /usr/bin/install -c -m 644 'error.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/error.h'
+ /usr/bin/install -c -m 644 'global.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/global.h'
+ /usr/bin/install -c -m 644 'hardwaremodel.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/hardwaremodel.h'
+ /usr/bin/install -c -m 644 'loader.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/loader.h'
+ /usr/bin/install -c -m 644 'matrix.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/matrix.h'
+ /usr/bin/install -c -m 644 'mesh.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/mesh.h'
+ /usr/bin/install -c -m 644 'mixer.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/mixer.h'
+ /usr/bin/install -c -m 644 'model.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/model.h'
+ /usr/bin/install -c -m 644 'morphtargetmixer.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/morphtargetmixer.h'
+ /usr/bin/install -c -m 644 'physique.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/physique.h'
+ /usr/bin/install -c -m 644 'platform.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/platform.h'
+ /usr/bin/install -c -m 644 'quaternion.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/quaternion.h'
+ /usr/bin/install -c -m 644 'refcounted.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/refcounted.h'
+ /usr/bin/install -c -m 644 'refptr.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/refptr.h'
+ /usr/bin/install -c -m 644 'renderer.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/renderer.h'
+ /usr/bin/install -c -m 644 'resource.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/resource.h'
+ /usr/bin/install -c -m 644 'saver.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/saver.h'
+ /usr/bin/install -c -m 644 'skeleton.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/skeleton.h'
+ /usr/bin/install -c -m 644 'springsystem.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/springsystem.h'
+ /usr/bin/install -c -m 644 'streamsource.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/streamsource.h'
+ /usr/bin/install -c -m 644 'submesh.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/submesh.h'
+ /usr/bin/install -c -m 644 'vector.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/vector.h'
+ /usr/bin/install -c -m 644 'tinyxml.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/tinyxml.h'
+ /usr/bin/install -c -m 644 'transform.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/transform.h'
+ /usr/bin/install -c -m 644 'coremorphanimation.h' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/include/cal3d/coremorphanimation.h'
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+test -z "/usr/bin" || mkdir -p -- "/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/bin"
+  /bin/sh ../libtool --mode=install /usr/bin/install -c 'cal3d_converter' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/bin/cal3d_converter'
+libtool: install: warning: `cal3d/libcal3d.la' has not been installed in `/usr/lib'
+/usr/bin/install -c .libs/cal3d_converter /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/bin/cal3d_converter
+test -z "/usr/share/man/man1" || mkdir -p -- "/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/man/man1"
+ /usr/bin/install -c -m 644 './cal3d_converter.1' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/man/man1/cal3d_converter.1'
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making install in docs
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making install in shared
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+Making install in api
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[5]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making install in tests
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[4]: Nothing to be done for `install-exec-am'.
+test -z "/usr/lib/pkgconfig" || mkdir -p -- "/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/pkgconfig"
+ /usr/bin/install -c -m 644 'cal3d.pc' '/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/pkgconfig/cal3d.pc'
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[2]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
++ /usr/lib/rpm/find-debuginfo.sh /usr/src/redhat/BUILD/cal3d-0.11rc2
+extracting debug info from /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/lib/libcal3d.so.12.0.0
+extracting debug info from /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/bin/cal3d_converter
+cpio: cal3d-0.11rc2/src/<built-in>: No such file or directory
+cpio: cal3d-0.11rc2/src/cal3d/<built-in>: No such file or directory
+1576 blocks
++ /usr/lib/rpm/redhat/brp-compress
++ /usr/lib/rpm/redhat/brp-strip-static-archive /usr/bin/strip
++ /usr/lib/rpm/redhat/brp-strip-comment-note /usr/bin/strip /usr/bin/objdump
++ /usr/lib/rpm/brp-python-bytecompile
+Executing(%check): /bin/sh -e /var/tmp/rpm-tmp.11782
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ /usr/bin/make check
+make[2]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+Making check in src
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making check in cal3d
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[4]: Nothing to be done for `check'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src/cal3d'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[4]: Nothing to be done for `check-am'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/src'
+Making check in docs
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making check in shared
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+make[4]: Nothing to be done for `check'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/shared'
+Making check in api
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[4]: Nothing to be done for `check'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs/api'
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[4]: Nothing to be done for `check-am'.
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/docs'
+Making check in tests
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+/usr/bin/make  check-TESTS
+make[4]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+PASS: converter/skeleton
+PASS: converter/mesh
+PASS: converter/material
+PASS: converter/animation
+==================
+All 4 tests passed
+==================
+make[4]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2/tests'
+make[3]: Entering directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[3]: Nothing to be done for `check-am'.
+make[3]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
+make[2]: Leaving directory `/usr/src/redhat/BUILD/cal3d-0.11rc2'
++ exit 0
+Processing files: cal3d-0.11-rc2.1.fc5
+Executing(%doc): /bin/sh -e /var/tmp/rpm-tmp.36602
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ DOCDIR=/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-0.11
++ export DOCDIR
++ rm -rf /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-0.11
++ /bin/mkdir -p /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-0.11
++ cp -pr AUTHORS ChangeLog COPYING README TODO /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-0.11
++ exit 0
+Provides: libcal3d.so.12
+Requires(interp): /sbin/ldconfig /sbin/ldconfig
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
+Requires: libc.so.6 libc.so.6(GLIBC_2.0) libc.so.6(GLIBC_2.1) libc.so.6(GLIBC_2.1.3) libc.so.6(GLIBC_2.4) libcal3d.so.12 libgcc_s.so.1 libgcc_s.so.1(GCC_3.0) libm.so.6 libm.so.6(GLIBC_2.0) libstdc++.so.6 libstdc++.so.6(CXXABI_1.3) libstdc++.so.6(GLIBCXX_3.4)
+Processing files: cal3d-devel-0.11-rc2.1.fc5
+Executing(%doc): /bin/sh -e /var/tmp/rpm-tmp.36602
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ DOCDIR=/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-devel-0.11
++ export DOCDIR
++ rm -rf /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-devel-0.11
++ /bin/mkdir -p /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-devel-0.11
++ cp -pr docs/api/html/animation_8h-source.html docs/api/html/animation__action_8h-source.html docs/api/html/animation__cycle_8h-source.html docs/api/html/animcallback_8h-source.html docs/api/html/annotated.html docs/api/html/bone_8h-source.html docs/api/html/buffersource_8h-source.html docs/api/html/cal3d_8h-source.html docs/api/html/cal3d__wrapper_8h-source.html docs/api/html/cal3dfaq.html docs/api/html/cal3dfaq_8doxygen.html docs/api/html/classCalAbstractMixer-members.html docs/api/html/classCalAbstractMixer.html docs/api/html/classCalBoundingBox-members.html docs/api/html/classCalBoundingBox.html docs/api/html/classCalBufferSource-members.html docs/api/html/classCalBufferSource.html docs/api/html/classCalBufferSource.png docs/api/html/classCalCoreKeyframe-members.html docs/api/html/classCalCoreKeyframe.html docs/api/html/classCalDataSource-members.html docs/api/html/classCalDataSource.html docs/api/html/classCalDataSource.png docs/api/html/classCalLoader-members.html docs/api/html/classCalLoader.html docs/api/html/classCalMatrix-members.html docs/api/html/classCalMatrix.html docs/api/html/classCalPlane-members.html docs/api/html/classCalPlane.html docs/api/html/classCalPlatform-members.html docs/api/html/classCalPlatform.html docs/api/html/classCalQuaternion-members.html docs/api/html/classCalQuaternion.html docs/api/html/classCalSaver-members.html docs/api/html/classCalSaver.html docs/api/html/classCalSpringSystem-members.html docs/api/html/classCalSpringSystem.html docs/api/html/classCalStreamSource-members.html docs/api/html/classCalStreamSource.html docs/api/html/classCalStreamSource.png docs/api/html/classCalVector-members.html docs/api/html/classCalVector.html docs/api/html/classcal3d_1_1RefCounted-members.html docs/api/html/classcal3d_1_1RefCounted.html docs/api/html/classcal3d_1_1RefPtr-members.html docs/api/html/classcal3d_1_1RefPtr.html docs/api/html/classcal3d_1_1TiXmlAttribute-members.html docs/api/html/classcal3d_1_1TiXmlAttribute.html docs/api/html/classcal3d_1_1TiXmlAttribute.png docs/api/html/classcal3d_1_1TiXmlBase-members.html docs/api/html/classcal3d_1_1TiXmlBase.html docs/api/html/classcal3d_1_1TiXmlBase.png docs/api/html/classcal3d_1_1TiXmlComment-members.html docs/api/html/classcal3d_1_1TiXmlComment.html docs/api/html/classcal3d_1_1TiXmlComment.png docs/api/html/classcal3d_1_1TiXmlDeclaration-members.html docs/api/html/classcal3d_1_1TiXmlDeclaration.html docs/api/html/classcal3d_1_1TiXmlDeclaration.png docs/api/html/classcal3d_1_1TiXmlDocument-members.html docs/api/html/classcal3d_1_1TiXmlDocument.html docs/api/html/classcal3d_1_1TiXmlDocument.png docs/api/html/classcal3d_1_1TiXmlElement-members.html docs/api/html/classcal3d_1_1TiXmlElement.html docs/api/html/classcal3d_1_1TiXmlElement.png docs/api/html/classcal3d_1_1TiXmlHandle-members.html docs/api/html/classcal3d_1_1TiXmlHandle.html docs/api/html/classcal3d_1_1TiXmlNode-members.html docs/api/html/classcal3d_1_1TiXmlNode.html docs/api/html/classcal3d_1_1TiXmlNode.png docs/api/html/classcal3d_1_1TiXmlText-members.html docs/api/html/classcal3d_1_1TiXmlText.html docs/api/html/classcal3d_1_1TiXmlText.png docs/api/html/classcal3d_1_1TiXmlUnknown-members.html docs/api/html/classcal3d_1_1TiXmlUnknown.html docs/api/html/classcal3d_1_1TiXmlUnknown.png docs/api/html/classcal3d_1_1Transform-members.html docs/api/html/classcal3d_1_1Transform.html docs/api/html/classcal3d_1_1noncopyable-members.html docs/api/html/classcal3d_1_1noncopyable.html docs/api/html/classes.html docs/api/html/coreanimation_8h-source.html docs/api/html/corebone_8h-source.html docs/api/html/corekeyframe_8h-source.html docs/api/html/corematerial_8h-source.html docs/api/html/coremesh_8h-source.html docs/api/html/coremodel_8h-source.html docs/api/html/coremorphanimation_8h-source.html docs/api/html/coreskeleton_8h-source.html docs/api/html/coresubmesh_8h-source.html docs/api/html/coresubmorphtarget_8h-source.html docs/api/html/coretrack_8h-source.html docs/api/html/datasource_8h-source.html docs/api/html/doxygen.css docs/api/html/doxygen.png docs/api/html/error_8h-source.html docs/api/html/files.html docs/api/html/functions.html docs/api/html/functions_enum.html docs/api/html/functions_func.html docs/api/html/functions_rela.html docs/api/html/functions_type.html docs/api/html/global_8h-source.html docs/api/html/hardwaremodel_8h-source.html docs/api/html/hierarchy.html docs/api/html/index.html docs/api/html/license.html docs/api/html/loader_8h-source.html docs/api/html/matrix_8h-source.html docs/api/html/mesh_8h-source.html docs/api/html/mixer_8h-source.html docs/api/html/model_8h-source.html docs/api/html/morphtargetmixer_8h-source.html docs/api/html/pages.html docs/api/html/physique_8h-source.html docs/api/html/platform_8h-source.html docs/api/html/quaternion_8h-source.html docs/api/html/refcounted_8h-source.html docs/api/html/refptr_8h-source.html docs/api/html/renderer_8h-source.html docs/api/html/resource_8h-source.html docs/api/html/saver_8h-source.html docs/api/html/skeleton_8h-source.html docs/api/html/springsystem_8h-source.html docs/api/html/streamsource_8h-source.html docs/api/html/structCalCoreSubmesh_1_1Spring-members.html docs/api/html/structCalCoreSubmesh_1_1Spring.html docs/api/html/submesh_8h-source.html docs/api/html/tab_b.gif docs/api/html/tab_l.gif docs/api/html/tab_r.gif docs/api/html/tabs.css docs/api/html/tinyxml_8h-source.html docs/api/html/transform_8h-source.html docs/api/html/vector_8h-source.html /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-devel-0.11
++ exit 0
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires: cal3d = 0.11-rc2.1.fc5 pkgconfig
+Processing files: cal3d-doc-0.11-rc2.1.fc5
+Executing(%doc): /bin/sh -e /var/tmp/rpm-tmp.36602
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ DOCDIR=/var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-doc-0.11
++ export DOCDIR
++ rm -rf /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-doc-0.11
++ /bin/mkdir -p /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-doc-0.11
++ cp -pr docs/guide docs/modeling /var/tmp/cal3d-0.11-rc2.1.fc5-root-root/usr/share/doc/cal3d-doc-0.11
++ exit 0
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires: cal3d = 0.11-rc2.1.fc5
+Processing files: cal3d-debuginfo-0.11-rc2.1.fc5
+Provides: libcal3d.so.12.0.0.debug
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /var/tmp/cal3d-0.11-rc2.1.fc5-root-root
+warning: Could not canonicalize hostname: hploic
+Wrote: /usr/src/redhat/SRPMS/cal3d-0.11-rc2.1.fc5.src.rpm
+Wrote: /usr/src/redhat/RPMS/i386/cal3d-0.11-rc2.1.fc5.i386.rpm
+Wrote: /usr/src/redhat/RPMS/i386/cal3d-devel-0.11-rc2.1.fc5.i386.rpm
+Wrote: /usr/src/redhat/RPMS/i386/cal3d-doc-0.11-rc2.1.fc5.i386.rpm
+Wrote: /usr/src/redhat/RPMS/i386/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.24657
++ umask 022
++ cd /usr/src/redhat/BUILD
++ cd cal3d-0.11rc2
++ /bin/rm -rf /var/tmp/cal3d-0.11-rc2.1.fc5-root-root
++ exit 0
++ rpmlint -i ../RPMS/i386/cal3d-0.11-rc2.1.fc5.i386.rpm ../RPMS/i386/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm ../RPMS/i386/cal3d-devel-0.11-rc2.1.fc5.i386.rpm ../RPMS/i386/cal3d-doc-0.11-rc2.1.fc5.i386.rpm
++ rm -fr 'redhat/BUILD/*'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: Leaving directory `/spare/cal3d'
+make[1]: Entering directory `/spare/cal3d'
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: [pre-chroot-umounts] Error 1 (ignored)
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+mount -t proc proc /spare/cal3d/build/fedora/fc5/proc
+mount -t devpts devpts /spare/cal3d/build/fedora/fc5/dev/pts 
+if [ fedora = debian -o fedora = fedora ] ; then \
+		mkdir -p gnulinux/fedora/fc5/archives/partial ; \
+		mount --bind gnulinux/fedora/fc5/archives /spare/cal3d/build/fedora/fc5/var/cache/apt/archives ; \
+	elif [ fedora = gentoo ] ; then \
+		mkdir -p /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mount --bind /var/cache/packaging-farm/fedora/distdir /spare/cal3d/build/fedora/fc5/usr/local/distdir ; \
+		mkdir -p /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+		mount --bind /var/cache/packaging-farm/fedora/portage /spare/cal3d/build/fedora/fc5/usr/portage ; \
+	fi
+mkdir -p gnulinux/fedora/fc5/src
+mount --bind gnulinux/fedora/fc5/src /spare/cal3d/build/fedora/fc5/usr/src
+if [ fedora = gentoo ] ; then \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache ; \
+	else \
+		mkdir -p /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+		mount --bind /root/.ccache /spare/cal3d/build/fedora/fc5/root/.ccache ; \
+	fi
+cp -a /usr/lib/packaging-farm/fedora/aptrpm.sh /spare/cal3d/build/fedora/fc5/usr/src
+chroot /spare/cal3d/build/fedora/fc5 sh -c "cd /usr/src && DISTRIBUTION=fc5 PACKAGE=cal3d ./aptrpm.sh"
++ cd redhat
++ for repository in RPMS SRPMS
++ rm -fr RPMS.cal3d
++ mkdir RPMS.cal3d
++ cd RPMS.cal3d
++ '[' RPMS = RPMS ']'
++ for file in '../$repository/{i386,noarch}/*.rpm'
++ '[' -f ../RPMS/i386/cal3d-0.11-rc2.1.fc5.i386.rpm ']'
++ ln -s ../RPMS/i386/cal3d-0.11-rc2.1.fc5.i386.rpm .
++ for file in '../$repository/{i386,noarch}/*.rpm'
++ '[' -f ../RPMS/i386/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm ']'
++ ln -s ../RPMS/i386/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm .
++ for file in '../$repository/{i386,noarch}/*.rpm'
++ '[' -f ../RPMS/i386/cal3d-devel-0.11-rc2.1.fc5.i386.rpm ']'
++ ln -s ../RPMS/i386/cal3d-devel-0.11-rc2.1.fc5.i386.rpm .
++ for file in '../$repository/{i386,noarch}/*.rpm'
++ '[' -f ../RPMS/i386/cal3d-doc-0.11-rc2.1.fc5.i386.rpm ']'
++ ln -s ../RPMS/i386/cal3d-doc-0.11-rc2.1.fc5.i386.rpm .
++ for file in '../$repository/{i386,noarch}/*.rpm'
++ '[' -f '../RPMS/noarch/*.rpm' ']'
++ '[' RPMS = SRPMS ']'
++ for repository in RPMS SRPMS
++ rm -fr SRPMS.cal3d
++ mkdir SRPMS.cal3d
++ cd SRPMS.cal3d
++ '[' SRPMS = RPMS ']'
++ '[' SRPMS = SRPMS ']'
++ ln -s ../SRPMS/cal3d-0.11-rc2.1.fc5.src.rpm .
+++ pwd
++ genbasedir --flat /usr/src/redhat
+Creating base directory... done
+Components: cal3d
+Processing pkglists... cal3d [done]
+Processing srclists... cal3d [done]
+Updating component releases... cal3d [done]
+Creating global release file... [done]
+Appending MD5Sum... cal3d [done]
+All your base are belong to us!!!
+cp -a /usr/lib/packaging-farm/fedora/yum.sh /spare/cal3d/build/fedora/fc5/usr/src
+chroot /spare/cal3d/build/fedora/fc5 sh -c "cd /usr/src && DISTRIBUTION=fc5 PACKAGE=cal3d ./yum.sh"
+                                                                                1/10 - RPMS/i386/cal3d-0.11-rc2.1.fc5.i386.rpm                                                                                2/10 - RPMS/i386/cal3d-devel-0.11-rc2.1.fc5.i386.rpm                                                                                3/10 - RPMS/i386/cal3d-doc-0.11-rc2.1.fc5.i386.rpm                                                                                4/10 - RPMS/i386/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm                                                                                5/10 - SRPMS/cal3d-0.11-rc2.1.fc5.src.rpm                                                                                6/10 - RPMS.cal3d/cal3d-0.11-rc2.1.fc5.i386.rpm                                                                                7/10 - RPMS.cal3d/cal3d-debuginfo-0.11-rc2.1.fc5.i386.rpm                                                                                8/10 - RPMS.cal3d/cal3d-devel-0.11-rc2.1.fc5.i386.rpm                                                                                9/10 - RPMS.cal3d/cal3d-doc-0.11-rc2.1.fc5.i386.rpm                                                                                10/10 - SRPMS.cal3d/cal3d-0.11-rc2.1.fc5.src.rpm
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+mkdir -p /spare/cal3d/build/fedora/fc5 /spare/cal3d/build/fedora/fc5.unionfs
+if ! unionctl --query /spare/cal3d/build/fedora/fc5 > /dev/null 2>&1 ; then mount -t unionfs -o rw,dirs=/spare/cal3d/build/fedora/fc5.unionfs=rw:/chroot/fedora/fc5=ro cal3d-fc5 /spare/cal3d/build/fedora/fc5 ; fi
+umount /spare/cal3d/build/fedora/fc5/proc > /dev/null 2>&1
+umount /spare/cal3d/build/fedora/fc5/dev/pts > /dev/null 2>&1
+if [ fedora = debian -o fedora = fedora ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/cache/apt/archives > /dev/null 2>&1 ; \
+	elif [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/usr/local/distdir > /dev/null 2>&1 ; \
+		umount /spare/cal3d/build/fedora/fc5/usr/portage > /dev/null 2>&1 ; \
+	fi
+umount /spare/cal3d/build/fedora/fc5/usr/src > /dev/null 2>&1
+if [ fedora = gentoo ] ; then \
+		umount /spare/cal3d/build/fedora/fc5/var/tmp/portage/homedir/.ccache > /dev/null 2>&1 ; \
+	else \
+		umount /spare/cal3d/build/fedora/fc5/root/.ccache > /dev/null 2>&1 ; \
+	fi
+make[1]: Leaving directory `/spare/cal3d'

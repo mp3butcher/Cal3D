@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>The 'Mixer'</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Architecture"
+HREF="c208.html"><LINK
+REL="PREVIOUS"
+TITLE="Animations, Tracks and Keyframes"
+HREF="x337.html"><LINK
+REL="NEXT"
+TITLE="Materials"
+HREF="x364.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x337.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. Architecture</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x364.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MIXER"
+>4.5. The 'Mixer'</A
+></H1
+><P
+>      The Cal3D library provides a powerful and flexible, yet easy-to-use animation
+      control system through the so called 'Mixer'. This helper class handles the
+      following things for a model instance:
+
+      <P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>            The addition and removal of animations to the active animation set.
+          </P
+></LI
+><LI
+><P
+>            The update of the active animation states including fade in and out.
+          </P
+></LI
+><LI
+><P
+>            The weighted blending and prioritized overlay of the active animations
+            according to their type.
+          </P
+></LI
+><LI
+><P
+>            The update of the current pose of the skeleton.
+          </P
+></LI
+></OL
+>
+    </P
+><P
+>      When triggering a new animation you can choose between different behaviors.
+      Currently implemented are the cycle and the action types. Once started, a cycle
+      animation will loop until you explicitly stop it. This is well-suited for
+      motions such as walking or swimming. The action type is a one-time animation
+      that is executed only once and is removed automatically from the active
+      animation set thereafter. As you can imagine this is useful for motions such as
+      fighting moves or emotes. There are plans to extend the number of animation
+      types in future releases of the Cal3D library.
+    </P
+><P
+>      Each active animation has a weight associated with it. This makes it possible
+      to fine tune the amount of influence each animation has on the model. Furthermore
+      each animation type has a different priority in the blending process. In the
+      current version of the Cal3D library, the action type has a higher priority than
+      the cycle one. This is necessary to make actions completely overlay the ongoing
+      cycles.
+    </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN360"
+></A
+><P
+><B
+>Example 4-3. The waving Limper</B
+></P
+><P
+>        Unfortunately, our waving human-like walker from a previous example stumbled and
+        is now limping with his left leg. In addition to the walk animation defined for
+        all bones in the model skeleton, and the locally waving animation, we need an
+        additional limping animation, which has tracks for all the bones in the lower
+        part the body. With the help of the mixer, we can now easily assign a light
+        limping motion to the model by blending the walking animation cycle with the
+        limping animation cycle at a ratio of 40%:60% as example. The waving animation
+        completely overlays the motion for the skeleton part it is defined on, because
+        it was triggered as an action and is therefore of higher priority than the two
+        cycles. When the little injury starts to heal, you can successively lower the
+        weight of the limping animation until you fade it completely out at the end.
+      </P
+></DIV
+><P
+>      There are a few important things you have to take care of to make this blending
+      system work as intended. Make sure that the animations that are used as actions
+      only contain tracks for bones that should really be affected. Otherwise they
+      will completely overlay all cycle animations, because of their higher priority.
+      Cycles that will be blended together should also be synchronized to achieve a
+      good-looking result. Note that this synchronization has to be done for the
+      displacement of the motion only, not for the duration of the animation, as this
+      adjustment is handled in the blending process inside the mixer.
+    </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x337.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x364.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Animations, Tracks and Keyframes</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c208.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Materials</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

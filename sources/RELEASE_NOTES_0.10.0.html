@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Cal3D 0.10.0 Release note</title>
+	</head>
+	<body>
+		<h1>Cal3D 0.10.0 Release Notes</h1>
+		<p>The Cal3D developers are proud to release version 0.10.0 of the Open Source 3D 
+			character animation library. About 13 months after version 0.9.1 hit the road, 
+			this release is a major update and adds many new features. The list of these 
+			features is long and some minor changes&nbsp;are needed to convert to Cal3D 
+			0.10.0</p>
+		<h3>What's New in Cal3D 0.10.0</h3>
+		<h4>Cal3D core</h4>
+		<ul>
+			<li>
+				Create/destroy functions removed
+				<p>
+					Previously, Cal3D used create/destroy functions for all the classes. These 
+					functions have been removed because&nbsp;they were redundant with 
+					constructor/destructor functions.</p>
+				<p>
+					Because of this, applications using Cal3D need be updated. All&nbsp;calls to 
+					create/destroy need to be removed and arguments of the create function need to 
+					be passed to the constructor.</p>
+			<li>
+				Reference counting on core objects
+				<p>Core objects (coreAnimation, coreSkeleton, coreMesh...) can be shared between 
+					several models. But with the old API it's impossible to correctly 
+					release&nbsp;memory. A counter has been added to each of the core objects to 
+					prevent the deletion of an object that&nbsp;is still used. Objects can now be 
+					shared between several coremodel correctly.</p>
+			<li>
+				A "stride" argument to getVertices(), getNormals() ...
+				<p>The Renderer object allows&nbsp;retrieving geometry&nbsp;data during the 
+					rendering of the model. Since 3D APIs like Direct3D have evolved and now use 
+					flexible vertex buffers, it's now easy to fill the vertex buffer directly with 
+					the new (optional) argument :</p>
+				<p>pCalRenderer-&gt;getTangentSpaces(bumpId,&amp;pVertex-&gt;Tangents.x,sizeof(VERTEX));</p>
+				<p>
+					Rem: Be careful with these functions because it can be slower.</p>
+			<li>
+				Modification of the XML file format
+				<p>The old XML file format wasn't legal XML. This is now fixed.</p>
+				<p>
+					For compatibility, the old format&nbsp;can still be loaded. But be careful to 
+					not try to load a new file with an old version of Cal3D</p>
+			<li>
+				Function to load data to the same coodinate system of the client application :
+				<p>You can use the static function CalLoader::setLoadingMode(int flags). Possible 
+					flags are LOADER_ROTATE_X_AXIS and LOADER_INVERT_V_COORD.</p>
+			<li>
+				Face orientation
+				<p>In previous versions of Cal3D, the face orientation wasn't always correct and 
+					for some model it was necessary to set the cull mode to none. It's now not 
+					necessary anymore.</p>
+			<li>
+				Loading from a byte buffer or std::istream.
+				<p>You can use the following Functions :</p>
+				static CalCoreAnimation *loadCoreAnimation(std::istream&amp; inputStream, 
+				CalCoreSkeleton *skel=NULL);<br>
+				static CalCoreMaterial *loadCoreMaterial(std::istream&amp; inputStream);<br>
+				static CalCoreMesh *loadCoreMesh(std::istream&amp; inputStream);<br>
+				static CalCoreSkeleton *loadCoreSkeleton(std::istream&amp; inputStream);<br>
+				<br>
+				static CalCoreAnimation *loadCoreAnimation(void* inputBuffer, CalCoreSkeleton 
+				*skel=NULL);<br>
+				static CalCoreMaterial *loadCoreMaterial(void* inputBuffer);<br>
+				static CalCoreMesh *loadCoreMesh(void* inputBuffer);<br>
+				static CalCoreSkeleton *loadCoreSkeleton(void* inputBuffer);<br>
+				<p>Note : only binary formats are supported</p>
+			<li>
+				New interface for hardware vertex processing
+				<p>Since version 0.9.0 of Cal3D there was a sample to show how to use vertex shader 
+					to animate with Cal3D. In this new release, a set of functions can now be used 
+					to do this easily : the class CalHardwareModel has been added. You can look at 
+					the code source of the two new miniviewers (one OpenGL and one Direct3D) for 
+					more information. Note : the spring system needs to be disabled when using this 
+					feature.</p>
+			<li>
+				A time factor for animation
+				<p>A time factor allows playback of&nbsp;several animations at different speeds. 
+					You can use CalMixer::setTimeFactor(float timeFactor) for cycle animations or 
+					CalAnimation::setTimeFactor(float timeFactor) for action animations.</p>
+				<p>Rem : negative time factor to allow reverse animation is supported</p>
+			<li>
+				CalMixer can be replaced by an application defined implementation.
+				<p> The CalMixer class is now based on an abstract class (CalAbstractMixer)
+				from which the application can implement a different mixer. The new mixer
+				can be registered using the CalModel::setAbstractMixer method. The 
+				mixer currently in use for a given CalModel instance can be retrieved
+				with the CalModel::getAbstractMixer method. This addition is backward
+				compatible. 
+			<li>
+				Animation callbacks
+				<p>The new class CalAnimationCallback and the functions :</p>
+				void CalCoreAnimation::registerCallback(CalAnimationCallback *callback,float 
+				min_interval)<br>
+				void CalCoreAnimation::removeCallback(CalAnimationCallback *callback)<br>
+				<p>can be used to set functions that will be called when the animation is active.</p>
+			<li>
+				An option to stop a action animation at the end
+				<p>An new parameter has been added to the CalMixer::executeAction() function :</p>
+				<p>bool CalMixer::executeAction(int id, float delayIn, float delayOut, float 
+					weightTarget, bool autoLock=false)</p>
+			<li>
+				Symbolic names for coreMaterial, coreMesh, coreAnimations loaded by 
+				coremodel.{h,cpp}
+				<p>A few functions have been added to provide easy access to core objects :</p>
+				int CalCoreModel::getCoreAnimationId(const std::string&amp; strAnimationName);<br>
+				int CalCoreModel::getCoreMaterialId(const std::string&amp; strMaterialName);<br>
+				int CalCoreModel::getCoreMeshId(const std::string&amp; strMeshName);<br>
+				int CalCoreModel::getBoneId(const std::string&amp; strBoneName);<br>
+				<br>
+			<li>
+				A function to rescale a core model.
+				<p>The function void CalCoreModel::scale(float factor) can be used to scale a 
+					model.</p>
+				<p>This function directly modifies all the meshes, skeletons and animations. You 
+					can use it only before creating the CalModel. Spring systems are also disabled.</p>
+			<li>
+				Functions to control force of the spring system :
+				<p>The gravity vector and the force vector can now be set</p>
+				void CalSpringSystem::setGravityVector(const CalVector &amp; vGravity);<br>
+				void CalSpringSystem::setForceVector(const CalVector &amp; vForce);<br>
+				<p>As previous version of Cal3D, the vector force is set to (0.0f, 0.5f, 0.0f) by 
+					default (to simulate some movement)</p>
+			<li>
+				An experimental collision system
+				<p>This new feature can be enabled with the function :</p>
+				<p>void CalSpringSystem::setCollisionDetection(bool collision);</p>
+				<p>Note : Bounding box calculation need to be actived for this feature. You can 
+					uncomment a few lines in Model::onRender() to test.</p>
+			<li>
+				A function to compute the global bounding box of the model
+				<p>The bounding box of the model can be retrieved with the CalBoundingBox &amp; 
+					CalModel::getBoundingBox(bool precision) function</p>
+			<li>
+				calculateBoundingBox has been renamed to calculateBoundingBoxes.</li>
+		</ul>
+		<h4>Cal3D miniviewers</h4>
+		<p>There are now six sample applications. Three new miniviewers have been added to 
+			the main distribution:</p>
+		<ul>
+			<li>
+			OpenGL with vertex program : with current hardware, most of the computation can 
+			now be done directly on the graphics card. The new CalHardwareModel class is 
+			used to load the data and send it to the GPU. A vertex program is used to 
+			compute the final position of the vertices.
+			<li>
+			Direct3D with vertex shader : the same that OpenGL with vertex program but with 
+			Direct3D.
+			<li>
+				Direct3D bump mapping : since version 0.9.0, Cal3D supports tangent space 
+				calculations. This feature is useful to do advanced lighting effect like bump 
+				mapping.</li>
+		</ul>
+		<h4>Exporters</h4>
+		<UL>
+			<li>
+				Maya
+				<p>Cal3D 0.10.0 is the first version to provide a maya exporter. This version is 
+					still beta and is probably not bug-free.&nbsp; Try it and let us know!</p>
+			<LI>
+				3D Studio Max
+				<p>The 3DSMax exporter has been improved :</p>
+			</LI>
+			<UL>
+				<li>
+				3DS Max 7 support.
+				<li>
+				Multi/Sub material can be selected.
+				<li>
+				Mesh with mirroired part can be exported correctly.
+				<li>
+				The modifier stack doesn't need to be collapsed anymore.
+				<li>
+				A new gui in maxscript has been added.</li>
+				<p>Export_cal3D is an all-in-one export maxscript based on the 0.9.2+ 
+				'maxscript-extended' version of the exporter plugin for Max6.</p>
+				<p>Define the objects that compose your character, specify the root 
+				bone(s), create a list of the animations segments, tune original export 
+				parameters then click Export. Additional features include automatic 
+				cal3d.cfg creation, post-export mini-viewer, animations definition and 
+				per-scene configuration.</p>
+			</UL>
+		</UL>
+	</body>
+</html>

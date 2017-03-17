@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Materials</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="The Cal3D User's Guide"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Architecture"
+HREF="c208.html"><LINK
+REL="PREVIOUS"
+TITLE="The 'Mixer'"
+HREF="x346.html"><LINK
+REL="NEXT"
+TITLE="Meshes and Submeshes"
+HREF="x374.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The Cal3D User's Guide: Version 0.11</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x346.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. Architecture</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x374.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MATERIALS"
+>4.6. Materials</A
+></H1
+><P
+>      In the Cal3D library, a core material is composed from the color components
+      (ambient, diffuse and specular), a shininess factor and several maps, most
+      likely texture-maps. All possible materials for a model type are stored in the
+      core model according to the shared-data concept.
+    </P
+><P
+>      A simple mechanism for material handling is implemented, which provides an easy
+      way to change materials and therefore the look of a model instance. For each
+      core model there exists one or more material sets. Materials in the same set
+      share a common look, as example 'skin', 'leather' or 'chain-mail'. Additionally
+      there are one or more material threads in the core model. These material threads
+      contain the same materials but grouped by a specific part of the model, as
+      example 'left foot', 'torso' or 'helmet'. Together they build a material grid
+      that defines a material for each material set/thread pair.
+    </P
+><P
+>      As described in <A
+HREF="x374.html"
+><I
+>Meshes and Submeshes</I
+></A
+>,
+      every part of the core model (every submesh to be more exact) has a material
+      thread assigned. You can now very easily change the look of a model instance,
+      by simply select a new current material set for its parts. The Cal3D library is
+      now able to look up the material in the material grid with the given new material
+      set and the material thread stored in the core model parts.
+    </P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN370"
+></A
+><P
+><B
+>Example 4-4. The legendary paladin goes shopping</B
+></P
+><P
+>        After uncountable battles against evil creatures, our paladin's suit of armor
+        has a scratch here and there. In other words, it is time for a visit at the
+        local smith for a new outfit. For simplicity let's assume that the paladin model
+        is built from two pieces only, the upper body and the lower body. Each of them
+        has a different material thread assigned. The smith sells two types of armor,
+        the first is chain-mail, the other plate-mail. There is an upper body piece and a
+        lower body piece for both armor types. All the pieces of the same armor type
+        are in the same material set. The material grid for this example has therefore
+        4 entries (2 sets x 2 threads) filled with the materials: upper body chain-mail,
+        lower body chain-mail, upper body plate-mail, lower body plate-mail. Now, when the
+        paladin tries on the pieces of armor, you can simple select the appropriate
+        material set for the body part to change the look of the model. As example, in
+        pseudo-code 'change upper body to plate-mail'.
+      </P
+></DIV
+><P
+>      The advantage of this simple material system is that you do not have to handle
+      the individual materials themselves. You select the more high-level material
+      set which is the same for all body parts. The material system does the low-level
+      assignment of the materials of the selected material set to the body parts.
+    </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x346.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x374.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>The 'Mixer'</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c208.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Meshes and Submeshes</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
