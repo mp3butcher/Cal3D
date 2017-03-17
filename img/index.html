@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CAL3D Character Animation Library</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+a {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: uppercase;
+	color: #666666;
+}
+a:hover {
+	color: #8A1819;
+	text-decoration: underline;
+}
+strong {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bolder;
+	font-variant: normal;
+	text-transform: uppercase;
+	font-style: normal;
+	line-height: normal;
+	color: #8A1819;
+	text-decoration: none;
+}
+table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	width: 700px;
+	text-align: justify;
+}
+hr {
+	border: 0px;
+	color: #AAAAAA;
+	background-color: #AAAAAA;
+	height: 1px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#565656" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr><td width="800" height="127"><img src="img/top.jpg" width="800" height="127"></td></tr>
+
+<tr><td background="img/back.jpg"><table width="800" border="0" cellspacing="30" cellpadding="0">
+<tr><td>
+<strong>Are You Guys Still Alive?!</strong><br>
+Yes, yes, of course we are! We've all just been very busy lately and haven't
+had a chance to make much happen. However, James Walker has made a few changes
+in the subversion trunk (which will appear in Cal3D 0.12) that should improve
+the fluidity of animations, and Palle Raabjerg, Jeremy Moles, and Jean-Baptiste
+Lamy have rewritten the Blender exporter.
+As well, Julien Valentin has recently added CMake project configuration, updated the morphtarget management, and introduced a new section
+in cfg file.<br>
+<b>--though much works still remains so don't hesitate to contribute and give us feedback--</b></br>
+2015 will be a better year for releases, improvements, and fixes all around!
+<!--Nobody here>Also, don't forget to join us in #cal3d on Freenode!</b-->
+<p><strong>What is Cal3D?</strong><br>
+Cal3D is a skeletal based 3D character animation library written 
+in C++ in a platform-/graphic API-independent way. Originally designed 
+to be used in a 3D client for Worldforge, it evolved into a stand-alone 
+product which can be used in many different kinds of projects. It 
+supports combining animations, actions and morph targets (facial expressions) through a &quot;mixer&quot;. </p>
+<hr>
+<strong>Screenshots & Videos<br>
+<a href="http://download.gna.org/cal3d/skeleton-high.avi"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">Skeleton/OSG - High Quality (6.1MB) [h.264]</a><br>
+<a href="http://download.gna.org/cal3d/skeleton-low.avi"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">Skeleton/OSG - Low Quality (1.8MB) [h.264]</a><br>
+<a href="http://download.gna.org/cal3d/skeleton-win-high.avi"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">Skeleton/OSG - High Quality (6.4MB) [MPEG4]</a><br>
+<a href="http://download.gna.org/cal3d/skeleton-win-low.avi"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">Skeleton/OSG - Low Quality (900KB) [MPEG4]</a><br>
+<a href="https://www.youtube.com/watch?v=On67mVoN5pw"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">Morphtargets example demo</a><br>
+</strong> 
+<hr>
+<p><strong>Download</strong><br>
+<a href="http://download.gna.org/cal3d/sources/cal3d-0.11.0.tar.gz"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+cal3d-0.11.0 sources (latest stable version)</a><br>
+<a href="http://download.gna.org/cal3d/sources/cally-2.11.0.tar.gz"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+cally interactive demo for cal3d-0.11.0 </a><br>
+<a href="http://download.gna.org/cal3d/sources/?M=D"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+More downloads (3d models, tools based on cal3d etc.) </a><br>
+<a href="http://download.gna.org/cal3d/Cal3D-0.110.0-MpEbUtCh3r-win64-AMD64.exe"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+Windows 64bits Installer (MSVC2013 Demo+DevBinaries)</a><br>
+<a href="http://download.gna.org/cal3d/Cal3D-0.110.0-MpEbUtCh3r-Linux-x86_64.deb"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+Debian package 64 bits (GCC Demo+DevBinaries)</a><br>
+<a href="http://download.gna.org/cal3d/sources"><img src="img/download.gif" width="27" height="24" hspace="3" border="0" align="absmiddle">
+Other Binary Packages</a><br>
+
+<p>
+<hr>
+<p><strong>Subversion</strong><br>
+You can stay up-to-date with Cal3D's latest code using Subversion! Please keep in mind that
+while every attempt is made to not commit changes that wholly break the Cal3D library, we
+are a multi-developer project and accidents do happen. Let us know if we've missed anything
+by mail or with our mailing lists. We can usually fix any small bugs right away.
+<p>
+<b>svn co http://svn.gna.org/svn/cal3d/trunk cal3d</b>
+<p>
+<hr>
+<strong>Documentation</strong><br>
+<a href="http://download.gna.org/cal3d/documentation/guide/">User Guide</a><br>
+<a href="http://download.gna.org/cal3d/documentation/api/html/">API Reference &amp; FAQ</a><br>
+<a href="http://download.gna.org/cal3d/documentation/modeling/tutorial.html">Modeling with 3DSMax</a>
+<hr>
+<strong>Community</strong><br>
+<a href="https://gna.org/bugs/?func=additem&group=cal3d">Report a bug</a><br>
+<a href="https://mail.gna.org/listinfo/cal3d-devel/">General mailing list</a><br>
+<a href="https://mail.gna.org/listinfo/cal3d-commits/">SVN commits mailing list</a><br>
+<a href="http://gna.org/projects/cal3d/">Cal3d development forge</a><br>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td width="800" height="126"><img src="img/bot.jpg" width="800" height="126"></td>
+</tr>
+</table>
+
+</body>
+</html>
+
