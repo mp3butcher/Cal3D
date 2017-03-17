@@ -23,10 +23,10 @@
 
 //#define CAL_16BIT_INDICES
 
-#ifdef CAL_16BIT_INDICES 
-typedef unsigned short CalIndex; 
-#else 
-typedef int CalIndex; 
+#ifdef CAL_16BIT_INDICES
+typedef unsigned short CalIndex;
+#else
+typedef int CalIndex;
 #endif
 
 
@@ -35,7 +35,7 @@ typedef int CalIndex;
 //****************************************************************************//
 
 namespace cal3d
-{  
+{
   // global typedefs
   typedef void *UserData;
 
@@ -52,7 +52,7 @@ namespace cal3d
   const char MATERIAL_XMLFILE_MAGIC[4]  = { 'X', 'R', 'F', '\0' };
 
   // library version       // 0.13.0
-#define CAL3D_VERSION 1300
+#define CAL3D_VERSION 1301
   const int LIBRARY_VERSION = CAL3D_VERSION;
 
 
@@ -69,6 +69,7 @@ namespace cal3d
   const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 1300;
   const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 1300;
   const int FIRST_FILE_VERSION_WITH_RELATIVE_BONE_TRANSLATION = 1300;
+  const int FIRST_FILE_VERSION_WITH_UPDATED_MORPHMIXER = 1301;
 
   inline bool versionHasCompressionFlag(int version) {
     return version >= 1300;

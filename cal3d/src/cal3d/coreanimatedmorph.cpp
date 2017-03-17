@@ -155,7 +155,7 @@ CalCoreAnimatedMorph::removeZeroScaleTracks()
   *         \li \b 0 if an error happend
   *****************************************************************************/
 
-CalCoreMorphTrack *CalCoreAnimatedMorph::getCoreTrack(std::string const & name)
+CalCoreMorphTrack *CalCoreAnimatedMorph::getCoreTrack(const unsigned int & name)
 {
   // loop through all core track
   std::list<CalCoreMorphTrack>::iterator iteratorCoreTrack;
@@ -166,7 +166,7 @@ CalCoreMorphTrack *CalCoreAnimatedMorph::getCoreTrack(std::string const & name)
     pCoreTrack = &(*iteratorCoreTrack);
 
     // check if we found the matching core bone
-    if(pCoreTrack->getMorphName() == name) return pCoreTrack;
+    if(pCoreTrack->getMorphID() == name) return pCoreTrack;
   }
 
   // no match found

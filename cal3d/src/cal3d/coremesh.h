@@ -39,7 +39,7 @@ public:
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
   ///add a CalCoreMesh as MorphId
-  int addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & morphTargetName);
+  int addAsMorphTarget(CalCoreMesh *pCoreMesh);//, std::string const & morphTargetName);
   ///retrieve MorphId from MorphTargetName
   int getMorphTargetId(std::string const & morphTargetName);
   /// return true if submeshes have morphTargets

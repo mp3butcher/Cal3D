@@ -133,6 +133,7 @@ private:
   std::vector<CalCoreAnimatedMorph *>   m_vectorCoreAnimatedMorph;
 
   std::vector<CalCoreMeshPtr>           m_vectorCoreMesh;
+  std::vector<CalCoreMeshPtr>           m_vectorMorphMesh;
   std::vector<CalCoreMaterialPtr>       m_vectorCoreMaterial;
   std::map<int, std::map<int, int> >    m_mapmapCoreMaterialThread;
   Cal::UserData                         m_userData;

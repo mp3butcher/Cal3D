@@ -199,7 +199,7 @@ const std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh() const
   *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & morphTargetName)
+int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
 {
   //Check if the numbers of vertices allow a blending
   std::vector<CalCoreSubmesh *>& otherVectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
@@ -226,7 +226,7 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
     if( count1 != count2 )
     {
 		char buf[2048];
-		snprintf(buf, sizeof(buf), "This mesh has a morph target child with different number of vertices: %s (%d vs child's %d)", morphTargetName.c_str(), count1, count2);
+		snprintf(buf, sizeof(buf), "This mesh has a morph target child with different number of vertices: %d (%d vs child's %d)", subMorphTargetID, count1, count2);
       CalError::setLastError(CalError::INTERNAL, __FILE__, __LINE__, buf);
       return -1;
     }
@@ -241,7 +241,6 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
     int vertexCount = (*otherIteratorCoreSubmesh)->getVertexCount();
     CalCoreSubMorphTarget *pCalCoreSubMorphTarget = new(std::nothrow) CalCoreSubMorphTarget();
     if(!pCalCoreSubMorphTarget->reserve(vertexCount)) return -1;
-    pCalCoreSubMorphTarget->setName( morphTargetName );
     std::vector<CalCoreSubmesh::Vertex>& vectorVertex = (*otherIteratorCoreSubmesh)->getVectorVertex();
     std::vector<CalCoreSubmesh::Vertex>::iterator iteratorVectorVertex = vectorVertex.begin();
     std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& textCoordVector = (*otherIteratorCoreSubmesh)->getVectorVectorTextureCoordinate();
@@ -268,7 +267,7 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh, std::string const & mo
     ++otherIteratorCoreSubmesh;
   }
   ///store morphid as a mesh attribute
-  m_morphTargets[morphTargetName]=subMorphTargetID;
+  //m_morphTargets[morphTargetName]=subMorphTargetID;
   return subMorphTargetID;
 }
  /*****************************************************************************/

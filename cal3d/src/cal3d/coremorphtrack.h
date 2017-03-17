@@ -40,7 +40,9 @@ class CAL3D_API CalCoreMorphTrack
 // member variables
 protected:
 
-  std::string m_morphName;
+  unsigned int m_morphID;
+  unsigned int m_targetMeshID;
+  std::vector<unsigned int> m_targetSubMeshIDs;
 
   /// List of keyframes, always sorted by time.
   std::vector<CalCoreMorphKeyframe> m_keyframes;
@@ -56,17 +58,34 @@ public:
 
   bool getState(float time, float & weightOut);
 
-  std::string getMorphName() const;
-  void setMorphName(std::string name);
-  
+  const unsigned int& getMorphID() const{return m_morphID;}
+  void setMorphID(const unsigned int &name){m_morphID=name;}
+
+  inline const unsigned int& getTargetMesh() const {return m_targetMeshID;}
+  inline void setTargetMesh(unsigned int name){m_targetMeshID=name;}
+
+  ///TargetSubMeshes container if empty assume ALL submeshes have morphtarget
+  const unsigned int getNumTargetSubMeshes()const{return m_targetSubMeshIDs.size();}
+  inline void addTargetSubMesh(unsigned int i){m_targetSubMeshIDs.push_back(i);}
+  inline void removeTargetSubMesh(unsigned int name){
+      for(std::vector<unsigned int>::iterator i=m_targetSubMeshIDs.begin();i!=m_targetSubMeshIDs.begin();i++){
+          if(*i==name){
+              m_targetSubMeshIDs.erase(i);
+              return;
+          }
+      }
+  }
+
+  inline const unsigned int &getTargetSubMesh(const unsigned int &name)const{return m_targetSubMeshIDs[name];}
+
   int getCoreMorphKeyframeCount() const;
   void reserve(int);
-  
+
   CalCoreMorphKeyframe* getCoreMorphKeyframe(int idx);
   const CalCoreMorphKeyframe* getCoreMorphKeyframe(int idx) const;
 
   bool addCoreMorphKeyframe(CalCoreMorphKeyframe *pCoreKeyframe);
-  
+
   const std::vector<CalCoreMorphKeyframe> & getVectorCoreMorphKeyframes() const;
   std::vector<CalCoreMorphKeyframe> & getVectorCoreMorphKeyframes();
 

@@ -47,14 +47,14 @@ public:
   CalCoreAnimatedMorph();
   virtual ~CalCoreAnimatedMorph();
 
-// member functions 
+// member functions
 public:
   const std::string& getName() const {return m_name;}
   void setName(const std::string& name) {m_name = name;}
   bool addCoreTrack(CalCoreMorphTrack *pCoreTrack);
   bool create();
   void destroy();
-  CalCoreMorphTrack *getCoreTrack(std::string const & trackId);
+  CalCoreMorphTrack *getCoreTrack(const unsigned int &trackId);
   float getDuration() const;
   std::list<CalCoreMorphTrack>& getListCoreTrack();
   const std::list<CalCoreMorphTrack>& getListCoreTrack() const;

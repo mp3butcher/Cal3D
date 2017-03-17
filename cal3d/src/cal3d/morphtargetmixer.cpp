@@ -25,7 +25,7 @@
 #include "cal3d/mesh.h"
 #include "cal3d/submesh.h"
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Constructs the morph target mixer instance.
   *
   * This function is the default constructor of the morph target mixer instance.
@@ -33,8 +33,8 @@
 
 CalMorphTargetMixer::CalMorphTargetMixer(CalModel *pModel)
 {
-  assert(pModel);
-  m_pModel = pModel;
+    assert(pModel);
+    m_pModel = pModel;
 }
 
 /*****************************************************************************/
@@ -52,44 +52,44 @@ CalMorphTargetMixer::CalMorphTargetMixer(CalModel *pModel)
   *****************************************************************************/
 bool CalMorphTargetMixer::manualBlend(int id, float weight, float time)
 {
-   // First check if the animation is already playing.
-   int count = (int)mAnimList.size();
-   for (int index = 0; index < count; ++index)
-   {
-      MorphAnimData& data = mAnimList[index];
+    // First check if the animation is already playing.
+    int count = (int)mAnimList.size();
+    for (int index = 0; index < count; ++index)
+    {
+        MorphAnimData& data = mAnimList[index];
 
-      if (data.animatedMorphID == id)
-      {
-         // Reset the currently playing animation.
-         data.isManual = true;
+        if (data.animatedMorphID == id)
+        {
+            // Reset the currently playing animation.
+            data.isManual = true;
 
-         data.weight = weight;
-         data.looping = false;
+            data.weight = weight;
+            data.looping = false;
 
-         data.playTime = time;
-         data.currentWeight = weight;
-         data.fadeIn = 0.0f;
-         data.fadeInTime = 0.0f;
-         data.fadeOut = -1.0f;
-         data.fadeOutTime = 0.0f;
-         return true;
-      }
-   }
+            data.playTime = time;
+            data.currentWeight = weight;
+            data.fadeIn = 0.0f;
+            data.fadeInTime = 0.0f;
+            data.fadeOut = -1.0f;
+            data.fadeOutTime = 0.0f;
+            return true;
+        }
+    }
 
-   // If we get here, create a new animation entry to play.
-   MorphAnimData data;
-   data.isManual = true;
-   data.animatedMorphID = id;
-   data.weight = weight;
-   data.looping = false;
-   data.playTime = time;
-   data.currentWeight = weight;
-   data.fadeIn = 0.0f;
-   data.fadeInTime = 0.0f;
-   data.fadeOut = -1.0f;
-   data.fadeOutTime = 0.0f;
-   mAnimList.push_back(data);
-   return true;
+    // If we get here, create a new animation entry to play.
+    MorphAnimData data;
+    data.isManual = true;
+    data.animatedMorphID = id;
+    data.weight = weight;
+    data.looping = false;
+    data.playTime = time;
+    data.currentWeight = weight;
+    data.fadeIn = 0.0f;
+    data.fadeInTime = 0.0f;
+    data.fadeOut = -1.0f;
+    data.fadeOutTime = 0.0f;
+    mAnimList.push_back(data);
+    return true;
 }
 
 /*****************************************************************************/
@@ -110,47 +110,47 @@ bool CalMorphTargetMixer::manualBlend(int id, float weight, float time)
   *****************************************************************************/
 bool CalMorphTargetMixer::blend(int id, float weight, float delayIn, float delayOut, bool looping)
 {
-   // First check if the animation is already playing.
-   int count = (int)mAnimList.size();
-   for (int index = 0; index < count; ++index)
-   {
-      MorphAnimData& data = mAnimList[index];
+    // First check if the animation is already playing.
+    int count = (int)mAnimList.size();
+    for (int index = 0; index < count; ++index)
+    {
+        MorphAnimData& data = mAnimList[index];
 
-      if (data.animatedMorphID == id)
-      {
-         // Reset the currently playing animation.
-         data.isManual = false;
+        if (data.animatedMorphID == id)
+        {
+            // Reset the currently playing animation.
+            data.isManual = false;
 
-         data.weight = weight;
-         data.looping = looping;
+            data.weight = weight;
+            data.looping = looping;
 
-         data.playTime = 0.0f;
-         data.currentWeight = 0.0f;
-         data.fadeIn = 0.0f;
-         data.fadeInTime = delayIn;
-         data.fadeOut = -1.0f;
-         data.fadeOutTime = delayOut;
-         return true;
-      }
-   }
+            data.playTime = 0.0f;
+            data.currentWeight = 0.0f;
+            data.fadeIn = 0.0f;
+            data.fadeInTime = delayIn;
+            data.fadeOut = -1.0f;
+            data.fadeOutTime = delayOut;
+            return true;
+        }
+    }
 
-   // If we get here, create a new animation entry to play.
-   MorphAnimData data;
-   data.isManual = false;
-   data.animatedMorphID = id;
-   data.weight = weight;
-   data.looping = looping;
-   data.playTime = 0.0f;
-   data.currentWeight = 0.0f;
-   data.fadeIn = 0.0f;
-   data.fadeInTime = delayIn;
-   data.fadeOut = -1.0f;
-   data.fadeOutTime = delayOut;
-   mAnimList.push_back(data);
-   return true;
+    // If we get here, create a new animation entry to play.
+    MorphAnimData data;
+    data.isManual = false;
+    data.animatedMorphID = id;
+    data.weight = weight;
+    data.looping = looping;
+    data.playTime = 0.0f;
+    data.currentWeight = 0.0f;
+    data.fadeIn = 0.0f;
+    data.fadeInTime = delayIn;
+    data.fadeOut = -1.0f;
+    data.fadeOutTime = delayOut;
+    mAnimList.push_back(data);
+    return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Fades a morph target out.
   *
   * This function fades a morph target out in a given amount of time.
@@ -166,44 +166,44 @@ bool CalMorphTargetMixer::blend(int id, float weight, float delayIn, float delay
 
 bool CalMorphTargetMixer::clear(int id, float delay)
 {
-   // First check if the animation is already playing.
-   int count = (int)mAnimList.size();
-   for (int index = 0; index < count; ++index)
-   {
-      MorphAnimData& data = mAnimList[index];
+    // First check if the animation is already playing.
+    int count = (int)mAnimList.size();
+    for (int index = 0; index < count; ++index)
+    {
+        MorphAnimData& data = mAnimList[index];
 
-      if (data.animatedMorphID == id)
-      {
-         if (delay <= 0.0f)
-         {
-            // Turn all weights for this animation off.
-            const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-            if (!morph) return false;
-
-            const std::list<CalCoreMorphTrack> tracks = morph->getListCoreTrack();
-
-            std::list<CalCoreMorphTrack>::const_iterator itr;
-            for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
+        if (data.animatedMorphID == id)
+        {
+            if (delay <= 0.0f)
             {
-               const CalCoreMorphTrack *track = &(*itr);
-               ApplyWeightToMorphMesh(track->getMorphName(), 0.0f);
+                // Turn all weights for this animation off.
+                const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+                if (!morph) return false;
+
+                const std::list<CalCoreMorphTrack> tracks = morph->getListCoreTrack();
+
+                std::list<CalCoreMorphTrack>::const_iterator itr;
+                for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
+                {
+                    const CalCoreMorphTrack *track = &(*itr);
+                    ApplyWeightToMorphMesh(track->getMorphID(), 0.0f);
+                }
+
+                mAnimList.erase(mAnimList.begin() + index);
+                return true;
             }
 
-            mAnimList.erase(mAnimList.begin() + index);
+            data.looping = false;
+            data.fadeOut = 0.0f;
+            data.fadeOutTime = delay;
             return true;
-         }
+        }
+    }
 
-         data.looping = false;
-         data.fadeOut = 0.0f;
-         data.fadeOutTime = delay;
-         return true;
-      }
-   }
-
-   return false;
+    return false;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Get the weight of a morph target.
   *
   * @param id The id of the morph target which weight you want.
@@ -212,21 +212,21 @@ bool CalMorphTargetMixer::clear(int id, float delay)
   *****************************************************************************/
 float CalMorphTargetMixer::getCurrentWeight(int id) const
 {
-   int count = (int)mAnimList.size();
-   for (int index = 0; index < count; ++index)
-   {
-      const MorphAnimData& data = mAnimList[index];
+    int count = (int)mAnimList.size();
+    for (int index = 0; index < count; ++index)
+    {
+        const MorphAnimData& data = mAnimList[index];
 
-      if (data.animatedMorphID == id)
-      {
-         return data.currentWeight;
-      }
-   }
+        if (data.animatedMorphID == id)
+        {
+            return data.currentWeight;
+        }
+    }
 
-   return 0.0f;
+    return 0.0f;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Get the name of a morph target animation.
   *
   * @param id The id of the morph target.
@@ -235,13 +235,13 @@ float CalMorphTargetMixer::getCurrentWeight(int id) const
   *****************************************************************************/
 const std::string& CalMorphTargetMixer::getMorphName(int id) const
 {
-   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-   if (morph)
-   {
-      return morph->getName();
-   }
+    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+    if (morph)
+    {
+        return morph->getName();
+    }
 
-   return "";
+    return "";
 }
 
 /*****************************************************************************/
@@ -253,13 +253,13 @@ const std::string& CalMorphTargetMixer::getMorphName(int id) const
   *****************************************************************************/
 int CalMorphTargetMixer::getTrackCount(int id) const
 {
-   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-   if (morph)
-   {
-      return (int)morph->getListCoreTrack().size();
-   }
+    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+    if (morph)
+    {
+        return (int)morph->getListCoreTrack().size();
+    }
 
-   return 0;
+    return 0;
 }
 
 /*****************************************************************************/
@@ -271,16 +271,16 @@ int CalMorphTargetMixer::getTrackCount(int id) const
   *****************************************************************************/
 const std::list<CalCoreMorphTrack>& CalMorphTargetMixer::getMorphTracks(int id) const
 {
-   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-   if (morph)
-   {
-      return morph->getListCoreTrack();
-   }
+    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+    if (morph)
+    {
+        return morph->getListCoreTrack();
+    }
 
-   return std::list<CalCoreMorphTrack>();
+    return std::list<CalCoreMorphTrack>();
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Get the number of keyframes for a morph target.
   *
   * @param id The id of the morph target.
@@ -289,27 +289,27 @@ const std::list<CalCoreMorphTrack>& CalMorphTargetMixer::getMorphTracks(int id) 
   *****************************************************************************/
 int CalMorphTargetMixer::getKeyframeCount(int id) const
 {
-   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-   if (morph)
-   {
-      const std::list<CalCoreMorphTrack> tracks = morph->getListCoreTrack();
+    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+    if (morph)
+    {
+        const std::list<CalCoreMorphTrack> tracks = morph->getListCoreTrack();
 
-      std::list<CalCoreMorphTrack>::const_iterator itr;
+        std::list<CalCoreMorphTrack>::const_iterator itr;
 
-      int keyFrames = 0;
-      for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
-      {
-         const CalCoreMorphTrack *track = &(*itr);
-         keyFrames += (int)track->getVectorCoreMorphKeyframes().size();
-      }
+        int keyFrames = 0;
+        for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
+        {
+            const CalCoreMorphTrack *track = &(*itr);
+            keyFrames += (int)track->getVectorCoreMorphKeyframes().size();
+        }
 
-      return keyFrames;
-   }
+        return keyFrames;
+    }
 
-   return 0;
+    return 0;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Get the duration of a morph target.
   *
   * @param id The id of the morph target.
@@ -318,16 +318,16 @@ int CalMorphTargetMixer::getKeyframeCount(int id) const
   *****************************************************************************/
 float CalMorphTargetMixer::getDuration(int id) const
 {
-   const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-   if (morph)
-   {
-      return morph->getDuration();
-   }
+    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
+    if (morph)
+    {
+        return morph->getDuration();
+    }
 
-   return -1.0f;
+    return -1.0f;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Copy data from one mixer (for the same core model) to another.
   *
   * @param inOther The mixer to copy.
@@ -335,18 +335,18 @@ float CalMorphTargetMixer::getDuration(int id) const
   *****************************************************************************/
 bool CalMorphTargetMixer::copy( const CalMorphTargetMixer& inOther )
 {
-	if (inOther.m_pModel->getCoreModel() != this->m_pModel->getCoreModel())
-	{
-  		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-  		return false;
-	}
+    if (inOther.m_pModel->getCoreModel() != this->m_pModel->getCoreModel())
+    {
+        CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
+        return false;
+    }
 
-   mAnimList = inOther.mAnimList;
+    mAnimList = inOther.mAnimList;
 
-   return true;
+    return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Updates all morph targets.
   *
   * This function updates all morph targets of the mixer instance for a
@@ -357,83 +357,83 @@ bool CalMorphTargetMixer::copy( const CalMorphTargetMixer& inOther )
 
 void CalMorphTargetMixer::update(float deltaTime)
 {
-   for (int index = 0; index < (int)mAnimList.size(); ++index)
-   {
-      MorphAnimData& data = mAnimList[index];
+    for (int index = 0; index < (int)mAnimList.size(); ++index)
+    {
+        MorphAnimData& data = mAnimList[index];
 
-      const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(data.animatedMorphID);
-      if (!morph) continue;
+        const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(data.animatedMorphID);
+        if (!morph) continue;
 
-      // Only non-manual animations interpolate the play time and fade values.
-      if (!data.isManual)
-      {
-         // Update the play time.
-         data.playTime += deltaTime;
+        // Only non-manual animations interpolate the play time and fade values.
+        if (!data.isManual)
+        {
+            // Update the play time.
+            data.playTime += deltaTime;
 
-         // Update the fade in time.
-         if (data.fadeIn < data.fadeInTime)
-         {
-            data.fadeIn += deltaTime;
-            if (data.fadeIn > data.fadeInTime)
+            // Update the fade in time.
+            if (data.fadeIn < data.fadeInTime)
             {
-               data.fadeIn = -1.0f;
-               data.fadeInTime = 0.0f;
+                data.fadeIn += deltaTime;
+                if (data.fadeIn > data.fadeInTime)
+                {
+                    data.fadeIn = -1.0f;
+                    data.fadeInTime = 0.0f;
+                }
             }
-         }
 
-         // Update the fade out time.
-         if (data.fadeOut > -1.0f)
-         {
-            data.fadeOut += deltaTime;
-         }
-      }
+            // Update the fade out time.
+            if (data.fadeOut > -1.0f)
+            {
+                data.fadeOut += deltaTime;
+            }
+        }
 
-      // Update the morph weight.
-      SetTrackWeights(*morph, data);
+        // Update the morph weight.
+        SetTrackWeights(*morph, data);
 
-      // If we are finished fading out, clear this animation.
-      if (data.fadeOut > -1.0f)
-      {
-         if (data.fadeOut >= data.fadeOutTime)
-         {
-            clear(data.animatedMorphID, 0.0f);
-            index--;
-         }
-      }
-   }
+        // If we are finished fading out, clear this animation.
+        if (data.fadeOut > -1.0f)
+        {
+            if (data.fadeOut >= data.fadeOutTime)
+            {
+                clear(data.animatedMorphID, 0.0f);
+                index--;
+            }
+        }
+    }
 
-  //int morphAnimationID = 0;
-  //while(morphAnimationID<getMorphTargetCount())
-  //{
-  //  CalCoreMorphAnimation* pCoreMorphAnimation = 
-  //                 m_pModel->getCoreModel()->getCoreMorphAnimation(morphAnimationID);
-  //  std::vector<int>& vectorCoreMeshID = pCoreMorphAnimation->getVectorCoreMeshID();
-  //  std::vector<int>& vectorMorphTargetID = pCoreMorphAnimation->getVectorMorphTargetID();
-  //  size_t meshIterator = 0;
-  //  while(meshIterator<vectorCoreMeshID.size())
-  //  {
-  //    int coreMeshID = vectorCoreMeshID[meshIterator];
-  //    const CalMesh *theMesh = m_pModel->getMesh( coreMeshID );
-  //    if (theMesh)
-  //    {
-  //      const std::vector<CalSubmesh *> &vectorSubmesh = 
-  //        theMesh->getVectorSubmesh();
-  //      int submeshCount = vectorSubmesh.size();
-  //      int submeshId;
-  //      for(submeshId=0;submeshId<submeshCount;++submeshId)
-  //      {
-  //        vectorSubmesh[submeshId]->setMorphTargetWeight 
-  //          (vectorMorphTargetID[meshIterator],
-  //          m_vectorCurrentWeight[morphAnimationID]);
-  //      }
-  //    }
-  //    ++meshIterator;
-  //  }
-  //  ++morphAnimationID;
-  //}
+    //int morphAnimationID = 0;
+    //while(morphAnimationID<getMorphTargetCount())
+    //{
+    //  CalCoreMorphAnimation* pCoreMorphAnimation =
+    //                 m_pModel->getCoreModel()->getCoreMorphAnimation(morphAnimationID);
+    //  std::vector<int>& vectorCoreMeshID = pCoreMorphAnimation->getVectorCoreMeshID();
+    //  std::vector<int>& vectorMorphTargetID = pCoreMorphAnimation->getVectorMorphTargetID();
+    //  size_t meshIterator = 0;
+    //  while(meshIterator<vectorCoreMeshID.size())
+    //  {
+    //    int coreMeshID = vectorCoreMeshID[meshIterator];
+    //    const CalMesh *theMesh = m_pModel->getMesh( coreMeshID );
+    //    if (theMesh)
+    //    {
+    //      const std::vector<CalSubmesh *> &vectorSubmesh =
+    //        theMesh->getVectorSubmesh();
+    //      int submeshCount = vectorSubmesh.size();
+    //      int submeshId;
+    //      for(submeshId=0;submeshId<submeshCount;++submeshId)
+    //      {
+    //        vectorSubmesh[submeshId]->setMorphTargetWeight
+    //          (vectorMorphTargetID[meshIterator],
+    //          m_vectorCurrentWeight[morphAnimationID]);
+    //      }
+    //    }
+    //    ++meshIterator;
+    //  }
+    //  ++morphAnimationID;
+    //}
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Returns the number of morph targets this morph target mixer mixes.
   *
   * @return The number of morph targets this morph target mixer mixes.
@@ -441,72 +441,93 @@ void CalMorphTargetMixer::update(float deltaTime)
 
 int CalMorphTargetMixer::getMorphTargetCount() const
 {
-   return m_pModel->getCoreModel()->getNumCoreAnimatedMorphs();
+    return m_pModel->getCoreModel()->getNumCoreAnimatedMorphs();
 }
 
 //////////////////////////////////////////////////////////////////////////
 void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data)
 {
-   //For every track in the animation, find the weight of the key frame
-   //that's related to the elapsedTime and adjust the weight of the morph target
-   //mesh that matches the track's name.
+    //For every track in the animation, find the weight of the key frame
+    //that's related to the elapsedTime and adjust the weight of the morph target
+    //mesh that matches the track's name.
 
-   const std::list<CalCoreMorphTrack>& tracks = morph.getListCoreTrack();
+    const std::list<CalCoreMorphTrack>& tracks = morph.getListCoreTrack();
 
-   std::list<CalCoreMorphTrack>::const_iterator itr;
+    std::list<CalCoreMorphTrack>::const_iterator itr;
 
-   // If we are at the end of our animation.
-   if (morph.getDuration() < data.playTime)
-   {
-      // Loop the animation.
-      if (data.looping)
-      {
-         data.playTime = 0.0f;
-      }
-      // Fade the animation out.
-      else if (data.fadeOut <= -1.0f)
-      {
-         float fadeOut = data.fadeOutTime;
-         clear(data.animatedMorphID, fadeOut);
-         if (fadeOut <= 0.0f)
-         {
-            return;
-         }
-      }
-   }
+    // If we are at the end of our animation.
+    if (morph.getDuration() < data.playTime)
+    {
+        // Loop the animation.
+        if (data.looping)
+        {
+            data.playTime = 0.0f;
+        }
+        // Fade the animation out.
+        else if (data.fadeOut <= -1.0f)
+        {
+            float fadeOut = data.fadeOutTime;
+            clear(data.animatedMorphID, fadeOut);
+            if (fadeOut <= 0.0f)
+            {
+                return;
+            }
+        }
+    }
 
-   // Apply our fade in weight, if needed.
-   float alpha = 1.0f;
-   if (data.fadeIn >= 0.0f && data.fadeInTime > 0.0f)
-   {
-      alpha = data.fadeIn / data.fadeInTime;
-   }
+    // Apply our fade in weight, if needed.
+    float alpha = 1.0f;
+    if (data.fadeIn >= 0.0f && data.fadeInTime > 0.0f)
+    {
+        alpha = data.fadeIn / data.fadeInTime;
+    }
 
-   // Apply our fade out weight, if needed.
-   if (data.fadeOut >= 0.0f && data.fadeOutTime > 0.0f)
-   {
-      alpha = 1.0f - data.fadeOut / data.fadeOutTime;
-   }
+    // Apply our fade out weight, if needed.
+    if (data.fadeOut >= 0.0f && data.fadeOutTime > 0.0f)
+    {
+        alpha = 1.0f - data.fadeOut / data.fadeOutTime;
+    }
 
-   data.currentWeight = alpha * data.weight;
+    data.currentWeight = alpha * data.weight;
 
-   for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
-   {
-      const CalCoreMorphTrack *track = &(*itr);
-      const std::vector<CalCoreMorphKeyframe> &keyFrames = track->getVectorCoreMorphKeyframes(); 
+    for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
+    {
+        const CalCoreMorphTrack *track = &(*itr);
+        const std::vector<CalCoreMorphKeyframe> &keyFrames = track->getVectorCoreMorphKeyframes();
 
-      float weight = 0.0f;
+        float weight = 0.0f;
 
-      if (!keyFrames.empty() && keyFrames.back().getTime() > data.playTime)
-      {
-         //only calc the weight if there are key frames left to be played
-         weight = CalcKeyframeWeight(keyFrames, data.playTime) * data.weight;
-      }
+        if (!keyFrames.empty() && keyFrames.back().getTime() > data.playTime)
+        {
+            //only calc the weight if there are key frames left to be played
+            weight = CalcKeyframeWeight(keyFrames, data.playTime) * data.weight;
+        }
 
-      weight *= alpha;
+        weight *= alpha;
 
-      ApplyWeightToMorphMesh(track->getMorphName(), weight);
-   }
+//      ApplyWeightToMorphMesh(track->getMorphName(), weight);
+        CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
+        std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
+
+
+        if(track->getNumTargetSubMeshes()==0)
+        {
+
+            for(int i=0; i<targetmesh->getSubmeshCount(); i++)
+            {
+                submeshes[i]->setMorphTargetWeight(track->getMorphID(), weight);
+            }
+        }
+        else
+        {
+            for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+            {
+                submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
+
+            }
+        }
+
+    }
 }
 
 /** Apply a linear interpolation between the two supplied numbers using a
@@ -520,7 +541,7 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
 template <typename Real>
 inline Real Lerp(Real x, Real y, Real t)
 {
-   return x + t * (y - x);
+    return x + t * (y - x);
 }
 
 /// Normalizes a value within a specified space range.
@@ -533,8 +554,8 @@ inline Real Lerp(Real x, Real y, Real t)
 template<typename T>
 T CalculateNormal(T sX, T sMin, T sMax)
 {
-   T delta( sMax - sMin );
-   return( (sX-sMin) / delta );
+    T delta( sMax - sMin );
+    return( (sX-sMin) / delta );
 }
 
 
@@ -550,61 +571,62 @@ T CalculateNormal(T sX, T sMin, T sMax)
 template<typename T>
 T MapRangeValue(T sX, T xMin, T xMax, T yMin, T yMax)
 {
-   return( Lerp( yMin, yMax, CalculateNormal(sX,xMin,xMax)) );
+    return( Lerp( yMin, yMax, CalculateNormal(sX,xMin,xMax)) );
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 float CalMorphTargetMixer::CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyFrames, float elapsedTime)
 {
-   std::vector<CalCoreMorphKeyframe>::const_iterator keyframeItr;
+    std::vector<CalCoreMorphKeyframe>::const_iterator keyframeItr;
 
-   //find the first key frame that has a time greater than the elapsed time
-   for (keyframeItr = keyFrames.begin(); keyframeItr != keyFrames.end(); ++keyframeItr)
-   {
-      if ((*keyframeItr).getTime() > elapsedTime)
-      {
-         break;
-      }
-   }
+    //find the first key frame that has a time greater than the elapsed time
+    for (keyframeItr = keyFrames.begin(); keyframeItr != keyFrames.end(); ++keyframeItr)
+    {
+        if ((*keyframeItr).getTime() > elapsedTime)
+        {
+            break;
+        }
+    }
 
-   //if the key frame is the first, or there aren't any key frames left to play
-   //then set the weight to zero
-   if (keyframeItr == keyFrames.end() ||
-       keyframeItr == keyFrames.begin())
-   {
-      return (0.f);
-   }
+    //if the key frame is the first, or there aren't any key frames left to play
+    //then set the weight to zero
+    if (keyframeItr == keyFrames.end() ||
+            keyframeItr == keyFrames.begin())
+    {
+        return (0.f);
+    }
 
-   const float endTime = (*keyframeItr).getTime();
-   const float endWeight = (*keyframeItr).getWeight();
-   
-   //get the previous key frame
-   --keyframeItr;
-   const float startTime = (*keyframeItr).getTime();
-   const float startWeight = (*keyframeItr).getWeight();
-  
-   return (MapRangeValue(elapsedTime, startTime, endTime, startWeight, endWeight));
+    const float endTime = (*keyframeItr).getTime();
+    const float endWeight = (*keyframeItr).getWeight();
+
+    //get the previous key frame
+    --keyframeItr;
+    const float startTime = (*keyframeItr).getTime();
+    const float startWeight = (*keyframeItr).getWeight();
+
+    return (MapRangeValue(elapsedTime, startTime, endTime, startWeight, endWeight));
 }
 
 //////////////////////////////////////////////////////////////////////////
-void CalMorphTargetMixer::ApplyWeightToMorphMesh(const std::string& morphMeshName,
-                                                 float trackWeight)
+void CalMorphTargetMixer::ApplyWeightToMorphMesh(const unsigned int & morphMeshName,
+        float trackWeight)
 {
-   //Apply the given weight to the morph mesh.
+    //Apply the given weight to the morph mesh.
 
-   //TODO.  This is pretty ugly.  Need a better way to find the right CalSubMesh
-   //to set the morph target weight on.
-   std::vector<CalMesh*> meshVec = m_pModel->getVectorMesh();
-   std::vector<CalMesh*>::iterator meshItr;
-   for (meshItr=meshVec.begin(); meshItr!=meshVec.end(); ++meshItr)
-   {
-      std::vector<CalSubmesh*> subMeshVec = (*meshItr)->getVectorSubmesh();
-      std::vector<CalSubmesh*>::iterator subMeshitr;
-      for (subMeshitr=subMeshVec.begin(); subMeshitr!=subMeshVec.end(); ++subMeshitr)
-      {
-         (*subMeshitr)->setMorphTargetWeight(morphMeshName, trackWeight);
-      }
-   }
+    //TODO.  This is pretty ugly.  Need a better way to find the right CalSubMesh
+    //to set the morph target weight on.
+
+    std::vector<CalMesh*> meshVec = m_pModel->getVectorMesh();
+    std::vector<CalMesh*>::iterator meshItr;
+    for (meshItr=meshVec.begin(); meshItr!=meshVec.end(); ++meshItr)
+    {
+        std::vector<CalSubmesh*> subMeshVec = (*meshItr)->getVectorSubmesh();
+        std::vector<CalSubmesh*>::iterator subMeshitr;
+        for (subMeshitr=subMeshVec.begin(); subMeshitr!=subMeshVec.end(); ++subMeshitr)
+        {
+            (*subMeshitr)->setMorphTargetWeight(morphMeshName, trackWeight);
+        }
+    }
 }
 //****************************************************************************//

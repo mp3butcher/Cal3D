@@ -25,20 +25,6 @@ CalCoreSubMorphTarget::CalCoreSubMorphTarget() :
 
 }
 
-/*****************************************************************************/
-/** Returns the blend vertex vector.
-  *
-  * This function returns the vector that contains all blend vertices of the core
-  * sub morph target instance.
-  *
-  * @return A reference to the blend vertex vector.
-  *****************************************************************************/
-
-std::vector<CalCoreSubMorphTarget::BlendVertex*>& CalCoreSubMorphTarget::getVectorBlendVertex()
-{
-  return m_vectorBlendVertex;
-}
-
 unsigned int
 CalCoreSubMorphTarget::size()
 {
@@ -47,24 +33,13 @@ CalCoreSubMorphTarget::size()
 
   // Assume single texture coordinate pair.
   r += ( sizeof( BlendVertex ) + sizeof( CalCoreSubmesh::TextureCoordinate ) ) * m_vectorBlendVertex.size();
-  r += m_morphTargetName.size();
+ // r += m_morphTargetName.size();
+ std::cerr<<"CalCoreSubMorphTarget::size()"
+ <<std::endl;
   return r;
 }
 
 
- /*****************************************************************************/
-/** Returns the blend vertex vector.
-  *
-  * This function returns the vector that contains all blend vertices of the core
-  * sub morph target instance.
-  *
-  * @return A reference to the blend vertex vector.
-  *****************************************************************************/
-
-const std::vector<CalCoreSubMorphTarget::BlendVertex*>& CalCoreSubMorphTarget::getVectorBlendVertex() const
-{
-  return m_vectorBlendVertex;
-}
 
  /*****************************************************************************/
 /** Returns the number of blend vertices.
@@ -135,9 +110,7 @@ bool CalCoreSubMorphTarget::reserve(int blendVertexCount)
 	{
 		success = false;
 	}
-  for( unsigned int i = 0; i < m_vectorBlendVertex.size(); i++ ) {
-    m_vectorBlendVertex[i] = NULL;
-  }
+
 
 	return success;
 }
@@ -161,31 +134,23 @@ bool CalCoreSubMorphTarget::setBlendVertex(int blendVertexId, const BlendVertex&
 {
   if((blendVertexId < 0) || (blendVertexId >= (int)m_vectorBlendVertex.size())) return false;
 
-  if( m_vectorBlendVertex[blendVertexId] == NULL ) {
+/*  if( m_vectorBlendVertex[blendVertexId] == NULL ) {
     m_vectorBlendVertex[blendVertexId] = new BlendVertex();
-  }
-  m_vectorBlendVertex[blendVertexId]->position = blendVertex.position;
-  m_vectorBlendVertex[blendVertexId]->normal = blendVertex.normal;
-  m_vectorBlendVertex[blendVertexId]->textureCoords.clear();
-  m_vectorBlendVertex[blendVertexId]->textureCoords.reserve(blendVertex.textureCoords.size());
+  }*/
+  m_vectorBlendVertex[blendVertexId].position = blendVertex.position;
+  m_vectorBlendVertex[blendVertexId].normal = blendVertex.normal;
+  m_vectorBlendVertex[blendVertexId].textureCoords.clear();
+  m_vectorBlendVertex[blendVertexId].textureCoords.reserve(blendVertex.textureCoords.size());
   for( unsigned int tcI = 0; tcI < blendVertex.textureCoords.size(); tcI++ ) {
-    m_vectorBlendVertex[blendVertexId]->textureCoords.push_back(blendVertex.textureCoords[tcI]);
+    m_vectorBlendVertex[blendVertexId].textureCoords.push_back(blendVertex.textureCoords[tcI]);
   }
 
   return true;
 }
 
 
- /*****************************************************************************/
-/** Return type of morph target, which is determined from parsing the name.
-  *
-  * @return One of the enum values.
-  *****************************************************************************/
-CalMorphTargetType
-CalCoreSubMorphTarget::morphTargetType() const
-{
-  return m_morphTargetType;
-}
+
+
  /*****************************************************************************/
 /** Returns one blend vertex.
   *
@@ -197,7 +162,7 @@ CalCoreSubMorphTarget::morphTargetType() const
 
 void	CalCoreSubMorphTarget::getBlendVertex( int vertexId, BlendVertex& outVertex ) const
 {
-	outVertex = *m_vectorBlendVertex[ vertexId ];
+	outVertex = m_vectorBlendVertex[ vertexId ];
 }
 
 //#pragma mark -
@@ -407,8 +372,8 @@ bool CalCoreSubMorphTargetDiffMap::appendBlendVertex(int vertexId,
 
 //****************************************************************************//
 
-void
-CalCoreSubMorphTarget::setName( std::string s )
+ /*void
+CalCoreSubMorphTarget::setName( const unsigned int & s )
 {
   m_morphTargetName = s;
 
@@ -416,6 +381,7 @@ CalCoreSubMorphTarget::setName( std::string s )
   // or ".Average" then set the type of the morph target.  By
   // default it is Additive.
   m_morphTargetType = CalMorphTargetTypeAdditive;
+**TODO
   char const * s2 = s.c_str();
   char const * dot = strrchr( s2, '.' );
   if( dot ) {
@@ -430,13 +396,14 @@ CalCoreSubMorphTarget::setName( std::string s )
       m_morphTargetType = CalMorphTargetTypeAverage;
     }
   }
+
 }
 
 
-std::string
-CalCoreSubMorphTarget::name() const
+const unsigned int &
+CalCoreSubMorphTarget::getName() const
 {
   return m_morphTargetName;
 }
-
+*/
 

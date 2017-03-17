@@ -217,14 +217,14 @@ CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* mo
   													float* outEightPoints )
 {
 	CalBoolean	gotBounds = False;
-	
+
 	CalCoreBone*	coreBone = self->getCoreBone();
-	
+
 	if (!coreBone->isBoundingBoxPrecomputed())
 	{
 		coreBone->calculateBoundingBox( model );
 	}
-	
+
 	// If a bone owns no vertices, then the box of the core bone will stay at its initialized value,
 	// in which the d members are -1e32.
 	CalBoundingBox&	coreBox( coreBone->getBoundingBox() );
@@ -236,7 +236,7 @@ CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* mo
 		box.computePoints( reinterpret_cast<CalVector*>(outEightPoints) );
 		gotBounds = True;
 	}
-	
+
 	return gotBounds;
 }
 
@@ -413,14 +413,14 @@ CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreM
   								float* outEightPoints )
 {
 	CalBoolean	gotBounds = False;
-	
+
 	if (! self->isBoundingBoxPrecomputed())
 	{
 		self->calculateBoundingBox( model );
 	}
-	
+
 	CalBoundingBox&	box( self->getBoundingBox() );
-	
+
 	// If a bone owns no vertices, then the box will stay at its initialized value,
 	// in which the d members are -1e32.
 	if (box.plane[0].d > -1e31)
@@ -428,7 +428,7 @@ CalBoolean CalCoreBone_GetBoundingBox( struct CalCoreBone *self, struct CalCoreM
 		box.computePoints( reinterpret_cast<CalVector*>(outEightPoints) );
 		gotBounds = True;
 	}
-	
+
 	return gotBounds;
 }
 
@@ -670,13 +670,6 @@ int CalCoreMesh_GetCoreSubmeshCount(CalCoreMesh *self)
   return self->getCoreSubmeshCount();
 }
 
-/*
-std::vector<CalCoreSubmesh *>& CalCoreMesh_GetVectorCoreSubmesh(CalCoreMesh *self)
-{
-  return self->getVectorCoreSubmesh();
-}
-*/
-
 void CalCoreMesh_Scale(CalCoreMesh *self,float factor)
 {
   self->scale(factor);
@@ -686,7 +679,7 @@ int CalCoreMesh_AddAsMorphTarget(struct CalCoreMesh *self, struct CalCoreMesh *t
 {
 	try
 	{
-		return self->addAsMorphTarget(target, target->getName());
+		return self->addAsMorphTarget(target);//, target->getName());
 	}
 	catch (...)
 	{
@@ -814,7 +807,7 @@ CalUserData CalCoreModel_GetUserData(CalCoreModel *self)
 CalBoolean CalCoreModel_AddMeshName(struct CalCoreModel *self, const char* name, int coreMeshId )
 {
 	CalBoolean	success = False;
-	
+
 	try
 	{
 		std::string		meshName( name );
@@ -826,7 +819,7 @@ CalBoolean CalCoreModel_AddMeshName(struct CalCoreModel *self, const char* name,
 	catch (...)
 	{
 	}
-	
+
 	return success;
 }
 
@@ -1179,7 +1172,7 @@ int CalCoreSubmesh_GetVertexInfluence( struct CalCoreSubmesh *self, int vertID,
 {
 	CalCoreSubmesh::Influence&	theInfluence =
 		self->getVectorVertex()[ vertID ].vectorInfluence[ influenceID ];
-	
+
 	*outWeight = theInfluence.weight;
 	return theInfluence.boneId;
 }
@@ -1195,7 +1188,7 @@ void CalCoreSubmesh_GetVertex( struct CalCoreSubmesh* self, int vertID, float* o
 	if ( (vertID >= 0) && (vertID < vertices.size()) )
 	{
 		CalCoreSubmesh::Vertex&		theVertex( vertices[ vertID ] );
-		
+
 		outPosition[0] = theVertex.position.x;
 		outPosition[1] = theVertex.position.y;
 		outPosition[2] = theVertex.position.z;
@@ -1333,7 +1326,7 @@ bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorphTargetDiffMap* in
 	CalCoreSubMorphTarget::BlendVertex	theVertex;
 	theVertex.position.set( inPositionOffset[0], inPositionOffset[1], inPositionOffset[2] );
 	theVertex.normal.set( inNormalOffset[0], inNormalOffset[1], inNormalOffset[2] );
-	
+
 	return inSelf->appendBlendVertex( inVertexID, theVertex );
 }
 
@@ -1411,7 +1404,7 @@ CalCoreMesh *CalLoader_LoadCoreMeshFromBuffer(const void *data)
 	try
 	{
 		CalCoreMeshPtr	theMesh( CalLoader::loadCoreMesh(const_cast<void*>(data)) );
-		
+
 		if (theMesh.get() != NULL)
 		{
 			explicitIncRef( theMesh.get() );
@@ -1692,7 +1685,7 @@ int CalModel_GetMeshCount(struct CalModel *self)
 struct CalMesh *CalModel_GetMeshByMeshID(struct CalModel *self, int meshId)
 {
 	CalMesh*	theMesh = 0;
-	
+
 	if ( (meshId >= 0) && (meshId < self->getVectorMesh().size()) )
 	{
 		theMesh = self->getVectorMesh()[ meshId ];

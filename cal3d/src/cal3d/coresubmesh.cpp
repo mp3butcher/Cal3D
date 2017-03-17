@@ -50,8 +50,8 @@ CalCoreSubmesh::~CalCoreSubmesh()
   m_vectorvectorTangentSpace.clear();
   // destroy all core sub morph targets
   std::vector<CalCoreSubMorphTarget *>::iterator iteratorCoreSubMorphTarget;
-  for( iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin(); 
-    iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end(); 
+  for( iteratorCoreSubMorphTarget = m_vectorCoreSubMorphTarget.begin();
+    iteratorCoreSubMorphTarget != m_vectorCoreSubMorphTarget.end();
     ++iteratorCoreSubMorphTarget )
   {
     delete (*iteratorCoreSubMorphTarget);
@@ -221,7 +221,7 @@ void CalCoreSubmesh::UpdateTangentVector(int v0, int v1, int v2, int mapId)
 bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
 {
   if((mapId < 0) || (mapId >= (int)m_vectorTangentsEnabled.size())) return false;
-  
+
   m_vectorTangentsEnabled[mapId] = enabled;
 
   if(!enabled)
@@ -254,7 +254,7 @@ bool CalCoreSubmesh::enableTangents(int mapId, bool enabled)
   {
     m_vectorvectorTangentSpace[mapId][tangentId].tangent.normalize();
   }
-  
+
   return true;
 }
 
@@ -591,7 +591,7 @@ bool CalCoreSubmesh::setTangentSpace(int vertexId, int textureCoordinateId, cons
   if((vertexId < 0) || (vertexId >= (int)m_vectorVertex.size())) return false;
   if((textureCoordinateId < 0) || (textureCoordinateId >= (int)m_vectorvectorTextureCoordinate.size())) return false;
   if(!m_vectorTangentsEnabled[textureCoordinateId]) return false;
-  
+
   m_vectorvectorTangentSpace[textureCoordinateId][vertexId].tangent = tangent;
   m_vectorvectorTangentSpace[textureCoordinateId][vertexId].crossFactor = crossFactor;
   return true;
@@ -707,7 +707,7 @@ int CalCoreSubmesh::addCoreSubMorphTarget(CalCoreSubMorphTarget *pCoreSubMorphTa
   // get next sub morph target id
   int subMorphTargetId;
   subMorphTargetId = m_vectorCoreSubMorphTarget.size();
-
+  pCoreSubMorphTarget->setMorphID(subMorphTargetId);
   m_vectorCoreSubMorphTarget.push_back(pCoreSubMorphTarget);
   pCoreSubMorphTarget->setCoreSubmesh( this );
 
@@ -815,21 +815,18 @@ void CalCoreSubmesh::scale(float factor)
 
   for(size_t vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
   {
-    m_vectorVertex[vertexId].position*=factor;		
+    m_vectorVertex[vertexId].position*=factor;
   }
 
   //also scale any morph target vertices that may be present
   for (size_t morphID = 0; morphID < m_vectorCoreSubMorphTarget.size(); morphID++)
   {
-     std::vector<CalCoreSubMorphTarget::BlendVertex*> blendVertVec =
+     std::vector<CalCoreSubMorphTarget::BlendVertex> blendVertVec =
         m_vectorCoreSubMorphTarget[morphID]->getVectorBlendVertex();
 
      for (size_t vertID = 0; vertID < blendVertVec.size(); vertID++)
      {
-        if (blendVertVec[vertID])
-        {
-           blendVertVec[vertID]->position *= factor;
-        }
+        blendVertVec[vertID].position *= factor;
      }
   }
 
@@ -849,7 +846,7 @@ void CalCoreSubmesh::scale(float factor)
     }
 
 
-/*		
+/*
 		for(vertexId = 0; vertexId < m_vectorVertex.size() ; vertexId++)
 		{
 			//m_vectorPhysicalProperty[vertexId].weight *= factor;
@@ -863,14 +860,14 @@ void CalCoreSubmesh::scale(float factor)
 		{
 			//m_vectorSpring[springId].idleLength*=factor;
 			CalVector distance = m_vectorVertex[m_vectorSpring[springId].vertexId[1]].position - m_vectorVertex[m_vectorSpring[springId].vertexId[0]].position;
-			
-			m_vectorSpring[springId].idleLength = distance.length();		
+
+			m_vectorSpring[springId].idleLength = distance.length();
 		}
 
    */
   }
 
-	
+
 
 }
 

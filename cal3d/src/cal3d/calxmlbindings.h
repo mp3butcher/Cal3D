@@ -15,9 +15,8 @@ GetTiXmlBinding( CalVector const &, IdentityBase  );
 TiXmlBinding<CalCoreSubmesh::TextureCoordinate> const *
 GetTiXmlBinding( CalCoreSubmesh::TextureCoordinate const &, IdentityBase  );
 
-TiXmlBinding<CalCoreSubMorphTarget::VectorBlendVertex> const *
-GetTiXmlBinding( CalCoreSubMorphTarget::VectorBlendVertex const &,IdentityBase  );
-
+TiXmlBinding<std::vector<CalCoreSubMorphTarget::BlendVertex> > const *
+GetTiXmlBinding(std::vector<CalCoreSubMorphTarget::BlendVertex> const &,IdentityBase  );
 
 TiXmlBinding<CalCoreSubMorphTarget::BlendVertex> const *
 GetTiXmlBinding( CalCoreSubMorphTarget::BlendVertex const &,IdentityBase  );

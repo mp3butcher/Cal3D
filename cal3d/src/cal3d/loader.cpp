@@ -52,12 +52,12 @@ int CalLoader::numCompressedAnimations = 0;
 int CalLoader::numRoundedKeyframes = 0;
 
 
-// Quat format: 
+// Quat format:
 //
-//  axis selection (2), 
-//  asign (1), afixed (n), 
-//  bsign (1), bfixed (n), 
-//  csign (1), cfixed (n), 
+//  axis selection (2),
+//  asign (1), afixed (n),
+//  bsign (1), bfixed (n),
+//  csign (1), cfixed (n),
 //  time (in 1/30th second steps)
 unsigned int const CalLoader::keyframeBitsPerOriComponent = 11;
 unsigned int const CalLoader::keyframeBitsPerTime = 10;
@@ -141,7 +141,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(const std::string& strFilename,
 
   //make a new stream data source and use it to load the animation
   CalStreamSource streamSrc( file );
-  
+
   CalCoreAnimationPtr coreanim = loadCoreAnimation( streamSrc,skel );
   if(coreanim) coreanim->setFilename( strFilename );
 
@@ -203,7 +203,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(const std::string& strFilename)
 
   //make a new stream data source and use it to load the material
   CalStreamSource streamSrc( file );
-  
+
   CalCoreMaterialPtr coremat = loadCoreMaterial( streamSrc );
 
   if(coremat) coremat->setFilename( strFilename );
@@ -246,7 +246,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(const std::string& strFilename)
 
   //make a new stream data source and use it to load the mesh
   CalStreamSource streamSrc( file );
-  
+
   CalCoreMeshPtr coremesh = loadCoreMesh( streamSrc );
 
   if(coremesh) coremesh->setFilename( strFilename );
@@ -290,7 +290,7 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(const std::string& strFilename)
 
   //make a new stream data source and use it to load the skeleton
   CalStreamSource streamSrc( file );
-  
+
   CalCoreSkeletonPtr coreskeleton = loadCoreSkeleton( streamSrc );
 
   //close the file
@@ -396,8 +396,8 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(std::istream& inputStream)
   *
   * This function loads a core animation instance from a memory buffer.
   *
-  * @param inputBuffer The memory buffer to load the core animation instance 
-  *                    from. This buffer should be initialized and ready to 
+  * @param inputBuffer The memory buffer to load the core animation instance
+  *                    from. This buffer should be initialized and ready to
   *                    be read from.
   *
   * @return One of the following values:
@@ -429,8 +429,8 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkele
 *
 * This function loads a core animatedMorph instance from a memory buffer.
 *
-* @param inputBuffer The memory buffer to load the core animatedMorph instance 
-*                    from. This buffer should be initialized and ready to 
+* @param inputBuffer The memory buffer to load the core animatedMorph instance
+*                    from. This buffer should be initialized and ready to
 *                    be read from.
 *
 * @return One of the following values:
@@ -456,8 +456,8 @@ CalCoreAnimatedMorph * CalLoader::loadCoreAnimatedMorphFromBuffer(void* inputBuf
   *
   * This function loads a core material instance from a memory buffer.
   *
-  * @param inputBuffer The memory buffer to load the core material instance 
-  *                    from. This buffer should be initialized and ready to 
+  * @param inputBuffer The memory buffer to load the core material instance
+  *                    from. This buffer should be initialized and ready to
   *                    be read from.
   *
   * @return One of the following values:
@@ -478,7 +478,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 		}
 		return loadXmlCoreMaterial( doc );
 	}
-	
+
    //Create a new buffer data source and pass it on
    CalBufferSource bufferSrc(inputBuffer);
    return loadCoreMaterial(bufferSrc);
@@ -489,8 +489,8 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
   *
   * This function loads a core mesh instance from a memory buffer.
   *
-  * @param inputBuffer The memory buffer to load the core mesh instance from. 
-  *                    This buffer should be initialized and ready to be 
+  * @param inputBuffer The memory buffer to load the core mesh instance from.
+  *                    This buffer should be initialized and ready to be
   *                    read from.
   *
   * @return One of the following values:
@@ -522,8 +522,8 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
   *
   * This function loads a core skeleton instance from a memory buffer.
   *
-  * @param inputBuffer The memory buffer to load the core skeleton instance 
-  *                    from. This buffer should be initialized and ready to 
+  * @param inputBuffer The memory buffer to load the core skeleton instance
+  *                    from. This buffer should be initialized and ready to
   *                    be read from.
   *
   * @return One of the following values:
@@ -1125,7 +1125,7 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc, int version)
       trans *= x_axis_90;
     }
   }
-  
+
 
   // check if an error happened
   if(!dataSrc.ok())
@@ -1188,11 +1188,11 @@ CalLoader::usesAnimationCompression( int version )
 
 #if 0
 void
-TestAnimationCompression( CalCoreBone * coreboneOrNull, int version, 
+TestAnimationCompression( CalCoreBone * coreboneOrNull, int version,
                          CalCoreKeyframe * prevCoreKeyframe,
-                         bool translationRequired, bool highRangeRequired, bool translationIsDynamic, 
-                         CalVector * translationInOut, 
-                         CalQuaternion * rotationInOut, 
+                         bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
+                         CalVector * translationInOut,
+                         CalQuaternion * rotationInOut,
                          float * calTimeInOut )
 {
    highRangeRequired = true;
@@ -1200,10 +1200,10 @@ TestAnimationCompression( CalCoreBone * coreboneOrNull, int version,
    unsigned char buf[ 100 ];
    unsigned char * p = buf;
    std::string strFilename( "test" );
-   unsigned int bytesWritten = CalLoader::writeCompressedKeyframe( buf, 100, strFilename, * translationInOut, * rotationInOut, * calTimeInOut, 
+   unsigned int bytesWritten = CalLoader::writeCompressedKeyframe( buf, 100, strFilename, * translationInOut, * rotationInOut, * calTimeInOut,
       Cal::CURRENT_FILE_VERSION, needTranslation, highRangeRequired );
    assert( bytesWritten != 0 );
-   unsigned int bytesRead = CalLoader::readCompressedKeyframe( buf, bytesWritten, coreboneOrNull, 
+   unsigned int bytesRead = CalLoader::readCompressedKeyframe( buf, bytesWritten, coreboneOrNull,
       translationInOut, rotationInOut, calTimeInOut,
       prevCoreKeyframe,
       translationRequired, highRangeRequired, translationIsDynamic,
@@ -1226,7 +1226,7 @@ TestAnimationCompression( CalCoreBone * coreboneOrNull, int version,
   *****************************************************************************/
 
 CalCoreKeyframe* CalLoader::loadCoreKeyframe(
-   CalDataSource& dataSrc, CalCoreBone * coreboneOrNull, int version, 
+   CalDataSource& dataSrc, CalCoreBone * coreboneOrNull, int version,
    CalCoreKeyframe * prevCoreKeyframe,
    bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
    bool useAnimationCompression)
@@ -1250,7 +1250,7 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(
      }
      CalVector vec;
      CalQuaternion quat;
-     unsigned int bytesRead = readCompressedKeyframe( buf, bytesRequired, coreboneOrNull, 
+     unsigned int bytesRead = readCompressedKeyframe( buf, bytesRequired, coreboneOrNull,
         & vec, & quat, & time, prevCoreKeyframe,
         translationRequired, highRangeRequired, translationIsDynamic,
         useAnimationCompression);
@@ -1302,7 +1302,7 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(
      dataSrc.readFloat(ry);
      dataSrc.readFloat(rz);
      dataSrc.readFloat(rw);
-  }  
+  }
 
   // check if an error happened
   if(!dataSrc.ok())
@@ -1398,7 +1398,7 @@ TranslationInvalid( CalVector const & result )
 // Returns number of byts read.
 unsigned int
 CalLoader::readCompressedKeyframe(
-                                  unsigned char * buf, unsigned int bytes, CalCoreBone * coreboneOrNull, 
+                                  unsigned char * buf, unsigned int bytes, CalCoreBone * coreboneOrNull,
                                   CalVector * vecResult, CalQuaternion * quatResult, float * timeResult,
                                   CalCoreKeyframe * lastCoreKeyframe,
                                   bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
@@ -1491,9 +1491,9 @@ CalLoader::readCompressedKeyframe(
 
 
 unsigned int
-CalLoader::writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, const std::string& strFilename, 
+CalLoader::writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, const std::string& strFilename,
                                    CalVector const & translation, CalQuaternion const & rotation, float caltime,
-                                   int version, 
+                                   int version,
                                    bool translationWritten, bool highRangeRequired )
 {
    assert( CalLoader::usesAnimationCompression( version ) );
@@ -1557,7 +1557,7 @@ CalLoader::writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, co
    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
    return 0;
    }
-   
+
 
    unsigned int bw = WriteQuatAndExtra( buf, wquat, steps, CalLoader::keyframeBitsPerOriComponent, CalLoader::keyframeBitsPerTime );
    assert( bw == 6 );*/
@@ -1716,7 +1716,7 @@ CalCoreKeyframe *CalLoader::loadCompressedCoreKeyframe(CalDataSource& dataSrc, c
   *****************************************************************************/
 
 CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
-{ 
+{
 	if(!dataSrc.ok())
 	{
 		dataSrc.setError();
@@ -1766,7 +1766,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
 		CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
 		return 0;
 	}
-	
+
 	// set the LOD step count
 	pCoreSubmesh->setLodCount(lodCount);
 
@@ -1979,7 +1979,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
 
             morphTarget->setBlendVertex(blendVertI, Vertex);
             dataSrc.readInteger(blendVertId);
-         } 
+         }
       }
       pCoreSubmesh->addCoreSubMorphTarget(morphTarget);
    }
@@ -2002,7 +2002,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
 		if(sizeof(CalIndex)==2)
 		{
 			if(tmp[0]>65535 || tmp[1]>65535 || tmp[2]>65535)
-			{      
+			{
 				CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
 				return 0;
 			}
@@ -2063,7 +2063,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
 
 
 		// flip if needed
-		if (flipModel) 
+		if (flipModel)
 		{
 			tmp[3] = face.vertexId[1];
 			face.vertexId[1]=face.vertexId[2];
@@ -2192,7 +2192,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(
             vec *= x_axis_90;
             pCoreKeyframe->setTranslation(vec);
          }
-      }    
+      }
 
       // add the core keyframe to the core track instance
       pCoreTrack->addCoreKeyframe(pCoreKeyframe);
@@ -2209,7 +2209,7 @@ CalCoreTrack *CalLoader::loadCoreTrack(
    if( loadingCompressionOn ) {
 
       // This function MIGHT call setTranslationRequired() on the track.
-      // Alas, you may be passing me NULL for skel, in which case compress() won't update the 
+      // Alas, you may be passing me NULL for skel, in which case compress() won't update the
       // translationRequired flag; instead it will leave it, as above.
       pCoreTrack->compress( translationTolerance, rotationToleranceDegrees, skel );
    }
@@ -2239,8 +2239,8 @@ CalCoreMorphTrack *CalLoader::loadCoreMorphTrack(CalDataSource& dataSrc)
    }
 
    // read the morph name
-   std::string morphName;
-   if(!dataSrc.readString(morphName))
+   int morphName;
+   if(!dataSrc.readInteger(morphName))
    {
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
       return 0;
@@ -2263,7 +2263,7 @@ CalCoreMorphTrack *CalLoader::loadCoreMorphTrack(CalDataSource& dataSrc)
    }
 
    // link the core morphTrack to the appropriate morph name
-   pCoreMorphTrack->setMorphName(morphName);
+   pCoreMorphTrack->setMorphID(morphName);
 
    // read the number of keyframes
    int keyframeCount;
@@ -2354,25 +2354,25 @@ BitWriter::flush()
    }
 }
 
-void 
-CalLoader::setAnimationCollapseSequencesOn( bool p ) 
-{ 
-   collapseSequencesOn = p; 
+void
+CalLoader::setAnimationCollapseSequencesOn( bool p )
+{
+   collapseSequencesOn = p;
 }
-void 
-CalLoader::setAnimationLoadingCompressionOn( bool p ) 
-{ 
-   loadingCompressionOn = p; 
+void
+CalLoader::setAnimationLoadingCompressionOn( bool p )
+{
+   loadingCompressionOn = p;
 }
-void 
+void
 CalLoader::setAnimationTranslationTolerance( double p )
-{ 
-   translationTolerance = p; 
+{
+   translationTolerance = p;
 }
-void 
-CalLoader::setAnimationRotationToleranceDegrees( double p ) 
-{ 
-   rotationToleranceDegrees = p; 
+void
+CalLoader::setAnimationRotationToleranceDegrees( double p )
+{
+   rotationToleranceDegrees = p;
 }
 
 //****************************************************************************//

@@ -20,56 +20,53 @@
 
 class CAL3D_API CalCoreSubMorphTarget
 {
+public:friend class CalCoreSubmesh;
+    struct BlendVertex
+    {
+        CalVector position;
+        CalVector normal;
+        std::vector<CalCoreSubmesh::TextureCoordinate> textureCoords;
+    };
 public:
-  struct BlendVertex
-  {
-    CalVector position;
-    CalVector normal;
-    std::vector<CalCoreSubmesh::TextureCoordinate> textureCoords;
-    bool create() { return true; }
-    bool destroy() { return true; }
-  };
-  
-public:
-  CalCoreSubMorphTarget();
-  virtual ~CalCoreSubMorphTarget() { }
-  
-  virtual void setCoreSubmesh( CalCoreSubmesh *inCoreSubmesh );
-  const CalCoreSubmesh *getCoreSubmesh() const;
+    CalCoreSubMorphTarget();
+    virtual ~CalCoreSubMorphTarget() { }
+    virtual void setCoreSubmesh( CalCoreSubmesh *inCoreSubmesh );
+    const CalCoreSubmesh *getCoreSubmesh() const;
 
-  int getBlendVertexCount() const;
-  unsigned int size();
-  typedef std::vector<BlendVertex *> VectorBlendVertex;
+    int getBlendVertexCount() const;
+    unsigned int size();
 
-  std::vector<BlendVertex *>& getVectorBlendVertex();
-  inline bool hasBlendVertex( int blendVertexId ) {
-    return m_vectorBlendVertex[blendVertexId] != NULL;
-  }
-  inline BlendVertex const * getBlendVertex( int blendVertexId ) {
-    return m_vectorBlendVertex[blendVertexId];
-  }
+    inline std::vector<BlendVertex>& getVectorBlendVertex(){  return m_vectorBlendVertex;}
+    inline const std::vector<BlendVertex>& getVectorBlendVertex() const{    return m_vectorBlendVertex;}
 
-  inline const BlendVertex* getBlendVertex( int blendVertexId ) const {
-     return m_vectorBlendVertex[blendVertexId];
-  }
+    inline BlendVertex const * getBlendVertex(int blendVertexId){        return &m_vectorBlendVertex[blendVertexId];}
+    inline const BlendVertex* getBlendVertex(int blendVertexId) const{   return &m_vectorBlendVertex[blendVertexId];}
 
-  const std::vector<BlendVertex*>& getVectorBlendVertex() const;
-  virtual bool reserve(int blendVertexCount);
-  bool setBlendVertex(int vertexId, const BlendVertex& vertex);
+    virtual bool reserve(int blendVertexCount);
 
-  void	getBlendVertex( int vertexId, BlendVertex& outVertex ) const;
-  CalMorphTargetType morphTargetType() const;
+    bool setBlendVertex(int vertexId, const BlendVertex& vertex);
+    void getBlendVertex( int vertexId, BlendVertex& outVertex ) const;
 
-  void setName( std::string );
-  std::string name() const;
+    ///Type of this morph
+    inline CalMorphTargetType getMorphTargetType() const { return m_morphTargetType;}
+    inline void setMorphTargetType(CalMorphTargetType c) { m_morphTargetType=c;}
 
+    ///Index of this morph for its target mesh
+    inline const unsigned int& getMorphID() const{return m_morphTargetID;}
+
+    ///Name property (just for convenience )
+    void setName(const std::string &s){_name=s;}
+    const std::string& getName() const{return _name;}
+protected:
+    inline void setMorphID(const unsigned int &i){m_morphTargetID=i;}
 private:
-  CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
+    std::string _name;
+    CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
 
-  std::vector<BlendVertex*>  m_vectorBlendVertex;
-  CalCoreSubmesh           *m_coreSubmesh;
-  std::string               m_morphTargetName;
-  CalMorphTargetType        m_morphTargetType;
+    std::vector<BlendVertex>  m_vectorBlendVertex;
+    CalCoreSubmesh           *m_coreSubmesh;
+    unsigned int              m_morphTargetID;
+    CalMorphTargetType        m_morphTargetType;
 };
 
 // The difference map is reference counted because we can use the same difference
@@ -84,7 +81,7 @@ public:
 
   bool reserve(int blendVertexCount);
   bool appendBlendVertex(int vertexId, const CalCoreSubMorphTarget::BlendVertex& vertex);
-  
+
   bool	getBlendVertex( int vertexId, CalCoreSubMorphTarget::BlendVertex& outVertex ) const;
 
 protected:

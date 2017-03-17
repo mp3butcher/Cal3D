@@ -220,7 +220,7 @@ GLuint Viewer::loadTexture(const std::string& strFilename)
 		//Flip texture
 		int width = Tga->GetSizeX();
 		int height = Tga->GetSizeY();
-		//int depth = Tga->Bpp() / 8;    
+		//int depth = Tga->Bpp() / 8;
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -807,17 +807,13 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
 				unsigned int subs = strData.find(name);
 				if (subs<strData.length()){
 					CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(strData);
-					if (!pCoreMesh)std::cerr << "unable to load mesh" << strData << std::endl;
+					if (!pCoreMesh){
+                        std::cerr << "Unable to load mesh" << strData << std::endl;
+                        CalError::printLastError();
+                        return false;
+                    }
 
-					if (m_calCoreModel->getCoreMesh(i)->addAsMorphTarget(
-						pCoreMesh.get(), strData.substr(subs + 1 + name.length(),
-						strData.length() - 4 - 1 - subs - name.length())) == -1)
-					{
-						CalError::printLastError();
-						return false;
-					}
-					//	m_calCoreModel->loadCoreAnimatedMorph(strData.substr(0,						strData.length()-4)+".xbf");
-					//		m_calCoreModel->getCoreMesh(i)->ge
+                    m_calCoreModel->getCoreMesh(i)->addAsMorphTarget(pCoreMesh.get());
 					break;
 				}
 			}

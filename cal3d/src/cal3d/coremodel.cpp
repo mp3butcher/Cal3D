@@ -25,7 +25,7 @@
 #include "cal3d/coreskeleton.h"
 #include "cal3d/coreanimation.h"
 #include "cal3d/coreanimatedmorph.h"
-#include "cal3d/coremesh.h"
+#include "cal3d/coresubmorphtarget.h"
 #include "cal3d/corematerial.h"
 #include "cal3d/loader.h"
 #include "cal3d/saver.h"
@@ -77,7 +77,7 @@ CalCoreModel::~CalCoreModel()
 
 
 
-int 
+int
 
 CalCoreModel::getNumCoreAnimations() const
 {
@@ -95,7 +95,7 @@ CalCoreModel::getNumCoreAnimations() const
 
 
 
-int 
+int
 
 CalCoreModel::getNumCoreAnimatedMorphs() const
 {
@@ -314,13 +314,13 @@ int CalCoreModel::addCoreMaterial(CalCoreMaterial *pCoreMaterial)
 void CalCoreModel::cloneCoreMaterials()
 {
 	std::vector<CalCoreMaterialPtr>		cloneVec;
-	
+
 	for (std::vector<CalCoreMaterialPtr>::iterator i = m_vectorCoreMaterial.begin();
 		i != m_vectorCoreMaterial.end(); ++i)
 	{
 		cloneVec.push_back( new CalCoreMaterial( **i ) );
 	}
-	
+
 	m_vectorCoreMaterial.swap( cloneVec );
 }
 
@@ -452,7 +452,7 @@ CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId)
 
 const CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId) const
 {
-  if((coreAnimationId < 0) 
+  if((coreAnimationId < 0)
 
     || (coreAnimationId >= (int)m_vectorCoreAnimation.size())
 
@@ -495,7 +495,7 @@ int CalCoreModel::getCoreAnimationCount() const
 
 CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedMorphId)
 {
-   if((coreAnimatedMorphId < 0) 
+   if((coreAnimatedMorphId < 0)
 
       || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
 
@@ -511,7 +511,7 @@ CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedMorphId
 
 const CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedMorphId) const
 {
-   if((coreAnimatedMorphId < 0) 
+   if((coreAnimatedMorphId < 0)
 
       || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
 
@@ -771,7 +771,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   // load a new core animation
   CalCoreAnimationPtr pCoreAnimation = CalLoader::loadCoreAnimation(strFilename, m_pCoreSkeleton.get());
   if(!pCoreAnimation) return -1;
-  
+
 
   // add core animation to this core model
   return addCoreAnimation(pCoreAnimation.get());
@@ -784,7 +784,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename)
   * to calling addAnimName(strAnimationName, loadCoreAnimation(strFilename)).
   * If strAnimationName is already associated to a coreAnimationId because
   * of a previous call to addAnimName, the same coreAnimationId will
-  * be used. 
+  * be used.
   *
   * @param strFilename The file from which the core animation should be loaded
   *                    from.
@@ -864,7 +864,7 @@ int CalCoreModel::loadCoreAnimation(void* buffer, const std::string& strAnimatio
 }
 
  /*****************************************************************************/
-/** Delete the resources used by the named core animation. The name must 
+/** Delete the resources used by the named core animation. The name must
   * be associated with a valid core animation Id with the function
   * getAnimationId. The caller must ensure that the corresponding is not
   * referenced anywhere otherwise unpredictable results will occur.
@@ -1058,7 +1058,7 @@ int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength,
 }
 
  /*****************************************************************************/
-/** Delete the resources used by the named core animated morph. The name must 
+/** Delete the resources used by the named core animated morph. The name must
   * be associated with a valid core animated morph Id with the function
   * getAnimatedMorphId. The caller must ensure that the corresponding is not
   * referenced anywhere otherwise unpredictable results will occur.
@@ -1141,7 +1141,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename)
   * to calling addMaterialName(strMaterialName, loadCoreMaterial(strFilename)).
   * If strMaterialName is already associated to a coreMaterialId because
   * of a previous call to addMaterialName, the same coreMaterialId will
-  * be used. 
+  * be used.
   *
   * @param strFilename The file from which the core material should be loaded
   *                    from.
@@ -1251,7 +1251,7 @@ int CalCoreModel::loadCoreMaterial(void* buffer)
 }
 
  /*****************************************************************************/
-/** Delete the resources used by the named core material. The name must 
+/** Delete the resources used by the named core material. The name must
   * be associated with a valid core material Id with the function
   * getMaterialId. The caller must ensure that the corresponding is not
   * referenced anywhere otherwise unpredictable results will occur.
@@ -1334,7 +1334,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename)
   * to calling addMeshName(strMeshName, loadCoreMesh(strFilename)).
   * If strMeshName is already associated to a coreMeshId because
   * of a previous call to addMeshName, the same coreMeshId will
-  * be used. 
+  * be used.
   *
   * @param strFilename The file from which the core mesh should be loaded
   *                    from.
@@ -1445,7 +1445,7 @@ int CalCoreModel::loadCoreMesh(void* buffer)
 
 
  /*****************************************************************************/
-/** Delete the resources used by the named core mesh. The name must 
+/** Delete the resources used by the named core mesh. The name must
   * be associated with a valid core mesh Id with the function
   * getMeshId. The caller must ensure that the corresponding is not
   * referenced anywhere otherwise unpredictable results will occur.
@@ -1491,8 +1491,6 @@ int CalCoreModel::unloadCoreMesh(int coreMeshId)
 
   return coreMeshId;
 }
-
-
  /*****************************************************************************/
 /** Loads the core skeleton.
   *
@@ -1550,7 +1548,7 @@ bool CalCoreModel::loadCoreSkeleton(void* buffer)
 bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAnimationId) const
 {
   // check if the core animation id is valid
-  if((coreAnimationId < 0) 
+  if((coreAnimationId < 0)
 
     || (coreAnimationId >= (int)m_vectorCoreAnimation.size())
 
@@ -1585,7 +1583,7 @@ bool CalCoreModel::saveCoreAnimation(const std::string& strFilename, int coreAni
 bool CalCoreModel::saveCoreAnimatedMorph(const std::string& strFilename, int coreAnimatedMorphId) const
 {
   // check if the core animation id is valid
-  if((coreAnimatedMorphId < 0) 
+  if((coreAnimatedMorphId < 0)
 
     || (coreAnimatedMorphId >= (int)m_vectorCoreAnimatedMorph.size())
 
@@ -1729,7 +1727,7 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
 
 void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
 {
-  m_pCoreSkeleton = pCoreSkeleton;  
+  m_pCoreSkeleton = pCoreSkeleton;
 }
 
  /*****************************************************************************/
@@ -1898,7 +1896,7 @@ int CalCoreModel::getCoreAnimationId(const std::string& strAnimationName) const
 
 bool CalCoreModel::addMaterialName(const std::string& strMaterialName, int coreMaterialId)
 {
-  
+
   // check if the core material id is valid
   if((coreMaterialId < 0) || (coreMaterialId >= (int)m_vectorCoreMaterial.size()))
   {

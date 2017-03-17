@@ -27,7 +27,7 @@
   *****************************************************************************/
 
 CalCoreMorphTrack::CalCoreMorphTrack()
-  : m_morphName("")
+  : m_morphID(0),m_targetMeshID(0)
 {
 }
 
@@ -106,29 +106,14 @@ void CalCoreMorphTrack::destroy()
   }
   m_keyframesToDelete.clear();
 
-  m_morphName = "";
+  m_morphID = 0;
 }
 
- /*****************************************************************************/
-/** Returns the ID of the core bone.
-  *
-  * This function returns the ID of the core bone to which the core track
-  * instance is attached to.
-  *
-  * @return One of the following values:
-  *         \li the \b ID of the core bone
-  *         \li \b -1 if an error happend
-  *****************************************************************************/
-
-std::string CalCoreMorphTrack::getMorphName() const
-{
-  return m_morphName;
-}
 
  /*****************************************************************************/
 /** Returns a specified state.
   *
-  * This function returns the state 
+  * This function returns the state
   * for the specified time and duration.
   *
   * @param time The time in seconds at which the state should be returned.
@@ -212,24 +197,6 @@ std::vector<CalCoreMorphKeyframe>::iterator CalCoreMorphTrack::getUpperBound(flo
 
 }
 
- /*****************************************************************************/
-/** Sets the ID of the core bone.
-  *
-  * This function sets the ID of the core bone to which the core track instance
-  * is attached to.
-  *
-  * @param morphname The ID of the bone to which the core track instance should
-  *                   be attached to.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-void CalCoreMorphTrack::setMorphName(std::string morphname)
-{
-  m_morphName = morphname;
-}
 
 
 int CalCoreMorphTrack::getCoreMorphKeyframeCount() const
@@ -246,7 +213,7 @@ CalCoreMorphTrack::reserve(int size)
 
 
 
-CalCoreMorphKeyframe* CalCoreMorphTrack::getCoreMorphKeyframe(int idx) 
+CalCoreMorphKeyframe* CalCoreMorphTrack::getCoreMorphKeyframe(int idx)
 {
   return &(m_keyframes[idx]);
 }

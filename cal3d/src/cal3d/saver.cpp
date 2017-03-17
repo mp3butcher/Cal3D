@@ -57,7 +57,7 @@ using namespace cal3d;
 bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation, CalSaverAnimationOptions *pOptions)
 {
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
-	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);	
+	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);
 
   // open the file
   std::ofstream file;
@@ -85,10 +85,10 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
 
   // write whether we're going to use compression.
   bool useCompression = false;    // Default to off!  It causes many long animations to get mangled.
-  if (Cal::versionHasCompressionFlag(Cal::CURRENT_FILE_VERSION)) 
+  if (Cal::versionHasCompressionFlag(Cal::CURRENT_FILE_VERSION))
   {
      int useCompressionFlag = useCompression;
-     if (!CalPlatform::writeInteger(file, useCompressionFlag)) 
+     if (!CalPlatform::writeInteger(file, useCompressionFlag))
      {
         CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
         return false;
@@ -167,7 +167,7 @@ bool CalSaver::saveCoreAnimatedMorph(const std::string& strFilename, CalCoreAnim
    if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),
       Cal::ANIMATEDMORPH_XMLFILE_EXTENSION)==0)
    {
-      return saveXmlCoreAnimatedMorph(strFilename, pCoreAnimatedMorph); 
+      return saveXmlCoreAnimatedMorph(strFilename, pCoreAnimatedMorph);
    }
 
 
@@ -352,23 +352,23 @@ bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilen
   const CalQuaternion& rotation = pCoreKeyframe->getRotation();
   float caltime = pCoreKeyframe->getTime();
 
-  if (useAnimationCompression) 
+  if (useAnimationCompression)
   {
      unsigned char buf[ 100 ];
-     unsigned int bytesWritten = CalLoader::writeCompressedKeyframe( buf, 100, strFilename, 
-        translation, rotation, caltime, 
+     unsigned int bytesWritten = CalLoader::writeCompressedKeyframe( buf, 100, strFilename,
+        translation, rotation, caltime,
         version, translationWritten, highRangeRequired );
 
      if( bytesWritten == 0 ) return false;
 
      CalPlatform::writeBytes( file, buf, bytesWritten );
-     if(version < Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 ) 
+     if(version < Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 )
      {
-        if(version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 ) 
+        if(version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 )
         {
-           if( version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 ) 
+           if( version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 )
            {
-              if( translationWritten ) 
+              if( translationWritten )
               {
                  CalPlatform::writeFloat(file, translation[0]);
                  CalPlatform::writeFloat(file, translation[1]);
@@ -522,7 +522,7 @@ bool CalSaver::saveCoreMorphKeyframe(std::ofstream& file, const std::string& str
 bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
 {
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
-    return saveXmlCoreMaterial(strFilename, pCoreMaterial);	
+    return saveXmlCoreMaterial(strFilename, pCoreMaterial);
 
   // open the file
   std::ofstream file;
@@ -590,7 +590,7 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
     // write the filename of the map
     bool ret = CalPlatform::writeString(file, map.strFilename);
-    if( ret ) 
+    if( ret )
     {
        ret = CalPlatform::writeString(file, map.mapType);
     }
@@ -698,7 +698,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
-    return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);	
+    return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);
 
   // open the file
   std::ofstream file;
@@ -915,10 +915,10 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
 
   std::vector<CalCoreSubMorphTarget *>& vectorMorphs = pCoreSubmesh->getVectorCoreSubMorphTarget();
 
-  for( int morphId = 0; morphId < morphCount; morphId++ ) 
+  for( int morphId = 0; morphId < morphCount; morphId++ )
   {
      CalCoreSubMorphTarget * morphTarget = vectorMorphs[morphId];
-     CalPlatform::writeString(file, morphTarget->name());
+     CalPlatform::writeString(file, morphTarget->getName());
      int morphVertCount = 0;
 
      for(int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
@@ -1036,19 +1036,19 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
      int numKeyframes = pCoreTrack->getCoreKeyframeCount();
      unsigned char buf[ 4 ];
      buf[ 0 ] = coreBoneId & 0xff;
-     buf[ 1 ] = ( ( coreBoneId >> 8 ) & 0x1f ) 
+     buf[ 1 ] = ( ( coreBoneId >> 8 ) & 0x1f )
         + ( translationRequired ? 0x80 : 0 )
         + ( highRangeRequired ? 0x40 : 0 )
         + ( translationIsDynamic ? 0x20 : 0 );
      buf[ 2 ] = numKeyframes & 0xff;
      buf[ 3 ] = ( numKeyframes >> 8 ) & 0xff;
 
-     if( !CalPlatform::writeBytes( file, buf, 4 ) ) 
+     if( !CalPlatform::writeBytes( file, buf, 4 ) )
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
         return false;
      }
-  } 
+  }
   else
   {
      // write the bone id
@@ -1074,7 +1074,7 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
      // if translationIsDynamic is false then I don't need translation for any frames but the first.
      bool translationWritten = translationRequired;
 
-     if( i != 0 && !translationIsDynamic ) 
+     if( i != 0 && !translationIsDynamic )
      {
         translationWritten = false;
      }
@@ -1114,7 +1114,7 @@ bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFil
    }
 
    // write the morph name
-   if(!CalPlatform::writeString(file, pCoreMorphTrack->getMorphName()))
+   if(!CalPlatform::writeInteger(file, pCoreMorphTrack->getMorphID()))
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
@@ -1125,6 +1125,27 @@ bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFil
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
+   }
+    // read the targetmesh index
+   if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getTargetMesh()))
+   {
+      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+      return false;
+   }
+   // read the number of submeshtarget
+   if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getNumTargetSubMeshes()))
+   {
+      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+      return false;
+   }
+   //save the target submeshes indices
+   for(int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+   {
+        if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getTargetSubMesh(i)))
+       {
+          CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+          return false;
+       }
    }
 
    // save all core keyframes
@@ -1160,7 +1181,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 {
   std::stringstream str;
 
-  TiXmlDocument doc(strFilename);  
+  TiXmlDocument doc(strFilename);
 
 
   TiXmlElement skeleton("SKELETON");
@@ -1168,7 +1189,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
   skeleton.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 
   skeleton.SetAttribute("NUMBONES",pCoreSkeleton->getVectorCoreBone().size());
-  
+
   CalVector sceneColor;
   pCoreSkeleton->getSceneAmbientColor(sceneColor);
   str << sceneColor.x << " " << sceneColor.y << " " << sceneColor.z;
@@ -1180,12 +1201,12 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
   {
 	  CalCoreBone* pCoreBone=pCoreSkeleton->getCoreBone(boneId);
 
-	  TiXmlElement bone("BONE");	  
+	  TiXmlElement bone("BONE");
 	  bone.SetAttribute("ID",boneId);
 	  bone.SetAttribute("NAME",pCoreBone->getName());
 	  bone.SetAttribute("NUMCHILDS",pCoreBone->getListChildId().size());
 
-     if( pCoreBone->hasLightingData() ) 
+     if( pCoreBone->hasLightingData() )
      {
         bone.SetAttribute("LIGHTTYPE",pCoreBone->getLightType());
         str.str("");
@@ -1197,57 +1218,57 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 
 	  TiXmlElement translation("TRANSLATION");
 	  const CalVector& translationVector = pCoreBone->getTranslation();
-      
+
 
       str.str("");
-      str << translationVector.x << " " 
+      str << translationVector.x << " "
     	  << translationVector.y << " "
 	      << translationVector.z;
-  
-      TiXmlText translationdata(str.str());  
+
+      TiXmlText translationdata(str.str());
 
       translation.InsertEndChild(translationdata);
       bone.InsertEndChild(translation);
 
 
 	  TiXmlElement rotation("ROTATION");
-	  const CalQuaternion& rotationQuad = pCoreBone->getRotation();  
-      
+	  const CalQuaternion& rotationQuad = pCoreBone->getRotation();
+
 
       str.str("");
-      str << rotationQuad.x << " " 
+      str << rotationQuad.x << " "
     	  << rotationQuad.y << " "
 		  << rotationQuad.z << " "
 	      << rotationQuad.w;
-  
+
       TiXmlText rotationdata(str.str());
       rotation.InsertEndChild(rotationdata);
       bone.InsertEndChild(rotation);
 
 
 	  TiXmlElement localtranslation("LOCALTRANSLATION");
-	  const CalVector& localtranslationVector = pCoreBone->getTranslationBoneSpace();      
+	  const CalVector& localtranslationVector = pCoreBone->getTranslationBoneSpace();
 
       str.str("");
-      str << localtranslationVector.x << " " 
+      str << localtranslationVector.x << " "
     	  << localtranslationVector.y << " "
 	      << localtranslationVector.z;
-  
-      TiXmlText localtranslationdata(str.str()); 
+
+      TiXmlText localtranslationdata(str.str());
 
       localtranslation.InsertEndChild(localtranslationdata);
       bone.InsertEndChild(localtranslation);
 
 
 	  TiXmlElement localrotation("LOCALROTATION");
-	  const CalQuaternion& localrotationQuad = pCoreBone->getRotationBoneSpace();        
+	  const CalQuaternion& localrotationQuad = pCoreBone->getRotationBoneSpace();
 
       str.str("");
-      str << localrotationQuad.x << " " 
+      str << localrotationQuad.x << " "
     	  << localrotationQuad.y << " "
 		  << localrotationQuad.z << " "
 	      << localrotationQuad.w;
-  
+
       TiXmlText localrotationdata(str.str());
       localrotation.InsertEndChild(localrotationdata);
       bone.InsertEndChild(localrotation);
@@ -1281,7 +1302,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 
   }
   doc.InsertEndChild(skeleton);
-  
+
   if(!doc.SaveFile())
   {
 	CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -1316,7 +1337,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 	animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 
 	str.str("");
-	str << pCoreAnimation->getDuration();	
+	str << pCoreAnimation->getDuration();
 	animation.SetAttribute("DURATION",str.str());
 	animation.SetAttribute("NUMTRACKS", pCoreAnimation->getTrackCount());
 
@@ -1337,7 +1358,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
       // translationIsDynamic = true;
       track.SetAttribute( "TRANSLATIONREQUIRED", ( pCoreTrack->getTranslationRequired() ? 1 : 0 ) );
       track.SetAttribute( "TRANSLATIONISDYNAMIC", ( translationIsDynamic ? 1 : 0 ) );
-      track.SetAttribute( "HIGHRANGEREQUIRED", ( pCoreTrack->getHighRangeRequired() ? 1 : 0 ) );  
+      track.SetAttribute( "HIGHRANGEREQUIRED", ( pCoreTrack->getHighRangeRequired() ? 1 : 0 ) );
 
 		track.SetAttribute("NUMKEYFRAMES",pCoreTrack->getCoreKeyframeCount());
 
@@ -1349,13 +1370,13 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 			TiXmlElement keyframe("KEYFRAME");
 
 			str.str("");
-			str << pCoreKeyframe->getTime();	        
+			str << pCoreKeyframe->getTime();
 			keyframe.SetAttribute("TIME",str.str());
-         
-         if( pCoreTrack->getTranslationRequired() ) 
+
+         if( pCoreTrack->getTranslationRequired() )
          {
             // If translation required but not dynamic and i != 0, then I won't write the translation.
-            if( translationIsDynamic || i == 0 ) 
+            if( translationIsDynamic || i == 0 )
             {
                TiXmlElement translation("TRANSLATION");
                const CalVector& translationVector = pCoreKeyframe->getTranslation();
@@ -1365,7 +1386,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
                   << translationVector.y << " "
                   << translationVector.z;
 
-               TiXmlText translationdata(str.str());  
+               TiXmlText translationdata(str.str());
 
                translation.InsertEndChild(translationdata);
                keyframe.InsertEndChild(translation);
@@ -1373,10 +1394,10 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
          }
 
 			TiXmlElement rotation("ROTATION");
-			const CalQuaternion& rotationQuad = pCoreKeyframe->getRotation();  
+			const CalQuaternion& rotationQuad = pCoreKeyframe->getRotation();
 
 			str.str("");
-			str << rotationQuad.x << " " 
+			str << rotationQuad.x << " "
 				<< rotationQuad.y << " "
 				<< rotationQuad.z << " "
 				<< rotationQuad.w;
@@ -1397,7 +1418,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 	{
 		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
 		return false;
-	} 
+	}
 
 	return true;
 }
@@ -1442,7 +1463,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
    doc.InsertEndChild(header);
 
    str.str("");
-   str << pCoreAnimatedMorph->getDuration(); 
+   str << pCoreAnimatedMorph->getDuration();
    animation.SetAttribute("DURATION",str.str());
 
    // get core track list
@@ -1456,7 +1477,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
       CalCoreMorphTrack *pCoreMorphTrack=&(*iteratorCoreMorphTrack);
 
       TiXmlElement track("TRACK");
-      track.SetAttribute("MORPHNAME",pCoreMorphTrack->getMorphName());
+      track.SetAttribute("MORPHNAME",pCoreMorphTrack->getMorphID());
 
       track.SetAttribute("NUMKEYFRAMES",pCoreMorphTrack->getCoreMorphKeyframeCount());
 
@@ -1468,7 +1489,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
          TiXmlElement keyframe("KEYFRAME");
 
          str.str("");
-         str << pCoreMorphKeyframe->getTime();         
+         str << pCoreMorphKeyframe->getTime();
          keyframe.SetAttribute("TIME",str.str());
 
          TiXmlElement weight("WEIGHT");
@@ -1477,7 +1498,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
          str.str("");
          str << w;
 
-         TiXmlText weightdata(str.str());  
+         TiXmlText weightdata(str.str());
 
          weight.InsertEndChild(weightdata);
          keyframe.InsertEndChild(weight);
@@ -1495,7 +1516,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
-   } 
+   }
    return true;
 }
 
@@ -1518,8 +1539,8 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 	std::stringstream str;
 
-    TiXmlDocument doc(strFilename);    
-	
+    TiXmlDocument doc(strFilename);
+
 
 	TiXmlElement mesh("MESH");
 	//mesh.SetAttribute("MAGIC",Cal::MESH_XMLFILE_MAGIC);
@@ -1538,14 +1559,14 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 		TiXmlElement submesh("SUBMESH");
 
 		submesh.SetAttribute("NUMVERTICES",pCoreSubmesh->getVertexCount());
-		submesh.SetAttribute("NUMFACES",pCoreSubmesh->getFaceCount());		
+		submesh.SetAttribute("NUMFACES",pCoreSubmesh->getFaceCount());
 		submesh.SetAttribute("MATERIAL",pCoreSubmesh->getCoreMaterialThreadId());
 		submesh.SetAttribute("NUMLODSTEPS",pCoreSubmesh->getLodCount());
 		submesh.SetAttribute("NUMSPRINGS",pCoreSubmesh->getSpringCount());
 		submesh.SetAttribute("NUMMORPHS",pCoreSubmesh->getCoreSubMorphTargetCount());
 		submesh.SetAttribute("NUMTEXCOORDS",pCoreSubmesh->getVectorVectorTextureCoordinate().size());
 
-		
+
 		// get the vertex, face, physical property and spring vector
 		std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
 		std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
@@ -1569,25 +1590,25 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 			// write the vertex data
 
 			TiXmlElement position("POS");
-			
+
 			str.str("");
 			str << Vertex.position.x << " "
 				<< Vertex.position.y << " "
 				<< Vertex.position.z;
 
-			TiXmlText positiondata(str.str());  
+			TiXmlText positiondata(str.str());
 
 			position.InsertEndChild(positiondata);
 			vertex.InsertEndChild(position);
 
 			TiXmlElement normal("NORM");
-			
+
 			str.str("");
 			str << Vertex.normal.x << " "
 				<< Vertex.normal.y << " "
 				<< Vertex.normal.z;
 
-			TiXmlText normaldata(str.str());  
+			TiXmlText normaldata(str.str());
 
 			normal.InsertEndChild(normaldata);
 			vertex.InsertEndChild(normal);
@@ -1599,7 +1620,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
             << Vertex.vertexColor.y << " "
             << Vertex.vertexColor.z;
 
-         TiXmlText colordata(str.str());  
+         TiXmlText colordata(str.str());
 
          vertColor.InsertEndChild(colordata);
          vertex.InsertEndChild(vertColor);
@@ -1628,7 +1649,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 				CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
 				TiXmlElement tex("TEXCOORD");
-				
+
 				str.str("");
 				str << textureCoordinate.u << " "
 					<< textureCoordinate.v;
@@ -1682,23 +1703,23 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
         for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
 		{
             CalCoreSubmesh::Spring& Spring = vectorSpring[springId];
-			
-			TiXmlElement spring("SPRING");			
+
+			TiXmlElement spring("SPRING");
 
 			str.str("");
 			str << Spring.vertexId[0]<< " "
 				<< Spring.vertexId[1];
 			spring.SetAttribute("VERTEXID",str.str());
 
-			
+
 			str.str("");
 			str << Spring.springCoefficient;
-			spring.SetAttribute("COEF",str.str());	
-			
+			spring.SetAttribute("COEF",str.str());
+
 			str.str("");
-			str << Spring.idleLength;				
+			str << Spring.idleLength;
 			spring.SetAttribute("LENGTH",str.str());
-			
+
 			submesh.InsertEndChild(spring);
 		}
 
@@ -1712,14 +1733,14 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
          str.str("");
          str << morphId;
 
-         morph.SetAttribute("MORPHID", str.str());
-         morph.SetAttribute("NAME", morphTarget->name());
+         //morph.SetAttribute("MORPHID", str.str());
+         morph.SetAttribute("NAME", morphTarget->getName());
 
          int morphVertCount = 0;
          for(int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
          {
             CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
-            if( !bv ) 
+            if( !bv )
             {
                continue;
             }
@@ -1732,14 +1753,14 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
             bool skip = false;
             //                    if( positionDiffLength < differenceTolerance && normalDiffLength < differenceTolerance ) {
-            if( positionDiffLength < differenceTolerance ) 
+            if( positionDiffLength < differenceTolerance )
             {
                skip = true;
             }
 
             std::vector<CalCoreSubmesh::TextureCoordinate> const & textureCoords = bv->textureCoords;
             size_t tcI;
-            for( tcI = 0; tcI < textureCoords.size(); tcI++ ) 
+            for( tcI = 0; tcI < textureCoords.size(); tcI++ )
             {
               CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
               CalCoreSubmesh::TextureCoordinate const & tc2 = vectorvectorTextureCoordinate[tcI][blendId];
@@ -1751,7 +1772,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
             }
 
 
-            if(skip) 
+            if(skip)
             {
                continue;
             }
@@ -1779,7 +1800,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
             blendVert.InsertEndChild(pos);
             blendVert.InsertEndChild(norm);
-            for( tcI = 0; tcI < bv->textureCoords.size(); tcI++ ) 
+            for( tcI = 0; tcI < bv->textureCoords.size(); tcI++ )
             {
                TiXmlElement tcXml("TEXCOORD");
                str.str("");
@@ -1815,7 +1836,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 		}
 
 		mesh.InsertEndChild(submesh);
-		
+
      }
 	 doc.InsertEndChild(mesh);
 
@@ -1857,7 +1878,7 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   material.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
 
   material.SetAttribute("NUMMAPS",pCoreMaterial->getVectorMap().size());
-  
+
   TiXmlElement ambient("AMBIENT");
 
   CalCoreMaterial::Color ambientColor;
@@ -1865,13 +1886,13 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
 
 
   str.str("");
-  str << (int)ambientColor.red << " " 
+  str << (int)ambientColor.red << " "
 	  << (int)ambientColor.green << " "
 	  << (int)ambientColor.blue << " "
 	  << (int)ambientColor.alpha;
-  
+
   TiXmlText ambientdata(str.str());
-  
+
 
   ambient.InsertEndChild(ambientdata);
   material.InsertEndChild(ambient);
@@ -1880,16 +1901,16 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
 
   CalCoreMaterial::Color diffuseColor;
   diffuseColor = pCoreMaterial->getDiffuseColor();
-  
+
   str.str("");
-  str << (int)diffuseColor.red << " " 
+  str << (int)diffuseColor.red << " "
 	  << (int)diffuseColor.green << " "
 	  << (int)diffuseColor.blue << " "
 	  << (int)diffuseColor.alpha;
-  
+
   TiXmlText diffusedata(str.str());
 
-  
+
   diffuse.InsertEndChild(diffusedata);
   material.InsertEndChild(diffuse);
 
@@ -1899,11 +1920,11 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   specularColor = pCoreMaterial->getSpecularColor();
 
   str.str("");
-  str << (int)specularColor.red << " " 
+  str << (int)specularColor.red << " "
 	  << (int)specularColor.green << " "
 	  << (int)specularColor.blue << " "
 	  << (int)specularColor.alpha;
-  
+
   TiXmlText speculardata(str.str());
 
   specular.InsertEndChild(speculardata);
@@ -1912,15 +1933,15 @@ bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMateri
   TiXmlElement shininess("SHININESS");
 
   str.str("");
-  str << pCoreMaterial->getShininess();    
+  str << pCoreMaterial->getShininess();
 
   TiXmlText shininessdata(str.str());
 
   shininess.InsertEndChild(shininessdata);
-  material.InsertEndChild(shininess);  
+  material.InsertEndChild(shininess);
 
   std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
-  
+
   int mapId;
   for(mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
   {

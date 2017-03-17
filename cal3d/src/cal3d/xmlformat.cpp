@@ -63,7 +63,7 @@ static inline bool _ValidateTag( T * element, char const * requiredTag,
   if(!element) {
     ok = false;
   }
-  
+
   if(ok && requiredTag && stricmp(element->Value(),requiredTag)!=0)
   {
     ok = false;
@@ -100,7 +100,7 @@ static inline bool TexCoordFromXml( cal3d::TiXmlElement * texcoord, char const *
   {
     return false;
   }
-  
+
   ReadPair( texcoorddata->Value(), &texCoord->u, &texCoord->v );
 
   if (loadingMode & LOADER_INVERT_V_COORD)
@@ -170,8 +170,8 @@ static inline void ReadQuadFloat( char const * buffer, float * f1, float * f2, f
   *****************************************************************************/
 
 CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeletonFromFile(const std::string& strFilename)
-{ 
-  
+{
+
   std::stringstream str;
   cal3d::TiXmlDocument doc(strFilename);
   if(!doc.LoadFile())
@@ -197,8 +197,8 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeletonFromFile(const std::string& str
   *****************************************************************************/
 
 CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const void *dataSrc)
-{ 
-  
+{
+
   cal3d::TiXmlDocument doc;
 
 
@@ -227,8 +227,8 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const void *dataSrc)
   *****************************************************************************/
 
 CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const void *dataSrc)
-{ 
-  
+{
+
   cal3d::TiXmlDocument doc;
   doc.Clear();
 
@@ -257,8 +257,8 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const void *dataSrc)
   *****************************************************************************/
 
 CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const void *dataSrc)
-{ 
-  
+{
+
   cal3d::TiXmlDocument doc;
 
 
@@ -286,7 +286,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const void *dataSrc)
   *****************************************************************************/
 
 CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const char* dataSrc, CalCoreSkeleton *skel)
-{ 
+{
   cal3d::TiXmlDocument doc;
   doc.Clear();
 
@@ -315,7 +315,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const char* dataSrc, CalCore
   *****************************************************************************/
 
 CalCoreAnimatedMorph*CalLoader::loadXmlCoreAnimatedMorph(const void *dataSrc)
-{ 
+{
   cal3d::TiXmlDocument doc;
   doc.Clear();
 
@@ -342,7 +342,7 @@ CalCoreAnimatedMorph*CalLoader::loadXmlCoreAnimatedMorph(const void *dataSrc)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
-{ 
+{
   std::stringstream str;
 
   std::string strFilename = "";
@@ -363,7 +363,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-     }    
+     }
 
      if(atoi(firstChild->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
      {
@@ -383,8 +383,8 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return false;
-  }  
-  
+  }
+
   // allocate a new core skeleton instance
   CalCoreSkeleton *pCoreSkeleton;
   pCoreSkeleton = new CalCoreSkeleton();
@@ -401,7 +401,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     ReadTripleFloat( attrStr, &sceneColor.x, &sceneColor.y, &sceneColor.z );
     pCoreSkeleton->setSceneAmbientColor( sceneColor );
   }
-  
+
   cal3d::TiXmlElement* bone;
   for( bone = skeleton->FirstChildElement();bone;bone = bone->NextSiblingElement() )
   {
@@ -409,13 +409,13 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-    }   
-    
+    }
+
     std::string strName=bone->Attribute("NAME");
 
           CalLightType lightType = LIGHT_TYPE_NONE;
           CalVector lightColor;
-          
+
           char const * attrStr = bone->Attribute("LIGHTTYPE");
           if( attrStr ) {
             lightType = (CalLightType)atoi(attrStr);
@@ -425,7 +425,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
           if( attrStr ) {
             ReadTripleFloat(attrStr, &lightColor.x, &lightColor.y, &lightColor.z);
           }
-          
+
 
     // get the translation of the bone
 
@@ -437,19 +437,19 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     }
 
     float tx, ty, tz;
-    
+
     node = translation->FirstChild();
     if(!node)
     {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-    }   
+    }
     cal3d::TiXmlText* translationdata = node->ToText();
     if(!translationdata)
     {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-    }   
+    }
     str.clear();
     str.str("");
     str << translationdata->Value();
@@ -465,7 +465,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     }
 
     float rx, ry, rz, rw;
-    
+
     node = rotation->FirstChild();
     if(!node)
     {
@@ -481,11 +481,11 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     str.clear();
     str.str("");
     str << rotationdata->Value();
-    str >> rx >> ry >> rz >> rw;    
-    
+    str >> rx >> ry >> rz >> rw;
+
     // get the bone space translation of the bone
-      
-    
+
+
     cal3d::TiXmlElement* translationBoneSpace = rotation->NextSiblingElement();
     if(!rotation || stricmp(translationBoneSpace->Value(),"LOCALTRANSLATION")!=0)
     {
@@ -494,7 +494,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     }
 
     float txBoneSpace, tyBoneSpace, tzBoneSpace;
-    
+
     node = translationBoneSpace->FirstChild();
     if(!node)
     {
@@ -522,7 +522,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     }
 
     float rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace;
-    
+
     node = rotationBoneSpace->FirstChild();
     if(!node)
     {
@@ -539,7 +539,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     str.str("");
     str << rotationBoneSpacedata->Value();
     str >> rxBoneSpace >> ryBoneSpace >> rzBoneSpace >> rwBoneSpace;
-    
+
     // get the parent bone id
 
     cal3d::TiXmlElement* parent = rotationBoneSpace->NextSiblingElement();
@@ -548,10 +548,10 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return false;
     }
-    
+
 
     int parentId;
-    
+
     node = parent->FirstChild();
     if(!node)
     {
@@ -593,8 +593,8 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         // Root bone must have translation rotated also
         trans *= x_axis_90;
       }
-    }   
-    
+    }
+
 
     pCoreBone->setTranslation(trans);
     pCoreBone->setRotation(rot);
@@ -625,9 +625,9 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
       }
-      
+
       int childId = atoi(childid->Value());
-      
+
       pCoreBone->addChildId(childId);
     }
 
@@ -727,7 +727,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, str.str());
     return 0;
   }
-  
+
   cal3d::TiXmlElement* animation = NULL;
 
   if (stricmp(firstChild->Value(),"HEADER")==0)
@@ -736,7 +736,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return 0;
-     }    
+     }
 
      version = atoi(firstChild->Attribute("VERSION"));
      if(version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
@@ -752,13 +752,13 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
      animation = firstChild;
   }
 
-  
+
 
   if(!animation || stricmp(animation->Value(),"ANIMATION")!=0)
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return 0;
-  }  
+  }
 
   // Get the version specified on the animation.
   const char* versionValue = animation->Attribute("VERSION");
@@ -769,7 +769,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
 
   int trackCount= atoi(animation->Attribute("NUMTRACKS"));
   float duration= (float) atof(animation->Attribute("DURATION"));
-    
+
   // allocate a new core animation instance
   CalCoreAnimation *pCoreAnimation = new CalCoreAnimation();
 
@@ -823,7 +823,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
     // have a translationRequired flag and it is false, or (b) they have a false translationIsDynamic flag AND
     // the keyframe is not the first.
     // If XML files do not have the flag, then we assume translation is required until we decide otherwise.
-    // If the caller has passed in a skeleton (not NULL for the skeleton), then we will re-derive 
+    // If the caller has passed in a skeleton (not NULL for the skeleton), then we will re-derive
     // whether translation is required, and we will update the translationRequired flag.
 
     // link the core track to the appropriate core bone instance
@@ -911,7 +911,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
           delete pCoreTrack;
           return 0;
         }
-        
+
         cal3d::TiXmlText* translationdata = node->ToText();
         if(!translationdata)
         {
@@ -950,8 +950,8 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
           delete pCoreTrack;
         return 0;
       }
-      ReadQuadFloat( rotationdata->Value(), &rx, &ry, &rz, &rw );  
-      
+      ReadQuadFloat( rotationdata->Value(), &rx, &ry, &rz, &rw );
+
       // allocate a new core keyframe instance
 
       CalCoreKeyframe *pCoreKeyframe;
@@ -959,25 +959,25 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       if(pCoreKeyframe == 0)
       {
           pCoreTrack->destroy();
-          delete pCoreTrack;        
+          delete pCoreTrack;
         CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
         return 0;
       }
- 
+
       // create the core keyframe instance
       if(!pCoreKeyframe->create())
       {
           pCoreTrack->destroy();
           delete pCoreTrack;
         delete pCoreKeyframe;
-        return 0;       
+        return 0;
       }
       // set all attributes of the keyframe
       pCoreKeyframe->setTime(time);
       pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
       pCoreKeyframe->setRotation(CalQuaternion(rx, ry, rz, rw));
       prevCoreKeyframe = pCoreKeyframe;
-      
+
       if (loadingMode & LOADER_ROTATE_X_AXIS)
       {
         // Check for anim rotation
@@ -993,8 +993,8 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
           trans *= x_axis_90;
           pCoreKeyframe->setTranslation(trans);
         }
-      }    
-      
+      }
+
       // add the core keyframe to the core track instance
          pCoreTrack->addCoreKeyframe(pCoreKeyframe);
 
@@ -1007,11 +1007,11 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
     if( loadingCompressionOn ) {
 
       // This function MIGHT call setTranslationRequired() on the track.
-      // Alas, you may be passing me NULL for skel, in which case compress() won't update the 
+      // Alas, you may be passing me NULL for skel, in which case compress() won't update the
       // translationRequired flag; instead it will leave it, as above.
       pCoreTrack->compress( translationTolerance, rotationToleranceDegrees, skel );
     }
-    pCoreAnimation->addCoreTrack(pCoreTrack);   
+    pCoreAnimation->addCoreTrack(pCoreTrack);
     track=track->NextSiblingElement();
   }
 
@@ -1044,7 +1044,7 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
 
   cal3d::TiXmlElement* firstChild = doc.FirstChildElement();
 
-  if( !firstChild ) 
+  if( !firstChild )
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
     return 0;
@@ -1052,14 +1052,14 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
 
   cal3d::TiXmlElement* animatedMorph = NULL;
 
-  
+
   if(stricmp(firstChild->Value(),"HEADER")==0)
   {
      if(stricmp(firstChild->Attribute("MAGIC"),Cal::ANIMATEDMORPH_XMLFILE_EXTENSION)!=0)
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return false;
-     }    
+     }
 
      if(atoi(firstChild->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
      {
@@ -1098,14 +1098,14 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
     pCoreAnimatedMorph->destroy();
     delete pCoreAnimatedMorph;
     return 0;
-  }  
+  }
 
 
   const int trackCount = atoi(animatedMorph->Attribute("NUMTRACKS"));
   const float duration = (float) atof(animatedMorph->Attribute("DURATION"));
 
   pCoreAnimatedMorph->setDuration(duration);
-  
+
   // check for a valid duration
   if(pCoreAnimatedMorph->getDuration() <= 0.0f)
   {
@@ -1131,10 +1131,30 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
 
      pCoreMorphTrack->reserve(keyFrameCount);
 
-     std::string morphName = track->Attribute("MORPHNAME");
-     pCoreMorphTrack->setMorphName(morphName);
+     unsigned int morphName = atoi(track->Attribute("MORPHNAME"));
+     pCoreMorphTrack->setMorphID(morphName);
+     morphName = atoi(track->Attribute("MESHID"));
+     pCoreMorphTrack->setTargetMesh(morphName);
+
+     int numsubmeshtargetted=0;
+     track->QueryIntAttribute("NUMSUBTARGET",&numsubmeshtargetted);
+
 
      cal3d::TiXmlElement* keyframe= track->FirstChildElement();
+     if(numsubmeshtargetted>0){
+         //cal3d::TiXmlElement* submeshes= track->FirstChildElement();
+          for (int keyFrameId=0; keyFrameId<numsubmeshtargetted; ++keyFrameId)
+         {
+          // load the core keyframe
+            if(!keyframe|| stricmp(keyframe->Value(),"SUBMESH")!=0)
+            {
+               CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
+               return 0;
+            }
+            pCoreMorphTrack->addTargetSubMesh(atoi(keyframe->Attribute("ID")));
+            keyframe = keyframe->NextSiblingElement();
+         }
+     }
 
      for (int keyFrameId=0; keyFrameId<keyFrameCount; ++keyFrameId)
      {
@@ -1229,7 +1249,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return 0;
   }
-  
+
   cal3d::TiXmlElement* mesh = NULL;
   bool hasVertexColors = false;
 
@@ -1239,7 +1259,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return 0;
-     }    
+     }
 
      int version = atoi(firstChild->Attribute("VERSION"));
      if(version < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
@@ -1256,7 +1276,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
   {
      mesh = firstChild;
   }
-  
+
   if(!mesh || stricmp(mesh->Value(),"MESH")!=0)
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
@@ -1265,7 +1285,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
 
   // get the number of submeshes
   int submeshCount = atoi(mesh->Attribute("NUMSUBMESH"));
-  
+
   // allocate a new core mesh instance
   CalCoreMesh *pCoreMesh;
   pCoreMesh = new CalCoreMesh();
@@ -1307,7 +1327,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
           if( numMorphStr ) {
             morphCount = atoi(numMorphStr);
           }
-          
+
     // allocate a new core submesh instance
     CalCoreSubmesh *pCoreSubmesh;
     pCoreSubmesh = new CalCoreSubmesh();
@@ -1333,7 +1353,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
     }
 
     cal3d::TiXmlElement *vertex = submesh->FirstChildElement();
-    
+
     // load all vertices and their influences
           std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
 
@@ -1411,7 +1431,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
         }
 
         collapse= vertColor->NextSiblingElement();
-      }        
+      }
       if(!collapse)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
@@ -1453,7 +1473,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
             return 0;
         }
         Vertex.faceCollapseCount= atoi(collapseCountdata->Value());
-        collapse = collapseCount->NextSiblingElement();       
+        collapse = collapseCount->NextSiblingElement();
       }
       else
       {
@@ -1517,7 +1537,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
       Vertex.vectorInfluence.resize(influenceCount);
 
       cal3d::TiXmlElement *influence = texcoord;
-      
+
       // load all influences of the vertex
       int influenceId;
       for(influenceId = 0; influenceId < influenceCount; ++influenceId)
@@ -1546,7 +1566,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
 
         Vertex.vectorInfluence[influenceId].weight = (float) atof(influencedata->Value());
 
-        influence=influence->NextSiblingElement();    
+        influence=influence->NextSiblingElement();
       }
 
       // set vertex in the core submesh instance
@@ -1554,13 +1574,13 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
 
       cal3d::TiXmlElement *physique = influence;
 
-        
+
 
       // load the physical property of the vertex if there are springs in the core submesh
       if(springCount > 0)
       {
         CalCoreSubmesh::PhysicalProperty physicalProperty;
-        
+
         if(!physique || stricmp(physique->Value(),"PHYSIQUE")!=0)
         {
           CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
@@ -1582,8 +1602,8 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
         physicalProperty.weight = (float) atof(physiquedata->Value());
 
         // set the physical property in the core submesh instance
-        pCoreSubmesh->setPhysicalProperty(vertexId, physicalProperty);          
-        
+        pCoreSubmesh->setPhysicalProperty(vertexId, physicalProperty);
+
       }
 
 
@@ -1626,7 +1646,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
            }
 
            morphTarget->setName(morph->Attribute("NAME"));
-           
+
            cal3d::TiXmlElement * blendVert = morph->FirstChildElement();
            for( int blendVertI = 0; blendVertI < vertexCount; blendVertI++ ) {
              CalCoreSubMorphTarget::BlendVertex Vertex;
@@ -1651,7 +1671,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                if(!CalVectorFromXml(pos, "POSITION", &Vertex.position, pCoreMesh, pCoreSubmesh)) {
                  return 0;
                }
-               
+
                cal3d::TiXmlElement *norm = pos->NextSiblingElement();
                if(!CalVectorFromXml(norm, "NORMAL", &Vertex.normal, pCoreMesh, pCoreSubmesh)) {
                  return 0;
@@ -1662,7 +1682,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                for(textureCoordinateId = 0; textureCoordinateId < textureCoordinateCount; ++textureCoordinateId)
                {
                  CalCoreSubmesh::TextureCoordinate textureCoordinate;
-                 if(!TexCoordFromXml(texcoord, "TEXCOORD", &textureCoordinate, 
+                 if(!TexCoordFromXml(texcoord, "TEXCOORD", &textureCoordinate,
                    loadingMode,
                    pCoreMesh, pCoreSubmesh)) {
                    return 0;
@@ -1736,7 +1756,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
       face=face->NextSiblingElement();
     }
     submesh=submesh->NextSiblingElement();
-  
+
     // add the core submesh to the core mesh instance
       pCoreMesh->addCoreSubmesh(pCoreSubmesh);
 
@@ -1809,14 +1829,14 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   }
 
   cal3d::TiXmlElement* material = NULL;
-  
+
   if (stricmp(firstChild->Value(),"HEADER")==0)
   {
      if(stricmp(firstChild->Attribute("MAGIC"),Cal::MATERIAL_XMLFILE_EXTENSION)!=0)
      {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return 0;
-     }    
+     }
 
      if(atoi(firstChild->Attribute("VERSION")) < Cal::EARLIEST_COMPATIBLE_FILE_VERSION )
      {
@@ -1836,7 +1856,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
       return 0;
   }
-  
+
 
   CalCoreMaterial *pCoreMaterial;
   pCoreMaterial = new CalCoreMaterial();
@@ -1854,7 +1874,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
         return 0;
   }
 
-  CalCoreMaterial::Color ambientColor; 
+  CalCoreMaterial::Color ambientColor;
   node = ambient->FirstChild();
   if(!node)
   {
@@ -1875,7 +1895,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   ambientColor.red = (unsigned char)r;
   ambientColor.green = (unsigned char)g;
   ambientColor.blue = (unsigned char)b;
-  ambientColor.alpha = (unsigned char)a; 
+  ambientColor.alpha = (unsigned char)a;
 
   cal3d::TiXmlElement* diffuse = ambient->NextSiblingElement();
   if(!diffuse || stricmp(diffuse->Value(),"DIFFUSE")!=0)
@@ -1884,7 +1904,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
         return 0;
   }
 
-  CalCoreMaterial::Color diffuseColor; 
+  CalCoreMaterial::Color diffuseColor;
   node = diffuse->FirstChild();
   if(!node)
   {
@@ -1905,7 +1925,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   diffuseColor.green = (unsigned char)g;
   diffuseColor.blue = (unsigned char)b;
   diffuseColor.alpha = (unsigned char)a;
-  
+
 
   cal3d::TiXmlElement* specular = diffuse->NextSiblingElement();
   if(!specular||stricmp(specular->Value(),"SPECULAR")!=0)
@@ -1914,7 +1934,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
         return 0;
   }
 
-  CalCoreMaterial::Color specularColor; 
+  CalCoreMaterial::Color specularColor;
   node = specular->FirstChild();
   if(!node)
   {
@@ -1964,7 +1984,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   pCoreMaterial->setDiffuseColor(diffuseColor);
   pCoreMaterial->setSpecularColor(specularColor);
   pCoreMaterial->setShininess(fshininess);
-  
+
   std::vector<std::string> MatFileName;
   std::vector<std::string> MatTypes;
 
@@ -1977,7 +1997,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
         return 0;
     }
-    
+
 
     node= map->FirstChild();
     if(!node)
@@ -2012,7 +2032,7 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
     // initialize the user data
     Map.userData = 0;
 
-    Map.strFilename= MatFileName[mapId];    
+    Map.strFilename= MatFileName[mapId];
     Map.mapType = MatTypes[mapId];
 
     // set map in the core material instance
@@ -2020,6 +2040,6 @@ CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(cal3d::TiXmlDocument & doc)
   }
 
   doc.Clear();
-  
+
   return pCoreMaterial;
 }
