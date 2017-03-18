@@ -802,14 +802,14 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
 				(strData.substr(0, strData.length() - 4));
 		}
 		else if (strKey == "blendmesh")
-		{
-			// load core mesh
-			std::cout << "Loading Blend Shape mesh '" << strData << "'..." << std::endl;
+        {
 			for (int i = 0; i<m_calCoreModel->getCoreMeshCount(); i++){
-				///search over all mesh and associated bmesh if mesh is subname
+                ///search over all meshes basemesh of this morphmesh
+                /// morphname=basemeshname+something
 				std::string name = m_calCoreModel->getCoreMesh(i)->getName();
 				unsigned int subs = strData.find(name);
 				if (subs<strData.length()){
+                    std::cout << "Loading mesh '" << strData << " as morphtarget..." << std::endl;
 					CalCoreMeshPtr pCoreMesh = CalLoader::loadCoreMesh(strData);
 					if (!pCoreMesh){
                         std::cerr << "Unable to load mesh" << strData << std::endl;
@@ -825,10 +825,8 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
 		else if (strKey == "morphanim")
 		{
 			// load core mesh
-			std::cout << "Loading Blend shape anim '" << strData << "'..." << std::endl;
-
-
-			if (m_calCoreModel->loadCoreAnimatedMorph(strData) == -1)
+            std::cout << "Loading Blend shape anim '" << strData << "'..." << std::endl;
+            if (m_calCoreModel->loadCoreAnimatedMorph(strData) == -1)
 			{
 				CalError::printLastError();
 				return false;

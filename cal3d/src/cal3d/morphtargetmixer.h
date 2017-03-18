@@ -31,7 +31,6 @@ public:
    bool clear(int id, float delay);
    bool copy( const CalMorphTargetMixer& inOther );
    float getCurrentWeight(int id) const;
-   //float getCurrentWeightBase() const;
    const std::string& getMorphName(int id) const;
    int getTrackCount(int id) const;
    const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
