@@ -91,7 +91,7 @@ char const *
 ConvertToString<long>(long const & d )
 {
   static char buffer[2048];
-  sprintf(buffer, "%l", d);
+  sprintf(buffer, "%ld", d);
   return buffer;
 }
 
