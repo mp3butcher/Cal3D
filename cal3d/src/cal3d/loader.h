@@ -162,10 +162,7 @@ public:
 
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc);
   static CalCoreSkeletonPtr loadXmlCoreSkeletonFromFile(const std::string& strFilename);
-  static CalCoreSkeletonPtr loadXmlCoreSkeleton(const void *);
 
-  static CalCoreMeshPtr loadXmlCoreMesh(const void *);
-  static CalCoreMaterialPtr loadXmlCoreMaterial(const void *);
 
 private:
   static CalCoreBone *loadCoreBones(CalDataSource& dataSrc, int version);
