@@ -2,10 +2,11 @@ o------------------------------------------------------------------------------o
 |                                                                              |
 |                       cal3d fileformat description                           |
 |                                                                              |
-|                                Version @VERSION@                                |
+|                                Version @VERSION@                             |
 |                                                                              |
 |        Copyright (C) 2001, 2002, 2003 Bruno 'Beosil' Heidelberger            |
 |        Copyright (C) 2006 Loic Dachary <loic@gnu.org>                        |
+|        Copyright (C) 2012 Julien Valentin <julienvalentin51@gmail.com>       |
 |                                                                              |
 o------------------------------------------------------------------------------o
 
@@ -184,6 +185,7 @@ description                length  type      comments
   number of lod steps      4       integer   number of vertices to collapse
   number of springs        4       integer   number of springs
   number of maps           4       integer
+  number of morphtarget    4       integer
 
   [first vertex]
     position x             4       float     position in model space
@@ -226,6 +228,25 @@ description                length  type      comments
     idle length            4       float     rest length of the spring
 
   [all other springs]
+    ...
+  [first morph]  
+    morph name             var     string
+    num blendvert          4       integer   
+      [blendvertex]
+        vertex id              4       integer   index to original vertex
+        position x             4       float     morph position in model space
+        position y             4       float
+        position z             4       float
+        normal x               4       float     morph normal in model space
+        normal y               4       float
+        normal z               4       float
+        [for all map]
+            u coordinate         4       float     map coordinates
+            v coordinate         4       float
+        [end for all map]
+    [all other blendvertices]
+    ...
+  [all other morphs]
     ...
 
   [first face]
@@ -332,17 +353,27 @@ o-----------------------------------------------------------------------------o
    ....                         {all other animation}
 </ANIMATION>
 o-----------------------------------------------------------------------------o
-| 9 cal3d xml mesh file (.xmf)                                                |
+| 10 cal3d xml mesh file (.xmf)                                               |
 o-----------------------------------------------------------------------------o
 
 this is the text/Xml file format of cal3d mesh file, 
 see cal3d mesh file (.cmf) for more information
 
 <MESH VERSION="1000" NUMSUBMESH="INT">
-   <SUBMESH MATERIAL="INT" NUMVERTICES="INT" NUMFACES="INT" NUMLODSTEPS="INT" NUMSPRINGS="INT" NUMTEXCOORDS="INT">
+   <SUBMESH MATERIAL="INT" NUMVERTICES="INT" NUMFACES="INT" NUMLODSTEPS="INT" NUMSPRINGS="INT" NUMTEXCOORDS="INT" NUMMORPH="INT">	
+     <MORPH [NAME="STRING"]>
+          <BLENDVERT VERTID="INT">
+		<POS>FLOAT FLOAT FLOAT</POS>
+		<NORM> FLOAT FLOAT FLOAT</NORM>          
+                <TEXCOORD>FLOAT FLOAT</TEXCOORD>
+                ...                            {all the other texture coordinates}
+	  </BLENDVERT>
+     ...                                       {all other blendvert}
+     </MORPH>
+     ...                                       {all other morphsubmeshs}
        <VERTEX ID="INT" NUMINFLUENCES="INT">
           <POS>FLOAT FLOAT FLOAT</POS>
-          <NORMFLOAT FLOAT FLOAT</NORM>
+          <NORM> FLOAT FLOAT FLOAT</NORM>
           [<COLLAPSEID>INT</COLLAPSEID>]
           [<COLLAPSECOUNT>INT</COLLAPSECOUNT>]
           <TEXCOORD>FLOAT FLOAT</TEXCOORD>
@@ -350,18 +381,22 @@ see cal3d mesh file (.cmf) for more information
           <INFLUENCE ID="INT">FLOAT FLOAT FLOAT</INFLUENCE>
           ...                                 {all the other bone influances}
           [<PHYSIQUE>FLOAT</PHYSIQUE>]
+	  [ removed]
+
        </VERTEX>
        ....                                   {all the other vertices}
        <SPRING VERTEXID="INT INT" COEF="FLOAT" LENGTH ="FLOAT"/>
        ...                                    {all the other springs}
        <FACE VERTEXID="INT INT INT"/>
        ...                                    {all the other faces}
+      
+	...                                   {all the other morphs}
     </SUBMESH>
     ...
 </MESH>
 
 o-----------------------------------------------------------------------------o
-| 9 cal3d xml material file (.xrf)                                            |
+| 11 cal3d xml material file (.xrf)                                            |
 o-----------------------------------------------------------------------------o
 
 this is the text/Xml file format of cal3d material file, 

@@ -22,66 +22,75 @@
 class CAL3D_API CalCoreMaterial : public cal3d::RefCounted
 {
 public:
-  struct Color
-  {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-    unsigned char alpha;
-  };
+    struct Color
+    {
+        unsigned char red;
+        unsigned char green;
+        unsigned char blue;
+        unsigned char alpha;
+    };
 
-  struct Map
-  {
-    std::string strFilename;
-    std::string mapType;
-    Cal::UserData userData;
-  };
+    struct Map
+    {
+        std::string strFilename;
+        std::string mapType;
+        Cal::UserData userData;
+    };
 
-  CalCoreMaterial();
-  CalCoreMaterial( const CalCoreMaterial& inOther );
+    CalCoreMaterial();
+    CalCoreMaterial( const CalCoreMaterial& inOther );
 
 protected:
-  ~CalCoreMaterial() { }
+    ~CalCoreMaterial() { }
 
 public:
-  const Color& getAmbientColor() const;
-  const Color& getDiffuseColor() const;
-  int getMapCount() const;
-  const std::string& getMapFilename(int mapId) const;
-  const std::string& getMapType(int mapId);
-  Cal::UserData getMapUserData(int mapId);
-  const Cal::UserData getMapUserData(int mapId) const;
-  float getShininess() const;
-  const Color& getSpecularColor() const;
-  Cal::UserData getUserData();
-  const Cal::UserData getUserData() const;
-  std::vector<Map>& getVectorMap();
-  const std::vector<Map>& getVectorMap() const;
-  bool reserve(int mapCount);
-  void setAmbientColor(const Color& ambientColor);
-  void setDiffuseColor(const Color& diffuseColor);
-  bool setMap(int mapId, const Map& map);
-  bool setMapUserData(int mapId, Cal::UserData userData);
-  void setShininess(float shininess);
-  void setSpecularColor(const Color& specularColor);
-  void setFilename(const std::string& filename);
-  const std::string& getFilename(void) const;
-  void setName(const std::string& name);
-  const std::string& getName(void) const;
-  void setUserData(Cal::UserData userData);
-  bool getAlphaBlending() { return false; } // No check box available in max.
-  bool getTwoSided() { return getMapCount() > 1; } // Should come from check box.
-  bool getSelfIllumination() { return false; } // Should come from check box.
+    inline void setAmbientColor(const Color& ambientColor){m_ambientColor=ambientColor;}
+    inline const Color& getAmbientColor() const{return m_ambientColor;}
+
+    inline const Color& getDiffuseColor() const{return m_diffuseColor;}
+    inline void setDiffuseColor(const Color& diffuseColor){m_diffuseColor=diffuseColor;}
+
+    inline void setShininess(float shininess){m_shininess=shininess;}
+    inline const float& getShininess() const{return m_shininess;}
+
+    inline void setSpecularColor(const Color& specularColor){m_specularColor=specularColor;}
+    inline const Color& getSpecularColor() const{return m_specularColor;}
+
+    inline void setFilename(const std::string& filename){m_filename=filename;}
+    inline const std::string& getFilename(void) const{return m_filename;}
+
+    inline void setName(const std::string& name){m_name=name;}
+    inline const std::string& getName(void) const{return m_name;}
+
+    inline void setUserData(Cal::UserData userData){m_userData=userData;}
+    inline Cal::UserData getUserData(){return m_userData;}
+    inline const Cal::UserData getUserData() const{return m_userData;}
+
+    inline std::vector<Map>& getVectorMap(){return m_vectorMap;}
+    inline const std::vector<Map>& getVectorMap() const{return m_vectorMap;}
+
+    int getMapCount() const;
+    const std::string& getMapFilename(int mapId) const;
+    const std::string& getMapType(int mapId);
+    Cal::UserData getMapUserData(int mapId);
+    const Cal::UserData getMapUserData(int mapId) const;
+
+    bool reserve(int mapCount);
+    bool setMap(int mapId, const Map& map);
+    bool setMapUserData(int mapId, Cal::UserData userData);
+    //bool getAlphaBlending() { return false; } // No check box available in max.
+    bool getTwoSided() { return getMapCount() > 1; } // Should come from check box.
+    bool getSelfIllumination() { return false; } // Should come from check box.
 
 private:
-  Color            m_ambientColor;
-  Color            m_diffuseColor;
-  Color            m_specularColor;
-  float            m_shininess;
-  std::vector<Map> m_vectorMap;
-  Cal::UserData    m_userData;
-  std::string      m_name;
-  std::string      m_filename;
+    Color            m_ambientColor;
+    Color            m_diffuseColor;
+    Color            m_specularColor;
+    float            m_shininess;
+    std::vector<Map> m_vectorMap;
+    Cal::UserData    m_userData;
+    std::string      m_name;
+    std::string      m_filename;
 };
 typedef cal3d::RefPtr<CalCoreMaterial> CalCoreMaterialPtr;
 

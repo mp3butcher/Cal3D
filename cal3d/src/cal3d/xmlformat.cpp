@@ -183,94 +183,8 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeletonFromFile(const std::string& str
   return loadXmlCoreSkeleton(doc);
 }
 
- /*****************************************************************************/
-/** Loads a core skeleton instance from a XML file.
-  *
-  * This function loads a core skeleton instance from a XML file.
-  *
-  * @param strFilename The name of the file to load the core skeleton instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(const void *dataSrc)
-{
-
-  cal3d::TiXmlDocument doc;
 
 
-  doc.Parse(static_cast<const char*>(dataSrc));
-  if(doc.Error())
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-    return 0;
-  }
-
-  return loadXmlCoreSkeleton(doc);
-}
-
-
- /*****************************************************************************/
-/** Loads a core Mesh instance from a XML file.
-  *
-  * This function loads a core Mesh instance from a XML file.
-  *
-  * @param strFilename The name of the file to load the core Mesh instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core Mesh
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreMeshPtr CalLoader::loadXmlCoreMesh(const void *dataSrc)
-{
-
-  cal3d::TiXmlDocument doc;
-  doc.Clear();
-
-
-  doc.Parse(static_cast<const char*>(dataSrc));
-  if(doc.Error())
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-    return 0;
-  }
-
-  return loadXmlCoreMesh(doc);
-}
-
- /******************************  ***********************************************/
-/** Loads a core Material instance from a XML file.
-  *
-  * This function loads a core Material instance from a XML file.
-  *
-  * @param strFilename The name of the file to load the core Material instance
-  *                    from.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core Material
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreMaterialPtr CalLoader::loadXmlCoreMaterial(const void *dataSrc)
-{
-
-  cal3d::TiXmlDocument doc;
-
-
-  doc.Parse(static_cast<char const *>(dataSrc));
-  if(doc.Error())
-  {
-    CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-    return 0;
-  }
-
-  return loadXmlCoreMaterial(doc);
-}
 
  /*****************************************************************************/
 /** Loads a core animation instance from a XML file.
@@ -1694,7 +1608,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                blendVert = blendVert->NextSiblingElement();
                morphTarget->setBlendVertex(blendVertI, Vertex);
              } else {
-#if 0
+
                CalCoreSubmesh::Vertex & origVertex = vectorVertex[blendVertI];
                // use the origVertex
                Vertex.position = origVertex.position;
@@ -1705,7 +1619,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                for( int tcI = 0; tcI < textureCoordinateCount; tcI++ ) {
                  Vertex.textureCoords.push_back( vectorvectorTextureCoordinate[tcI][blendVertI] );
                }
-#endif
+
              }
 
            }

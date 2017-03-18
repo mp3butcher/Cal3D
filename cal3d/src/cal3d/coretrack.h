@@ -61,10 +61,7 @@ public:
   *         \li the \b ID of the core bone
   *         \li \b -1 if an error happened
   *****************************************************************************/
-  inline int getCoreBoneId() const
-  {
-	  return m_coreBoneId;
-  }
+  inline int getCoreBoneId() const  { return m_coreBoneId; }
 
   bool setCoreBoneId(int coreBoneId);
 
@@ -77,12 +74,16 @@ public:
 
   bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
   void removeCoreKeyFrame(int _i) { m_keyframes.erase( m_keyframes.begin() + _i); }
+
   bool getTranslationRequired() { return m_translationRequired; }
   void setTranslationRequired( bool p ) { m_translationRequired = p; }
+
   bool getTranslationIsDynamic() { return m_translationIsDynamic; }
   void setTranslationIsDynamic( bool p ) { m_translationIsDynamic = p; }
+
   bool getHighRangeRequired() { return m_highRangeRequired; }
   void setHighRangeRequired( bool p ) { m_highRangeRequired = p; }
+
   void fillInvalidTranslations( CalVector const & trans );
 
   void scale(float factor);
