@@ -416,8 +416,8 @@ bool Viewer::onInit()
 	m_calModel->setMaterialSet(0);
 	std::cout << "Disable internal." << std::endl;
 	m_calModel->disableInternalData();
-	//m_calModel->getMorphTargetMixer()->m(0 ,1.0f,0,10.00,true)
-	m_calModel->getMorphTargetMixer()->blend(0, 1.0f, 0, 1.00, true);//ApplyWeightToMorphMesh("MyMiku_1_5_1_20091010_Face_10_mouth_laugh",1.0);
+
+	m_calModel->getMorphTargetMixer()->blend(0, 1.0f, 0, 1.00, true);
 
 	// set initial animation state
 	if (m_calCoreModel->getCoreAnimationCount() > 0)

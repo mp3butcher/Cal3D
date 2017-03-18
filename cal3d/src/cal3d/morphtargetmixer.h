@@ -65,7 +65,6 @@ private:
 
    void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
 
-   void ApplyWeightToMorphMesh(const unsigned int &morphMeshName, float trackWeight);
 };
 
 #endif

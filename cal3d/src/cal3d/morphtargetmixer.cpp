@@ -186,7 +186,24 @@ bool CalMorphTargetMixer::clear(int id, float delay)
                 for (itr=tracks.begin(); itr!=tracks.end(); ++itr)
                 {
                     const CalCoreMorphTrack *track = &(*itr);
-                    ApplyWeightToMorphMesh(track->getMorphID(), 0.0f);
+                    CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
+                    std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
+
+                    if(track->getNumTargetSubMeshes()==0)
+                    {
+                        for(int i=0; i<targetmesh->getSubmeshCount(); i++)
+                        {
+                            submeshes[i]->setMorphTargetWeight(track->getMorphID(), 0);
+                        }
+                    }
+                    else
+                    {
+                        for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+                        {
+                            submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), 0);
+
+                        }
+                    }
                 }
 
                 mAnimList.erase(mAnimList.begin() + index);
@@ -505,7 +522,6 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
 
         weight *= alpha;
 
-//      ApplyWeightToMorphMesh(track->getMorphName(), weight);
         CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
         std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
 
@@ -608,25 +624,3 @@ float CalMorphTargetMixer::CalcKeyframeWeight(const std::vector<CalCoreMorphKeyf
     return (MapRangeValue(elapsedTime, startTime, endTime, startWeight, endWeight));
 }
 
-//////////////////////////////////////////////////////////////////////////
-void CalMorphTargetMixer::ApplyWeightToMorphMesh(const unsigned int & morphMeshName,
-        float trackWeight)
-{
-    //Apply the given weight to the morph mesh.
-
-    //TODO.  This is pretty ugly.  Need a better way to find the right CalSubMesh
-    //to set the morph target weight on.
-
-    std::vector<CalMesh*> meshVec = m_pModel->getVectorMesh();
-    std::vector<CalMesh*>::iterator meshItr;
-    for (meshItr=meshVec.begin(); meshItr!=meshVec.end(); ++meshItr)
-    {
-        std::vector<CalSubmesh*> subMeshVec = (*meshItr)->getVectorSubmesh();
-        std::vector<CalSubmesh*>::iterator subMeshitr;
-        for (subMeshitr=subMeshVec.begin(); subMeshitr!=subMeshVec.end(); ++subMeshitr)
-        {
-            (*subMeshitr)->setMorphTargetWeight(morphMeshName, trackWeight);
-        }
-    }
-}
-//****************************************************************************//
