@@ -60,7 +60,7 @@ CalCoreSubmesh::~CalCoreSubmesh()
 }
 
 void
-CalCoreSubmesh::setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray )
+CalCoreSubmesh::setsSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray )
 {
   m_vectorSubMorphTargetGroupIndex.reserve( len );
   m_vectorSubMorphTargetGroupIndex.resize( len );
