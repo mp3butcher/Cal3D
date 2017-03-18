@@ -236,7 +236,7 @@ float CalMorphTargetMixer::getCurrentWeight(int id) const
   *
   * @return The morph target animation name.
   *****************************************************************************/
-const std::string& CalMorphTargetMixer::getMorphName(int id) const
+const std::string CalMorphTargetMixer::getMorphName(int id) const
 {
     const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
     if (morph)
@@ -272,7 +272,7 @@ int CalMorphTargetMixer::getTrackCount(int id) const
   *
   * @return The tracks for the morph target with the given id.
   *****************************************************************************/
-const std::list<CalCoreMorphTrack>& CalMorphTargetMixer::getMorphTracks(int id) const
+const std::list<CalCoreMorphTrack> CalMorphTargetMixer::getMorphTracks(int id) const
 {
     const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
     if (morph)

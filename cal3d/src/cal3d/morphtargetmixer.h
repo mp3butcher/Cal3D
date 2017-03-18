@@ -32,9 +32,9 @@ public:
    bool copy( const CalMorphTargetMixer& inOther );
    float getCurrentWeight(int id) const;
    //float getCurrentWeightBase() const;
-   const std::string& getMorphName(int id) const;
+   const std::string getMorphName(int id) const;
    int getTrackCount(int id) const;
-   const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
+   const std::list<CalCoreMorphTrack> getMorphTracks(int id) const;
    int getKeyframeCount(int id) const;
    float getDuration(int id) const;
    int getMorphTargetCount() const;
