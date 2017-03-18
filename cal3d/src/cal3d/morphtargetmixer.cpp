@@ -238,13 +238,7 @@ float CalMorphTargetMixer::getCurrentWeight(int id) const
   *****************************************************************************/
 const std::string& CalMorphTargetMixer::getMorphName(int id) const
 {
-    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-    if (morph)
-    {
-        return morph->getName();
-    }
-
-    return "";
+    return m_pModel->getCoreModel()->getCoreAnimatedMorph(id)->getName();
 }
 
 /*****************************************************************************/
@@ -256,13 +250,9 @@ const std::string& CalMorphTargetMixer::getMorphName(int id) const
   *****************************************************************************/
 int CalMorphTargetMixer::getTrackCount(int id) const
 {
-    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-    if (morph)
-    {
-        return (int)morph->getListCoreTrack().size();
-    }
 
-    return 0;
+    return (int)m_pModel->getCoreModel()->getCoreAnimatedMorph(id)->getListCoreTrack().size();
+
 }
 
 /*****************************************************************************/
@@ -274,13 +264,7 @@ int CalMorphTargetMixer::getTrackCount(int id) const
   *****************************************************************************/
 const std::list<CalCoreMorphTrack>& CalMorphTargetMixer::getMorphTracks(int id) const
 {
-    const CalCoreAnimatedMorph* morph = m_pModel->getCoreModel()->getCoreAnimatedMorph(id);
-    if (morph)
-    {
-        return morph->getListCoreTrack();
-    }
-
-    return std::list<CalCoreMorphTrack>();
+    return m_pModel->getCoreModel()->getCoreAnimatedMorph(id)->getListCoreTrack();
 }
 
 /*****************************************************************************/
