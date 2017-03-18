@@ -1046,7 +1046,7 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
 
      pCoreMorphTrack->reserve(keyFrameCount);
 
-     unsigned int morphName = atoi(track->Attribute("MORPHNAME"));
+     unsigned int morphName = atoi(track->Attribute("MORPHID"));
      pCoreMorphTrack->setMorphID(morphName);
      morphName = atoi(track->Attribute("MESHID"));
      pCoreMorphTrack->setTargetMesh(morphName);

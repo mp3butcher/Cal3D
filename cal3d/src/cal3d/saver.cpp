@@ -1120,19 +1120,19 @@ bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFil
       return false;
    }
 
-   // read the number of keyframes
+   // write the number of keyframes
    if(!CalPlatform::writeInteger(file, pCoreMorphTrack->getCoreMorphKeyframeCount()))
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
    }
-    // read the targetmesh index
+    // write the targetmesh index
    if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getTargetMesh()))
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
       return false;
    }
-   // read the number of submeshtarget
+   // write the number of submeshtarget
    if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getNumTargetSubMeshes()))
    {
       CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
@@ -1477,9 +1477,19 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
       CalCoreMorphTrack *pCoreMorphTrack=&(*iteratorCoreMorphTrack);
 
       TiXmlElement track("TRACK");
-      track.SetAttribute("MORPHNAME",pCoreMorphTrack->getMorphID());
-
+      track.SetAttribute("MORPHID",pCoreMorphTrack->getMorphID());
+      track.SetAttribute("NUMSUBTARGET",pCoreMorphTrack->getNumTargetSubMeshes());
       track.SetAttribute("NUMKEYFRAMES",pCoreMorphTrack->getCoreMorphKeyframeCount());
+
+      // save all submeshes targets
+      for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+      {
+          TiXmlElement targetSubMesh("SUBMESH");
+          str.str("");
+          str << pCoreMorphTrack->getTargetSubMesh(i);
+          targetSubMesh.SetAttribute("ID",str.str());
+          track.InsertEndChild(targetSubMesh);
+      }
 
       // save all core keyframes
       for (int i = 0; i < pCoreMorphTrack->getCoreMorphKeyframeCount(); ++i)
