@@ -148,18 +148,23 @@ public:
   static CalCoreAnimationPtr loadXmlCoreAnimation(const std::string& strFilename, CalCoreSkeleton *skel=NULL);
   static CalCoreAnimationPtr loadXmlCoreAnimation(const char*, CalCoreSkeleton* skel);
   static CalCoreAnimationPtr loadXmlCoreAnimation(cal3d::TiXmlDocument & doc, CalCoreSkeleton* skel);
+
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(const std::string& strFilename);
   static CalCoreMeshPtr loadXmlCoreMesh(const std::string& strFilename);
-  static CalCoreMaterialPtr loadXmlCoreMaterial(const std::string& strFilename);
+  static CalCoreMeshPtr loadXmlCoreMesh(cal3d::TiXmlDocument& doc);
+
   static CalCoreAnimatedMorph *loadXmlCoreAnimatedMorph(const std::string& strFilename);
   static CalCoreAnimatedMorph *loadXmlCoreAnimatedMorph(const void *);
   static CalCoreAnimatedMorph *loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument & doc);
 
+  static CalCoreMaterialPtr loadXmlCoreMaterial(cal3d::TiXmlDocument& doc);
+  static CalCoreMaterialPtr loadXmlCoreMaterial(const std::string& strFilename);
+
+  static CalCoreSkeletonPtr loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc);
   static CalCoreSkeletonPtr loadXmlCoreSkeletonFromFile(const std::string& strFilename);
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(const void *);
 
   static CalCoreMeshPtr loadXmlCoreMesh(const void *);
-
   static CalCoreMaterialPtr loadXmlCoreMaterial(const void *);
 
 private:
@@ -173,9 +178,7 @@ private:
   static CalCoreTrack *loadCoreTrack(CalDataSource & dataSrc, CalCoreSkeleton * skel, int version, bool useAnimationCompresssion);
   static CalCoreMorphTrack *loadCoreMorphTrack(CalDataSource& dataSrc);
 
-  static CalCoreSkeletonPtr loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc);
-  static CalCoreMeshPtr loadXmlCoreMesh(cal3d::TiXmlDocument& doc);
-  static CalCoreMaterialPtr loadXmlCoreMaterial(cal3d::TiXmlDocument& doc);
+
 
   static int loadingMode;
   static double translationTolerance;

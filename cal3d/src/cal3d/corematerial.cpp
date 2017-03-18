@@ -36,32 +36,6 @@ CalCoreMaterial::CalCoreMaterial( const CalCoreMaterial& inOther )
 
 
  /*****************************************************************************/
-/** Returns the ambient color.
-  *
-  * This function returns the ambient color of the core material instance.
-  *
-  * @return A reference to the ambient color.
-  *****************************************************************************/
-
-const CalCoreMaterial::Color& CalCoreMaterial::getAmbientColor() const
-{
-  return m_ambientColor;
-}
-
- /*****************************************************************************/
-/** Returns the diffuse color.
-  *
-  * This function returns the diffuse color of the core material instance.
-  *
-  * @return A reference to the diffuse color.
-  *****************************************************************************/
-
-const CalCoreMaterial::Color& CalCoreMaterial::getDiffuseColor() const
-{
-  return m_diffuseColor;
-}
-
- /*****************************************************************************/
 /** Returns the number of maps.
   *
   * This function returns the number of mapss in the core material instance.
@@ -177,85 +151,7 @@ const Cal::UserData CalCoreMaterial::getMapUserData(int mapId) const
   return m_vectorMap[mapId].userData;
 }
 
- /*****************************************************************************/
-/** Returns the shininess factor.
-  *
-  * This function returns the shininess factor of the core material instance.
-  *
-  * @return The shininess factor.
-  *****************************************************************************/
 
-float CalCoreMaterial::getShininess() const
-{
-  return m_shininess;
-}
-
- /*****************************************************************************/
-/** Returns the specular color.
-  *
-  * This function returns the specular color of the core material instance.
-  *
-  * @return A reference to the specular color.
-  *****************************************************************************/
-
-const CalCoreMaterial::Color& CalCoreMaterial::getSpecularColor() const
-{
-  return m_specularColor;
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core material instance.
-  *
-  * @return The user data stored in the core material instance.
-  *****************************************************************************/
-
-Cal::UserData CalCoreMaterial::getUserData()
-{
-  return m_userData;
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core material instance.
-  *
-  * @return The user data stored in the core material instance.
-  *****************************************************************************/
-
-const Cal::UserData CalCoreMaterial::getUserData() const
-{
-  return m_userData;
-}
-
- /*****************************************************************************/
-/** Returns the map vector.
-  *
-  * This function returns the vector that contains all maps of the core material
-  * instance.
-  *
-  * @return A reference to the map vector.
-  *****************************************************************************/
-
-std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap()
-{
-  return m_vectorMap;
-}
-
- /*****************************************************************************/
-/** Returns the map vector.
-  *
-  * This function returns the vector that contains all maps of the core material
-  * instance.
-  *
-  * @return A reference to the map vector.
-  *****************************************************************************/
-
-const std::vector<CalCoreMaterial::Map>& CalCoreMaterial::getVectorMap() const
-{
-  return m_vectorMap;
-}
 
  /*****************************************************************************/
 /** Reserves memory for the maps.
@@ -287,31 +183,6 @@ bool CalCoreMaterial::reserve(int mapCount)
 	return success;
 }
 
- /*****************************************************************************/
-/** Sets the ambient color.
-  *
-  * This function sets the ambient color of the core material instance.
-  *
-  * @param ambientColor The ambient color that should be set.
-  *****************************************************************************/
-
-void CalCoreMaterial::setAmbientColor(const CalCoreMaterial::Color& ambientColor)
-{
-  m_ambientColor = ambientColor;
-}
-
- /*****************************************************************************/
-/** Sets the diffuse color.
-  *
-  * This function sets the diffuse color of the core material instance.
-  *
-  * @param ambientColor The diffuse color that should be set.
-  *****************************************************************************/
-
-void CalCoreMaterial::setDiffuseColor(const CalCoreMaterial::Color& diffuseColor)
-{
-  m_diffuseColor = diffuseColor;
-}
 
  /*****************************************************************************/
 /** Sets a specified map.
@@ -358,96 +229,3 @@ bool CalCoreMaterial::setMapUserData(int mapId, Cal::UserData userData)
   return true;
 }
 
- /*****************************************************************************/
-/** Sets the shininess factor.
-  *
-  * This function sets the shininess factor of the core material instance.
-  *
-  * @param shininess The shininess factor that should be set.
-  *****************************************************************************/
-
-void CalCoreMaterial::setShininess(float shininess)
-{
-  m_shininess = shininess;
-}
-
- /*****************************************************************************/
-/** Sets the specular color.
-  *
-  * This function sets the specular color of the core material instance.
-  *
-  * @param ambientColor The specular color that should be set.
-  *****************************************************************************/
-
-void CalCoreMaterial::setSpecularColor(const CalCoreMaterial::Color& specularColor)
-{
-  m_specularColor = specularColor;
-}
-
-
- /*****************************************************************************/
-/** 
-  * Set the name of the file in which the core material is stored, if any.
-  *
-  * @param filename The path of the file.
-  *****************************************************************************/
-
-void CalCoreMaterial::setFilename(const std::string& filename)
-{
-  m_filename = filename;
-}
-
- /*****************************************************************************/
-/** 
-  * Get the name of the file in which the core material is stored, if any.
-  *
-  * @return One of the following values:
-  *         \li \b empty string if the material was not stored in a file
-  *         \li \b the path of the file
-  *
-  *****************************************************************************/
-
-const std::string& CalCoreMaterial::getFilename(void) const
-{
-  return m_filename;
-}
-
- /*****************************************************************************/
-/** 
-  * Set the symbolic name of the core material.
-  *
-  * @param name A symbolic name.
-  *****************************************************************************/
-
-void CalCoreMaterial::setName(const std::string& name)
-{
-  m_name = name;
-}
-
- /*****************************************************************************/
-/** 
-  * Get the symbolic name the core material.
-  *
-  * @return One of the following values:
-  *         \li \b empty string if the material was no associated to a symbolic name
-  *         \li \b the symbolic name
-  *
-  *****************************************************************************/
-
-const std::string& CalCoreMaterial::getName(void) const
-{
-  return m_name;
-}
-
- /*****************************************************************************/
-/** Stores user data.
-  *
-  * This function stores user data in the core material instance.
-  *
-  * @param userData The user data that should be stored.
-  *****************************************************************************/
-
-void CalCoreMaterial::setUserData(Cal::UserData userData)
-{
-  m_userData = userData;
-}
