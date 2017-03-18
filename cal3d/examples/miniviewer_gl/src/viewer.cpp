@@ -68,7 +68,7 @@ Viewer::Viewer()
 	m_drawGrid = false;
 	m_drawSkeleton = false;
 	m_scale = 1.0f;
-	m_blendTime = 0.3f;
+    m_blendTime = 0.5f;
 	m_lodLevel = 1.0f;
 	m_vertexCount = 0;
 	m_faceCount = 0;
@@ -266,6 +266,10 @@ bool Viewer::onCreate(int argc, char *argv[])
 
 	// parse the command line arguments
 	int arg;
+    if( argc==1){
+        ///print usage
+        std::cerr << "Usage: " << argv[0] << " [--fullscreen] [--window] [--dimension width height] [--help] model-configuration-file" << std::endl;
+    }
 	for (arg = 1; arg < argc; arg++)
 	{
 		// check for fullscreen flag
@@ -286,7 +290,7 @@ bool Viewer::onCreate(int argc, char *argv[])
 		// check for help flag
 		else if (strcmp(argv[arg], "--help") == 0)
 		{
-			std::cerr << "Usage: " << argv[0] << " [--fullscreen] [--window] [--dimension width height] [--help] model-configuration-file" << std::endl;
+            std::cerr << "Usage: " << argv[0] << " [--fullscreen] [--window] [--dimension width height] model-configuration-file" << std::endl;
 			return false;
 		}
 		// must be the model configuration file then
@@ -353,22 +357,22 @@ void Viewer::onIdle()
 	// update the model if not paused
 	if (!m_bPaused)
 	{
-		// check if the time has come to blend to the next animation
-		if (m_calCoreModel->getCoreAnimationCount() > 1)
-		{
-			m_leftAnimationTime -= elapsedSeconds;
-			if (m_leftAnimationTime <= m_blendTime)
-			{
-				// get the next animation
-				m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel->getCoreAnimationCount();
+        // check if the time has come to blend to the next animation
+        if (m_calCoreModel->getCoreAnimationCount() > 1)
+        {
+            m_leftAnimationTime -= elapsedSeconds;
+            if (m_leftAnimationTime <= m_blendTime)
+            {
+                // get the next animation
+                m_currentAnimationId = (m_currentAnimationId + 1) % m_calCoreModel->getCoreAnimationCount();
 
-				// fade in the new animation
-				m_calModel->getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
+                // fade in the new animation
+                m_calModel->getMixer()->executeAction(m_currentAnimationId, m_leftAnimationTime, m_blendTime);
 
-				// adjust the animation time left until next animation flip
-				m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
-			}
-		}
+                // adjust the animation time left until next animation flip
+                m_leftAnimationTime = m_calCoreModel->getCoreAnimation(m_currentAnimationId)->getDuration() - m_blendTime;
+            }
+        }
 
 		m_calModel->update(elapsedSeconds);
 	}
@@ -488,12 +492,6 @@ void Viewer::onKey(unsigned char key, int x, int y)
 	case '/':
 		m_timeScale /= 1.1f;
         break;
-        // cycles through actions
-    case 'n':
-        std::cout<<m_currentAnimationId<<std::endl;
-        m_calModel->getMixer()->stopAction(m_currentAnimationId);
-        if(++m_currentAnimationId>m_calCoreModel->getCoreAnimationCount() )m_currentAnimationId=0;
-        m_calModel->getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
         // test for the lod keys
 	default:
 		if ((key >= '0') && (key <= '9'))

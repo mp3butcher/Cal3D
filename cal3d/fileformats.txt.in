@@ -20,10 +20,11 @@ o------------------------------------------------------------------------------o
   5 cal3d material file (.crf)
   6 cal3d skeleton xml file (.xsf)
   7 cal3d animation xml file (.xaf)
-  8 cal3d mesh xml file (.xmf)
-  9 cal3d material xml file (.xrf)
-  10 Website
-  11 Author
+  8 cal3d morphanimation xml file (.xpf)
+  9 cal3d mesh xml file (.xmf)
+  10 cal3d material xml file (.xrf)
+  11 Website
+  12 Author
 
 
 o------------------------------------------------------------------------------o
@@ -316,7 +317,22 @@ see cal3d skeleton file (.csf) for more information
 </ANIMATION>
 
 o-----------------------------------------------------------------------------o
-| 8 cal3d xml mesh file (.xmf)                                                |
+| 8 cal3d morphanimation xml file (.xpf)                                              |
+o-----------------------------------------------------------------------------o
+  <ANIMATION MAGIC="XPF" VERSION="1300" DURATION="FLOAT" NUMTRACKS="INT">
+	<TRACK MESHID="INT" MORPHID="INT" NUMKEYFRAMES="INT" NUMSUBTARGET="INT">
+		<SUBMESH  ID="INT"/>	
+                ....            {all other submeshtarget}
+		
+		<KEYFRAME TIME="FLOAT">	
+			<WEIGHT>FLOAT</WEIGHT>
+		</KEYFRAME>   
+                ....            {all other keyframes}
+        </TRACK>
+   ....                         {all other animation}
+</ANIMATION>
+o-----------------------------------------------------------------------------o
+| 9 cal3d xml mesh file (.xmf)                                                |
 o-----------------------------------------------------------------------------o
 
 this is the text/Xml file format of cal3d mesh file, 
