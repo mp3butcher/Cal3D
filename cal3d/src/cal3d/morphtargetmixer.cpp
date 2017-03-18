@@ -512,7 +512,8 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
         std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
 
         for(int i=0; i<track->getNumTargetSubMeshes(); i++)
-            submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
+         submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
+         //  submeshes[track->getTargetSubMesh(i)]-> blendMorphTargetScale(track->getMorphID(),weight)
     }
 }
 

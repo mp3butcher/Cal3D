@@ -51,39 +51,57 @@ public:
     CalSubmesh(CalCoreSubmesh *coreSubmesh);
     ~CalSubmesh() { }
 
+    ///return coresubmesh model of the submesh
     CalCoreSubmesh *getCoreSubmesh();
     const CalCoreSubmesh *getCoreSubmesh() const;
-    int getCoreMaterialId() const;
-    int getFaceCount() const;
-    int getFaces(CalIndex *pFaceBuffer) const;
-    std::vector<CalVector>& getVectorNormal();
-    const std::vector<CalVector>& getVectorNormal() const;
-    std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
-    const std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace() const;
-    std::vector<PhysicalProperty>& getVectorPhysicalProperty();
-    const std::vector<PhysicalProperty>& getVectorPhysicalProperty() const;
+
+    int getVertexCount() const;
+
     std::vector<CalVector>& getVectorVertex();
     const std::vector<CalVector>& getVectorVertex() const;
-    int getVertexCount() const;
-    bool hasInternalData() const;
-    void disableInternalData();
-    void setCoreMaterialId(int coreMaterialId);
-    void setLodLevel(float lodLevel);
+
+    std::vector<CalVector>& getVectorNormal();
+    const std::vector<CalVector>& getVectorNormal() const;
+
+
+    std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
+    const std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace() const;
+
     bool isTangentsEnabled(int mapId) const;
     bool enableTangents(int mapId, bool enabled);
+
+    std::vector<PhysicalProperty>& getVectorPhysicalProperty();
+    const std::vector<PhysicalProperty>& getVectorPhysicalProperty() const;
+
+
+    int getCoreMaterialId() const;
+    void setCoreMaterialId(int coreMaterialId);
+
+    void setLodLevel(float lodLevel);
+
+    int getFaceCount() const;
+    int getFaces(CalIndex *pFaceBuffer) const;
+
+
     void setMorphTargetWeight(int blendId, float weight);
     float getMorphTargetWeight(int blendId) const;
     void setMorphTargetWeight(const unsigned int& morphName,float weight);
     int getMorphTargetWeightCount() const;
+    std::vector<float>& getVectorMorphTargetWeight();
+    const std::vector<float>& getVectorMorphTargetWeight() const;
     bool getMorphTargetWeight(const unsigned int& morphName, float * weightOut);
     void getMorphIdAndWeightArray( MorphIdAndWeight * arrayResult,
                                    unsigned int * numMiawsResult,
                                    unsigned int maxMiaws );
     float getBaseWeight() const;
-    std::vector<float>& getVectorMorphTargetWeight();
-    const std::vector<float>& getVectorMorphTargetWeight() const;
+
+
     void clearMorphTargetScales();
     void clearMorphTargetState(  const unsigned int& morphName );
+
+    bool hasInternalData() const;
+    void disableInternalData();
+ #ifdef   WORKINGCalSubmesh_blendMorphTargetScale
     void blendMorphTargetScale(  const unsigned int& morphName,
                                  float scale,
                                  float unrampedWeight,
@@ -91,6 +109,7 @@ public:
                                  bool replace );
     void setSubMorphTargetGroupAttenuatorArray( unsigned int len, int const * morphTargetIdArray );
     void setSubMorphTargetGroupAttenuationArray( unsigned int len, float const * attenuationArray );
+#endif
 private:
     CalCoreSubmesh                         *m_pCoreSubmesh;
     std::vector<float>                      m_vectorMorphTargetWeight;

@@ -568,6 +568,7 @@ CalSubmesh::clearMorphTargetState(  const unsigned int& morphName )
 }
 
 
+#ifdef WORKINGCalSubmesh_blendMorphTargetScale
 void
 CalSubmesh::setSubMorphTargetGroupAttenuatorArray( unsigned int len, int const * morphTargetIdArray )
 {
@@ -593,7 +594,6 @@ CalSubmesh::setSubMorphTargetGroupAttenuationArray( unsigned int len, float cons
         m_vectorSubMorphTargetGroupAttenuation[ i ] = attenuationArray[ i ];
     }
 }
-
 /*****************************************************************************/
 /** Sets weight of a morph target with the given name
   *
@@ -745,7 +745,7 @@ CalSubmesh::blendMorphTargetScale(  const unsigned int& morphName,
 // }
 }
 
-
+#endif
 /*****************************************************************************/
 /** Gets weight of a morph target with the given name
   *

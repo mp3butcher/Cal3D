@@ -395,11 +395,12 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
   }
 
 
+  ///try to read SCENEAMBIENTCOLOR but should be removed definetly TODO
   char const * attrStr = skeleton->Attribute("SCENEAMBIENTCOLOR");
   if( attrStr ) {
     CalVector sceneColor;
     ReadTripleFloat( attrStr, &sceneColor.x, &sceneColor.y, &sceneColor.z );
-    pCoreSkeleton->setSceneAmbientColor( sceneColor );
+   // pCoreSkeleton->setSceneAmbientColor( sceneColor );
   }
 
   cal3d::TiXmlElement* bone;

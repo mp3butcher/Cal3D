@@ -33,28 +33,38 @@ public:
     void setName(const std::string& name);
     const std::string& getName(void) const;
 
-    //bones
+    //bones vector
+    ///add a Bone
     int addCoreBone(CalCoreBone *pCoreBone);
+    ///return bones count of the skeleton
     unsigned int getNumCoreBones() const { return ( unsigned int ) m_vectorCoreBone.size(); }
-    int getCoreBoneId(const std::string& strName) const;
+
     CalCoreBone *getCoreBone(int coreBoneId);
     const CalCoreBone *getCoreBone(int coreBoneId) const;
-    CalCoreBone *getCoreBone(const std::string& strName);
-    const CalCoreBone *getCoreBone(const std::string& strName) const;
     std::vector<CalCoreBone *>& getVectorCoreBone();
     const std::vector<CalCoreBone *>& getVectorCoreBone() const;
 
+    /// Returns the root core bone id list.
     std::vector<int>& getVectorRootCoreBoneId();
     const std::vector<int>& getVectorRootCoreBoneId() const;
 
     void calculateState();
     void calculateBoundingBoxes(CalCoreModel *pCoreModel);
 
-    ///scale the skeleton
-    void scale(float factor);
+
+    //helpers
 
     ///associate a name to a bone
     bool mapCoreBoneName(int coreBoneId, const std::string& strName);
+    ////return the index of the bone mapped the given name
+    int getCoreBoneId(const std::string& strName) const;
+    ////return the bone mapped the given name
+    CalCoreBone *getCoreBone(const std::string& strName);
+    ////return the bone mapped the given name
+    const CalCoreBone *getCoreBone(const std::string& strName) const;
+
+    ///scale all the skeleton inner data by factor
+    void scale(float factor);
 private:
     std::vector<CalCoreBone *>   m_vectorCoreBone;
     std::map< std::string, int > m_mapCoreBoneNames;

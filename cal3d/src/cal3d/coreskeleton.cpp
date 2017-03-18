@@ -403,21 +403,6 @@ void CalCoreSkeleton::scale(float factor)
 
 }
 
-//****************************************************************************//
-
-void
-CalCoreSkeleton::setSceneAmbientColor( CalVector const & color )
-{
-  m_sceneAmbientColor = color;
-}
-
-
-void
-CalCoreSkeleton::getSceneAmbientColor( CalVector & color ) const
-{
-  color = m_sceneAmbientColor;
-}
-
  /*****************************************************************************/
 /** 
   * Set the symbolic name of the core skeleton.

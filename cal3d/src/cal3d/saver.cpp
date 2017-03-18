@@ -730,12 +730,12 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
     return false;
   }
 
-  // write the sceneambient
-  CalVector sceneColor;
+  // write the sceneambient TODO remove definitely
+ /* CalVector sceneColor;
   pCoreSkeleton->getSceneAmbientColor(sceneColor);
   CalPlatform::writeFloat(file, sceneColor.x);
   CalPlatform::writeFloat(file, sceneColor.y);
-  CalPlatform::writeFloat(file, sceneColor.z);
+  CalPlatform::writeFloat(file, sceneColor.z);*/
 
   // write all core bones
   int boneId;
@@ -1190,10 +1190,10 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 
   skeleton.SetAttribute("NUMBONES",pCoreSkeleton->getVectorCoreBone().size());
 
-  CalVector sceneColor;
-  pCoreSkeleton->getSceneAmbientColor(sceneColor);
+  /* CalVector sceneColor; TODO remove definitely
+ pCoreSkeleton->getSceneAmbientColor(sceneColor);
   str << sceneColor.x << " " << sceneColor.y << " " << sceneColor.z;
-  skeleton.SetAttribute("SCENEAMBIENTCOLOR", str.str());
+  skeleton.SetAttribute("SCENEAMBIENTCOLOR", str.str());*/
 
 
   int boneId;
