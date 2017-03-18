@@ -46,7 +46,7 @@ class CalQuaternion;
 
 namespace cal3d
 {
-	class TiXmlDocument;
+  class TiXmlDocument;
 }
 
 enum
@@ -134,13 +134,12 @@ public:
   static bool usesAnimationCompression( int version );
   static unsigned int compressedKeyframeRequiredBytes( CalCoreKeyframe * lastCoreKeyframe, bool translationRequired, bool highRangeRequired, bool translationIsDynamic );
   static unsigned int readCompressedKeyframe( unsigned char * buf, unsigned int bytes, CalCoreBone * coreboneOrNull,
-    CalVector * vecResult, CalQuaternion * quatResult, float * timeResult,
-    CalCoreKeyframe * lastCoreKeyframe,
+    CalVector * vecResult, CalQuaternion * quatResult, CalCoreKeyframe * lastCoreKeyframe,
     bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
     bool useAnimationCompression);
-  static unsigned int writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, const std::string& strFilename, 
+  static unsigned int writeCompressedKeyframe( unsigned char * buf, unsigned int bufLen, const std::string& strFilename,
     CalVector const & translation, CalQuaternion const & rotation, float caltime,
-    int version, 
+    int version,
     bool needTranslation, bool highRangeRequired );
   static void compressCoreAnimation( CalCoreAnimation * anim, CalCoreSkeleton *skel );
 
@@ -163,19 +162,16 @@ public:
   static CalCoreSkeletonPtr loadXmlCoreSkeleton(cal3d::TiXmlDocument& doc);
   static CalCoreSkeletonPtr loadXmlCoreSkeletonFromFile(const std::string& strFilename);
 
-
 private:
   static CalCoreBone *loadCoreBones(CalDataSource& dataSrc, int version);
-  static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc, CalCoreBone * coreboneOrNull, 
-                                             int version, CalCoreKeyframe * lastCoreKeyframe, 
+  static CalCoreKeyframe *loadCoreKeyframe(CalDataSource& dataSrc, CalCoreBone * coreboneOrNull,
+                                             int version, CalCoreKeyframe * lastCoreKeyframe,
                                              bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
                                              bool useAnimationCompression);
   static CalCoreMorphKeyframe *loadCoreMorphKeyframe(CalDataSource& dataSrc);
   static CalCoreSubmesh *loadCoreSubmesh(CalDataSource& dataSrc, int version);
   static CalCoreTrack *loadCoreTrack(CalDataSource & dataSrc, CalCoreSkeleton * skel, int version, bool useAnimationCompresssion);
   static CalCoreMorphTrack *loadCoreMorphTrack(CalDataSource& dataSrc);
-
-
 
   static int loadingMode;
   static double translationTolerance;
@@ -307,11 +303,11 @@ WriteQuatAndExtra( unsigned char * dest, float const * vals, unsigned int extra,
   unsigned int signOne = ( vals[ bigi ] < 0 ) ? 0 : 1;
   unsigned int signZero = 1 - signOne;
 
-  // Format: 
-  // selection (2), 
-  // asign (1), afixed (n), 
-  // bsign (1), bfixed (n), 
-  // csign (1), cfixed (n), 
+  // Format:
+  // selection (2),
+  // asign (1), afixed (n),
+  // bsign (1), bfixed (n),
+  // csign (1), cfixed (n),
   // extra
   BitWriter bw( dest );
   bw.write( bigi, 2 );
@@ -343,7 +339,7 @@ ReadQuatAndExtra( unsigned char const * data, float * valsResult, unsigned int *
 {
   BitReader br( data );
   unsigned int bigi;
-  br.read( & bigi, 2 ); 
+  br.read( & bigi, 2 );
   unsigned int i;
   float sum = 0.0f;
   for( i = 0; i < 4; i++ ) {

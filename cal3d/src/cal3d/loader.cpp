@@ -994,8 +994,6 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(CalDataSource& dataSrc)
     return 0;
   }
 
-  bool hasNodeLights = (version >= Cal::FIRST_FILE_VERSION_WITH_NODE_LIGHTS);
-
   // read the number of bones
   int boneCount;
   if(!dataSrc.readInteger(boneCount) || (boneCount <= 0))
@@ -1244,7 +1242,7 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(
      CalVector vec;
      CalQuaternion quat;
      unsigned int bytesRead = readCompressedKeyframe( buf, bytesRequired, coreboneOrNull,
-        & vec, & quat, & time, prevCoreKeyframe,
+        & vec, & quat, prevCoreKeyframe,
         translationRequired, highRangeRequired, translationIsDynamic,
         useAnimationCompression);
      if( bytesRead != bytesRequired ) {
@@ -1301,7 +1299,7 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(
   if(!dataSrc.ok())
   {
     dataSrc.setError();
-    return false;
+    return 0;
   }
 
   // allocate a new core keyframe instance
@@ -1392,8 +1390,7 @@ TranslationInvalid( CalVector const & result )
 unsigned int
 CalLoader::readCompressedKeyframe(
                                   unsigned char * buf, unsigned int bytes, CalCoreBone * coreboneOrNull,
-                                  CalVector * vecResult, CalQuaternion * quatResult, float * timeResult,
-                                  CalCoreKeyframe * lastCoreKeyframe,
+                                  CalVector * vecResult, CalQuaternion * quatResult, CalCoreKeyframe * lastCoreKeyframe,
                                   bool translationRequired, bool highRangeRequired, bool translationIsDynamic,
                                   bool useAnimationCompression)
 {
@@ -1477,7 +1474,6 @@ CalLoader::readCompressedKeyframe(
    buf += 6;
    assert( bytesRead == 6 );
    quatResult->set( quat[ 0 ], quat[ 1 ], quat[ 2 ], quat[ 3 ] );
-   * timeResult = steps / 30.0f;
    return buf - bufStart;
 }
 
@@ -1921,11 +1917,11 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
       CalCoreSubMorphTarget * morphTarget = new CalCoreSubMorphTarget();
       if( !morphTarget ) {
          dataSrc.setError();
-         return false;
+         return 0;
       }
       if( !morphTarget->reserve(vertexCount) ) {
          dataSrc.setError();
-         return false;
+         return 0;
       }
 
       std::string morphName;
@@ -1967,7 +1963,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
             }
             if( ! dataSrc.ok() ) {
                dataSrc.setError();
-               return false;
+               return 0;
             }
 
             morphTarget->setBlendVertex(blendVertI, Vertex);
