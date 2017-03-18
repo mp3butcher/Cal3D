@@ -249,7 +249,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(const std::string& strFilename)
 
   CalCoreMeshPtr coremesh = loadCoreMesh( streamSrc );
 
-  if(coremesh) coremesh->setFilename( strFilename );
+  //if(coremesh) coremesh->setFilename( strFilename );
 
 
   //close the file

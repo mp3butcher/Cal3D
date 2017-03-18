@@ -487,8 +487,14 @@ void Viewer::onKey(unsigned char key, int x, int y)
 		break;
 	case '/':
 		m_timeScale /= 1.1f;
-		break;
-		// test for the lod keys
+        break;
+        // cycles through actions
+    case 'n':
+        std::cout<<m_currentAnimationId<<std::endl;
+        m_calModel->getMixer()->stopAction(m_currentAnimationId);
+        if(++m_currentAnimationId>m_calCoreModel->getCoreAnimationCount() )m_currentAnimationId=0;
+        m_calModel->getMixer()->executeAction(m_currentAnimationId, 0.0f, m_blendTime);
+        // test for the lod keys
 	default:
 		if ((key >= '0') && (key <= '9'))
 		{

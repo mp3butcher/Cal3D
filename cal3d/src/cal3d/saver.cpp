@@ -675,7 +675,7 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
   // explicitly close the file
   file.close();
 
-  pCoreMesh->setFilename(strFilename);
+  //pCoreMesh->setFilename(strFilename);
 
   return true;
 }

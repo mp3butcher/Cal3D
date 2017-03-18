@@ -23,39 +23,38 @@ class CalCoreSubmesh;
 class CAL3D_API CalCoreMesh : public cal3d::RefCounted
 {
 protected:
-  ~CalCoreMesh();
+  virtual ~CalCoreMesh();
 
 public:
+  typedef std::vector<CalCoreSubmesh *> CalCoreSubmeshVector;
   CalCoreMesh();
 
-  typedef std::vector<CalCoreSubmesh *> CalCoreSubmeshVector;
+  //return total datasize of the mesh in bytes
   unsigned int size();
+
+  //submeshes
   int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
   CalCoreSubmesh *getCoreSubmesh(int id);
   const CalCoreSubmesh *getCoreSubmesh(int id) const;
   void removeCoreSubmesh( int submeshID );
   int getCoreSubmeshCount() const;
-  void reserve(int submeshes) { m_vectorCoreSubmesh.reserve(submeshes); }
   std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
   const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
-  ///add a CalCoreMesh as MorphId
-  int addAsMorphTarget(CalCoreMesh *pCoreMesh);//, std::string const & morphTargetName);
-  ///retrieve MorphId from MorphTargetName
-  int getMorphTargetId(std::string const & morphTargetName);
-  /// return true if submeshes have morphTargets
-  inline bool hasMorphTargets(){return !m_morphTargets.empty();}
+
+  inline void reserve(int submeshes) { m_vectorCoreSubmesh.reserve(submeshes); }
+
+  ///not in format spec but convenient
+  inline void setName(const std::string& name){ m_name=name;}
+  inline const std::string& getName(void) const{return m_name;}
+
+  ///add a CalCoreMesh as MorphId (submeshes must have same num vertices)
+  int addAsMorphTarget(CalCoreMesh *pCoreMesh);
+
+  ///scale all mesh data by factor
   void scale(float factor);
-  void setFilename(const std::string& filename);
-  const std::string& getFilename(void) const;
-  void setName(const std::string& name);
-  const std::string& getName(void) const;
-
-
 private:
-  std::map<std::string,int> m_morphTargets;
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;
   std::string                   m_name;
-  std::string                   m_filename;
 };
 typedef cal3d::RefPtr<CalCoreMesh> CalCoreMeshPtr;
 

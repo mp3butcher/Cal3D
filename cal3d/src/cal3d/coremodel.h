@@ -45,7 +45,7 @@ public:
   bool removeCoreAnimation( int id );
   CalCoreAnimation *getCoreAnimation(int coreAnimationId);
   const CalCoreAnimation *getCoreAnimation(int coreAnimationId) const;
-  bool removeCoreAnimatedMorph( int id );
+
   int getCoreAnimationCount() const;
   int loadCoreAnimation(const std::string& strFilename);
   int loadCoreAnimation(void* buffer, const std::string& strAnimationName);
@@ -59,6 +59,7 @@ public:
 
   // morph animations
   int addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph);
+  bool removeCoreAnimatedMorph( int id );
   CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId);
   const CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId) const;
   int getCoreAnimatedMorphId(const std::string& strAnimatedMorphName) const;
