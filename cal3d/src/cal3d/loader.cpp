@@ -1012,13 +1012,6 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(CalDataSource& dataSrc)
     return 0;
   }
 
-  // load the scene ambient
-  if( hasNodeLights ) {
-     CalVector sceneColor;
-     CalVectorFromDataSrc( dataSrc, &sceneColor );
-     pCoreSkeleton->setSceneAmbientColor(sceneColor);
-  }
-
   // load all core bones
   for(int boneId = 0; boneId < boneCount; ++boneId)
   {
