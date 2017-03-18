@@ -1608,7 +1608,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                blendVert = blendVert->NextSiblingElement();
                morphTarget->setBlendVertex(blendVertI, Vertex);
              } else {
-#if 0
+
                CalCoreSubmesh::Vertex & origVertex = vectorVertex[blendVertI];
                // use the origVertex
                Vertex.position = origVertex.position;
@@ -1619,7 +1619,7 @@ CalCoreMeshPtr CalLoader::loadXmlCoreMesh(cal3d::TiXmlDocument & doc)
                for( int tcI = 0; tcI < textureCoordinateCount; tcI++ ) {
                  Vertex.textureCoords.push_back( vectorvectorTextureCoordinate[tcI][blendVertI] );
                }
-#endif
+
              }
 
            }
