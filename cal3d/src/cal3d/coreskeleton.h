@@ -24,37 +24,42 @@ class CalCoreModel;
 class CAL3D_API CalCoreSkeleton : public cal3d::RefCounted
 {
 protected:
-  ~CalCoreSkeleton();
+    ~CalCoreSkeleton();
 
 public:
-  CalCoreSkeleton();
+    CalCoreSkeleton();
 
-  int addCoreBone(CalCoreBone *pCoreBone);
-  void calculateState();
-  CalCoreBone *getCoreBone(int coreBoneId);
-  const CalCoreBone *getCoreBone(int coreBoneId) const;
-  CalCoreBone *getCoreBone(const std::string& strName);
-  const CalCoreBone *getCoreBone(const std::string& strName) const;
-  int getCoreBoneId(const std::string& strName) const;
-  bool mapCoreBoneName(int coreBoneId, const std::string& strName);
-  std::vector<int>& getVectorRootCoreBoneId();
-  const std::vector<int>& getVectorRootCoreBoneId() const;
-  std::vector<CalCoreBone *>& getVectorCoreBone();
-  const std::vector<CalCoreBone *>& getVectorCoreBone() const;
-  void calculateBoundingBoxes(CalCoreModel *pCoreModel);
-  void scale(float factor);
-  unsigned int getNumCoreBones() const { return ( unsigned int ) m_vectorCoreBone.size(); }
-  void setSceneAmbientColor( CalVector const & color );
-  void getSceneAmbientColor( CalVector & color ) const;
-  void setName(const std::string& name);
-  const std::string& getName(void) const;
+    //name
+    void setName(const std::string& name);
+    const std::string& getName(void) const;
 
+    //bones
+    int addCoreBone(CalCoreBone *pCoreBone);
+    unsigned int getNumCoreBones() const { return ( unsigned int ) m_vectorCoreBone.size(); }
+    int getCoreBoneId(const std::string& strName) const;
+    CalCoreBone *getCoreBone(int coreBoneId);
+    const CalCoreBone *getCoreBone(int coreBoneId) const;
+    CalCoreBone *getCoreBone(const std::string& strName);
+    const CalCoreBone *getCoreBone(const std::string& strName) const;
+    std::vector<CalCoreBone *>& getVectorCoreBone();
+    const std::vector<CalCoreBone *>& getVectorCoreBone() const;
+
+    std::vector<int>& getVectorRootCoreBoneId();
+    const std::vector<int>& getVectorRootCoreBoneId() const;
+
+    void calculateState();
+    void calculateBoundingBoxes(CalCoreModel *pCoreModel);
+
+    ///scale the skeleton
+    void scale(float factor);
+
+    ///associate a name to a bone
+    bool mapCoreBoneName(int coreBoneId, const std::string& strName);
 private:
-  std::vector<CalCoreBone *>   m_vectorCoreBone;
-  std::map< std::string, int > m_mapCoreBoneNames;
-  std::vector<int>             m_vectorRootCoreBoneId;  
-  CalVector m_sceneAmbientColor;
-  std::string                   m_name;
+    std::vector<CalCoreBone *>   m_vectorCoreBone;
+    std::map< std::string, int > m_mapCoreBoneNames;
+    std::vector<int>             m_vectorRootCoreBoneId;
+    std::string                  m_name;
 };
 typedef cal3d::RefPtr<CalCoreSkeleton> CalCoreSkeletonPtr;
 
