@@ -156,12 +156,6 @@ public:
     ///scale all the mesh inner data by factor
     void scale(float factor);
 
-#ifdef WORKINGCalSubmesh_blendMorphTargetScale
-    void setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray );
-    inline unsigned int subMorphTargetGroupIndex( int subMorphTargetId ) {
-        if( size_t(subMorphTargetId) >= m_vectorSubMorphTargetGroupIndex.size() ) return 0xffffffff;
-        return m_vectorSubMorphTargetGroupIndex[ subMorphTargetId ]; }*/
-#endif
 private:
     void UpdateTangentVector(int v0, int v1, int v2, int channel);
 

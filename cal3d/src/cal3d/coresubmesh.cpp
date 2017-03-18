@@ -59,18 +59,6 @@ CalCoreSubmesh::~CalCoreSubmesh()
   m_vectorCoreSubMorphTarget.clear();
 }
 
-#ifdef WORKINGCalSubmesh_blendMorphTargetScale
-void
-CalCoreSubmesh::setSubMorphTargetGroupIndexArray( unsigned int len, unsigned int const * indexArray )
-{
-  m_vectorSubMorphTargetGroupIndex.reserve( len );
-  m_vectorSubMorphTargetGroupIndex.resize( len );
-  unsigned int i;
-  for( i = 0; i < len; i++ ) {
-    m_vectorSubMorphTargetGroupIndex[ i ] = indexArray[ i ];
-  }
-}
-#endif
 unsigned int
 CalCoreSubmesh::sizeWithoutSubMorphTargets()
 {

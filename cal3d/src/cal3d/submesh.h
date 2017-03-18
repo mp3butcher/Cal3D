@@ -87,29 +87,15 @@ public:
     float getMorphTargetWeight(int blendId) const;
     void setMorphTargetWeight(const unsigned int& morphName,float weight);
     int getMorphTargetWeightCount() const;
-    std::vector<float>& getVectorMorphTargetWeight();
-    const std::vector<float>& getVectorMorphTargetWeight() const;
-    bool getMorphTargetWeight(const unsigned int& morphName, float * weightOut);
-    void getMorphIdAndWeightArray( MorphIdAndWeight * arrayResult,
-                                   unsigned int * numMiawsResult,
-                                   unsigned int maxMiaws );
-    float getBaseWeight() const;
+    inline std::vector<float>& getVectorMorphTargetWeight(){  return m_vectorMorphTargetWeight; }
+    inline const std::vector<float>& getVectorMorphTargetWeight() const{  return m_vectorMorphTargetWeight; }
 
 
-    void clearMorphTargetScales();
-    void clearMorphTargetState(  const unsigned int& morphName );
+
 
     bool hasInternalData() const;
     void disableInternalData();
- #ifdef   WORKINGCalSubmesh_blendMorphTargetScale
-    void blendMorphTargetScale(  const unsigned int& morphName,
-                                 float scale,
-                                 float unrampedWeight,
-                                 float rampValue,
-                                 bool replace );
-    void setSubMorphTargetGroupAttenuatorArray( unsigned int len, int const * morphTargetIdArray );
-    void setSubMorphTargetGroupAttenuationArray( unsigned int len, float const * attenuationArray );
-#endif
+
 private:
     CalCoreSubmesh                         *m_pCoreSubmesh;
     std::vector<float>                      m_vectorMorphTargetWeight;

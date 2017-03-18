@@ -597,19 +597,6 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
   // get the number of vertices
   int vertexCount = pSubmesh->getVertexCount();
 
-  // get the sub morph target vector from the core sub mesh
-  std::vector<CalCoreSubMorphTarget*>& vectorSubMorphTarget =
-	pSubmesh->getCoreSubmesh()->getVectorCoreSubMorphTarget();
-
-
-
-  // get the number of morph targets
-  int morphTargetCount = pSubmesh->getMorphTargetWeightCount();
-  EnlargeMiawCacheAsNecessary( morphTargetCount );
-  unsigned int numMiaws;
-  pSubmesh->getMorphIdAndWeightArray( MiawCache, & numMiaws, ( unsigned int ) morphTargetCount );
-
-
 
   // Check for spring case
   bool	hasSpringsAndInternalData =
@@ -631,28 +618,6 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
     CalVector position=vertex.position;
     CalVector normal=vertex.normal;
 
-    {
-
-       mustNormalize = true; // Morph targets can skew normals.
-       unsigned int i;
-
-       for( i = 0; i < numMiaws; i++ ) {
-          MorphIdAndWeight * miaw = & MiawCache[ i ];
-          int morphTargetId = miaw->morphId_;
-          CalCoreSubMorphTarget::BlendVertex const * blendVertex =
-             vectorSubMorphTarget[morphTargetId]->getBlendVertex(vertexId);
-          float currentWeight = miaw->weight_;
-          if( blendVertex ) {
-             position.x += currentWeight*blendVertex->position.x;
-             position.y += currentWeight*blendVertex->position.y;
-             position.z += currentWeight*blendVertex->position.z;
-             normal.x += currentWeight*blendVertex->normal.x;
-             normal.y += currentWeight*blendVertex->normal.y;
-             normal.z += currentWeight*blendVertex->normal.z;
-          }
-       }
-
-    }
 
     // initialize vertex
     float x, y, z;
