@@ -546,22 +546,6 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
 }
 
 
-static MorphIdAndWeight * MiawCache = NULL;
-static unsigned int MiawCacheNumElements = 0;
-void
-EnlargeMiawCacheAsNecessary( unsigned int numElements )
-{
-   if( MiawCacheNumElements < numElements ) {
-      if( MiawCache ) {
-         delete [] MiawCache;
-      }
-
-      // Step up exponentially to reduce number of steps.
-      MiawCacheNumElements = numElements * 2;
-      MiawCache = new( MorphIdAndWeight [ MiawCacheNumElements ] );
-   }
-}
-
 
  /*****************************************************************************/
 /** Calculates the transformed vertex data.
