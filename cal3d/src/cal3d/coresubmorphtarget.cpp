@@ -372,16 +372,16 @@ bool CalCoreSubMorphTargetDiffMap::appendBlendVertex(int vertexId,
 
 //****************************************************************************//
 
- /*void
-CalCoreSubMorphTarget::setName( const unsigned int & s )
+ void
+CalCoreSubMorphTarget::setName( const std::string & s )
 {
-  m_morphTargetName = s;
+  _name = s;
 
   // If the name ends in ".Additive" or ".Exclusive" or ".Clamped"
   // or ".Average" then set the type of the morph target.  By
   // default it is Additive.
   m_morphTargetType = CalMorphTargetTypeAdditive;
-**TODO
+
   char const * s2 = s.c_str();
   char const * dot = strrchr( s2, '.' );
   if( dot ) {
@@ -399,11 +399,4 @@ CalCoreSubMorphTarget::setName( const unsigned int & s )
 
 }
 
-
-const unsigned int &
-CalCoreSubMorphTarget::getName() const
-{
-  return m_morphTargetName;
-}
-*/
 

@@ -188,22 +188,8 @@ bool CalMorphTargetMixer::clear(int id, float delay)
                     const CalCoreMorphTrack *track = &(*itr);
                     CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
                     std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
-
-                    if(track->getNumTargetSubMeshes()==0)
-                    {
-                        for(int i=0; i<targetmesh->getSubmeshCount(); i++)
-                        {
-                            submeshes[i]->setMorphTargetWeight(track->getMorphID(), 0);
-                        }
-                    }
-                    else
-                    {
-                        for(int i=0; i<track->getNumTargetSubMeshes(); i++)
-                        {
-                            submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), 0);
-
-                        }
-                    }
+                    for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+                        submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), 0);
                 }
 
                 mAnimList.erase(mAnimList.begin() + index);
@@ -525,24 +511,8 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
         CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
         std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
 
-
-        if(track->getNumTargetSubMeshes()==0)
-        {
-
-            for(int i=0; i<targetmesh->getSubmeshCount(); i++)
-            {
-                submeshes[i]->setMorphTargetWeight(track->getMorphID(), weight);
-            }
-        }
-        else
-        {
-            for(int i=0; i<track->getNumTargetSubMeshes(); i++)
-            {
-                submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
-
-            }
-        }
-
+        for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+            submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
     }
 }
 

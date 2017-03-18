@@ -55,7 +55,7 @@ public:
     inline const unsigned int& getMorphID() const{return m_morphTargetID;}
 
     ///Name property (just for convenience )
-    void setName(const std::string &s){_name=s;}
+    void setName(const std::string &s);
     const std::string& getName() const{return _name;}
 protected:
     inline void setMorphID(const unsigned int &i){m_morphTargetID=i;}
