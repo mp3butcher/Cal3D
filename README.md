@@ -6,8 +6,11 @@ git clone --single-branch -b master https://github.com/mp3butcher/Cal3D.git cal3
 
 ## Built
 cd cal3d
-make built && cd built
-cmake ../CMakeLists.txt
+
+make built && cd built 
+
+cmake ../CMakeLists.txt 
+ 
 
 For Win32 users there a folder containing a version of glew and glut (cal3d\Win32GlutAndGlew)
 
