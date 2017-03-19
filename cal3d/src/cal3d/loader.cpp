@@ -1472,7 +1472,10 @@ CalLoader::readCompressedKeyframe(
    unsigned int steps;
    unsigned int bytesRead = ReadQuatAndExtra( buf, quat, & steps, keyframeBitsPerOriComponent, keyframeBitsPerTime );
    buf += 6;
-   assert( bytesRead == 6 );
+
+   bytesRead;///force compiler to consider bytesread as used in release
+   assert(bytesRead == 6);
+
    quatResult->set( quat[ 0 ], quat[ 1 ], quat[ 2 ], quat[ 3 ] );
    return buf - bufStart;
 }
