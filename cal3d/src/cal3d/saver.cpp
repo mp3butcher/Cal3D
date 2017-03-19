@@ -1478,6 +1478,7 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
 
       TiXmlElement track("TRACK");
       track.SetAttribute("MORPHID",pCoreMorphTrack->getMorphID());
+      track.SetAttribute("MESHID",pCoreMorphTrack->getTargetMesh());
       track.SetAttribute("NUMSUBTARGET",pCoreMorphTrack->getNumTargetSubMeshes());
       track.SetAttribute("NUMKEYFRAMES",pCoreMorphTrack->getCoreMorphKeyframeCount());
 

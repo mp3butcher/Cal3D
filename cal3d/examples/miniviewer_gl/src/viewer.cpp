@@ -854,6 +854,7 @@ bool Viewer::parseModelConfiguration(const std::string& strFilename)
     // explicitely close the file
     file.close();
 
+    CalSaver::saveXmlCoreAnimatedMorph("dokuroface.xpf",m_calCoreModel->getCoreAnimatedMorph(0));
     return true;
 }
 

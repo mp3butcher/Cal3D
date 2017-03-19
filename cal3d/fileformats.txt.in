@@ -17,15 +17,16 @@ o------------------------------------------------------------------------------o
   1 What is this document for?
   2 cal3d skeleton file (.csf)
   3 cal3d animation file (.caf)
-  4 cal3d mesh file (.cmf)
-  5 cal3d material file (.crf)
-  6 cal3d skeleton xml file (.xsf)
-  7 cal3d animation xml file (.xaf)
-  8 cal3d morphanimation xml file (.xpf)
-  9 cal3d mesh xml file (.xmf)
-  10 cal3d material xml file (.xrf)
-  11 Website
-  12 Author
+  4 cal3d morphanimation file (.cpf)  
+  5 cal3d mesh file (.cmf)
+  6 cal3d material file (.crf)
+  7 cal3d skeleton xml file (.xsf)
+  8 cal3d animation xml file (.xaf)
+  9 cal3d morphanimation xml file (.xpf)
+  10 cal3d mesh xml file (.xmf)
+  11 cal3d material xml file (.xrf)
+  12 Website
+  13 Author
 
 
 o------------------------------------------------------------------------------o
@@ -163,7 +164,44 @@ description                length  type      comments
 #ENDIF
 
 o------------------------------------------------------------------------------o
-| 4 cal3d mesh file (.cmf)                                                     |
+| 4 cal3d morphanimation file (.cpf)                                          |
+o------------------------------------------------------------------------------o
+
+All the keyframes of a morph animation are stored in this file. They are grouped by
+tracks (one track per morph) and contain the time, the weight of the morph in the expression.
+
+description                length  type      comments
+-------------------------  ------  --------  -----------------------------------
+[header]
+  magic token              4       const     "CAF\0"
+  file version             4       integer   1200
+  duration                 4       float     length of animation in seconds
+  number of tracks         4       integer
+  [first track]
+    morph id               4       integer   morph index in the submeshes targetted
+    number of keyframes    4       integer
+    mesh id                4       integer   index to mesh targetted
+    submeshes count        4       integer   number submeshes targetted 
+    [first submeshtarget]
+        submesh id                4       integer   index to submesh in the targetted mesh
+    [all other submeshtarget]
+    [first keyframe]
+      time                 4       float     time of keyframe in seconds
+      translation x        4       float     relative translation to parent bone
+      translation y        4       float
+      translation z        4       float
+      rotation x           4       float     relative rotation to parent bone
+      rotation y           4       float     stored as a quaternion
+      rotation z           4       float
+      rotation w           4       float
+
+    [all other keyframes]
+      ...
+
+  [all other tracks]
+
+o------------------------------------------------------------------------------o
+| 5 cal3d mesh file (.cmf)                                                     |
 o------------------------------------------------------------------------------o
 
 This file contains all the mesh data, such as the weighted influences of the
@@ -262,7 +300,7 @@ description                length  type      comments
 
 
 o------------------------------------------------------------------------------o
-| 5 cal3d material file (.crf)                                                 |
+| 6 cal3d material file (.crf)                                                 |
 o------------------------------------------------------------------------------o
 
 Material properties like ambient, diffuse and specular color and the shininess
@@ -298,7 +336,7 @@ description                length  type      comments
     ...
 
 o-----------------------------------------------------------------------------o
-| 6 skeleton Xml file (.xsf)                                                  |
+| 7 skeleton Xml file (.xsf)                                                  |
 o-----------------------------------------------------------------------------o
 
 this is the text/Xml file format of cal3d skeleton file, 
@@ -320,11 +358,11 @@ see cal3d skeleton file (.csf) for more information
 
 
 o-----------------------------------------------------------------------------o
-| 7 cal3d xml animation file (.xaf)                                           |
+| 8 cal3d xml animation file (.xaf)                                           |
 o-----------------------------------------------------------------------------o
 
 this is the text/Xml file format of cal3d animation file, 
-see cal3d skeleton file (.csf) for more information
+see cal3d animation file (.csf) for more information
 
 <ANIMATION VERSION="1000" DURATION="FLOAT" NUMTRACKS="INT">
    <TRACK BONEID="INT" NUMKEYFRAMES="INT">
@@ -338,8 +376,11 @@ see cal3d skeleton file (.csf) for more information
 </ANIMATION>
 
 o-----------------------------------------------------------------------------o
-| 8 cal3d morphanimation xml file (.xpf)                                              |
+| 9 cal3d morphanimation xml file (.xpf)                                      |
 o-----------------------------------------------------------------------------o
+this is the text/Xml file format of cal3d morphanimation file, 
+see cal3d morphanimation file (.cpf) for more information
+
   <ANIMATION MAGIC="XPF" VERSION="1300" DURATION="FLOAT" NUMTRACKS="INT">
 	<TRACK MESHID="INT" MORPHID="INT" NUMKEYFRAMES="INT" NUMSUBTARGET="INT">
 		<SUBMESH  ID="INT"/>	
@@ -412,14 +453,14 @@ see cal3d material file (.crf) for more information
 </MATERIAL>
 
 o-----------------------------------------------------------------------------o
-| 10 Website                                                                  |
+| 12 Website                                                                  |
 o-----------------------------------------------------------------------------o
 
   The official website of cal3d can be found at: http://gna.org/projects/cal3d/
 
 
 o-----------------------------------------------------------------------------o
-| 11 Author                                                                   |
+| 13 Author                                                                   |
 o-----------------------------------------------------------------------------o
 
   This document was written by Bruno 'Beosil' Heidelberger.
