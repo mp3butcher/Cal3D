@@ -9,7 +9,7 @@ cd cal3d
 
 make built && cd built 
 
-cmake ../CMakeLists.txt 
+cmake ..
  
 
 For Win32 users there a folder containing a version of glew and glut (cal3d\Win32GlutAndGlew)
