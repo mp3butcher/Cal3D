@@ -7,13 +7,7 @@ miniviewer_gl_vp/src
 #miniviewer_tizen/src
 )
 if(WIN32)
-subdirs(
-miniviewer_d3d/src 
-miniviewer_d3d_bump/src 
-miniviewer_d3d_vs/src 
-#miniviewer_tizen/src
-#miniviewer_bada 
-)
+ 
 # DirectX SDK
 	if (CMAKE_CL_64)
 		set (DirectX_ARCHITECTURE x64)

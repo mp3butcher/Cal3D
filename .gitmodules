@@ -1,0 +1,3 @@
+[submodule "cal3d/plugins/cal3d_blender_exporter/current"]
+	path = cal3d/plugins/cal3d_blender_exporter/current
+	url = https://git.code.sf.net/p/blender2cal3dexporter/code
