@@ -401,37 +401,33 @@ this is the text/Xml file format of cal3d mesh file,
 see cal3d mesh file (.cmf) for more information
 
 <MESH VERSION="1000" NUMSUBMESH="INT">
-   <SUBMESH MATERIAL="INT" NUMVERTICES="INT" NUMFACES="INT" NUMLODSTEPS="INT" NUMSPRINGS="INT" NUMTEXCOORDS="INT" NUMMORPH="INT">	
-     <MORPH [NAME="STRING"]>
-          <BLENDVERT VERTID="INT">
-		<POS>FLOAT FLOAT FLOAT</POS>
-		<NORM> FLOAT FLOAT FLOAT</NORM>          
+   <SUBMESH MATERIAL="INT" NUMVERTICES="INT" NUMFACES="INT" NUMLODSTEPS="INT" NUMSPRINGS="INT" NUMTEXCOORDS="INT" NUMMORPHS="INT">	  
+		<VERTEX ID="INT" NUMINFLUENCES="INT">
+			<POS>FLOAT FLOAT FLOAT</POS>
+			<NORM> FLOAT FLOAT FLOAT</NORM>
+			[<COLLAPSEID>INT</COLLAPSEID>]
+			[<COLLAPSECOUNT>INT</COLLAPSECOUNT>]
+			<TEXCOORD>FLOAT FLOAT</TEXCOORD>
+			...                                 {all the other texture coordinates}
+			<INFLUENCE ID="INT">FLOAT FLOAT FLOAT</INFLUENCE>
+			...                                 {all the other bone influances}
+			[<PHYSIQUE>FLOAT</PHYSIQUE>]
+		</VERTEX>
+		....                                   {all the other vertices}
+		<SPRING VERTEXID="INT INT" COEF="FLOAT" LENGTH ="FLOAT"/>
+		...                                    {all the other springs}
+        <MORPH [NAME="STRING"]>
+			<BLENDVERT VERTEXID="INT">
+				<POS>FLOAT FLOAT FLOAT</POS>
+				<NORM> FLOAT FLOAT FLOAT</NORM>          
                 <TEXCOORD>FLOAT FLOAT</TEXCOORD>
                 ...                            {all the other texture coordinates}
-	  </BLENDVERT>
-     ...                                       {all other blendvert}
-     </MORPH>
-     ...                                       {all other morphsubmeshs}
-       <VERTEX ID="INT" NUMINFLUENCES="INT">
-          <POS>FLOAT FLOAT FLOAT</POS>
-          <NORM> FLOAT FLOAT FLOAT</NORM>
-          [<COLLAPSEID>INT</COLLAPSEID>]
-          [<COLLAPSECOUNT>INT</COLLAPSECOUNT>]
-          <TEXCOORD>FLOAT FLOAT</TEXCOORD>
-          ...                                 {all the other texture coordinates}
-          <INFLUENCE ID="INT">FLOAT FLOAT FLOAT</INFLUENCE>
-          ...                                 {all the other bone influances}
-          [<PHYSIQUE>FLOAT</PHYSIQUE>]
-	  [ removed]
-
-       </VERTEX>
-       ....                                   {all the other vertices}
-       <SPRING VERTEXID="INT INT" COEF="FLOAT" LENGTH ="FLOAT"/>
-       ...                                    {all the other springs}
-       <FACE VERTEXID="INT INT INT"/>
-       ...                                    {all the other faces}
-      
-	...                                   {all the other morphs}
+			</BLENDVERT>
+		...                                       {all other blendvert}
+		</MORPH>
+		...                                       {all other morphsubmeshs}
+		<FACE VERTEXID="INT INT INT"/>
+		...                                    {all the other faces}
     </SUBMESH>
     ...
 </MESH>

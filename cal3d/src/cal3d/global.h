@@ -64,8 +64,10 @@ namespace cal3d
   const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 = 1300;
   const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 = 1300;
   const int FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION = 1300;
-  const int FIRST_FILE_VERSION_WITH_VERTEX_COLORS = 1300;
-  const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 1300;
+  const int FIRST_FILE_VERSION_WITH_VERTEX_COLORS = 91300;//removed from spec (one would require both mesh type vertex color and texture color
+  const int FIRST_FILE_VERSION_WITH_VERTEX_SLAVES_ATTRIBUTES = 1400;//to implement (more generic than vertex color) all atribute that doesnt have semantic (not in[vertex,normal,tangent,physics) in cal3d but interpole linearly (color and others stuff)
+
+  const int FIRST_FILE_VERSION_WITH_NODE_LIGHTS = 91300;//removed
   const int FIRST_FILE_VERSION_WITH_MATERIAL_TYPES = 1300;
   const int FIRST_FILE_VERSION_WITH_MORPH_TARGETS_IN_MORPH_FILES = 1300;
   const int FIRST_FILE_VERSION_WITH_RELATIVE_BONE_TRANSLATION = 1300;

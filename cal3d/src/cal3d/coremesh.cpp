@@ -248,7 +248,7 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
     for(int i = 0;i<vertexCount;++i)
     {
       CalCoreSubMorphTarget::BlendVertex blendVertex;
-      ///different than IMVU: blendvertex store only deltas
+      ///different than IMVU: blendvertex store in vertex coord
       blendVertex.position = (*iteratorVectorVertex).position-originVectorVertex[i].position;
       blendVertex.normal = (*iteratorVectorVertex).normal- originVectorVertex[i].normal;
       blendVertex.textureCoords.clear();
