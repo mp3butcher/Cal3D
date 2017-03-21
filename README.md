@@ -2,7 +2,7 @@
 Cal3D - 3d character animation library 
 
 ## Checkout
-git clone --single-branch -b master https://github.com/mp3butcher/Cal3D.git cal3d
+git clone --single-branch --recursive -b master https://github.com/mp3butcher/Cal3D.git cal3d
 
 ## Built
 cd cal3d
