@@ -59,28 +59,6 @@ CalCoreMesh::~CalCoreMesh()
   m_vectorCoreSubmesh.clear();
 }
 
- /*****************************************************************************/
-/** Adds a core submesh.
-  *
-  * This function adds a core submesh to the core mesh instance.
-  *
-  * @param pCoreSubmesh A pointer to the core submesh that should be added.
-  *
-  * @return One of the following values:
-  *         \li the assigned submesh \b ID of the added core submesh
-  *         \li \b -1 if an error happened
-  *****************************************************************************/
-
-int CalCoreMesh::addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh)
-{
-  // get next bone id
-  int submeshId;
-  submeshId = m_vectorCoreSubmesh.size();
-
-  m_vectorCoreSubmesh.push_back(pCoreSubmesh);
-
-  return submeshId;
-}
 
 
  /*****************************************************************************/
@@ -93,96 +71,16 @@ int CalCoreMesh::addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh)
   *****************************************************************************/
 void CalCoreMesh::removeCoreSubmesh( int submeshID )
 {
-	m_vectorCoreSubmesh[ submeshID ] = 0;
-}
+	/*m_vectorCoreSubmesh[ submeshID ] = 0;
+	return;*/
+	if (submeshID >= m_vectorCoreSubmesh.size())return;
 
+	//shift vector
+	for (int i = submeshID; i < m_vectorCoreSubmesh.size() - 1; i++){
+		m_vectorCoreSubmesh[i] = m_vectorCoreSubmesh[i + 1];
 
- /*****************************************************************************/
-/** Provides access to a core submesh.
-  *
-  * This function returns the core submesh with the given ID.
-  *
-  * @param id The ID of the core submesh that should be returned.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core submesh
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreSubmesh *CalCoreMesh::getCoreSubmesh(int id)
-{
-  if((id < 0) || (id >= (int)m_vectorCoreSubmesh.size()))
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return 0;
-  }
-
-  return m_vectorCoreSubmesh[id];
-}
-
- /*****************************************************************************/
-/** Provides access to a core submesh.
-  *
-  * This function returns the core submesh with the given ID.
-  *
-  * @param id The ID of the core submesh that should be returned.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core submesh
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalCoreSubmesh *CalCoreMesh::getCoreSubmesh(int id) const
-{
-  if((id < 0) || (id >= (int)m_vectorCoreSubmesh.size()))
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__);
-    return 0;
-  }
-
-  return m_vectorCoreSubmesh[id];
-}
-
- /*****************************************************************************/
-/** Returns the number of core submeshes.
-  *
-  * This function returns the number of core submeshes in the core mesh
-  * instance.
-  *
-  * @return The number of core submeshes.
-  *****************************************************************************/
-
-int CalCoreMesh::getCoreSubmeshCount() const
-{
-  return m_vectorCoreSubmesh.size();
-}
-
- /*****************************************************************************/
-/** Returns the core submesh vector.
-  *
-  * This function returns the vector that contains all core submeshes of the
-  * core mesh instance.
-  *
-  * @return A reference to the core submesh vector.
-  *****************************************************************************/
-
-std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh()
-{
-  return m_vectorCoreSubmesh;
-}
-
- /*****************************************************************************/
-/** Returns the core submesh vector.
-  *
-  * This function returns the vector that contains all core submeshes of the
-  * core mesh instance.
-  *
-  * @return A reference to the core submesh vector.
-  *****************************************************************************/
-
-const std::vector<CalCoreSubmesh *>& CalCoreMesh::getVectorCoreSubmesh() const
-{
-  return m_vectorCoreSubmesh;
+	}
+	m_vectorCoreSubmesh.pop_back();
 }
 
  /*****************************************************************************/
@@ -279,7 +177,6 @@ int CalCoreMesh::addAsMorphTarget(CalCoreMesh *pCoreMesh)
   * @param factor A float with the scale factor
   *
   *****************************************************************************/
-
 
 void CalCoreMesh::scale(float factor)
 {

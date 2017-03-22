@@ -23,46 +23,84 @@ class CalModel;
 class CAL3D_API CalMorphTargetMixer
 {
 public:
-   CalMorphTargetMixer(CalModel *model);
-   ~CalMorphTargetMixer() { }
+	CalMorphTargetMixer(CalModel *model);
+	~CalMorphTargetMixer() { }
+	bool copy(const CalMorphTargetMixer& inOther);
 
-   bool blend(int id, float weight, float delayIn, float delayOut, bool looping);
-   bool manualBlend(int id, float weight, float time);
-   bool clear(int id, float delay);
-   bool copy( const CalMorphTargetMixer& inOther );
-   float getCurrentWeight(int id) const;
-   const std::string& getMorphName(int id) const;
-   int getTrackCount(int id) const;
-   const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
-   int getKeyframeCount(int id) const;
-   float getDuration(int id) const;
-  // int getMorphTargetCount() const;
-   void update(float deltaTime);
+	/** interpolate the weight of a morph target a new value
+	* in a given amount of time.
+	* @param id The ID of the morph target that should be blended.
+	* @param weight The weight to interpolate the morph target to.
+	* @param delayIn The time in seconds until the new weight should be reached.
+	* @param delayOut The time in seconds until the weight goes back to zero at the end of the animation.
+	* @param looping True if the morph animation should continuously loop.
+	* @return \b true if successful   \b false if an error happened**/
+	bool blend(int id, float weight, float delayIn, float delayOut, bool looping);
 
-   float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
-private:
+	/** set a morph target animation at a specific time interval.
+	* @param id The ID of the morph target that should be blended.
+	* @param weight The weight to interpolate the morph target to.
+	* @param time The current time value to set the animation at.
+	* @return  true if successful false if an error happened **/
+	bool manualBlend(int id, float weight, float time);
 
-   struct MorphAnimData
-   {
-      bool  isManual;
-      int   animatedMorphID;
+	/**fades a morph target out in a given amount of time.
+	* @param id The ID of the morph target that should be faded out.
+	* @param delay The time in seconds until the the morph target is completely removed.
+	* @return true if successful false if an error happened**/
+	bool clear(int id, float delay);
 
-      float weight;
-      bool  looping;
+	/**Get the weight of a morph animation.
+	* @param id The id of the morph target which weight you want**/
+	float getCurrentWeight(int id) const;
 
-      float playTime;
-      float currentWeight;
-      float fadeIn;
-      float fadeInTime;
-      float fadeOut;
-      float fadeOutTime;
-   };
+	/**Get the name of  morph animation .
+    * @param id The id of the morph animation.*/
+	const std::string& getMorphName(int id) const;
 
-   std::vector<MorphAnimData> mAnimList;
+	/**Get the number of tracks for a morph animation.
+    * @param id The id of the morph animation.**/
+	int getTrackCount(int id) const;
 
-   CalModel          *m_pModel;
+	/**Get the tracks foraanimated morph animation.
+	* @param id The id of the animated morph animation.**/
+	const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
 
-   void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
+	/** Get the number of keyframes for a animated morph animation.
+    * @param id The id of the animated morph animation.**/
+	int getKeyframeCount(int id) const;
+
+	/** Get the morph anim duration for a animated morph .
+	* @param id The id of the animated morph animation.**/
+	float getDuration(int id) const;
+
+	/**updates all morph targets of the mixer instance for a given amount of time.**/
+	void update(float deltaTime);
+
+protected:
+
+	virtual float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
+	struct MorphAnimData
+	{
+		bool  isManual;
+		int   animatedMorphID;
+
+		float weight;
+		bool  looping;
+
+		float playTime;
+		float currentWeight;
+		float fadeIn;
+		float fadeInTime;
+		float fadeOut;
+		float fadeOutTime;
+	};
+
+	std::vector<MorphAnimData> mAnimList;
+
+	CalModel          *m_pModel;
+
+	void SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data);
 
 };
 

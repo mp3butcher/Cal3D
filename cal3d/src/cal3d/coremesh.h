@@ -33,15 +33,22 @@ public:
   unsigned int size();
 
   //submeshes
-  int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh);
-  CalCoreSubmesh *getCoreSubmesh(int id);
-  const CalCoreSubmesh *getCoreSubmesh(int id) const;
+  /**add a submesh.**/
+  inline int addCoreSubmesh(CalCoreSubmesh *pCoreSubmesh) { int submeshId = m_vectorCoreSubmesh.size();  m_vectorCoreSubmesh.push_back(pCoreSubmesh);  return submeshId; }
+  /**get the submesh at given index.**/
+  inline CalCoreSubmesh *getCoreSubmesh(int id){ return m_vectorCoreSubmesh[id]; }
+  /**get the submesh at given index.**/
+  inline const CalCoreSubmesh *getCoreSubmesh(int id) const{ return m_vectorCoreSubmesh[id]; }
+  /**remove the submesh at given index.**/
   void removeCoreSubmesh( int submeshID );
-  int getCoreSubmeshCount() const;
-  std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh();
-  const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const;
 
-  inline void reserve(int submeshes) { m_vectorCoreSubmesh.reserve(submeshes); }
+  /** Returns the number of core submeshes.**/
+  inline unsigned int getCoreSubmeshCount() const{ return m_vectorCoreSubmesh.size();  }
+  /** Returns the core submesh vector.**/
+  inline std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh(){ return m_vectorCoreSubmesh; }
+  /** Returns the core submesh vector.**/
+  inline const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const{ return m_vectorCoreSubmesh; }
+   
 
   ///not in format spec but convenient
   inline void setName(const std::string& name){ m_name=name;}

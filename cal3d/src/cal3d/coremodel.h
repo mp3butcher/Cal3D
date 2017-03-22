@@ -29,7 +29,6 @@ public:
 	CalCoreModel(const CalCoreModel& inOther);
 	~CalCoreModel();
 
-
 	/** get the user data stored in the core model instance.**/
 	Cal::UserData getUserData(){		return m_userData;	}
 	/** get the user data stored in the core model instance.**/
@@ -41,11 +40,6 @@ public:
 	inline const std::string& getName() const{ return m_strName; }
 	/** set the name of core model .**/
 	inline void setName(std::string& inName){	m_strName = inName;}
-
-	inline void setCoreMeshManagementOn(bool p) { m_coreMeshManagement = p; }
-	inline bool getCoreMeshManagementOn() { return m_coreMeshManagement; }
-	inline void setCoreAnimationManagementOn(bool p) { m_coreAnimationManagement = p; }
-	inline bool getCoreAnimationManagementOn() { return m_coreAnimationManagement; }
 
 	void scale(float factor);
 
@@ -63,7 +57,6 @@ public:
 
 	/*** load a core animation from a file**/
 	int loadCoreAnimation(const std::string& strFilename);
-	/*** load a core animation from binary buffer**/
 	/** Loads a core animation and bind it to a name.
 	* This function loads a core animation from a file. It is equivalent
 	* to calling addAnimName(strAnimationName, loadCoreAnimation(strFilename)).
@@ -169,8 +162,6 @@ private:
 	std::map<std::string, int>            m_animatedMorphName;
 	std::map<std::string, int>            m_materialName;
 	std::map<std::string, int>            m_meshName;
-	bool                                  m_coreMeshManagement;
-	bool                                  m_coreAnimationManagement;
 	unsigned int                          m_magic;
 
 };
