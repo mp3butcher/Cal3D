@@ -136,7 +136,7 @@ void CalSpringSystem::calculateVertices(CalSubmesh *pSubmesh, float deltaTime)
 		
 		if(m_collision)
 		{
-			std::vector<CalBone *> &m_vectorbone =  pSkeleton->getVectorBone();
+			const std::vector<CalBone *> &m_vectorbone =  pSkeleton->getVectorBone();
 			
 			for(size_t boneId=0; boneId < m_vectorbone.size(); boneId++)
 			{

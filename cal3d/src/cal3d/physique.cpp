@@ -68,7 +68,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
   }
 
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
   // get vertex vector of the core submesh
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
@@ -213,7 +213,7 @@ int CalPhysique::calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, i
 CalVector CalPhysique::calculateVertex(CalSubmesh *pSubmesh, int vertexId)
 {
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
   // get vertex of the core submesh
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
@@ -337,7 +337,7 @@ int CalPhysique::calculateTangentSpaces(CalSubmesh *pSubmesh, int mapId, float *
   }
 
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
   // get vertex vector of the submesh
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
@@ -438,7 +438,7 @@ int CalPhysique::calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, in
   }
 
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
   // get vertex vector of the submesh
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();
@@ -569,7 +569,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
   }
 
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
  // CalBone ** vectorBonePtr = &vectorBone[0];
 
   // get vertex vector of the core submesh
@@ -722,7 +722,7 @@ int CalPhysique::calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVerte
 int CalPhysique::calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords) const
 {
   // get bone vector of the skeleton
-  std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
+  const std::vector<CalBone *>& vectorBone = m_pModel->getSkeleton()->getVectorBone();
 
   // get vertex vector of the core submesh
   std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pSubmesh->getCoreSubmesh()->getVectorVertex();

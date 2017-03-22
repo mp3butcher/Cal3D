@@ -29,25 +29,34 @@ public:
   CalCoreAnimation();
 
   size_t size();
-  void fillInvalidTranslations( CalCoreSkeleton * skel );
-  bool addCoreTrack(CalCoreTrack *pCoreTrack);
-  CalCoreTrack *getCoreTrack(int coreBoneId);
-  CalCoreTrack * nthCoreTrack( unsigned int );
-	float getDuration() const;
-  void setDuration(float duration);
-  void scale(float factor);
-  static int getNumCoreAnimations();
-  void setFilename(const std::string& filename);
-  const std::string& getFilename(void) const;
-  void setName(const std::string& name);
-  const std::string& getName(void) const;
 
-  void registerCallback(CalAnimationCallback *callback, float min_interval);
-  void removeCallback(CalAnimationCallback *callback);
+  /** Set the duration of the anmiation **/
+  inline float getDuration() const{ return m_duration; }
+  /** Set the duration of the anmiation **/
+  inline void setDuration(float duration){ m_duration = duration; }
+ 
+  /** Set the symbolic name of the core animation. **/
+  inline void setName(const std::string& name){ m_name = name; }
+  /** Get the symbolic name of the core animation. **/
+  inline const std::string& getName(void) const{ return m_name; }
 
-  unsigned int getTrackCount() const;
+  /** return the count of tracks**/
+  inline unsigned int getTrackCount() const{ return m_listCoreTrack.size(); }
+  /** return the list of tracks**/
   std::list<CalCoreTrack *>& getListCoreTrack();
-	unsigned int getTotalNumberOfKeyframes() const;
+  /** add a track**/
+  bool addCoreTrack(CalCoreTrack *pCoreTrack);
+  /** remove a track**/
+  bool removeCoreTrack(CalCoreTrack *pCoreTrack);
+  /** get a track by its index NULL if index invalid**/
+  CalCoreTrack *getCoreTrack(int coreBoneId);
+
+  /** return keyframe count of all tracks* */
+  unsigned int getTotalNumberOfKeyframes() const;
+
+  /**rescale all the animation data that are in the core animation
+   * @param factor A float with the scale factor   **/
+  void scale(float factor);
 
   struct CallbackRecord
   {
@@ -55,6 +64,13 @@ public:
     float                 min_interval;
   };
 
+  /** Add a callback to the current list of callbacks for this core animation.
+   * @param  callback     Ptr to a subclass of this abstract class implementing the callback function.
+   * @param  min_interval Minimum interval (in seconds) between callbacks.  Specifying 0 means call every update().**/
+  void registerCallback(CalAnimationCallback *callback, float min_interval);
+  /** remove a callback from the current list of callbacks for this core animation.**/
+  void removeCallback(CalAnimationCallback *callback);
+  /** return the list of callback for tihs core animation.**/
   std::vector<CallbackRecord>& getCallbackList() { return m_listCallbacks; }
 
 private:

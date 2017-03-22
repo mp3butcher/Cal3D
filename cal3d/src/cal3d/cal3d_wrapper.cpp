@@ -1078,7 +1078,7 @@ int CalCoreSkeleton_GetRootCoreBoneCount(CalCoreSkeleton *self)
 CalCoreBone *CalCoreSkeleton_GetRootCoreBone(CalCoreSkeleton *self, int rootBoneIndex)
 {
 	CalCoreBone*	theBone = NULL;
-	std::vector<int>&	rootIDs( self->getVectorRootCoreBoneId() );
+	const std::vector<int>&	rootIDs(self->getVectorRootCoreBoneId());
 	if ( (rootBoneIndex >= 0) && (rootBoneIndex < rootIDs.size()) )
 	{
 		int	boneID = rootIDs[ rootBoneIndex ];
@@ -2032,12 +2032,11 @@ const CalCoreSkeleton *CalSkeleton_GetCoreSkeletonConst(const CalSkeleton *self)
   return self->getCoreSkeleton();
 }
 
-/*
 std::vector<CalBone *>& CalSkeleton_GetVectorBone(CalSkeleton *self)
 {
   return self->getVectorBone();
 }
-*/
+
 
 void CalSkeleton_LockState(CalSkeleton *self)
 {
@@ -2058,7 +2057,6 @@ void CalSkeleton_CalculateBoundingBoxes(CalSkeleton *self)
 {
 	self->calculateBoundingBoxes();
 }
- 
 
 //****************************************************************************//
 // CalSpringSystem wrapper functions definition                               //

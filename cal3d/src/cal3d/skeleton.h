@@ -1,6 +1,7 @@
 //****************************************************************************//
 // skeleton.h                                                                 //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+// Copyright (C) 2012 Julien 'mp3butcher' Valentin										  //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -23,29 +24,36 @@ public:
   CalSkeleton(CalCoreSkeleton *pCoreSkeleton);
   ~CalSkeleton();
 
-  void calculateState();
-  void clearState();
+  //bones collection
+  /** Provides access to a bone.returns the bone with the given ID.  **/
+  inline const CalBone *getBone(int boneId) const			{		return m_vectorBone[boneId];	}
+  /** Provides access to a bone.returns the bone with the given ID.  **/
+  inline CalBone *getBone(int boneId)						{		return m_vectorBone[boneId];	}
 
-  //bones
-  CalBone *getBone(int boneId);
-  const CalBone *getBone(int boneId) const;
-  std::vector<CalBone *>& getVectorBone();
-  const std::vector<CalBone *>& getVectorBone() const;
+  /** Provides access to the bone vector.returns the bone vector of the skeleton instance.  **/
+  inline const std::vector<CalBone *>& getVectorBone() const{		return m_vectorBone;			}
+  /** Provides access to the bone vector.returns the bone vector of the skeleton instance.  **/
+  inline std::vector<CalBone *>& getVectorBone()			{		return m_vectorBone;			}
 
-  //core skeleton (model)
-  CalCoreSkeleton *getCoreSkeleton();
-  const CalCoreSkeleton *getCoreSkeleton() const;
+  /** Provides access to thecore skeleton.returns core skeleton (model) of the skeleton instance.  **/
+  inline const CalCoreSkeleton *getCoreSkeleton() const		{		return m_pCoreSkeleton;			}
+  /** Provides access to thecore skeleton.returns core skeleton (model) of the skeleton instance.  **/
+  inline CalCoreSkeleton *getCoreSkeleton()					{		return m_pCoreSkeleton;			}
 
+
+  /** Get the bounding box of the skeleton						
+   * @param min The vector where the min values of bb are stored.
+   * @param man The vector where the max values of bb are stored.**/
   void getBoneBoundingBox(float *min, float *max);
+  /** compute the bounding box of the skeleton  **/
   void calculateBoundingBoxes();
 
-  /** Locks the state of the skeleton instance.
-  *
-  * This function locks the state of the skeleton instance by recursively
-  * locking the states of its bones.
-  **/
+  /** Locks the state of the skeleton instance by recursively **/
   void lockState();
-
+  /** Calculates the state of the skeleton instance by recursively calculating the states of its bones	**/
+  void calculateState();
+  /** Clears the state of the skeleton instance by recursively clears the states of its bones	**/
+  void clearState();
 
 private:
   CalCoreSkeleton       *m_pCoreSkeleton;

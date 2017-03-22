@@ -38,7 +38,7 @@
 
 using namespace cal3d;
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core animation instance.
   *
   * This function saves a core animation instance to a file.
@@ -47,7 +47,7 @@ using namespace cal3d;
   *                    to.
   * @param pCoreAnimation A pointer to the core animation instance that should
   *                       be saved.
-	* param pOptions Optional pointer to save options.
+  * param pOptions Optional pointer to save options.
   *
   * @return One of the following values:
   *         \li \b true if successful
@@ -56,61 +56,61 @@ using namespace cal3d;
 
 bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimation *pCoreAnimation, CalSaverAnimationOptions *pOptions)
 {
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::ANIMATION_XMLFILE_MAGIC)==0)
-	 return saveXmlCoreAnimation(strFilename, pCoreAnimation);
+	if (strFilename.size() >= 3 && stricmp(strFilename.substr(strFilename.size() - 3, 3).c_str(), Cal::ANIMATION_XMLFILE_MAGIC) == 0)
+		return saveXmlCoreAnimation(strFilename, pCoreAnimation);
 
-  // open the file
-  std::ofstream file;
-  file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// open the file
+	std::ofstream file;
+	file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write magic tag
-  if(!CalPlatform::writeBytes(file, &Cal::ANIMATION_FILE_MAGIC, sizeof(Cal::ANIMATION_FILE_MAGIC)))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write magic tag
+	if (!CalPlatform::writeBytes(file, &Cal::ANIMATION_FILE_MAGIC, sizeof(Cal::ANIMATION_FILE_MAGIC)))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write version info
-  int version = Cal::CURRENT_FILE_VERSION;
-  if(!CalPlatform::writeInteger(file, version))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write version info
+	int version = Cal::CURRENT_FILE_VERSION;
+	if (!CalPlatform::writeInteger(file, version))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write whether we're going to use compression.
-  bool useCompression = false;    // Default to off!  It causes many long animations to get mangled.
-  if (Cal::versionHasCompressionFlag(Cal::CURRENT_FILE_VERSION))
-  {
-     int useCompressionFlag = useCompression;
-     if (!CalPlatform::writeInteger(file, useCompressionFlag))
-     {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-     }
-  }
+	// write whether we're going to use compression.
+	bool useCompression = false;    // Default to off!  It causes many long animations to get mangled.
+	if (Cal::versionHasCompressionFlag(Cal::CURRENT_FILE_VERSION))
+	{
+		int useCompressionFlag = useCompression;
+		if (!CalPlatform::writeInteger(file, useCompressionFlag))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
-  // write the duration of the core animation
-  if(!CalPlatform::writeFloat(file, pCoreAnimation->getDuration()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the duration of the core animation
+	if (!CalPlatform::writeFloat(file, pCoreAnimation->getDuration()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // get core track list
-  std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+	// get core track list
+	std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
-  // write the number of tracks
-  if(!CalPlatform::writeInteger(file, listCoreTrack.size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
+	// write the number of tracks
+	if (!CalPlatform::writeInteger(file, listCoreTrack.size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return 0;
+	}
 
 	if (pOptions)
 		pOptions->duration = pCoreAnimation->getDuration();
@@ -120,29 +120,29 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
 	if (pOptions && pOptions->bCompressKeyframes == true)
 		flags |= 1;
 
-  if(!CalPlatform::writeInteger(file, flags))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return 0;
-  }
+	if (!CalPlatform::writeInteger(file, flags))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return 0;
+	}
 
-  // write all core bones
-  std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-  for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
-  {
-    // save core track
-    if(!saveCoreTrack(file, strFilename, *iteratorCoreTrack, version, pOptions))
-    {
-      return false;
-    }
-  }
+	// write all core bones
+	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+	for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+	{
+		// save core track
+		if (!saveCoreTrack(file, strFilename, *iteratorCoreTrack, version, pOptions))
+		{
+			return false;
+		}
+	}
 
-  // explicitly close the file
-  file.close();
+	// explicitly close the file
+	file.close();
 
-  pCoreAnimation->setFilename(strFilename);
+	//  pCoreAnimation->setFilename(strFilename);
 
-  return true;
+	return true;
 }
 
 
@@ -164,71 +164,71 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
 
 bool CalSaver::saveCoreAnimatedMorph(const std::string& strFilename, CalCoreAnimatedMorph *pCoreAnimatedMorph)
 {
-   if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),
-      Cal::ANIMATEDMORPH_XMLFILE_EXTENSION)==0)
-   {
-      return saveXmlCoreAnimatedMorph(strFilename, pCoreAnimatedMorph);
-   }
+	if (strFilename.size() >= 3 && stricmp(strFilename.substr(strFilename.size() - 3, 3).c_str(),
+		Cal::ANIMATEDMORPH_XMLFILE_EXTENSION) == 0)
+	{
+		return saveXmlCoreAnimatedMorph(strFilename, pCoreAnimatedMorph);
+	}
 
 
-   // open the file
-   std::ofstream file;
-   file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
-   if(!file)
-   {
-      CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// open the file
+	std::ofstream file;
+	file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write magic tag
-   if(!CalPlatform::writeBytes(file, &Cal::ANIMATEDMORPH_FILE_MAGIC, sizeof(Cal::ANIMATEDMORPH_FILE_MAGIC)))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// write magic tag
+	if (!CalPlatform::writeBytes(file, &Cal::ANIMATEDMORPH_FILE_MAGIC, sizeof(Cal::ANIMATEDMORPH_FILE_MAGIC)))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write version info
-   if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// write version info
+	if (!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write the duration of the core animatedMorph
-   if(!CalPlatform::writeFloat(file, pCoreAnimatedMorph->getDuration()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// write the duration of the core animatedMorph
+	if (!CalPlatform::writeFloat(file, pCoreAnimatedMorph->getDuration()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // get core track list
-   std::list<CalCoreMorphTrack>& listCoreMorphTrack = pCoreAnimatedMorph->getListCoreTrack();
+	// get core track list
+	std::list<CalCoreMorphTrack>& listCoreMorphTrack = pCoreAnimatedMorph->getListCoreTrack();
 
-   // write the number of tracks
-   if(!CalPlatform::writeInteger(file, listCoreMorphTrack.size()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return 0;
-   }
+	// write the number of tracks
+	if (!CalPlatform::writeInteger(file, listCoreMorphTrack.size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return 0;
+	}
 
-   std::list<CalCoreMorphTrack>::iterator iteratorCoreMorphTrack;
-   for(iteratorCoreMorphTrack = listCoreMorphTrack.begin(); iteratorCoreMorphTrack != listCoreMorphTrack.end(); ++iteratorCoreMorphTrack)
-   {
-      // save coreMorph track
-      if(!saveCoreMorphTrack(file, strFilename, &(*iteratorCoreMorphTrack)))
-      {
-         return false;
-      }
-   }
+	std::list<CalCoreMorphTrack>::iterator iteratorCoreMorphTrack;
+	for (iteratorCoreMorphTrack = listCoreMorphTrack.begin(); iteratorCoreMorphTrack != listCoreMorphTrack.end(); ++iteratorCoreMorphTrack)
+	{
+		// save coreMorph track
+		if (!saveCoreMorphTrack(file, strFilename, &(*iteratorCoreMorphTrack)))
+		{
+			return false;
+		}
+	}
 
-   // explicitly close the file
-   file.close();
+	// explicitly close the file
+	file.close();
 
-   return true;
+	return true;
 
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core bone instance.
   *
   * This function saves a core bone instance to a file stream.
@@ -244,87 +244,87 @@ bool CalSaver::saveCoreAnimatedMorph(const std::string& strFilename, CalCoreAnim
 
 bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename, CalCoreBone *pCoreBone)
 {
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the name of the bone
-  if(!CalPlatform::writeString(file, pCoreBone->getName()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the name of the bone
+	if (!CalPlatform::writeString(file, pCoreBone->getName()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the translation of the bone
-  const CalVector& translation = pCoreBone->getTranslation();
-  CalPlatform::writeFloat(file, translation[0]);
-  CalPlatform::writeFloat(file, translation[1]);
-  CalPlatform::writeFloat(file, translation[2]);
+	// write the translation of the bone
+	const CalVector& translation = pCoreBone->getTranslation();
+	CalPlatform::writeFloat(file, translation[0]);
+	CalPlatform::writeFloat(file, translation[1]);
+	CalPlatform::writeFloat(file, translation[2]);
 
-  // write the rotation of the bone
-  const CalQuaternion& rotation = pCoreBone->getRotation();
-  CalPlatform::writeFloat(file, rotation[0]);
-  CalPlatform::writeFloat(file, rotation[1]);
-  CalPlatform::writeFloat(file, rotation[2]);
-  CalPlatform::writeFloat(file, rotation[3]);
+	// write the rotation of the bone
+	const CalQuaternion& rotation = pCoreBone->getRotation();
+	CalPlatform::writeFloat(file, rotation[0]);
+	CalPlatform::writeFloat(file, rotation[1]);
+	CalPlatform::writeFloat(file, rotation[2]);
+	CalPlatform::writeFloat(file, rotation[3]);
 
-  // write the translation of the bone
-  const CalVector& translationBoneSpace = pCoreBone->getTranslationBoneSpace();
-  CalPlatform::writeFloat(file, translationBoneSpace[0]);
-  CalPlatform::writeFloat(file, translationBoneSpace[1]);
-  CalPlatform::writeFloat(file, translationBoneSpace[2]);
+	// write the translation of the bone
+	const CalVector& translationBoneSpace = pCoreBone->getTranslationBoneSpace();
+	CalPlatform::writeFloat(file, translationBoneSpace[0]);
+	CalPlatform::writeFloat(file, translationBoneSpace[1]);
+	CalPlatform::writeFloat(file, translationBoneSpace[2]);
 
-  // write the rotation of the bone
-  const CalQuaternion& rotationBoneSpace = pCoreBone->getRotationBoneSpace();
-  CalPlatform::writeFloat(file, rotationBoneSpace[0]);
-  CalPlatform::writeFloat(file, rotationBoneSpace[1]);
-  CalPlatform::writeFloat(file, rotationBoneSpace[2]);
-  CalPlatform::writeFloat(file, rotationBoneSpace[3]);
+	// write the rotation of the bone
+	const CalQuaternion& rotationBoneSpace = pCoreBone->getRotationBoneSpace();
+	CalPlatform::writeFloat(file, rotationBoneSpace[0]);
+	CalPlatform::writeFloat(file, rotationBoneSpace[1]);
+	CalPlatform::writeFloat(file, rotationBoneSpace[2]);
+	CalPlatform::writeFloat(file, rotationBoneSpace[3]);
 
-  // write the parent bone id
-  if(!CalPlatform::writeInteger(file, pCoreBone->getParentId()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the parent bone id
+	if (!CalPlatform::writeInteger(file, pCoreBone->getParentId()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write lighting data
-  CalPlatform::writeInteger(file, pCoreBone->getLightType());
-  CalVector c;
-  pCoreBone->getLightColor( c );
-  CalPlatform::writeFloat(file, c.x);
-  CalPlatform::writeFloat(file, c.y);
-  CalPlatform::writeFloat(file, c.z);
+	// write lighting data
+	CalPlatform::writeInteger(file, pCoreBone->getLightType());
+	CalVector c;
+	pCoreBone->getLightColor(c);
+	CalPlatform::writeFloat(file, c.x);
+	CalPlatform::writeFloat(file, c.y);
+	CalPlatform::writeFloat(file, c.z);
 
 
-  // get children list
-  std::list<int>& listChildId = pCoreBone->getListChildId();
+	// get children list
+	std::list<int>& listChildId = pCoreBone->getListChildId();
 
-  // write the number of children
-  if(!CalPlatform::writeInteger(file, listChildId.size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the number of children
+	if (!CalPlatform::writeInteger(file, listChildId.size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write all children ids
-  std::list<int>::iterator iteratorChildId;
-  for(iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
-  {
-    // write the child id
-    if(!CalPlatform::writeInteger(file, *iteratorChildId))
-    {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-    }
-  }
+	// write all children ids
+	std::list<int>::iterator iteratorChildId;
+	for (iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
+	{
+		// write the child id
+		if (!CalPlatform::writeInteger(file, *iteratorChildId))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
-  return true;
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core keyframe instance.
   *
   * This function saves a core keyframe instance to a file stream.
@@ -340,93 +340,93 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
   *****************************************************************************/
 
 bool CalSaver::saveCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe *pCoreKeyframe,
-                                int version, bool translationWritten, bool highRangeRequired, bool useAnimationCompression)
+	int version, bool translationWritten, bool highRangeRequired, bool useAnimationCompression)
 {
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  const CalVector& translation = pCoreKeyframe->getTranslation();
-  const CalQuaternion& rotation = pCoreKeyframe->getRotation();
-  float caltime = pCoreKeyframe->getTime();
+	const CalVector& translation = pCoreKeyframe->getTranslation();
+	const CalQuaternion& rotation = pCoreKeyframe->getRotation();
+	float caltime = pCoreKeyframe->getTime();
 
-  if (useAnimationCompression)
-  {
-     unsigned char buf[ 100 ];
-     unsigned int bytesWritten = CalLoader::writeCompressedKeyframe( buf, 100, strFilename,
-        translation, rotation, caltime,
-        version, translationWritten, highRangeRequired );
+	if (useAnimationCompression)
+	{
+		unsigned char buf[100];
+		unsigned int bytesWritten = CalLoader::writeCompressedKeyframe(buf, 100, strFilename,
+			translation, rotation, caltime,
+			version, translationWritten, highRangeRequired);
 
-     if( bytesWritten == 0 ) return false;
+		if (bytesWritten == 0) return false;
 
-     CalPlatform::writeBytes( file, buf, bytesWritten );
-     if(version < Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6 )
-     {
-        if(version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4 )
-        {
-           if( version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5 )
-           {
-              if( translationWritten )
-              {
-                 CalPlatform::writeFloat(file, translation[0]);
-                 CalPlatform::writeFloat(file, translation[1]);
-                 CalPlatform::writeFloat(file, translation[2]);
-              }
-           }
+		CalPlatform::writeBytes(file, buf, bytesWritten);
+		if (version < Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION6)
+		{
+			if (version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION4)
+			{
+				if (version >= Cal::FIRST_FILE_VERSION_WITH_ANIMATION_COMPRESSION5)
+				{
+					if (translationWritten)
+					{
+						CalPlatform::writeFloat(file, translation[0]);
+						CalPlatform::writeFloat(file, translation[1]);
+						CalPlatform::writeFloat(file, translation[2]);
+					}
+				}
 
-           // write the rotation of the keyframe
-           CalPlatform::writeFloat(file, rotation[0]);
-           CalPlatform::writeFloat(file, rotation[1]);
-           CalPlatform::writeFloat(file, rotation[2]);
-           CalPlatform::writeFloat(file, rotation[3]);
-        }
-     }
-  }
-  else
-  {
-     // write the time of the keyframe
-     CalPlatform::writeFloat(file, caltime);
+				// write the rotation of the keyframe
+				CalPlatform::writeFloat(file, rotation[0]);
+				CalPlatform::writeFloat(file, rotation[1]);
+				CalPlatform::writeFloat(file, rotation[2]);
+				CalPlatform::writeFloat(file, rotation[3]);
+			}
+		}
+	}
+	else
+	{
+		// write the time of the keyframe
+		CalPlatform::writeFloat(file, caltime);
 
-     // write the translation of the keyframe
-     CalPlatform::writeFloat(file, translation[0]);
-     CalPlatform::writeFloat(file, translation[1]);
-     CalPlatform::writeFloat(file, translation[2]);
+		// write the translation of the keyframe
+		CalPlatform::writeFloat(file, translation[0]);
+		CalPlatform::writeFloat(file, translation[1]);
+		CalPlatform::writeFloat(file, translation[2]);
 
-     // write the rotation of the keyframe
-     CalPlatform::writeFloat(file, rotation[0]);
-     CalPlatform::writeFloat(file, rotation[1]);
-     CalPlatform::writeFloat(file, rotation[2]);
-     CalPlatform::writeFloat(file, rotation[3]);
-  }
+		// write the rotation of the keyframe
+		CalPlatform::writeFloat(file, rotation[0]);
+		CalPlatform::writeFloat(file, rotation[1]);
+		CalPlatform::writeFloat(file, rotation[2]);
+		CalPlatform::writeFloat(file, rotation[3]);
+	}
 
-  // check if an error happened
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// check if an error happened
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  return true;
+	return true;
 }
 
 bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreKeyframe* pCoreKeyframe, CalSaverAnimationOptions *pOptions)
 {
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the time of the keyframe
+	// write the time of the keyframe
 	int time = int(pCoreKeyframe->getTime() / pOptions->duration * 65535.0f);
-	if(time > 65535)
+	if (time > 65535)
 		time = 65535;
-  CalPlatform::writeShort(file, time);
+	CalPlatform::writeShort(file, time);
 
-  // write the translation of the keyframe
-  const CalVector &translation = pCoreKeyframe->getTranslation();
+	// write the translation of the keyframe
+	const CalVector &translation = pCoreKeyframe->getTranslation();
 
 	const CalVector &minp = pOptions->keyframe_min;
 	const CalVector &scale = pOptions->keyframe_scale;
@@ -435,18 +435,18 @@ bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string
 	int py = int((translation.y - minp.y) * scale.y);
 	int pz = int((translation.z - minp.z) * scale.z);
 
-	if(px > 2047)
+	if (px > 2047)
 		px = 2047;
-	if(py > 2047)
+	if (py > 2047)
 		py = 2047;
-	if(pz > 1023)
+	if (pz > 1023)
 		pz = 1023;
 
 	int towrite = px + (py << 11) + (pz << 22);
-  CalPlatform::writeInteger(file, towrite);
+	CalPlatform::writeInteger(file, towrite);
 
-  // write the compressed rotation of the keyframe
-  CalQuaternion rotation = pCoreKeyframe->getRotation();
+	// write the compressed rotation of the keyframe
+	CalQuaternion rotation = pCoreKeyframe->getRotation();
 	short s0, s1, s2;
 	rotation.compress(s0, s1, s2);
 
@@ -454,14 +454,14 @@ bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string
 	CalPlatform::writeShort(file, s1);
 	CalPlatform::writeShort(file, s2);
 
-  // check if an error happened
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// check if an error happened
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  return true;
+	return true;
 }
 
 
@@ -482,29 +482,29 @@ bool CalSaver::saveCompressedCoreKeyframe(std::ofstream& file, const std::string
 
 bool CalSaver::saveCoreMorphKeyframe(std::ofstream& file, const std::string& strFilename, CalCoreMorphKeyframe *pCoreMorphKeyframe)
 {
-   if(!file)
-   {
-      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write the time of the morphKeyframe
-   CalPlatform::writeFloat(file, pCoreMorphKeyframe->getTime());
+	// write the time of the morphKeyframe
+	CalPlatform::writeFloat(file, pCoreMorphKeyframe->getTime());
 
-   // write the weight
-   CalPlatform::writeFloat(file, pCoreMorphKeyframe->getWeight());
+	// write the weight
+	CalPlatform::writeFloat(file, pCoreMorphKeyframe->getWeight());
 
-   // check if an error happend
-   if(!file)
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// check if an error happend
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   return true;
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core material instance.
   *
   * This function saves a core material instance to a file.
@@ -521,96 +521,96 @@ bool CalSaver::saveCoreMorphKeyframe(std::ofstream& file, const std::string& str
 
 bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
 {
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MATERIAL_XMLFILE_MAGIC)==0)
-    return saveXmlCoreMaterial(strFilename, pCoreMaterial);
+	if (strFilename.size() >= 3 && stricmp(strFilename.substr(strFilename.size() - 3, 3).c_str(), Cal::MATERIAL_XMLFILE_MAGIC) == 0)
+		return saveXmlCoreMaterial(strFilename, pCoreMaterial);
 
-  // open the file
-  std::ofstream file;
-  file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// open the file
+	std::ofstream file;
+	file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write magic tag
-  if(!CalPlatform::writeBytes(file, &Cal::MATERIAL_FILE_MAGIC, sizeof(Cal::MATERIAL_FILE_MAGIC)))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write magic tag
+	if (!CalPlatform::writeBytes(file, &Cal::MATERIAL_FILE_MAGIC, sizeof(Cal::MATERIAL_FILE_MAGIC)))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write version info
-  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write version info
+	if (!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the ambient color
-  CalCoreMaterial::Color ambientColor;
-  ambientColor = pCoreMaterial->getAmbientColor();
-  CalPlatform::writeBytes(file, &ambientColor, sizeof(ambientColor));
+	// write the ambient color
+	CalCoreMaterial::Color ambientColor;
+	ambientColor = pCoreMaterial->getAmbientColor();
+	CalPlatform::writeBytes(file, &ambientColor, sizeof(ambientColor));
 
-  // write the diffuse color
-  CalCoreMaterial::Color diffusetColor;
-  diffusetColor = pCoreMaterial->getDiffuseColor();
-  CalPlatform::writeBytes(file, &diffusetColor, sizeof(diffusetColor));
+	// write the diffuse color
+	CalCoreMaterial::Color diffusetColor;
+	diffusetColor = pCoreMaterial->getDiffuseColor();
+	CalPlatform::writeBytes(file, &diffusetColor, sizeof(diffusetColor));
 
-  // write the specular color
-  CalCoreMaterial::Color specularColor;
-  specularColor = pCoreMaterial->getSpecularColor();
-  CalPlatform::writeBytes(file, &specularColor, sizeof(specularColor));
+	// write the specular color
+	CalCoreMaterial::Color specularColor;
+	specularColor = pCoreMaterial->getSpecularColor();
+	CalPlatform::writeBytes(file, &specularColor, sizeof(specularColor));
 
-  // write the shininess factor
-  CalPlatform::writeFloat(file, pCoreMaterial->getShininess());
+	// write the shininess factor
+	CalPlatform::writeFloat(file, pCoreMaterial->getShininess());
 
-  // check if an error happened
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// check if an error happened
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // get the map vector
-  std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
+	// get the map vector
+	std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
 
-  // write the number of maps
-  if(!CalPlatform::writeInteger(file, vectorMap.size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the number of maps
+	if (!CalPlatform::writeInteger(file, vectorMap.size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write all maps
-  int mapId;
-  for(mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
-  {
-    CalCoreMaterial::Map& map = vectorMap[mapId];
+	// write all maps
+	int mapId;
+	for (mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
+	{
+		CalCoreMaterial::Map& map = vectorMap[mapId];
 
-    // write the filename of the map
-    bool ret = CalPlatform::writeString(file, map.strFilename);
-    if( ret )
-    {
-       ret = CalPlatform::writeString(file, map.mapType);
-    }
+		// write the filename of the map
+		bool ret = CalPlatform::writeString(file, map.strFilename);
+		if (ret)
+		{
+			ret = CalPlatform::writeString(file, map.mapType);
+		}
 
-    if(!ret)
-    {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-    }
-  }
+		if (!ret)
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
-  // explicitly close the file
-  file.close();
+	// explicitly close the file
+	file.close();
 
-  pCoreMaterial->setFilename(strFilename);
+	pCoreMaterial->setFilename(strFilename);
 
-  return true;
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core mesh instance.
   *
   * This function saves a core mesh instance to a file.
@@ -625,62 +625,62 @@ bool CalSaver::saveCoreMaterial(const std::string& strFilename, CalCoreMaterial 
 
 bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMesh)
 {
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::MESH_XMLFILE_MAGIC)==0)
-    return saveXmlCoreMesh(strFilename, pCoreMesh);
+	if (strFilename.size() >= 3 && stricmp(strFilename.substr(strFilename.size() - 3, 3).c_str(), Cal::MESH_XMLFILE_MAGIC) == 0)
+		return saveXmlCoreMesh(strFilename, pCoreMesh);
 
-  // open the file
-  std::ofstream file;
-  file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// open the file
+	std::ofstream file;
+	file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write magic tag
-  if(!CalPlatform::writeBytes(file, &Cal::MESH_FILE_MAGIC, sizeof(Cal::MESH_FILE_MAGIC)))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write magic tag
+	if (!CalPlatform::writeBytes(file, &Cal::MESH_FILE_MAGIC, sizeof(Cal::MESH_FILE_MAGIC)))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write version info
-  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write version info
+	if (!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // get the submesh vector
-  std::vector<CalCoreSubmesh *>& vectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
+	// get the submesh vector
+	std::vector<CalCoreSubmesh *>& vectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
 
-  // write the number of submeshes
-  if(!CalPlatform::writeInteger(file, vectorCoreSubmesh.size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the number of submeshes
+	if (!CalPlatform::writeInteger(file, vectorCoreSubmesh.size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write all core submeshes
-  int submeshId;
-  for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
-  {
-    // write the core submesh
-    if(!saveCoreSubmesh(file, strFilename, vectorCoreSubmesh[submeshId]))
-    {
-      return false;
-    }
-  }
+	// write all core submeshes
+	int submeshId;
+	for (submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
+	{
+		// write the core submesh
+		if (!saveCoreSubmesh(file, strFilename, vectorCoreSubmesh[submeshId]))
+		{
+			return false;
+		}
+	}
 
-  // explicitly close the file
-  file.close();
+	// explicitly close the file
+	file.close();
 
-  //pCoreMesh->setFilename(strFilename);
+	//pCoreMesh->setFilename(strFilename);
 
-  return true;
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core skeleton instance.
   *
   * This function saves a core skeleton instance to a file.
@@ -697,64 +697,64 @@ bool CalSaver::saveCoreMesh(const std::string& strFilename, CalCoreMesh *pCoreMe
 
 bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
-  if(strFilename.size()>= 3 && stricmp(strFilename.substr(strFilename.size()-3,3).c_str(),Cal::SKELETON_XMLFILE_MAGIC)==0)
-    return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);
+	if (strFilename.size() >= 3 && stricmp(strFilename.substr(strFilename.size() - 3, 3).c_str(), Cal::SKELETON_XMLFILE_MAGIC) == 0)
+		return saveXmlCoreSkeleton(strFilename, pCoreSkeleton);
 
-  // open the file
-  std::ofstream file;
-  file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// open the file
+	std::ofstream file;
+	file.open(strFilename.c_str(), std::ios::out | std::ios::binary);
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_CREATION_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write magic tag
-  if(!CalPlatform::writeBytes(file, &Cal::SKELETON_FILE_MAGIC, sizeof(Cal::SKELETON_FILE_MAGIC)))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write magic tag
+	if (!CalPlatform::writeBytes(file, &Cal::SKELETON_FILE_MAGIC, sizeof(Cal::SKELETON_FILE_MAGIC)))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write version info
-  if(!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write version info
+	if (!CalPlatform::writeInteger(file, Cal::CURRENT_FILE_VERSION))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the number of bones
-  if(!CalPlatform::writeInteger(file, pCoreSkeleton->getVectorCoreBone().size()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the number of bones
+	if (!CalPlatform::writeInteger(file, pCoreSkeleton->getVectorCoreBone().size()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the sceneambient TODO remove definitely
- /* CalVector sceneColor;
-  pCoreSkeleton->getSceneAmbientColor(sceneColor);
-  CalPlatform::writeFloat(file, sceneColor.x);
-  CalPlatform::writeFloat(file, sceneColor.y);
-  CalPlatform::writeFloat(file, sceneColor.z);*/
+	// write the sceneambient TODO remove definitely
+	/* CalVector sceneColor;
+	 pCoreSkeleton->getSceneAmbientColor(sceneColor);
+	 CalPlatform::writeFloat(file, sceneColor.x);
+	 CalPlatform::writeFloat(file, sceneColor.y);
+	 CalPlatform::writeFloat(file, sceneColor.z);*/
 
-  // write all core bones
-  int boneId;
-  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
-  {
-    // write the core bone
-    if(!saveCoreBones(file, strFilename, pCoreSkeleton->getCoreBone(boneId)))
-    {
-      return false;
-    }
-  }
+	// write all core bones
+	int boneId;
+	for (boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
+	{
+		// write the core bone
+		if (!saveCoreBones(file, strFilename, pCoreSkeleton->getCoreBone(boneId)))
+		{
+			return false;
+		}
+	}
 
-  // explicitly close the file
-  file.close();
+	// explicitly close the file
+	file.close();
 
-  return true;
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core submesh instance.
   *
   * This function saves a core submesh instance to a file stream.
@@ -771,233 +771,233 @@ bool CalSaver::saveCoreSkeleton(const std::string& strFilename, CalCoreSkeleton 
 
 bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilename, CalCoreSubmesh *pCoreSubmesh)
 {
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write the core material thread id
-  if(!CalPlatform::writeInteger(file, pCoreSubmesh->getCoreMaterialThreadId()))
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// write the core material thread id
+	if (!CalPlatform::writeInteger(file, pCoreSubmesh->getCoreMaterialThreadId()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // get the vertex, face, physical property and spring vector
-  std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
-  std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
-  std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pCoreSubmesh->getVectorPhysicalProperty();
-  std::vector<CalCoreSubmesh::Spring>& vectorSpring = pCoreSubmesh->getVectorSpring();
+	// get the vertex, face, physical property and spring vector
+	std::vector<CalCoreSubmesh::Vertex>& vectorVertex = pCoreSubmesh->getVectorVertex();
+	std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
+	std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pCoreSubmesh->getVectorPhysicalProperty();
+	std::vector<CalCoreSubmesh::Spring>& vectorSpring = pCoreSubmesh->getVectorSpring();
 
-  // write the number of vertices, faces, level-of-details and springs
-  CalPlatform::writeInteger(file, vectorVertex.size());
-  CalPlatform::writeInteger(file, vectorFace.size());
-  CalPlatform::writeInteger(file, pCoreSubmesh->getLodCount());
-  CalPlatform::writeInteger(file, pCoreSubmesh->getSpringCount());
+	// write the number of vertices, faces, level-of-details and springs
+	CalPlatform::writeInteger(file, vectorVertex.size());
+	CalPlatform::writeInteger(file, vectorFace.size());
+	CalPlatform::writeInteger(file, pCoreSubmesh->getLodCount());
+	CalPlatform::writeInteger(file, pCoreSubmesh->getSpringCount());
 
-  // get the texture coordinate vector vector
-  std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
+	// get the texture coordinate vector vector
+	std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
 
-  // write the number of texture coordinates per vertex
-  CalPlatform::writeInteger(file, vectorvectorTextureCoordinate.size());
+	// write the number of texture coordinates per vertex
+	CalPlatform::writeInteger(file, vectorvectorTextureCoordinate.size());
 
-  // write the number of morph targets
-  int morphCount = pCoreSubmesh->getCoreSubMorphTargetCount();
-  CalPlatform::writeInteger(file, morphCount);
+	// write the number of morph targets
+	int morphCount = pCoreSubmesh->getCoreSubMorphTargetCount();
+	CalPlatform::writeInteger(file, morphCount);
 
-  // check if an error happened
-  if(!file)
-  {
-    CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	// check if an error happened
+	if (!file)
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // write all vertices
-  int vertexId;
-  for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
-  {
-    CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
+	// write all vertices
+	int vertexId;
+	for (vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
+	{
+		CalCoreSubmesh::Vertex& vertex = vectorVertex[vertexId];
 
-    // write the vertex data
-    CalPlatform::writeFloat(file, vertex.position.x);
-    CalPlatform::writeFloat(file, vertex.position.y);
-    CalPlatform::writeFloat(file, vertex.position.z);
-    CalPlatform::writeFloat(file, vertex.normal.x);
-    CalPlatform::writeFloat(file, vertex.normal.y);
-    CalPlatform::writeFloat(file, vertex.normal.z);
-    
-    CalPlatform::writeInteger(file, vertex.collapseId);
-    CalPlatform::writeInteger(file, vertex.faceCollapseCount);
+		// write the vertex data
+		CalPlatform::writeFloat(file, vertex.position.x);
+		CalPlatform::writeFloat(file, vertex.position.y);
+		CalPlatform::writeFloat(file, vertex.position.z);
+		CalPlatform::writeFloat(file, vertex.normal.x);
+		CalPlatform::writeFloat(file, vertex.normal.y);
+		CalPlatform::writeFloat(file, vertex.normal.z);
 
-    // write all texture coordinates of this vertex
-    int textureCoordinateId;
-    for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
-    {
-      CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
+		CalPlatform::writeInteger(file, vertex.collapseId);
+		CalPlatform::writeInteger(file, vertex.faceCollapseCount);
 
-      // write the influence data
-      CalPlatform::writeFloat(file, textureCoordinate.u);
-      CalPlatform::writeFloat(file, textureCoordinate.v);
+		// write all texture coordinates of this vertex
+		int textureCoordinateId;
+		for (textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
+		{
+			CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
-      // check if an error happened
-      if(!file)
-      {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-      }
-    }
+			// write the influence data
+			CalPlatform::writeFloat(file, textureCoordinate.u);
+			CalPlatform::writeFloat(file, textureCoordinate.v);
 
-    // write the number of influences
-    if(!CalPlatform::writeInteger(file, vertex.vectorInfluence.size()))
-    {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-    }
+			// check if an error happened
+			if (!file)
+			{
+				CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+				return false;
+			}
+		}
 
-     // write all influences of this vertex
-    int influenceId;
-    for(influenceId = 0; influenceId < (int)vertex.vectorInfluence.size(); ++influenceId)
-    {
-      CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
+		// write the number of influences
+		if (!CalPlatform::writeInteger(file, vertex.vectorInfluence.size()))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
 
-      // write the influence data
-      CalPlatform::writeInteger(file, influence.boneId);
-      CalPlatform::writeFloat(file, influence.weight);
+		// write all influences of this vertex
+		int influenceId;
+		for (influenceId = 0; influenceId < (int)vertex.vectorInfluence.size(); ++influenceId)
+		{
+			CalCoreSubmesh::Influence& influence = vertex.vectorInfluence[influenceId];
 
-      // check if an error happened
-      if(!file)
-      {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-      }
-    }
+			// write the influence data
+			CalPlatform::writeInteger(file, influence.boneId);
+			CalPlatform::writeFloat(file, influence.weight);
 
-    // save the physical property of the vertex if there are springs in the core submesh
-    if(pCoreSubmesh->getSpringCount() > 0)
-    {
-      // write the physical property of this vertex if there are springs in the core submesh
-      CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
+			// check if an error happened
+			if (!file)
+			{
+				CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+				return false;
+			}
+		}
 
-      // write the physical property data
-      CalPlatform::writeFloat(file, physicalProperty.weight);
+		// save the physical property of the vertex if there are springs in the core submesh
+		if (pCoreSubmesh->getSpringCount() > 0)
+		{
+			// write the physical property of this vertex if there are springs in the core submesh
+			CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
 
-      // check if an error happened
-      if(!file)
-      {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-      }
-    }
-  }
+			// write the physical property data
+			CalPlatform::writeFloat(file, physicalProperty.weight);
 
-  // write all springs
-  int springId;
-  for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
-  {
-    CalCoreSubmesh::Spring& spring = vectorSpring[springId];
+			// check if an error happened
+			if (!file)
+			{
+				CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+				return false;
+			}
+		}
+	}
 
-    // write the spring data
-    CalPlatform::writeInteger(file, spring.vertexId[0]);
-    CalPlatform::writeInteger(file, spring.vertexId[1]);
-    CalPlatform::writeFloat(file, spring.springCoefficient);
-    CalPlatform::writeFloat(file, spring.idleLength);
+	// write all springs
+	int springId;
+	for (springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
+	{
+		CalCoreSubmesh::Spring& spring = vectorSpring[springId];
 
-    // check if an error happened
-    if(!file)
-    {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-    }
-  }
+		// write the spring data
+		CalPlatform::writeInteger(file, spring.vertexId[0]);
+		CalPlatform::writeInteger(file, spring.vertexId[1]);
+		CalPlatform::writeFloat(file, spring.springCoefficient);
+		CalPlatform::writeFloat(file, spring.idleLength);
 
-  std::vector<CalCoreSubMorphTarget *>& vectorMorphs = pCoreSubmesh->getVectorCoreSubMorphTarget();
+		// check if an error happened
+		if (!file)
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
-  for( int morphId = 0; morphId < morphCount; morphId++ )
-  {
-     CalCoreSubMorphTarget * morphTarget = vectorMorphs[morphId];
-     CalPlatform::writeString(file, morphTarget->getName());
-     int morphVertCount = 0;
+	std::vector<CalCoreSubMorphTarget *>& vectorMorphs = pCoreSubmesh->getVectorCoreSubMorphTarget();
 
-	 CalPlatform::writeInteger(file, (int)morphTarget->getBlendVertexCount());
+	for (int morphId = 0; morphId < morphCount; morphId++)
+	{
+		CalCoreSubMorphTarget * morphTarget = vectorMorphs[morphId];
+		CalPlatform::writeString(file, morphTarget->getName());
+		int morphVertCount = 0;
 
-     for(int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
-     {
-        CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
-        if( !bv ) {
-           continue;
-        }
-        CalCoreSubmesh::Vertex& Vertex = vectorVertex[blendId];
-        static double differenceTolerance = 0.01;
-        CalVector positionDiff = bv->position - Vertex.position;
-        CalVector normalDiff = bv->normal - Vertex.normal;
-        double positionDiffLength = fabs(positionDiff.length());
-       // double normalDiffLength = fabs(normalDiff.length());
+		CalPlatform::writeInteger(file, (int)morphTarget->getBlendVertexCount());
 
-        bool skip = false;
-        //      if( positionDiffLength < differenceTolerance && normalDiffLength < differenceTolerance ) {
-        if( positionDiffLength < differenceTolerance ) {
-           skip = true;
-        }
+		for (int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
+		{
+			CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
+			if (!bv) {
+				continue;
+			}
+			CalCoreSubmesh::Vertex& Vertex = vectorVertex[blendId];
+			static double differenceTolerance = 0.01;
+			CalVector positionDiff = bv->position - Vertex.position;
+			CalVector normalDiff = bv->normal - Vertex.normal;
+			double positionDiffLength = fabs(positionDiff.length());
+			// double normalDiffLength = fabs(normalDiff.length());
 
-        std::vector<CalCoreSubmesh::TextureCoordinate> const & textureCoords = bv->textureCoords;
-        size_t tcI;
-        for( tcI = 0; tcI < textureCoords.size(); tcI++ ) {
-           CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
-           CalCoreSubmesh::TextureCoordinate const & tc2 = vectorvectorTextureCoordinate[tcI][blendId];
-           if( fabs(tc1.u - tc2.u) > differenceTolerance ||
-              fabs(tc1.v - tc2.v) > differenceTolerance )
-           {
-              skip = false;
-           }
-        }
+			bool skip = false;
+			//      if( positionDiffLength < differenceTolerance && normalDiffLength < differenceTolerance ) {
+			if (positionDiffLength < differenceTolerance) {
+				skip = true;
+			}
 
-
-        if(skip) {
-           continue;
-        }
-
-        morphVertCount++;
-        CalPlatform::writeInteger(file, blendId);
-        CalPlatform::writeFloat(file, bv->position.x);
-        CalPlatform::writeFloat(file, bv->position.y);
-        CalPlatform::writeFloat(file, bv->position.z);
-        CalPlatform::writeFloat(file, bv->normal.x);
-        CalPlatform::writeFloat(file, bv->normal.y);
-        CalPlatform::writeFloat(file, bv->normal.z);
-        for( tcI = 0; tcI < textureCoords.size(); tcI++ ) {
-           CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
-           CalPlatform::writeFloat(file, tc1.u);
-           CalPlatform::writeFloat(file, tc1.v);
-        }
-     }
-
-  }
+			std::vector<CalCoreSubmesh::TextureCoordinate> const & textureCoords = bv->textureCoords;
+			size_t tcI;
+			for (tcI = 0; tcI < textureCoords.size(); tcI++) {
+				CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
+				CalCoreSubmesh::TextureCoordinate const & tc2 = vectorvectorTextureCoordinate[tcI][blendId];
+				if (fabs(tc1.u - tc2.u) > differenceTolerance ||
+					fabs(tc1.v - tc2.v) > differenceTolerance)
+				{
+					skip = false;
+				}
+			}
 
 
-  // write all faces
-  int faceId;
-  for(faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
-  {
-    CalCoreSubmesh::Face& face = vectorFace[faceId];
+			if (skip) {
+				continue;
+			}
 
-    // write the face data
-    CalPlatform::writeInteger(file, face.vertexId[0]);
-    CalPlatform::writeInteger(file, face.vertexId[1]);
-    CalPlatform::writeInteger(file, face.vertexId[2]);
+			morphVertCount++;
+			CalPlatform::writeInteger(file, blendId);
+			CalPlatform::writeFloat(file, bv->position.x);
+			CalPlatform::writeFloat(file, bv->position.y);
+			CalPlatform::writeFloat(file, bv->position.z);
+			CalPlatform::writeFloat(file, bv->normal.x);
+			CalPlatform::writeFloat(file, bv->normal.y);
+			CalPlatform::writeFloat(file, bv->normal.z);
+			for (tcI = 0; tcI < textureCoords.size(); tcI++) {
+				CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
+				CalPlatform::writeFloat(file, tc1.u);
+				CalPlatform::writeFloat(file, tc1.v);
+			}
+		}
 
-    // check if an error happened
-    if(!file)
-    {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-    }
-  }
+	}
 
-  return true;
+
+	// write all faces
+	int faceId;
+	for (faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
+	{
+		CalCoreSubmesh::Face& face = vectorFace[faceId];
+
+		// write the face data
+		CalPlatform::writeInteger(file, face.vertexId[0]);
+		CalPlatform::writeInteger(file, face.vertexId[1]);
+		CalPlatform::writeInteger(file, face.vertexId[2]);
+
+		// check if an error happened
+		if (!file)
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
+
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core track instance.
   *
   * This function saves a core track instance to a file stream.
@@ -1005,88 +1005,88 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
   * @param file The file stream to save the core track instance to.
   * @param strFilename The name of the file stream.
   * @param pCoreTrack A pointer to the core track instance that should be saved.
-	* @parAM pOptions Optional pointer to save options.
+  * @parAM pOptions Optional pointer to save options.
   *
   * @return One of the following values:
   *         \li \b true if successful
   *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack,  int version, CalSaverAnimationOptions *pOptions)
+bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename, CalCoreTrack *pCoreTrack, int version, CalSaverAnimationOptions *pOptions)
 {
-  if(!file)
-  {
-    CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  // Always save out the flags, and save out the translation iff required.
-  // I calculate translation required on load, and just fetch the saved result upon save.
-  bool translationRequired = pCoreTrack->getTranslationRequired();
-  bool highRangeRequired = pCoreTrack->getHighRangeRequired();
-  bool translationIsDynamic = pCoreTrack->getTranslationIsDynamic();
+	// Always save out the flags, and save out the translation iff required.
+	// I calculate translation required on load, and just fetch the saved result upon save.
+	bool translationRequired = pCoreTrack->getTranslationRequired();
+	bool highRangeRequired = pCoreTrack->getHighRangeRequired();
+	bool translationIsDynamic = pCoreTrack->getTranslationIsDynamic();
 
-  // write the bone id
-  const bool useAnimationCompression = (pOptions && pOptions->bCompressKeyframes);
+	// write the bone id
+	const bool useAnimationCompression = (pOptions && pOptions->bCompressKeyframes);
 
-  if ( useAnimationCompression )
-  {
-     int coreBoneId = pCoreTrack->getCoreBoneId();
-     int numKeyframes = pCoreTrack->getCoreKeyframeCount();
-     unsigned char buf[ 4 ];
-     buf[ 0 ] = coreBoneId & 0xff;
-     buf[ 1 ] = ( ( coreBoneId >> 8 ) & 0x1f )
-        + ( translationRequired ? 0x80 : 0 )
-        + ( highRangeRequired ? 0x40 : 0 )
-        + ( translationIsDynamic ? 0x20 : 0 );
-     buf[ 2 ] = numKeyframes & 0xff;
-     buf[ 3 ] = ( numKeyframes >> 8 ) & 0xff;
+	if (useAnimationCompression)
+	{
+		int coreBoneId = pCoreTrack->getCoreBoneId();
+		int numKeyframes = pCoreTrack->getCoreKeyframeCount();
+		unsigned char buf[4];
+		buf[0] = coreBoneId & 0xff;
+		buf[1] = ((coreBoneId >> 8) & 0x1f)
+			+ (translationRequired ? 0x80 : 0)
+			+ (highRangeRequired ? 0x40 : 0)
+			+ (translationIsDynamic ? 0x20 : 0);
+		buf[2] = numKeyframes & 0xff;
+		buf[3] = (numKeyframes >> 8) & 0xff;
 
-     if( !CalPlatform::writeBytes( file, buf, 4 ) )
-     {
-        CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-        return false;
-     }
-  }
-  else
-  {
-     // write the bone id
-     if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreBoneId()))
-     {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-     }
+		if (!CalPlatform::writeBytes(file, buf, 4))
+		{
+			CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
+			return false;
+		}
+	}
+	else
+	{
+		// write the bone id
+		if (!CalPlatform::writeInteger(file, pCoreTrack->getCoreBoneId()))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
 
-     // write the number of keyframes
-     if(!CalPlatform::writeInteger(file, pCoreTrack->getCoreKeyframeCount()))
-     {
-        CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-        return false;
-     }
-  }
+		// write the number of keyframes
+		if (!CalPlatform::writeInteger(file, pCoreTrack->getCoreKeyframeCount()))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
 
-  // save all core keyframes
-  for(int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
-  {
-     // If translationRequired is false, then I don't need the the translation, but even if it is true,
-     // if translationIsDynamic is false then I don't need translation for any frames but the first.
-     bool translationWritten = translationRequired;
+	// save all core keyframes
+	for (int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
+	{
+		// If translationRequired is false, then I don't need the the translation, but even if it is true,
+		// if translationIsDynamic is false then I don't need translation for any frames but the first.
+		bool translationWritten = translationRequired;
 
-     if( i != 0 && !translationIsDynamic )
-     {
-        translationWritten = false;
-     }
+		if (i != 0 && !translationIsDynamic)
+		{
+			translationWritten = false;
+		}
 
-     if(!saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i), version,
-                          translationWritten, highRangeRequired, useAnimationCompression))
-     {
-        return false;
-     }
+		if (!saveCoreKeyframe(file, strFilename, pCoreTrack->getCoreKeyframe(i), version,
+			translationWritten, highRangeRequired, useAnimationCompression))
+		{
+			return false;
+		}
 
-  }
+	}
 
-  return true;
+	return true;
 }
 
 
@@ -1106,62 +1106,62 @@ bool CalSaver::saveCoreTrack(std::ofstream& file, const std::string& strFilename
 
 bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFilename, CalCoreMorphTrack *pCoreMorphTrack)
 {
-   if(!file)
-   {
-      CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	if (!file)
+	{
+		CalError::setLastError(CalError::INVALID_HANDLE, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write the morph name
-   if(!CalPlatform::writeInteger(file, pCoreMorphTrack->getMorphID()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
+	// write the morph name
+	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getMorphID()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-   // write the number of keyframes
-   if(!CalPlatform::writeInteger(file, pCoreMorphTrack->getCoreMorphKeyframeCount()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
-    // write the targetmesh index
-   if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getTargetMesh()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
-   // write the number of submeshtarget
-   if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getNumTargetSubMeshes()))
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
-   //save the target submeshes indices
-   for(int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
-   {
-        if(!CalPlatform::writeInteger(file,pCoreMorphTrack->getTargetSubMesh(i)))
-       {
-          CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-          return false;
-       }
-   }
+	// write the number of keyframes
+	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getCoreMorphKeyframeCount()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+	// write the targetmesh index
+	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getTargetMesh()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+	// write the number of submeshtarget
+	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getNumTargetSubMeshes()))
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+	//save the target submeshes indices
+	for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+	{
+		if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getTargetSubMesh(i)))
+		{
+			CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+			return false;
+		}
+	}
 
-   // save all core keyframes
-   for(int i = 0; i < pCoreMorphTrack->getCoreMorphKeyframeCount(); ++i)
-   {
-      // save the core keyframe
-      if(!saveCoreMorphKeyframe(file, strFilename, pCoreMorphTrack->getCoreMorphKeyframe(i)))
-      {
-         return false;
-      }
-   }
+	// save all core keyframes
+	for (int i = 0; i < pCoreMorphTrack->getCoreMorphKeyframeCount(); ++i)
+	{
+		// save the core keyframe
+		if (!saveCoreMorphKeyframe(file, strFilename, pCoreMorphTrack->getCoreMorphKeyframe(i)))
+		{
+			return false;
+		}
+	}
 
-   return true;
+	return true;
 }
 
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core skeleton instance to a XML file
   *
   * This function saves a core skeleton instance to a XML file.
@@ -1178,139 +1178,139 @@ bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFil
 
 bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkeleton *pCoreSkeleton)
 {
-  std::stringstream str;
+	std::stringstream str;
 
-  TiXmlDocument doc(strFilename);
-
-
-  TiXmlElement skeleton("SKELETON");
-  //skeleton.SetAttribute("MAGIC",Cal::SKELETON_XMLFILE_MAGIC);
-  skeleton.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-
-  skeleton.SetAttribute("NUMBONES",pCoreSkeleton->getVectorCoreBone().size());
-
-  /* CalVector sceneColor; TODO remove definitely
- pCoreSkeleton->getSceneAmbientColor(sceneColor);
-  str << sceneColor.x << " " << sceneColor.y << " " << sceneColor.z;
-  skeleton.SetAttribute("SCENEAMBIENTCOLOR", str.str());*/
+	TiXmlDocument doc(strFilename);
 
 
-  int boneId;
-  for(boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
-  {
-	  CalCoreBone* pCoreBone=pCoreSkeleton->getCoreBone(boneId);
+	TiXmlElement skeleton("SKELETON");
+	//skeleton.SetAttribute("MAGIC",Cal::SKELETON_XMLFILE_MAGIC);
+	skeleton.SetAttribute("VERSION", Cal::LIBRARY_VERSION);
 
-	  TiXmlElement bone("BONE");
-	  bone.SetAttribute("ID",boneId);
-	  bone.SetAttribute("NAME",pCoreBone->getName());
-	  bone.SetAttribute("NUMCHILDS",pCoreBone->getListChildId().size());
+	skeleton.SetAttribute("NUMBONES", pCoreSkeleton->getVectorCoreBone().size());
 
-     if( pCoreBone->hasLightingData() )
-     {
-        bone.SetAttribute("LIGHTTYPE",pCoreBone->getLightType());
-        str.str("");
-        CalVector c;
-        pCoreBone->getLightColor( c );
-        str << c.x << " " << c.y << " " << c.z;
-        bone.SetAttribute("LIGHTCOLOR",str.str());
-     }
-
-	  TiXmlElement translation("TRANSLATION");
-	  const CalVector& translationVector = pCoreBone->getTranslation();
+	/* CalVector sceneColor; TODO remove definitely
+   pCoreSkeleton->getSceneAmbientColor(sceneColor);
+   str << sceneColor.x << " " << sceneColor.y << " " << sceneColor.z;
+   skeleton.SetAttribute("SCENEAMBIENTCOLOR", str.str());*/
 
 
-      str.str("");
-      str << translationVector.x << " "
-    	  << translationVector.y << " "
-	      << translationVector.z;
+	int boneId;
+	for (boneId = 0; boneId < (int)pCoreSkeleton->getVectorCoreBone().size(); ++boneId)
+	{
+		CalCoreBone* pCoreBone = pCoreSkeleton->getCoreBone(boneId);
 
-      TiXmlText translationdata(str.str());
+		TiXmlElement bone("BONE");
+		bone.SetAttribute("ID", boneId);
+		bone.SetAttribute("NAME", pCoreBone->getName());
+		bone.SetAttribute("NUMCHILDS", pCoreBone->getListChildId().size());
 
-      translation.InsertEndChild(translationdata);
-      bone.InsertEndChild(translation);
+		if (pCoreBone->hasLightingData())
+		{
+			bone.SetAttribute("LIGHTTYPE", pCoreBone->getLightType());
+			str.str("");
+			CalVector c;
+			pCoreBone->getLightColor(c);
+			str << c.x << " " << c.y << " " << c.z;
+			bone.SetAttribute("LIGHTCOLOR", str.str());
+		}
 
-
-	  TiXmlElement rotation("ROTATION");
-	  const CalQuaternion& rotationQuad = pCoreBone->getRotation();
-
-
-      str.str("");
-      str << rotationQuad.x << " "
-    	  << rotationQuad.y << " "
-		  << rotationQuad.z << " "
-	      << rotationQuad.w;
-
-      TiXmlText rotationdata(str.str());
-      rotation.InsertEndChild(rotationdata);
-      bone.InsertEndChild(rotation);
+		TiXmlElement translation("TRANSLATION");
+		const CalVector& translationVector = pCoreBone->getTranslation();
 
 
-	  TiXmlElement localtranslation("LOCALTRANSLATION");
-	  const CalVector& localtranslationVector = pCoreBone->getTranslationBoneSpace();
+		str.str("");
+		str << translationVector.x << " "
+			<< translationVector.y << " "
+			<< translationVector.z;
 
-      str.str("");
-      str << localtranslationVector.x << " "
-    	  << localtranslationVector.y << " "
-	      << localtranslationVector.z;
+		TiXmlText translationdata(str.str());
 
-      TiXmlText localtranslationdata(str.str());
-
-      localtranslation.InsertEndChild(localtranslationdata);
-      bone.InsertEndChild(localtranslation);
+		translation.InsertEndChild(translationdata);
+		bone.InsertEndChild(translation);
 
 
-	  TiXmlElement localrotation("LOCALROTATION");
-	  const CalQuaternion& localrotationQuad = pCoreBone->getRotationBoneSpace();
-
-      str.str("");
-      str << localrotationQuad.x << " "
-    	  << localrotationQuad.y << " "
-		  << localrotationQuad.z << " "
-	      << localrotationQuad.w;
-
-      TiXmlText localrotationdata(str.str());
-      localrotation.InsertEndChild(localrotationdata);
-      bone.InsertEndChild(localrotation);
+		TiXmlElement rotation("ROTATION");
+		const CalQuaternion& rotationQuad = pCoreBone->getRotation();
 
 
-	  TiXmlElement parent("PARENTID");
-	  str.str("");
-      str << pCoreBone->getParentId();
-	  TiXmlText parentid(str.str());
-	  parent.InsertEndChild(parentid);
-      bone.InsertEndChild(parent);
+		str.str("");
+		str << rotationQuad.x << " "
+			<< rotationQuad.y << " "
+			<< rotationQuad.z << " "
+			<< rotationQuad.w;
+
+		TiXmlText rotationdata(str.str());
+		rotation.InsertEndChild(rotationdata);
+		bone.InsertEndChild(rotation);
 
 
-	  // get children list
-      std::list<int>& listChildId = pCoreBone->getListChildId();
+		TiXmlElement localtranslation("LOCALTRANSLATION");
+		const CalVector& localtranslationVector = pCoreBone->getTranslationBoneSpace();
+
+		str.str("");
+		str << localtranslationVector.x << " "
+			<< localtranslationVector.y << " "
+			<< localtranslationVector.z;
+
+		TiXmlText localtranslationdata(str.str());
+
+		localtranslation.InsertEndChild(localtranslationdata);
+		bone.InsertEndChild(localtranslation);
 
 
-	  // write all children ids
-      std::list<int>::iterator iteratorChildId;
-      for(iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
-	  {
-		  TiXmlElement child("CHILDID");
-		  str.str("");
-		  //int id=*iteratorChildId;
-          str << *iteratorChildId;
-	      TiXmlText childid(str.str());
-		  child.InsertEndChild(childid);
-          bone.InsertEndChild(child);
-	  }
-	  skeleton.InsertEndChild(bone);
+		TiXmlElement localrotation("LOCALROTATION");
+		const CalQuaternion& localrotationQuad = pCoreBone->getRotationBoneSpace();
 
-  }
-  doc.InsertEndChild(skeleton);
+		str.str("");
+		str << localrotationQuad.x << " "
+			<< localrotationQuad.y << " "
+			<< localrotationQuad.z << " "
+			<< localrotationQuad.w;
 
-  if(!doc.SaveFile())
-  {
-	CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
-  return true;
+		TiXmlText localrotationdata(str.str());
+		localrotation.InsertEndChild(localrotationdata);
+		bone.InsertEndChild(localrotation);
+
+
+		TiXmlElement parent("PARENTID");
+		str.str("");
+		str << pCoreBone->getParentId();
+		TiXmlText parentid(str.str());
+		parent.InsertEndChild(parentid);
+		bone.InsertEndChild(parent);
+
+
+		// get children list
+		std::list<int>& listChildId = pCoreBone->getListChildId();
+
+
+		// write all children ids
+		std::list<int>::iterator iteratorChildId;
+		for (iteratorChildId = listChildId.begin(); iteratorChildId != listChildId.end(); ++iteratorChildId)
+		{
+			TiXmlElement child("CHILDID");
+			str.str("");
+			//int id=*iteratorChildId;
+			str << *iteratorChildId;
+			TiXmlText childid(str.str());
+			child.InsertEndChild(childid);
+			bone.InsertEndChild(child);
+		}
+		skeleton.InsertEndChild(bone);
+
+	}
+	doc.InsertEndChild(skeleton);
+
+	if (!doc.SaveFile())
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+	return true;
 }
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core animation instance in a XML file.
   *
   * This function saves a core animation instance to a XML file.
@@ -1333,11 +1333,11 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 
 	TiXmlElement animation("ANIMATION");
 	//animation.SetAttribute("MAGIC",Cal::ANIMATION_XMLFILE_MAGIC);
-	animation.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+	animation.SetAttribute("VERSION", Cal::LIBRARY_VERSION);
 
 	str.str("");
 	str << pCoreAnimation->getDuration();
-	animation.SetAttribute("DURATION",str.str());
+	animation.SetAttribute("DURATION", str.str());
 	animation.SetAttribute("NUMTRACKS", pCoreAnimation->getTrackCount());
 
 	// get core track list
@@ -1345,52 +1345,52 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 
 	// write all core bones
 	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-	for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+	for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
 	{
-		CalCoreTrack *pCoreTrack=*iteratorCoreTrack;
+		CalCoreTrack *pCoreTrack = *iteratorCoreTrack;
 
 		TiXmlElement track("TRACK");
-		track.SetAttribute("BONEID",pCoreTrack->getCoreBoneId());
+		track.SetAttribute("BONEID", pCoreTrack->getCoreBoneId());
 
-      // Always save out the TRANSLATIONREQUIRED flag in XML, and save the translations iff the flag is true.
-      bool translationIsDynamic = pCoreTrack->getTranslationIsDynamic();
-      // translationIsDynamic = true;
-      track.SetAttribute( "TRANSLATIONREQUIRED", ( pCoreTrack->getTranslationRequired() ? 1 : 0 ) );
-      track.SetAttribute( "TRANSLATIONISDYNAMIC", ( translationIsDynamic ? 1 : 0 ) );
-      track.SetAttribute( "HIGHRANGEREQUIRED", ( pCoreTrack->getHighRangeRequired() ? 1 : 0 ) );
+		// Always save out the TRANSLATIONREQUIRED flag in XML, and save the translations iff the flag is true.
+		bool translationIsDynamic = pCoreTrack->getTranslationIsDynamic();
+		// translationIsDynamic = true;
+		track.SetAttribute("TRANSLATIONREQUIRED", (pCoreTrack->getTranslationRequired() ? 1 : 0));
+		track.SetAttribute("TRANSLATIONISDYNAMIC", (translationIsDynamic ? 1 : 0));
+		track.SetAttribute("HIGHRANGEREQUIRED", (pCoreTrack->getHighRangeRequired() ? 1 : 0));
 
-		track.SetAttribute("NUMKEYFRAMES",pCoreTrack->getCoreKeyframeCount());
+		track.SetAttribute("NUMKEYFRAMES", pCoreTrack->getCoreKeyframeCount());
 
 		// save all core keyframes
 		for (int i = 0; i < pCoreTrack->getCoreKeyframeCount(); ++i)
 		{
-			CalCoreKeyframe *pCoreKeyframe=pCoreTrack->getCoreKeyframe(i);
+			CalCoreKeyframe *pCoreKeyframe = pCoreTrack->getCoreKeyframe(i);
 
 			TiXmlElement keyframe("KEYFRAME");
 
 			str.str("");
 			str << pCoreKeyframe->getTime();
-			keyframe.SetAttribute("TIME",str.str());
+			keyframe.SetAttribute("TIME", str.str());
 
-         if( pCoreTrack->getTranslationRequired() )
-         {
-            // If translation required but not dynamic and i != 0, then I won't write the translation.
-            if( translationIsDynamic || i == 0 )
-            {
-               TiXmlElement translation("TRANSLATION");
-               const CalVector& translationVector = pCoreKeyframe->getTranslation();
+			if (pCoreTrack->getTranslationRequired())
+			{
+				// If translation required but not dynamic and i != 0, then I won't write the translation.
+				if (translationIsDynamic || i == 0)
+				{
+					TiXmlElement translation("TRANSLATION");
+					const CalVector& translationVector = pCoreKeyframe->getTranslation();
 
-               str.str("");
-               str << translationVector.x << " "
-                  << translationVector.y << " "
-                  << translationVector.z;
+					str.str("");
+					str << translationVector.x << " "
+						<< translationVector.y << " "
+						<< translationVector.z;
 
-               TiXmlText translationdata(str.str());
+					TiXmlText translationdata(str.str());
 
-               translation.InsertEndChild(translationdata);
-               keyframe.InsertEndChild(translation);
-            }
-         }
+					translation.InsertEndChild(translationdata);
+					keyframe.InsertEndChild(translation);
+				}
+			}
 
 			TiXmlElement rotation("ROTATION");
 			const CalQuaternion& rotationQuad = pCoreKeyframe->getRotation();
@@ -1413,7 +1413,7 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 
 	doc.InsertEndChild(animation);
 
-	if(!doc.SaveFile())
+	if (!doc.SaveFile())
 	{
 		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
 		return false;
@@ -1440,98 +1440,98 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 #define USE_XML_BINDINGS ( 0 )
 bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreAnimatedMorph *pCoreAnimatedMorph)
 {
-   TiXmlDocument doc(strFilename);
+	TiXmlDocument doc(strFilename);
 #if USE_XML_BINDINGS
-   SaveCalHeader( &doc, Cal::ANIMATEDMORPH_XMLFILE_EXTENSION, Cal::LIBRARY_VERSION );
+	SaveCalHeader( &doc, Cal::ANIMATEDMORPH_XMLFILE_EXTENSION, Cal::LIBRARY_VERSION );
 
-   TiXmlElement animation("ANIMATION");
-   if( !BindToXml( &animation, *pCoreAnimatedMorph ) ) {
-      return false;
-   }
-   doc.InsertEndChild(animation);
+	TiXmlElement animation("ANIMATION");
+	if( !BindToXml( &animation, *pCoreAnimatedMorph ) ) {
+		return false;
+	}
+	doc.InsertEndChild(animation);
 
 #else
-   std::stringstream str;
+	std::stringstream str;
 
-   TiXmlElement animation("ANIMATION");
+	TiXmlElement animation("ANIMATION");
 
-   TiXmlElement header("HEADER");
-   header.SetAttribute("MAGIC",Cal::ANIMATEDMORPH_XMLFILE_EXTENSION);
-   header.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+	TiXmlElement header("HEADER");
+	header.SetAttribute("MAGIC", Cal::ANIMATEDMORPH_XMLFILE_EXTENSION);
+	header.SetAttribute("VERSION", Cal::LIBRARY_VERSION);
 
-   doc.InsertEndChild(header);
+	doc.InsertEndChild(header);
 
-   str.str("");
-   str << pCoreAnimatedMorph->getDuration();
-   animation.SetAttribute("DURATION",str.str());
+	str.str("");
+	str << pCoreAnimatedMorph->getDuration();
+	animation.SetAttribute("DURATION", str.str());
 
-   // get core track list
-   std::list<CalCoreMorphTrack>& listCoreMorphTrack = pCoreAnimatedMorph->getListCoreTrack();
+	// get core track list
+	std::list<CalCoreMorphTrack>& listCoreMorphTrack = pCoreAnimatedMorph->getListCoreTrack();
 
-   animation.SetAttribute("NUMTRACKS",listCoreMorphTrack.size());
+	animation.SetAttribute("NUMTRACKS", listCoreMorphTrack.size());
 
-   std::list<CalCoreMorphTrack>::iterator iteratorCoreMorphTrack;
-   for(iteratorCoreMorphTrack = listCoreMorphTrack.begin(); iteratorCoreMorphTrack != listCoreMorphTrack.end(); ++iteratorCoreMorphTrack)
-   {
-      CalCoreMorphTrack *pCoreMorphTrack=&(*iteratorCoreMorphTrack);
+	std::list<CalCoreMorphTrack>::iterator iteratorCoreMorphTrack;
+	for (iteratorCoreMorphTrack = listCoreMorphTrack.begin(); iteratorCoreMorphTrack != listCoreMorphTrack.end(); ++iteratorCoreMorphTrack)
+	{
+		CalCoreMorphTrack *pCoreMorphTrack = &(*iteratorCoreMorphTrack);
 
-      TiXmlElement track("TRACK");
-      track.SetAttribute("MORPHID",pCoreMorphTrack->getMorphID());
-      track.SetAttribute("MESHID",pCoreMorphTrack->getTargetMesh());
-      track.SetAttribute("NUMSUBTARGET",pCoreMorphTrack->getNumTargetSubMeshes());
-      track.SetAttribute("NUMKEYFRAMES",pCoreMorphTrack->getCoreMorphKeyframeCount());
+		TiXmlElement track("TRACK");
+		track.SetAttribute("MORPHID", pCoreMorphTrack->getMorphID());
+		track.SetAttribute("MESHID", pCoreMorphTrack->getTargetMesh());
+		track.SetAttribute("NUMSUBTARGET", pCoreMorphTrack->getNumTargetSubMeshes());
+		track.SetAttribute("NUMKEYFRAMES", pCoreMorphTrack->getCoreMorphKeyframeCount());
 
-      // save all submeshes targets
-      for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
-      {
-          TiXmlElement targetSubMesh("SUBMESH");
-          str.str("");
-          str << pCoreMorphTrack->getTargetSubMesh(i);
-          targetSubMesh.SetAttribute("ID",str.str());
-          track.InsertEndChild(targetSubMesh);
-      }
+		// save all submeshes targets
+		for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+		{
+			TiXmlElement targetSubMesh("SUBMESH");
+			str.str("");
+			str << pCoreMorphTrack->getTargetSubMesh(i);
+			targetSubMesh.SetAttribute("ID", str.str());
+			track.InsertEndChild(targetSubMesh);
+		}
 
-      // save all core keyframes
-      for (int i = 0; i < pCoreMorphTrack->getCoreMorphKeyframeCount(); ++i)
-      {
-         CalCoreMorphKeyframe *pCoreMorphKeyframe=pCoreMorphTrack->getCoreMorphKeyframe(i);
+		// save all core keyframes
+		for (int i = 0; i < pCoreMorphTrack->getCoreMorphKeyframeCount(); ++i)
+		{
+			CalCoreMorphKeyframe *pCoreMorphKeyframe = pCoreMorphTrack->getCoreMorphKeyframe(i);
 
-         TiXmlElement keyframe("KEYFRAME");
+			TiXmlElement keyframe("KEYFRAME");
 
-         str.str("");
-         str << pCoreMorphKeyframe->getTime();
-         keyframe.SetAttribute("TIME",str.str());
+			str.str("");
+			str << pCoreMorphKeyframe->getTime();
+			keyframe.SetAttribute("TIME", str.str());
 
-         TiXmlElement weight("WEIGHT");
-         float w = pCoreMorphKeyframe->getWeight();
+			TiXmlElement weight("WEIGHT");
+			float w = pCoreMorphKeyframe->getWeight();
 
-         str.str("");
-         str << w;
+			str.str("");
+			str << w;
 
-         TiXmlText weightdata(str.str());
+			TiXmlText weightdata(str.str());
 
-         weight.InsertEndChild(weightdata);
-         keyframe.InsertEndChild(weight);
+			weight.InsertEndChild(weightdata);
+			keyframe.InsertEndChild(weight);
 
-         track.InsertEndChild(keyframe);
-      }
+			track.InsertEndChild(keyframe);
+		}
 
-      animation.InsertEndChild(track);
-   }
+		animation.InsertEndChild(track);
+	}
 
-   doc.InsertEndChild(animation);
+	doc.InsertEndChild(animation);
 #endif
 
-   if(!doc.SaveFile())
-   {
-      CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-      return false;
-   }
-   return true;
+	if (!doc.SaveFile())
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+	return true;
 }
 
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core mesh instance in a XML file.
   *
   * This function saves a core mesh instance to a XML file.
@@ -1549,32 +1549,32 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 	std::stringstream str;
 
-    TiXmlDocument doc(strFilename);
+	TiXmlDocument doc(strFilename);
 
 
 	TiXmlElement mesh("MESH");
 	//mesh.SetAttribute("MAGIC",Cal::MESH_XMLFILE_MAGIC);
-	mesh.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
-	mesh.SetAttribute("NUMSUBMESH",pCoreMesh->getCoreSubmeshCount());
+	mesh.SetAttribute("VERSION", Cal::LIBRARY_VERSION);
+	mesh.SetAttribute("NUMSUBMESH", pCoreMesh->getCoreSubmeshCount());
 
 	// get the submesh vector
 	std::vector<CalCoreSubmesh *>& vectorCoreSubmesh = pCoreMesh->getVectorCoreSubmesh();
 
 	// write all core submeshes
 	int submeshId;
-	for(submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
+	for (submeshId = 0; submeshId < (int)vectorCoreSubmesh.size(); ++submeshId)
 	{
-		CalCoreSubmesh *pCoreSubmesh=vectorCoreSubmesh[submeshId];
+		CalCoreSubmesh *pCoreSubmesh = vectorCoreSubmesh[submeshId];
 
 		TiXmlElement submesh("SUBMESH");
 
-		submesh.SetAttribute("NUMVERTICES",pCoreSubmesh->getVertexCount());
-		submesh.SetAttribute("NUMFACES",pCoreSubmesh->getFaceCount());
-		submesh.SetAttribute("MATERIAL",pCoreSubmesh->getCoreMaterialThreadId());
-		submesh.SetAttribute("NUMLODSTEPS",pCoreSubmesh->getLodCount());
-		submesh.SetAttribute("NUMSPRINGS",pCoreSubmesh->getSpringCount());
-		submesh.SetAttribute("NUMMORPHS",pCoreSubmesh->getCoreSubMorphTargetCount());
-		submesh.SetAttribute("NUMTEXCOORDS",pCoreSubmesh->getVectorVectorTextureCoordinate().size());
+		submesh.SetAttribute("NUMVERTICES", pCoreSubmesh->getVertexCount());
+		submesh.SetAttribute("NUMFACES", pCoreSubmesh->getFaceCount());
+		submesh.SetAttribute("MATERIAL", pCoreSubmesh->getCoreMaterialThreadId());
+		submesh.SetAttribute("NUMLODSTEPS", pCoreSubmesh->getLodCount());
+		submesh.SetAttribute("NUMSPRINGS", pCoreSubmesh->getSpringCount());
+		submesh.SetAttribute("NUMMORPHS", pCoreSubmesh->getCoreSubMorphTargetCount());
+		submesh.SetAttribute("NUMTEXCOORDS", pCoreSubmesh->getVectorVectorTextureCoordinate().size());
 
 
 		// get the vertex, face, physical property and spring vector
@@ -1582,20 +1582,20 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 		std::vector<CalCoreSubmesh::Face>& vectorFace = pCoreSubmesh->getVectorFace();
 		std::vector<CalCoreSubmesh::PhysicalProperty>& vectorPhysicalProperty = pCoreSubmesh->getVectorPhysicalProperty();
 		std::vector<CalCoreSubmesh::Spring>& vectorSpring = pCoreSubmesh->getVectorSpring();
-      std::vector<CalCoreSubMorphTarget *>& vectorMorphs = pCoreSubmesh->getVectorCoreSubMorphTarget();
+		std::vector<CalCoreSubMorphTarget *>& vectorMorphs = pCoreSubmesh->getVectorCoreSubMorphTarget();
 
 		// get the texture coordinate vector vector
-        std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
+		std::vector<std::vector<CalCoreSubmesh::TextureCoordinate> >& vectorvectorTextureCoordinate = pCoreSubmesh->getVectorVectorTextureCoordinate();
 
 		// write all vertices
 		int vertexId;
-		for(vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
+		for (vertexId = 0; vertexId < (int)vectorVertex.size(); ++vertexId)
 		{
 			CalCoreSubmesh::Vertex& Vertex = vectorVertex[vertexId];
 
 			TiXmlElement vertex("VERTEX");
-			vertex.SetAttribute("ID",vertexId);
-			vertex.SetAttribute("NUMINFLUENCES",Vertex.vectorInfluence.size());
+			vertex.SetAttribute("ID", vertexId);
+			vertex.SetAttribute("NUMINFLUENCES", Vertex.vectorInfluence.size());
 
 			// write the vertex data
 
@@ -1623,19 +1623,19 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 			normal.InsertEndChild(normaldata);
 			vertex.InsertEndChild(normal);
 
-         TiXmlElement vertColor("COLOR");
+			TiXmlElement vertColor("COLOR");
 
-         str.str("");
-         str << Vertex.vertexColor.x << " "
-            << Vertex.vertexColor.y << " "
-            << Vertex.vertexColor.z;
+			str.str("");
+			str << Vertex.vertexColor.x << " "
+				<< Vertex.vertexColor.y << " "
+				<< Vertex.vertexColor.z;
 
-         TiXmlText colordata(str.str());
+			TiXmlText colordata(str.str());
 
-         vertColor.InsertEndChild(colordata);
-         vertex.InsertEndChild(vertColor);
+			vertColor.InsertEndChild(colordata);
+			vertex.InsertEndChild(vertColor);
 
-			if(Vertex.collapseId!=-1)
+			if (Vertex.collapseId != -1)
 			{
 				TiXmlElement collapse("COLLAPSEID");
 				str.str("");
@@ -1654,7 +1654,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 			// write all texture coordinates of this vertex
 			int textureCoordinateId;
-			for(textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
+			for (textureCoordinateId = 0; textureCoordinateId < (int)vectorvectorTextureCoordinate.size(); ++textureCoordinateId)
 			{
 				CalCoreSubmesh::TextureCoordinate& textureCoordinate = vectorvectorTextureCoordinate[textureCoordinateId][vertexId];
 
@@ -1673,13 +1673,13 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 			// write all influences of this vertex
 			int influenceId;
-			for(influenceId = 0; influenceId < (int)Vertex.vectorInfluence.size(); ++influenceId)
+			for (influenceId = 0; influenceId < (int)Vertex.vectorInfluence.size(); ++influenceId)
 			{
 				CalCoreSubmesh::Influence& Influence = Vertex.vectorInfluence[influenceId];
 
 				TiXmlElement influence("INFLUENCE");
 
-				influence.SetAttribute("ID",Influence.boneId);
+				influence.SetAttribute("ID", Influence.boneId);
 
 				str.str("");
 				str << Influence.weight;
@@ -1691,7 +1691,7 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 			}
 
 			// save the physical property of the vertex if there are springs in the core submesh
-			if(pCoreSubmesh->getSpringCount() > 0)
+			if (pCoreSubmesh->getSpringCount() > 0)
 			{
 				// write the physical property of this vertex if there are springs in the core submesh
 				CalCoreSubmesh::PhysicalProperty& physicalProperty = vectorPhysicalProperty[vertexId];
@@ -1709,160 +1709,160 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 		}
 
 		// write all springs
-        int springId;
-        for(springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
+		int springId;
+		for (springId = 0; springId < (int)pCoreSubmesh->getSpringCount(); ++springId)
 		{
-            CalCoreSubmesh::Spring& Spring = vectorSpring[springId];
+			CalCoreSubmesh::Spring& Spring = vectorSpring[springId];
 
 			TiXmlElement spring("SPRING");
 
 			str.str("");
-			str << Spring.vertexId[0]<< " "
+			str << Spring.vertexId[0] << " "
 				<< Spring.vertexId[1];
-			spring.SetAttribute("VERTEXID",str.str());
+			spring.SetAttribute("VERTEXID", str.str());
 
 
 			str.str("");
 			str << Spring.springCoefficient;
-			spring.SetAttribute("COEF",str.str());
+			spring.SetAttribute("COEF", str.str());
 
 			str.str("");
 			str << Spring.idleLength;
-			spring.SetAttribute("LENGTH",str.str());
+			spring.SetAttribute("LENGTH", str.str());
 
 			submesh.InsertEndChild(spring);
 		}
 
-      // write all morphs
-      int morphId;
-      for(morphId = 0; morphId < (int)pCoreSubmesh->getCoreSubMorphTargetCount(); ++morphId)
-      {
-         CalCoreSubMorphTarget * morphTarget = vectorMorphs[morphId];
+		// write all morphs
+		int morphId;
+		for (morphId = 0; morphId < (int)pCoreSubmesh->getCoreSubMorphTargetCount(); ++morphId)
+		{
+			CalCoreSubMorphTarget * morphTarget = vectorMorphs[morphId];
 
-         TiXmlElement morph("MORPH");
-         str.str("");
-         str << morphId;
+			TiXmlElement morph("MORPH");
+			str.str("");
+			str << morphId;
 
-         //morph.SetAttribute("MORPHID", str.str());
-         morph.SetAttribute("NAME", morphTarget->getName());
+			//morph.SetAttribute("MORPHID", str.str());
+			morph.SetAttribute("NAME", morphTarget->getName());
 
-         int morphVertCount = 0;
-         for(int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
-         {
-            CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
-            if( !bv )
-            {
-               continue;
-            }
-            CalCoreSubmesh::Vertex& Vertex = vectorVertex[blendId];
-            static double differenceTolerance = 1.0;
-            CalVector positionDiff = bv->position - Vertex.position;
-            CalVector normalDiff = bv->normal - Vertex.normal;
-            double positionDiffLength = fabs(positionDiff.length());
-          //  double normalDiffLength = fabs(normalDiff.length());
+			int morphVertCount = 0;
+			for (int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
+			{
+				CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
+				if (!bv)
+				{
+					continue;
+				}
+				CalCoreSubmesh::Vertex& Vertex = vectorVertex[blendId];
+				static double differenceTolerance = 1.0;
+				CalVector positionDiff = bv->position - Vertex.position;
+				CalVector normalDiff = bv->normal - Vertex.normal;
+				double positionDiffLength = fabs(positionDiff.length());
+				//  double normalDiffLength = fabs(normalDiff.length());
 
-            bool skip = false;
-            //                    if( positionDiffLength < differenceTolerance && normalDiffLength < differenceTolerance ) {
-            if( positionDiffLength < differenceTolerance )
-            {
-               skip = true;
-            }
+				bool skip = false;
+				//                    if( positionDiffLength < differenceTolerance && normalDiffLength < differenceTolerance ) {
+				if (positionDiffLength < differenceTolerance)
+				{
+					skip = true;
+				}
 
-            std::vector<CalCoreSubmesh::TextureCoordinate> const & textureCoords = bv->textureCoords;
-            size_t tcI;
-            for( tcI = 0; tcI < textureCoords.size(); tcI++ )
-            {
-              CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
-              CalCoreSubmesh::TextureCoordinate const & tc2 = vectorvectorTextureCoordinate[tcI][blendId];
-              if( fabs(tc1.u - tc2.u) > differenceTolerance ||
-                 fabs(tc1.v - tc2.v) > differenceTolerance )
-              {
-                 skip = false;
-              }
-            }
+				std::vector<CalCoreSubmesh::TextureCoordinate> const & textureCoords = bv->textureCoords;
+				size_t tcI;
+				for (tcI = 0; tcI < textureCoords.size(); tcI++)
+				{
+					CalCoreSubmesh::TextureCoordinate const & tc1 = textureCoords[tcI];
+					CalCoreSubmesh::TextureCoordinate const & tc2 = vectorvectorTextureCoordinate[tcI][blendId];
+					if (fabs(tc1.u - tc2.u) > differenceTolerance ||
+						fabs(tc1.v - tc2.v) > differenceTolerance)
+					{
+						skip = false;
+					}
+				}
 
 
-            if(skip)
-            {
-               continue;
-            }
-            morphVertCount++;
-            TiXmlElement blendVert("BLENDVERTEX");
-            str.str("");
-            str << blendId;
+				if (skip)
+				{
+					continue;
+				}
+				morphVertCount++;
+				TiXmlElement blendVert("BLENDVERTEX");
+				str.str("");
+				str << blendId;
 
-            blendVert.SetAttribute("VERTEXID", str.str());
-            str.str("");
-            str << positionDiffLength;
-            blendVert.SetAttribute("POSDIFF", str.str());
+				blendVert.SetAttribute("VERTEXID", str.str());
+				str.str("");
+				str << positionDiffLength;
+				blendVert.SetAttribute("POSDIFF", str.str());
 
-            TiXmlElement pos("POSITION");
-            str.str("");
-            str << bv->position.x << " " << bv->position.y << " " << bv->position.z;
-            TiXmlText posdata(str.str());
-            pos.InsertEndChild(posdata);
+				TiXmlElement pos("POSITION");
+				str.str("");
+				str << bv->position.x << " " << bv->position.y << " " << bv->position.z;
+				TiXmlText posdata(str.str());
+				pos.InsertEndChild(posdata);
 
-            TiXmlElement norm("NORMAL");
-            str.str("");
-            str << bv->normal.x << " " << bv->normal.y << " " << bv->normal.z;
-            TiXmlText normdata(str.str());
-            norm.InsertEndChild(normdata);
+				TiXmlElement norm("NORMAL");
+				str.str("");
+				str << bv->normal.x << " " << bv->normal.y << " " << bv->normal.z;
+				TiXmlText normdata(str.str());
+				norm.InsertEndChild(normdata);
 
-            blendVert.InsertEndChild(pos);
-            blendVert.InsertEndChild(norm);
-            for( tcI = 0; tcI < bv->textureCoords.size(); tcI++ )
-            {
-               TiXmlElement tcXml("TEXCOORD");
-               str.str("");
-               CalCoreSubmesh::TextureCoordinate const & tc = bv->textureCoords[tcI];
-               str << tc.u << " " << tc.v;
-               TiXmlText tcdata(str.str());
-               tcXml.InsertEndChild(tcdata);
-               blendVert.InsertEndChild(tcXml);
-            }
+				blendVert.InsertEndChild(pos);
+				blendVert.InsertEndChild(norm);
+				for (tcI = 0; tcI < bv->textureCoords.size(); tcI++)
+				{
+					TiXmlElement tcXml("TEXCOORD");
+					str.str("");
+					CalCoreSubmesh::TextureCoordinate const & tc = bv->textureCoords[tcI];
+					str << tc.u << " " << tc.v;
+					TiXmlText tcdata(str.str());
+					tcXml.InsertEndChild(tcdata);
+					blendVert.InsertEndChild(tcXml);
+				}
 
-            morph.InsertEndChild(blendVert);
-         }
-         str.str("");
-         str << morphVertCount;
-         morph.SetAttribute("NUMBLENDVERTS", str.str());
-         submesh.InsertEndChild(morph);
-      }
+				morph.InsertEndChild(blendVert);
+			}
+			str.str("");
+			str << morphVertCount;
+			morph.SetAttribute("NUMBLENDVERTS", str.str());
+			submesh.InsertEndChild(morph);
+		}
 
 		// write all faces
 		int faceId;
-		for(faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
+		for (faceId = 0; faceId < (int)vectorFace.size(); ++faceId)
 		{
 			CalCoreSubmesh::Face& Face = vectorFace[faceId];
 
 			TiXmlElement face("FACE");
 
 			str.str("");
-			str << Face.vertexId[0]<< " "
-				<< Face.vertexId[1]<< " "
+			str << Face.vertexId[0] << " "
+				<< Face.vertexId[1] << " "
 				<< Face.vertexId[2];
-			face.SetAttribute("VERTEXID",str.str());
+			face.SetAttribute("VERTEXID", str.str());
 			submesh.InsertEndChild(face);
 		}
 
 		mesh.InsertEndChild(submesh);
 
-     }
-	 doc.InsertEndChild(mesh);
+	}
+	doc.InsertEndChild(mesh);
 
 
-	 if(!doc.SaveFile())
-	 {
-		 CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-         return false;
-	 }
+	if (!doc.SaveFile())
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
 
-  return true;
+	return true;
 }
 
 
 
- /*****************************************************************************/
+/*****************************************************************************/
 /** Saves a core material instance to a XML file.
   *
   * This function saves a core material instance to a XML file.
@@ -1879,98 +1879,98 @@ bool CalSaver::saveXmlCoreMesh(const std::string& strFilename, CalCoreMesh *pCor
 
 bool CalSaver::saveXmlCoreMaterial(const std::string& strFilename, CalCoreMaterial *pCoreMaterial)
 {
-  std::stringstream str;
+	std::stringstream str;
 
-  TiXmlDocument doc(strFilename);
+	TiXmlDocument doc(strFilename);
 
-  TiXmlElement material("MATERIAL");
-  //material.SetAttribute("MAGIC",Cal::MATERIAL_XMLFILE_MAGIC);
-  material.SetAttribute("VERSION",Cal::LIBRARY_VERSION);
+	TiXmlElement material("MATERIAL");
+	//material.SetAttribute("MAGIC",Cal::MATERIAL_XMLFILE_MAGIC);
+	material.SetAttribute("VERSION", Cal::LIBRARY_VERSION);
 
-  material.SetAttribute("NUMMAPS",pCoreMaterial->getVectorMap().size());
+	material.SetAttribute("NUMMAPS", pCoreMaterial->getVectorMap().size());
 
-  TiXmlElement ambient("AMBIENT");
+	TiXmlElement ambient("AMBIENT");
 
-  CalCoreMaterial::Color ambientColor;
-  ambientColor = pCoreMaterial->getAmbientColor();
-
-
-  str.str("");
-  str << (int)ambientColor.red << " "
-	  << (int)ambientColor.green << " "
-	  << (int)ambientColor.blue << " "
-	  << (int)ambientColor.alpha;
-
-  TiXmlText ambientdata(str.str());
+	CalCoreMaterial::Color ambientColor;
+	ambientColor = pCoreMaterial->getAmbientColor();
 
 
-  ambient.InsertEndChild(ambientdata);
-  material.InsertEndChild(ambient);
+	str.str("");
+	str << (int)ambientColor.red << " "
+		<< (int)ambientColor.green << " "
+		<< (int)ambientColor.blue << " "
+		<< (int)ambientColor.alpha;
 
-  TiXmlElement diffuse("DIFFUSE");
-
-  CalCoreMaterial::Color diffuseColor;
-  diffuseColor = pCoreMaterial->getDiffuseColor();
-
-  str.str("");
-  str << (int)diffuseColor.red << " "
-	  << (int)diffuseColor.green << " "
-	  << (int)diffuseColor.blue << " "
-	  << (int)diffuseColor.alpha;
-
-  TiXmlText diffusedata(str.str());
+	TiXmlText ambientdata(str.str());
 
 
-  diffuse.InsertEndChild(diffusedata);
-  material.InsertEndChild(diffuse);
+	ambient.InsertEndChild(ambientdata);
+	material.InsertEndChild(ambient);
 
-  TiXmlElement specular("SPECULAR");
+	TiXmlElement diffuse("DIFFUSE");
 
-  CalCoreMaterial::Color specularColor;
-  specularColor = pCoreMaterial->getSpecularColor();
+	CalCoreMaterial::Color diffuseColor;
+	diffuseColor = pCoreMaterial->getDiffuseColor();
 
-  str.str("");
-  str << (int)specularColor.red << " "
-	  << (int)specularColor.green << " "
-	  << (int)specularColor.blue << " "
-	  << (int)specularColor.alpha;
+	str.str("");
+	str << (int)diffuseColor.red << " "
+		<< (int)diffuseColor.green << " "
+		<< (int)diffuseColor.blue << " "
+		<< (int)diffuseColor.alpha;
 
-  TiXmlText speculardata(str.str());
+	TiXmlText diffusedata(str.str());
 
-  specular.InsertEndChild(speculardata);
-  material.InsertEndChild(specular);
 
-  TiXmlElement shininess("SHININESS");
+	diffuse.InsertEndChild(diffusedata);
+	material.InsertEndChild(diffuse);
 
-  str.str("");
-  str << pCoreMaterial->getShininess();
+	TiXmlElement specular("SPECULAR");
 
-  TiXmlText shininessdata(str.str());
+	CalCoreMaterial::Color specularColor;
+	specularColor = pCoreMaterial->getSpecularColor();
 
-  shininess.InsertEndChild(shininessdata);
-  material.InsertEndChild(shininess);
+	str.str("");
+	str << (int)specularColor.red << " "
+		<< (int)specularColor.green << " "
+		<< (int)specularColor.blue << " "
+		<< (int)specularColor.alpha;
 
-  std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
+	TiXmlText speculardata(str.str());
 
-  int mapId;
-  for(mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
-  {
-	  TiXmlElement map("MAP");
-     map.SetAttribute("TYPE",vectorMap[mapId].mapType);
-	  TiXmlText mapdata(vectorMap[mapId].strFilename);
-	  map.InsertEndChild(mapdata);
-      material.InsertEndChild(map);
-  }
+	specular.InsertEndChild(speculardata);
+	material.InsertEndChild(specular);
 
-  doc.InsertEndChild(material);
+	TiXmlElement shininess("SHININESS");
 
-  if(!doc.SaveFile())
-  {
-	CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
-    return false;
-  }
+	str.str("");
+	str << pCoreMaterial->getShininess();
 
-  return true;
+	TiXmlText shininessdata(str.str());
+
+	shininess.InsertEndChild(shininessdata);
+	material.InsertEndChild(shininess);
+
+	std::vector<CalCoreMaterial::Map>& vectorMap = pCoreMaterial->getVectorMap();
+
+	int mapId;
+	for (mapId = 0; mapId < (int)vectorMap.size(); ++mapId)
+	{
+		TiXmlElement map("MAP");
+		map.SetAttribute("TYPE", vectorMap[mapId].mapType);
+		TiXmlText mapdata(vectorMap[mapId].strFilename);
+		map.InsertEndChild(mapdata);
+		material.InsertEndChild(map);
+	}
+
+	doc.InsertEndChild(material);
+
+	if (!doc.SaveFile())
+	{
+		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
+		return false;
+	}
+
+	return true;
 
 }
 //****************************************************************************//

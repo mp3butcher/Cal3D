@@ -84,9 +84,9 @@ CalSkeleton::~CalSkeleton()
 void CalSkeleton::calculateState()
 {
   // calculate all bone states of the skeleton
-  std::vector<int>& listRootCoreBoneId = m_pCoreSkeleton->getVectorRootCoreBoneId();
+  const std::vector<int>& listRootCoreBoneId = m_pCoreSkeleton->getVectorRootCoreBoneId();
 
-  std::vector<int>::iterator iteratorRootBoneId;
+  std::vector<int>::const_iterator iteratorRootBoneId;
   for(iteratorRootBoneId = listRootCoreBoneId.begin(); iteratorRootBoneId != listRootCoreBoneId.end(); ++iteratorRootBoneId)
   {
     m_vectorBone[*iteratorRootBoneId]->calculateState();
@@ -111,102 +111,7 @@ void CalSkeleton::clearState()
   }
   m_isBoundingBoxesComputed=false;
 }
-
-
- /*****************************************************************************/
-/** Provides access to a bone.
-  *
-  * This function returns the bone with the given ID.
-  *
-  * @param boneId The ID of the bone that should be returned.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the bone
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalBone *CalSkeleton::getBone(int boneId)
-{
-  return m_vectorBone[boneId];
-}
-
- /*****************************************************************************/
-/** Provides access to a bone.
-  *
-  * This function returns the bone with the given ID.
-  *
-  * @param boneId The ID of the bone that should be returned.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the bone
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalBone *CalSkeleton::getBone(int boneId) const
-{
-  return m_vectorBone[boneId];
-}
-
- /*****************************************************************************/
-/** Provides access to the core skeleton.
-  *
-  * This function returns the core skeleton on which this skeleton instance is
-  * based on.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreSkeleton *CalSkeleton::getCoreSkeleton()
-{
-  return m_pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Provides access to the core skeleton.
-  *
-  * This function returns the core skeleton on which this skeleton instance is
-  * based on.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalCoreSkeleton *CalSkeleton::getCoreSkeleton() const
-{
-  return m_pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Returns the bone vector.
-  *
-  * This function returns the vector that contains all bones of the skeleton
-  * instance.
-  *
-  * @return A reference to the bone vector.
-  *****************************************************************************/
-
-std::vector<CalBone *>& CalSkeleton::getVectorBone()
-{
-  return m_vectorBone;
-}
-
- /*****************************************************************************/
-/** Returns the bone vector.
-  *
-  * This function returns the vector that contains all bones of the skeleton
-  * instance.
-  *
-  * @return A reference to the bone vector.
-  *****************************************************************************/
-
-const std::vector<CalBone *>& CalSkeleton::getVectorBone() const
-{
-  return m_vectorBone;
-}
-
+ 
  /*****************************************************************************/
 /** Locks the state of the skeleton instance.
   *

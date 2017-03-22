@@ -99,7 +99,7 @@ void CalCoreSkeleton::calculateState()
   * @return One of the following values:
   *         \li a pointer to the core bone
   *         \li \b 0 if an error happened
-  *****************************************************************************/
+  ****************************************************************************
 
 CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
 {
@@ -110,7 +110,7 @@ CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
   }
 
   return m_vectorCoreBone[coreBoneId];
-}
+}*/
 
  /*****************************************************************************/
 /** Provides access to a core bone.
@@ -122,7 +122,7 @@ CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId)
   * @return One of the following values:
   *         \li a pointer to the core bone
   *         \li \b 0 if an error happened
-  *****************************************************************************/
+  ****************************************************************************
 
 const CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId) const
 {
@@ -133,7 +133,7 @@ const CalCoreBone *CalCoreSkeleton::getCoreBone(int coreBoneId) const
   }
 
   return m_vectorCoreBone[coreBoneId];
-}
+}*/
 
  /*****************************************************************************/
 /** Provides access to a core bone.
@@ -249,63 +249,7 @@ bool CalCoreSkeleton::mapCoreBoneName(int coreBoneId, const std::string& strName
 
    return true;
 }
-
- /*****************************************************************************/
-/** Returns the root core bone id list.
-  *
-  * This function returns the list that contains all root core bone IDs of the
-  * core skeleton instance.
-  *
-  * @return A reference to the root core bone id list.
-  *****************************************************************************/
-
-std::vector<int>& CalCoreSkeleton::getVectorRootCoreBoneId()
-{
-  return m_vectorRootCoreBoneId;
-}
-
- /*****************************************************************************/
-/** Returns the root core bone id list.
-  *
-  * This function returns the list that contains all root core bone IDs of the
-  * core skeleton instance.
-  *
-  * @return A reference to the root core bone id list.
-  *****************************************************************************/
-
-const std::vector<int>& CalCoreSkeleton::getVectorRootCoreBoneId() const
-{
-  return m_vectorRootCoreBoneId;
-}
-
- /*****************************************************************************/
-/** Returns the core bone vector.
-  *
-  * This function returns the vector that contains all core bones of the core
-  * skeleton instance.
-  *
-  * @return A reference to the core bone vector.
-  *****************************************************************************/
-
-std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone()
-{
-  return m_vectorCoreBone;
-}
-
- /*****************************************************************************/
-/** Returns the core bone vector.
-  *
-  * This function returns the vector that contains all core bones of the core
-  * skeleton instance.
-  *
-  * @return A reference to the core bone vector.
-  *****************************************************************************/
-
-const std::vector<CalCoreBone *>& CalCoreSkeleton::getVectorCoreBone() const
-{
-  return m_vectorCoreBone;
-}
-
+ 
  /*****************************************************************************/
 /** Calculates bounding boxes.
   *

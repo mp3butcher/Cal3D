@@ -574,9 +574,9 @@ CalBoundingBox & CalModel::getBoundingBox(bool precision)
 		m_pSkeleton->calculateBoundingBoxes();
 
 	
-	std::vector<CalBone *> & vectorBone =  m_pSkeleton->getVectorBone();
+	const std::vector<CalBone *> & vectorBone =  m_pSkeleton->getVectorBone();
 		
-	std::vector<CalBone *>::iterator iteratorBone;
+	std::vector<CalBone *>::const_iterator iteratorBone;
 	for(iteratorBone = vectorBone.begin(); iteratorBone != vectorBone.end(); ++iteratorBone)
 	{
 		// If it's just an approximation that are needed then

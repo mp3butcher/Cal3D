@@ -143,7 +143,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(const std::string& strFilename,
   CalStreamSource streamSrc( file );
 
   CalCoreAnimationPtr coreanim = loadCoreAnimation( streamSrc,skel );
-  if(coreanim) coreanim->setFilename( strFilename );
+//  if(coreanim) coreanim->setFilename( strFilename );
 
   //close the file
   file.close();
@@ -660,13 +660,13 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
 void
 CalLoader::compressCoreAnimation( CalCoreAnimation * anim, CalCoreSkeleton *skel )
 {
-   std::list<CalCoreTrack *>& listCoreTrack = anim->getListCoreTrack();
-   std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
-   for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
-   {
+	std::list<CalCoreTrack *>& listCoreTrack = anim->getListCoreTrack();
+	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+    for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
+    {
       CalCoreTrack *pCoreTrack=*iteratorCoreTrack;
       pCoreTrack->compress( translationTolerance, rotationToleranceDegrees, skel );
-   }
+    }
 }
 
 

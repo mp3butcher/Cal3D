@@ -616,7 +616,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API int CalSkeleton_GetBoneCount(const struct CalSkeleton *self);
   CAL3D_WRAPPER_API struct CalCoreSkeleton *CalSkeleton_GetCoreSkeleton(struct CalSkeleton *self);
   CAL3D_WRAPPER_API const struct CalCoreSkeleton *CalSkeleton_GetCoreSkeletonConst(const struct CalSkeleton *self);
-//  CAL3D_WRAPPER_API std::vector<CalBone *>& CalSkeleton_GetVectorBone(struct CalSkeleton *self);
+  CAL3D_WRAPPER_API std::vector<CalBone *>& CalSkeleton_GetVectorBone(struct CalSkeleton *self);
   CAL3D_WRAPPER_API void CalSkeleton_LockState(struct CalSkeleton *self);
   CAL3D_WRAPPER_API struct CalSkeleton *CalSkeleton_New(struct CalCoreSkeleton* pCoreSkeleton);
   CAL3D_WRAPPER_API void CalSkeleton_GetBoneBoundingBox(struct CalSkeleton *self, float *min, float *max);
