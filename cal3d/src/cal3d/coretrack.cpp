@@ -61,7 +61,13 @@ CalCoreTrack::size()
 
 CalCoreTrack::~CalCoreTrack()
 {
-  assert(m_keyframes.empty());
+    // destroy all core keyframes
+    for (unsigned int i = 0; i < m_keyframes.size(); ++i)
+    {
+            delete m_keyframes[i];
+    }
+    m_keyframes.clear();
+
 }
 
  /*****************************************************************************/
@@ -475,43 +481,6 @@ CalCoreTrack::translationCompressibility( bool * transRequiredResult, bool * tra
 }
 
 
-
- /*****************************************************************************/
-/** Creates the core track instance.
-  *
-  * This function creates the core track instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happened
-  *****************************************************************************/
-
-void CalCoreTrack::create()
-{
-  m_translationRequired = true;
-  m_highRangeRequired = true;
-  m_translationIsDynamic = true;
-}
-
- /*****************************************************************************/
-/** Destroys the core track instance.
-  *
-  * This function destroys all data stored in the core track instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreTrack::destroy()
-{
-	// destroy all core keyframes
-	for (unsigned int i = 0; i < m_keyframes.size(); ++i)
-	{
-		//m_keyframes[i]->destroy();
-		delete m_keyframes[i];
-	}
-  m_keyframes.clear();
-
-  m_coreBoneId = -1;
-}
 
  /*****************************************************************************/
 /** Returns a specified state.

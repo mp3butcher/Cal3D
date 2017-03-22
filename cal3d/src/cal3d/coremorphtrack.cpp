@@ -39,6 +39,8 @@ CalCoreMorphTrack::CalCoreMorphTrack()
 
 CalCoreMorphTrack::~CalCoreMorphTrack()
 {
+    m_keyframes.clear();
+    m_morphID = 0;
   //when CalCoreMorphTrack value objects die (from copying around etc), they might have keyframes still?
   //assert(m_keyframes.empty());
 }
@@ -58,7 +60,6 @@ CalCoreMorphTrack::~CalCoreMorphTrack()
 bool CalCoreMorphTrack::addCoreMorphKeyframe(CalCoreMorphKeyframe *pCoreMorphKeyframe)
 {
   m_keyframes.push_back(*pCoreMorphKeyframe);
-  m_keyframesToDelete.push_back(pCoreMorphKeyframe);
   int idx = m_keyframes.size() - 1;
   while (idx > 0 && m_keyframes[idx].getTime() < m_keyframes[idx - 1].getTime()) {
     std::swap(m_keyframes[idx], m_keyframes[idx - 1]);
@@ -66,47 +67,6 @@ bool CalCoreMorphTrack::addCoreMorphKeyframe(CalCoreMorphKeyframe *pCoreMorphKey
   }
 
   return true;
-}
-
- /*****************************************************************************/
-/** Creates the core track instance.
-  *
-  * This function creates the core track instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreMorphTrack::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core track instance.
-  *
-  * This function destroys all data stored in the core track instance and frees
-  * all allocated memory.
-  *****************************************************************************/
-
-void CalCoreMorphTrack::destroy()
-{
-  // destroy all core keyframes
-  for (unsigned int i = 0; i < m_keyframes.size(); ++i)
-  {
-    m_keyframes[i].destroy();
-    //delete m_keyframes[i];
-  }
-  m_keyframes.clear();
-
-  for (unsigned int i = 0; i < m_keyframesToDelete.size(); ++i)
-  {
-    delete m_keyframesToDelete[i];
-  }
-  m_keyframesToDelete.clear();
-
-  m_morphID = 0;
 }
 
 
@@ -198,32 +158,6 @@ std::vector<CalCoreMorphKeyframe>::iterator CalCoreMorphTrack::getUpperBound(flo
 }
 
 
-
-int CalCoreMorphTrack::getCoreMorphKeyframeCount() const
-{
-  return m_keyframes.size();
-}
-
-void
-CalCoreMorphTrack::reserve(int size)
-{
-  m_keyframes.reserve(size);
-}
-
-
-
-
-CalCoreMorphKeyframe* CalCoreMorphTrack::getCoreMorphKeyframe(int idx)
-{
-  return &(m_keyframes[idx]);
-}
-
-const CalCoreMorphKeyframe* CalCoreMorphTrack::getCoreMorphKeyframe(int idx) const
-{
-   return &(m_keyframes[idx]);
-}
-
-
  /*****************************************************************************/
 /** Scale the core track.
   *
@@ -246,18 +180,3 @@ void CalCoreMorphTrack::scale(float factor)
 
 }
 
-const std::vector<CalCoreMorphKeyframe> &
-CalCoreMorphTrack::getVectorCoreMorphKeyframes() const
-{
-   return m_keyframes;
-}
-
-std::vector<CalCoreMorphKeyframe> &
-CalCoreMorphTrack::getVectorCoreMorphKeyframes()
-{
-  return m_keyframes;
-}
-
-
-
-//****************************************************************************//

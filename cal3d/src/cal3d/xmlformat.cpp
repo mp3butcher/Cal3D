@@ -699,9 +699,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
 
     CalCoreTrack *pCoreTrack = new CalCoreTrack();
 
-    // create the core track instance
-    pCoreTrack->create();
-
     int coreBoneId = atoi(track->Attribute("BONEID"));
     const char * trstr = track->Attribute("TRANSLATIONREQUIRED");
     bool translationRequired = true; // Default value if flag is not supplied (for backwards compatibility).
@@ -753,7 +750,6 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       if(!keyframe|| stricmp(keyframe->Value(),"KEYFRAME")!=0)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
           delete pCoreTrack;
         return 0;
       }
@@ -794,7 +790,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
          if(version < Cal::FIRST_FILE_VERSION_WITH_RELATIVE_BONE_TRANSLATION)
          {
            CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-           pCoreTrack->destroy();
+           
            delete pCoreTrack;
            return 0;
          }
@@ -810,7 +806,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         if(!node)
         {
           CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
+          
           delete pCoreTrack;
           return 0;
         }
@@ -819,7 +815,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         if(!translationdata)
         {
           CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
+          
           delete pCoreTrack;
           return 0;
         }
@@ -830,7 +826,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       if(!rotation || stricmp(rotation->Value(),"ROTATION")!=0)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
+         
           delete pCoreTrack;
         return 0;
       }
@@ -841,7 +837,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       if(!node)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
+         
           delete pCoreTrack;
         return 0;
       }
@@ -849,7 +845,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       if(!rotationdata)
       {
         CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-          pCoreTrack->destroy();
+         
           delete pCoreTrack;
         return 0;
       }
@@ -861,7 +857,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
       pCoreKeyframe = new CalCoreKeyframe();
       if(pCoreKeyframe == 0)
       {
-          pCoreTrack->destroy();
+         
           delete pCoreTrack;
         CalError::setLastError(CalError::MEMORY_ALLOCATION_FAILED, __FILE__, __LINE__);
         return 0;

@@ -45,8 +45,6 @@ public:
   CalCoreTrack();
   ~CalCoreTrack();
 
-  void create();
-  void destroy();
   unsigned int size();
 
   bool getState(float time, CalVector& translation, CalQuaternion& rotation) const;

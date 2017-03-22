@@ -29,7 +29,7 @@ CalCoreAnimation::~CalCoreAnimation()
 	for (iteratorCoreTrack = m_listCoreTrack.begin(); iteratorCoreTrack != m_listCoreTrack.end(); ++iteratorCoreTrack)
 	{
 		CalCoreTrack* pTrack = *iteratorCoreTrack;
-		pTrack->destroy();
+                //pTrack->destroy();
 		delete pTrack;
 	}
 }

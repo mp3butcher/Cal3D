@@ -90,7 +90,8 @@ CalCoreAnimatedMorph::removeZeroScaleTracks()
         }
       }
       if( !nonZeroScaleTrack ) {
-        pCoreTrack->destroy();
+        //pCoreTrack->destroy();
+delete pCoreTrack;
         p.erase( iteratorCoreTrack );
         changed = true;
         break;

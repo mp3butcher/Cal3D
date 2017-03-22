@@ -2125,9 +2125,6 @@ CalCoreTrack *CalLoader::loadCoreTrack(
       return 0;
    }
 
-   // create the core track instance
-   pCoreTrack->create();
-
    // link the core track to the appropriate core bone instance
    pCoreTrack->setCoreBoneId(coreBoneId);
    CalCoreBone * cb = NULL;
@@ -2148,7 +2145,6 @@ CalCoreTrack *CalLoader::loadCoreTrack(
       lastCoreKeyframe = pCoreKeyframe;
       if(pCoreKeyframe == 0)
       {
-         pCoreTrack->destroy();
          delete pCoreTrack;
          return 0;
       }
@@ -2230,12 +2226,6 @@ CalCoreMorphTrack *CalLoader::loadCoreMorphTrack(CalDataSource& dataSrc)
       return 0;
    }
 
-   // create the core morphTrack instance
-   if(!pCoreMorphTrack->create())
-   {
-      delete pCoreMorphTrack;
-      return 0;
-   }
 
    // link the core morphTrack to the appropriate morph name
    pCoreMorphTrack->setMorphID(morphName);
@@ -2257,7 +2247,6 @@ CalCoreMorphTrack *CalLoader::loadCoreMorphTrack(CalDataSource& dataSrc)
       pCoreKeyframe = loadCoreMorphKeyframe(dataSrc);
       if(pCoreKeyframe == 0)
       {
-         pCoreMorphTrack->destroy();
          delete pCoreMorphTrack;
          return 0;
       }

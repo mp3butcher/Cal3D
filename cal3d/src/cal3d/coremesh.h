@@ -42,22 +42,22 @@ public:
   /**remove the submesh at given index.**/
   void removeCoreSubmesh( int submeshID );
 
-  /** Returns the number of core submeshes.**/
+  /**Returns the number of core submeshes.**/
   inline unsigned int getCoreSubmeshCount() const{ return m_vectorCoreSubmesh.size();  }
-  /** Returns the core submesh vector.**/
+  /**Returns the core submesh vector.**/
   inline std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh(){ return m_vectorCoreSubmesh; }
-  /** Returns the core submesh vector.**/
+  /**Returns the core submesh vector.**/
   inline const std::vector<CalCoreSubmesh *>& getVectorCoreSubmesh() const{ return m_vectorCoreSubmesh; }
    
 
-  ///not in format spec but convenient
+  //not in format spec but convenient
   inline void setName(const std::string& name){ m_name=name;}
   inline const std::string& getName(void) const{return m_name;}
 
-  ///add a CalCoreMesh as MorphId (submeshes must have same num vertices)
+  /**add a CalCoreMesh as MorphId (submeshes must have same num vertices)**/
   int addAsMorphTarget(CalCoreMesh *pCoreMesh);
 
-  ///scale all mesh data by factor
+  /**scale all mesh data by factor**/
   void scale(float factor);
 private:
   std::vector<CalCoreSubmesh *> m_vectorCoreSubmesh;

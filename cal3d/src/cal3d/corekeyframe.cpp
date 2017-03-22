@@ -33,8 +33,7 @@ CalCoreKeyframe::CalCoreKeyframe()
 unsigned int
 CalCoreKeyframe::size()
 {
-  unsigned int r = sizeof( CalCoreKeyframe );
-  return r;
+  return sizeof( CalCoreKeyframe );
 }
 
 
