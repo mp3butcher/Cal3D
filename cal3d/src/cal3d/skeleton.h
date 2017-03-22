@@ -25,22 +25,27 @@ public:
 
   void calculateState();
   void clearState();
-  bool create(CalCoreSkeleton *pCoreSkeleton);
+
+  //bones
   CalBone *getBone(int boneId);
   const CalBone *getBone(int boneId) const;
-  CalCoreSkeleton *getCoreSkeleton();
-  const CalCoreSkeleton *getCoreSkeleton() const;
   std::vector<CalBone *>& getVectorBone();
   const std::vector<CalBone *>& getVectorBone() const;
-  void lockState();
+
+  //core skeleton (model)
+  CalCoreSkeleton *getCoreSkeleton();
+  const CalCoreSkeleton *getCoreSkeleton() const;
+
   void getBoneBoundingBox(float *min, float *max);
   void calculateBoundingBoxes();
 
-  // DEBUG-CODE
-  int getBonePoints(float *pPoints) const;
-  int getBonePointsStatic(float *pPoints) const;
-  int getBoneLines(float *pLines) const;
-  int getBoneLinesStatic(float *pLines) const;
+  /** Locks the state of the skeleton instance.
+  *
+  * This function locks the state of the skeleton instance by recursively
+  * locking the states of its bones.
+  **/
+  void lockState();
+
 
 private:
   CalCoreSkeleton       *m_pCoreSkeleton;

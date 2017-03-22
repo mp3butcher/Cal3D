@@ -2058,30 +2058,7 @@ void CalSkeleton_CalculateBoundingBoxes(CalSkeleton *self)
 {
 	self->calculateBoundingBoxes();
 }
-
-// DEBUG-CODE
-int CalSkeleton_GetBonePoints(CalSkeleton *self, float *pPoints)
-{
-  return self->getBonePoints(pPoints);
-}
-
-// DEBUG-CODE
-int CalSkeleton_GetBonePointsStatic(CalSkeleton *self, float *pPoints)
-{
-  return self->getBonePointsStatic(pPoints);
-}
-
-// DEBUG-CODE
-int CalSkeleton_GetBoneLines(CalSkeleton *self, float *pLines)
-{
-  return self->getBoneLines(pLines);
-}
-
-// DEBUG-CODE
-int CalSkeleton_GetBoneLinesStatic(CalSkeleton *self, float *pLines)
-{
-  return self->getBoneLinesStatic(pLines);
-}
+ 
 
 //****************************************************************************//
 // CalSpringSystem wrapper functions definition                               //
