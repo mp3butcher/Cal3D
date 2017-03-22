@@ -524,7 +524,7 @@ void Model::renderBoundingBox()
 
    for(size_t boneId=0;boneId<vectorCoreBone.size();++boneId)
    {
-      CalBoundingBox & calBoundingBox  = vectorCoreBone[boneId]->getBoundingBox();
+      const CalBoundingBox & calBoundingBox  = vectorCoreBone[boneId]->getBoundingBox();
 
 	  CalVector p[8];
 	  calBoundingBox.computePoints(p);

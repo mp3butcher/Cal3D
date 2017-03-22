@@ -989,7 +989,8 @@ void CalCoreModel_SetName(struct CalCoreModel *self, const char* inName)
 {
 	try
 	{
-		self->setName( std::string(inName ));
+                std::string temp(inName );
+		self->setName(temp );
 	}
 	catch (...)
 	{
