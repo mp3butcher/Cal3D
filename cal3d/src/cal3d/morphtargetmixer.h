@@ -1,7 +1,8 @@
 //****************************************************************************//
 // morphtargetmixer.h                                                         //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
-// 2008 Erik Johnson
+// 2008 Erik Johnson                                                          //
+// 2012,2017 Julien 'mp3butcher' Valentin                                     //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //

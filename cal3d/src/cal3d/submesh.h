@@ -29,72 +29,95 @@ struct MorphIdAndWeight
 class CAL3D_API CalSubmesh
 {
 public:
-    struct PhysicalProperty
-    {
-        CalVector position;
-        CalVector positionOld;
-        CalVector force;
-    };
+	struct PhysicalProperty
+	{
+		CalVector position;
+		CalVector positionOld;
+		CalVector force;
+	};
 
-    struct TangentSpace
-    {
-        CalVector tangent;
-        float crossFactor;
-    };
+	struct TangentSpace
+	{
+		CalVector tangent;
+		float crossFactor;
+	};
 
-    struct Face
-    {
-        CalIndex vertexId[3];
-    };
+	struct Face
+	{
+		CalIndex vertexId[3];
+	};
 
 public:
-    CalSubmesh(CalCoreSubmesh *coreSubmesh);
-    ~CalSubmesh() { }
+	CalSubmesh(CalCoreSubmesh *coreSubmesh);
+	~CalSubmesh() { }
 
-    ///return coresubmesh model of the submesh
-    CalCoreSubmesh *getCoreSubmesh();
-    const CalCoreSubmesh *getCoreSubmesh() const;
+	/**return coresubmesh model of the submesh**/
+	inline CalCoreSubmesh *getCoreSubmesh()						{		return m_pCoreSubmesh;		}
+	inline const CalCoreSubmesh *getCoreSubmesh() const			{		return m_pCoreSubmesh;		}
 
-    int getVertexCount() const;
+	/**get the number of vertices of this sub mesh.**/
+	inline int getVertexCount() const							{		return m_vertexCount;		}
 
-    std::vector<CalVector>& getVectorVertex();
-    const std::vector<CalVector>& getVectorVertex() const;
+	/**get the position vector.**/
+	inline std::vector<CalVector>& getVectorVertex()			{		return m_vectorVertex;		}
+	/**get the position vector.**/
+	inline const std::vector<CalVector>& getVectorVertex() const{		return m_vectorVertex;		}
+	
+	/**return normal vector**/
+	inline std::vector<CalVector>& getVectorNormal()			{		return m_vectorNormal;		}
+	/**return normal vector**/
+	inline const std::vector<CalVector>& getVectorNormal() const{		return m_vectorNormal;		}
+	
+	/**return tangent space vector vector**/
+	inline std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace()				{ return m_vectorvectorTangentSpace; }
+	/**return tangent space vector vector**/
+	inline  const std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace() const	{ return m_vectorvectorTangentSpace; }
+	
+	/** return the physical property vector**/
+	inline std::vector<PhysicalProperty>& getVectorPhysicalProperty()							{ return m_vectorPhysicalProperty;   }
+	/** return the physical property vector**/
+	inline const std::vector<PhysicalProperty>& getVectorPhysicalProperty() const				{ return m_vectorPhysicalProperty;   }
 
-    std::vector<CalVector>& getVectorNormal();
-    const std::vector<CalVector>& getVectorNormal() const;
-
-
-    std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace();
-    const std::vector<std::vector<TangentSpace> >& getVectorVectorTangentSpace() const;
-
+	/** return if tangent vectors are enabled.*/
     bool isTangentsEnabled(int mapId) const;
+	/**Enables (and calculates) or disables the storage of tangent spaces.**/
     bool enableTangents(int mapId, bool enabled);
 
-    std::vector<PhysicalProperty>& getVectorPhysicalProperty();
-    const std::vector<PhysicalProperty>& getVectorPhysicalProperty() const;
+	/**get the core material ID of the submesh instance**/
+	inline int getCoreMaterialId() const						{		return m_coreMaterialId;	}
+	/**set the core material ID of the submesh instance**/
+	inline void setCoreMaterialId(int coreMaterialId)			{		m_coreMaterialId = coreMaterialId; }
 
-
-    int getCoreMaterialId() const;
-    void setCoreMaterialId(int coreMaterialId);
-
+	/**Sets the LOD level.**/
     void setLodLevel(float lodLevel);
 
-    int getFaceCount() const;
+	/**return number of faces of the submesh**/
+	inline int getFaceCount() const								{		return m_faceCount;			}
+	/** returns the face data (vertex indices) of the submesh instance. 
+	*The LOD setting of the submesh instance is taken into account.  
+    * @param pFaceBuffer A pointer to the user-provided buffer where the face data is written to.**/
     int getFaces(CalIndex *pFaceBuffer) const;
 
+	/**Set weight of a morph target with the given id.
+	* @param blendId The morph target id.
+	* @param weight The weight to be set.**/
+	inline void setMorphTargetWeight(int blendId, float weight){		m_vectorMorphTargetWeight[blendId] = weight;	}
+	/**Get weight of a morph target with the given id.
+    * @param blendId The morph target id.
+    * @return The weight of the morph target.**/
+	inline float getMorphTargetWeight(int blendId) const		{		return m_vectorMorphTargetWeight[blendId];	}
 
-    void setMorphTargetWeight(int blendId, float weight);
-    float getMorphTargetWeight(int blendId) const;
-    void setMorphTargetWeight(const unsigned int& morphName,float weight);
-    int getMorphTargetWeightCount() const;
-    inline std::vector<float>& getVectorMorphTargetWeight(){  return m_vectorMorphTargetWeight; }
-    inline const std::vector<float>& getVectorMorphTargetWeight() const{  return m_vectorMorphTargetWeight; }
+	/**returns the size of morph target weights vector**/
+	inline int getMorphTargetWeightCount() const				{		return m_vectorMorphTargetWeight.size(); }
+	/**returns the morph target weights vector**/
+	inline std::vector<float>& getVectorMorphTargetWeight()		{		return m_vectorMorphTargetWeight;		}
+	/**returns the morph target weights vector**/
+    inline const std::vector<float>& getVectorMorphTargetWeight() const{  return m_vectorMorphTargetWeight;		}
 
-
-
-
-    bool hasInternalData() const;
-    void disableInternalData();
+	/**returns wheter the submesh instance handles vertex data internally.**/
+	inline bool hasInternalData() const							{		return m_bInternalData;	}
+	/** Disable internal data (and thus springs system)**/
+	void disableInternalData();
 
 private:
     CalCoreSubmesh                         *m_pCoreSubmesh;
