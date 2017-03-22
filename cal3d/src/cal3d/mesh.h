@@ -15,7 +15,7 @@
 #include "cal3d/global.h"
 
 
-class CalModel;
+class CalCoreModel;
 class CalCoreMesh;
 class CalSubmesh;
 
@@ -26,23 +26,31 @@ class CAL3D_API CalMesh
 public:
   CalMesh(CalCoreMesh *pCoreMesh);
   ~CalMesh();
-
+  /**returns the core mesh on which this mesh instance is based on**/
   CalCoreMesh *getCoreMesh();
+  /**returns the core mesh on which this mesh instance is based on**/
   const CalCoreMesh *getCoreMesh() const;
 
+  /**returns the submesh at the given index**/
   CalSubmesh *getSubmesh(int id);
+  /**returns the submesh at the given index**/
   const CalSubmesh *getSubmesh(int id) const;
+  /**returns the count of composite submeshes**/
   int getSubmeshCount() const;
+  /**returns the submeshes**/
   std::vector<CalSubmesh *>& getVectorSubmesh();
+  /**returns the submeshes**/
   const std::vector<CalSubmesh *>& getVectorSubmesh() const;
 
+
+  /**sets the LOD level of all submeshes**/
   void setLodLevel(float lodLevel);
-  void setMaterialSet(int setId);
-  void setModel(CalModel *pModel);
+  /** Sets the material index setId to all submeshes according materialset owned by CalCoreModel.**/
+  void setMaterialSet(int setId, CalCoreModel  *m_pCoreModel);
+  /**Disable internal data (and thus springs system)**/
   void disableInternalData();
 
-private:
-  CalModel                 *m_pModel;
+private: 
   CalCoreMesh              *m_pCoreMesh;
   std::vector<CalSubmesh *> m_vectorSubmesh;
 };

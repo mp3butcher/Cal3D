@@ -340,39 +340,6 @@ void CalBone::clearState()
   m_firstBlendScale = 1.0f;
   m_meshScaleAbsolute.set( 1, 1, 1 );
 }
-
-
- /*****************************************************************************/
-/** Provides access to the core bone.
-  *
-  * This function returns the core bone on which this bone instance is based on.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core bone
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreBone *CalBone::getCoreBone()
-{
-  return m_pCoreBone;
-}
-
-
- /*****************************************************************************/
-/** Provides access to the core bone.
-  *
-  * This function returns the core bone on which this bone instance is based on.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core bone
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalCoreBone *CalBone::getCoreBone() const
-{
-  return m_pCoreBone;
-}
-
  /*****************************************************************************/
 /** Resets the bone transform state variables for rotation and translation.
   *
@@ -434,110 +401,13 @@ void CalBone::setCoreStateRecursive()
   calculateState() ;
 }
 
- /*****************************************************************************/
-/** Sets the current rotation.
-  *
-  * This function sets the current relative rotation of the bone instance.
-  * Caveat: For this change to appear, calculateState() must be called 
-  * afterwards.
-  *****************************************************************************/
 
-void CalBone::setRotation(const CalQuaternion& rotation)
-{
-  m_rotation = rotation;
-  m_accumulatedWeightAbsolute = 1.0f;
-  m_accumulatedWeight = 1.0f ;
-}
 
- /*****************************************************************************/
-/** Returns the current rotation.
-  *
-  * This function returns the current relative rotation of the bone instance.
-  *
-  * @return The relative rotation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalQuaternion& CalBone::getRotation() const
-{
-  return m_rotation;
-}
-
- /*****************************************************************************/
-/** Returns the current absolute rotation.
-  *
-  * This function returns the current absolute rotation of the bone instance.
-  *
-  * @return The absolute rotation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalQuaternion& CalBone::getRotationAbsolute() const
-{
-  return m_rotationAbsolute;
-}
-
- /*****************************************************************************/
-/** Returns the current bone space rotation.
-  *
-  * This function returns the current rotation to bring a point into the bone
-  * instance space.
-  *
-  * @return The rotation to bring a point into bone space.
-  *****************************************************************************/
-
-const CalQuaternion& CalBone::getRotationBoneSpace() const
-{
-  return m_rotationBoneSpace;
-}
-
- /*****************************************************************************/
-/** Sets the current translation.
-  *
-  * This function sets the current relative translation of the bone instance.
-  * Caveat: For this change to appear, calculateState() must be called 
-  * afterwards.
-  *****************************************************************************/
-
-void CalBone::setTranslation(const CalVector& translation)
-{
-  m_translation = translation;
-  m_accumulatedWeightAbsolute = 1.0f;
-  m_accumulatedWeight = 1.0f ;
-}
-
- /*****************************************************************************/
-/** Returns the current translation.
-  *
-  * This function returns the current relative translation of the bone instance.
-  *
-  * @return The relative translation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalVector& CalBone::getTranslation() const
-{
-  return m_translation;
-}
-
- /*****************************************************************************/
-/** Returns the current absolute translation.
-  *
-  * This function returns the current absolute translation of the bone instance.
-  *
-  * @return The absolute translation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalVector& CalBone::getTranslationAbsolute() const
-{
-  return m_translationAbsolute;
-}
-
- /*****************************************************************************/
-/** Returns the current bone space translation.
-  *
-  * This function returns the current translation to bring a point into the
-  *bone instance space.
-  *
-  * @return The translation to bring a point into bone space.
-  *****************************************************************************/
+ 
+  
+ 
+ 
+ 
 
  /*****************************************************************************/
 /** Returns the current bone space translation.
@@ -590,20 +460,7 @@ void CalBone::lockState()
   }
 }
 
- /*****************************************************************************/
-/** Sets the skeleton.
-  *
-  * This function sets the skeleton to which the bone instance is attached to.
-  *
-  * @param pSkeleton The skeleton to which the bone instance should be
-  *                  attached to.
-  *****************************************************************************/
-
-void CalBone::setSkeleton(CalSkeleton *pSkeleton)
-{
-  m_pSkeleton = pSkeleton;
-}
-
+ 
  /*****************************************************************************/
 /** Calculates the bounding box.
   *
@@ -663,31 +520,6 @@ void CalBone::calculateBoundingBox()
    }
 }
 
- /*****************************************************************************/
-/** Returns the current bounding box.
-  *
-  * This function returns the current bounding box of the bone instance.
-  *
-  * @return bounding box.
-  *****************************************************************************/
-
-
-CalBoundingBox & CalBone::getBoundingBox()
-{
-   return m_boundingBox;
-}
-
- /*****************************************************************************/
-/** Returns the current bounding box.
-  *
-  * This function returns the current bounding box of the bone instance.
-  *
-  * @return bounding box.
-  *****************************************************************************/
-
-const CalBoundingBox & CalBone::getBoundingBox() const
-{
-  return m_boundingBox;
-}
-
-//****************************************************************************//
+ 
+ 
+ 

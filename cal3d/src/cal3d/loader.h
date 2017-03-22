@@ -93,11 +93,12 @@ public:
   static CalCoreMeshPtr      loadCoreMesh(std::istream& inputStream);
   static CalCoreSkeletonPtr  loadCoreSkeleton(std::istream& inputStream);
 
-  static CalCoreAnimationPtr loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel=NULL);
-  static CalCoreAnimatedMorph *loadCoreAnimatedMorphFromBuffer(void* inputBuffer, unsigned int len);
-  static CalCoreMaterialPtr  loadCoreMaterial(void* inputBuffer);
-  static CalCoreMeshPtr      loadCoreMesh(void* inputBuffer);
-  static CalCoreSkeletonPtr  loadCoreSkeleton(void* inputBuffer);
+  ///inputbuffer is xml formatted
+  static CalCoreAnimationPtr loadCoreAnimation(const char * inputBuffer, CalCoreSkeleton *skel = NULL);
+  static CalCoreAnimatedMorph *loadCoreAnimatedMorphFromBuffer(const char* inputBuffer, unsigned int len);
+  static CalCoreMaterialPtr  loadCoreMaterial(const char* inputBuffer);
+  static CalCoreMeshPtr      loadCoreMesh(const char* inputBuffer);
+  static CalCoreSkeletonPtr  loadCoreSkeleton(const char* inputBuffer);
 
   static CalCoreAnimationPtr loadCoreAnimation(CalDataSource& inputSrc, CalCoreSkeleton *skel=NULL);
   static CalCoreAnimatedMorph *loadCoreAnimatedMorph(CalDataSource& inputSrc);

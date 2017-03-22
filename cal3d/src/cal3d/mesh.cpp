@@ -31,8 +31,7 @@
   *****************************************************************************/
 
 CalMesh::CalMesh(CalCoreMesh* pCoreMesh)
-  : m_pModel(0)
-  , m_pCoreMesh(0)
+  : m_pCoreMesh(0)
 {
   assert(pCoreMesh);
   m_pCoreMesh = pCoreMesh;
@@ -217,7 +216,7 @@ void CalMesh::setLodLevel(float lodLevel)
   * @param setId The ID of the material set.
   *****************************************************************************/
 
-void CalMesh::setMaterialSet(int setId)
+void CalMesh::setMaterialSet(int setId,CalCoreModel*core)
 {
   // change material of every submesh
   int submeshId;
@@ -229,25 +228,14 @@ void CalMesh::setMaterialSet(int setId)
 
     // get the core material id for the given set id in the material thread
     int coreMaterialId;
-    coreMaterialId = m_pModel->getCoreModel()->getCoreMaterialId(coreMaterialThreadId, setId);
+	coreMaterialId = core->getCoreMaterialId(coreMaterialThreadId, setId);
 
     // set the new core material id in the submesh
     m_vectorSubmesh[submeshId]->setCoreMaterialId(coreMaterialId);
   }
 }
 
- /*****************************************************************************/
-/** Sets the model.
-  *
-  * This function sets the model to which the mesh instance is attached to.
-  *
-  * @param pModel The model to which the mesh instance should be attached to.
-  *****************************************************************************/
 
-void CalMesh::setModel(CalModel *pModel)
-{
-  m_pModel = pModel;
-}
 
 /*****************************************************************************/
 /** Disable internal data (and thus springs system)

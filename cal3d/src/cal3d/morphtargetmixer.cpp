@@ -188,7 +188,7 @@ bool CalMorphTargetMixer::clear(int id, float delay)
                     const CalCoreMorphTrack *track = &(*itr);
                     CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
                     std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
-                    for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+					for (int i = 0; i<track->getTargetSubMeshCount(); i++)
                         submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), 0);
                 }
 
@@ -424,12 +424,12 @@ void CalMorphTargetMixer::update(float deltaTime)
 /** Returns the number of morph targets this morph target mixer mixes.
   *
   * @return The number of morph targets this morph target mixer mixes.
-  *****************************************************************************/
+  ****************************************************************************
 
 int CalMorphTargetMixer::getMorphTargetCount() const
 {
     return m_pModel->getCoreModel()->getNumCoreAnimatedMorphs();
-}
+}*/
 
 //////////////////////////////////////////////////////////////////////////
 void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, MorphAnimData& data)
@@ -495,7 +495,7 @@ void CalMorphTargetMixer::SetTrackWeights(const CalCoreAnimatedMorph& morph, Mor
         CalMesh * targetmesh = m_pModel->getVectorMesh()[track->getTargetMesh()];
         std::vector<CalSubmesh*>& submeshes= targetmesh->getVectorSubmesh();
 
-        for(int i=0; i<track->getNumTargetSubMeshes(); i++)
+        for(int i=0; i<track->getTargetSubMeshCount(); i++)
          submeshes[track->getTargetSubMesh(i)]->setMorphTargetWeight(track->getMorphID(), weight);
          //  submeshes[track->getTargetSubMesh(i)]-> blendMorphTargetScale(track->getMorphID(),weight)
     }

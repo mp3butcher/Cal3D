@@ -465,7 +465,7 @@ float CalPlane::dist(CalVector &p)
   *****************************************************************************/
 
 
-void CalBoundingBox::computePoints(CalVector *p)
+void CalBoundingBox::computePoints(CalVector *p)const
 {
     CalMatrix m;
      

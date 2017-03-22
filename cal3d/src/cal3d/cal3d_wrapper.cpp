@@ -121,12 +121,12 @@ CalBoolean CalAnimationCycle_Update(CalAnimationCycle *self, float deltaTime)
 
 //****************************************************************************//
 // CalBone wrapper functions definition                                           //
-//****************************************************************************//
+/***********************************************************************
 
 void CalBone_BlendState(CalBone *self, float weight, CalVector *pTranslation, CalQuaternion *pRotation)
 {
   self->blendState(weight, *pTranslation, *pRotation);
-}
+}*/
 
 void CalBone_CalculateState(CalBone *self)
 {
@@ -232,7 +232,7 @@ CalBoolean CalBone_GetBoundingBox( struct CalBone *self, struct CalCoreModel* mo
 	{
 		self->calculateBoundingBox();
 
-		CalBoundingBox&	box( self->getBoundingBox() );
+		const CalBoundingBox&	box( self->getBoundingBox() );
 		box.computePoints( reinterpret_cast<CalVector*>(outEightPoints) );
 		gotBounds = True;
 	}
@@ -271,7 +271,7 @@ void CalCoreAnimation_SetDuration(CalCoreAnimation *self, float duration)
 
 CalBoolean CalCoreBone_AddChildId(CalCoreBone *self, int childId)
 {
-  return self->addChildId(childId) ? True : False;
+	self->addChildId(childId); return True;
 }
 
 void CalCoreBone_CalculateState(CalCoreBone *self)
@@ -850,7 +850,7 @@ int CalCoreModel_LoadCoreAnimationFromBuffer(CalCoreModel *self, const void* buf
 {
 	try
 	{
-		return self->loadCoreAnimation(const_cast<void*>(buffer));
+		return self->loadCoreAnimationFromXMLstring( (const char*)(buffer));
 	}
 	catch (...)
 	{
@@ -874,7 +874,7 @@ int CalCoreModel_LoadCoreMaterialFromBuffer(CalCoreModel *self, const void* buff
 {
 	try
 	{
-		return self->loadCoreMaterial(const_cast<void*>(buffer));
+		return self->loadCoreMaterialFromXMLstring((const char*)(buffer));
 	}
 	catch (...)
 	{
@@ -898,7 +898,7 @@ int CalCoreModel_LoadCoreMeshFromBuffer(CalCoreModel *self, const void* buffer)
 {
 	try
 	{
-		return self->loadCoreMesh(const_cast<void*>(buffer));
+		return self->loadCoreMeshFromXMLstring((const char*)(buffer));
 	}
 	catch (...)
 	{
@@ -922,7 +922,7 @@ CalBoolean CalCoreModel_LoadCoreSkeletonFromBuffer(CalCoreModel *self, const voi
 {
 	try
 	{
-		return self->loadCoreSkeleton(const_cast<void*>(buffer)) ? True : False;
+		return self->loadCoreSkeletonFromXMLstring((const char*)(buffer)) ? True : False;
 	}
 	catch (...)
 	{
@@ -989,7 +989,7 @@ void CalCoreModel_SetName(struct CalCoreModel *self, const char* inName)
 {
 	try
 	{
-		self->setName( inName );
+		self->setName( std::string(inName ));
 	}
 	catch (...)
 	{
@@ -1403,7 +1403,7 @@ CalCoreMesh *CalLoader_LoadCoreMeshFromBuffer(const void *data)
 {
 	try
 	{
-		CalCoreMeshPtr	theMesh( CalLoader::loadCoreMesh(const_cast<void*>(data)) );
+		CalCoreMeshPtr	theMesh(CalLoader::loadCoreMesh((const char*)(data)));
 
 		if (theMesh.get() != NULL)
 		{
@@ -1473,15 +1473,12 @@ void CalMesh_SetLodLevel(CalMesh *self, float lodLevel)
   self->setLodLevel(lodLevel);
 }
 
-void CalMesh_SetMaterialSet(CalMesh *self, int setId)
+void CalMesh_SetMaterialSet(CalMesh *self, int setId , CalCoreModel *core )
 {
-  self->setMaterialSet(setId);
+  self->setMaterialSet(setId,core);
 }
 
-void CalMesh_SetModel(CalMesh *self, CalModel *pModel)
-{
-  self->setModel(pModel);
-}
+
 
 //****************************************************************************//
 // CalMixer wrapper functions definition                                      //
@@ -1562,12 +1559,12 @@ void CalMorphTargetMixer_Update(struct CalMorphTargetMixer *self, float deltaTim
 {
   self->update(deltaTime);
 }
-
+/*
 int CalMorphTargetMixer_GetMorphTargetCount(struct CalMorphTargetMixer *self)
 {
   return self->getMorphTargetCount();
 }
-
+*/
 CalBoolean CalMorphTargetMixer_Copy( struct CalMorphTargetMixer* self,
   										const struct CalMorphTargetMixer* toCopy )
 {

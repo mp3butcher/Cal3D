@@ -290,14 +290,6 @@ bool CalSaver::saveCoreBones(std::ofstream& file, const std::string& strFilename
 		return false;
 	}
 
-	// write lighting data
-	CalPlatform::writeInteger(file, pCoreBone->getLightType());
-	CalVector c;
-	pCoreBone->getLightColor(c);
-	CalPlatform::writeFloat(file, c.x);
-	CalPlatform::writeFloat(file, c.y);
-	CalPlatform::writeFloat(file, c.z);
-
 
 	// get children list
 	std::list<int>& listChildId = pCoreBone->getListChildId();
@@ -1132,13 +1124,13 @@ bool CalSaver::saveCoreMorphTrack(std::ofstream& file, const std::string& strFil
 		return false;
 	}
 	// write the number of submeshtarget
-	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getNumTargetSubMeshes()))
+	if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getTargetSubMeshCount()))
 	{
 		CalError::setLastError(CalError::FILE_WRITING_FAILED, __FILE__, __LINE__, strFilename);
 		return false;
 	}
 	//save the target submeshes indices
-	for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+	for (int i = 0; i < pCoreMorphTrack->getTargetSubMeshCount(); ++i)
 	{
 		if (!CalPlatform::writeInteger(file, pCoreMorphTrack->getTargetSubMesh(i)))
 		{
@@ -1205,15 +1197,7 @@ bool CalSaver::saveXmlCoreSkeleton(const std::string& strFilename, CalCoreSkelet
 		bone.SetAttribute("NAME", pCoreBone->getName());
 		bone.SetAttribute("NUMCHILDS", pCoreBone->getListChildId().size());
 
-		if (pCoreBone->hasLightingData())
-		{
-			bone.SetAttribute("LIGHTTYPE", pCoreBone->getLightType());
-			str.str("");
-			CalVector c;
-			pCoreBone->getLightColor(c);
-			str << c.x << " " << c.y << " " << c.z;
-			bone.SetAttribute("LIGHTCOLOR", str.str());
-		}
+	 
 
 		TiXmlElement translation("TRANSLATION");
 		const CalVector& translationVector = pCoreBone->getTranslation();
@@ -1478,11 +1462,11 @@ bool CalSaver::saveXmlCoreAnimatedMorph(const std::string& strFilename, CalCoreA
 		TiXmlElement track("TRACK");
 		track.SetAttribute("MORPHID", pCoreMorphTrack->getMorphID());
 		track.SetAttribute("MESHID", pCoreMorphTrack->getTargetMesh());
-		track.SetAttribute("NUMSUBTARGET", pCoreMorphTrack->getNumTargetSubMeshes());
+		track.SetAttribute("NUMSUBTARGET", pCoreMorphTrack->getTargetSubMeshCount());
 		track.SetAttribute("NUMKEYFRAMES", pCoreMorphTrack->getCoreMorphKeyframeCount());
 
 		// save all submeshes targets
-		for (int i = 0; i < pCoreMorphTrack->getNumTargetSubMeshes(); ++i)
+		for (int i = 0; i < pCoreMorphTrack->getTargetSubMeshCount(); ++i)
 		{
 			TiXmlElement targetSubMesh("SUBMESH");
 			str.str("");

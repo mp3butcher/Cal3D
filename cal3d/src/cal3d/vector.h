@@ -224,7 +224,7 @@ class CAL3D_API CalBoundingBox
    public:
      CalPlane plane[6];
      
-     void computePoints(CalVector *p);
+     void computePoints(CalVector *p)const;
    
 };
 

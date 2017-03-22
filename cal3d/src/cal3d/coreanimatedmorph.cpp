@@ -26,7 +26,7 @@
   *****************************************************************************/
 
 static int MyNumCalCoreAnimatedMorphs = 0;
-int CalCoreAnimatedMorph::getNumCoreAnimatedMorphs() { return MyNumCalCoreAnimatedMorphs; }
+int CalCoreAnimatedMorph::getCoreAnimatedMorphsCount() { return MyNumCalCoreAnimatedMorphs; }
 
 CalCoreAnimatedMorph::CalCoreAnimatedMorph()
 {

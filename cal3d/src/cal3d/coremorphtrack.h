@@ -50,7 +50,7 @@ public:
   inline void setTargetMesh(unsigned int name){m_targetMeshID=name;}
 
   ///TargetSubMeshes container if empty assume ALL submeshes have morphtarget
-  const unsigned int getNumTargetSubMeshes()const{return m_targetSubMeshIDs.size();}
+  const unsigned int getTargetSubMeshCount()const{ return m_targetSubMeshIDs.size(); }
   inline void addTargetSubMesh(unsigned int i){m_targetSubMeshIDs.push_back(i);}
   inline void removeTargetSubMesh(unsigned int name){
       for(std::vector<unsigned int>::iterator i=m_targetSubMeshIDs.begin();i!=m_targetSubMeshIDs.begin();i++){

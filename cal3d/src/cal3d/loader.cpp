@@ -405,7 +405,7 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(std::istream& inputStream)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkeleton *skel)
+CalCoreAnimationPtr CalLoader::loadCoreAnimation(const char* inputBuffer, CalCoreSkeleton *skel)
 {
   if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<ANIMATION", 10 ) == 0) )
   {
@@ -420,7 +420,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkele
   }
 
    //Create a new buffer data source and pass it on
-   CalBufferSource bufferSrc(inputBuffer);
+   CalBufferSource bufferSrc((void*)inputBuffer);
    return loadCoreAnimation(bufferSrc,skel);
 }
 
@@ -438,10 +438,10 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(void* inputBuffer, CalCoreSkele
 *         \li \b 0 if an error happened
 *****************************************************************************/
 
-CalCoreAnimatedMorph * CalLoader::loadCoreAnimatedMorphFromBuffer(void* inputBuffer, unsigned int len)
+CalCoreAnimatedMorph * CalLoader::loadCoreAnimatedMorphFromBuffer(const char* inputBuffer, unsigned int len)
 {
    //Create a new buffer data source and pass it on
-   CalBufferSource bufferSrc(inputBuffer);
+   CalBufferSource bufferSrc( (void*)inputBuffer);
    CalCoreAnimatedMorph * result = loadCoreAnimatedMorph(bufferSrc);
    if( result ) {
       return result;
@@ -465,7 +465,7 @@ CalCoreAnimatedMorph * CalLoader::loadCoreAnimatedMorphFromBuffer(void* inputBuf
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
+CalCoreMaterialPtr CalLoader::loadCoreMaterial(const char* inputBuffer)
 {
 	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<MATERIAL", 9 ) == 0) )
 	{
@@ -480,7 +480,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
 	}
 
    //Create a new buffer data source and pass it on
-   CalBufferSource bufferSrc(inputBuffer);
+	CalBufferSource bufferSrc((void*)inputBuffer);
    return loadCoreMaterial(bufferSrc);
 }
 
@@ -498,7 +498,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(void* inputBuffer)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
+CalCoreMeshPtr CalLoader::loadCoreMesh(const char* inputBuffer)
 {
 	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<MESH", 5 ) == 0) )
 	{
@@ -513,7 +513,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
 	}
 
    //Create a new buffer data source and pass it on
-   CalBufferSource bufferSrc(inputBuffer);
+	CalBufferSource bufferSrc((void*)inputBuffer);
    return loadCoreMesh(bufferSrc);
 }
 
@@ -531,7 +531,7 @@ CalCoreMeshPtr CalLoader::loadCoreMesh(void* inputBuffer)
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(void* inputBuffer)
+CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(const char* inputBuffer)
 {
 	if ( (memcmp( inputBuffer, "<HEADER", 7 ) == 0) || (memcmp( inputBuffer, "<SKELETON", 9 ) == 0) )
 	{
@@ -546,7 +546,7 @@ CalCoreSkeletonPtr CalLoader::loadCoreSkeleton(void* inputBuffer)
 	}
 
    //Create a new buffer data source and pass it on
-   CalBufferSource bufferSrc(inputBuffer);
+	CalBufferSource bufferSrc((void*)inputBuffer);
    return loadCoreSkeleton(bufferSrc);
 }
 
@@ -1142,10 +1142,7 @@ CalCoreBone *CalLoader::loadCoreBones(CalDataSource& dataSrc, int version)
   pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
   pCoreBone->setRotationBoneSpace(rotbs);
 
-  if( hasNodeLights ) {
-     pCoreBone->setLightType( (CalLightType)lightType );
-     pCoreBone->setLightColor( lightColor );
-  }
+ 
 
   // read the number of children
   int childCount;

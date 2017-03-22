@@ -39,9 +39,9 @@ CalCoreBone::CalCoreBone(const std::string& name)
 }
 
  /*****************************************************************************/
-/** Adds a child ID.
+/** remove a child ID.
   *
-  * This function adds a core bone ID to the child ID list of the core bone
+  * This function remove a core bone ID to the child ID list of the core bone
   * instance.
   *
   * @param childId The ID of the core bone ID that shoud be added to the child
@@ -51,12 +51,15 @@ CalCoreBone::CalCoreBone(const std::string& name)
   *         \li \b true if successful
   *         \li \b false if an error happened
   *****************************************************************************/
-
-bool CalCoreBone::addChildId(int childId)
+bool CalCoreBone::removeChildId(int childId)
 {
-  m_listChildId.push_back(childId);
-
-  return true;
+	for (std::list<int>::iterator it = m_listChildId.begin(); it != m_listChildId.end(); it++){
+		if (*it == childId){
+			m_listChildId.erase(it);
+			return true;
+		}
+    }
+	return false;
 }
 
  /*****************************************************************************/
@@ -95,310 +98,6 @@ void CalCoreBone::calculateState()
   {
     m_pCoreSkeleton->getCoreBone(*iteratorChildId)->calculateState();
   }
-}
-
- /*****************************************************************************/
-/** Returns the child ID list.
-  *
-  * This function returns the list that contains all child IDs of the core bone
-  * instance.
-  *
-  * @return A reference to the child ID list.
-  *****************************************************************************/
-
-std::list<int>& CalCoreBone::getListChildId()
-{
-  return m_listChildId;
-}
-
-
- /*****************************************************************************/
-/** Returns the child ID list.
-  *
-  * This function returns the list that contains all child IDs of the core bone
-  * instance.
-  *
-  * @return A reference to the child ID list.
-  *****************************************************************************/
-
-const std::list<int>& CalCoreBone::getListChildId() const
-{
-  return m_listChildId;
-}
-
- /*****************************************************************************/
-/** Returns the name.
-  *
-  * This function returns the name of the core bone instance.
-  *
-  * @return The name as string.
-  *****************************************************************************/
-
-const std::string& CalCoreBone::getName() const
-{
-  return m_strName;
-}
-
-
- /*****************************************************************************/
-/** Sets the name.
-  *
-  * This function sets the name of the core bone instance.
-  *
-  * @param strName A string that should be used as the name of the core bone
-  *                instance.
-  *
-  *****************************************************************************/
-void CalCoreBone::setName( const std::string& name )
-{
-	m_strName = name;
-}
-
-
- /*****************************************************************************/
-/** Returns the parent ID.
-  *
-  * This function returns the parent ID of the core bone instance.
-  *
-  * @return One of the following values:
-  *         \li the \b ID of the parent
-  *         \li \b -1 if the core bone instance is a root core bone
-  *****************************************************************************/
-
-int CalCoreBone::getParentId() const
-{
-  return m_parentId;
-}
-
- /*****************************************************************************/
-/** Returns the rotation.
-  *
-  * This function returns the relative rotation of the core bone instance.
-  *
-  * @return The relative rotation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalQuaternion& CalCoreBone::getRotation() const
-{
-  return m_rotation;
-}
-
- /*****************************************************************************/
-/** Returns the absolute rotation.
-  *
-  * This function returns the absolute rotation of the core bone instance.
-  *
-  * @return The absolute rotation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalQuaternion& CalCoreBone::getRotationAbsolute() const
-{
-  return m_rotationAbsolute;
-}
-
- /*****************************************************************************/
-/** Returns the bone space rotation.
-  *
-  * This function returns the rotation to bring a point into the core bone
-  * instance space.
-  *
-  * @return The rotation to bring a point into bone space.
-  *****************************************************************************/
-
-const CalQuaternion& CalCoreBone::getRotationBoneSpace() const
-{
-  return m_rotationBoneSpace;
-}
-
- /*****************************************************************************/
-/** Returns the translation.
-  *
-  * This function returns the relative translation of the core bone instance.
-  *
-  * @return The relative translation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalVector& CalCoreBone::getTranslation() const
-{
-  return m_translation;
-}
-
- /*****************************************************************************/
-/** Returns the absolute translation.
-  *
-  * This function returns the absolute translation of the core bone instance.
-  *
-  * @return The absolute translation to the parent as quaternion.
-  *****************************************************************************/
-
-const CalVector& CalCoreBone::getTranslationAbsolute() const
-{
-  return m_translationAbsolute;
-}
-
- /*****************************************************************************/
-/** Returns the bone space translation.
-  *
-  * This function returns the translation to bring a point into the core bone
-  * instance space.
-  *
-  * @return The translation to bring a point into bone space.
-  *****************************************************************************/
-
-const CalVector& CalCoreBone::getTranslationBoneSpace() const
-{
-  return m_translationBoneSpace;
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core bone instance.
-  *
-  * @return The user data stored in the core bone instance.
-  *****************************************************************************/
-
-Cal::UserData CalCoreBone::getUserData()
-{
-  return m_userData;
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core bone instance.
-  *
-  * @return The user data stored in the core bone instance.
-  *****************************************************************************/
-
-const Cal::UserData CalCoreBone::getUserData() const
-{
-  return m_userData;
-}
-
- /*****************************************************************************/
-/** Sets the core skeleton.
-  *
-  * This function sets the core skeleton to which the core bone instance is
-  * attached to.
-  *
-  * @param pCoreSkeleton The core skeleton to which the core bone instance
-  *                      should be attached to.
-  *****************************************************************************/
-
-void CalCoreBone::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
-{
-  m_pCoreSkeleton = pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Sets the parent ID.
-  *
-  * This function sets the parent ID of the core bone instance.
-  *
-  * @param parentId The ID of the parent that should be set.
-  *****************************************************************************/
-
-void CalCoreBone::setParentId(int parentId)
-{
-  m_parentId = parentId;
-}
-
- /*****************************************************************************/
-/** Provides access to the core skeleton.
-  *
-  * This function returns the core skeleton.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-CalCoreSkeleton *CalCoreBone::getCoreSkeleton()
-{
-  return m_pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Provides access to the core skeleton.
-  *
-  * This function returns the core skeleton.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalCoreSkeleton *CalCoreBone::getCoreSkeleton() const
-{
-  return m_pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Sets the rotation.
-  *
-  * This function sets the relative rotation of the core bone instance.
-  *
-  * @param rotation The relative rotation to the parent as quaternion.
-  *****************************************************************************/
-
-void CalCoreBone::setRotation(const CalQuaternion& rotation)
-{
-  m_rotation = rotation;
-}
-
- /*****************************************************************************/
-/** Sets the bone space rotation.
-  *
-  * This function sets the rotation that brings a point into the core bone
-  * instance space.
-  *
-  * @param rotation The rotation that brings a point into bone space.
-  *****************************************************************************/
-
-void CalCoreBone::setRotationBoneSpace(const CalQuaternion& rotation)
-{
-  m_rotationBoneSpace = rotation;
-}
-
- /*****************************************************************************/
-/** Sets the translation.
-  *
-  * This function sets the relative translation of the core bone instance.
-  *
-  * @param translation The relative translation to the parent as vector.
-  *****************************************************************************/
-
-void CalCoreBone::setTranslation(const CalVector& translation)
-{
-  m_translation = translation;
-}
-
- /*****************************************************************************/
-/** Sets the bone space translation.
-  *
-  * This function sets the translation that brings a point into the core bone
-  * instance space.
-  *
-  * @param translation The translation that brings a point into bone space.
-  *****************************************************************************/
-
-void CalCoreBone::setTranslationBoneSpace(const CalVector& translation)
-{
-  m_translationBoneSpace = translation;
-}
-
- /*****************************************************************************/
-/** Stores user data.
-  *
-  * This function stores user data in the core bone instance.
-  *
-  * @param userData The user data that should be stored.
-  *****************************************************************************/
-
-void CalCoreBone::setUserData(Cal::UserData userData)
-{
-  m_userData = userData;
 }
 
  /*****************************************************************************/
@@ -547,17 +246,7 @@ void CalCoreBone::getBoundingData(int planeId,CalVector & position) const
 {
    position = m_boundingPosition[planeId];
 }
-
-bool CalCoreBone::isBoundingBoxPrecomputed() const
-{
-	return m_boundingBoxPrecomputed;
-}
-
-void CalCoreBone::setBoundingBoxPrecomputed( bool inComputed )
-{
-	m_boundingBoxPrecomputed = inComputed;
-}
-
+ 
 
  /*****************************************************************************/
 /** Scale the core bone.
@@ -583,43 +272,4 @@ void CalCoreBone::scale(float factor)
 		m_pCoreSkeleton->getCoreBone(*iteratorChildId)->scale(factor);
 	}
 }
-
-
-//****************************************************************************//
-
-
-bool
-CalCoreBone::hasLightingData()
-{
-  return m_lightType != LIGHT_TYPE_NONE;
-}
-
-
-void
-CalCoreBone::getLightColor( CalVector & c )
-{
-  c = m_lightColor;
-}
-
-
-void
-CalCoreBone::setLightColor( CalVector const & c )
-{
-  m_lightColor = c;
-}
-
-
-CalLightType
-CalCoreBone::getLightType()
-{
-  return m_lightType;
-}
-
-
-void
-CalCoreBone::setLightType( CalLightType t )
-{
-  m_lightType = t;
-}
-
 

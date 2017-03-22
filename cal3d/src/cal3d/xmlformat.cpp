@@ -328,18 +328,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
 
     std::string strName=bone->Attribute("NAME");
 
-          CalLightType lightType = LIGHT_TYPE_NONE;
-          CalVector lightColor;
-
-          char const * attrStr = bone->Attribute("LIGHTTYPE");
-          if( attrStr ) {
-            lightType = (CalLightType)atoi(attrStr);
-          }
-
-          attrStr = bone->Attribute("LIGHTCOLOR");
-          if( attrStr ) {
-            ReadTripleFloat(attrStr, &lightColor.x, &lightColor.y, &lightColor.z);
-          }
+          
 
 
     // get the translation of the bone
@@ -516,8 +505,7 @@ CalCoreSkeletonPtr CalLoader::loadXmlCoreSkeleton(cal3d::TiXmlDocument & doc)
     pCoreBone->setTranslationBoneSpace(CalVector(txBoneSpace, tyBoneSpace, tzBoneSpace));
     pCoreBone->setRotationBoneSpace(CalQuaternion(rxBoneSpace, ryBoneSpace, rzBoneSpace, rwBoneSpace));
 
-          pCoreBone->setLightType( lightType );
-          pCoreBone->setLightColor( lightColor );
+   
 
     cal3d::TiXmlElement* child;
     for( child = parent->NextSiblingElement();child;child = child->NextSiblingElement() )

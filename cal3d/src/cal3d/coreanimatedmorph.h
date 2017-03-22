@@ -61,7 +61,7 @@ public:
   void setDuration(float duration);
   void scale(float factor);
   void removeZeroScaleTracks();
-  static int getNumCoreAnimatedMorphs();
+  static int getCoreAnimatedMorphsCount();
 };
 
 #endif

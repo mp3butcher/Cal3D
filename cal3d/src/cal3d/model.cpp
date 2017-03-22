@@ -127,7 +127,7 @@ bool CalModel::attachMesh(int coreMeshId)
   }
 
   // set model in the mesh instance
-  pMesh->setModel(this);
+  //pMesh->setModel(this);
 
   // insert the new mesh into the active list
   m_vectorMesh.push_back(pMesh);
@@ -680,7 +680,7 @@ void CalModel::setMaterialSet(int setId)
   for(iteratorMesh = m_vectorMesh.begin(); iteratorMesh != m_vectorMesh.end(); ++iteratorMesh)
   {
     // set the material set in the mesh
-    (*iteratorMesh)->setMaterialSet(setId);
+    (*iteratorMesh)->setMaterialSet(setId,getCoreModel());
   }
 }
 

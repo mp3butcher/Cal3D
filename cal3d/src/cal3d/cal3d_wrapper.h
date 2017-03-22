@@ -172,7 +172,7 @@ extern "C"
 // CalBone wrapper functions declaration                                      //
 //****************************************************************************//
 
-  CAL3D_WRAPPER_API void CalBone_BlendState(struct CalBone *self, float weight, struct CalVector *pTranslation, struct CalQuaternion *pRotation);
+ // CAL3D_WRAPPER_API void CalBone_BlendState(struct CalBone *self, float weight, struct CalVector *pTranslation, struct CalQuaternion *pRotation);
   CAL3D_WRAPPER_API void CalBone_CalculateState(struct CalBone *self);
   CAL3D_WRAPPER_API void CalBone_ClearState(struct CalBone *self);
   CAL3D_WRAPPER_API void CalBone_Delete(struct CalBone *self);
@@ -470,7 +470,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
 //  CAL3D_WRAPPER_API std::vector<CalSubmesh *>& CalMesh_GetVectorSubmesh(struct CalMesh *self);
   CAL3D_WRAPPER_API struct CalMesh *CalMesh_New(struct CalCoreMesh *pCoreMesh);
   CAL3D_WRAPPER_API void CalMesh_SetLodLevel(struct CalMesh *self, float lodLevel);
-  CAL3D_WRAPPER_API void CalMesh_SetMaterialSet(struct CalMesh *self, int setId);
+  CAL3D_WRAPPER_API void CalMesh_SetMaterialSet(struct CalMesh *self, int setId,CalCoreModel*);
   CAL3D_WRAPPER_API void CalMesh_SetModel(struct CalMesh *self, struct CalModel *pModel);
 
 //****************************************************************************//
@@ -495,7 +495,7 @@ CAL3D_WRAPPER_API bool CalCoreSubMorphTargetDiffMap_AppendVertex( CalCoreSubMorp
   CAL3D_WRAPPER_API void CalMorphTargetMixer_Delete(struct CalMorphTargetMixer *self);
   CAL3D_WRAPPER_API struct CalMorphTargetMixer *CalMorphTargetMixer_New(struct CalModel *pModel);
   CAL3D_WRAPPER_API void CalMorphTargetMixer_Update( struct CalMorphTargetMixer* self, float deltaTime );
-  CAL3D_WRAPPER_API int CalMorphTargetMixer_GetMorphTargetCount( struct CalMorphTargetMixer* self );
+  //CAL3D_WRAPPER_API int CalMorphTargetMixer_GetMorphTargetCount( struct CalMorphTargetMixer* self );
   CAL3D_WRAPPER_API enum CalBoolean CalMorphTargetMixer_Copy( struct CalMorphTargetMixer* self,
   															const struct CalMorphTargetMixer* toCopy );
   CAL3D_WRAPPER_API float CalMorphTargetMixer_GetCurrentWeight( struct CalMorphTargetMixer* self, int morphAnimID );

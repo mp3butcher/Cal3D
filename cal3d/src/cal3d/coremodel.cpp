@@ -77,9 +77,11 @@ CalCoreModel::~CalCoreModel()
 
 
 
+/***WTF
+
 int
 
-CalCoreModel::getNumCoreAnimations() const
+CalCoreModel::getCoreAnimationCount() const
 {
   int num = m_vectorCoreAnimation.size();
 
@@ -93,11 +95,7 @@ CalCoreModel::getNumCoreAnimations() const
   return r;
 }
 
-
-
-int
-
-CalCoreModel::getNumCoreAnimatedMorphs() const
+int CalCoreModel::getNumCoreAnimatedMorphs() const
 {
   int num = m_vectorCoreAnimatedMorph.size();
 
@@ -111,7 +109,7 @@ CalCoreModel::getNumCoreAnimatedMorphs() const
   return r;
 }
 
-
+*/
 
  /*****************************************************************************/
 /** Adds a core animation.
@@ -367,31 +365,8 @@ void CalCoreModel::replaceCoreMesh( int coreMeshId, CalCoreMesh *pCoreMesh )
 	m_vectorCoreMesh[ coreMeshId ] = pCoreMesh;
 }
 
- /*****************************************************************************/
-/** Returns the name.
-  *
-  * This function returns the name of the core model instance.
-  *
-  * @return The name as string.
-  *****************************************************************************/
-
-const std::string& CalCoreModel::getName() const
-{
-  return m_strName;
-}
-
- /*****************************************************************************/
-/** Changes the name.
-  *
-  * This function sets the name of the core model instance.
-  *
-  * @param The name as string.
-  *****************************************************************************/
-void CalCoreModel::setName( const char* inName )
-{
-	m_strName.assign( inName );
-}
-
+ 
+ 
 
  /*****************************************************************************/
 /** Creates a core material thread.
@@ -466,20 +441,6 @@ const CalCoreAnimation *CalCoreModel::getCoreAnimation(int coreAnimationId) cons
 }
 
 
-
- /*****************************************************************************/
-/** Returns the number of core animations.
-  *
-  * This function returns the number of core animations in the core model
-  * instance.
-  *
-  * @return The number of core animations.
-  *****************************************************************************/
-
-int CalCoreModel::getCoreAnimationCount() const
-{
-  return m_vectorCoreAnimation.size();
-}
 
 /*****************************************************************************/
 /** Provides access to a core morph animation.
@@ -689,7 +650,7 @@ int CalCoreModel::getCoreMeshCount() const
 {
   return m_vectorCoreMesh.size();
 }
-
+ 
  /*****************************************************************************/
 /** Provides access to the core skeleton.
   *
@@ -700,52 +661,7 @@ int CalCoreModel::getCoreMeshCount() const
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
-CalCoreSkeleton *CalCoreModel::getCoreSkeleton()
-{
-  return m_pCoreSkeleton.get();
-}
-
- /*****************************************************************************/
-/** Provides access to the core skeleton.
-  *
-  * This function returns the core skeleton.
-  *
-  * @return One of the following values:
-  *         \li a pointer to the core skeleton
-  *         \li \b 0 if an error happened
-  *****************************************************************************/
-
-const CalCoreSkeleton *CalCoreModel::getCoreSkeleton() const
-{
-  return m_pCoreSkeleton.get();
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core model instance.
-  *
-  * @return The user data stored in the core model instance.
-  *****************************************************************************/
-
-Cal::UserData CalCoreModel::getUserData()
-{
-  return m_userData;
-}
-
- /*****************************************************************************/
-/** Provides access to the user data.
-  *
-  * This function returns the user data stored in the core model instance.
-  *
-  * @return The user data stored in the core model instance.
-  *****************************************************************************/
-
-const Cal::UserData CalCoreModel::getUserData() const
-{
-  return m_userData;
-}
-
+ 
  /*****************************************************************************/
 /** Loads a core animation.
   *
@@ -829,7 +745,7 @@ int CalCoreModel::loadCoreAnimation(const std::string& strFilename, const std::s
   return id;
 }
 
-int CalCoreModel::loadCoreAnimation(void* buffer, const std::string& strAnimationName)
+int CalCoreModel::loadCoreAnimationFromXMLstring(const char* buffer, const std::string& strAnimationName)
 {
    int id = -1;
    std::map<std::string, int>::iterator it = m_animationName.find(strAnimationName);
@@ -923,7 +839,7 @@ int CalCoreModel::unloadCoreAnimation(int coreAnimationId)
   *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreModel::loadCoreAnimation(void* buffer)
+int CalCoreModel::loadCoreAnimationFromXMLstring(const char* buffer)
 {
   // the core skeleton has to be loaded already
   if(m_pCoreSkeleton == 0)
@@ -1009,9 +925,8 @@ int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename, const st
    }
 
    return id;
-}
-
-int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength)
+} 
+int CalCoreModel::loadCoreAnimatedMorphFromXMLstring(const char* buffer, unsigned int bufferLength)
 {
    // load a new core animation
    CalCoreAnimatedMorph* pCoreAnimatedMorph = CalLoader::loadCoreAnimatedMorphFromBuffer(buffer, bufferLength);
@@ -1027,7 +942,7 @@ int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength)
    return id;
 }
 
-int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength,
+int CalCoreModel::loadCoreAnimatedMorphFromXMLstring(const char* buffer, unsigned int bufferLength,
                                         const std::string& name)
 {
    int id = -1;
@@ -1049,7 +964,7 @@ int CalCoreModel::loadCoreAnimatedMorph(void* buffer, unsigned int bufferLength,
    }
    else
    {
-      id = loadCoreAnimatedMorph(buffer, bufferLength);
+	   id = loadCoreAnimatedMorphFromXMLstring(buffer, bufferLength);
       if(id >= 0)
          addAnimatedMorphName(name, id);
    }
@@ -1186,7 +1101,7 @@ int CalCoreModel::loadCoreMaterial(const std::string& strFilename, const std::st
   return id;
 }
 
-int CalCoreModel::loadCoreMaterial(void* buffer, const std::string& strMaterialName)
+int CalCoreModel::loadCoreMaterialFromXMLstring(const char* buffer, const std::string& strMaterialName)
 {
    int id = -1;
    std::map<std::string, int>::iterator it = m_materialName.find(strMaterialName);
@@ -1233,7 +1148,7 @@ int CalCoreModel::loadCoreMaterial(void* buffer, const std::string& strMaterialN
   *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreModel::loadCoreMaterial(void* buffer)
+int CalCoreModel::loadCoreMaterialFromXMLstring(const char* buffer)
 {
   // the core skeleton has to be loaded already
   if(m_pCoreSkeleton == 0)
@@ -1379,7 +1294,7 @@ int CalCoreModel::loadCoreMesh(const std::string& strFilename, const std::string
   return id;
 }
 
-int CalCoreModel::loadCoreMesh(void* buffer, const std::string& strMeshName)
+int CalCoreModel::loadCoreMeshFromXMLstring(const char* buffer, const std::string& strMeshName)
 {
    int id = -1;
    std::map<std::string, int>::iterator it = m_meshName.find(strMeshName);
@@ -1425,7 +1340,7 @@ int CalCoreModel::loadCoreMesh(void* buffer, const std::string& strMeshName)
   *         \li \b -1 if an error happened
   *****************************************************************************/
 
-int CalCoreModel::loadCoreMesh(void* buffer)
+int CalCoreModel::loadCoreMeshFromXMLstring(const char* buffer)
 {
   // the core skeleton has to be loaded already
   if(m_pCoreSkeleton == 0)
@@ -1523,7 +1438,7 @@ bool CalCoreModel::loadCoreSkeleton(const std::string& strFilename)
   *         \li \b false if an error happened
   *****************************************************************************/
 
-bool CalCoreModel::loadCoreSkeleton(void* buffer)
+bool CalCoreModel::loadCoreSkeletonFromXMLstring(const char* buffer)
 {
   // load a new core skeleton
   m_pCoreSkeleton = CalLoader::loadCoreSkeleton(buffer);
@@ -1717,31 +1632,6 @@ bool CalCoreModel::setCoreMaterialId(int coreMaterialThreadId, int coreMaterialS
   return true;
 }
 
- /*****************************************************************************/
-/** Sets the core skeleton.
-  *
-  * This function sets the core skeleton of the core model instance..
-  *
-  * @param pCoreSkeleton The core skeleton that should be set.
-  *****************************************************************************/
-
-void CalCoreModel::setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)
-{
-  m_pCoreSkeleton = pCoreSkeleton;
-}
-
- /*****************************************************************************/
-/** Stores user data.
-  *
-  * This function stores user data in the core model instance.
-  *
-  * @param userData The user data that should be stored.
-  *****************************************************************************/
-
-void CalCoreModel::setUserData(Cal::UserData userData)
-{
-  m_userData = userData;
-}
 
  /*****************************************************************************/
 /** Creates or overwrites a string-to-boneId mapping

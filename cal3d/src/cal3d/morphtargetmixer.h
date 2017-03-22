@@ -36,7 +36,7 @@ public:
    const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
    int getKeyframeCount(int id) const;
    float getDuration(int id) const;
-   int getMorphTargetCount() const;
+  // int getMorphTargetCount() const;
    void update(float deltaTime);
 
    float CalcKeyframeWeight(const std::vector<CalCoreMorphKeyframe> &keyframes, float elapsedTime);
