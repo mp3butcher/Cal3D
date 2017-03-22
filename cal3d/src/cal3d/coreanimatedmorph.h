@@ -1,6 +1,7 @@
 //****************************************************************************//
-// coreanimatedMorph.h                                                            //
+// coreanimatedMorph.h                                                        //
 // Copyright (C) 2001, 2002 Bruno 'Beosil' Heidelberger                       //
+// Copyright (C) 2001, 2002 Julien 'MpEbUtCh3r' Valentin                      //
 //****************************************************************************//
 // This library is free software; you can redistribute it and/or modify it    //
 // under the terms of the GNU Lesser General Public License as published by   //
@@ -40,7 +41,6 @@ protected:
   std::string m_name;
   float m_duration;
   std::list<CalCoreMorphTrack> m_listCoreTrack;
-  std::list<CalCoreMorphTrack*> m_tracksToDelete;
 
 // constructors/destructor
 public:
@@ -49,19 +49,27 @@ public:
 
 // member functions
 public:
-  const std::string& getName() const {return m_name;}
-  void setName(const std::string& name) {m_name = name;}
+  /**get Name of the animated morph**/
+  inline const std::string& getName() const     {return m_name;}
+  /**set Name of the animated morph**/
+  inline void setName(const std::string& name)  {m_name = name;}
+  /**set the duration of the animated morph**/
+  inline float getDuration() const              {return m_duration;}
+  /**set the duration of the animated morph**/
+  inline void setDuration(float duration)       {m_duration=duration;}
+  /**add a track to the animated morph**/
   bool addCoreTrack(CalCoreMorphTrack *pCoreTrack);
-  bool create();
-  void destroy();
+  /**get a track of the animated morph by its index**/
   CalCoreMorphTrack *getCoreTrack(const unsigned int &trackId);
-  float getDuration() const;
-  std::list<CalCoreMorphTrack>& getListCoreTrack();
-  const std::list<CalCoreMorphTrack>& getListCoreTrack() const;
-  void setDuration(float duration);
+  /**get all tracks of the animated morph**/
+  inline std::list<CalCoreMorphTrack>& getListCoreTrack()               {return m_listCoreTrack;}
+  /**get all tracks of the animated morph**/
+  inline const std::list<CalCoreMorphTrack>& getListCoreTrack() const   {return m_listCoreTrack;}
+
+
   void scale(float factor);
+  /**remove tracks with zero scale**/
   void removeZeroScaleTracks();
-  static int getCoreAnimatedMorphsCount();
 };
 
 #endif

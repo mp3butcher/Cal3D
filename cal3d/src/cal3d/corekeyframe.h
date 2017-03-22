@@ -35,30 +35,15 @@ public:
 
 // member functions
 public:
-  static unsigned int numCalCoreKeyframes();
-  static unsigned int numCalCoreKeyframeBytes();
 
-  bool create();
   unsigned int size();
-  void destroy();
-  const CalQuaternion& getRotation() const;
 
-  /*****************************************************************************/
-  /** Returns the time.
-  *
-  * This function returns the time of the core keyframe instance.
-  *
-  * @return The time in seconds.
-  *****************************************************************************/
-  inline float getTime() const
-  {
-	  return m_time;
-  }
-
-  const CalVector& getTranslation() const;
-  void setRotation(const CalQuaternion& rotation);
-  void setTime(float time);
-  void setTranslation(const CalVector& translation);
+  inline void setRotation(const CalQuaternion& rotation){m_rotation=rotation;}
+  inline const CalQuaternion& getRotation() const{return m_rotation;}
+  inline void setTime(float time){m_time=time;}
+  inline float getTime()const{return m_time;}
+  inline const CalVector& getTranslation() const{return m_translation;}
+  inline void setTranslation(const CalVector& translation){m_translation=translation;}
 };
 
 #endif

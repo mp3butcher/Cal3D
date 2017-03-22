@@ -27,8 +27,8 @@ public:
   CalPhysiqueDualQuat(CalModel *pModel)
     : CalPhysique( pModel ) {}
 
-  virtual	int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0) const;
-  virtual	int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0) const;
+  virtual int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0) const;
+  virtual int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0) const;
   virtual int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0) const;
   virtual int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords=1) const;
 };

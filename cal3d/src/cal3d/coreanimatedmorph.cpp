@@ -25,12 +25,8 @@
   * This function is the default constructor of the core animatedMorph instance.
   *****************************************************************************/
 
-static int MyNumCalCoreAnimatedMorphs = 0;
-int CalCoreAnimatedMorph::getCoreAnimatedMorphsCount() { return MyNumCalCoreAnimatedMorphs; }
-
 CalCoreAnimatedMorph::CalCoreAnimatedMorph()
 {
-  MyNumCalCoreAnimatedMorphs++;
 }
 
  /*****************************************************************************/
@@ -41,8 +37,15 @@ CalCoreAnimatedMorph::CalCoreAnimatedMorph()
 
 CalCoreAnimatedMorph::~CalCoreAnimatedMorph()
 {
-  MyNumCalCoreAnimatedMorphs--;
-  assert(m_listCoreTrack.empty());
+  // destroy all core tracks
+  while(!m_listCoreTrack.empty())
+  {
+    CalCoreMorphTrack *pCoreTrack;
+    pCoreTrack = &m_listCoreTrack.front();
+    m_listCoreTrack.pop_front();
+    delete pCoreTrack;
+  }
+
 }
 
  /*****************************************************************************/
@@ -60,53 +63,9 @@ CalCoreAnimatedMorph::~CalCoreAnimatedMorph()
 bool CalCoreAnimatedMorph::addCoreTrack(CalCoreMorphTrack *pCoreTrack)
 {
   m_listCoreTrack.push_back(*pCoreTrack);
-  m_tracksToDelete.push_back(pCoreTrack);
   return true;
 }
 
- /*****************************************************************************/
-/** Creates the core animatedMorph instance.
-  *
-  * This function creates the core animatedMorph instance.
-  *
-  * @return One of the following values:
-  *         \li \b true if successful
-  *         \li \b false if an error happend
-  *****************************************************************************/
-
-bool CalCoreAnimatedMorph::create()
-{
-  return true;
-}
-
- /*****************************************************************************/
-/** Destroys the core animatedMorph instance.
-  *
-  * This function destroys all data stored in the core animatedMorph instance and
-  * frees all allocated memory.
-  *****************************************************************************/
-
-void CalCoreAnimatedMorph::destroy()
-{
-  // destroy all core tracks
-  while(!m_listCoreTrack.empty())
-  {
-    CalCoreMorphTrack *pCoreTrack;
-    pCoreTrack = &m_listCoreTrack.front();
-    pCoreTrack->destroy();
-    m_listCoreTrack.pop_front();
-
-    //delete pCoreTrack;
-  }
-
-  while(!m_tracksToDelete.empty()) {
-    CalCoreMorphTrack *pCoreTrack;
-    pCoreTrack = m_tracksToDelete.front();
-    m_tracksToDelete.pop_front();
-    delete pCoreTrack;
-  }
-
-}
 
 void
 CalCoreAnimatedMorph::removeZeroScaleTracks()
@@ -173,59 +132,6 @@ CalCoreMorphTrack *CalCoreAnimatedMorph::getCoreTrack(const unsigned int & name)
   return 0;
 }
 
- /*****************************************************************************/
-/** Returns the duration.
-  *
-  * This function returns the duration of the core animatedMorph instance.
-  *
-  * @return The duration in seconds.
-  *****************************************************************************/
-
-float CalCoreAnimatedMorph::getDuration() const
-{
-  return m_duration;
-}
-
- /*****************************************************************************/
-/** Returns the core track list.
-  *
-  * This function returns the list that contains all core tracks of the core
-  * animatedMorph instance.
-  *
-  * @return A reference to the core track list.
-  *****************************************************************************/
-
-std::list<CalCoreMorphTrack>& CalCoreAnimatedMorph::getListCoreTrack()
-{
-  return m_listCoreTrack;
-}
-
-/*****************************************************************************/
-/** Returns the core track list.
-*
-* This function returns the list that contains all core tracks of the core
-* animatedMorph instance.
-*
-* @return A reference to the core track list.
-*****************************************************************************/
-
-const std::list<CalCoreMorphTrack>& CalCoreAnimatedMorph::getListCoreTrack() const
-{
-   return m_listCoreTrack;
-}
-
- /*****************************************************************************/
-/** Sets the duration.
-  *
-  * This function sets the duration of the core animatedMorph instance.
-  *
-  * @param duration The duration in seconds that should be set.
-  *****************************************************************************/
-
-void CalCoreAnimatedMorph::setDuration(float duration)
-{
-  m_duration = duration;
-}
 
  /*****************************************************************************/
 /** Scale the core animatedMorph.

@@ -867,14 +867,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(cal3d::TiXmlDocument &doc, C
         return 0;
       }
 
-      // create the core keyframe instance
-      if(!pCoreKeyframe->create())
-      {
-          pCoreTrack->destroy();
-          delete pCoreTrack;
-        delete pCoreKeyframe;
-        return 0;
-      }
+    
       // set all attributes of the keyframe
       pCoreKeyframe->setTime(time);
       pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
@@ -987,18 +980,11 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
     return 0;
   }
 
-  // create the core animatedMorph instance
-  if(!pCoreAnimatedMorph->create())
-  {
-    delete pCoreAnimatedMorph;
-    return 0;
-  }
-
+ 
 
   if(!animatedMorph || stricmp(animatedMorph->Value(),"ANIMATION")!=0)
   {
     CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-    pCoreAnimatedMorph->destroy();
     delete pCoreAnimatedMorph;
     return 0;
   }
@@ -1013,7 +999,6 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
   if(pCoreAnimatedMorph->getDuration() <= 0.0f)
   {
     CalError::setLastError(CalError::INVALID_ANIMATION_DURATION, __FILE__, __LINE__, strFilename);
-    pCoreAnimatedMorph->destroy();
     delete pCoreAnimatedMorph;
     return 0;
   }
@@ -1065,7 +1050,6 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
         if(!keyframe|| stricmp(keyframe->Value(),"KEYFRAME")!=0)
         {
            CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-           pCoreMorphTrack->destroy();
            delete pCoreMorphTrack;
            return 0;
         }
@@ -1078,7 +1062,6 @@ CalCoreAnimatedMorph *CalLoader::loadXmlCoreAnimatedMorph(cal3d::TiXmlDocument &
         if (stricmp(weight->Value(), "WEIGHT")!=0)
         {
            CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__, strFilename);
-           pCoreMorphKeyframe->destroy();
            delete pCoreMorphKeyframe;
            return 0;
         }

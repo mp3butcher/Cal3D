@@ -36,11 +36,11 @@ public:
     int getBlendVertexCount() const;
     unsigned int size();
 
-    inline std::vector<BlendVertex>& getVectorBlendVertex(){  return m_vectorBlendVertex;}
-    inline const std::vector<BlendVertex>& getVectorBlendVertex() const{    return m_vectorBlendVertex;}
+    inline std::vector<BlendVertex>& getVectorBlendVertex()             {   return m_vectorBlendVertex;}
+    inline const std::vector<BlendVertex>& getVectorBlendVertex() const {   return m_vectorBlendVertex;}
 
-    inline BlendVertex const * getBlendVertex(int blendVertexId){        return &m_vectorBlendVertex[blendVertexId];}
-    inline const BlendVertex* getBlendVertex(int blendVertexId) const{   return &m_vectorBlendVertex[blendVertexId];}
+    inline BlendVertex const * getBlendVertex(int blendVertexId)        {   return &m_vectorBlendVertex[blendVertexId];}
+    inline const BlendVertex* getBlendVertex(int blendVertexId) const   {   return &m_vectorBlendVertex[blendVertexId];}
 
     virtual bool reserve(int blendVertexCount);
 
@@ -48,17 +48,17 @@ public:
     void getBlendVertex( int vertexId, BlendVertex& outVertex ) const;
 
     ///Type of this morph
-    inline CalMorphTargetType getMorphTargetType() const { return m_morphTargetType;}
-    inline void setMorphTargetType(CalMorphTargetType c) { m_morphTargetType=c;}
+    inline CalMorphTargetType getMorphTargetType() const                { return m_morphTargetType;}
+    inline void setMorphTargetType(CalMorphTargetType c)                { m_morphTargetType=c;}
 
     ///Index of this morph for its target mesh
-    inline const unsigned int& getMorphID() const{return m_morphTargetID;}
+    inline const unsigned int& getMorphID() const                       {return m_morphTargetID;}
 
     ///Name property (just for convenience )
     void setName(const std::string &s);
-    const std::string& getName() const{return _name;}
+    const std::string& getName() const                                  {return _name;}
 protected:
-    inline void setMorphID(const unsigned int &i){m_morphTargetID=i;}
+    inline void setMorphID( const unsigned int &i){m_morphTargetID=i;}
 private:
     std::string _name;
     CalCoreSubMorphTarget( const CalCoreSubMorphTarget& inOther );	// unimp
@@ -79,8 +79,8 @@ public:
 					m_vectorVertexIndexPtr(0),
 					m_vectorBlendVertexPtr(0) { }
 
-  bool reserve(int blendVertexCount);
-  bool appendBlendVertex(int vertexId, const CalCoreSubMorphTarget::BlendVertex& vertex);
+  bool reserve( int blendVertexCount);
+  bool appendBlendVertex( int vertexId, const CalCoreSubMorphTarget::BlendVertex& vertex);
 
   bool	getBlendVertex( int vertexId, CalCoreSubMorphTarget::BlendVertex& outVertex ) const;
 
@@ -113,7 +113,7 @@ public:
 	bool appendBlendVertex(int vertexId, const CalCoreSubMorphTarget::BlendVertex& vertex);
 
 private:
-	CalSharedDifferenceMapPtr	m_diffMap;
+        CalSharedDifferenceMapPtr m_diffMap;
 };
 
 #endif

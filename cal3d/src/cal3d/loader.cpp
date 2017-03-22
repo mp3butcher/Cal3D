@@ -709,19 +709,12 @@ CalCoreAnimatedMorph *CalLoader::loadCoreAnimatedMorph(CalDataSource& dataSrc)
       return 0;
    }
 
-   // create the core animatedMorph instance
-   if(!pCoreAnimatedMorph->create())
-   {
-      delete pCoreAnimatedMorph;
-      return 0;
-   }
-
    // get the duration of the core animatedMorph
    float duration;
    if(!dataSrc.readFloat(duration))
    {
       CalError::setLastError(CalError::INVALID_FILE_FORMAT, __FILE__, __LINE__);
-      pCoreAnimatedMorph->destroy();
+      //pCoreAnimatedMorph->destroy();
       delete pCoreAnimatedMorph;
       return 0;
    }
@@ -730,7 +723,7 @@ CalCoreAnimatedMorph *CalLoader::loadCoreAnimatedMorph(CalDataSource& dataSrc)
    if(duration <= 0.0f)
    {
       CalError::setLastError(CalError::INVALID_ANIMATION_DURATION, __FILE__, __LINE__);
-      pCoreAnimatedMorph->destroy();
+      //pCoreAnimatedMorph->destroy();
       delete pCoreAnimatedMorph;
       return 0;
    }
@@ -755,7 +748,7 @@ CalCoreAnimatedMorph *CalLoader::loadCoreAnimatedMorph(CalDataSource& dataSrc)
       pCoreTrack = loadCoreMorphTrack(dataSrc);
       if(pCoreTrack == 0)
       {
-         pCoreAnimatedMorph->destroy();
+         //pCoreAnimatedMorph->destroy();
          delete pCoreAnimatedMorph;
          return 0;
       }
@@ -1308,12 +1301,6 @@ CalCoreKeyframe* CalLoader::loadCoreKeyframe(
     return 0;
   }
 
-  // create the core keyframe instance
-  if(!pCoreKeyframe->create())
-  {
-    delete pCoreKeyframe;
-    return 0;
-  }
   // set all attributes of the keyframe
   pCoreKeyframe->setTime(time);
   pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));
@@ -1678,12 +1665,7 @@ CalCoreKeyframe *CalLoader::loadCompressedCoreKeyframe(CalDataSource& dataSrc, c
     return 0;
   }
 
-  // create the core keyframe instance
-  if(!pCoreKeyframe->create())
-  {
-    delete pCoreKeyframe;
-    return 0;
-  }
+
   // set all attributes of the keyframe
   pCoreKeyframe->setTime(time);
   pCoreKeyframe->setTranslation(CalVector(tx, ty, tz));

@@ -310,7 +310,8 @@ CalCoreTrack::compress( double translationTolerance, double rotationToleranceDeg
   for( i = 0; i < numFrames; i++ ) {
     KeyLink * kl = & keyLinkArray[ i ];
     if( kl->eliminated_ ) {
-      kl->keyframe_->destroy();
+//      kl->keyframe_->destroy();
+delete kl->keyframe_;
     }
   }
   m_keyframes.resize( numKept );
@@ -414,7 +415,8 @@ CalCoreTrack::collapseSequences( double translationTolerance, double rotationTol
   for( i = 0; i < numFrames; i++ ) {
     KeyLink * kl = & keyLinkArray[ i ];
     if( kl->eliminated_ ) {
-      kl->keyframe_->destroy();
+     // kl->keyframe_->destroy();
+delete       kl->keyframe_;
     }
   }
   m_keyframes.resize( numKept );
@@ -503,7 +505,7 @@ void CalCoreTrack::destroy()
 	// destroy all core keyframes
 	for (unsigned int i = 0; i < m_keyframes.size(); ++i)
 	{
-		m_keyframes[i]->destroy();
+		//m_keyframes[i]->destroy();
 		delete m_keyframes[i];
 	}
   m_keyframes.clear();
