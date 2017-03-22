@@ -919,6 +919,8 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
      CalPlatform::writeString(file, morphTarget->getName());
      int morphVertCount = 0;
 
+	 CalPlatform::writeInteger(file, (int)morphTarget->getBlendVertexCount());
+
      for(int blendId = 0; blendId < morphTarget->getBlendVertexCount(); ++blendId)
      {
         CalCoreSubMorphTarget::BlendVertex const * bv = morphTarget->getBlendVertex(blendId);
@@ -969,7 +971,6 @@ bool CalSaver::saveCoreSubmesh(std::ofstream& file, const std::string& strFilena
            CalPlatform::writeFloat(file, tc1.v);
         }
      }
-     CalPlatform::writeInteger(file, (int)vectorVertex.size()+1);
 
   }
 

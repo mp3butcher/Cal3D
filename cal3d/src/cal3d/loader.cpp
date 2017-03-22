@@ -1915,7 +1915,7 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
 		// set spring in the core submesh instance
 		pCoreSubmesh->setSpring(springId, spring);
 	}
-
+	int blendVertId;
    for( int morphId = 0; morphId < morphCount; morphId++ ) {
       CalCoreSubMorphTarget * morphTarget = new CalCoreSubMorphTarget();
       if( !morphTarget ) {
@@ -1931,8 +1931,11 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
       dataSrc.readString(morphName);
       morphTarget->setName(morphName);
 
-      int blendVertId;
-      dataSrc.readInteger(blendVertId);
+	 int nbBlendVertex, cpt = 0;
+	  dataSrc.readInteger(nbBlendVertex);
+	  assert(nbBlendVertex > 0);
+
+	  dataSrc.readInteger(blendVertId);
 
       for( int blendVertI = 0; blendVertI < vertexCount; blendVertI++ )
       {
@@ -1970,7 +1973,8 @@ CalCoreSubmesh *CalLoader::loadCoreSubmesh(CalDataSource& dataSrc, int version)
             }
 
             morphTarget->setBlendVertex(blendVertI, Vertex);
-            dataSrc.readInteger(blendVertId);
+			if (++cpt<nbBlendVertex ) dataSrc.readInteger(blendVertId);
+			else blendVertId = vertexCount;
          }
       }
       pCoreSubmesh->addCoreSubMorphTarget(morphTarget);

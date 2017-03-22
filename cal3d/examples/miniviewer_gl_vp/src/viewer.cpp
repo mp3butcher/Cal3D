@@ -571,12 +571,12 @@ bool Viewer::onInit()
 bool Viewer::loadBufferObject()
 {
 
-  float *pVertexBuffer = (float*)malloc(300000*3*sizeof(float));
-  float *pWeightBuffer = (float*)malloc(300000*4*sizeof(float));
-  float *pMatrixIndexBuffer = (float*)malloc(30000*4*sizeof(float));
-  float *pNormalBuffer = (float*)malloc(300000*3*sizeof(float));
-  float *pTexCoordBuffer = (float*)malloc(300000*2*sizeof(float));
-  CalIndex *pIndexBuffer = (CalIndex*)malloc(500000*3*sizeof(CalIndex));
+  float *pVertexBuffer = (float*)malloc(3000000*3*sizeof(float));
+  float *pWeightBuffer = (float*)malloc(3000000*4*sizeof(float));
+  float *pMatrixIndexBuffer = (float*)malloc(300000*4*sizeof(float));
+  float *pNormalBuffer = (float*)malloc(3000000*3*sizeof(float));
+  float *pTexCoordBuffer = (float*)malloc(3000000*2*sizeof(float));
+  CalIndex *pIndexBuffer = (CalIndex*)malloc(5000000*3*sizeof(CalIndex));
 
   if(pVertexBuffer==NULL || pWeightBuffer == NULL
 	 || pMatrixIndexBuffer==NULL || pNormalBuffer == NULL
