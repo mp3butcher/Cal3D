@@ -25,7 +25,7 @@ INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR}    "./")
 
 SET(PROJECT_SOURCES
  
-#${PROJECT_INCLUDES}
+${PROJECT_INCLUDES}
 
 #is it usefull	cal3d/calxmlbindings.cpp    
 cal3d/animation_action.cpp 
