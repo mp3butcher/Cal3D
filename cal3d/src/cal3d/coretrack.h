@@ -67,20 +67,17 @@ public:
   CalCoreKeyframe *getCoreKeyframe(int idx);
   const CalCoreKeyframe *getCoreKeyframe(int idx) const;
 
-  static int translationRequiredCount() { return m_translationRequiredCount; }
-  static int translationNotRequiredCount() { return m_translationNotRequiredCount; }
-
   bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
-  void removeCoreKeyFrame(int _i) { m_keyframes.erase( m_keyframes.begin() + _i); }
+  void removeCoreKeyFrame(int _i)           { m_keyframes.erase( m_keyframes.begin() + _i); }
 
   bool getTranslationRequired() { return m_translationRequired; }
-  void setTranslationRequired( bool p ) { m_translationRequired = p; }
+  void setTranslationRequired( bool p )     { m_translationRequired = p; }
 
   bool getTranslationIsDynamic() { return m_translationIsDynamic; }
-  void setTranslationIsDynamic( bool p ) { m_translationIsDynamic = p; }
+  void setTranslationIsDynamic( bool p )    { m_translationIsDynamic = p; }
 
   bool getHighRangeRequired() { return m_highRangeRequired; }
-  void setHighRangeRequired( bool p ) { m_highRangeRequired = p; }
+  void setHighRangeRequired( bool p )       { m_highRangeRequired = p; }
 
   void fillInvalidTranslations( CalVector const & trans );
 

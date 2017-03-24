@@ -44,30 +44,30 @@ protected:
     ~CalCoreMaterial() { }
 
 public:
-    inline void setAmbientColor(const Color& ambientColor){m_ambientColor=ambientColor;}
-    inline const Color& getAmbientColor() const{return m_ambientColor;}
+    inline void setAmbientColor(const Color& ambientColor)  {   m_ambientColor=ambientColor;    }
+    inline const Color& getAmbientColor() const             {   return m_ambientColor;          }
 
-    inline const Color& getDiffuseColor() const{return m_diffuseColor;}
-    inline void setDiffuseColor(const Color& diffuseColor){m_diffuseColor=diffuseColor;}
+    inline const Color& getDiffuseColor() const             {   return m_diffuseColor;          }
+    inline void setDiffuseColor(const Color& diffuseColor)  {   m_diffuseColor=diffuseColor;    }
 
-    inline void setShininess(float shininess){m_shininess=shininess;}
-    inline const float& getShininess() const{return m_shininess;}
+    inline void setShininess(float shininess)               {   m_shininess=shininess;          }
+    inline const float& getShininess() const                {   return m_shininess;             }
 
-    inline void setSpecularColor(const Color& specularColor){m_specularColor=specularColor;}
-    inline const Color& getSpecularColor() const{return m_specularColor;}
+    inline void setSpecularColor(const Color& specularColor){   m_specularColor=specularColor;  }
+    inline const Color& getSpecularColor() const            {   return m_specularColor;         }
 
-    inline void setFilename(const std::string& filename){m_filename=filename;}
-    inline const std::string& getFilename(void) const{return m_filename;}
+    inline void setFilename(const std::string& filename)    {   m_filename=filename;            }
+    inline const std::string& getFilename(void) const       {   return m_filename;              }
 
-    inline void setName(const std::string& name){m_name=name;}
-    inline const std::string& getName(void) const{return m_name;}
+    inline void setName(const std::string& name)            {   m_name=name;                    }
+    inline const std::string& getName(void) const           {   return m_name;                  }
 
-    inline void setUserData(Cal::UserData userData){m_userData=userData;}
-    inline Cal::UserData getUserData(){return m_userData;}
-    inline const Cal::UserData getUserData() const{return m_userData;}
+    inline void setUserData(Cal::UserData userData)         {   m_userData=userData;            }
+    inline Cal::UserData getUserData()                      {   return m_userData;              }
+    inline const Cal::UserData getUserData() const          {   return m_userData;              }
 
-    inline std::vector<Map>& getVectorMap(){return m_vectorMap;}
-    inline const std::vector<Map>& getVectorMap() const{return m_vectorMap;}
+    inline std::vector<Map>& getVectorMap()                 {   return m_vectorMap;             }
+    inline const std::vector<Map>& getVectorMap() const     {   return m_vectorMap;             }
 
     int getMapCount() const;
     const std::string& getMapFilename(int mapId) const;

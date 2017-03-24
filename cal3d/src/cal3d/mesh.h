@@ -31,12 +31,12 @@ public:
   /**returns the core mesh on which this mesh instance is based on**/
   const CalCoreMesh *getCoreMesh() const;
 
+  /**returns the count of composite submeshes**/
+  int getSubmeshCount() const;
   /**returns the submesh at the given index**/
   CalSubmesh *getSubmesh(int id);
   /**returns the submesh at the given index**/
   const CalSubmesh *getSubmesh(int id) const;
-  /**returns the count of composite submeshes**/
-  int getSubmeshCount() const;
   /**returns the submeshes**/
   std::vector<CalSubmesh *>& getVectorSubmesh();
   /**returns the submeshes**/

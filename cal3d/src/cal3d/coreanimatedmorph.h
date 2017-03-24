@@ -49,22 +49,22 @@ public:
 
 // member functions
 public:
-  /**get Name of the animated morph**/
-  inline const std::string& getName() const     {return m_name;}
-  /**set Name of the animated morph**/
-  inline void setName(const std::string& name)  {m_name = name;}
-  /**set the duration of the animated morph**/
-  inline float getDuration() const              {return m_duration;}
-  /**set the duration of the animated morph**/
-  inline void setDuration(float duration)       {m_duration=duration;}
-  /**add a track to the animated morph**/
+  /** get Name of the animated morph **/
+  inline const std::string& getName() const                             {   return m_name;          }
+  /** set Name of the animated morph**/
+  inline void setName(const std::string& name)                          {   m_name = name;          }
+  /** set the duration of the animated morph **/
+  inline float getDuration() const                                      {   return m_duration;      }
+  /** set the duration of the animated morph **/
+  inline void setDuration(float duration)                               {   m_duration=duration;    }
+  /** add a track to the animated morph **/
   bool addCoreTrack(CalCoreMorphTrack *pCoreTrack);
-  /**get a track of the animated morph by its index**/
+  /** get a track of the animated morph by its index **/
   CalCoreMorphTrack *getCoreTrack(const unsigned int &trackId);
-  /**get all tracks of the animated morph**/
-  inline std::list<CalCoreMorphTrack>& getListCoreTrack()               {return m_listCoreTrack;}
-  /**get all tracks of the animated morph**/
-  inline const std::list<CalCoreMorphTrack>& getListCoreTrack() const   {return m_listCoreTrack;}
+  /** get all tracks of the animated morph **/
+  inline std::list<CalCoreMorphTrack>& getListCoreTrack()               {   return m_listCoreTrack; }
+  /** get all tracks of the animated morph **/
+  inline const std::list<CalCoreMorphTrack>& getListCoreTrack() const   {   return m_listCoreTrack; }
 
 
   void scale(float factor);

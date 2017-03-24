@@ -34,32 +34,32 @@ namespace cal3d
 
     ~Transform() { }
 
-    const CalVector& getTranslation() const
+    inline const CalVector& getTranslation() const
     {
       return m_translation;
     }
 
-    CalVector& getTranslation()
+    inline CalVector& getTranslation()
     {
       return m_translation;
     }
 
-    const CalQuaternion& getRotation() const
+    inline const CalQuaternion& getRotation() const
     {
       return m_rotation;
     }
 
-    CalQuaternion& getRotation()
+    inline CalQuaternion& getRotation()
     {
       return m_rotation;
     }
 
-    void setTranslation(const CalVector& translation)
+    inline void setTranslation(const CalVector& translation)
     {
       m_translation = translation;
     }
 
-    void setRotation(const CalQuaternion& rotation)
+    inline void setRotation(const CalQuaternion& rotation)
     {
       m_rotation = rotation;
     }

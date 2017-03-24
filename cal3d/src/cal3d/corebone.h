@@ -38,40 +38,40 @@ public:
 	CalCoreBone(const std::string& name);
 	~CalCoreBone() { }
 	/**get the core skeleton owning this core bone**/
-	inline CalCoreSkeleton *getCoreSkeleton()					{		return m_pCoreSkeleton;				}
+        inline CalCoreSkeleton *getCoreSkeleton()			{		return m_pCoreSkeleton;			}
 	/**get the core skeleton owning this core bone**/
-	inline const CalCoreSkeleton *getCoreSkeleton() const		{		return m_pCoreSkeleton;				}
+        inline const CalCoreSkeleton *getCoreSkeleton() const		{		return m_pCoreSkeleton;			}
 	/**set the core skeleton owning this core bone**/
 	inline void setCoreSkeleton(CalCoreSkeleton *pCoreSkeleton)	{		 m_pCoreSkeleton = pCoreSkeleton;	}
 
 	/**add a core bone ID to the child ID list of the core bone
 	* @param childId The ID of the core bone (in the skel) that shoud be added to the child  **/
-	inline void addChildId(int childId)							{		m_listChildId.push_back(childId);	}
+        inline void addChildId(int childId)				{		m_listChildId.push_back(childId);	}
 	/**remove a core bone ID to the child ID list of the core bone
 	* @param childId The ID of the core bone (in the skel) that shoud be added to the child  **/
 	bool removeChildId(int childid);
 
 	/** return the list of children bones indices**/
-	inline std::list<int>& getListChildId()						{		return m_listChildId;				}
+        inline std::list<int>& getListChildId()				{		return m_listChildId;			}
 	/** return the list of children bones indices**/
-	inline const std::list<int>& getListChildId() const			{		return m_listChildId;				}
+        inline const std::list<int>& getListChildId() const		{		return m_listChildId;			}
 
 	/** get the name of the core bone**/
-	inline const std::string& getName() const					{		return m_strName;					}
+        inline const std::string& getName() const			{		return m_strName;			}
 	/** get the name of the core bone**/
-	inline void setName(const std::string& name)				{		m_strName = name;					}
+        inline void setName(const std::string& name)			{		m_strName = name;			}
 
 	/** get the index of the parent bone int the skeleton**/
-	inline int getParentId() const								{		return m_parentId;					}
+        inline int getParentId() const					{		return m_parentId;			}
 	/** set the index of the parent bone int the skeleton**/
-	inline void setParentId(int parentId)						{		m_parentId = parentId;				}
+        inline void setParentId(int parentId)				{		m_parentId = parentId;			}
 
 	/**get the user data stored in the core bone instance.**/
-	inline Cal::UserData getUserData()							{		return m_userData;					}
+        inline Cal::UserData getUserData()				{		return m_userData;			}
 	/**get the user data stored in the core bone instance.**/
-	inline const Cal::UserData getUserData() const				{		return m_userData;					}
+        inline const Cal::UserData getUserData() const			{		return m_userData;			}
 	/**set the user data stored in the core bone instance.**/
-	inline void setUserData(Cal::UserData userData)				{		m_userData = userData;				}
+        inline void setUserData(Cal::UserData userData)			{		m_userData = userData;			}
 
 
 	inline const CalQuaternion& getRotation() const				{		return  m_rotation;					}

@@ -41,25 +41,25 @@ public:
 
 // member functions	
 public:
+
+  /**get the gravity vector of the spring system instance.**/
+  const CalVector & getGravityVector() const        {       return m_vGravity;      }
+  /**set the gravity vector of the spring system instance.**/
+  void setGravityVector(const CalVector & vGravity) {   m_vGravity=vGravity;        }
+  /** get the force vector of the spring system instance**/
+  const CalVector & getForceVector() const          {   return m_vForce;            }
+  /** set the force vector of the spring system instance**/
+  void setForceVector(const CalVector & vForce)     {   m_vForce = vForce;          }
+  /**get Enable or disable the collision system**/
+  bool isCollisionDetection()const                  {   return m_collision;         }
+  /**set Enable or disable the collision system**/
+  void setCollisionDetection(bool collision)        {   m_collision=collision;      }
+
+
   void calculateForces(CalSubmesh *pSubmesh, float deltaTime);
   void calculateVertices(CalSubmesh *pSubmesh, float deltaTime);
   void update(float deltaTime);
   void resetPositions();
-  
-  const CalVector & getGravityVector() const;
-  void setGravityVector(const CalVector & vGravity);
-  const CalVector & getForceVector() const;
-  void setForceVector(const CalVector & vForce);
-  void setCollisionDetection(bool collision);
-
-
-  /* DEBUG CODE ********************
-  struct
-  {
-    float x, y, z, radius;
-  } Sphere;
-  void setSphere(float x, float y, float z, float radius) { Sphere.x = x; Sphere.y = y; Sphere.z = z; Sphere.radius = radius; };
-  *********************************/
 
 private:
   CalModel *m_pModel;

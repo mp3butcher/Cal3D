@@ -28,7 +28,7 @@ public:
 	~CalMorphTargetMixer() { }
 	bool copy(const CalMorphTargetMixer& inOther);
 
-	/** interpolate the weight of a morph target a new value
+        /** Interpolate the weight of a morph target a new value
 	* in a given amount of time.
 	* @param id The ID of the morph target that should be blended.
 	* @param weight The weight to interpolate the morph target to.
@@ -38,44 +38,44 @@ public:
 	* @return \b true if successful   \b false if an error happened**/
 	bool blend(int id, float weight, float delayIn, float delayOut, bool looping);
 
-	/** set a morph target animation at a specific time interval.
+        /** Set a morph target animation at a specific time interval.
 	* @param id The ID of the morph target that should be blended.
 	* @param weight The weight to interpolate the morph target to.
 	* @param time The current time value to set the animation at.
 	* @return  true if successful false if an error happened **/
 	bool manualBlend(int id, float weight, float time);
 
-	/**fades a morph target out in a given amount of time.
+        /** Fade a morph target out in a given amount of time.
 	* @param id The ID of the morph target that should be faded out.
 	* @param delay The time in seconds until the the morph target is completely removed.
 	* @return true if successful false if an error happened**/
 	bool clear(int id, float delay);
 
-	/**Get the weight of a morph animation.
+        /** Get the weight of a morph animation.
 	* @param id The id of the morph target which weight you want**/
 	float getCurrentWeight(int id) const;
 
-	/**Get the name of  morph animation .
-    * @param id The id of the morph animation.*/
+        /** Get the name of  morph animation .
+        * @param id The id of the morph animation.**/
 	const std::string& getMorphName(int id) const;
 
-	/**Get the number of tracks for a morph animation.
-    * @param id The id of the morph animation.**/
+        /** Get the number of tracks for a morph animation.
+        * @param id The id of the morph animation.**/
 	int getTrackCount(int id) const;
 
-	/**Get the tracks foraanimated morph animation.
+        /** Get the tracks foraanimated morph animation.
 	* @param id The id of the animated morph animation.**/
 	const std::list<CalCoreMorphTrack>& getMorphTracks(int id) const;
 
 	/** Get the number of keyframes for a animated morph animation.
-    * @param id The id of the animated morph animation.**/
+        * @param id The id of the animated morph animation.**/
 	int getKeyframeCount(int id) const;
 
 	/** Get the morph anim duration for a animated morph .
 	* @param id The id of the animated morph animation.**/
 	float getDuration(int id) const;
 
-	/**updates all morph targets of the mixer instance for a given amount of time.**/
+        /** Updates all morph targets of the mixer instance for a given amount of time.**/
 	void update(float deltaTime);
 
 protected:

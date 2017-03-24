@@ -32,43 +32,42 @@ public:
 	~CalBone() { }
 
 	/**get the core bone model of this bone instance**/
-	CalCoreBone *getCoreBone()						{ return m_pCoreBone; }
+        CalCoreBone *getCoreBone()                              { return m_pCoreBone;               }
 	/**get the core bone model of this bone instance**/
-	const CalCoreBone *getCoreBone() const			{ return m_pCoreBone; }
+        const CalCoreBone *getCoreBone() const                  { return m_pCoreBone;               }
 
 	/**set the skeleton owning this bone**/
-	inline void setSkeleton(CalSkeleton *pSkeleton)	{ m_pSkeleton = pSkeleton; }
+        inline void setSkeleton(CalSkeleton *pSkeleton)         { m_pSkeleton = pSkeleton;          }
 	/**get the skeleton owning this bone**/
-	inline const CalSkeleton * getSkeleton()const		{ return m_pSkeleton; }
+        inline const CalSkeleton * getSkeleton()const           { return m_pSkeleton;               }
 
 	/** Calculates the bounding box.**/
 	virtual void calculateBoundingBox();
 	/** Returns the current bounding box.**/
-	inline const CalBoundingBox & getBoundingBox()	{ return m_boundingBox; }
+        inline const CalBoundingBox & getBoundingBox()          { return m_boundingBox;             }
 
 	/**get updated absolute transform matrix of the bone**/
-	inline const CalMatrix& getTransformMatrix() const{ return m_transformMatrix; }
+        inline const CalMatrix& getTransformMatrix() const      { return m_transformMatrix;         }
 	/**get updated absolute translation of the bone**/
-	inline const CalVector& getTranslationAbsolute() const{ return m_translationAbsolute; }
+        inline const CalVector& getTranslationAbsolute() const{ return m_translationAbsolute;       }
 	/**returns the updated absolute rotation of the bone instance.**/
-	inline const CalQuaternion& getRotationAbsolute() const{ return m_rotationAbsolute; }
+        inline const CalQuaternion& getRotationAbsolute() const { return m_rotationAbsolute;        }
 
 	/**get updated translation to bring a point into the bone instance space.**/
-	inline const CalVector& getTranslationBoneSpace() const{ return m_translationBoneSpace; }
+        inline const CalVector& getTranslationBoneSpace() const { return m_translationBoneSpace;    }
 	/**returns the updated rotation to bring a point into the bone instance space.**/
-	inline const CalQuaternion& getRotationBoneSpace() const{ return m_rotationBoneSpace; }
+        inline const CalQuaternion& getRotationBoneSpace() const{ return m_rotationBoneSpace;       }
 
 
-	/**sets the current relative translation of the bone instance.**/
-	/** Caveat: For theses changes to appear, calculateState() must be called  afterwards.**/
-	inline void setTranslation(const CalVector& translation){ m_translation = translation; m_accumulatedWeightAbsolute = 1.0f; m_accumulatedWeight = 1.0f; }
+        /** Caveat: For theses changes to appear, calculateState() must be called  afterwards.**/
+        /**sets the current relative translation of the bone instance.**/
+        inline void setTranslation(const CalVector& translation){ m_translation = translation;  m_accumulatedWeightAbsolute = 1.0f; m_accumulatedWeight = 1.0f; }
 	/**get  translation of the bone relative**/
-	inline const CalVector& getTranslation() const	{ return m_translation; }
-	/**sets the current relative rotation of the bone instance.**/
-	/** Caveat: For theses changes to appear, calculateState() must be called  afterwards.**/
-	inline void setRotation(const CalQuaternion& rotation){ m_rotation = rotation;  m_accumulatedWeightAbsolute = 1.0f;  m_accumulatedWeight = 1.0f; }
+        inline const CalVector& getTranslation() const          { return m_translation;             }
+        /**sets the current relative rotation of the bone instance.**/
+        inline void setRotation(const CalQuaternion& rotation)  { m_rotation = rotation;        m_accumulatedWeightAbsolute = 1.0f;  m_accumulatedWeight = 1.0f;}
 	/**get  rotation of the bone relative**/
-	inline const CalQuaternion& getRotation() const	{ return m_rotation; }
+        inline const CalQuaternion& getRotation() const         { return m_rotation;                }
 
 
 	/** updates AbsoluteTransformMatrix and BoneSpaceTransform of the bone instance and all its children.**/
@@ -86,7 +85,7 @@ public:
 protected:
 	friend class CalMixer;
 	// w.r.t. absolute coord system in 3dsMax (Z up), not local coord of bone.
-	inline void setMeshScaleAbsolute(CalVector const & sv) { m_meshScaleAbsolute = sv; }
+        inline void setMeshScaleAbsolute(CalVector const & sv) { m_meshScaleAbsolute = sv;          }
 	/** interpolates the current state (relative translation and
 	* rotation) of the bone instance to another state of a given weight.
 	*

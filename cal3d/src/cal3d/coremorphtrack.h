@@ -39,51 +39,44 @@ public:
   virtual ~CalCoreMorphTrack();
 
   bool getState(float time, float & weightOut);
-  /**get the morph index (in targetmesh submeshes morphsvec )**/
+  /** get the morph index (in targetmesh submeshes morphsvec) **/
   const unsigned int& getMorphID() const{return m_morphID;}
-  /**set the morph index (in targetmesh submeshes morphsvec )**/
+  /** set the morph index (in targetmesh submeshes morphsvec) **/
   void setMorphID(const unsigned int &index){m_morphID=index;}
 
-  /**get the index of the targetted mesh in the core model**/
+  /** get the index of the targetted mesh in the core model**/
   inline const unsigned int& getTargetMesh() const {return m_targetMeshID;}
-  /**set the index of the targetted mesh in the core model**/
+  /** set the index of the targetted mesh in the core model**/
   inline void setTargetMesh(const unsigned int &index){m_targetMeshID=index;}
 
 
-  /**get the number of submesh targetted by this morph track**/
+  /** get the number of submesh targetted by this morph track**/
   const unsigned int getTargetSubMeshCount()const{ return m_targetSubMeshIDs.size(); }
-  /**get a submesh index targetted by this morph track by its index**/
+  /** get a submesh index targetted by this morph track by its index**/
   inline const unsigned int &getTargetSubMesh(const unsigned int &id)const{return m_targetSubMeshIDs[id];}
-  /**add a submesh index targetted by this morph track**/
+  /** add a submesh index targetted by this morph track**/
   inline void addTargetSubMesh(const unsigned int &i){m_targetSubMeshIDs.push_back(i);}
-  /**remove a submesh index targetted by this morph track**/
-  inline void removeTargetSubMesh(const unsigned int &name){
-      for(std::vector<unsigned int>::iterator i=m_targetSubMeshIDs.begin();i!=m_targetSubMeshIDs.begin();i++){
-          if(*i==name){
-              m_targetSubMeshIDs.erase(i);
-              return;
-          }
-      }
-  }
-  /**get the number of keyframe for this morph track**/
+  /** remove a submesh index targetted by this morph track **/
+  inline bool removeTargetSubMesh(const unsigned int &name){for(std::vector<unsigned int>::iterator i=m_targetSubMeshIDs.begin();i!=m_targetSubMeshIDs.begin();i++){   if(*i==name){m_targetSubMeshIDs.erase(i);return true;}  }return false;  }
+  /** get the number of keyframe for this morph track **/
   inline int getCoreMorphKeyframeCount() const{return m_keyframes.empty();}
 
-  /**get keyframe for this morph track by its index**/
+  /** get keyframe for this morph track by its index **/
   inline CalCoreMorphKeyframe* getCoreMorphKeyframe(int idx){return &m_keyframes[idx];}
-  /**get keyframe for this morph track by its index**/
+  /** get keyframe for this morph track by its index **/
   inline const CalCoreMorphKeyframe* getCoreMorphKeyframe(int idx) const{return &m_keyframes[idx];}
 
-  /**add keyframe to this morph track**/
+  /** add keyframe to this morph track **/
   bool addCoreMorphKeyframe(CalCoreMorphKeyframe *pCoreKeyframe);
 
-  /**get all keyframes for this morph track*/
+  /** get all keyframes for this morph track **/
   inline const std::vector<CalCoreMorphKeyframe> & getVectorCoreMorphKeyframes() const{return m_keyframes;}
-  /**get all keyframes for this morph track*/
+  /** get all keyframes for this morph track **/
   inline std::vector<CalCoreMorphKeyframe> & getVectorCoreMorphKeyframes(){return m_keyframes;}
-  /**reserve array for size keyframes**/
+  /** reserve array for size keyframes **/
   void reserve(int size)  {  m_keyframes.reserve(size); }
 
-  /**scale the track data**/
+  /** scale the track data **/
   void scale(float factor);
 
 private:

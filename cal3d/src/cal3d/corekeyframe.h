@@ -38,12 +38,12 @@ public:
 
   unsigned int size();
 
-  inline void setRotation(const CalQuaternion& rotation){m_rotation=rotation;}
-  inline const CalQuaternion& getRotation() const{return m_rotation;}
-  inline void setTime(float time){m_time=time;}
-  inline float getTime()const{return m_time;}
-  inline const CalVector& getTranslation() const{return m_translation;}
-  inline void setTranslation(const CalVector& translation){m_translation=translation;}
+  inline void setRotation(const CalQuaternion& rotation)    {   m_rotation=rotation;        }
+  inline const CalQuaternion& getRotation() const           {   return m_rotation;          }
+  inline void setTime(float time)                           {   m_time=time;                }
+  inline float getTime()const                               {   return m_time;              }
+  inline const CalVector& getTranslation() const            {   return m_translation;       }
+  inline void setTranslation(const CalVector& translation)  {   m_translation=translation;  }
 };
 
 #endif
