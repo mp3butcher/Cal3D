@@ -547,7 +547,7 @@ void Viewer::onIdle()
 bool Viewer::loadVertexBuffer()
 {
   // Create vertex buffer
-  g_pD3DDevice->CreateVertexBuffer(30000*sizeof(VERTEX),
+  g_pD3DDevice->CreateVertexBuffer(300000*sizeof(VERTEX),
 	  D3DUSAGE_WRITEONLY, 0, 
 	  D3DPOOL_DEFAULT , &m_pVB, NULL
 	  );  
@@ -555,13 +555,13 @@ bool Viewer::loadVertexBuffer()
   // Create index buffer
   if(sizeof(CalIndex)==2)
   {
-  g_pD3DDevice->CreateIndexBuffer(50000*3*sizeof(CalIndex),
+  g_pD3DDevice->CreateIndexBuffer(500000*3*sizeof(CalIndex),
 			  D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,
 			  D3DPOOL_DEFAULT ,&m_pIB, NULL);
   }
   else
   {
-  g_pD3DDevice->CreateIndexBuffer(50000*3*sizeof(CalIndex),
+  g_pD3DDevice->CreateIndexBuffer(500000*3*sizeof(CalIndex),
 			  D3DUSAGE_WRITEONLY,D3DFMT_INDEX32,
 			  D3DPOOL_DEFAULT ,&m_pIB, NULL);
   }
