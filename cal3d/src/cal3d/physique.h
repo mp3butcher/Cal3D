@@ -45,10 +45,6 @@ public:
  void setAxisFactorX(float factor) {         m_axisFactorX = factor;         m_Normalize = true; }
  void setAxisFactorY(float factor) {         m_axisFactorY = factor;         m_Normalize = true; }
  void setAxisFactorZ(float factor) {         m_axisFactorZ = factor;         m_Normalize = true; }
-  void setNormalization(bool normalize);
-  void setAxisFactorX(float factor);
-  void setAxisFactorY(float factor);
-  void setAxisFactorZ(float factor);
 
 protected:
   CalModel *m_pModel;
