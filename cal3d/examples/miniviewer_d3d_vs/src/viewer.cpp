@@ -195,8 +195,8 @@ Viewer::Viewer()
 {
   m_calCoreModel = new CalCoreModel("dummy");
 
-  m_width = 640;
-  m_height = 480;
+  m_width = 800;
+  m_height = 600;
   m_bFullscreen = false;
   m_mouseX = 0;
   m_mouseY = 0;
