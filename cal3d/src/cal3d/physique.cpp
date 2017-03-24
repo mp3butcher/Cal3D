@@ -961,35 +961,3 @@ void CalPhysique::update()
   }
 }
 
- /*****************************************************************************/
-/** Sets the normalization flag to true or false.
-  *
-  * This function sets the normalization flag on or off. If off, the normals
-  * calculated by Cal3D will not be normalized. Instead, this transform is left
-  * up to the user.
-  *****************************************************************************/
-
-void CalPhysique::setNormalization(bool normalize)
-{
-  m_Normalize = normalize;
-}
-
-
-void CalPhysique::setAxisFactorX(float factor)
-{
-	m_axisFactorX = factor;
-	m_Normalize = true;
-}
-
-void CalPhysique::setAxisFactorY(float factor)
-{
-	m_axisFactorY = factor;
-	m_Normalize = true;
-}
-
-void CalPhysique::setAxisFactorZ(float factor)
-{
-	m_axisFactorZ = factor;
-	m_Normalize = true;
-}
-//****************************************************************************//
