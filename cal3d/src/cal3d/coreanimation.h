@@ -42,17 +42,17 @@ public:
 
   /** return the count of tracks **/
   inline unsigned int getTrackCount() const     { return m_listCoreTrack.size();}
-  /** return the list of tracks **/
-  std::list<CalCoreTrack *>& getListCoreTrack();
   /** add a track**/
   bool addCoreTrack(CalCoreTrack *pCoreTrack);
   /** remove a track**/
   bool removeCoreTrack(CalCoreTrack *pCoreTrack);
   /** get a track by its index NULL if index invalid **/
   CalCoreTrack *getCoreTrack(int coreBoneId);
+  /** return the list of tracks **/
+  inline const std::list<CalCoreTrack *>& getListCoreTrack() const { return m_listCoreTrack; }
 
   /** return keyframe count of all tracks **/
-  unsigned int getTotalNumberOfKeyframes() const;
+  unsigned int getTotalKeyframesCount() const;
 
   /** rescale all the animation data that are in the core animation
    * @param factor A float with the scale factor   **/

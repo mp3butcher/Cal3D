@@ -103,7 +103,7 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
 	}
 
 	// get core track list
-	std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+	const std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 	// write the number of tracks
 	if (!CalPlatform::writeInteger(file, listCoreTrack.size()))
@@ -127,7 +127,7 @@ bool CalSaver::saveCoreAnimation(const std::string& strFilename, CalCoreAnimatio
 	}
 
 	// write all core bones
-	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+	std::list<CalCoreTrack *>::const_iterator iteratorCoreTrack;
 	for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
 	{
 		// save core track
@@ -1325,10 +1325,10 @@ bool CalSaver::saveXmlCoreAnimation(const std::string& strFilename, CalCoreAnima
 	animation.SetAttribute("NUMTRACKS", pCoreAnimation->getTrackCount());
 
 	// get core track list
-	std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+	const std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 	// write all core bones
-	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+	std::list<CalCoreTrack *>::const_iterator iteratorCoreTrack;
 	for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
 	{
 		CalCoreTrack *pCoreTrack = *iteratorCoreTrack;

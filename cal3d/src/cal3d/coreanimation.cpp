@@ -192,19 +192,6 @@ void CalCoreAnimation::removeCallback(CalAnimationCallback *callback)
 	}
 }
 
-/*****************************************************************************/
-/** Returns the core track list.
-  *
-  * This function returns the list that contains all core tracks of the core
-  * animation instance.
-  *
-  * @return A reference to the core track list.
-  *****************************************************************************/
-
-std::list<CalCoreTrack *>& CalCoreAnimation::getListCoreTrack()
-{
-	return m_listCoreTrack;
-}
 
 /*****************************************************************************/
 /** Returns the total number of core keyframes used for this animation.
@@ -215,7 +202,7 @@ std::list<CalCoreTrack *>& CalCoreAnimation::getListCoreTrack()
   * @return A reference to the core track list.
   *****************************************************************************/
 
-unsigned int CalCoreAnimation::getTotalNumberOfKeyframes() const
+unsigned int CalCoreAnimation::getTotalKeyframesCount() const
 {
 	unsigned int nbKeys = 0;
 	for (std::list<CalCoreTrack*>::const_iterator it = m_listCoreTrack.begin(); it != m_listCoreTrack.end(); ++it)

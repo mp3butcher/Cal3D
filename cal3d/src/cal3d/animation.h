@@ -21,72 +21,79 @@ class CalModel;
 class CAL3D_API CalAnimation
 {
 public:
-  enum Type
-  {
-    TYPE_NONE = 0,
-    TYPE_CYCLE,
-    TYPE_POSE,
-    TYPE_ACTION
-  };
+	enum Type
+	{
+		TYPE_NONE = 0,
+		TYPE_CYCLE,
+		TYPE_POSE,
+		TYPE_ACTION
+	};
 
-  enum State
-  {
-    STATE_NONE = 0,
-    STATE_SYNC,
-    STATE_ASYNC,
-    STATE_IN,
-    STATE_STEADY,
-    STATE_OUT,
-    STATE_STOPPED
-  };
-  enum CompositionFunction {
-    CompositionFunctionNull = 0,
-    CompositionFunctionReplace,
-    CompositionFunctionAverage,
-    CompositionFunctionCrossFade
-  };
+	enum State
+	{
+		STATE_NONE = 0,
+		STATE_SYNC,
+		STATE_ASYNC,
+		STATE_IN,
+		STATE_STEADY,
+		STATE_OUT,
+		STATE_STOPPED
+	};
+	enum CompositionFunction {
+		CompositionFunctionNull = 0,
+		CompositionFunctionReplace,
+		CompositionFunctionAverage,
+		CompositionFunctionCrossFade
+	};
 
-protected:
-  CalAnimation(CalCoreAnimation *pCoreAnimation);
 public:
-    virtual ~CalAnimation() {  }
+	CalAnimation(CalCoreAnimation *pCoreAnimation);
+	virtual ~CalAnimation() {  }
 
-  CalCoreAnimation *getCoreAnimation();
-  const CalCoreAnimation *getCoreAnimation() const;
-  State getState() const;
-  float getTime() const;
-  Type getType() const;
-  float getWeight() const;
-  void setTime(float time);
-  void setTimeFactor(float timeFactor);
-  float getTimeFactor() const;
+	/** get the time of the animation **/
+	inline float getTime() const{ return m_time; }
+	/** set the time of the animation **/
+	inline void setTime(float time){ m_time = time; }
 
-  void checkCallbacks(float animationTime, CalModel *model);
-  void completeCallbacks(CalModel *model);
+	/** set the timefactor of the animation **/
+	inline void setTimeFactor(float timeFactor){ m_timeFactor = timeFactor; }
+	/** get the timefactor of the animation **/
+	inline float getTimeFactor() const{ return m_timeFactor; }
+
+	/** returns the core animation on which this animation instance **/
+	inline CalCoreAnimation *getCoreAnimation(){		return m_pCoreAnimation;	}
+	/** returns the core animation on which this animation instance **/
+	const CalCoreAnimation *getCoreAnimation() const{ return m_pCoreAnimation; }
+	/**set the state of the animation **/
+	void setState(State state) { m_state = state; }	
+	/** returns the state of the animation **/
+	State getState() const{ return m_state; }		
+	/**set the type of the animation **/
+	void setType(Type type) { m_type = type; }
+	/** returns the type of the animation **/
+	inline Type getType() const{ return m_type; }
+	/**set the weight of the animation**/
+	void setWeight(float weight) { m_weight = weight; }	
+	/** returns the weight of the animation **/
+	inline float getWeight() const{ return m_weight; }
+
+
+
+
+
+	void checkCallbacks(float animationTime, CalModel *model);
+	void completeCallbacks(CalModel *model);
 
 protected:
-  void setType(Type type) {
-    m_type = type;
-  }
-
-  void setState(State state) {
-    m_state = state;
-  }
-
-  void setWeight(float weight) {
-    m_weight = weight;
-  }
 
 
-private:
-
-  CalCoreAnimation *m_pCoreAnimation;
-  std::vector<float> m_lastCallbackTimes;
-  Type m_type;
-  State m_state;
-  float m_time;
-  float m_timeFactor;
-  float m_weight;
+	CalCoreAnimation *m_pCoreAnimation;
+	std::vector<float> m_lastCallbackTimes;
+	Type m_type;
+	State m_state;
+	float m_time;
+	float m_timeFactor;
+	float m_weight;
 };
 
 #endif

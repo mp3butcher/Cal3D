@@ -507,7 +507,7 @@ CalMixer::stopAction(int coreAnimationId)
 ///
 static void addExtraKeyframeForLoopedAnim(CalCoreAnimation *pCoreAnimation)
 {
-	std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+	const std::list<CalCoreTrack*>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 	if (listCoreTrack.size() == 0)
 		return;
@@ -522,7 +522,7 @@ static void addExtraKeyframeForLoopedAnim(CalCoreAnimation *pCoreAnimation)
 
 	if (lastKeyframe->getTime() < pCoreAnimation->getDuration())
 	{
-		std::list<CalCoreTrack *>::iterator itr;
+		std::list<CalCoreTrack *>::const_iterator itr;
 		for (itr = listCoreTrack.begin(); itr != listCoreTrack.end(); ++itr)
 		{
 			coreTrack = *itr;
@@ -1013,11 +1013,11 @@ void CalMixer::updateSkeleton()
 			CalCoreAnimation* pCoreAnimation = pAction->getCoreAnimation();
 
 			// get the list of core tracks of above core animation
-			std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+			const std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 			// loop through all core tracks of the core animation
 			CalCoreTrack* pTrack = NULL;
-			std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+			std::list<CalCoreTrack *>::const_iterator iteratorCoreTrack;
 			for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
 			{
 				pTrack = *iteratorCoreTrack;
@@ -1052,7 +1052,7 @@ void CalMixer::updateSkeleton()
 		pAnimCycle = *iteratorAnimationCycle;
 
 		// get the core animation instance
-		CalCoreAnimation* pCoreAnimation = pAnimCycle->getCoreAnimation();
+		const CalCoreAnimation* pCoreAnimation = pAnimCycle->getCoreAnimation();
 
 		// calculate adjusted time
 		float animationTime;
@@ -1073,11 +1073,11 @@ void CalMixer::updateSkeleton()
 		}
 
 		// get the list of core tracks of above core animation
-		std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
+		const std::list<CalCoreTrack *>& listCoreTrack = pCoreAnimation->getListCoreTrack();
 
 		// loop through all core tracks of the core animation
 		CalCoreTrack* pTrack = NULL;
-		std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+		std::list<CalCoreTrack *>::const_iterator iteratorCoreTrack;
 		for (iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
 		{
 			pTrack = *iteratorCoreTrack;

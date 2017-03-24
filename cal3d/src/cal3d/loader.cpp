@@ -660,8 +660,8 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
 void
 CalLoader::compressCoreAnimation( CalCoreAnimation * anim, CalCoreSkeleton *skel )
 {
-	std::list<CalCoreTrack *>& listCoreTrack = anim->getListCoreTrack();
-	std::list<CalCoreTrack *>::iterator iteratorCoreTrack;
+	const std::list<CalCoreTrack *>& listCoreTrack = anim->getListCoreTrack();
+	std::list<CalCoreTrack *>::const_iterator iteratorCoreTrack;
     for(iteratorCoreTrack = listCoreTrack.begin(); iteratorCoreTrack != listCoreTrack.end(); ++iteratorCoreTrack)
     {
       CalCoreTrack *pCoreTrack=*iteratorCoreTrack;
