@@ -17,7 +17,7 @@ if(WIN32)
 	find_path (DirectX_ROOT_DIR
 		Include/d3d9.h
 		PATHS
-			"$ENV{DXSDK_DIR}"
+			"$ENV{DXSDK_DIR}"			
 			"$ENV{ProgramFiles}/Microsoft DirectX SDK (June 2010)"
 			"$ENV{ProgramFilesx86}/Microsoft DirectX SDK (June 2010)"
 			"$ENV{ProgramFiles}/Microsoft DirectX SDK (February 2010)"
@@ -65,4 +65,11 @@ find_path (DirectX_D3D9_INCLUDE_DIR d3d9.h
 			set (DirectX_D3DX9_FOUND 1)
 		endif ()
 	endif ()
+if(DirectX_D3D9_FOUND)
+	subdirs(
+ miniviewer_d3d_vs/src 
+ miniviewer_d3d/src 
+ miniviewer_d3d_bump/src 
+)
+endif(DirectX_D3D9_FOUND)
 endif(WIN32)

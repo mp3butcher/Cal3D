@@ -1,0 +1,50 @@
+PROJECT(miniviewer_d3d_bump)
+
+
+#ADD_DEFINITIONS(-Dx64BIT)
+
+FIND_PACKAGE(GLUT REQUIRED)
+FIND_PACKAGE(GLEW REQUIRED)
+
+ 
+
+SET(PROJECT_INCLUDES
+global.h    tick.h  viewer.h
+)
+ 
+
+INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} "./" )
+ 
+INCLUDE_DIRECTORIES(   ${DirectX_D3D9_INCLUDE_DIR})
+INCLUDE_DIRECTORIES( ${CMAKE_HOME_DIRECTORY}/src)
+
+SET(PROJECT_SOURCES 
+${PROJECT_INCLUDES}
+main.cpp     tick.cpp  viewer.cpp
+)
+
+
+
+ 
+
+IF(WIN32)
+
+ELSE(WIN32)
+
+ SET(ADDITIONALS_LIBS
+ GL
+ GLU
+pthread
+ )
+
+ENDIF(WIN32)
+
+
+ 
+ADD_EXECUTABLE(miniviewer_d3d_bump WIN32   ${PROJECT_SOURCES}   )
+TARGET_LINK_LIBRARIES(miniviewer_d3d_bump cal3d  ${ADDITIONALS_LIBS} 
+  ${DirectX_D3DX9_LIBRARY} 
+)
+SET_TARGET_PROPERTIES(miniviewer_d3d_bump PROPERTIES PROJECT_LABEL "Application miniviewer_d3d_bump" )
+
+

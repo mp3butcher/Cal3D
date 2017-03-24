@@ -8,7 +8,7 @@
 // Software Foundation; either version 2 of the License, or (at your option)  //
 // any later version.                                                         //
 //----------------------------------------------------------------------------//
-
+#pragma comment(lib,"d3d9.lib")
 #if defined(_MSC_VER) && _MSC_VER <= 0x0600
 #pragma warning(disable : 4786)
 #endif
@@ -31,7 +31,7 @@
 
 HWND	g_hWnd;
 
-LPDIRECT3D9			g_pD3D = NULL;
+IDirect3D9 *			g_pD3D = NULL;
 LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;
 
 
@@ -40,7 +40,7 @@ LPDIRECT3DDEVICE9	g_pD3DDevice = NULL;
 //----------------------------------------------------------------------------//
 
 
-LRESULT InitD3D(HWND hWnd)
+HRESULT InitD3D(HWND hWnd)
 {
 	if( NULL == ( g_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
 		return E_FAIL;
