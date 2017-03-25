@@ -123,7 +123,7 @@ bool CalAnimationAction::setManual()
   *         \li \b false if an error happend
   *****************************************************************************/
 bool
-CalAnimationAction::on()
+CalAnimationAction::isOn()
 {
   return m_sequencingMode != SequencingModeManual || m_manualOn;
 }
@@ -141,7 +141,7 @@ CalAnimationAction::on()
   *         \li \b false if an error happend
   *****************************************************************************/
 bool
-CalAnimationAction::manual()
+CalAnimationAction::isManual()
 {
   return m_sequencingMode == SequencingModeManual;
 }

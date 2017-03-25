@@ -1522,7 +1522,7 @@ void CalMixer_UpdateSkeleton(CalMixer *self)
 
 void CalMixer_RemoveAction(CalMixer *self,int id)
 {
-  self->removeAction(id);
+  self->stopAction(id);
 }
 
 //****************************************************************************//

@@ -105,7 +105,7 @@ CalMixer::~CalMixer()
 * @return One of the following values:
 *         \li \b NULL if no action exists for given coreAnimationId.
 *         \li \b pointer to CalAnimationAction for the given coreAnimationId.
-*****************************************************************************/
+****************************************************************************
 CalAnimationAction *
 CalMixer::animationActionFromCoreAnimationId(int coreAnimationId)
 {
@@ -124,7 +124,7 @@ CalMixer::animationActionFromCoreAnimationId(int coreAnimationId)
 	}
 	return NULL;
 }
-
+*/
 
 /*****************************************************************************/
 /** Is action playing?
@@ -136,7 +136,7 @@ CalMixer::animationActionFromCoreAnimationId(int coreAnimationId)
 * @return One of the following values:
 *         \li \b true if playing
 *         \li \b false if not
-*****************************************************************************/
+****************************************************************************
 bool
 CalMixer::actionOn(int coreAnimationId)
 {
@@ -159,6 +159,7 @@ CalMixer::actionOn(int coreAnimationId)
 *         \li \b true if didn't already exist
 *         \li \b false if already existed or allocation failed
 *****************************************************************************/
+#if 0
 bool
 CalMixer::addManualAnimation(int coreAnimationId)
 {
@@ -219,7 +220,7 @@ CalMixer::setManualAnimationOn(int coreAnimationId, bool p)
 bool
 CalMixer::setManualAnimationOn(CalAnimationAction * aa, bool p)
 {
-	if (!aa->manual()) return false;
+	if (!aa->isManual()) return false;
 	return aa->setManualAnimationActionOn(p);
 }
 
@@ -238,7 +239,7 @@ CalMixer::setManualAnimationAttributes(int coreAnimationId, CalMixerManualAnimat
 {
 	CalAnimationAction * aa = animationActionFromCoreAnimationId(coreAnimationId);
 	if (!aa) return false;
-	if (!aa->manual()) return false;
+	if (!aa->isManual()) return false;
 	setManualAnimationOn(aa, p.on_);
 	setManualAnimationTime(aa, p.time_);
 	setManualAnimationWeight(aa, p.weight_);
@@ -476,7 +477,7 @@ CalAnimation::CompositionFunction p)
 	return true;
 }
 
-
+#endif
 
 /*****************************************************************************/
 /** Stop the action.
@@ -489,14 +490,70 @@ CalAnimation::CompositionFunction p)
 *         \li \b true was playing (now stopped)
 *         \li \b false if already not playing
 *****************************************************************************/
-bool
-CalMixer::stopAction(int coreAnimationId)
+bool CalMixer::stopAction(int coreAnimationId)
 {
-	CalAnimationAction * aa = animationActionFromCoreAnimationId(coreAnimationId);
-	if (!aa) return false;
-	m_listAnimationAction.remove(aa);
-	delete aa;
-	return true;
+	// get the core animation
+	CalCoreAnimation *pCoreAnimation;
+	pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(coreAnimationId);
+	if (pCoreAnimation == 0)
+	{
+		return false;
+	}
+
+	// update all active animation actions of this model
+	std::list<CalAnimationAction *>::iterator iteratorAnimationAction;
+
+	for (iteratorAnimationAction = m_listAnimationAction.begin();
+		iteratorAnimationAction != m_listAnimationAction.end() && (*iteratorAnimationAction)->getCoreAnimation() != pCoreAnimation;
+		iteratorAnimationAction++);
+
+	// find the specified action and remove it
+	if (iteratorAnimationAction != m_listAnimationAction.end())
+	{
+		// found, so remove
+		(*iteratorAnimationAction)->completeCallbacks(m_pModel);
+		m_listAnimationAction.erase(iteratorAnimationAction);
+		return true;
+	}
+	return false;
+}
+/*****************************************************************************/
+/** Stop the animation cycle.
+*
+* Turn off an action.
+*
+* @param id The ID of the core animation.
+*
+* @return One of the following values:
+*         \li \b true was playing (now stopped)
+*         \li \b false if already not playing
+*****************************************************************************/
+bool CalMixer::stopCycle(int coreAnimationId)
+{
+	// get the core animation
+	CalCoreAnimation *pCoreAnimation;
+	pCoreAnimation = m_pModel->getCoreModel()->getCoreAnimation(coreAnimationId);
+	if (pCoreAnimation == 0)
+	{
+		return false;
+	}
+
+	// update all active animation actions of this model
+	std::list<CalAnimationCycle *>::iterator iteratorAnimation;
+
+	for (iteratorAnimation = m_listAnimationCycle.begin();
+		iteratorAnimation != m_listAnimationCycle.end() && (*iteratorAnimation)->getCoreAnimation() != pCoreAnimation;
+		iteratorAnimation++);
+
+	// find the specified action and remove it
+	if (iteratorAnimation != m_listAnimationCycle.end())
+	{
+		// found, so remove
+		(*iteratorAnimation)->completeCallbacks(m_pModel);
+		m_listAnimationCycle.erase(iteratorAnimation);
+		return true;
+	}
+	return false;
 }
 
 
@@ -730,7 +787,8 @@ bool CalMixer::executeAction(int id, float delayIn, float delayOut, float weight
   *         \li \b true if successful
   *         \li \b false if an error happened or action was not found
   *****************************************************************************/
-bool CalMixer::removeAction(int id)
+
+/*bool CalMixer::removeAction(int id)
 {
 	// get the core animation
 	CalCoreAnimation *pCoreAnimation;
@@ -741,22 +799,21 @@ bool CalMixer::removeAction(int id)
 	}
 
 	// update all active animation actions of this model
-	std::list<CalAnimationAction *>::iterator iteratorAnimationAction;
-	iteratorAnimationAction = m_listAnimationAction.begin();
+	std::list<CalAnimationAction *>::iterator iteratorAnimationAction;	
 
-	while (iteratorAnimationAction != m_listAnimationAction.end())
-	{
+	for (iteratorAnimationAction = m_listAnimationAction.begin();
+		iteratorAnimationAction != m_listAnimationAction.end() && (*iteratorAnimationAction)->getCoreAnimation() != pCoreAnimation;
+		iteratorAnimationAction++);
+	
 		// find the specified action and remove it
-		if ((*iteratorAnimationAction)->getCoreAnimation() == pCoreAnimation)
-		{
-			// found, so remove
-			(*iteratorAnimationAction)->completeCallbacks(m_pModel);
-			delete (*iteratorAnimationAction);
-			iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
-			return true;
-		}
-		iteratorAnimationAction++;
-	}
+	if (iteratorAnimationAction != m_listAnimationAction.end())
+	{
+		// found, so remove
+		(*iteratorAnimationAction)->completeCallbacks(m_pModel);
+		delete (*iteratorAnimationAction);
+		iteratorAnimationAction = m_listAnimationAction.erase(iteratorAnimationAction);
+		return true;
+	}	
 	return false;
 }
 
@@ -786,16 +843,20 @@ CalAnimationAction * CalMixer::newAnimationAction(int coreAnimationId)
 	return pAnimationAction;
 }
 
-
-/*****************************************************************************/
+****************************************************************************/
 /** Updates all active animations.
   *
   * This function updates all active animations of the mixer instance for a
   * given amount of time.
   *
   * @param deltaTime The elapsed time in seconds since the last update.
-  *****************************************************************************/
-
+  ****************************************************************************
+int CalMixer::getCustomActionID(CalAnimation *a){
+	int ret = m_pModel->getCoreModel()->getCoreAnimationCount(); std::vector<CalAnimation *>::const_iterator it;
+	for (it = m_vectorAnimation.begin() + ret; it != m_vectorAnimation.end() && *it != a; it++, ret++);
+	if (it == m_vectorAnimation.end())		{ m_vectorAnimation.push_back(a); ret++; }
+	return ret;
+}*/
 void CalMixer::updateAnimation(float deltaTime)
 {
 	// update the current animation time
@@ -882,7 +943,6 @@ void CalMixer::updateAnimation(float deltaTime)
 }
 
 
-
 void
 CalMixer::applyBoneAdjustments()
 {
@@ -890,13 +950,13 @@ CalMixer::applyBoneAdjustments()
 	const std::vector<CalBone *>& vectorBone = pSkeleton->getVectorBone();
 	unsigned int i;
 	for (i = 0; i < m_numBoneAdjustments; i++) {
-		CalMixerBoneAdjustmentAndBoneId * ba = &m_boneAdjustmentAndBoneIdArray[i];
+		BoneAdjustmentAndBoneId * ba = &m_boneAdjustmentAndBoneIdArray[i];
 		CalBone * bo = vectorBone[ba->boneId_];
 		CalCoreBone * cbo = bo->getCoreBone();
-		if (ba->boneAdjustment_.flags_ & CalMixerBoneAdjustmentFlagMeshScale) {
+		if (ba->boneAdjustment_.flags_ & BoneAdjustment::FlagMeshScale) {
 			bo->setMeshScaleAbsolute(ba->boneAdjustment_.meshScaleAbsolute_);
 		}
-		if (ba->boneAdjustment_.flags_ & CalMixerBoneAdjustmentFlagPosRot) {
+		if (ba->boneAdjustment_.flags_ & BoneAdjustment::FlagPosRot) {
 			const CalVector & localPos = cbo->getTranslation();
 			CalVector adjustedLocalPos = localPos;
 			CalQuaternion adjustedLocalOri = ba->boneAdjustment_.localOri_;
@@ -913,7 +973,7 @@ CalMixer::applyBoneAdjustments()
 }
 
 bool
-CalMixer::addBoneAdjustment(int boneId, CalMixerBoneAdjustment const & ba)
+CalMixer::addBoneAdjustment(int boneId, BoneAdjustment const & ba)
 {
 	if (m_numBoneAdjustments == CalMixerBoneAdjustmentsMax) return false;
 	m_boneAdjustmentAndBoneIdArray[m_numBoneAdjustments].boneAdjustment_ = ba;
@@ -933,7 +993,7 @@ CalMixer::removeBoneAdjustment(int boneId)
 {
 	unsigned int i;
 	for (i = 0; i < m_numBoneAdjustments; i++) {
-		CalMixerBoneAdjustmentAndBoneId * ba = &m_boneAdjustmentAndBoneIdArray[i];
+		BoneAdjustmentAndBoneId * ba = &m_boneAdjustmentAndBoneIdArray[i];
 		if (ba->boneId_ == boneId) break;
 	}
 	if (i == m_numBoneAdjustments) return false; // Couldn't find it.
@@ -945,15 +1005,13 @@ CalMixer::removeBoneAdjustment(int boneId)
 	m_numBoneAdjustments--;
 	return true;
 }
+ 
 
-
+/*
 unsigned int
 CalMixer::numActiveOneShotAnimations()
 {
 
-	// get the skeleton we need to update
-	CalSkeleton *pSkeleton;
-	pSkeleton = m_pModel->getSkeleton();
 	if (pSkeleton == 0) return 0;
 	unsigned int count = 0;
 
@@ -966,15 +1024,14 @@ CalMixer::numActiveOneShotAnimations()
 
 		// Manual animations can be on or off.  If they are off, they do not apply
 		// to the bone.
-		if (aa->on()) {
+		if (aa->isOn()) {
 			count++;
 		}
 	}
 	return count;
 }
 
-
-
+*/
 void CalMixer::updateSkeleton()
 {
 	// get the skeleton we need to update
@@ -1007,7 +1064,7 @@ void CalMixer::updateSkeleton()
 	for (iteratorAnimationAction = m_listAnimationAction.begin(); iteratorAnimationAction != m_listAnimationAction.end(); ++iteratorAnimationAction)
 	{
 		pAction = *iteratorAnimationAction;
-		if (pAction->on())
+		if (pAction->isOn())
 		{
 			// get the core animation instance
 			CalCoreAnimation* pCoreAnimation = pAction->getCoreAnimation();
@@ -1102,164 +1159,3 @@ void CalMixer::updateSkeleton()
 	// let the skeleton calculate its final state
 	pSkeleton->calculateState();
 }
-
-/*****************************************************************************/
-/** Returns the animation time.
-  *
-  * This function returns the animation time of the mixer instance.
-  *
-  * @return The animation time in seconds.
-  *****************************************************************************/
-
-float CalMixer::getAnimationTime() const
-{
-	return m_animationTime;
-}
-
-/*****************************************************************************/
-/** Returns the animation duration.
-  *
-  * This function returns the animation duration of the mixer instance.
-  *
-  * @return The animation duration in seconds.
-  *****************************************************************************/
-
-float CalMixer::getAnimationDuration() const
-{
-	return m_animationDuration;
-}
-
-/*****************************************************************************/
-/** Sets the animation time.
-  *
-  * This function sets the animation time of the mixer instance.
-  *
-  *****************************************************************************/
-
-void CalMixer::setAnimationTime(float animationTime)
-{
-	m_animationTime = animationTime;
-}
-
-/*****************************************************************************/
-/** Set the time factor.
-  *
-  * This function sets the time factor of the mixer instance.
-  * this time factor affect only sync animation
-  *
-  *****************************************************************************/
-
-void CalMixer::setTimeFactor(float timeFactor)
-{
-	m_timeFactor = timeFactor;
-}
-
-/*****************************************************************************/
-/** Get the time factor.
-  *
-  * This function return the time factor of the mixer instance.
-  *
-  *****************************************************************************/
-
-float CalMixer::getTimeFactor() const
-{
-	return m_timeFactor;
-}
-
-/*****************************************************************************/
-/** Get the model.
-  *
-  * This function return the CalModel of the mixer instance.
-  *
-  *****************************************************************************/
-
-CalModel *CalMixer::getCalModel()
-{
-	return m_pModel;
-}
-
-/*****************************************************************************/
-/** Get the model.
-  *
-  * This function return the CalModel of the mixer instance.
-  *
-  *****************************************************************************/
-
-const CalModel *CalMixer::getCalModel() const
-{
-	return m_pModel;
-}
-
-/*****************************************************************************/
-/** Get the animation vector.
-  *
-  * This function return the animation vector of the mixer instance.
-  *
-  *****************************************************************************/
-
-std::vector<CalAnimation *> &CalMixer::getAnimationVector()
-{
-	return m_vectorAnimation;
-}
-
-/*****************************************************************************/
-/** Get the animation vector.
-  *
-  * This function return the animation vector of the mixer instance.
-  *
-  *****************************************************************************/
-
-const std::vector<CalAnimation *> &CalMixer::getAnimationVector() const
-{
-	return m_vectorAnimation;
-}
-
-/*****************************************************************************/
-/** Get the list of the action animation.
-  *
-  * This function return the list of the action animation of the mixer instance.
-  *
-  *****************************************************************************/
-
-std::list<CalAnimationAction *> & CalMixer::getAnimationActionList()
-{
-	return m_listAnimationAction;
-}
-
-/*****************************************************************************/
-/** Get the list of the action animation.
-  *
-  * This function return the list of the action animation of the mixer instance.
-  *
-  *****************************************************************************/
-
-const std::list<CalAnimationAction *> &CalMixer::getAnimationActionList() const
-{
-	return m_listAnimationAction;
-}
-
-/*****************************************************************************/
-/** Get the list of the cycle animation.
-  *
-  * This function return the list of the cycle animation of the mixer instance.
-  *
-  *****************************************************************************/
-
-std::list<CalAnimationCycle *> & CalMixer::getAnimationCycle()
-{
-	return m_listAnimationCycle;
-}
-
-/*****************************************************************************/
-/** Get the list of the cycle animation.
-  *
-  * This function return the list of the cycle animation of the mixer instance.
-  *
-  *****************************************************************************/
-
-const std::list<CalAnimationCycle *> &CalMixer::getAnimationCycle() const
-{
-	return m_listAnimationCycle;
-}
-
-//****************************************************************************//
