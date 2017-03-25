@@ -25,28 +25,28 @@
  * This is an object designed to represent a source of Cal3d data as coming from
  * a standard input stream.
  */
+namespace cal3d{
 
+	class CAL3D_API CalStreamSource : public CalDataSource
+	{
+	public:
+		CalStreamSource(std::istream& inputStream);
+		virtual ~CalStreamSource();
 
-class CAL3D_API CalStreamSource : public CalDataSource
-{
-public:
-   CalStreamSource(std::istream& inputStream);
-   virtual ~CalStreamSource();
+		virtual bool ok() const;
+		virtual void setError() const;
+		virtual bool readBytes(void* pBuffer, int length);
+		virtual bool readFloat(float& value);
+		virtual bool readShort(short& value);
+		virtual bool readInteger(int& value);
+		virtual bool readString(std::string& strValue);
 
-   virtual bool ok() const;
-   virtual void setError() const;
-   virtual bool readBytes(void* pBuffer, int length);
-   virtual bool readFloat(float& value);
-   virtual bool readShort(short& value);
-   virtual bool readInteger(int& value);
-   virtual bool readString(std::string& strValue);
+	protected:
 
-protected:
+		std::istream *mInputStream;
 
-   std::istream *mInputStream;
-
-private:
-   CalStreamSource(); //Can't use this
-};
-
+	private:
+		CalStreamSource(); //Can't use this
+	};
+}
 #endif

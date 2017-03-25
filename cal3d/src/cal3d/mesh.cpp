@@ -24,6 +24,7 @@
 #include "cal3d/coremodel.h"
 #include "cal3d/model.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the mesh instance.
   *

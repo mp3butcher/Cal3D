@@ -17,6 +17,8 @@
 #define MATERIAL 3
 
 using namespace std;
+using namespace cal3d;
+
 
 int GetFileType(std::string strFilename)
 {

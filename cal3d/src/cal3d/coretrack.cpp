@@ -22,6 +22,7 @@
 #include "cal3d/error.h"
 #include "cal3d/corekeyframe.h"
 #include "cal3d/loader.h"
+using namespace cal3d;
 
 int CalCoreTrack::m_translationRequiredCount = 0;
 int CalCoreTrack::m_translationNotRequiredCount = 0;

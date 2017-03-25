@@ -17,6 +17,7 @@
 #include "cal3d/coresubmesh.h"
 #include <cstring>
 
+using namespace cal3d;
 //////////////////////////////////////////////////////////////////////////
 CalCoreSubMorphTarget::CalCoreSubMorphTarget() :
  m_coreSubmesh( NULL ),

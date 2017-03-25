@@ -22,6 +22,7 @@
 
 #include <float.h>
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the quaternion instance.
   *

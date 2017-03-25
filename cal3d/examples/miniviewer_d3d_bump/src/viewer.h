@@ -40,8 +40,8 @@ protected:
   bool m_bPaused;
   bool m_bBump;
   bool m_bCanPS;
-  CalCoreModel* m_calCoreModel;
-  CalModel* m_calModel;
+  cal3d::CalCoreModel* m_calCoreModel;
+  cal3d::CalModel* m_calModel;
   float m_scale;
   int m_currentAnimationId;
   float m_leftAnimationTime;

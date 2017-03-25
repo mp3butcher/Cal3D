@@ -18,6 +18,7 @@
 #include "cal3d/coresubmorphtarget.h"
 
 #include <string.h>
+using namespace cal3d;
 // For Exclusive type morph targets, we record a replacement attenuation after
 // encountering the first Replace blend.  Until then, we recognize that we do
 // not yet have a value by setting this field to this specific invalid value.

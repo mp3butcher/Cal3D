@@ -31,6 +31,7 @@
 #include "cal3d/physique.h"
 #include "cal3d/springsystem.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the model instance.
   *

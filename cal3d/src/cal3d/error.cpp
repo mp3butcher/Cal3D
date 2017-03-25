@@ -14,6 +14,7 @@
 
 #include "cal3d/error.h"
 
+using namespace cal3d;
 namespace
 {
     CalError::Code m_lastErrorCode = CalError::OK;

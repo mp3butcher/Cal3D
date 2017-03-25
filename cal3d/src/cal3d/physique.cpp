@@ -29,6 +29,7 @@
 
 #include <cfloat>
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the physique instance.
   *

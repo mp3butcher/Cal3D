@@ -17,82 +17,82 @@
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
+namespace cal3d{
+	class CalCoreBone;
+	class CalCoreKeyframe;
+	class CalCoreSkeleton;
 
-class CalCoreBone;
-class CalCoreKeyframe;
-class CalCoreSkeleton;
 
+	class CAL3D_API CalCoreTrack
+	{
+	private:
+		/// The index of the associated CoreBone in the CoreSkeleton.
+		int m_coreBoneId;
 
-class CAL3D_API CalCoreTrack
-{
-private:
-  /// The index of the associated CoreBone in the CoreSkeleton.
-  int m_coreBoneId;
+		// If translationRequired is false, then the translations are the same as the
+		// skeleton's translations.
+		bool m_translationRequired;
+		bool m_highRangeRequired;
+		bool m_translationIsDynamic;
+		static int m_translationRequiredCount;
+		static int m_translationNotRequiredCount;
 
-  // If translationRequired is false, then the translations are the same as the
-  // skeleton's translations.
-  bool m_translationRequired;
-  bool m_highRangeRequired;
-  bool m_translationIsDynamic;
-  static int m_translationRequiredCount;
-  static int m_translationNotRequiredCount;
+		/// List of keyframes, always sorted by time.
+		std::vector<CalCoreKeyframe*> m_keyframes;
 
-  /// List of keyframes, always sorted by time.
-  std::vector<CalCoreKeyframe*> m_keyframes;
+		// constructors/destructor
+	public:
+		CalCoreTrack();
+		~CalCoreTrack();
 
-// constructors/destructor
-public:
-  CalCoreTrack();
-  ~CalCoreTrack();
+		unsigned int size();
 
-  unsigned int size();
+		bool getState(float time, CalVector& translation, CalQuaternion& rotation) const;
 
-  bool getState(float time, CalVector& translation, CalQuaternion& rotation) const;
+		/*****************************************************************************/
+		/** Returns the ID of the core bone.
+		*
+		* This function returns the ID of the core bone to which the core track
+		* instance is attached to.
+		*
+		* @return One of the following values:
+		*         \li the \b ID of the core bone
+		*         \li \b -1 if an error happened
+		*****************************************************************************/
+		inline int getCoreBoneId() const  { return m_coreBoneId; }
 
-  /*****************************************************************************/
-  /** Returns the ID of the core bone.
-  *
-  * This function returns the ID of the core bone to which the core track
-  * instance is attached to.
-  *
-  * @return One of the following values:
-  *         \li the \b ID of the core bone
-  *         \li \b -1 if an error happened
-  *****************************************************************************/
-  inline int getCoreBoneId() const  { return m_coreBoneId; }
+		bool setCoreBoneId(int coreBoneId);
 
-  bool setCoreBoneId(int coreBoneId);
+		int getCoreKeyframeCount() const;
+		CalCoreKeyframe *getCoreKeyframe(int idx);
+		const CalCoreKeyframe *getCoreKeyframe(int idx) const;
 
-  int getCoreKeyframeCount() const;
-  CalCoreKeyframe *getCoreKeyframe(int idx);
-  const CalCoreKeyframe *getCoreKeyframe(int idx) const;
+		bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
+		void removeCoreKeyFrame(int _i)           { m_keyframes.erase(m_keyframes.begin() + _i); }
 
-  bool addCoreKeyframe(CalCoreKeyframe *pCoreKeyframe);
-  void removeCoreKeyFrame(int _i)           { m_keyframes.erase( m_keyframes.begin() + _i); }
+		bool getTranslationRequired() { return m_translationRequired; }
+		void setTranslationRequired(bool p)     { m_translationRequired = p; }
 
-  bool getTranslationRequired() { return m_translationRequired; }
-  void setTranslationRequired( bool p )     { m_translationRequired = p; }
+		bool getTranslationIsDynamic() { return m_translationIsDynamic; }
+		void setTranslationIsDynamic(bool p)    { m_translationIsDynamic = p; }
 
-  bool getTranslationIsDynamic() { return m_translationIsDynamic; }
-  void setTranslationIsDynamic( bool p )    { m_translationIsDynamic = p; }
+		bool getHighRangeRequired() { return m_highRangeRequired; }
+		void setHighRangeRequired(bool p)       { m_highRangeRequired = p; }
 
-  bool getHighRangeRequired() { return m_highRangeRequired; }
-  void setHighRangeRequired( bool p )       { m_highRangeRequired = p; }
+		void fillInvalidTranslations(CalVector const & trans);
 
-  void fillInvalidTranslations( CalVector const & trans );
+		void scale(float factor);
+		void compress(double translationTolerance, double rotationToleranceDegrees, CalCoreSkeleton * skelOrNull);
+		bool roundTranslation(CalCoreKeyframe const * prev, CalCoreKeyframe * p, double translationTolerance);
+		void translationCompressibility(
+			bool * transRequiredResult, bool * transDynamicResult, bool * highRangeRequiredResult,
+			float threshold, float highRangeThreshold, CalCoreSkeleton * skel);
+		void collapseSequences(double translationTolerance, double rotationToleranceDegrees);
 
-  void scale(float factor);
-  void compress( double translationTolerance, double rotationToleranceDegrees, CalCoreSkeleton * skelOrNull );
-  bool roundTranslation( CalCoreKeyframe const * prev, CalCoreKeyframe * p, double translationTolerance );
-  void translationCompressibility(
-  bool * transRequiredResult, bool * transDynamicResult, bool * highRangeRequiredResult,
-  float threshold, float highRangeThreshold, CalCoreSkeleton * skel );
-  void collapseSequences( double translationTolerance, double rotationToleranceDegrees );
-
-private:
-  std::vector<CalCoreKeyframe *>::const_iterator getUpperBound(float time) const;
-  bool keyframeEliminatable( CalCoreKeyframe * prev, CalCoreKeyframe * p, CalCoreKeyframe * next,
-  double translationTolerance, double rotationToleranceDegrees);
-};
-
+	private:
+		std::vector<CalCoreKeyframe *>::const_iterator getUpperBound(float time) const;
+		bool keyframeEliminatable(CalCoreKeyframe * prev, CalCoreKeyframe * p, CalCoreKeyframe * next,
+			double translationTolerance, double rotationToleranceDegrees);
+	};
+}
 #endif

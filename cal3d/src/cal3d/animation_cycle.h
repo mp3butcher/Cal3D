@@ -15,25 +15,24 @@
 #include "cal3d/global.h"
 #include "cal3d/animation.h"
 
+namespace cal3d{
+	class CalCoreAnimation;
+	
+	class CAL3D_API CalAnimationCycle : public CalAnimation
+	{
+	public:
+		CalAnimationCycle(CalCoreAnimation *pCoreAnimation);
+		virtual ~CalAnimationCycle() { }
 
-class CalCoreAnimation;
+		bool blend(float weight, float delay);
+		void setAsync(float time, float duration);
+		bool update(float deltaTime);
 
-
-class CAL3D_API CalAnimationCycle : public CalAnimation
-{
-public:
-  CalAnimationCycle(CalCoreAnimation *pCoreAnimation);
-  virtual ~CalAnimationCycle() { }
-
-  bool blend(float weight, float delay);
-  void setAsync(float time, float duration);
-  bool update(float deltaTime);
-
-private:
-  float m_targetDelay;
-  float m_targetWeight;
-};
-
+	private:
+		float m_targetDelay;
+		float m_targetWeight;
+	};
+}
 #endif
 
 //****************************************************************************//

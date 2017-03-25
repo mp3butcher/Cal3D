@@ -19,6 +19,7 @@
 #include "cal3d/coreanimatedmorph.h"
 #include "cal3d/coremorphtrack.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the core animatedMorph instance.
   *

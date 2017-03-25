@@ -34,6 +34,7 @@
 #include "cal3d/animation_action.h"
 #include "cal3d/animation_cycle.h"
 
+using namespace cal3d;
 /*****************************************************************************/
 /** Constructs the mixer instance.
   *

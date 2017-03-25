@@ -25,6 +25,7 @@
 #include "cal3d/coresubmesh.h"
 #include <cstring>
 
+using namespace cal3d;
 CalCoreSkeleton::CalCoreSkeleton()
 {
 }

@@ -20,37 +20,32 @@
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
+namespace cal3d{
+	/*****************************************************************************/
+	/** The core keyframe class.
+	 *****************************************************************************/
+	class CAL3D_API CalCoreMorphKeyframe
+	{
+		// member variables
+	protected:
+		float m_time;
+		float m_weight;
 
- /*****************************************************************************/
-/** The core keyframe class.
-  *****************************************************************************/
+		// constructors/destructor
+	public:
+		CalCoreMorphKeyframe();
+		virtual ~CalCoreMorphKeyframe();
 
-class CAL3D_API CalCoreMorphKeyframe
-{
-// member variables
-protected:
-  float m_time;
-  float m_weight;
+		// member functions
+	public:
+		bool create();
+		void destroy();
+		float getTime() const;
+		void setTime(float time);
 
-// constructors/destructor
-public:
-  CalCoreMorphKeyframe();
-  virtual ~CalCoreMorphKeyframe();
-
-// member functions
-public:
-  bool create();
-  void destroy();
-  float getTime() const;
-  void setTime(float time);
-
-  float getWeight() const;
-  void setWeight(float);
-};
-
+		float getWeight() const;
+		void setWeight(float);
+	};
+}
 #endif
 
-//****************************************************************************//

@@ -31,6 +31,7 @@
 
 #include <string.h>	// for memcpy
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the renderer instance.
   *

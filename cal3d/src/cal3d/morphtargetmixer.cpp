@@ -25,6 +25,7 @@
 #include "cal3d/mesh.h"
 #include "cal3d/submesh.h"
 
+using namespace cal3d;
 /*****************************************************************************/
 /** Constructs the morph target mixer instance.
   *

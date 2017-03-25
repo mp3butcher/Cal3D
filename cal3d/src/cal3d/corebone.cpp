@@ -23,6 +23,7 @@
 #include "cal3d/coremesh.h"
 #include "cal3d/coresubmesh.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the core bone instance.
   *

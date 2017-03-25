@@ -18,6 +18,7 @@
 
 #include "cal3d/corekeyframe.h"
 
+using namespace cal3d;
 
  /*****************************************************************************/
 /** Constructs the core keyframe instance.

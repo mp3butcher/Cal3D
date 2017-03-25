@@ -23,6 +23,7 @@
 #include "cal3d/coreskeleton.h"
 
 
+using namespace cal3d;
 CalBone::CalBone(CalCoreBone *coreBone)
   : m_pSkeleton(0)
 {

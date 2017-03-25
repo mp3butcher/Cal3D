@@ -15,103 +15,103 @@
 #include "cal3d/global.h"
 #include "cal3d/coresubmesh.h"
 
+namespace cal3d{
+	class CalCoreModel;
+	class CalSkeleton;
+	class CalCoreMaterial;
 
-class CalCoreModel;
-class CalSkeleton;
-class CalCoreMaterial;
+
+	class CAL3D_API CalHardwareModel
+	{
+	public:
+		struct CalHardwareMesh
+		{
+			std::vector<int> m_vectorBonesIndices;
+
+			int baseVertexIndex;
+			int vertexCount;
+			int startIndex;
+			int faceCount;
+			CalCoreMaterial *pCoreMaterial;
+
+			int meshId, submeshId;
+		};
+
+	public:
+		CalHardwareModel(CalCoreModel *pCoreModel);
+		~CalHardwareModel() { }
+
+		void setVertexBuffer(char *pVertexBuffer, int stride);
+		void setIndexBuffer(CalIndex *pIndexBuffer);
+		void setNormalBuffer(char *pNormalBuffer, int stride);
+		void setWeightBuffer(char *pWeightBuffer, int stride);
+		void setMatrixIndexBuffer(char *pMatrixIndexBuffer, int stride);
+		void setTextureCoordNum(int textureCoordNum);
+		void setTextureCoordBuffer(int mapId, char *pTextureCoordBuffer, int stride);
+		void setTangentSpaceBuffer(int mapId, char *pTangentSpaceBuffer, int stride);
+		void setCoreMeshIds(const std::vector<int>& coreMeshIds);
+
+		bool load(int baseVertexIndex, int startIndex, int maxBonesPerMesh);
+
+		std::vector<CalHardwareMesh> & getVectorHardwareMesh();
+		const std::vector<CalHardwareMesh> & getVectorHardwareMesh() const;
+		void getAmbientColor(unsigned char *pColorBuffer) const;
+		void getDiffuseColor(unsigned char *pColorBuffer) const;
+		void getSpecularColor(unsigned char *pColorBuffer) const;
+		const CalQuaternion & getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton) const;
+		const CalVector & getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton) const;
+
+		float getShininess() const;
+
+		int getHardwareMeshCount() const;
+		int getFaceCount() const;
+		int getVertexCount() const;
+		int getBoneCount() const;
+
+		int getBaseVertexIndex() const;
+		int getStartIndex() const;
+
+		int getTotalFaceCount() const;
+		int getTotalVertexCount() const;
+
+		Cal::UserData getMapUserData(int mapId);
+		const Cal::UserData getMapUserData(int mapId) const;
+
+		bool selectHardwareMesh(size_t meshId);
+
+	private:
+		bool canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face, std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh) const;
+		int  addVertex(CalHardwareMesh &hardwareMesh, int indice, CalCoreSubmesh *pCoreSubmesh, int maxBonesPerMesh);
+		int  addBoneIndice(CalHardwareMesh &hardwareMesh, int Indice, int maxBonesPerMesh);
 
 
-class CAL3D_API CalHardwareModel
-{
-public:
-  struct CalHardwareMesh
-  {
-    std::vector<int> m_vectorBonesIndices;
-    
-    int baseVertexIndex;
-    int vertexCount;
-    int startIndex;
-    int faceCount;
-    CalCoreMaterial *pCoreMaterial;
+	private:
 
-    int meshId,submeshId;
-  };
+		std::vector<CalHardwareMesh> m_vectorHardwareMesh;
+		std::vector<CalIndex>        m_vectorVertexIndiceUsed;
+		int                          m_selectedHardwareMesh;
+		std::vector<int>             m_coreMeshIds;
+		CalCoreModel                *m_pCoreModel;
 
-public:
-  CalHardwareModel(CalCoreModel *pCoreModel);
-  ~CalHardwareModel() { }
-  
-  void setVertexBuffer( char *pVertexBuffer, int stride); 
-  void setIndexBuffer( CalIndex *pIndexBuffer); 
-  void setNormalBuffer( char *pNormalBuffer, int stride); 
-  void setWeightBuffer( char *pWeightBuffer, int stride); 
-  void setMatrixIndexBuffer( char *pMatrixIndexBuffer, int stride); 
-  void setTextureCoordNum(int textureCoordNum);
-  void setTextureCoordBuffer(int mapId, char *pTextureCoordBuffer, int stride);
-  void setTangentSpaceBuffer(int mapId, char *pTangentSpaceBuffer, int stride);
-  void setCoreMeshIds(const std::vector<int>& coreMeshIds);
 
-  bool load(int baseVertexIndex, int startIndex,int maxBonesPerMesh);
-      
-  std::vector<CalHardwareMesh> & getVectorHardwareMesh();
-  const std::vector<CalHardwareMesh> & getVectorHardwareMesh() const;
-  void getAmbientColor(unsigned char *pColorBuffer) const;
-  void getDiffuseColor(unsigned char *pColorBuffer) const;
-  void getSpecularColor(unsigned char *pColorBuffer) const;
-  const CalQuaternion & getRotationBoneSpace(int boneId, CalSkeleton *pSkeleton) const;
-  const CalVector & getTranslationBoneSpace(int boneId, CalSkeleton *pSkeleton) const;
+		char *m_pVertexBuffer;
+		int   m_vertexStride;
+		char *m_pNormalBuffer;
+		int   m_normalStride;
+		char *m_pWeightBuffer;
+		int   m_weightStride;
+		char *m_pMatrixIndexBuffer;
+		int   m_matrixIndexStride;
+		char *m_pTextureCoordBuffer[8];
+		int   m_textureCoordStride[8];
+		int   m_textureCoordNum;
+		char *m_pTangentSpaceBuffer[8];
+		int   m_tangentSpaceStride[8];
 
-  float getShininess() const;
-  
-  int getHardwareMeshCount() const;
-  int getFaceCount() const;
-  int getVertexCount() const;
-  int getBoneCount() const;
+		CalIndex *m_pIndexBuffer;
 
-  int getBaseVertexIndex() const;
-  int getStartIndex() const;
-
-  int getTotalFaceCount() const;
-  int getTotalVertexCount() const;
-
-  Cal::UserData getMapUserData(int mapId);
-  const Cal::UserData getMapUserData(int mapId) const;
-  
-  bool selectHardwareMesh(size_t meshId);
-  
-private:
-  bool canAddFace(CalHardwareMesh &hardwareMesh, CalCoreSubmesh::Face & face,std::vector<CalCoreSubmesh::Vertex>& vectorVertex, int maxBonesPerMesh) const;
-  int  addVertex(CalHardwareMesh &hardwareMesh, int indice , CalCoreSubmesh *pCoreSubmesh, int maxBonesPerMesh);
-  int  addBoneIndice(CalHardwareMesh &hardwareMesh, int Indice, int maxBonesPerMesh);  
-    
-
-private:
-  
-  std::vector<CalHardwareMesh> m_vectorHardwareMesh;
-  std::vector<CalIndex>        m_vectorVertexIndiceUsed;
-  int                          m_selectedHardwareMesh;
-  std::vector<int>             m_coreMeshIds;
-  CalCoreModel                *m_pCoreModel;
-  
-  
-  char *m_pVertexBuffer;
-  int   m_vertexStride;
-  char *m_pNormalBuffer;
-  int   m_normalStride;
-  char *m_pWeightBuffer;
-  int   m_weightStride;
-  char *m_pMatrixIndexBuffer;
-  int   m_matrixIndexStride;
-  char *m_pTextureCoordBuffer[8];
-  int   m_textureCoordStride[8];
-  int   m_textureCoordNum;  
-  char *m_pTangentSpaceBuffer[8];
-  int   m_tangentSpaceStride[8];
-  
-  CalIndex *m_pIndexBuffer;
-
-  int m_totalVertexCount;
-  int m_totalFaceCount;
-};
-
+		int m_totalVertexCount;
+		int m_totalFaceCount;
+	};
+}
 #endif

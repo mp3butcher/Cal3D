@@ -20,6 +20,7 @@
 
 #include <float.h>
 
+using namespace cal3d;
 CalDualQuaternion::CalDualQuaternion(	const CalQuaternion& inRotation,
                                       const CalVector& inTranslation )
   : nondual( inRotation )

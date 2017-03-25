@@ -21,6 +21,7 @@
 #include <string.h>
 
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the platform instance.
   *

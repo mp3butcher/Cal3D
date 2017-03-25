@@ -36,6 +36,7 @@
 #include <numeric>
 
 
+using namespace cal3d;
 static void CalcMorphBlendedPosition( CalSubmesh *pSubmesh, int vertexID,
                                       float baseWeight, std::vector<int>& morphIDs,
                                       CalVector& outPosition )

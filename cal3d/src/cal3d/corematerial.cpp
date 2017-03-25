@@ -16,6 +16,7 @@
 #include "cal3d/error.h"
 #include "cal3d/corematerial.h"
 
+using namespace cal3d;
 
 CalCoreMaterial::CalCoreMaterial()
   : m_userData(0)

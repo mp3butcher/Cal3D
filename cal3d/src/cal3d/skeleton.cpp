@@ -23,6 +23,7 @@
 #include "cal3d/coremodel.h"
 #include "cal3d/corebone.h" // DEBUG
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the skeleton instance.
   *

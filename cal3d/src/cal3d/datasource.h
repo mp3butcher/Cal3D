@@ -26,27 +26,27 @@
  * whether it is an ifstream, istream, or even a memory buffer. Inheriting
  * classes must implement the 'read' functions below.
  */
-
-class CAL3D_API CalDataSource
-{
-public:
-  // So...  I started making some refactorings to the implementations of DataSource.
-  // It turns out all of the implementations of ok() would only return true.  Since they
-  // all did the same thing, I lifted the implementation into the base class.  Now, since
-  // it is always true, we can eliminate it.  I think that it is better to always check the
-  // return values of the read*() functions, anyway, as ok()'s meaning is unclear (can we
-  // read in the future?  did a read fail in the past?)
-  //
-  // When this ok() call is removed, make sure to check that any nearby read*() calls are
-  // actually testing the return value.
-  bool ok() { return true; }
-  virtual void setError() const = 0;
-  virtual bool readBytes(void* pBuffer, int length) = 0;
-  virtual bool readFloat(float& value) = 0;
-  virtual bool readShort(short& value) = 0;
-  virtual bool readInteger(int& value) = 0;
-  virtual bool readString(std::string& strValue) = 0;
-  virtual ~CalDataSource() {};
-};
-
+namespace cal3d{
+	class CAL3D_API CalDataSource
+	{
+	public:
+		// So...  I started making some refactorings to the implementations of DataSource.
+		// It turns out all of the implementations of ok() would only return true.  Since they
+		// all did the same thing, I lifted the implementation into the base class.  Now, since
+		// it is always true, we can eliminate it.  I think that it is better to always check the
+		// return values of the read*() functions, anyway, as ok()'s meaning is unclear (can we
+		// read in the future?  did a read fail in the past?)
+		//
+		// When this ok() call is removed, make sure to check that any nearby read*() calls are
+		// actually testing the return value.
+		bool ok() { return true; }
+		virtual void setError() const = 0;
+		virtual bool readBytes(void* pBuffer, int length) = 0;
+		virtual bool readFloat(float& value) = 0;
+		virtual bool readShort(short& value) = 0;
+		virtual bool readInteger(int& value) = 0;
+		virtual bool readString(std::string& strValue) = 0;
+		virtual ~CalDataSource() {};
+	};
+}
 #endif

@@ -26,6 +26,7 @@
 
 #include <string.h>	// for memcpy
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the hardware model instance.
   *

@@ -22,6 +22,7 @@
 #include "cal3d/matrix.h"
 #include "cal3d/quaternion.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the vector instance.
   *

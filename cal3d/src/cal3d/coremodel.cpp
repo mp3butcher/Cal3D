@@ -32,6 +32,7 @@
 
 static unsigned int const CalCoreModelMagic = 0x77884455;
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the core model instance.
   *

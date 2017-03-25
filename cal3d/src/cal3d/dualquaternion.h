@@ -19,50 +19,47 @@
 #include "cal3d/vector.h"
 #include "cal3d/quaternion.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
+namespace cal3d{
+	class CAL3D_API CalDualQuaternion
+	{
+	public:
+		// member variables
+		CalQuaternion	nondual;
+		CalQuaternion	dual;
 
-class CAL3D_API CalDualQuaternion
-{
-public:
-  // member variables
-  CalQuaternion	nondual;
-  CalQuaternion	dual;
+		// constructors/destructor
+		CalDualQuaternion() {}  // default constructor
+		CalDualQuaternion(const CalDualQuaternion& inOther) // copy constructor
+			: nondual(inOther.nondual), dual(inOther.dual) {}
+		CalDualQuaternion(const CalQuaternion& inRotation,
+			const CalVector& inTranslation);
+		~CalDualQuaternion() {}
 
-  // constructors/destructor
-  CalDualQuaternion() {}  // default constructor
-  CalDualQuaternion( const CalDualQuaternion& inOther ) // copy constructor
-    : nondual( inOther.nondual ), dual( inOther.dual ) {}
-  CalDualQuaternion( const CalQuaternion& inRotation,
-                     const CalVector& inTranslation );
-  ~CalDualQuaternion() {}
+		// assignment
+		inline CalDualQuaternion&	operator=(const CalDualQuaternion& inOther)
+		{
+			nondual = inOther.nondual;
+			dual = inOther.dual;
+			return *this;
+		}
 
-  // assignment
-  inline CalDualQuaternion&	operator=( const CalDualQuaternion& inOther )
-  {
-    nondual = inOther.nondual;
-    dual = inOther.dual;
-    return *this;
-  }
+		inline void operator*=(float s)
+		{
+			nondual *= s;
+			dual *= s;
+		}
 
-  inline void operator*=( float s )
-  {
-    nondual *= s;
-    dual *= s;
-  }
+		inline void operator+=(const CalDualQuaternion& inOther)
+		{
+			nondual += inOther.nondual;
+			dual += inOther.dual;
+		}
 
-  inline void operator+=( const CalDualQuaternion& inOther )
-  {
-    nondual += inOther.nondual;
-    dual += inOther.dual;
-  }
+		void normalize();
 
-  void normalize();
-
-  void transformPoint( const CalVector& inPt, CalVector& outPt ) const;
-};
-
+		void transformPoint(const CalVector& inPt, CalVector& outPt) const;
+	};
+}
 
 #endif	// CAL_DUAL_QUATERNION_H
 

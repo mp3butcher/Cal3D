@@ -28,6 +28,7 @@
 #include "cal3d/coresubmesh.h"
 #include "cal3d/vector.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the spring system instance.
   *

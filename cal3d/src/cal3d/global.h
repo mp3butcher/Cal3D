@@ -80,14 +80,14 @@ namespace cal3d
    * Derive from noncopyable to mark your class as not having a copy
    * constructor or operator=
    */
-  class CAL3D_API noncopyable
+  class CAL3D_API NonCopyable
   {
   protected:
-    noncopyable() {}
-    ~noncopyable() {}
+	  NonCopyable() {}
+	  ~NonCopyable() {}
   private:  // emphasize the following members are private
-    noncopyable(const noncopyable&);
-    const noncopyable& operator=(const noncopyable&);
+	  NonCopyable(const NonCopyable&);
+	  const NonCopyable& operator=(const NonCopyable&);
   };
 }
 

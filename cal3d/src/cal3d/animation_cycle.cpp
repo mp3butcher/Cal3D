@@ -20,6 +20,7 @@
 #include "cal3d/error.h"
 #include "cal3d/coreanimation.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the animation cycle instance.
   *

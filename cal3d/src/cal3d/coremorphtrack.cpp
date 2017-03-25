@@ -20,6 +20,7 @@
 #include "cal3d/error.h"
 #include "cal3d/coremorphkeyframe.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the core track instance.
   *

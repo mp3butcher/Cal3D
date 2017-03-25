@@ -20,6 +20,7 @@
 #include "cal3d/error.h"
 #include "cal3d/platform.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs a stream source instance from an existing istream.
   *

@@ -17,6 +17,7 @@
 #include "cal3d/coreskeleton.h"
 #include "cal3d/corebone.h"
 
+using namespace cal3d;
 
 CalCoreAnimation::CalCoreAnimation()
 {

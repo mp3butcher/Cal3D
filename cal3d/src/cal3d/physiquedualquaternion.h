@@ -17,22 +17,19 @@
 
 #include "cal3d/physique.h"
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
+namespace cal3d{
+	class CalPhysiqueDualQuat : public CalPhysique
+	{
+	public:
+		CalPhysiqueDualQuat(CalModel *pModel)
+			: CalPhysique(pModel) {}
 
-class CalPhysiqueDualQuat : public CalPhysique
-{
-public:
-  CalPhysiqueDualQuat(CalModel *pModel)
-    : CalPhysique( pModel ) {}
-
-  virtual int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride=0) const;
-  virtual int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0) const;
-  virtual int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride=0) const;
-  virtual int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords=1) const;
-};
-
+		virtual int calculateNormals(CalSubmesh *pSubmesh, float *pNormalBuffer, int stride = 0) const;
+		virtual int calculateVertices(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride = 0) const;
+		virtual int calculateVerticesAndNormals(CalSubmesh *pSubmesh, float *pVertexBuffer, int stride = 0) const;
+		virtual int calculateVerticesNormalsAndTexCoords(CalSubmesh *pSubmesh, float *pVertexBuffer, int NumTexCoords = 1) const;
+	};
+}
 
 #endif	// CAL_PHYSIQUE_DUAL_QUATERNION_H
 

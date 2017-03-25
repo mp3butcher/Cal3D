@@ -81,7 +81,7 @@ float const CalLoader::keyframePosRangeSmall = ( 1 << ( CalLoader::keyframeBitsP
 
 
 
-bool CAL3D_API CalVectorFromDataSrc( CalDataSource & dataSrc, CalVector * calVec )
+bool cal3d::CalVectorFromDataSrc( CalDataSource & dataSrc, CalVector * calVec )
 {
    return dataSrc.readFloat(calVec->x) &&
       dataSrc.readFloat(calVec->y) &&
@@ -827,12 +827,7 @@ CalCoreMaterialPtr CalLoader::loadCoreMaterial(CalDataSource& dataSrc)
   float shininess;
   dataSrc.readFloat(shininess);
 
-  // check if an error happened
-  if(!dataSrc.ok())
-  {
-    dataSrc.setError();
-    return 0;
-  }
+
 
   // set the colors and the shininess
   pCoreMaterial->setAmbientColor(ambientColor);
@@ -1338,21 +1333,21 @@ CalLoader::compressedKeyframeRequiredBytes( CalCoreKeyframe * lastCoreKeyframe, 
 
 static float const InvalidCoord = 1e10;
 
-void
-SetTranslationInvalid( float * xResult, float * yResult, float * zResult )
+
+void cal3d::SetTranslationInvalid( float * xResult, float * yResult, float * zResult )
 {
    * xResult = InvalidCoord;
    * yResult = InvalidCoord;
    * zResult = InvalidCoord;
 }
 
-void
+void cal3d::
 SetTranslationInvalid( CalVector * result )
 {
    result->set( InvalidCoord, InvalidCoord, InvalidCoord );
 }
 
-bool
+bool 
 TranslationInvalid(float x, float y, float z)
 {
    return x == InvalidCoord
@@ -1360,7 +1355,7 @@ TranslationInvalid(float x, float y, float z)
       && z == InvalidCoord;
 }
 
-bool
+bool cal3d::
 TranslationInvalid( CalVector const & result )
 {
    return result.x == InvalidCoord

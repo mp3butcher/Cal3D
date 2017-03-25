@@ -1,5 +1,6 @@
 #include "tinybind.h"
 
+using namespace cal3d;
 
 // do this to support your STL container types, like list and vector
 #if 0
@@ -45,7 +46,7 @@ ConvertFromString( char const * strIn, T * dataOut )
 
 template<>
 char const *
-ConvertToString<double>( double const & d )
+cal3d::ConvertToString<double>( double const & d )
 {
   static char buffer[2048];
   sprintf(buffer, "%g", d);
@@ -54,14 +55,14 @@ ConvertToString<double>( double const & d )
 
 template<>
 char const *
-ConvertToString<float>( float const & f )
+cal3d::ConvertToString<float>(float const & f)
 {
   return ConvertToString((double)f);
 }
 
 template<>
 char const *
-ConvertToString<int>( int const & d )
+cal3d::ConvertToString<int>(int const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%d", d);
@@ -70,7 +71,7 @@ ConvertToString<int>( int const & d )
 
 template<>
 char const *
-ConvertToString<unsigned>( unsigned int const & d )
+cal3d::ConvertToString<unsigned>(unsigned int const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%u", d);
@@ -79,7 +80,7 @@ ConvertToString<unsigned>( unsigned int const & d )
 
 template<>
 char const *
-ConvertToString<unsigned long>( unsigned long const & d )
+cal3d::ConvertToString<unsigned long>(unsigned long const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%lu", d);
@@ -88,7 +89,7 @@ ConvertToString<unsigned long>( unsigned long const & d )
 
 template<>
 char const *
-ConvertToString<long>(long const & d )
+cal3d::ConvertToString<long>(long const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%ld", d);
@@ -98,7 +99,7 @@ ConvertToString<long>(long const & d )
 #ifdef WIN64
 template<>
 char const *
-ConvertToString<unsigned __int64>( unsigned __int64 const & d )
+cal3d::ConvertToString<unsigned __int64>(unsigned __int64 const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%I64u", d);
@@ -108,56 +109,56 @@ ConvertToString<unsigned __int64>( unsigned __int64 const & d )
 
 template<>
 char const *
-ConvertToString<char const*>( char const * const & s )
+cal3d::ConvertToString<char const*>(char const * const & s)
 {
   return s;
 }
 
 template<>
 char const *
-ConvertToString<std::string>( std::string const & s )
+cal3d::ConvertToString<std::string>(std::string const & s)
 {
   return s.c_str();
 }
 
 template<>
 void
-ConvertFromString<char const *>( char const * strIn, const char * * dataOut )
+cal3d::ConvertFromString<char const *>(char const * strIn, const char * * dataOut)
 {
   *dataOut = strIn;
 }
 
 template<>
 void
-ConvertFromString<std::string>( char const * strIn, std::string * dataOut )
+cal3d::ConvertFromString<std::string>(char const * strIn, std::string * dataOut)
 {
   *dataOut = strIn;
 }
 
 template<>
 void
-ConvertFromString<int>( char const * strIn,  int * dataOut )
+cal3d::ConvertFromString<int>(char const * strIn, int * dataOut)
 {
   *dataOut = atoi(strIn);
 }
 
 template<>
 void
-ConvertFromString<unsigned>( char const * strIn,  unsigned int * dataOut )
+cal3d::ConvertFromString<unsigned>(char const * strIn, unsigned int * dataOut)
 {
   *dataOut = (unsigned int) atoi(strIn);
 }
 
 template<>
 void
-ConvertFromString<double>( char const * strIn,  double * dataOut )
+cal3d::ConvertFromString<double>(char const * strIn, double * dataOut)
 {
   *dataOut = atof(strIn);
 }
 
 template<>
 void
-ConvertFromString<float>( char const * strIn,  float * dataOut )
+cal3d::ConvertFromString<float>(char const * strIn, float * dataOut)
 {
   *dataOut = (float)atof(strIn);
 }

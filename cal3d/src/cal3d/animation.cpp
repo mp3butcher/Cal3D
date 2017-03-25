@@ -18,6 +18,7 @@
 #include "cal3d/animcallback.h"
 #include "cal3d/model.h"
 
+using namespace cal3d;
 CalAnimation::CalAnimation(CalCoreAnimation *pCoreAnimation)
   : m_pCoreAnimation(pCoreAnimation)
   , m_type(TYPE_NONE)

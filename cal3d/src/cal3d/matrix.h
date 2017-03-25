@@ -17,123 +17,116 @@
 
 #include "cal3d/global.h"
 
-//****************************************************************************//
-// Forward declarations                                                       //
-//****************************************************************************//
+namespace cal3d{
+	class CalQuaternion;
 
-class CalQuaternion;
+	/*****************************************************************************/
+	/** The matrix class.
+	*****************************************************************************/
 
-//****************************************************************************//
-// Class declaration                                                          //
-//****************************************************************************//
+	class CAL3D_API CalMatrix
+	{
+		// member variables
+	public:
+		float dxdx, dydx, dzdx;
+		float dxdy, dydy, dzdy;
+		float dxdz, dydz, dzdz;
 
-/*****************************************************************************/
-/** The matrix class.
-*****************************************************************************/
+		// constructors/destructor
+	public:
+		inline CalMatrix() : dxdx(0.0), dydx(0.0), dzdx(0.0),
+			dxdy(0.0), dydy(0.0), dzdy(0.0),
+			dxdz(0.0), dydz(0.0), dzdz(0.0)
+		{
+		}
 
-class CAL3D_API CalMatrix
-{
-  // member variables
-public:
-  float dxdx,dydx,dzdx;
-  float dxdy,dydy,dzdy;
-  float dxdz,dydz,dzdz;
+		CalMatrix(const CalQuaternion &q);
 
-  // constructors/destructor
-public:
-  inline CalMatrix()	: dxdx(0.0), dydx(0.0), dzdx(0.0),
-    dxdy(0.0), dydy(0.0), dzdy(0.0),
-    dxdz(0.0), dydz(0.0), dzdz(0.0)
-  {
-  }
-
-  CalMatrix(const CalQuaternion &q);
-
-  inline CalMatrix(float weight, const CalMatrix &m)
-  {
-    dxdx = m.dxdx*weight;
-    dxdy = m.dxdy*weight;
-    dxdz = m.dxdz*weight;
-    dydx = m.dydx*weight;
-    dydy = m.dydy*weight;
-    dydz = m.dydz*weight;
-    dzdx = m.dzdx*weight;
-    dzdy = m.dzdy*weight;
-    dzdz = m.dzdz*weight;
-  }
+		inline CalMatrix(float weight, const CalMatrix &m)
+		{
+			dxdx = m.dxdx*weight;
+			dxdy = m.dxdy*weight;
+			dxdz = m.dxdz*weight;
+			dydx = m.dydx*weight;
+			dydy = m.dydy*weight;
+			dydz = m.dydz*weight;
+			dzdx = m.dzdx*weight;
+			dzdy = m.dzdy*weight;
+			dzdz = m.dzdz*weight;
+		}
 
 
-  inline ~CalMatrix() {};
+		inline ~CalMatrix() {};
 
-  // member functions
-public:
-  void operator=(const CalQuaternion& q);
+		// member functions
+	public:
+		void operator=(const CalQuaternion& q);
 
-  inline void operator=(const CalMatrix& m)
-  {
-    dxdx=m.dxdx; dxdy=m.dxdy; dxdz=m.dxdz;
-    dydx=m.dydx; dydy=m.dydy; dydz=m.dydz;
-    dzdx=m.dzdx; dzdy=m.dzdy; dzdz=m.dzdz;
-  }
-  inline void operator *= (const CalMatrix &m)
-  {
-    float ndxdx=m.dxdx*dxdx+m.dxdy*dydx+m.dxdz*dzdx;
-    float ndydx=m.dydx*dxdx+m.dydy*dydx+m.dydz*dzdx;
-    float ndzdx=m.dzdx*dxdx+m.dzdy*dydx+m.dzdz*dzdx;
+		inline void operator=(const CalMatrix& m)
+		{
+			dxdx = m.dxdx; dxdy = m.dxdy; dxdz = m.dxdz;
+			dydx = m.dydx; dydy = m.dydy; dydz = m.dydz;
+			dzdx = m.dzdx; dzdy = m.dzdy; dzdz = m.dzdz;
+		}
+		inline void operator *= (const CalMatrix &m)
+		{
+			float ndxdx = m.dxdx*dxdx + m.dxdy*dydx + m.dxdz*dzdx;
+			float ndydx = m.dydx*dxdx + m.dydy*dydx + m.dydz*dzdx;
+			float ndzdx = m.dzdx*dxdx + m.dzdy*dydx + m.dzdz*dzdx;
 
-    float ndxdy=m.dxdx*dxdy+m.dxdy*dydy+m.dxdz*dzdy;
-    float ndydy=m.dydx*dxdy+m.dydy*dydy+m.dydz*dzdy;
-    float ndzdy=m.dzdx*dxdy+m.dzdy*dydy+m.dzdz*dzdy;
+			float ndxdy = m.dxdx*dxdy + m.dxdy*dydy + m.dxdz*dzdy;
+			float ndydy = m.dydx*dxdy + m.dydy*dydy + m.dydz*dzdy;
+			float ndzdy = m.dzdx*dxdy + m.dzdy*dydy + m.dzdz*dzdy;
 
-    float ndxdz=m.dxdx*dxdz+m.dxdy*dydz+m.dxdz*dzdz;
-    float ndydz=m.dydx*dxdz+m.dydy*dydz+m.dydz*dzdz;
-    float ndzdz=m.dzdx*dxdz+m.dzdy*dydz+m.dzdz*dzdz;
+			float ndxdz = m.dxdx*dxdz + m.dxdy*dydz + m.dxdz*dzdz;
+			float ndydz = m.dydx*dxdz + m.dydy*dydz + m.dydz*dzdz;
+			float ndzdz = m.dzdx*dxdz + m.dzdy*dydz + m.dzdz*dzdz;
 
-    dxdx=ndxdx;
-    dydx=ndydx;
-    dzdx=ndzdx;
-    dxdy=ndxdy;
-    dydy=ndydy;
-    dzdy=ndzdy;
-    dxdz=ndxdz;
-    dydz=ndydz;
-    dzdz=ndzdz;
-  }
+			dxdx = ndxdx;
+			dydx = ndydx;
+			dzdx = ndzdx;
+			dxdy = ndxdy;
+			dydy = ndydy;
+			dzdy = ndzdy;
+			dxdz = ndxdz;
+			dydz = ndydz;
+			dzdz = ndzdz;
+		}
 
-  inline void operator *= (float factor)
-  {
-    dxdx *= factor;
-    dydx *= factor;
-    dzdx *= factor;
-    dxdy *= factor;
-    dydy *= factor;
-    dzdy *= factor;
-    dxdz *= factor;
-    dydz *= factor;
-    dzdz *= factor;
-  }
-  inline void blend(float factor, const CalMatrix& m)
-  {
-    dxdx += m.dxdx*factor;
-    dydx += m.dydx*factor;
-    dzdx += m.dzdx*factor;
-    dxdy += m.dxdy*factor;
-    dydy += m.dydy*factor;
-    dzdy += m.dzdy*factor;
-    dxdz += m.dxdz*factor;
-    dydz += m.dydz*factor;
-    dzdz += m.dzdz*factor;
-  }
+		inline void operator *= (float factor)
+		{
+			dxdx *= factor;
+			dydx *= factor;
+			dzdx *= factor;
+			dxdy *= factor;
+			dydy *= factor;
+			dzdy *= factor;
+			dxdz *= factor;
+			dydz *= factor;
+			dzdz *= factor;
+		}
+		inline void blend(float factor, const CalMatrix& m)
+		{
+			dxdx += m.dxdx*factor;
+			dydx += m.dydx*factor;
+			dzdx += m.dzdx*factor;
+			dxdy += m.dxdy*factor;
+			dydy += m.dydy*factor;
+			dzdy += m.dzdy*factor;
+			dxdz += m.dxdz*factor;
+			dydz += m.dydz*factor;
+			dzdz += m.dzdz*factor;
+		}
 
-  inline float det() const
-  {
-    return +dxdx * (dydy*dzdz-dydz*dzdy)
-           -dxdy * (dydx*dzdz-dzdx*dydz)
-           +dxdz * (dydx*dzdy-dzdx*dydy);
-  }
+		inline float det() const
+		{
+			return +dxdx * (dydy*dzdz - dydz*dzdy)
+				- dxdy * (dydx*dzdz - dzdx*dydz)
+				+ dxdz * (dydx*dzdy - dzdx*dydy);
+		}
 
-};
-
+	};
+}
 
 #endif
 

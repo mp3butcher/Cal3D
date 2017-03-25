@@ -19,6 +19,7 @@
 #include "cal3d/buffersource.h"
 #include "cal3d/error.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs a buffer source instance from an existing memory buffer.
   *

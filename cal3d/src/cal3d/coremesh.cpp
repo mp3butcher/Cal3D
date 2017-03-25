@@ -21,6 +21,7 @@
 #include "cal3d/coresubmesh.h"
 #include "cal3d/coresubmorphtarget.h"
 
+using namespace cal3d;
  /*****************************************************************************/
 /** Constructs the core mesh instance.
   *

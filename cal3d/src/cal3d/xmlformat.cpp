@@ -25,6 +25,8 @@
 #include "cal3d/calxmlbindings.h"
 
 
+using namespace cal3d;
+
 static inline void ReadPair( char const * buffer, float * f1, float * f2 )
 {
 #if CAL3D_USE_STL_INSTEAD_OF_SSCANF
