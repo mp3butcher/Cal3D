@@ -1,6 +1,5 @@
 #include "tinybind.h"
 
-using namespace cal3d;
 
 // do this to support your STL container types, like list and vector
 #if 0
@@ -13,7 +12,7 @@ GetTiXmlBinding( StlIntVector const &,  StlIntVector const &  )
 }
 #endif
 
-
+namespace cal3d{
 #ifdef WIN32
 #undef TIXML_USE_STL
 #else
@@ -33,7 +32,7 @@ ConvertToString( T const & t )
 }
 
 template<class T>
-void
+void 
 ConvertFromString( char const * strIn, T * dataOut )
 {
   std::stringstream str;
@@ -45,8 +44,8 @@ ConvertFromString( char const * strIn, T * dataOut )
 
 
 template<>
-char const *
-cal3d::ConvertToString<double>( double const & d )
+char const * 
+ConvertToString<double>( double const & d )
 {
   static char buffer[2048];
   sprintf(buffer, "%g", d);
@@ -55,14 +54,14 @@ cal3d::ConvertToString<double>( double const & d )
 
 template<>
 char const *
-cal3d::ConvertToString<float>(float const & f)
+ConvertToString<float>(float const & f)
 {
   return ConvertToString((double)f);
 }
 
 template<>
 char const *
-cal3d::ConvertToString<int>(int const & d)
+ConvertToString<int>(int const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%d", d);
@@ -71,7 +70,7 @@ cal3d::ConvertToString<int>(int const & d)
 
 template<>
 char const *
-cal3d::ConvertToString<unsigned>(unsigned int const & d)
+ConvertToString<unsigned>(unsigned int const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%u", d);
@@ -80,7 +79,7 @@ cal3d::ConvertToString<unsigned>(unsigned int const & d)
 
 template<>
 char const *
-cal3d::ConvertToString<unsigned long>(unsigned long const & d)
+ConvertToString<unsigned long>(unsigned long const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%lu", d);
@@ -89,7 +88,7 @@ cal3d::ConvertToString<unsigned long>(unsigned long const & d)
 
 template<>
 char const *
-cal3d::ConvertToString<long>(long const & d)
+ConvertToString<long>(long const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%ld", d);
@@ -99,7 +98,7 @@ cal3d::ConvertToString<long>(long const & d)
 #ifdef WIN64
 template<>
 char const *
-cal3d::ConvertToString<unsigned __int64>(unsigned __int64 const & d)
+ConvertToString<unsigned __int64>(unsigned __int64 const & d)
 {
   static char buffer[2048];
   sprintf(buffer, "%I64u", d);
@@ -109,61 +108,64 @@ cal3d::ConvertToString<unsigned __int64>(unsigned __int64 const & d)
 
 template<>
 char const *
-cal3d::ConvertToString<char const*>(char const * const & s)
+ConvertToString<char const*>(char const * const & s)
 {
   return s;
 }
 
 template<>
 char const *
-cal3d::ConvertToString<std::string>(std::string const & s)
+ConvertToString<std::string>(std::string const & s)
 {
   return s.c_str();
 }
 
 template<>
 void
-cal3d::ConvertFromString<char const *>(char const * strIn, const char * * dataOut)
+ConvertFromString<char const *>(char const * strIn, const char * * dataOut)
 {
   *dataOut = strIn;
 }
 
 template<>
 void
-cal3d::ConvertFromString<std::string>(char const * strIn, std::string * dataOut)
+ConvertFromString<std::string>(char const * strIn, std::string * dataOut)
 {
   *dataOut = strIn;
 }
 
 template<>
 void
-cal3d::ConvertFromString<int>(char const * strIn, int * dataOut)
+ConvertFromString<int>(char const * strIn, int * dataOut)
 {
   *dataOut = atoi(strIn);
 }
 
 template<>
 void
-cal3d::ConvertFromString<unsigned>(char const * strIn, unsigned int * dataOut)
+ConvertFromString<unsigned>(char const * strIn, unsigned int * dataOut)
 {
   *dataOut = (unsigned int) atoi(strIn);
 }
 
 template<>
 void
-cal3d::ConvertFromString<double>(char const * strIn, double * dataOut)
+ConvertFromString<double>(char const * strIn, double * dataOut)
 {
   *dataOut = atof(strIn);
 }
 
 template<>
 void
-cal3d::ConvertFromString<float>(char const * strIn, float * dataOut)
+ConvertFromString<float>(char const * strIn, float * dataOut)
 {
   *dataOut = (float)atof(strIn);
 }
 //#endif
+}
 
+
+using namespace cal3d;
 
 template<class T>
 TiXmlBinding<T> const *
