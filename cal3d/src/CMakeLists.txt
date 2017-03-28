@@ -1,10 +1,5 @@
 PROJECT(cal3d)
 
-#TODO CHECK ARCHITECTURE
-IF(WIN32)
-ADD_DEFINITIONS(-DWIN64)
-ENDIF(WIN32) 
-
 SET(PROJECT_INCLUDES
 cal3d/animation_action.h  cal3d/cal3d.h              cal3d/corekeyframe.h       cal3d/coreskeleton.h        cal3d/error.h          cal3d/mixer.h        
 cal3d/quaternion.h  cal3d/skeleton.h      cal3d/transform.h
@@ -24,8 +19,6 @@ cal3d/saver.h      cal3d/tinyxml.h
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR}    "./")
 
 SET(PROJECT_SOURCES
- 
-
 #is it usefull	cal3d/calxmlbindings.cpp    
 cal3d/animation_action.cpp 
 cal3d/coremesh.cpp
@@ -41,16 +34,7 @@ cal3d/buffersource.cpp      cal3d/corekeyframe.cpp       cal3d/coreskeleton.cpp 
  cal3d/model.cpp             cal3d/renderer.cpp                cal3d/tinybind.cpp
 cal3d/cal3d_wrapper.cpp     cal3d/corematerial.cpp       cal3d/coresubmesh.cpp        cal3d/hardwaremodel.cpp       
 cal3d/morphtargetmixer.cpp  cal3d/saver.cpp                   cal3d/tinyxml.cpp
-
-
 )
-
-
-
-
-ADD_DEFINITIONS(-Dx64BIT)
-
-
 
 
 ADD_DEFINITIONS(-DCAL3D_EXPORTS)
@@ -58,9 +42,7 @@ ADD_LIBRARY(cal3d  SHARED
 ${PROJECT_SOURCES} 
 ${PROJECT_INCLUDES}
 )
-TARGET_LINK_LIBRARIES(cal3d   ${ADDITIONALS_LIBS}  
-
-)
+TARGET_LINK_LIBRARIES(cal3d )
 SET_TARGET_PROPERTIES(cal3d PROPERTIES PROJECT_LABEL "Cal3d Library" )
 
 INSTALL(TARGETS cal3d  DESTINATION bin)

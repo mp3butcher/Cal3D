@@ -80,13 +80,12 @@ namespace cal3d{
 		int getCoreAnimationId(const std::string& strAnimationName) const;
 
 		// morph animations
+		inline int getCoreMorphAnimationCount() const{   return int(m_vectorCoreAnimatedMorph.size());}
 		int addCoreAnimatedMorph(CalCoreAnimatedMorph *pCoreAnimatedMorph);
 		bool removeCoreAnimatedMorph(int id);
 		CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId);
 		const CalCoreAnimatedMorph *getCoreAnimatedMorph(int coreAnimatedMorphId) const;
 		int getCoreAnimatedMorphId(const std::string& strAnimatedMorphName) const;
-		// int getNumCoreAnimatedMorphs() const;
-		int getCoreMorphAnimationCount() const;
 		int loadCoreAnimatedMorph(const std::string& strFilename);
 		int loadCoreAnimatedMorph(const std::string& strFilename, const std::string& strAnimatedMorphName);
 		int loadCoreAnimatedMorphFromXMLstring(const char* buffer, unsigned int bufferLength);

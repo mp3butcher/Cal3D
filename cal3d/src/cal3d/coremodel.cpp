@@ -366,8 +366,8 @@ void CalCoreModel::replaceCoreMesh( int coreMeshId, CalCoreMesh *pCoreMesh )
 	m_vectorCoreMesh[ coreMeshId ] = pCoreMesh;
 }
 
- 
- 
+
+
 
  /*****************************************************************************/
 /** Creates a core material thread.
@@ -486,12 +486,6 @@ const CalCoreAnimatedMorph *CalCoreModel::getCoreAnimatedMorph(int coreAnimatedM
 
    return m_vectorCoreAnimatedMorph[coreAnimatedMorphId];
 }
-
-int CalCoreModel::getCoreMorphAnimationCount() const
-{
-   return int(m_vectorCoreAnimatedMorph.size());
-}
-
 
  /*****************************************************************************/
 /** Provides access to a core material.
@@ -651,7 +645,7 @@ int CalCoreModel::getCoreMeshCount() const
 {
   return m_vectorCoreMesh.size();
 }
- 
+
  /*****************************************************************************/
 /** Provides access to the core skeleton.
   *
@@ -662,7 +656,7 @@ int CalCoreModel::getCoreMeshCount() const
   *         \li \b 0 if an error happened
   *****************************************************************************/
 
- 
+
  /*****************************************************************************/
 /** Loads a core animation.
   *
@@ -926,7 +920,7 @@ int CalCoreModel::loadCoreAnimatedMorph(const std::string& strFilename, const st
    }
 
    return id;
-} 
+}
 int CalCoreModel::loadCoreAnimatedMorphFromXMLstring(const char* buffer, unsigned int bufferLength)
 {
    // load a new core animation
