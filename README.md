@@ -7,7 +7,7 @@ git clone --single-branch --recursive -b master https://github.com/mp3butcher/Ca
 ## Built
 cd cal3d
 
-make built && cd built 
+mkdir built && cd built 
 
 cmake ..
  
